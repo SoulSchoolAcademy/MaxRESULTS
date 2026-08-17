@@ -8,11 +8,38 @@ Deliver a premium, human, personalized AI-mastery experience that transforms:
 
 DATA → INSIGHT → UNDERSTANDING → ACTION → CAPABILITY
 
+## Naya execution trigger
+
+Say:
+
+**Naya Read GitHub**
+
+or
+
+**Naya MAX Mode**
+
+or
+
+**Naya Nitro Mode**
+
+These are explicit instructions to activate the repository operating system before consequential work.
+
+Start here:
+
+`START-HERE.md`
+
+The mandatory read chain is:
+
+`START-HERE.md` → `NAYA-OS.md` → `docs/NAYA-NITRO-MODE.md` → task-relevant product/deployment/source documents → release checklist.
+
 ## Current canonical paths
 
 - `MAXESS-RESULTS-GROOVE.html` — canonical V21 working artifact.
 - `BASELINE-WORKING.html` — frozen recovery baseline; do not edit during V21.
 - `NAYA-OS.md` — optimized Naya operating system.
+- `START-HERE.md` — Nitro activation and mandatory read order.
+- `docs/NAYA-NITRO-MODE.md` — high-efficiency execution operating system.
+- `docs/NAYA-NITRO-LEARNING-LOG.md` — durable execution lessons.
 - `docs/` — product, deployment, QA, and memory documentation.
 
 ## Source-of-truth rules
@@ -25,7 +52,7 @@ DATA → INSIGHT → UNDERSTANDING → ACTION → CAPABILITY
 
 ## Development protocol
 
-INSPECT → MAP → BASELINE → SOURCE-LOCK → IMPLEMENT → BUILD → REFETCH → DIFF → QA → OSCAR → FIX → QA AGAIN → RELEASE
+INSPECT → MAP → BASELINE → SOURCE-LOCK → IMPLEMENT IN COHERENT BATCHES → BUILD → REFETCH → DIFF → QA → OSCAR → FIX → QA AGAIN → RELEASE
 
 ## Product requirements
 
@@ -41,6 +68,10 @@ The Results experience must work as:
 The V21 candidate is an UPDATED EDITED FILE until explicitly approved.
 
 Do not silently promote a new commit, newer filename, or verified build to APPROVED/AUTHORITATIVE status.
+
+## Learning rule
+
+Durable lessons from meaningful executions belong in `docs/NAYA-NITRO-LEARNING-LOG.md` or another clearly identified operating document. Do not rely on conversation memory for durable project knowledge.
 
 ## Deployment
 
