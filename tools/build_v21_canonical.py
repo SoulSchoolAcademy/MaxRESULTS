@@ -119,7 +119,15 @@ JS = r"""
     for(var i=0;i<bags.length;i++){ var b=bags[i]; if(b && typeof b==='object'){ var v=b.name || b.displayName || b.firstName; if(v) return String(v); } }
     return '';
   }
-  function stage(s){ if(s==null) return ; return s>=91?Mastering:s>=76?Advancing:s>=51?Developing:s>=21?Foundation:Supporting; }\n  function dimCopy(name,sc){
+  function stage(s){
+    if(s==null) return '';
+    return s>=91?'Mastering'
+      :s>=76?'Advancing'
+      :s>=51?'Developing'
+      :s>=21?'Foundation'
+      :'Supporting';
+  }
+  function dimCopy(name,sc){
     var n=name.toLowerCase();
     if(n.indexOf('communication')>=0) return 'This shows how effectively you express intent, context, constraints and the outcome you want from AI.';
     if(n.indexOf('direction')>=0) return 'This shows how clearly you define the result before asking AI to produce it.';
@@ -180,7 +188,7 @@ JS = r"""
         '<span class="v21-kicker" style="color:#7445ad">YOUR FIVE DIMENSIONS</span><h2 class="v21-section-title">One score. Five capabilities.</h2><p class="v21-section-copy">These five dimensions show what is shaping your overall MAXESS result. Select one to understand it, not just score it.</p>'+
         '<div class="v21-dims" role="list">'+ds.map(function(d){ return '<button class="v21-dim" type="button" role="listitem" aria-label="'+escapeHtml(d.name)+' score '+Math.round(d.score||0)+'"><span class="v21-dim-score">'+Math.round(d.score||0)+'</span><span class="v21-dim-name">'+escapeHtml(d.name)+'</span></button>'; }).join('')+'</div><div class="v21-detail"><b>SELECT A DIMENSION</b><p>Choose one of the five orbs to explore what the capability means and where its leverage lives.</p></div>'+ 
       '</div></section>'+
-      '<section class="v21-section v21-light"><div class="v21-inner"><article class="v21-report"><div class="v21-report-mark"></div><span class="v21-kicker" style="color:#7445ad">YOUR PERSONALIZED REPORT</span><h2>'+reportName+'</h2><span class="v21-report-stage">'+st+'</span><p>Your MAXESS score is <strong>'+Math.round(s)+'</strong>. That number is not a judgment; it is a map of your current AI capability. Your strongest visible signal is <strong>'+escapeHtml(strongest.name)+'</strong>, while <strong>'+escapeHtml(lowest.name)+'</strong> is the clearest place to create focused improvement.</p><div class="v21-report-grid"><div class="v21-cell"><span>OVERALL RESULT</span><b>'+Math.round(s)+' / 100</b><small>Your current MAXESS score.</small></div><div class="v21-cell"><span>MASTERY STAGE</span><b>'+st+'</b><small>Where your current capability sits.</small></div><div class="v21-cell"><span>STRONGEST SIGNAL</span><b>'+escapeHtml(strongest.name)+'</b><small>Use your strength as a foundation.</small></div></div></article></div></section>'+
+      '<section class="v21-section v21-light"><div class="v21-inner"><article class="v21-report"><div class="v21-report-mark"></div><span class="v21-kicker" style="color:#7445ad">YOUR PERSONALIZED REPORT</span><h2>'+reportName+'</h2><span class="v21-report-stage">'+st+'</span><p>Your MAXESS score is <strong>'+Math.round(s)+'</strong>. That number is not a judgment; it is a map of your current AI capability. Your strongest visible signal is <strong>'+escapeHtml(strongest.name)+'</strong>, while <strong>'+escapeHtml(lowest.name)+'</strong> is the clearest place to create focused improvement.</p><div class="v21-report-grid"><div class="v21-cell"><span>OVERALL RESULT</span><b>'+Math.round(s)+'</b><small>Your current MAXESS score.</small></div><div class="v21-cell"><span>MASTERY STAGE</span><b>'+st+'</b><small>Where your current capability sits.</small></div><div class="v21-cell"><span>STRONGEST SIGNAL</span><b>'+escapeHtml(strongest.name)+'</b><small>Use your strength as a foundation.</small></div></div></article></div></section>'+
       '<section class="v21-section v21-dark"><div class="v21-inner"><span class="v21-kicker">YOUR PATTERN</span><h2 class="v21-section-title">See the pattern, not just the score.</h2><p class="v21-section-copy">The value is in the relationship between your five dimensions. Together they show how your current AI capability is shaped.</p><div class="v21-story">'+ds.map(function(d){return '<div class="v21-card"><span class="v21-kicker">'+escapeHtml(d.name)+'</span><h3>'+Math.round(d.score||0)+'</h3><p>'+escapeHtml(d.description || dimCopy(d.name,d.score))+'</p></div>';}).join('')+'</div></div></section>'+
       '<section class="v21-section v21-light"><div class="v21-inner"><span class="v21-kicker" style="color:#7445ad">YOUR STRENGTH</span><h2 class="v21-section-title">Protect what is already working.</h2><div class="v21-card"><h3>'+escapeHtml(strongest.name)+'</h3><p>You already have meaningful capability here. Compound it deliberately instead of trying to improve everything at once. The best next move is to turn this strength into a repeatable advantage.</p></div></div></section>'+
       '<section class="v21-section v21-purple"><div class="v21-inner"><span class="v21-kicker" style="color:#eadcff">YOUR LEVER</span><h2 class="v21-section-title">Build the capability that can move the whole system.</h2><div class="v21-card"><h3>'+escapeHtml(lowest.name)+'</h3><p>Your strongest opportunity is '+escapeHtml(lowest.name)+'. This is not a verdict about you. It is the area furthest behind the rest of your profile, so focused improvement here can create disproportionate gains.</p></div></div></section>'+
@@ -191,7 +199,7 @@ JS = r"""
       '</div>';
 
     var btn=root.querySelector('.v21-listen'); if(btn) btn.addEventListener('click',listen);
-    var detail=root.querySelector('.v21-detail'); root.querySelectorAll('.v21-dim').forEach(function(btn,i){btn.addEventListener('click',function(){var d=ds[i];detail.innerHTML='<b>'+escapeHtml(d.name)+' · '+Math.round(d.score||0)+' / 100</b><p>'+escapeHtml(d.description || dimCopy(d.name,d.score))+'</p>';detail.scrollIntoView({behavior:'smooth',block:'nearest'});});});
+    var detail=root.querySelector('.v21-detail'); root.querySelectorAll('.v21-dim').forEach(function(btn,i){btn.addEventListener('click',function(){var d=ds[i];detail.innerHTML='<b>'+escapeHtml(d.name)+' · '+Math.round(d.score||0)+'</b><p>'+escapeHtml(d.description || dimCopy(d.name,d.score))+'</p>';detail.scrollIntoView({behavior:'smooth',block:'nearest'});});});
     var oldPlay=document.getElementById('naya-playground'); var host=document.getElementById('v21-playground-host'); if(oldPlay && host) host.appendChild(oldPlay);
     root.setAttribute('data-results-version','v21-canonical');root.setAttribute('data-results-data-source','window.MAXESS_RESULT');root.setAttribute('data-results-state','ready');
   }
