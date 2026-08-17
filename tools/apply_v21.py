@@ -85,7 +85,7 @@ V21_CSS = r'''
 #maxess-results-10 .v21-cta{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 20px;border-radius:16px;border:1px solid rgba(255,255,255,.16);background:#09080d;color:#fff;text-decoration:none;font-weight:900;box-shadow:inset 0 1px rgba(255,255,255,.12),0 14px 32px rgba(0,0,0,.30)}
 #maxess-results-10 .v21-hidden{display:none!important}
 @media(max-width:1100px){#maxess-results-10 .v21-orbs{grid-template-columns:repeat(3,minmax(150px,1fr))}}
-@media(max-width:720px){#maxess-results-10 .v21-orbs{grid-template-columns:repeat(2,minmax(120px,1fr));gap:12px}#maxess-results-10 .v21-score-orb{width:min(440px,84vw)}#maxess-results-10 .v21-report-page{padding:26px 20px}.#maxess-results-10 .v21-letter{font-size:15px}}
+@media(max-width:720px){#maxess-results-10 .v21-orbs{grid-template-columns:repeat(2,minmax(120px,1fr));gap:12px}#maxess-results-10 .v21-score-orb{width:min(440px,84vw)}#maxess-results-10 .v21-report-page{padding:26px 20px}#maxess-results-10 .v21-letter{font-size:15px}}
 @media(max-width:460px){#maxess-results-10 .v21-orbs{grid-template-columns:1fr}#maxess-results-10 .v21-dim-orb{width:min(230px,72vw);margin:auto}}
 @media(prefers-reduced-motion:reduce){#maxess-results-10 .v21-listen,#maxess-results-10 .v21-dim-orb{transition:none!important}}
 @media print{
@@ -137,13 +137,14 @@ V21_JS = r'''
   function stageMeaning(s){return ({Supporting:'You are beginning to build the habits that make AI genuinely useful.',Foundation:'You have a base to build on. The next gains come from turning basic capability into repeatable practice.',Developing:'You are becoming capable and consistent. Deliberate evaluation and iteration can now create much larger gains.',Advancing:'You already have a strong working relationship with AI. Your next gains come from precision, evaluation, and turning what works into systems.',Mastering:'You are operating at a high level. The opportunity now is to compound your judgment, systems, and ability to create exceptional outcomes.'})[s]||'This stage describes where your current AI mastery is operating today.'}
   function copyFor(name,s){var n=String(name).toLowerCase();if(n.includes('communication'))return 'Your communication capability helps you express context, intent and desired outcomes clearly. That is a powerful foundation because AI can only act on the signal you give it.';if(n.includes('direction'))return 'Your direction capability reflects how clearly you know the destination before asking AI to help you reach it.';if(n.includes('evaluation'))return 'Your evaluation capability reflects how well you judge whether an AI response is actually useful, accurate and aligned with the outcome you want.';if(n.includes('iteration'))return 'Your iteration capability reflects how deliberately you improve an answer instead of treating the first version as finished.';if(n.includes('system'))return 'Your systems capability reflects how well you connect repeated work into reusable processes, tools and leverage.';return s>=85?'This is a strong capability you can compound.':s>=70?'This is a capable area with clear room to sharpen.':'This is an important growth area where focused practice can create meaningful gains.'}
   function removeNode(sel){root.querySelectorAll(sel).forEach(function(e){e.remove()})}
-  function first(selList){for(var i=0;i<selList.length;i++){var e=root.querySelector(selList[i]);if(e)return e}return null}
+  function first(selList){for(var i=0;i<selList.length;i++){var e=root.querySelector(selList[i]);if(e)return e;if(legacyStage){e=legacyStage.querySelector(selList[i]);if(e)return e}}return null}
   function allSections(){return Array.prototype.slice.call(root.querySelectorAll('section'))}
   function findSection(regex){var found=null;allSections().forEach(function(sec){if(found)return;var text=(sec.innerText||sec.textContent||'').toLowerCase();if(regex.test(text))found=sec});return found}
   function moveInto(sec,parent){if(sec){sec.classList.remove('v20-hidden','v18-hidden');sec.classList.add('v21-existing');parent.appendChild(sec);return sec}return null}
 
   /* Remove previous generated shells/controllers from the live DOM. The original content sections remain available. */
-  removeNode('.v20-stage,.v18-flow,.v13-shell');
+  legacyStage=root.querySelector('.v20-stage,.v18-flow');
+  /* Keep legacy containers alive until their real sections are moved into V21. */
   removeNode('#v12-naya,#v13-naya,#v11-naya-report,#v11-naya-welcome,#v13-naya-introduction,.v11-naya-welcome,.v12-naya-intro,.v18-naya-top');
   root.querySelectorAll('.v20-hidden,.v18-hidden').forEach(function(e){e.classList.remove('v20-hidden','v18-hidden')});
 

@@ -81,6 +81,10 @@ CSS = """
 #maxess-results-10.v21-canonical .v21-master p{margin:8px 0 0;color:rgba(255,255,255,.65);font-size:13px}
 #maxess-results-10.v21-canonical .v21-playground{background:#fff;color:#111;border-radius:32px;padding:30px}
 #maxess-results-10.v21-canonical .v21-playground a,#maxess-results-10.v21-canonical .v21-playground button{max-width:100%}
+#maxess-results-10.v21-canonical #v21-video-host{margin-top:24px;min-height:260px;border-radius:28px;overflow:hidden;background:#050307;border:1px solid rgba(255,255,255,.12);box-shadow:0 28px 75px rgba(0,0,0,.34)}
+#maxess-results-10.v21-canonical #v21-video-host iframe,#maxess-results-10.v21-canonical #v21-video-host video{display:block;width:100%;min-height:420px;border:0}
+#maxess-results-10.v21-canonical #v21-playground-host{margin-top:20px}
+#maxess-results-10.v21-canonical #v21-playground-host > *{max-width:100%}
 #maxess-results-10.v21-canonical .v21-cta-final{text-align:center}
 #maxess-results-10.v21-canonical .v21-cta-final h2{font-size:clamp(40px,6vw,84px)}
 #maxess-results-10.v21-canonical .v21-cta-final p{max-width:680px;margin:14px auto 0;color:rgba(255,255,255,.72)}
@@ -184,10 +188,14 @@ JS = r"""
     for(var i=0;i<bags.length;i++){ var b=bags[i]; if(b && typeof b==='object'){ var v=b.name || b.displayName || b.firstName; if(v) return String(v); } }
     return '';
   }
+<<<<<<< Updated upstream
   function stage(s){
     if(s==null) return '';
     return s>=91?'Mastering':s>=76?'Advancing':s>=51?'Developing':s>=21?'Foundation':'Supporting';
   }
+=======
+  function stage(s){if(s==null) return "";return s>=91?"Mastering":s>=76?"Advancing":s>=51?"Developing":s>=21?"Foundation":"Supporting";}
+>>>>>>> Stashed changes
   function dimCopy(name,sc){
     var n=name.toLowerCase();
     if(n.indexOf('communication')>=0) return 'This shows how effectively you express intent, context, constraints and the outcome you want from AI.';
@@ -215,8 +223,8 @@ JS = r"""
     root.querySelectorAll('.mx-naya-door,.mx-area').forEach(function(el){
       if(cards.length>=18) return;
       var title=el.querySelector('h3,h4,strong,.mx-area-main') || el;
-      var text=(el.textContent||'').trim().replace(/\s+/g,' ');
-      var name=(title.textContent||text).trim().replace(/\s+/g,' ').slice(0,90);
+      var text=(el.textContent||'').trim().replace(/\\\\\s+/g,' ');
+      var name=(title.textContent||text).trim().replace(/\\\\\s+/g,' ').slice(0,90);
       var href=el.querySelector('a') && el.querySelector('a').getAttribute('href') || '';
       if(name) cards.push({name:name,href:href,text:text.slice(0,220)});
     });
@@ -262,7 +270,10 @@ JS = r"""
   }
 
   function build(r){
-    var s=score(r), ds=dimensions(r), name=person(r), st=stage(s);
+    var legacyPlayNode=root.querySelector('#naya-playground');
+    var legacyVideoNode=root.querySelector('video,iframe[src*="youtube"],iframe[src*="vimeo"],[class*="video"]');
+
+    var s=score(r), ds=dimensions(r), name=person(r), st=(r && ['Supporting','Foundation','Developing','Advancing','Mastering'].indexOf(r.masteryStage)>=0 ? r.masteryStage : stage(s));
     if(s==null || ds.length!==5){
       root.setAttribute('data-results-state','awaiting');
       root.innerHTML='<section class="v21-section v21-dark"><div class="v21-inner" style="text-align:center;padding-top:120px;padding-bottom:120px"><span class="v21-kicker">MAXESS RESULTS</span><h1 class="v21-section-title" style="margin-top:18px">Your result is not loaded yet.</h1><p class="v21-section-copy" style="margin:18px auto 0;max-width:650px">Complete the MAXESS assessment and return with your Result Contract. This page does not invent a score when real result data is unavailable.</p></div></section>';
@@ -287,6 +298,7 @@ JS = r"""
     root.classList.add('v21-canonical');
     root.innerHTML='<div class="v21-shell">'+
       '<section class="v21-section v21-dark"><div class="v21-inner">'+
+<<<<<<< Updated upstream
         '<div class="v21-naya"><img class="v21-avatar" src="https://raw.githubusercontent.com/SoulSchoolAcademy/maxess/main/Naya%20Profile%20Black.jpg" alt="Naya, your AI guide"><div><span class="v21-kicker">NAYA · YOUR AI GUIDE</span><h1 class="v21-naya-title">'+(name?reportName:'Hi. I\'ve looked at your results.')+'</h1><p class="v21-naya-sub">This isn\'t your judgment. <strong>It\'s your map.</strong></p></div><button class="v21-listen" type="button" aria-label="Listen to Naya interpret your MAXESS results">LISTEN TO NAYA <span aria-hidden="true">▶</span></button></div>'+ 
       '</div></section>'+ 
       '<section class="v21-section v21-dark"><div class="v21-inner v21-score-wrap"><span class="v21-kicker">YOUR RESULT</span><div class="v21-score-orb"><div><div class="v21-score-number">'+Math.round(s)+'</div><div class="v21-score-label">MAXESS SCORE</div></div></div><span class="v21-stage">'+st+'</span><div class="v21-stage-five">'+stageHTML+'</div><p class="v21-final-note">Your score is a starting point. The report below explains the shape of your capability and where your next improvement can create the most leverage.</p></div></section>'+ 
@@ -310,8 +322,65 @@ JS = r"""
     root.setAttribute('data-results-version','v21-final-aaa');
     root.setAttribute('data-results-data-source','window.MAXESS_RESULT');
     root.setAttribute('data-results-state','ready');
+=======
+        '<div class="v21-naya">'+
+          '<img class="v21-avatar" src="https://raw.githubusercontent.com/SoulSchoolAcademy/maxess/main/Naya%20Profile%20Black.jpg" alt="Naya, your AI guide">'+
+          '<div><span class="v21-kicker">NAYA · YOUR AI GUIDE</span><h1 class="v21-naya-title">'+(name ? reportName : 'Hi. I have looked at your results.')+'</h1><p class="v21-naya-sub">This is not your judgment. <strong>It is your map.</strong></p></div>'+
+          '<button class="v21-listen" type="button" aria-label="Listen to Naya interpret your MAXESS results">LISTEN TO NAYA <span aria-hidden="true">▶</span></button>'+        
+        '</div>'+      
+      '</div></section>'+
+      '<section class="v21-section v21-dark"><div class="v21-inner v21-score-wrap">'+
+        '<span class="v21-kicker">YOUR RESULT</span><div class="v21-score-orb"><div><div class="v21-score-number">'+Math.round(s)+'</div><div class="v21-score-label">MAXESS SCORE</div></div></div><span class="v21-stage">'+st+'</span>'+ 
+      '</div></section>'+
+      '<section class="v21-section v21-light"><div class="v21-inner">'+
+        '<span class="v21-kicker" style="color:#7445ad">YOUR FIVE DIMENSIONS</span><h2 class="v21-section-title">One score. Five capabilities.</h2><p class="v21-section-copy">These five dimensions show what is shaping your overall MAXESS result. Select one to understand it, not just score it.</p>'+
+        '<div class="v21-dims" role="list">'+ds.map(function(d){ return '<button class="v21-dim" type="button" role="listitem" aria-label="'+escapeHtml(d.name)+' score '+Math.round(d.score||0)+'"><span class="v21-dim-score">'+Math.round(d.score||0)+'</span><span class="v21-dim-name">'+escapeHtml(d.name)+'</span></button>'; }).join('')+'</div><div class="v21-detail"><b>SELECT A DIMENSION</b><p>Choose one of the five orbs to explore what the capability means and where its leverage lives.</p></div>'+ 
+      '</div></section>'+
+      '<section class="v21-section v21-light"><div class="v21-inner"><article class="v21-report"><div class="v21-report-mark"></div><span class="v21-kicker" style="color:#7445ad">YOUR PERSONALIZED REPORT</span><h2>'+reportName+'</h2><span class="v21-report-stage">'+st+'</span><p>Your MAXESS score is <strong>'+Math.round(s)+'</strong>. That number is not a judgment; it is a map of your current AI capability. Your strongest visible signal is <strong>'+escapeHtml(strongest.name)+'</strong>, while <strong>'+escapeHtml(lowest.name)+'</strong> is the clearest place to create focused improvement.</p><div class="v21-report-grid"><div class="v21-cell"><span>OVERALL RESULT</span><b>'+Math.round(s)+'</b><small>Your current MAXESS score.</small></div><div class="v21-cell"><span>MASTERY STAGE</span><b>'+st+'</b><small>Where your current capability sits.</small></div><div class="v21-cell"><span>STRONGEST SIGNAL</span><b>'+escapeHtml(strongest.name)+'</b><small>Use your strength as a foundation.</small></div></div></article></div></section>'+
+      '<section class="v21-section v21-dark"><div class="v21-inner"><span class="v21-kicker">YOUR PATTERN</span><h2 class="v21-section-title">See the pattern, not just the score.</h2><p class="v21-section-copy">The value is in the relationship between your five dimensions. Together they show how your current AI capability is shaped.</p><div class="v21-story">'+ds.map(function(d){return '<div class="v21-card"><span class="v21-kicker">'+escapeHtml(d.name)+'</span><h3>'+Math.round(d.score||0)+'</h3><p>'+escapeHtml(d.description || dimCopy(d.name,d.score))+'</p></div>';}).join('')+'</div></div></section>'+
+      '<section class="v21-section v21-light"><div class="v21-inner"><span class="v21-kicker" style="color:#7445ad">YOUR STRENGTH</span><h2 class="v21-section-title">Protect what is already working.</h2><div class="v21-card"><h3>'+escapeHtml(strongest.name)+'</h3><p>You already have meaningful capability here. Compound it deliberately instead of trying to improve everything at once. The best next move is to turn this strength into a repeatable advantage.</p></div></div></section>'+
+      '<section class="v21-section v21-purple"><div class="v21-inner"><span class="v21-kicker" style="color:#eadcff">YOUR LEVER</span><h2 class="v21-section-title">Build the capability that can move the whole system.</h2><div class="v21-card"><h3>'+escapeHtml(lowest.name)+'</h3><p>Your strongest opportunity is '+escapeHtml(lowest.name)+'. This is not a verdict about you. It is the area furthest behind the rest of your profile, so focused improvement here can create disproportionate gains.</p></div></div></section>'+
+      '<section class="v21-section v21-dark"><div class="v21-inner"><span class="v21-kicker">YOUR NEXT MOVE</span><h2 class="v21-section-title">Three things to do next.</h2><div class="v21-three"><div class="v21-action"><b>01 · PROTECT YOUR STRENGTH</b><p>Use '+escapeHtml(strongest.name)+' in a real AI workflow this week and capture the result.</p></div><div class="v21-action"><b>02 · BUILD YOUR LEVER</b><p>Choose one workflow where '+escapeHtml(lowest.name)+' is holding you back and improve it deliberately.</p></div><div class="v21-action"><b>03 · CREATE → SCORE → IMPROVE</b><p>Do not stop at the first answer. Measure quality, make one improvement, then repeat.</p></div></div></div></section>'+
+      '<section class="v21-section v21-dark"><div class="v21-inner"><span class="v21-kicker">18 NAYA MASTERS</span><h2 class="v21-section-title">Choose the doors that fit your next step.</h2><p class="v21-section-copy">These specialist pathways become useful once you know what you want to improve.</p><div class="v21-masters">'+(mastersList.length ? mastersList.map(function(m){return '<article class="v21-master">'+(m.href?'<a href="'+escapeHtml(m.href)+'">':'')+'<h3>'+escapeHtml(m.name)+'</h3>'+(m.href?'</a>':'')+'<p>'+escapeHtml(m.text)+'</p></article>';}).join('') : '<article class="v21-master"><h3>Naya Masters</h3><p>Your 18 specialist pathways will appear here when the authoritative library content is available.</p></article>')+'</div></div></section>'+
+      '<section class="v21-section v21-light"><div class="v21-inner"><span class="v21-kicker" style="color:#7445ad">PLAYGROUND</span><h2 class="v21-section-title">Understand → Decide → Practice.</h2><div class="v21-playground"><p>Turn your result into action. Take what you learned, choose one improvement, and practice it on a real task.</p><div class="v21-legacy-wrap" id="v21-video-host"></div><div class="v21-legacy-wrap" id="v21-playground-host"></div></div></div></section>'+
+      '<section class="v21-section v21-purple"><div class="v21-inner v21-cta-final"><span class="v21-kicker" style="color:#eadcff">YOUR AI MASTERY JOURNEY</span><h2>Now you know where you are. The next step is becoming better.</h2><p>MAXESS is designed for people who want exceptional results from AI—not ‘good enough.’</p><a class="v21-cta-link" href="https://nayanet.xyz/">CONTINUE WITH NAYANET</a></div></section>'+
+      '</div>';
+
+    var videoHost=root.querySelector('#v21-video-host');
+    if(legacyVideoNode && videoHost) videoHost.appendChild(legacyVideoNode);
+    var playHost=root.querySelector('#v21-playground-host');
+    if(legacyPlayNode && playHost) playHost.appendChild(legacyPlayNode);
+    var btn=root.querySelector('.v21-listen'); if(btn) btn.addEventListener('click',listen);
+    var detail=root.querySelector('.v21-detail'); root.querySelectorAll('.v21-dim').forEach(function(btn,i){btn.addEventListener('click',function(){var d=ds[i];detail.innerHTML='<b>'+escapeHtml(d.name)+' · '+Math.round(d.score||0)+'</b><p>'+escapeHtml(d.description || dimCopy(d.name,d.score))+'</p>';detail.scrollIntoView({behavior:'smooth',block:'nearest'});});});
+    var oldPlay=document.getElementById('naya-playground'); var host=document.getElementById('v21-playground-host'); if(oldPlay && host) host.appendChild(oldPlay);
+    root.setAttribute('data-results-version','v21-canonical');root.setAttribute('data-results-data-source','window.MAXESS_RESULT');root.setAttribute('data-results-state','ready');
+>>>>>>> Stashed changes
   }
-  function boot(){ build(result()); }
+  function enforce(){
+    var rootNow=document.getElementById('maxess-results-10');
+    if(!rootNow) return;
+    if(rootNow.dataset.v21Enforcing==='1') return;
+    rootNow.dataset.v21Enforcing='1';
+    var observer=new MutationObserver(function(){
+      if(window.__MAXESS_V21_CANONICAL_RENDERING__) return;
+      if(!rootNow.querySelector('.v21-shell')){
+        window.__MAXESS_V21_CANONICAL_RENDERING__=true;
+        try{ build(result()); } finally { window.__MAXESS_V21_CANONICAL_RENDERING__=false; }
+      }
+    });
+    observer.observe(rootNow,{childList:true,subtree:true});
+    window.__MAXESS_V21_CANONICAL_OBSERVER__=observer;
+    window.__MAXESS_V21_CANONICAL_ENFORCE__=true;
+    window.__MAXESS_V21_CANONICAL_RENDERING__=true;
+    try{ build(result()); } finally { window.__MAXESS_V21_CANONICAL_RENDERING__=false; }
+    [0,100,400,1000].forEach(function(ms){setTimeout(function(){
+      if(!rootNow.querySelector('.v21-shell')){
+        window.__MAXESS_V21_CANONICAL_RENDERING__=true;
+        try{ build(result()); } finally { window.__MAXESS_V21_CANONICAL_RENDERING__=false; }
+      }
+    },ms);});
+  }
+  function boot(){ enforce(); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true}); else boot();
 })();
 </script>

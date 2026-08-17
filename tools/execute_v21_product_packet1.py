@@ -42,7 +42,7 @@ result_replacement = r'''
     return (window.MAXESS_RESULT && typeof window.MAXESS_RESULT==='object') ? window.MAXESS_RESULT : legacyResult();
   }
   function person'''
-s2, n = result_pattern.subn(result_replacement, s, count=1)
+s2, n = result_pattern.subn(lambda _m: result_replacement, s, count=1)
 if n != 1:
     raise SystemExit(f'RESULT BLOCK PATCH FAILED: {n}')
 s = s2
@@ -55,7 +55,7 @@ stage_replacement = r'''
     return s>=91?'Mastering':s>=76?'Advancing':s>=51?'Developing':s>=21?'Foundation':'Supporting';
   }
   function dimCopy'''
-s2, n = stage_pattern.subn(stage_replacement, s, count=1)
+s2, n = stage_pattern.subn(lambda _m: stage_replacement, s, count=1)
 if n != 1:
     raise SystemExit(f'STAGE BLOCK PATCH FAILED: {n}')
 s = s2
@@ -91,7 +91,7 @@ boot_replacement = r'''
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true}); else boot();
 })();
 '''
-s2, n = boot_pattern.subn(boot_replacement, s, count=1)
+s2, n = boot_pattern.subn(lambda _m: boot_replacement, s, count=1)
 if n != 1:
     raise SystemExit(f'BOOT BLOCK PATCH FAILED: {n}')
 s = s2
