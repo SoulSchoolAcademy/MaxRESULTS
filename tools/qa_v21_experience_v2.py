@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+
 from pathlib import Path
 import re
 
@@ -32,6 +33,12 @@ def main() -> int:
         if not canonical:
             failures.append("canonical V21 JS layer could not be isolated")
 
+    # The section tokens appear in helper functions as well as in the actual renderer.
+    # For narrative-order QA, inspect only the root.innerHTML render payload and the
+    # immediately following assembly code, not helper predicate/reference strings.
+    render_start = canonical.find("root.innerHTML")
+    render_payload = canonical[render_start:] if render_start >= 0 else canonical
+
     required_order = [
         "NAYA · YOUR AI GUIDE",
         "YOUR RESULT",
@@ -47,7 +54,7 @@ def main() -> int:
     ]
     positions = []
     for token in required_order:
-        pos = canonical.find(token)
+        pos = render_payload.find(token)
         if pos < 0:
             failures.append(f"missing canonical section: {token}")
         else:
@@ -55,17 +62,22 @@ def main() -> int:
     if positions and [t for _, t in sorted(positions)] != required_order:
         failures.append("canonical section order is not the intended narrative order")
 
-    listen_count = len(re.findall(r'class=["\']v21-listen["\']', canonical, flags=re.I))
+    listen_count = len(re.findall(r'class=["\']v21-listen["\']', render_payload, flags=re.I))
     if listen_count != 1:
         failures.append(f"canonical Listen CTA is not exactly one: {listen_count}")
 
-    if len(re.findall(r'class=["\']v21-dim["\']', canonical, flags=re.I)) < 1:
+    if len(re.findall(r'class=["\']v21-dim["\']', render_payload, flags=re.I)) < 1:
         failures.append("canonical dimension controls are missing")
     if "slice(0,5)" not in canonical:
         failures.append("canonical runtime does not explicitly constrain dimensions to five")
     if "window.MAXESS_RESULT" not in canonical:
         failures.append("MAXESS_RESULT source-of-truth is missing from canonical runtime")
-    if "data-results-data-source=\"window.MAXESS_RESULT\"" not in canonical and "data-results-data-source='window.MAXESS_RESULT'" not in canonical:
+    if (
+        'data-results-data-source=\"window.MAXESS_RESULT\"' not in canonical
+        and "data-results-data-source='window.MAXESS_RESULT'" not in canonical
+        and "setAttribute('data-results-data-source','window.MAXESS_RESULT')" not in canonical
+        and 'setAttribute("data-results-data-source","window.MAXESS_RESULT")' not in canonical
+    ):
         warnings.append("runtime data-source marker is missing from canonical text")
 
     for stage in ("Supporting", "Foundation", "Developing", "Advancing", "Mastering"):
