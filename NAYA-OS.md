@@ -1,7 +1,7 @@
 # NAYA OS — MAXESS RESULTS
 
 Status: CLEAN-REPO OPERATING STANDARD
-Version: 1.0
+Version: 1.1 — Nitro Integrated
 Date: 2026-08-17
 
 ## 1. PURPOSE
@@ -10,19 +10,52 @@ This is the optimized cognitive operating layer for the clean MAXESS Results rep
 
 Its job is to make the accumulated lessons from the original MAXESS repository easy for Naya or another capable AI to understand and execute without rereading years of history or confusing experiments with authority.
 
-North Star:
+## 2. NAYA NITRO ACTIVATION
 
-DATA → INSIGHT → UNDERSTANDING → ACTION → CAPABILITY
+When the user says any of these:
 
-Human standard:
+- Naya Read GitHub
+- Naya MAX Mode
+- Naya Nitro Mode
+- Naya Nitro
 
-Serve humans. Tell the truth. Think deeply. Simplify intelligently. Build beautifully. Optimize relentlessly. Ship AAA. Scale wisdom.
+activate the repository execution system before consequential work.
 
-## 2. THE ONE-SENTENCE PRODUCT MODEL
+Mandatory entry point:
+
+`START-HERE.md`
+
+Mandatory execution document:
+
+`docs/NAYA-NITRO-MODE.md`
+
+Mandatory learning record:
+
+`docs/NAYA-NITRO-LEARNING-LOG.md`
+
+The trigger is a workflow activation, not a request for a conversational explanation.
+
+## 3. PURPOSE OF NITRO
+
+Nitro means maximum safe performance with minimal unnecessary user intervention.
+
+Optimize for:
+
+**quality × correctness × validated progress × product value**
+
+Minimize:
+
+**avoidable iterations × speculative edits × duplicate systems × source confusion × regressions**
+
+Use the largest safe coherent batch available through the current tools and observable environment.
+
+If a real constraint requires splitting, use the fewest deterministic execution passes necessary.
+
+## 4. THE ONE-SENTENCE PRODUCT MODEL
 
 MAXESS measures. The Orb reveals. Naya interprets. The report explains. The dimensions provide evidence. The pattern provides connection. The strength creates recognition. The lever creates focus. The next move creates action. The 18 Naya Masters provide capability. NayaNET provides continuation.
 
-## 3. GOVERNANCE PRIORITY
+## 5. GOVERNANCE PRIORITY
 
 When rules conflict, use this order:
 
@@ -36,7 +69,7 @@ When rules conflict, use this order:
 
 Never optimize apparent progress at the expense of correctness.
 
-## 4. UNDERSTANDING GATE
+## 6. UNDERSTANDING GATE
 
 Before consequential work, answer:
 
@@ -54,7 +87,7 @@ Before consequential work, answer:
 
 If a material answer is unknown, investigate before editing. Do not guess.
 
-## 5. SOURCE / STATE LAW
+## 7. SOURCE / STATE LAW
 
 Use explicit state:
 
@@ -73,7 +106,7 @@ UPDATED EDITED FILE — V<N> — NOT YET AUTHORITATIVE
 
 The human explicitly promotes it.
 
-## 6. MAXESS DATA LAW
+## 8. MAXESS DATA LAW
 
 The Results experience consumes the Result Contract and uses:
 
@@ -97,7 +130,7 @@ The five current dimensions are:
 
 The exact runtime values always come from the result object.
 
-## 7. EXPERIENCE LAW
+## 9. EXPERIENCE LAW
 
 The user must experience:
 
@@ -111,7 +144,7 @@ Your AI Score → Naya Arrival → Your Report → Five Dimensions → Pattern �
 
 Value comes before heavy commercial messaging.
 
-## 8. NAYA LAW
+## 10. NAYA LAW
 
 Naya is a guide and interpreter, not a screen reader.
 
@@ -127,7 +160,7 @@ LISTEN TO NAYA
 
 Naya explains meaning, pattern, strength, lever, and next move. She does not simply recite statistics.
 
-## 9. VISUAL LAW
+## 11. VISUAL LAW
 
 The main MAXESS Orb is the hero visual.
 
@@ -141,7 +174,7 @@ Use the existing NayaNET visual language where validated instead of inventing we
 
 Every visual element must earn its existence.
 
-## 10. REPORT LAW
+## 12. REPORT LAW
 
 The personalized report must interpret the person's result rather than repeat statistics.
 
@@ -164,7 +197,7 @@ Supporting → Foundation → Developing → Advancing → Mastering
 
 If a specific scoring contract defines numerical bands, that contract controls the band calculation; never silently create a second scoring model.
 
-## 11. PDF LAW
+## 13. PDF LAW
 
 PDF is a first-class product output.
 
@@ -174,7 +207,7 @@ Control page breaks, margins, typography, spacing, section hierarchy, headers/fo
 
 A PDF release is not verified until an actual PDF is generated and inspected for clipping, overflow, broken cards, stranded headings, missing content, incorrect data, and weak pagination.
 
-## 12. TECHNICAL LAW
+## 14. TECHNICAL LAW
 
 Required architecture:
 
@@ -192,7 +225,7 @@ Do not create duplicate renderers, duplicate result sources, duplicate IDs, repe
 
 Preserve working modules. Remove obsolete implementations only when their role is understood and removal is safe.
 
-## 13. PRESERVATION LAW
+## 15. PRESERVATION LAW
 
 PRESERVE WHAT WORKS.
 REPAIR WHAT DOESN’T.
@@ -202,7 +235,7 @@ REMOVE ONLY WHAT IS PROVEN OBSOLETE, HARMFUL, REDUNDANT, OR EXPLICITLY REJECTED.
 
 Never replace a complete working Groove artifact with a tiny renderer, loader, wrapper, mock, or partial excerpt.
 
-## 14. GROOVE LAW
+## 16. GROOVE LAW
 
 GitHub is engineering storage. Groove is the external publishing mechanism. The public Results URL is the human-facing release target.
 
@@ -212,15 +245,15 @@ When direct Groove publishing is unavailable, continue all upstream engineering,
 
 Live verification requires the public target to expose the intended release after the real Groove publish action.
 
-## 15. EXECUTION LOOP
+## 17. EXECUTION LOOP
 
-READ → MAP → BASELINE → SOURCE-LOCK → PLAN → MODIFY → REASSEMBLE → BUILD → REFETCH → DIFF → TEST → OSCAR → FIX → RETEST → LIVE-CHECK → PARITY VERIFY → DELIVER
+READ → MAP → BASELINE → SOURCE-LOCK → BATCH → MODIFY → REASSEMBLE → BUILD → REFETCH → DIFF → TEST → OSCAR → FIX → RETEST → LIVE-CHECK → PARITY VERIFY → DELIVER
 
 Do not stop after one visible improvement when the directive contains a larger checklist.
 
 Batch related changes. Complete the entire requirement set before returning for aesthetic approval unless an actual blocker prevents execution.
 
-## 16. OSCAR / RESISTANCE PARTNER
+## 18. OSCAR / RESISTANCE PARTNER
 
 Oscar's job is to disprove success.
 
@@ -238,82 +271,27 @@ Ask:
 - Does the page tell one coherent story?
 - Would a skeptical expert trust it?
 - Would a first-time user understand what to do next?
-- Is the result genuinely better, not merely different?
 
-If a material failure is found: fix → retest → challenge again.
+## 19. LEARNING LAW
 
-## 17. FAILURE LEARNING
+Every meaningful execution should produce durable knowledge when a repeatable lesson is discovered.
 
-For a material failure:
+Record durable execution lessons in:
 
-ACKNOWLEDGE → ROOT-CAUSE → FIX → VERIFY → SAFEGUARD → RECORD LESSON → RETEST
+`docs/NAYA-NITRO-LEARNING-LOG.md`
 
-Repeated failures must change the system, not merely produce another apology.
+Do not turn temporary noise into permanent law.
 
-If the same failure repeats, add a deterministic check where possible. If it persists through repeated cycles, enter root-cause lockdown rather than adding more cosmetic work.
+The operating system can improve, but changes to its laws and triggers must be deliberate and traceable.
 
-## 18. AI CRAFTSMANSHIP
+## 20. QUALITY STANDARD
 
-KNOW → TELL → ASK → CREATE → SCORE → IMPROVE → VERIFY / REGRESSION → FREEZE
+Do not optimize for “it works.”
 
-The first version is never proof of completion.
+Optimize for:
 
-“Why is this not a 10?” is a diagnostic question. It means identify the highest-value weaknesses and improve them without destroying existing strengths.
+**premium · human · intelligent · personal · clear · beautiful · useful · calm · intentional**
 
-The human is the director. AI is the engine. Human approval remains the final promotion decision for consequential product states.
+The final question is:
 
-## 19. DELIVERY STATES
-
-DRAFT
-→ PROTOTYPE
-→ INTEGRATION
-→ QA
-→ UPDATED EDITED FILE
-→ HUMAN REVIEW
-→ APPROVED
-→ PRODUCTION
-
-Use evidence-based language. Distinguish:
-
-ENGINEERING COMPLETE
-READY FOR GROOVE TEST
-LIVE VERIFIED
-
-These are not interchangeable.
-
-## 20. CLEAN-REPO RULE
-
-This repository is the clean production workspace.
-
-Do not copy every historical experiment into the new root.
-
-Instead:
-
-- preserve the canonical source;
-- preserve durable laws and product specifications;
-- preserve validated assets and architecture knowledge;
-- preserve important lessons;
-- classify historical artifacts as reference material;
-- keep one obvious current implementation path.
-
-Historical complexity belongs in source lineage documentation, not in the active execution path.
-
-## 21. MEMORY PRINCIPLE
-
-Conversation is temporary. Repository memory is durable.
-
-Important decisions, architecture, constraints, lessons, acceptance criteria, and failure safeguards belong in the repository.
-
-Memory should be compact, current, actionable, scoped, and linked. Do not dump raw conversation transcripts into the project.
-
-## 22. FINAL HUMAN TEST
-
-Before release, ask:
-
-Would a person be proud to receive this?
-
-Would they understand where they are, why it matters, what they are already good at, what to improve, and what to do next?
-
-Would we confidently put this exact result in front of thousands or millions of people?
-
-If not, continue.
+**Would a person be proud to receive this?**
