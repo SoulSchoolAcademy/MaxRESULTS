@@ -46,7 +46,7 @@ The current V21 working branch contains the complete timestamped Groove source a
 
 ## Development protocol
 
-INSPECT → MAP → BASELINE → SOURCE-LOCK → IMPLEMENT → NITRO V3 → BUILD/VERIFY → REFETCH → DIFF → QA → OSCAR → FIX → QA AGAIN → RELEASE
+INSPECT → MAP → BASELINE → SOURCE-LOCK → IMPLEMENT → NITRO V3 → BUILD/VERIFY → REFETCH → DIFF → QA → OSCAR → FIX → QA AGAIN → PUBLISH → RELEASE
 
 ## Product requirements
 
