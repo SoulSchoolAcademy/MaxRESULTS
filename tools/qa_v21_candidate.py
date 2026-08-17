@@ -37,8 +37,8 @@ def duplicate_ids(text: str):
 
 
 def main() -> int:
-    failures = []
-    warnings = []
+    failures: list[str] = []
+    warnings: list[str] = []
     baseline = BASELINE.read_text(encoding="utf-8") if BASELINE.exists() else ""
     candidate = SOURCE.read_text(encoding="utf-8") if SOURCE.exists() else ""
 
@@ -49,9 +49,7 @@ def main() -> int:
     if not candidate:
         failures.append("working Results source is empty")
 
-    if baseline and SOURCE.exists():
-        # The protected baseline is allowed to differ from the candidate; this
-        # check confirms the baseline itself is unchanged by hashing the file.
+    if BASELINE.exists():
         print(f"BASELINE SHA-256: {sha(BASELINE)}")
 
     for token in REQUIRED:
@@ -72,13 +70,17 @@ def main() -> int:
         if re.search(rf"(?:score-number|v21-dim-score)[^\n]*>{value}<", candidate):
             failures.append(f"possible hard-coded demo score detected in rendered markup: {value}")
 
-    # Data and stage coverage.
+    # Data/source-of-truth coverage.
     if "window.MAXESS_RESULT" not in candidate:
         failures.append("MAXESS_RESULT source missing")
-    if not all(stage in candidate for stage in ("Supporting", "Foundation", "Developing", "Advancing", "Mastering")):
-        failures.append("mastery-stage model does not visibly include all five required stages")
 
-    # Preservation checks: candidate should retain the important existing product hooks.
+    # The production stage model must support all five defined stages.
+    required_stages = ("Supporting", "Foundation", "Developing", "Advancing", "Mastering")
+    missing_stages = [stage for stage in required_stages if stage not in candidate]
+    if missing_stages:
+        failures.append("mastery-stage model missing: " + ", ".join(missing_stages))
+
+    # Preservation checks: candidate should retain important existing product hooks.
     for marker in ('id="naya-playground"', '18 NAYA', 'MAXESS'):
         if marker in baseline and marker not in candidate:
             failures.append(f"preservation regression: {marker} existed in baseline but is absent from candidate")
@@ -89,14 +91,14 @@ def main() -> int:
     if "break-inside" not in candidate:
         warnings.append("print CSS does not visibly declare break-inside controls")
 
-    # Known builder warning should be treated as technical debt, not ignored.
+    # Builder invalid-escape warning is tracked as technical debt.
     builder = ROOT / "tools" / "build_v21_canonical.py"
     if builder.exists():
         builder_text = builder.read_text(encoding="utf-8")
-        if r"\\s" in builder_text:
+        if r"\s" in builder_text:
             warnings.append("canonical builder contains a Python invalid-escape warning candidate")
 
-    report = [
+    report: list[str] = [
         "# MAXESS V21 — CANDIDATE QA",
         "",
         f"- Candidate lines: `{len(candidate.splitlines()) if candidate else 0}`",
@@ -106,21 +108,24 @@ def main() -> int:
         f"- Warnings: `{len(warnings)}`",
         "",
         "## Failures",
-        *(f"- {x}" for x in failures) if failures else ["- NONE"],
-        "",
-        "## Warnings",
-        *(f"- {x}" for x in warnings) if warnings else ["- NONE"],
-        "",
-        "## Gate",
-        "PASS" if not failures else "FAIL",
-        "",
     ]
+    if failures:
+        report.extend(f"- {failure}" for failure in failures)
+    else:
+        report.append("- NONE")
+    report.extend(["", "## Warnings"])
+    if warnings:
+        report.extend(f"- {warning}" for warning in warnings)
+    else:
+        report.append("- NONE")
+    report.extend(["", "## Gate", "PASS" if not failures else "FAIL", ""])
+
     REPORT.write_text("\n".join(report), encoding="utf-8")
 
-    for f in failures:
-        print("FAIL:", f)
-    for w in warnings:
-        print("WARN:", w)
+    for failure in failures:
+        print("FAIL:", failure)
+    for warning in warnings:
+        print("WARN:", warning)
     print(f"CANDIDATE LINES: {len(candidate.splitlines()) if candidate else 0}")
     print(f"DUPLICATE IDS: {len(dupes)}")
     print(f"FAILURES: {len(failures)}")
