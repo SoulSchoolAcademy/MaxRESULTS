@@ -33,20 +33,16 @@ def main() -> int:
         if token not in js:
             failures.append(f"runtime requirement missing: {label}")
 
-    # Verify that all five mastery labels exist in the canonical runtime code.
     for stage in ("Supporting", "Foundation", "Developing", "Advancing", "Mastering"):
         if stage not in js:
             failures.append(f"runtime mastery stage missing: {stage}")
 
-    # The runtime must use one authoritative source and must not embed real result numbers.
     if re.search(r"v21-score-number[^\n]*>\s*(82|91|79|74|68)\s*<", js):
         failures.append("canonical runtime contains hard-coded demo score")
 
-    # Interactive dimension controls: generated dynamically from ds, so require the handler pattern.
     if "root.querySelectorAll('.v21-dim').forEach" not in js:
         failures.append("dimension controls do not have a delegated per-dimension interaction loop")
 
-    # Print and accessibility are CSS/markup requirements.
     if "@media print" not in text:
         failures.append("print CSS missing")
     if "prefers-reduced-motion:reduce" not in text:
@@ -54,20 +50,29 @@ def main() -> int:
     if 'aria-label="Listen to Naya interpret your MAXESS results"' not in js:
         failures.append("Listen accessibility label missing")
 
-    # The intended section order must exist inside the canonical runtime, not legacy source.
-    order = [
-        "NAYA · YOUR AI GUIDE", "YOUR RESULT", "YOUR FIVE DIMENSIONS",
-        "YOUR PERSONALIZED REPORT", "YOUR PATTERN", "YOUR STRENGTH",
-        "YOUR LEVER", "YOUR NEXT MOVE", "18 NAYA MASTERS", "PLAYGROUND",
-        "YOUR AI MASTERY JOURNEY",
-    ]
-    positions = [js.find(x) for x in order]
-    if any(p < 0 for p in positions):
-        failures.append("canonical runtime section marker missing")
-    elif positions != sorted(positions):
-        failures.append("canonical runtime section order is incorrect")
+    # Inspect only the rendered root.innerHTML assembly, not helper functions that
+    # contain internal marker references. This prevents implementation helpers from
+    # being mistaken for the actual narrative order.
+    render_match = re.search(
+        r"root\.innerHTML=([\s\S]*?);\s*\n\s*var btn=root\.querySelector\('\.v21-listen'\)",
+        js,
+    )
+    render_payload = render_match.group(1) if render_match else ""
+    if not render_payload:
+        failures.append("canonical render payload could not be isolated")
+    else:
+        order = [
+            "NAYA · YOUR AI GUIDE", "YOUR RESULT", "YOUR FIVE DIMENSIONS",
+            "YOUR PERSONALIZED REPORT", "YOUR PATTERN", "YOUR STRENGTH",
+            "YOUR LEVER", "YOUR NEXT MOVE", "18 NAYA MASTERS", "PLAYGROUND",
+            "YOUR AI MASTERY JOURNEY",
+        ]
+        positions = [render_payload.find(x) for x in order]
+        if any(p < 0 for p in positions):
+            failures.append("canonical runtime section marker missing")
+        elif positions != sorted(positions):
+            failures.append("canonical runtime section order is incorrect")
 
-    # Keep the five-dimension UI as one visual system.
     if js.count('class=\"v21-dim\"') < 1:
         warnings.append("dimension UI is generated at runtime and cannot be counted statically")
 
