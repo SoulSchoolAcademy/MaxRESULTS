@@ -30,6 +30,7 @@ The current V21 working branch contains the complete timestamped Groove source a
 - `NAYA-OS.md` — optimized Naya operating system
 - `tools/nitro_aaa_upgrade.py` — deterministic AAA enhancement executor
 - `.github/workflows/nitro-aaa-build.yml` — build/verification automation for the working branch
+- `.github/workflows/maxess-nitro-v2.yml` — independent Nitro V2 execution/evidence workflow
 - `docs/` — product, deployment, QA, and memory documentation
 
 **Important:** the timestamped artifact is the current working artifact. Do not infer authority from filenames. The repository governance/state model determines authority.
