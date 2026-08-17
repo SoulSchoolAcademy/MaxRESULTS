@@ -26,12 +26,12 @@ def line_no(text: str, pos: int) -> int:
 
 
 def extract_blocks(text: str, tag: str):
-    pat = re.compile(rf"<{tag}\\b[^>]*>(.*?)</{tag}>", re.I | re.S)
+    pat = re.compile(rf"<{tag}\b[^>]*>(.*?)</{tag}>", re.I | re.S)
     return list(pat.finditer(text))
 
 
 def id_value(opening: str) -> str:
-    m = re.search(r'\\bid=["\']([^"\']+)["\']', opening, re.I)
+    m = re.search(r'\bid=["\']([^"\']+)["\']', opening, re.I)
     return m.group(1) if m else "(none)"
 
 
@@ -42,8 +42,8 @@ def summarize_block(kind: str, idx: int, m: re.Match, text: str):
     body = m.group(1)
     first_lines = [ln.strip() for ln in body.splitlines() if ln.strip()][:5]
     marker_hits = [x for x in MARKERS if re.search(re.escape(x), body, re.I)]
-    funcs = sorted(set(re.findall(r'\\bfunction\\s+([A-Za-z_$][\\w$]*)\\s*\\(', body)))[:40]
-    listeners = len(re.findall(r'addEventListener\\s*\\(', body))
+    funcs = sorted(set(re.findall(r'\bfunction\s+([A-Za-z_$][\w$]*)\s*\(', body)))[:40]
+    listeners = len(re.findall(r'addEventListener\s*\(', body))
     mutations = {name: len(re.findall(re.escape(name), body)) for name in ["innerHTML", "outerHTML", "insertAdjacent", "appendChild", "querySelector", "createElement"]}
     return {
         "kind": kind,
