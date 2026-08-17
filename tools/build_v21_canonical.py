@@ -94,7 +94,7 @@ CSS = """
 </style>
 """
 
-JS = """
+JS = r"""
 <script id="maxess-results-v21-canonical-js">
 (function(){
   'use strict';
@@ -119,8 +119,7 @@ JS = """
     for(var i=0;i<bags.length;i++){ var b=bags[i]; if(b && typeof b==='object'){ var v=b.name || b.displayName || b.firstName; if(v) return String(v); } }
     return '';
   }
-  function stage(s){ if(s==null) return ''; return s>=91?'Mastering':s>=76?'Advancing':s>=51?'Developing':'Foundation'; }
-  function dimCopy(name,sc){
+  function stage(s){ if(s==null) return ; return s>=91?Mastering:s>=76?Advancing:s>=51?Developing:s>=21?Foundation:Supporting; }\n  function dimCopy(name,sc){
     var n=name.toLowerCase();
     if(n.indexOf('communication')>=0) return 'This shows how effectively you express intent, context, constraints and the outcome you want from AI.';
     if(n.indexOf('direction')>=0) return 'This shows how clearly you define the result before asking AI to produce it.';
