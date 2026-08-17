@@ -16,11 +16,18 @@ interpret that as an explicit instruction to activate this repository operating 
 1. `START-HERE.md` — this file; activate the workflow.
 2. `NAYA-OS.md` — governing principles and source-of-truth laws.
 3. `docs/NAYA-NITRO-MODE.md` — full high-efficiency execution protocol.
-4. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current product requirements.
-5. `docs/SOURCE-AND-MEMORY-MAP.md` — authority and historical context.
-6. `docs/DEPLOYMENT-CONTRACT.md` — GitHub/Groove/public-release mechanics.
-7. `docs/RELEASE-CHECKLIST.md` — release gate.
-8. Read only the additional project-specific documents required by the task.
+4. `docs/MAXESS-SYSTEM-FLOW-AND-EXPERIENCE-CONTRACT.md` — cross-page product/data/UX architecture.
+5. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current Results product requirements.
+6. `docs/SOURCE-AND-MEMORY-MAP.md` — authority and historical context.
+7. `docs/DEPLOYMENT-CONTRACT.md` — GitHub/Groove/public-release mechanics.
+8. `docs/RELEASE-CHECKLIST.md` — release gate.
+9. Read only the additional project-specific documents required by the task.
+
+## Canonical product journey
+
+`NayaNET → MAXESS Assessment → Result Contract → Results → Personalized Report → Naya interpretation → Next Action`
+
+For the current product architecture, treat these stages as one connected system even when they live in different repositories/sites.
 
 ## The domino sequence
 
@@ -42,6 +49,16 @@ Maximize useful, validated progress per execution cycle while minimizing:
 - regressions.
 
 Use the largest safe coherent batch available. Split work only when an actual tool, file-size, dependency, or safety constraint requires it.
+
+## System-of-systems rule
+
+Do not optimize a Results page in isolation when the requested behavior depends on the MAXESS assessment or upstream NayaNET experience.
+
+Verify the complete path:
+
+`15 answers → authoritative scoring → Result Contract → window.MAXESS_RESULT → Results presentation`
+
+The Results UI is a presentation layer over authoritative assessment data. It must not invent real user results.
 
 ## User-intervention rule
 
