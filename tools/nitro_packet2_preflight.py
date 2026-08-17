@@ -26,7 +26,8 @@ def line_no(text: str, pos: int) -> int:
 
 
 def extract_blocks(text: str, tag: str):
-    pat = re.compile(rf"<{tag}\b[^>]*>(.*?)</{tag}>", re.I | re.S)
+    # Match the same HTML-tag grammar used by the trusted source mapper.
+    pat = re.compile(rf"<{tag}(?:\s[^>]*)?>(.*?)</{tag}>", re.I | re.S)
     return list(pat.finditer(text))
 
 
