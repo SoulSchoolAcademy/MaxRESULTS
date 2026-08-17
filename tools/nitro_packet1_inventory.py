@@ -8,7 +8,6 @@ from __future__ import annotations
 from pathlib import Path
 import hashlib
 import re
-import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "20260817 912am RESULTS PAGE CODE"
@@ -37,7 +36,10 @@ def main() -> int:
     ids = re.findall(r'\\bid=["\']([^"\']+)["\']', text)
     dup_ids = sorted({x for x in ids if ids.count(x) > 1})
 
-    generation_ids = [x for x in script_ids if re.search(r'v(?:11|12|13|14|15|16|17|18|19|20|21)|maxess-results', x, re.I)]
+    generation_ids = [
+        x for x in script_ids
+        if re.search(r'v(?:11|12|13|14|15|16|17|18|19|20|21)|maxess-results', x, re.I)
+    ]
     critical_markers = [
         "window.MAXESS_RESULT", "#maxess-results-10", ".v18-flow", ".v20-stage",
         "v13-shell", "v15-results", "naya-playground", "naya-report",
@@ -65,11 +67,15 @@ def main() -> int:
     report.extend(f"- `{x}`" for x in generation_ids)
     report += ["", "## Critical architecture markers"]
     report.extend(f"- `{m}`: {'PRESENT' if m in text else 'ABSENT'}" for m in critical_markers)
+    duplicate_lines = [f"- `{x}`" for x in dup_ids] if dup_ids else ["- NONE"]
     report += [
-        "", "## Duplicate IDs", *(f"- `{x}`" for x in dup_ids) if dup_ids else ["- NONE"],
-        "", "## Next gate",
+        "",
+        "## Duplicate IDs",
+        *duplicate_lines,
+        "",
+        "## Next gate",
         "Packet 1 may proceed to transformation only if the baseline is intact and this inventory is reviewed by the execution controller.",
-        "No production/Groove publication is authorized from this packet."
+        "No production/Groove publication is authorized from this packet.",
     ]
     REPORT.write_text("\n".join(report) + "\n", encoding="utf-8")
     print(REPORT.name)
