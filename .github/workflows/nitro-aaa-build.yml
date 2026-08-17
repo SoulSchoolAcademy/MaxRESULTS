@@ -31,19 +31,15 @@ jobs:
           grep -q 'maxess-results-v21-working' NAYA-REPO-LOCK.md
           grep -q '20260817 912am RESULTS PAGE CODE' README.md
 
-      - name: Build canonical V21 source
-        run: python tools/build_v21_canonical.py
-
-      - name: Apply deterministic Nitro AAA upgrade
+      - name: Apply deterministic Nitro AAA upgrade to current authoritative source
         run: python tools/nitro_aaa_upgrade.py
 
       - name: Syntax and integrity QA
         shell: bash
         run: |
-          python -m py_compile tools/nitro_aaa_upgrade.py tools/build_v21_canonical.py tools/qa_v21_candidate_v2.py
+          python -m py_compile tools/nitro_aaa_upgrade.py tools/qa_v21_candidate_v2.py
           python - <<'PY'
           from pathlib import Path
-          import re
           p=Path('20260817 912am RESULTS PAGE CODE')
           s=p.read_text(encoding='utf-8')
           assert len(s) > 500000, f'Artifact unexpectedly small: {len(s)} bytes'
@@ -66,7 +62,7 @@ jobs:
         run: |
           git config user.name 'Naya Master'
           git config user.email 'naya-master@users.noreply.github.com'
-          git add '20260817 912am RESULTS PAGE CODE' BASELINE-NITRO-20260817.html V21-CANONICAL-BUILD-RESULT.md V21-CANDIDATE-QA-V2.md
+          git add '20260817 912am RESULTS PAGE CODE' BASELINE-NITRO-20260817.html V21-CANDIDATE-QA-V2.md
           git diff --cached --quiet && echo 'No generated changes to commit.' && exit 0
           git commit -m 'MAXESS AAA Nitro upgrade — verified [nitro-generated]'
           git push origin maxess-results-v21-working
