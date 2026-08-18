@@ -1,48 +1,50 @@
-# MAXESS / NAYA — REPOSITORY MAP
+# MAXESS / NAYA — ACTIVE BRANCH REPOSITORY MAP
 
 ## Purpose
 
-This is the execution map for AI and humans. Read it after `README.md` and before consequential work. It prevents source confusion, stale-file selection, duplicated systems, missing memory, and missed QA.
+This is the implementation map for the active Results engineering branch. It must not compete with the canonical governance on `main`.
 
-## Canonical identity
+## Canonical governance
 
-- Repository: `SoulSchoolAcademy/MaxRESULTS`
-- Active Results branch: `maxess-results-v21-working`
-- Legacy repository: `SoulSchoolAcademy/maxess` — reference only unless explicitly requested.
+The repository is `SoulSchoolAcademy/MaxRESULTS`.
 
-## Master read order
+- `main` = canonical governance/reference branch.
+- `maxess-results-v21-working` = active Results engineering branch.
+- `SoulSchoolAcademy/maxess` = legacy reference only unless explicitly requested.
 
-1. `README.md` — repository overview.
-2. `START-HERE.md` — mandatory execution entry point.
-3. `NAYA-REPO-LOCK.md` — repository / branch lock.
-4. `NAYA-OS.md` — governing execution and product laws.
-5. `NITRO-MASTER-EXECUTION-PROTOCOL.md` — master execution contract.
-6. `docs/SMART-NOTES.md` — durable memory protocol.
-7. `docs/smart-notes/INDEX.md` — searchable memory index.
-8. `docs/MAXESS-EXECUTION-PROMPT-TEMPLATE.md` — reusable task execution prompt.
-9. `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — Results operating rules.
-10. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — product requirements.
-11. `docs/SOURCE-AND-MEMORY-MAP.md` — authority / historical lineage.
-12. `docs/MAXESS-CHANGE-LEDGER.md` — material requirement/state ledger.
-13. `docs/DEPLOYMENT-CONTRACT.md` — GitHub → Groove → public verification.
-14. `docs/RELEASE-CHECKLIST.md` — release gate.
-15. Task-specific design, QA, asset, change-ledger, and implementation documents as required.
+Canonical operating rules live on `main`:
 
-## Source categories
+- `main:START-HERE.md`
+- `main:docs/REPOSITORY-MAP.md`
+- `main:NAYA-OS.md`
+- `main:docs/NAYA-EXECUTIVE-PLAN.md`
+- `main:docs/NAYA-NITRO-MODE.md`
+- `main:docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md`
+- `main:docs/NAYA-SMART-NOTES-SYSTEM.md`
+- `main:docs/NAYA-NITRO-MASTER-BLUEPRINT.md`
+- `main:docs/smart-notes/INDEX.md`
 
-### A. GOVERNANCE / EXECUTION
-`NAYA-REPO-LOCK.md` · `NAYA-OS.md` · `NITRO-MASTER-EXECUTION-PROTOCOL.md` · `docs/MAXESS-EXECUTION-PROMPT-TEMPLATE.md`
+If any branch-local document conflicts with current `main` governance, do not guess. Treat `main` governance as authoritative and repair the conflicting branch-local instruction when appropriate.
+
+## Active branch implementation map
+
+### A. GOVERNANCE BRIDGE
+`START-HERE.md` and this file — branch entry and implementation routing back to canonical `main` governance.
 
 ### B. PRODUCT / EXPERIENCE
-`docs/MAXESS-RESULTS-PRODUCT-SPEC.md` · `docs/NAYA-MAXESS-OPERATING-MANUAL.md` · relevant MAXESS design/page specifications
+- `docs/MAXESS-RESULTS-PRODUCT-SPEC.md`
+- `docs/NAYA-MAXESS-OPERATING-MANUAL.md`
+- relevant MAXESS design/page specifications.
 
 ### C. STATE / HISTORY
-`docs/SOURCE-AND-MEMORY-MAP.md` · `docs/MAXESS-CHANGE-LEDGER.md` · baselines, candidates, and restoration references
+- `docs/SOURCE-AND-MEMORY-MAP.md`
+- `docs/MAXESS-CHANGE-LEDGER.md`
+- baselines, candidates, restoration references, and current implementation state.
 
 ### D. MEMORY / LEARNING
-`docs/SMART-NOTES.md` · `docs/smart-notes/INDEX.md` · `docs/smart-notes/YYYY-MM-DD.md`
+Canonical durable memory lives on `main` under `docs/smart-notes/`.
 
-Smart Notes preserve durable project learning. They are memory, not authority. Use broad keywords and aliases for retrieval. Do not allow historical notes to override current human requirements or current authoritative repository rules.
+Use the canonical Smart Notes system and retrieval index. Do not create a second branch-specific memory system.
 
 ### E. ENGINEERING / TOOLS
 `tools/` — deterministic builders, executors, validators, and QA scripts. Inspect before using; never assume a named tool exists.
@@ -51,28 +53,26 @@ Smart Notes preserve durable project learning. They are memory, not authority. U
 `.github/workflows/` — GitHub Actions. Automation should inspect, validate, and catch failures. Mutation must be explicitly authorized and must not silently redefine product direction.
 
 ### G. DEPLOYMENT / RELEASE
-`docs/DEPLOYMENT-CONTRACT.md` · `docs/RELEASE-CHECKLIST.md`
+- `docs/DEPLOYMENT-CONTRACT.md`
+- `docs/RELEASE-CHECKLIST.md`
 
-### H. ASSETS / REFERENCES
-Root PDFs/images and approved asset registries are reference resources unless the current task explicitly protects them as production assets.
+GitHub state is never proof of Groove/public state.
 
 ## Current implementation state
 
-- Working full Results artifact: `20260817 912am RESULTS PAGE CODE`
+- Active branch: `maxess-results-v21-working`.
+- Working full Results artifact: `20260817 912am RESULTS PAGE CODE`.
 - Existing restoration references include `BASELINE-WORKING.html` and `BASELINE-NITRO-20260817.html`.
 - Runtime result contract: `window.MAXESS_RESULT`.
 - Current Section 01 cycle: **fresh build / refinement — not approved**.
 - Protected Section 01 component: **Orb + Orbital Bead core behavior supplied by the human**.
 - Current Section 01 surrounding presentation: **working candidate material; open to refinement** unless explicitly protected by the current human instruction.
-- Smart Notes / Naya Notes system: ACTIVE and repository-local.
 
-### Important authority correction
-
-Do not describe the current Section 01 presentation file as “authoritative code,” “canonical renderer,” or “approved baseline” merely because an older artifact comment or historical document uses those words. For the current cycle, only the human explicitly promotes an artifact to an approved state.
+Do not call any artifact “authoritative production,” “canonical renderer,” or “approved baseline” merely because an older artifact or historical document uses those words.
 
 ## Execution law
 
-**READ → MAP → REVIEW RELEVANT MEMORY → ESTABLISH STATE → SCORE → SOURCE-LOCK → COMPLETE TODO → IMPLEMENT → BUILD → REFETCH → DIFF → STATIC QA → BEHAVIOR QA → RENDER → VISUAL QA → OSCAR → REPAIR → RE-TEST → REGRESSION → FREEZE ONLY WHEN APPROVED → RECORD DURABLE LEARNING → DELIVER.**
+**READ CANONICAL GOVERNANCE → READ ACTIVE MAP → REVIEW RELEVANT MEMORY → ESTABLISH STATE → SCORE → SOURCE-LOCK → COMPLETE TODO → IMPLEMENT → BUILD → REFETCH → DIFF → STATIC QA → BEHAVIOR QA → RENDER → VISUAL QA → OSCAR → REPAIR → RE-TEST → REGRESSION → FREEZE ONLY WHEN APPROVED → RECORD DURABLE LEARNING → DELIVER → NEXT ACTION PROMPT.**
 
 ## Non-negotiable checks
 
@@ -81,12 +81,12 @@ Do not describe the current Section 01 presentation file as “authoritative cod
 - Never create a competing renderer or result source.
 - Never replace a complete working artifact with a tiny test renderer.
 - Never call GitHub state “live.” Groove requires separate public verification.
-- Never rely on exact keyword wording for memory retrieval; use broad natural-language aliases.
-- Never create an orphan Smart Note; every note must be indexed.
-- Never let Smart Notes silently override current authoritative sources.
+- Never rely on exact keyword wording for memory retrieval.
+- Never create an orphan Smart Note; canonical notes must be indexed.
+- Never let Smart Notes override current authoritative sources.
 - Every material failure must produce a root cause and, where practical, a durable guardrail.
 - Every execution must score the current state, ask **WHY IS THIS NOT A 10?**, write the complete repair list, then execute the full authorized batch.
-- Final status must distinguish `IMPLEMENTED`, `VERIFIED`, `LIVE VERIFIED`, `HUMAN REVIEW REQUIRED`, and `BLOCKED`.
+- Final status must distinguish `IMPLEMENTED`, `VERIFIED`, `LIVE VERIFIED`, `HUMAN REVIEW REQUIRED`, and `UNKNOWN`.
 
 ## Product north star
 
