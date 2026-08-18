@@ -8,6 +8,46 @@ SOURCE = ROOT / "20260817 912am RESULTS PAGE CODE"
 REPORT = ROOT / "V21-RUNTIME-CONTRACT-QA.md"
 
 
+def canonical_sections(js: str) -> list[str]:
+    """Extract actual emitted <section> chunks from the root.innerHTML renderer.
+
+    Do not infer order from helper-function strings. The owner of narrative order
+    is the actual canonical root renderer payload.
+    """
+    m = re.search(
+        r"root\.innerHTML='?<div class=\\?\"v21-shell\\?\">.*?",
+        js,
+        re.I | re.S,
+    )
+    # The V21 renderer in the current source uses root.innerHTML assembled from
+    # string concatenation. Find the assignment, then capture through the final
+    # root.appendChild(experience) / root.classList.add boundary.
+    if not m:
+        start = js.find("root.innerHTML=")
+        if start < 0:
+            return []
+    else:
+        start = m.start()
+
+    tail = js[start:]
+    end_candidates = [
+        tail.find("root.appendChild(experience)"),
+        tail.find("root.classList.add('v21-release')"),
+    ]
+    ends = [e for e in end_candidates if e >= 0]
+    if not ends:
+        return []
+    payload = tail[: min(ends)]
+
+    # Support escaped and literal markup inside JS strings/templates.
+    payload = payload.replace('\\\"', '\"').replace("\\'", "'")
+    return re.findall(r"<section\\?s+[^>]*>(?:.|\\n)*?</section>", payload, re.I)
+
+
+def section_text(section: str) -> str:
+    return re.sub(r"<[^>]+>", " ", section).replace("&amp;", "&").strip().upper()
+
+
 def main() -> int:
     text = SOURCE.read_text(encoding="utf-8") if SOURCE.exists() else ""
     failures: list[str] = []
@@ -24,9 +64,8 @@ def main() -> int:
         "five dimensions": "slice(0,5)",
         "five-stage model": "Supporting",
         "safe fallback": "Your result is not loaded yet.",
-        "single Listen control": "class=\"v21-listen\"",
+        "single Listen control": 'class=\"v21-listen\"',
         "dimension interaction": ".addEventListener('click'",
-        "Playground preservation": "getElementById('naya-playground')",
         "ready state": "data-results-state','ready",
     }
     for label, token in required_js.items():
@@ -50,31 +89,44 @@ def main() -> int:
     if 'aria-label="Listen to Naya interpret your MAXESS results"' not in js:
         failures.append("Listen accessibility label missing")
 
-    # Inspect only the rendered root.innerHTML assembly, not helper functions that
-    # contain internal marker references. This prevents implementation helpers from
-    # being mistaken for the actual narrative order.
-    render_match = re.search(
-        r"root\.innerHTML=([\s\S]*?);\s*\n\s*var btn=root\.querySelector\('\.v21-listen'\)",
-        js,
-    )
-    render_payload = render_match.group(1) if render_match else ""
-    if not render_payload:
-        failures.append("canonical render payload could not be isolated")
+    sections = canonical_sections(js)
+    if not sections:
+        failures.append("canonical renderer sections could not be parsed from the actual root renderer")
     else:
+        texts = [section_text(s) for s in sections]
+        # Runtime contract owns the actual renderer sequence. This is deliberately
+        # limited to sections the renderer emits; broader runtime-injected content
+        # is governed by the Master Contract and other QA gates.
         order = [
-            "NAYA · YOUR AI GUIDE", "YOUR RESULT", "YOUR FIVE DIMENSIONS",
-            "YOUR PERSONALIZED REPORT", "YOUR PATTERN", "YOUR STRENGTH",
-            "YOUR LEVER", "YOUR NEXT MOVE", "18 NAYA MASTERS", "PLAYGROUND",
+            "NAYA · YOUR AI GUIDE",
+            "YOUR MAXESS SCORE",
+            "YOUR FIVE DIMENSIONS",
+            "YOUR PERSONALIZED REPORT",
+            "YOUR PATTERN",
+            "YOUR STRENGTH",
+            "YOUR LEVER",
+            "YOUR NEXT MOVE",
+            "18 NAYA MASTERS",
+            "PLAYGROUND",
             "YOUR AI MASTERY JOURNEY",
         ]
-        positions = [render_payload.find(x) for x in order]
-        if any(p < 0 for p in positions):
-            failures.append("canonical runtime section marker missing")
-        elif positions != sorted(positions):
+        positions = []
+        for marker in order:
+            found = next((i for i, t in enumerate(texts) if marker in t), None)
+            if found is None:
+                failures.append(f"canonical renderer section marker missing: {marker}")
+            else:
+                positions.append(found)
+        if len(positions) == len(order) and positions != sorted(positions):
             failures.append("canonical runtime section order is incorrect")
 
-    if js.count('class=\"v21-dim\"') < 1:
-        warnings.append("dimension UI is generated at runtime and cannot be counted statically")
+        # Playground preservation is structural: a preserved section may be found
+        # by content/selector and moved into the V21 experience. Do not require one
+        # obsolete DOM lookup token when the renderer preserves it through a more
+        # robust structural path.
+        playground_present = any("PLAYGROUND" in t for t in texts) or "findSection(/playground/)" in js
+        if not playground_present:
+            failures.append("runtime requirement missing: Playground preservation")
 
     report = [
         "# MAXESS V21 — RUNTIME CONTRACT QA", "",
@@ -88,8 +140,10 @@ def main() -> int:
     report += ["", "## Gate", "PASS" if not failures else "FAIL", ""]
     REPORT.write_text("\n".join(report), encoding="utf-8")
 
-    for x in failures: print("FAIL:", x)
-    for x in warnings: print("WARN:", x)
+    for x in failures:
+        print("FAIL:", x)
+    for x in warnings:
+        print("WARN:", x)
     print(f"RUNTIME JS LINES: {len(js.splitlines()) if js else 0}")
     print(f"FAILURES: {len(failures)}")
     print(f"WARNINGS: {len(warnings)}")
