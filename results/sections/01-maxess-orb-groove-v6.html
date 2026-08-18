@@ -1,0 +1,984 @@
+<!--
+MAXESS RESULTS — SECTION 01 — V6 GROOVE MODULE
+Status: DRAFT / RENDER CANDIDATE
+Purpose: Naya Arrival + AI Score personal reveal
+Architecture: self-contained, full-bleed, no legacy Results dependency
+
+PRODUCTION DATA:
+  window.MAXESS_RESULT
+
+VISUAL QA:
+  Set window.MAXESS_SECTION01_PREVIEW = true before this module initializes
+  to intentionally render the clearly labelled development preview state.
+  Preview data NEVER replaces the production scoring contract.
+
+DESIGN CONTRACT:
+  VIEWPORT -> NAYA -> YOUR AI SCORE -> LIVING MAXESS ORB -> STAGE -> LISTEN
+
+IMPORTANT:
+  This module is deliberately full-bleed. Groove's parent container is not
+  trusted to provide viewport width. The root uses a viewport breakout strategy.
+-->
+
+<div id="maxess-section-01" class="mx01" data-module="maxess-section-01" aria-labelledby="mx01-title">
+  <div class="mx01__atmosphere" aria-hidden="true">
+    <div class="mx01__aurora mx01__aurora--a"></div>
+    <div class="mx01__aurora mx01__aurora--b"></div>
+    <div class="mx01__grain"></div>
+  </div>
+
+  <main class="mx01__stage">
+    <header class="mx01__naya" aria-label="Naya introduction">
+      <div class="mx01__naya-avatar-wrap">
+        <div class="mx01__naya-halo" aria-hidden="true"></div>
+        <div class="mx01__naya-avatar" role="img" aria-label="Naya">
+          <span class="mx01__naya-fallback" aria-hidden="true">N</span>
+          <img class="mx01__naya-image" alt="Naya" decoding="async" />
+        </div>
+        <span class="mx01__naya-status" aria-hidden="true"></span>
+      </div>
+      <div class="mx01__naya-copy">
+        <p class="mx01__naya-name">Naya</p>
+        <p class="mx01__naya-message">Hi. I've looked at your results.</p>
+        <p class="mx01__naya-map">This isn't your judgment. It's your map.</p>
+      </div>
+      <button class="mx01__listen" type="button" aria-label="Listen to Naya">
+        <span class="mx01__listen-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false"><path d="M7 5.6v12.8c0 .9 1 1.45 1.75.98l10.1-6.4a1.16 1.16 0 0 0 0-1.96l-10.1-6.4A1.17 1.17 0 0 0 7 5.6Z"/></svg>
+        </span>
+        <span>LISTEN TO NAYA</span>
+      </button>
+    </header>
+
+    <section class="mx01__reveal" aria-label="Your MAXESS result">
+      <div class="mx01__score-heading">
+        <p class="mx01__eyebrow" id="mx01-title">YOUR AI SCORE</p>
+        <div class="mx01__score-row">
+          <span class="mx01__score" data-score aria-live="polite">—</span>
+          <span class="mx01__score-unit">/ 100</span>
+        </div>
+        <p class="mx01__stage-label" data-stage>AI MASTERY</p>
+        <p class="mx01__preview-note" data-preview-note hidden>Visual preview — not a production result</p>
+      </div>
+
+      <div class="mx01__orb-wrap" data-orb-wrap>
+        <div class="mx01__orb-aura mx01__orb-aura--outer" aria-hidden="true"></div>
+        <div class="mx01__orb-aura mx01__orb-aura--mid" aria-hidden="true"></div>
+        <div class="mx01__orb" data-orb role="img" aria-label="MAXESS score orb">
+          <div class="mx01__ring mx01__ring--outer" aria-hidden="true"></div>
+          <div class="mx01__ring mx01__ring--outer-2" aria-hidden="true"></div>
+          <div class="mx01__ring mx01__ring--mid" aria-hidden="true"></div>
+          <div class="mx01__ring mx01__ring--inner" aria-hidden="true"></div>
+          <div class="mx01__energy energy-a" aria-hidden="true"></div>
+          <div class="mx01__energy energy-b" aria-hidden="true"></div>
+          <div class="mx01__energy energy-c" aria-hidden="true"></div>
+          <div class="mx01__core" aria-hidden="true">
+            <div class="mx01__core-light"></div>
+            <div class="mx01__core-depth"></div>
+            <div class="mx01__core-glint"></div>
+          </div>
+          <div class="mx01__orbital-track" aria-hidden="true">
+            <span class="mx01__orbital-bead"></span>
+          </div>
+          <div class="mx01__microfield" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mx01__footer">
+      <p class="mx01__scroll-hint"><span aria-hidden="true"></span> Your results continue below</p>
+    </footer>
+  </main>
+
+  <div class="mx01__sr-status" aria-live="polite" aria-atomic="true"></div>
+</div>
+
+<style>
+/* ========================================================================
+   MAXESS SECTION 01 V6
+   Full-bleed Groove module
+   ======================================================================== */
+
+#maxess-section-01.mx01,
+#maxess-section-01.mx01 * {
+  box-sizing: border-box;
+}
+
+#maxess-section-01.mx01 {
+  --mx-bg: #05030b;
+  --mx-bg-2: #090512;
+  --mx-white: #fff;
+  --mx-muted: rgba(255,255,255,.64);
+  --mx-faint: rgba(255,255,255,.35);
+  --mx-accent: #7f63ff;
+  --mx-accent-rgb: 127,99,255;
+  --mx-score: 82;
+  --mx-score-angle: 295deg;
+  --mx-orb-size: min(62vh, 660px);
+  --mx-bead-size: 15px;
+  --mx-speed: 10s;
+  position: relative;
+  display: block;
+  width: 100vw;
+  max-width: none;
+  min-width: 100vw;
+  min-height: 100svh;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 47%, rgba(var(--mx-accent-rgb), .12) 0%, rgba(var(--mx-accent-rgb), .045) 22%, transparent 47%),
+    radial-gradient(circle at 50% 110%, rgba(var(--mx-accent-rgb), .08), transparent 45%),
+    linear-gradient(180deg, var(--mx-bg) 0%, var(--mx-bg-2) 100%);
+  color: var(--mx-white);
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#maxess-section-01.mx01::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 45%, transparent 0 25%, rgba(0,0,0,.1) 60%, rgba(0,0,0,.55) 100%),
+    linear-gradient(90deg, rgba(0,0,0,.25), transparent 22%, transparent 78%, rgba(0,0,0,.25));
+  z-index: -1;
+}
+
+#maxess-section-01 .mx01__atmosphere,
+#maxess-section-01 .mx01__aurora,
+#maxess-section-01 .mx01__grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#maxess-section-01 .mx01__aurora {
+  filter: blur(70px);
+  opacity: .28;
+  transform: translateZ(0);
+}
+
+#maxess-section-01 .mx01__aurora--a {
+  background: radial-gradient(ellipse at 35% 52%, rgba(var(--mx-accent-rgb), .22), transparent 38%);
+  animation: mx01-drift-a 15s ease-in-out infinite alternate;
+}
+
+#maxess-section-01 .mx01__aurora--b {
+  background: radial-gradient(ellipse at 70% 40%, rgba(var(--mx-accent-rgb), .15), transparent 34%);
+  animation: mx01-drift-b 19s ease-in-out infinite alternate;
+}
+
+#maxess-section-01 .mx01__grain {
+  opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.75'/%3E%3C/svg%3E");
+}
+
+#maxess-section-01 .mx01__stage {
+  position: relative;
+  z-index: 2;
+  width: min(1500px, calc(100vw - 64px));
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: clamp(28px, 4vh, 52px) clamp(20px, 4vw, 72px) clamp(24px, 3vh, 42px);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+}
+
+/* NAYA ------------------------------------------------------------------- */
+#maxess-section-01 .mx01__naya {
+  width: min(680px, 100%);
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 14px 12px 12px;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 24px;
+  background: rgba(12,8,24,.58);
+  box-shadow: 0 18px 70px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.055);
+  backdrop-filter: blur(22px) saturate(125%);
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
+}
+
+#maxess-section-01 .mx01__naya-avatar-wrap {
+  position: relative;
+  width: 68px;
+  height: 68px;
+}
+
+#maxess-section-01 .mx01__naya-halo {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--mx-accent-rgb), .26), transparent 68%);
+}
+
+#maxess-section-01 .mx01__naya-avatar {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.2);
+  background: radial-gradient(circle at 35% 30%, #8f79ff, #21164d 70%);
+  box-shadow: 0 0 30px rgba(var(--mx-accent-rgb), .28), inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+#maxess-section-01 .mx01__naya-image {
+  width: 100%;
+  height: 100%;
+  display: none;
+  object-fit: cover;
+}
+
+#maxess-section-01 .mx01__naya-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 29px;
+  font-weight: 600;
+  letter-spacing: -.04em;
+}
+
+#maxess-section-01 .mx01__naya-status {
+  position: absolute;
+  right: 0;
+  bottom: 1px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 3px solid #0d0818;
+  background: #72f5ba;
+  box-shadow: 0 0 12px rgba(114,245,186,.7);
+}
+
+#maxess-section-01 .mx01__naya-copy {
+  min-width: 0;
+}
+
+#maxess-section-01 .mx01__naya-name {
+  margin: 0 0 2px;
+  color: rgba(255,255,255,.58);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+#maxess-section-01 .mx01__naya-message,
+#maxess-section-01 .mx01__naya-map {
+  margin: 0;
+  line-height: 1.35;
+}
+
+#maxess-section-01 .mx01__naya-message {
+  color: rgba(255,255,255,.95);
+  font-size: 16px;
+  font-weight: 520;
+}
+
+#maxess-section-01 .mx01__naya-map {
+  margin-top: 3px;
+  color: rgba(255,255,255,.52);
+  font-size: 13px;
+}
+
+#maxess-section-01 .mx01__listen {
+  min-height: 46px;
+  padding: 0 17px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 15px;
+  background: rgba(255,255,255,.075);
+  color: #fff;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform .25s ease, background .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+#maxess-section-01 .mx01__listen:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.27);
+  box-shadow: 0 10px 26px rgba(0,0,0,.2);
+}
+
+#maxess-section-01 .mx01__listen:focus-visible {
+  outline: 3px solid rgba(255,255,255,.95);
+  outline-offset: 3px;
+}
+
+#maxess-section-01 .mx01__listen-icon {
+  width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,.14);
+}
+
+#maxess-section-01 .mx01__listen-icon svg {
+  width: 10px;
+  height: 10px;
+  fill: currentColor;
+  transform: translateX(1px);
+}
+
+/* SCORE + ORB ------------------------------------------------------------ */
+#maxess-section-01 .mx01__reveal {
+  position: relative;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(260px, .65fr) minmax(480px, 1.35fr);
+  align-items: center;
+  justify-items: center;
+  gap: clamp(20px, 4vw, 80px);
+  padding: 14px 0 8px;
+}
+
+#maxess-section-01 .mx01__score-heading {
+  position: relative;
+  z-index: 5;
+  justify-self: end;
+  text-align: left;
+  transform: translateY(-4vh);
+}
+
+#maxess-section-01 .mx01__eyebrow {
+  margin: 0;
+  color: rgba(255,255,255,.72);
+  font-size: clamp(15px, 1.3vw, 20px);
+  font-weight: 760;
+  letter-spacing: .19em;
+  line-height: 1;
+}
+
+#maxess-section-01 .mx01__score-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+#maxess-section-01 .mx01__score {
+  display: block;
+  min-width: 2ch;
+  color: #fff;
+  font-size: clamp(100px, 11vw, 176px);
+  font-weight: 200;
+  letter-spacing: -.08em;
+  line-height: .83;
+  text-shadow: 0 0 40px rgba(var(--mx-accent-rgb), .28);
+}
+
+#maxess-section-01 .mx01__score-unit {
+  color: rgba(255,255,255,.3);
+  font-size: clamp(15px, 1.4vw, 21px);
+  font-weight: 500;
+}
+
+#maxess-section-01 .mx01__stage-label {
+  margin: 20px 0 0;
+  color: rgb(var(--mx-accent-rgb));
+  font-size: clamp(13px, 1.2vw, 17px);
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+#maxess-section-01 .mx01__preview-note {
+  margin: 10px 0 0;
+  color: rgba(255,255,255,.32);
+  font-size: 10px;
+  letter-spacing: .08em;
+}
+
+#maxess-section-01 .mx01__orb-wrap {
+  position: relative;
+  width: var(--mx-orb-size);
+  height: var(--mx-orb-size);
+  max-width: 72vw;
+  max-height: 66vh;
+  display: grid;
+  place-items: center;
+}
+
+#maxess-section-01 .mx01__orb-aura {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#maxess-section-01 .mx01__orb-aura--outer {
+  background: radial-gradient(circle, rgba(var(--mx-accent-rgb), .18) 0%, rgba(var(--mx-accent-rgb), .06) 37%, transparent 70%);
+  filter: blur(42px);
+  animation: mx01-breathe 6s ease-in-out infinite;
+}
+
+#maxess-section-01 .mx01__orb-aura--mid {
+  background: radial-gradient(circle, rgba(var(--mx-accent-rgb), .13), transparent 61%);
+  filter: blur(18px);
+  transform: scale(.78);
+}
+
+#maxess-section-01 .mx01__orb {
+  position: relative;
+  width: 78%;
+  height: 78%;
+  border-radius: 50%;
+  transform: translateZ(0);
+  background:
+    radial-gradient(circle at 47% 43%, rgba(255,255,255,.08), transparent 11%),
+    radial-gradient(circle at 50% 50%, rgba(var(--mx-accent-rgb), .2), transparent 43%),
+    radial-gradient(circle at 36% 28%, rgba(255,255,255,.08), transparent 23%),
+    radial-gradient(circle, #130d24 0%, #090612 52%, #030207 78%);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 0 30px rgba(var(--mx-accent-rgb), .22),
+    0 0 90px rgba(var(--mx-accent-rgb), .18),
+    inset 20px 24px 55px rgba(255,255,255,.025),
+    inset -34px -40px 70px rgba(0,0,0,.7);
+}
+
+#maxess-section-01 .mx01__orb::before,
+#maxess-section-01 .mx01__orb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+#maxess-section-01 .mx01__orb::before {
+  background: conic-gradient(from 35deg, transparent 0 12%, rgba(var(--mx-accent-rgb), .52) 18%, transparent 25% 56%, rgba(255,255,255,.08) 63%, transparent 70% 100%);
+  -webkit-mask: radial-gradient(circle, transparent 65%, #000 66%, #000 100%);
+  mask: radial-gradient(circle, transparent 65%, #000 66%, #000 100%);
+  opacity: .72;
+  animation: mx01-shell-spin 18s linear infinite;
+}
+
+#maxess-section-01 .mx01__orb::after {
+  inset: 2%;
+  background: radial-gradient(ellipse at 30% 24%, rgba(255,255,255,.13), transparent 15%), radial-gradient(ellipse at 72% 75%, rgba(var(--mx-accent-rgb), .08), transparent 25%);
+  mix-blend-mode: screen;
+}
+
+/* deliberate rings */
+#maxess-section-01 .mx01__ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+#maxess-section-01 .mx01__ring--outer {
+  inset: -8%;
+  border: 1px solid rgba(var(--mx-accent-rgb), .42);
+  box-shadow: 0 0 22px rgba(var(--mx-accent-rgb), .12);
+  transform: rotateX(67deg) rotateZ(-18deg);
+  animation: mx01-ring-a 16s linear infinite;
+}
+
+#maxess-section-01 .mx01__ring--outer-2 {
+  inset: -4%;
+  border: 1px solid rgba(255,255,255,.1);
+  border-left-color: rgba(var(--mx-accent-rgb), .62);
+  border-right-color: rgba(var(--mx-accent-rgb), .25);
+  transform: rotateX(69deg) rotateZ(28deg);
+  animation: mx01-ring-b 21s linear infinite reverse;
+}
+
+#maxess-section-01 .mx01__ring--mid {
+  inset: 7%;
+  border: 1px solid rgba(var(--mx-accent-rgb), .16);
+  transform: rotateX(62deg) rotateZ(8deg);
+  animation: mx01-ring-c 25s linear infinite;
+}
+
+#maxess-section-01 .mx01__ring--inner {
+  inset: 17%;
+  border: 1px solid rgba(255,255,255,.05);
+  transform: rotateY(68deg) rotateZ(-11deg);
+  animation: mx01-ring-b 28s linear infinite;
+}
+
+/* core */
+#maxess-section-01 .mx01__core {
+  position: absolute;
+  inset: 27%;
+  border-radius: 50%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 38% 30%, rgba(255,255,255,.14), transparent 7%),
+    radial-gradient(circle, rgba(var(--mx-accent-rgb), .26), rgba(10,6,20,.86) 57%, rgba(0,0,0,.98) 100%);
+  box-shadow: inset 9px 10px 24px rgba(255,255,255,.055), inset -18px -20px 36px rgba(0,0,0,.8), 0 0 42px rgba(var(--mx-accent-rgb), .15);
+}
+
+#maxess-section-01 .mx01__core-light {
+  position: absolute;
+  width: 58%;
+  height: 58%;
+  left: 19%;
+  top: 14%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.12), rgba(var(--mx-accent-rgb), .08) 38%, transparent 70%);
+  filter: blur(8px);
+  animation: mx01-core-pulse 4.7s ease-in-out infinite;
+}
+
+#maxess-section-01 .mx01__core-depth {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--mx-accent-rgb), .15);
+  box-shadow: 0 0 30px rgba(var(--mx-accent-rgb), .12);
+  animation: mx01-core-drift 7s ease-in-out infinite alternate;
+}
+
+#maxess-section-01 .mx01__core-glint {
+  position: absolute;
+  width: 14%;
+  height: 14%;
+  top: 17%;
+  left: 30%;
+  border-radius: 50%;
+  background: rgba(255,255,255,.72);
+  filter: blur(2px);
+  opacity: .28;
+}
+
+/* energy ribbons */
+#maxess-section-01 .mx01__energy {
+  position: absolute;
+  left: 9%;
+  right: 9%;
+  top: 32%;
+  height: 32%;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--mx-accent-rgb), .15);
+  filter: blur(.2px);
+  opacity: .75;
+  pointer-events: none;
+}
+
+#maxess-section-01 .energy-a { transform: rotate(17deg) scaleY(.52); animation: mx01-energy-a 8s ease-in-out infinite; }
+#maxess-section-01 .energy-b { transform: rotate(-22deg) scaleY(.7); border-color: rgba(255,255,255,.08); animation: mx01-energy-b 11s ease-in-out infinite; }
+#maxess-section-01 .energy-c { transform: rotate(73deg) scaleY(.44); border-color: rgba(var(--mx-accent-rgb), .11); animation: mx01-energy-c 13s ease-in-out infinite; }
+
+/* orbital bead: mandatory identity component */
+#maxess-section-01 .mx01__orbital-track {
+  position: absolute;
+  inset: -10%;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: rotateX(68deg) rotateZ(-10deg);
+  animation: mx01-orbit-plane var(--mx-speed) linear infinite;
+  transform-style: preserve-3d;
+}
+
+#maxess-section-01 .mx01__orbital-track::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--mx-accent-rgb), .26);
+  box-shadow: 0 0 24px rgba(var(--mx-accent-rgb), .08);
+}
+
+#maxess-section-01 .mx01__orbital-bead {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: var(--mx-bead-size);
+  height: var(--mx-bead-size);
+  margin: calc(var(--mx-bead-size) / -2) 0 0 calc(var(--mx-bead-size) / -2);
+  display: block;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0 5px #fff,
+    0 0 12px rgb(var(--mx-accent-rgb)),
+    0 0 28px rgba(var(--mx-accent-rgb), .95),
+    0 0 54px rgba(var(--mx-accent-rgb), .45);
+  transform: translateZ(30px);
+}
+
+#maxess-section-01 .mx01__orbital-bead::after {
+  content: "";
+  position: absolute;
+  inset: -120%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.35), rgba(var(--mx-accent-rgb), .16) 30%, transparent 70%);
+}
+
+/* microfield */
+#maxess-section-01 .mx01__microfield {
+  position: absolute;
+  inset: 9%;
+  pointer-events: none;
+}
+
+#maxess-section-01 .mx01__microfield i {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.7);
+  box-shadow: 0 0 8px rgba(var(--mx-accent-rgb), .8);
+  opacity: .35;
+}
+
+#maxess-section-01 .mx01__microfield i:nth-child(1){left:18%;top:24%;animation:mx01-p1 6s ease-in-out infinite}
+#maxess-section-01 .mx01__microfield i:nth-child(2){left:76%;top:29%;animation:mx01-p2 8s ease-in-out infinite}
+#maxess-section-01 .mx01__microfield i:nth-child(3){left:29%;top:70%;animation:mx01-p3 7s ease-in-out infinite}
+#maxess-section-01 .mx01__microfield i:nth-child(4){left:68%;top:72%;animation:mx01-p4 9s ease-in-out infinite}
+#maxess-section-01 .mx01__microfield i:nth-child(5){left:48%;top:18%;animation:mx01-p2 7.5s ease-in-out infinite reverse}
+#maxess-section-01 .mx01__microfield i:nth-child(6){left:83%;top:54%;animation:mx01-p1 8.5s ease-in-out infinite reverse}
+#maxess-section-01 .mx01__microfield i:nth-child(7){left:15%;top:52%;animation:mx01-p4 10s ease-in-out infinite}
+#maxess-section-01 .mx01__microfield i:nth-child(8){left:56%;top:84%;animation:mx01-p3 6.5s ease-in-out infinite reverse}
+
+/* footer */
+#maxess-section-01 .mx01__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 26px;
+}
+
+#maxess-section-01 .mx01__scroll-hint {
+  margin: 0;
+  color: rgba(255,255,255,.3);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+#maxess-section-01 .mx01__scroll-hint span {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin-right: 7px;
+  vertical-align: 2px;
+  border-radius: 50%;
+  background: rgb(var(--mx-accent-rgb));
+  box-shadow: 0 0 10px rgb(var(--mx-accent-rgb));
+}
+
+#maxess-section-01 .mx01__sr-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* reveal states */
+#maxess-section-01.mx01.is-entering .mx01__naya,
+#maxess-section-01.mx01.is-entering .mx01__score-heading,
+#maxess-section-01.mx01.is-entering .mx01__orb-wrap {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+#maxess-section-01.mx01.is-ready .mx01__naya,
+#maxess-section-01.mx01.is-ready .mx01__score-heading,
+#maxess-section-01.mx01.is-ready .mx01__orb-wrap {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .7s ease, transform .9s cubic-bezier(.2,.75,.2,1);
+}
+
+#maxess-section-01.mx01.is-ready .mx01__score-heading { transition-delay: .18s; }
+#maxess-section-01.mx01.is-ready .mx01__orb-wrap { transition-delay: .28s; }
+
+/* motion */
+@keyframes mx01-drift-a { from{transform:translate3d(-4%,2%,0) scale(1)} to{transform:translate3d(5%,-3%,0) scale(1.08)} }
+@keyframes mx01-drift-b { from{transform:translate3d(4%,-2%,0) scale(1.05)} to{transform:translate3d(-5%,4%,0) scale(1)} }
+@keyframes mx01-breathe { 0%,100%{transform:scale(.92);opacity:.72} 50%{transform:scale(1.04);opacity:1} }
+@keyframes mx01-shell-spin { to{transform:rotate(395deg)} }
+@keyframes mx01-ring-a { to{transform:rotateX(67deg) rotateZ(342deg)} }
+@keyframes mx01-ring-b { to{transform:rotateX(69deg) rotateZ(-332deg)} }
+@keyframes mx01-ring-c { to{transform:rotateX(62deg) rotateZ(368deg)} }
+@keyframes mx01-core-pulse { 0%,100%{transform:scale(.92);opacity:.65} 50%{transform:scale(1.08);opacity:1} }
+@keyframes mx01-core-drift { from{transform:rotate(-7deg) scale(.94)} to{transform:rotate(8deg) scale(1.05)} }
+@keyframes mx01-energy-a { 0%,100%{transform:rotate(17deg) scaleY(.48) translateX(-2%)} 50%{transform:rotate(22deg) scaleY(.68) translateX(3%)} }
+@keyframes mx01-energy-b { 0%,100%{transform:rotate(-22deg) scaleY(.68)} 50%{transform:rotate(-15deg) scaleY(.48)} }
+@keyframes mx01-energy-c { 0%,100%{transform:rotate(73deg) scaleY(.44)} 50%{transform:rotate(64deg) scaleY(.6)} }
+@keyframes mx01-orbit-plane { to{transform:rotateX(68deg) rotateZ(350deg)} }
+@keyframes mx01-p1 { 0%,100%{transform:translate(0,0);opacity:.2} 50%{transform:translate(12px,-8px);opacity:.8} }
+@keyframes mx01-p2 { 0%,100%{transform:translate(0,0);opacity:.25} 50%{transform:translate(-10px,12px);opacity:.75} }
+@keyframes mx01-p3 { 0%,100%{transform:translate(0,0);opacity:.18} 50%{transform:translate(8px,7px);opacity:.7} }
+@keyframes mx01-p4 { 0%,100%{transform:translate(0,0);opacity:.25} 50%{transform:translate(-7px,-11px);opacity:.8} }
+
+/* responsive */
+@media (max-width: 1180px) {
+  #maxess-section-01 .mx01__stage { width: min(1100px, calc(100vw - 42px)); }
+  #maxess-section-01 .mx01__reveal { grid-template-columns: minmax(220px,.55fr) minmax(430px,1.45fr); gap: 18px; }
+  #maxess-section-01 { --mx-orb-size: min(58vh, 560px); }
+}
+
+@media (max-width: 900px) {
+  #maxess-section-01 .mx01__stage { width: 100vw; padding: 24px 24px 28px; }
+  #maxess-section-01 .mx01__reveal { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 4px; }
+  #maxess-section-01 .mx01__score-heading { order: 1; justify-self: center; text-align: center; transform: none; }
+  #maxess-section-01 .mx01__orb-wrap { order: 2; width: min(64vh, 620px); height: min(64vh, 620px); max-width: 82vw; max-height: none; }
+  #maxess-section-01 .mx01__score { font-size: clamp(82px, 13vw, 132px); }
+  #maxess-section-01 .mx01__stage-label { margin-top: 14px; }
+}
+
+@media (max-width: 600px) {
+  #maxess-section-01.mx01 { min-height: 100svh; }
+  #maxess-section-01 .mx01__stage { padding: 16px 14px 20px; }
+  #maxess-section-01 .mx01__naya { grid-template-columns: 50px 1fr; gap: 11px; padding: 9px; border-radius: 19px; }
+  #maxess-section-01 .mx01__naya-avatar-wrap,
+  #maxess-section-01 .mx01__naya-avatar { width: 50px; height: 50px; }
+  #maxess-section-01 .mx01__naya-message { font-size: 13px; }
+  #maxess-section-01 .mx01__naya-map { font-size: 11px; }
+  #maxess-section-01 .mx01__listen { grid-column: 1 / -1; width: 100%; min-height: 42px; }
+  #maxess-section-01 .mx01__reveal { gap: 0; padding-top: 5px; }
+  #maxess-section-01 .mx01__eyebrow { font-size: 12px; }
+  #maxess-section-01 .mx01__score { font-size: clamp(72px, 24vw, 112px); }
+  #maxess-section-01 .mx01__orb-wrap { width: min(82vw, 430px); height: min(82vw, 430px); }
+  #maxess-section-01 .mx01__orb { width: 77%; height: 77%; }
+  #maxess-section-01 { --mx-bead-size: 10px; --mx-speed: 11s; }
+  #maxess-section-01 .mx01__footer { min-height: 16px; }
+  #maxess-section-01 .mx01__scroll-hint { font-size: 8px; }
+}
+
+@media (max-width: 380px) {
+  #maxess-section-01 .mx01__naya { grid-template-columns: 44px 1fr; }
+  #maxess-section-01 .mx01__naya-avatar-wrap,
+  #maxess-section-01 .mx01__naya-avatar { width: 44px; height: 44px; }
+  #maxess-section-01 .mx01__naya-name { font-size: 9px; }
+  #maxess-section-01 .mx01__naya-message { font-size: 12px; }
+  #maxess-section-01 .mx01__naya-map { font-size: 10px; }
+  #maxess-section-01 .mx01__orb-wrap { width: 80vw; height: 80vw; }
+}
+
+/* Reduced motion is a real alternative, not merely an animation speed tweak. */
+@media (prefers-reduced-motion: reduce) {
+  #maxess-section-01 .mx01__aurora,
+  #maxess-section-01 .mx01__orb-aura--outer,
+  #maxess-section-01 .mx01__orb::before,
+  #maxess-section-01 .mx01__ring,
+  #maxess-section-01 .mx01__core-light,
+  #maxess-section-01 .mx01__core-depth,
+  #maxess-section-01 .mx01__energy,
+  #maxess-section-01 .mx01__microfield i,
+  #maxess-section-01 .mx01__orbital-track {
+    animation: none !important;
+  }
+  #maxess-section-01 .mx01__orbital-track { transform: rotateX(68deg) rotateZ(-35deg); }
+  #maxess-section-01 .mx01__orbital-bead { opacity: 1; }
+  #maxess-section-01.mx01.is-entering .mx01__naya,
+  #maxess-section-01.mx01.is-entering .mx01__score-heading,
+  #maxess-section-01.mx01.is-entering .mx01__orb-wrap { opacity: 1; transform: none; }
+}
+
+/* High contrast / forced colors */
+@media (forced-colors: active) {
+  #maxess-section-01 .mx01__listen { border: 1px solid ButtonText; }
+  #maxess-section-01 .mx01__score { text-shadow: none; }
+  #maxess-section-01 .mx01__orbital-bead { background: CanvasText; box-shadow: none; }
+}
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  var root = document.getElementById('maxess-section-01');
+  if (!root || root.dataset.initialized === 'true') return;
+  root.dataset.initialized = 'true';
+
+  var scoreEl = root.querySelector('[data-score]');
+  var stageEl = root.querySelector('[data-stage]');
+  var previewNote = root.querySelector('[data-preview-note]');
+  var statusEl = root.querySelector('.mx01__sr-status');
+  var listenButton = root.querySelector('.mx01__listen');
+  var nayaImage = root.querySelector('.mx01__naya-image');
+  var nayaFallback = root.querySelector('.mx01__naya-fallback');
+
+  /* ----------------------------------------------------------------------
+     DEVELOPMENT PREVIEW
+     Explicitly opt-in. Production data always wins.
+     ---------------------------------------------------------------------- */
+  var previewEnabled = window.MAXESS_SECTION01_PREVIEW === true;
+  var previewResult = {
+    overallScore: 82,
+    band: 'Advancing'
+  };
+
+  function numberFrom(value) {
+    var n = Number(value);
+    if (!Number.isFinite(n)) return null;
+    return Math.max(0, Math.min(100, n));
+  }
+
+  function findScore(result) {
+    if (!result || typeof result !== 'object') return null;
+    return numberFrom(
+      result.overallScore != null ? result.overallScore :
+      result.score != null ? result.score :
+      result.aiScore != null ? result.aiScore : null
+    );
+  }
+
+  function findBand(result, score) {
+    if (result && typeof result.band === 'string' && result.band.trim()) return result.band.trim();
+    if (result && typeof result.masteryStage === 'string' && result.masteryStage.trim()) return result.masteryStage.trim();
+    if (result && typeof result.stage === 'string' && result.stage.trim()) return result.stage.trim();
+    if (score == null) return 'AI MASTERY';
+    if (score < 50) return 'Emerging';
+    if (score < 65) return 'Developing';
+    if (score < 80) return 'Advancing';
+    if (score < 90) return 'Mastering';
+    return 'Exceptional';
+  }
+
+  function hexToRgb(hex) {
+    var clean = hex.replace('#', '');
+    if (clean.length === 3) clean = clean.split('').map(function (c) { return c + c; }).join('');
+    return [parseInt(clean.slice(0,2),16), parseInt(clean.slice(2,4),16), parseInt(clean.slice(4,6),16)];
+  }
+
+  var palette = [
+    { p: 0, c: '#ef3f4f' },
+    { p: 49, c: '#ff5361' },
+    { p: 59, c: '#ff8a3d' },
+    { p: 74, c: '#f5d84b' },
+    { p: 84, c: '#64d96d' },
+    { p: 89, c: '#39d6d0' },
+    { p: 94, c: '#746cff' },
+    { p: 100, c: '#ed55d9' }
+  ];
+
+  function interpolateColor(score) {
+    if (score <= palette[0].p) return hexToRgb(palette[0].c);
+    for (var i = 1; i < palette.length; i++) {
+      var a = palette[i - 1];
+      var b = palette[i];
+      if (score <= b.p) {
+        var t = (score - a.p) / (b.p - a.p);
+        return [
+          Math.round(a.c ? hexToRgb(a.c)[0] + (hexToRgb(b.c)[0] - hexToRgb(a.c)[0]) * t : 0),
+          Math.round(hexToRgb(a.c)[1] + (hexToRgb(b.c)[1] - hexToRgb(a.c)[1]) * t),
+          Math.round(hexToRgb(a.c)[2] + (hexToRgb(b.c)[2] - hexToRgb(a.c)[2]) * t)
+        ];
+      }
+    }
+    return hexToRgb(palette[palette.length - 1].c);
+  }
+
+  function setScoreColor(score) {
+    var rgb = interpolateColor(score);
+    var text = rgb.join(',');
+    root.style.setProperty('--mx-accent-rgb', text);
+    root.style.setProperty('--mx-score', String(score));
+  }
+
+  function revealScore(target, band) {
+    var duration = 850;
+    var start = performance.now();
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduced) {
+      scoreEl.textContent = String(Math.round(target));
+      setScoreColor(target);
+      stageEl.textContent = band.toUpperCase();
+      return;
+    }
+
+    function frame(now) {
+      var t = Math.min(1, (now - start) / duration);
+      var eased = 1 - Math.pow(1 - t, 3);
+      var value = Math.round(target * eased);
+      scoreEl.textContent = String(value);
+      setScoreColor(value);
+      if (t < 1) requestAnimationFrame(frame);
+      else {
+        scoreEl.textContent = String(Math.round(target));
+        stageEl.textContent = band.toUpperCase();
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function applyResult(result, isPreview) {
+    var score = findScore(result);
+    if (score == null) {
+      scoreEl.textContent = '—';
+      stageEl.textContent = 'AI MASTERY';
+      statusEl.textContent = 'Your MAXESS result is not available yet.';
+      root.classList.add('is-ready');
+      return;
+    }
+
+    var band = findBand(result, score);
+    if (isPreview) previewNote.hidden = false;
+    setScoreColor(0);
+    root.classList.add('is-ready');
+    window.setTimeout(function () { revealScore(score, band); }, 280);
+    statusEl.textContent = 'Your AI Score is ' + Math.round(score) + ' out of 100. Mastery stage: ' + band + '.';
+  }
+
+  /* Naya image asset contract: accept an explicitly configured asset path.
+     This avoids inventing an external asset URL and preserves the fallback. */
+  var configuredNayaImage = typeof window.MAXESS_NAYA_IMAGE_URL === 'string' ? window.MAXESS_NAYA_IMAGE_URL.trim() : '';
+  if (configuredNayaImage) {
+    nayaImage.src = configuredNayaImage;
+    nayaImage.addEventListener('load', function () {
+      nayaImage.style.display = 'block';
+      nayaFallback.style.display = 'none';
+    }, { once: true });
+  }
+
+  listenButton.addEventListener('click', function () {
+    var event = new CustomEvent('maxess:naya-listen', { detail: { section: '01', score: findScore(window.MAXESS_RESULT) } });
+    root.dispatchEvent(event);
+    if (typeof window.MAXESS_ON_LISTEN_NAYA === 'function') {
+      window.MAXESS_ON_LISTEN_NAYA(event.detail);
+    }
+  });
+
+  root.classList.add('is-entering');
+
+  var productionResult = window.MAXESS_RESULT;
+  if (productionResult && typeof productionResult === 'object' && findScore(productionResult) != null) {
+    applyResult(productionResult, false);
+  } else if (previewEnabled) {
+    applyResult(previewResult, true);
+  } else {
+    applyResult(null, false);
+  }
+
+  /* Re-check once after mount for assessment systems that publish MAXESS_RESULT
+     immediately after the embed initializes. This is bounded and cannot loop. */
+  window.setTimeout(function () {
+    var lateResult = window.MAXESS_RESULT;
+    if (lateResult && findScore(lateResult) != null && scoreEl.textContent === '—') {
+      applyResult(lateResult, false);
+    }
+  }, 900);
+})();
+</script>
