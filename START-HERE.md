@@ -1,5 +1,35 @@
 # NAYA MAX / NAYA NITRO — START HERE
 
+## Canonical repository identity
+
+**CANONICAL NAYA NITRO / MAXESS RESULTS REPOSITORY:**
+
+`SoulSchoolAcademy/MaxRESULTS`
+
+`https://github.com/SoulSchoolAcademy/MaxRESULTS`
+
+This repository is the authoritative working repository for the current MAXESS Results product and the Naya Nitro operating system being developed around it.
+
+### Repository selection law
+
+When the user says **“put this in GitHub,” “save this to GitHub,” “read GitHub,” “make a note,” “remember this,” “update the brain,”** or equivalent language while working on MAXESS/Naya Nitro, use **MaxRESULTS** unless the user explicitly names a different repository.
+
+Do NOT infer a new repository from the subject of the note.
+
+Do NOT create a new repository merely because a new concept, feature, or product idea emerges.
+
+If multiple repositories exist, first identify the authoritative repository from this document and the repository's own operating instructions.
+
+If there is genuine ambiguity, inspect the current project context and ask one clear question rather than guessing.
+
+### Important naming rule
+
+GitHub repository names are case-insensitive for navigation but should be referenced using the exact canonical name:
+
+**MaxRESULTS**
+
+The user's shorthand **“Max Results”**, **“MAX results”**, **“MAXESS Results”**, or similar clearly referring to this project means **MaxRESULTS** unless the user explicitly indicates another repository.
+
 ## Trigger keywords
 
 When the user says:
@@ -16,12 +46,13 @@ interpret that as an explicit instruction to activate this repository operating 
 1. `START-HERE.md` — this file; activate the workflow.
 2. `NAYA-OS.md` — governing principles and source-of-truth laws.
 3. `docs/NAYA-NITRO-MODE.md` — full high-efficiency execution protocol.
-4. `docs/MAXESS-SYSTEM-FLOW-AND-EXPERIENCE-CONTRACT.md` — cross-page product/data/UX architecture.
-5. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current Results product requirements.
-6. `docs/SOURCE-AND-MEMORY-MAP.md` — authority and historical context.
-7. `docs/DEPLOYMENT-CONTRACT.md` — GitHub/Groove/public-release mechanics.
-8. `docs/RELEASE-CHECKLIST.md` — release gate.
-9. Read only the additional project-specific documents required by the task.
+4. `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` — locked Naya Nitro/Naya Notes product thesis.
+5. `docs/MAXESS-SYSTEM-FLOW-AND-EXPERIENCE-CONTRACT.md` — cross-page product/data/UX architecture.
+6. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current Results product requirements.
+7. `docs/SOURCE-AND-MEMORY-MAP.md` — authority and historical context.
+8. `docs/DEPLOYMENT-CONTRACT.md` — GitHub/Groove/public-release mechanics.
+9. `docs/RELEASE-CHECKLIST.md` — release gate.
+10. Read only the additional project-specific documents required by the task.
 
 ## Canonical product journey
 
@@ -74,8 +105,16 @@ Never report success because code was written or a page looks better.
 
 Success means the applicable release gate passes and remaining unverified items are explicitly identified.
 
-## Learning rule
+## Durable memory / learning rule
 
-Every meaningful execution should produce a durable lesson when one is discovered. Store durable lessons in the repository's operating notes rather than relying on conversation memory.
+Meaningful lessons belong in the canonical MaxRESULTS repository's operating documentation or Naya Notes system. Do not rely on conversation memory for durable project knowledge.
+
+When the user says **“Naya, make a Naya Note”**, preserve the durable lesson/information with a timestamp, category, context, tags, and relevant relationships, then verify the save before claiming it was saved.
+
+Naya Notes are a first-class Nitro concept. They support recall, daily review, learning, pattern detection, and continuous improvement.
+
+## Repository integrity rule
+
+Never silently move project authority to another repository. Never create a competing repository, source of truth, renderer, or memory system without explicit architectural approval.
 
 The operating system itself should improve over time, but governance remains stable and changes must be deliberate and traceable.
