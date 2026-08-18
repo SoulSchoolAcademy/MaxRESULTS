@@ -13,10 +13,10 @@ DRAFT | IN PROGRESS | BLOCKED | COMPLETE | FROZEN
 
 | ID | Requirement | Section | Target | Acceptance | Status | Evidence |
 |---|---|---|---|---|---|---|
-| V01 | Clean canonical builder source | Foundation | No unresolved merge markers | No `<<<<<<<`, `=======`, `>>>>>>>`; Node syntax PASS | IN PROGRESS | Deterministic repair tool now idempotent; clean-state run not yet fully verified after latest changes |
-| V02 | Naya arrival | Naya | Personal, warm, one primary Listen | Correct copy, one Listen, accessible | COMPLETE | Existing source + QA |
-| V03 | Score Orb | Hero | Dominant signature visual | Real score centered, responsive, reduced motion | COMPLETE | Existing source + QA |
-| V04 | Score meaning | Meaning | Explain the score in plain language | Stage + interpretation + use guidance | IN PROGRESS | Contract |
+| V01 | Clean canonical builder source | Foundation | No unresolved merge markers | No `<<<<<<<`, `=======`, `>>>>>>>`; Node syntax PASS | IN PROGRESS | Builder repair tooling exists; latest product source checkpoint is conflict-marker free by targeted evidence, full gate rerun still required |
+| V02 | Naya arrival | Naya | Personal, warm, one primary Listen | Correct copy, one Listen, accessible | IN PROGRESS | Verified Golden Master checkpoint `61eee4f`; artifact restored in `01c381c`; rendered/final human review still required |
+| V03 | Score Orb | Hero | Dominant signature visual | Real score centered, responsive, reduced motion | IN PROGRESS | Golden Master checkpoint includes Orb breathing + Orbital Bead; artifact restored in `01c381c`; rendered/final human review still required |
+| V04 | Score meaning | Meaning | Explain the score in plain language | Stage + interpretation + use guidance | IN PROGRESS | Contract; not part of Section 01 freeze |
 | V05 | AI fingerprint | Fingerprint | Five-axis visual capability map | Real data + textual equivalent | IN PROGRESS | Contract |
 | V06 | Five dimensions | Dimensions | Five interactive capability orbs | Exactly five, real data, detail interaction | IN PROGRESS | Contract + source |
 | V07 | Pattern | Pattern | Explain relationships | Relational interpretation, not score repetition | IN PROGRESS | Contract |
@@ -36,15 +36,17 @@ DRAFT | IN PROGRESS | BLOCKED | COMPLETE | FROZEN
 | V21 | Print/PDF | Release | Professional intentional document | Actual PDF generated and inspected | IN PROGRESS | Contract |
 | V22 | Real result handoff | Data | Assessment → Result Contract → MAXESS_RESULT | Real completed assessment verified | IN PROGRESS | Contract |
 | V23 | Groove deployment | Release | Public page shows intended artifact | Live URL verified | IN PROGRESS | Deployment contract |
-| V24 | Smart Notes | Memory | Durable execution learning | Important decisions/failures recorded | COMPLETE | MAXESS-SMART-NOTES.md updated |
+| V24 | Smart Notes | Memory | Durable execution learning | Important decisions/failures recorded | COMPLETE | MAXESS-SMART-NOTES.md |
 | V25 | Reference implementation proof | Masterclass | MAXESS demonstrates the OS works | Contract + ledger + tests + live proof | IN PROGRESS | North Star |
 | V26 | HMC reference pack | Brand / Memory | HMC knowledge is connected to MAXESS memory | Source pack indexed; reusable principles stored without unsupported paraphrase | COMPLETE | MAXESS-HMC-REFERENCE-PACK.md |
 | V27 | Product-language / Lead Mode | Operating System | Naya leads from vision to release | Persistent lead behavior, next action, suggested prompt, best-interest rules | COMPLETE | AI Product Creation OS + Naya Lead Mode |
-| V28 | Experience QA ownership | QA / Operating System | Validator tests the layer it actually owns | Static renderer-order QA must match the current root renderer; broader chapter completeness stays with Master Contract/runtime QA | COMPLETE | qa_v21_experience_v2.py updated; lesson recorded in Smart Notes |
+| V28 | Experience QA ownership | QA / Operating System | Validator tests the layer it actually owns | Static renderer-order QA must match current root renderer | COMPLETE | QA ownership correction commits |
 | V29 | AAA section design specification | Product Design | Explicit Definition of 10 for every section | Each section has current problem, AAA target, purpose, content, visual, interaction, evidence | COMPLETE | docs/MAXESS-AAA-SECTION-DESIGN-SPEC.md |
 | V30 | Weighted execution priority | Execution | Work highest-impact unfinished product first | Dynamic weighted priority matrix and anti-loop rules | COMPLETE | docs/MAXESS-PRIORITY-MATRIX.md |
 | V31 | Section execution workflow | Execution | Turn design contract into measurable product deltas | READ → SCORE → PRIORITIZE → MUTATE → PROVE → BUILD → VERIFY → RESCORE → FREEZE → CONTINUE | COMPLETE | docs/MAXESS-SECTION-EXECUTION-WORKFLOW.md |
-| V32 | Batch 1 product mutation | Product | Materially improve Sections 01–03 | Builder SHA changes; all 3 section implementations change; preserve result/media; QA follows mutation | IN PROGRESS | tools/execute_maxess_batch1.py |
+| V32 | Batch 1 product mutation | Product | Materially improve Sections 01–03 | Builder SHA changes; all 3 section implementations change; preserve result/media; QA follows mutation | IN PROGRESS | V3 mutation proof; Section 01 Golden Master now independently checkpointed |
+| V33 | Nitro ownership protection | Tooling / Governance | Prevent destructive overwrite of verified product mutations | Nitro must never reset authoritative source from obsolete baseline | COMPLETE | Nitro tool corrected in commit `8b0e2c9`; prior destructive behavior proven by Nitro commit `8b686a3` deleting Golden Master layer |
+| V34 | Section 01 Golden Master checkpoint | Product | Hero / Reveal meets Ultimate + Golden Master target | Naya, black Listen CTA, Orb breathing, Orbital Bead, bridge, real result authority, no conflict markers | IN PROGRESS | Verified product checkpoint `61eee4f`; restored to authoritative branch in `01c381c`; rendered 9.5+ human freeze still pending |
 
 ## Freeze rule
 
@@ -53,3 +55,9 @@ A complete item becomes FROZEN only after the relevant human and technical evide
 ## Anti-regression rule
 
 No new change may silently reopen or destroy a frozen item.
+
+## Permanent mutation rule
+
+**MUTATE → PROVE → COMMIT → PUSH → BUILD → VERIFY → RESCORE → FREEZE → CONTINUE**
+
+A verified product mutation may never be silently discarded, stashed as the normal execution state, or overwritten by a competing automation lane.
