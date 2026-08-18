@@ -63,6 +63,7 @@ The filename is a locator, not the authority.
 | Topic | Primary category | Useful retrieval terms | Note |
 |---|---|---|---|
 | Naya Nitro North Star / executive execution plan | DECISION | Naya Nitro, Smart Notes, Naya Notes, North Star, Take the Lead, AAA, MaxIS, master execution, next action, project brain | `2026-08-18-naya-nitro-north-star.md` |
+| Cold-start governance repair / main-active branch model | SOLUTION | cold start, governance, main branch, active branch, repository map, branch divergence, source of truth, governance bridge, AI comprehension, Section 01 | `2026-08-18-cold-start-governance-repair.md` |
 
 ## Cross-system retrieval map
 
@@ -76,6 +77,7 @@ The filename is a locator, not the authority.
 | Naya Note / Smart Note / memory | `docs/NAYA-SMART-NOTES-SYSTEM.md` | this index, relevant notes |
 | What was learned | relevant dated Smart Notes | Learning Log |
 | What changed / was decided | DECISION notes by date/topic | Executive Plan / product spec if promoted |
+| Cold-start / branch governance | `2026-08-18-cold-start-governance-repair.md` | `main:START-HERE.md`, active branch START-HERE |
 | MAXESS Results | `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` | Operating Manual, task-specific notes |
 | Source of truth / current state | `docs/REPOSITORY-MAP.md` | `docs/SOURCE-AND-MEMORY-MAP.md` |
 | Live/deployment status | `docs/DEPLOYMENT-CONTRACT.md` | Release Checklist |
