@@ -9,11 +9,11 @@
 
 Naya Notes are the durable memory layer for the project.
 
-When a conversation produces information that is materially useful beyond the immediate exchange, Naya should capture it by default rather than waiting for the user to remember to ask.
-
-The note must preserve the information in a form another AI can discover, understand, verify, and reuse.
+For **every project conversation**, Naya should automatically evaluate whether anything durable was created, changed, learned, decided, or made materially more useful for future work. If durable value exists, capture it by default rather than waiting for the user to ask.
 
 Do not save conversational noise. Save durable value.
+
+The note must preserve the information in a form another AI can discover, understand, verify, and reuse without access to the original conversation.
 
 ## 2. WHAT COUNTS AS DURABLE VALUE
 
@@ -35,6 +35,8 @@ Capture when the conversation creates or materially changes:
 - an important person/resource/event;
 - a lesson that should change future behavior;
 - an insight that materially improves judgment.
+
+If nothing durable was created, do not create a note merely because a conversation occurred.
 
 ## 3. NOTE CATEGORIES
 
@@ -62,6 +64,7 @@ Every durable note should follow this structure:
 # [SHORT HUMAN-READABLE TITLE]
 
 - Timestamp: YYYY-MM-DD HH:MM TZ
+- Last Updated: YYYY-MM-DD HH:MM TZ (when updated)
 - Category: [ONE CATEGORY]
 - Status: [ACTIVE | SUPERSEDED | RESOLVED | REFERENCE]
 - Scope: [PROJECT | PRODUCT | FEATURE | TECHNICAL | PERSONAL-PROJECT CONTEXT]
@@ -88,11 +91,13 @@ Where the information came from or how it was verified.
 Only if an actual future action exists.
 ```
 
+Never invent a timestamp. Use the actual timestamp available to the execution environment. If exact time is unavailable, preserve the known date and explicitly mark the time as unavailable rather than fabricating precision.
+
 ## 5. SEARCHABILITY LAW
 
 Do not rely on exact phrasing.
 
-A future AI may search using a synonym, abbreviation, concept, consequence, or natural-language question rather than the exact wording used when the note was created.
+A future AI may search using a synonym, abbreviation, concept, consequence, related term, date, category, or natural-language question rather than the exact wording used when the note was created.
 
 Therefore:
 
@@ -102,11 +107,12 @@ Therefore:
 4. Mention important concepts naturally in the body.
 5. Use stable category names.
 6. Cross-link related notes/documents when known.
-7. Prefer one strong durable note over many fragmented notes.
+7. Update `docs/smart-notes/INDEX.md` for meaningful new retrieval targets.
+8. Prefer one strong durable note over many fragmented notes.
 
 Example:
 
-`Naya Note`, `Smart Note`, `memory`, `durable memory`, `project memory`, and `learning log` should be discoverable as the same system concept.
+`Naya Note`, `Smart Note`, `memory`, `durable memory`, `project memory`, `learning log`, `recall`, and `context restoration` should be discoverable as the same system concept.
 
 ## 6. TIMESTAMP LAW
 
@@ -160,15 +166,15 @@ The note should then reference the promoted rule.
 
 ## 10. DEFAULT CONVERSATION BEHAVIOR
 
-For consequential project conversations, Naya should internally ask:
+For every project conversation, Naya should internally ask:
 
 **“Did this conversation create durable knowledge that future Naya should know?”**
 
-If yes, capture it.
+If yes, capture it automatically.
 
 The user does not need to remember the exact command `make a Naya Note` for the system to preserve clearly valuable learning.
 
-The explicit command remains available when the user wants a guaranteed note.
+The explicit command remains available when the user wants a guaranteed note even if the information would otherwise be considered lower-value.
 
 ## 11. RECALL BEHAVIOR
 
@@ -180,9 +186,9 @@ When asked:
 - “What do you remember about X?”
 - “Review the Naya Notes.”
 
-Search by concept, date, category, aliases, and related terms. Do not require exact keyword matches.
+Search by concept, date, category, aliases, related terms, and the retrieval index. Do not require exact keyword matches.
 
-Summarize the relevant notes, distinguish decisions from observations, and identify any superseded information.
+Summarize the relevant notes, distinguish decisions from observations, identify superseded information, and point to supporting notes/documents.
 
 ## 12. DAILY REVIEW
 
