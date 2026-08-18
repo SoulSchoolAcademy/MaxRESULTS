@@ -15,7 +15,7 @@ marker_re = re.compile(
     r"(?P<ours>.*?)"
     r"^={7}\n"
     r"(?P<theirs>.*?)"
-    r"^(?P<end}>{7}[^\n]*)$"
+    r"^(?P<end>>{7}[^\n]*)$"
 )
 
 matches = list(marker_re.finditer(s))
