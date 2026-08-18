@@ -2,67 +2,68 @@
 
 > 🔒 **CANONICAL REPOSITORY:** `SoulSchoolAcademy/MaxRESULTS`
 >
-> **DO NOT USE `SoulSchoolAcademy/maxess` FOR CURRENT MAXESS RESULTS WORK.**
+> **ACTIVE RESULTS BRANCH:** `maxess-results-v21-working`
 >
-> Before any Results task, read [`NAYA-REPO-LOCK.md`](./NAYA-REPO-LOCK.md) and [`NAYA-OS.md`](./NAYA-OS.md).
+> **LEGACY:** `SoulSchoolAcademy/maxess` is historical/reference only unless explicitly requested.
 
-Canonical production workspace for the MAXESS Results experience.
+## START HERE
 
-## Mission
+Read these in order before consequential work:
 
-Deliver a premium, human, personalized AI-mastery experience that transforms:
+1. [`START-HERE.md`](./START-HERE.md) — mandatory execution trigger and read order.
+2. [`docs/REPOSITORY-MAP.md`](./docs/REPOSITORY-MAP.md) — table of contents, categories, state, and source map.
+3. [`NAYA-REPO-LOCK.md`](./NAYA-REPO-LOCK.md) — repository/branch/source lock.
+4. [`NAYA-OS.md`](./NAYA-OS.md) — governing laws.
+5. [`docs/NAYA-NITRO-MODE.md`](./docs/NAYA-NITRO-MODE.md) — execution and QA loop.
+6. Task-relevant product, design, source, deployment, and release documents.
 
-DATA → INSIGHT → UNDERSTANDING → ACTION → CAPABILITY
+## GITHUB-FIRST LAW
 
-## Repository identity
+For EVERY MAXESS execution, iteration, and consequential command: **inspect `SoulSchoolAcademy/MaxRESULTS` BEFORE acting.** Resolve the active branch, locate the authoritative artifact by path, inspect current state, and use repository evidence instead of conversation memory. Never guess.
 
-- **Repository:** `SoulSchoolAcademy/MaxRESULTS`
-- **Current V21 working branch:** `maxess-results-v21-working`
-- **Legacy repository:** `SoulSchoolAcademy/maxess` — historical/reference only
+## MISSION
 
-## Current working artifact
+Build a premium, human, personalized AI-mastery experience that transforms:
 
-The current V21 working branch contains the complete timestamped Groove source artifact:
+**DATA → INSIGHT → UNDERSTANDING → ACTION → CAPABILITY**
 
-- `20260817 912am RESULTS PAGE CODE` — current V21 working HTML artifact
-- `BASELINE-WORKING.html` — frozen recovery baseline; do not edit during V21
-- `NAYA-REPO-LOCK.md` — mandatory repository identity and source-selection lock
-- `NAYA-OS.md` — optimized Naya operating system
-- `tools/nitro_aaa_upgrade.py` — deterministic AAA enhancement executor
-- `.github/workflows/nitro-aaa-build.yml` — build/verification automation for the working branch
-- `.github/workflows/maxess-nitro-v2.yml` — independent Nitro V2 execution/evidence workflow
-- `docs/` — product, deployment, QA, and memory documentation
+MAXESS measures. Results interprets. Naya guides. The report explains. NayaNET provides continuation.
 
-**Important:** the timestamped artifact is the current working artifact. Do not infer authority from filenames. The repository governance/state model determines authority.
+## CURRENT V21 STATE
 
-## Source-of-truth rules
+- **Working branch:** `maxess-results-v21-working`
+- **Working artifact:** `20260817 912am RESULTS PAGE CODE`
+- **Frozen baseline:** `BASELINE-WORKING.html`
+- **Runtime authority:** `window.MAXESS_RESULT`
+- **Nitro guard:** `tools/nitro_aaa_upgrade.py`
+- **State:** UPDATED EDITED FILE / working candidate; not automatically approved.
 
-- The production Results experience has one active working HTML artifact at a time.
+## SOURCE-OF-TRUTH RULES
+
+- One active working Results artifact.
 - `window.MAXESS_RESULT` is the authoritative runtime result object.
-- Do not create competing renderers, result sources, hero systems, or uncontrolled patch layers.
-- Preserve the approved working experience before making structural changes.
-- Test the complete experience before declaring a release complete.
-- Never substitute an artifact from the legacy `SoulSchoolAcademy/maxess` repository.
+- Preserve verified functionality before structural changes.
+- No competing renderers, result sources, hero systems, or uncontrolled patch layers.
+- Never replace a complete working artifact with a tiny renderer, loader, mock, or excerpt.
+- A newer filename, larger file, commit, or public URL does not automatically become authoritative.
 
-## Development protocol
+## EXECUTION
 
-INSPECT → MAP → BASELINE → SOURCE-LOCK → IMPLEMENT → NITRO V3 → BUILD/VERIFY → REFETCH → DIFF → QA → OSCAR → FIX → QA AGAIN → PUBLISH → RELEASE
+**READ → MAP → ESTABLISH STATE → SOURCE-LOCK → BASELINE → IMPLEMENT IN COHERENT BATCHES → BUILD → REFETCH → DIFF → QA → OSCAR → REPAIR → RE-TEST → FREEZE → DELIVER**
 
-## Product requirements
+## PRODUCT
 
-The Results experience must work as:
+The Results experience must function as:
+1. interactive web experience;
+2. guided Naya experience;
+3. personalized written report;
+4. intentionally designed printable/downloadable PDF.
 
-1. an interactive web experience;
-2. a guided Naya experience;
-3. a personalized written report; and
-4. an intentionally designed printable/downloadable PDF.
+## RELEASE TRUTH
 
-## State model
+Code written is not completion. GitHub state is not live deployment. Groove requires separate public verification.
 
-The V21 candidate is an UPDATED EDITED FILE until explicitly approved.
+Use explicit status:
+**IMPLEMENTED · VERIFIED · LIVE VERIFIED · HUMAN REVIEW REQUIRED**
 
-Do not silently promote a new commit, newer filename, or verified build to APPROVED/AUTHORITATIVE status.
-
-## Deployment
-
-GitHub stores and verifies engineering artifacts. Groove is the external publishing mechanism. A GitHub commit does not prove public Groove deployment.
+**Protect scope. Preserve what works. Find root causes. Add guardrails. Ask: WHY IS THIS NOT A 10?**
