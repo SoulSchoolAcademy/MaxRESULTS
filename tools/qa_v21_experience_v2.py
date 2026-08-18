@@ -33,13 +33,13 @@ def main() -> int:
         if not canonical:
             failures.append("canonical V21 JS layer could not be isolated")
 
-    # The section tokens appear in helper functions as well as in the actual renderer.
-    # For narrative-order QA, inspect only the root.innerHTML render payload and the
-    # immediately following assembly code, not helper predicate/reference strings.
+    # Static order QA must inspect only the actual root.innerHTML renderer payload.
+    # Runtime-enhanced chapters (such as fingerprint/media wrappers) are governed by
+    # the Master Contract and runtime QA, not by token ordering inside helper functions.
     render_start = canonical.find("root.innerHTML")
     render_payload = canonical[render_start:] if render_start >= 0 else canonical
 
-    required_order = [
+    renderer_order = [
         "NAYA · YOUR AI GUIDE",
         "YOUR RESULT",
         "YOUR FIVE DIMENSIONS",
@@ -52,15 +52,16 @@ def main() -> int:
         "PLAYGROUND",
         "YOUR AI MASTERY JOURNEY",
     ]
-    positions = []
-    for token in required_order:
+    positions: list[tuple[int, str]] = []
+    for token in renderer_order:
         pos = render_payload.find(token)
         if pos < 0:
-            failures.append(f"missing canonical section: {token}")
+            failures.append(f"missing canonical renderer section: {token}")
         else:
             positions.append((pos, token))
-    if positions and [t for _, t in sorted(positions)] != required_order:
-        failures.append("canonical section order is not the intended narrative order")
+
+    if positions and [t for _, t in sorted(positions)] != [t for _, t in positions]:
+        failures.append("canonical section order is not the renderer narrative order")
 
     listen_count = len(re.findall(r'class=["\']v21-listen["\']', render_payload, flags=re.I))
     if listen_count != 1:
