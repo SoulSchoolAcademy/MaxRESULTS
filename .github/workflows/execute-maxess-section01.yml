@@ -14,6 +14,7 @@ on:
       - tools/build_v21_canonical.py
       - NITRO-MASTER-EXECUTION-PROTOCOL.md
       - docs/NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md
+      - docs/NAYA-TOP-HERO-FAILURE-MEMORY.md
   workflow_dispatch:
 
 permissions:
@@ -72,6 +73,10 @@ jobs:
               'window.MAXESS_RESULT',
               'var colorFor=function(v)',
               'prefers-reduced-motion:reduce',
+              'YOUR AI SCORE',
+              "Hi, I'm Naya.",
+              "I've got your results.",
+              "Your score isn't a judgment."
           ]
           missing = [x for x in required if x not in s]
           if missing:
@@ -99,6 +104,10 @@ jobs:
           assert 'MAXESS-SECTION-01-GOLDEN-MASTER' in s, 'Section 01 Golden Master missing from generated artifact'
           assert 'b1s1-orbital-bead' in s, 'Orbital Bead missing from generated artifact'
           assert 'prefers-reduced-motion:reduce' in s, 'Reduced-motion contract missing from generated artifact'
+          assert 'YOUR AI SCORE' in s, 'Section 01 score identifier missing from generated artifact'
+          assert "Hi, I'm Naya." in s, 'Naya title missing from generated artifact'
+          assert "I've got your results." in s, 'Naya welcome copy missing from generated artifact'
+          assert "Your score isn't a judgment." in s, 'Score context missing from generated artifact'
           assert not re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', s), 'Conflict marker remains'
           print('GENERATED SOURCE INTEGRITY: PASS')
           print('BYTES:', len(s.encode('utf-8')))
@@ -107,7 +116,7 @@ jobs:
 
       - name: Commit verified Section 01 checkpoint
         run: |
-          git add "20260817 912am RESULTS PAGE CODE" tools/build_v21_canonical.py tools/execute_maxess_section01.py NITRO-MASTER-EXECUTION-PROTOCOL.md docs/NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md V21-CANONICAL-BUILD-RESULT.md
+          git add "20260817 912am RESULTS PAGE CODE" tools/build_v21_canonical.py tools/execute_maxess_section01.py NITRO-MASTER-EXECUTION-PROTOCOL.md docs/NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md docs/NAYA-TOP-HERO-FAILURE-MEMORY.md V21-CANONICAL-BUILD-RESULT.md .github/workflows/execute-maxess-section01.yml
           if git diff --cached --quiet; then
             echo "No product delta to checkpoint."
             exit 1
