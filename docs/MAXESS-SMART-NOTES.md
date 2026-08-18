@@ -45,3 +45,25 @@ HMC demonstrates the reusable loop:
 REFERENCE → EXTRACT PRINCIPLE → DEFINE STANDARD → STORE MEMORY → REUSE → VERIFY
 
 MAXESS should demonstrate this loop in practice.
+
+## 2026-08-17 — Experience QA Ownership Correction
+
+### Discovery
+V21 Experience QA reported `canonical section order is not the intended narrative order` even though the current Master Contract defines a different 15-section product architecture. The QA assertion was using an older renderer-order list that placed Five Dimensions before Personalized Report and omitted newer runtime-enhanced chapters from its static comparison.
+
+### Decision
+Do not change product architecture merely to satisfy stale tests. Static Experience QA must validate the actual canonical root renderer order it can directly observe. Broader completeness and runtime-injected chapter order remain governed by the Master Contract and runtime QA.
+
+### Engineering lesson
+A validator must test the representation it actually owns. When product, builder, runtime enhancer, and validator observe different layers, each test must be explicit about its scope. Never infer runtime structure from helper-function token order.
+
+### Prevention rule
+Before changing product code to satisfy a failing QA assertion:
+
+1. identify the layer being tested;
+2. compare the assertion to the current authoritative contract;
+3. determine whether the product, validator, or source manifest owns the discrepancy;
+4. fix the owner;
+5. record the lesson.
+
+This becomes part of the AI Product Creation System.
