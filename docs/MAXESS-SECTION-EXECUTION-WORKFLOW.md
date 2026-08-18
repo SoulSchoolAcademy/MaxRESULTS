@@ -29,192 +29,83 @@ Do not rely on conversation memory for durable decisions.
 
 ## Step 2 — SCORE
 
-Score the current section 0–10 across:
+Score the current section against its explicit AAA criteria.
 
-- purpose
-- clarity
-- personalization
-- content
-- interpretation
-- visual communication
-- design
-- tactility
-- UX
-- function
-- data integrity
-- reliability
-- responsive
-- accessibility
-- performance
-- emotional impact
-- trust
-- release confidence
-
-Create one section score and one largest-gap statement.
+The score is diagnostic, not permission to declare the whole page finished.
 
 ## Step 3 — PRIORITIZE
 
-Use `docs/MAXESS-PRIORITY-MATRIX.md`.
+Choose the highest-value unfinished section using the current Priority Matrix.
 
-Choose the highest-value section/gap currently available.
-
-Do not choose work merely because it is easy.
-
-Do not choose tooling work when a safe product improvement is available.
+Product work outranks another tool or document unless the tool/document is a real release blocker.
 
 ## Step 4 — MUTATE
 
-Change the actual product source owned by the section.
+Change the actual product owner.
 
-Do not finish a section by only changing:
+For the canonical V21 implementation, Batch 1 uses:
 
-- QA scripts;
-- repair scripts;
-- documentation;
-- inventories;
-- reports;
-- generated metadata.
+`tools/execute_maxess_batch1_v2.py`
 
-A section requires a real product delta.
+This executor edits `tools/build_v21_canonical.py` at stable ownership anchors and refuses to report success when no source delta exists.
+
+An existing AAA marker, Nitro layer, or previous patch is never treated as proof of completion.
 
 ## Step 5 — PROVE
 
-Immediately prove:
+Before build, prove:
 
 - source hash changed;
-- expected selectors/classes/content changed;
+- intended section implementation changed;
 - no duplicate renderer was introduced;
-- no second result source was introduced;
-- preservation requirements still exist;
-- real data remains authoritative.
-
-If the source does not change, the execution is NOT COMPLETE.
+- authoritative data source remains intact;
+- preserved functionality remains.
 
 ## Step 6 — BUILD
 
-Rebuild the canonical artifact from the authoritative source.
-
-Record:
-
-- baseline hash;
-- candidate hash;
-- line count;
-- build result.
-
-A changed source with an unchanged candidate means the builder may not own that source correctly. Diagnose the ownership layer.
+Run the canonical builder.
 
 ## Step 7 — VERIFY
 
-Run only the verification required for the changed area plus the regression suite.
+Run:
 
-Classify failures:
+- Candidate QA
+- Experience QA
+- Runtime Contract QA
+- Design System QA
+- Interaction / Release QA
 
-PRODUCT
-BUILD
-VALIDATOR
-DATA
-DEPENDENCY
-ENVIRONMENT
-
-Fix the correct owner.
-
-Never change product code just to satisfy a stale validator.
+Classify any failure by ownership before changing code.
 
 ## Step 8 — RESCORE
 
-Review the actual section again.
-
-Ask:
-
-“Why is this not a 10?”
-
-Then identify the largest remaining gap.
-
-Do not polish random details while a major visible weakness remains.
+Inspect the rebuilt artifact and rescore the changed section against its AAA criteria.
 
 ## Step 9 — FREEZE
 
-A section can become FROZEN only when all applicable evidence exists.
-
-Freeze means:
-
-- preserve unless a later contract change explicitly reopens it;
-- no casual redesign while working elsewhere;
-- regression protection remains active.
+Only freeze a section when the relevant human and technical evidence exists.
 
 ## Step 10 — CONTINUE
 
-Immediately select the next highest-value incomplete section.
+Immediately choose the next highest-value unfinished section. Do not reopen completed work without evidence that a higher-priority requirement requires it.
 
-Do not ask the human what to do next unless a material decision genuinely requires the human.
+## Anti-no-op rule
 
-## Batch rules
+Every meaningful execution cycle must either:
 
-Preferred batch size: 3 coherent sections.
+1. produce a real product source delta; or
+2. report a real blocker with evidence.
 
-Do not create five different executor scripts for one batch.
+A successful build of unchanged source is not product progress.
 
-One batch should ideally produce:
+## Batch 1
 
-- 3 real product mutations;
-- 1 build;
-- targeted verification;
-- regression verification;
-- one updated scorecard.
+1. Naya Arrival / Orientation
+2. MAXESS Score / Signature Orb
+3. What Your Score Means
 
-## Communication protocol
+The current executable path is:
 
-Every meaningful execution report must include:
+`python tools/execute_maxess_batch1_v2.py`
 
-WHAT I DID
-WHAT I FOUND
-WHAT REMAINS
-YOUR NEXT MOVE
-SUGGESTED PROMPT
-
-The Suggested Prompt must preserve current state and identify the next objective so context can continue without reconstruction.
-
-## Smart Notes protocol
-
-Record only durable lessons that can prevent future failure.
-
-Good Smart Note:
-
-“Builder source was a giant JS string; line-oriented regex was brittle. Use structural HTML markers or an explicit section manifest.”
-
-Bad Smart Note:
-
-“Build failed.”
-
-## Reference-learning protocol
-
-When a high-quality reference is discovered:
-
-REFERENCE → OBSERVE → EXTRACT PRINCIPLE → DEFINE STANDARD → APPLY → SCORE → VERIFY → STORE LESSON
-
-Do not blindly copy references. Extract the underlying principle.
-
-## Definition of progress
-
-Real progress is one of:
-
-1. a material product source change;
-2. a material candidate artifact change;
-3. a section reaching verified FROZEN state;
-4. a release blocker being removed;
-5. a reusable execution safeguard that prevents a known recurring failure.
-
-Anything else is support work and should remain subordinate to product progress.
-
-## Definition of completion
-
-MAXESS is complete only when:
-
-- all material sections are FROZEN or explicitly accepted as complete;
-- all cross-section quality layers pass;
-- real result handoff is proven;
-- PDF/print is proven;
-- deployment is proven;
-- human review is complete;
-- no critical regression remains;
-- the project can serve as the reference proof for the AI Product Creation System.
+followed by the standard build and QA chain.
