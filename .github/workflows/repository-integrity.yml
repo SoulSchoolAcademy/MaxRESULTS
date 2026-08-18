@@ -1,0 +1,63 @@
+name: MAXESS Repository Integrity
+
+on:
+  push:
+    branches: [maxess-results-v21-working]
+  pull_request:
+    branches: [maxess-results-v21-working]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout working branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Repository identity and map gate
+        run: |
+          test "${GITHUB_REPOSITORY}" = "SoulSchoolAcademy/MaxRESULTS"
+          test -f README.md
+          test -f START-HERE.md
+          test -f docs/REPOSITORY-MAP.md
+          test -f NAYA-REPO-LOCK.md
+          test -f NAYA-OS.md
+          test -f docs/NAYA-NITRO-MODE.md
+          test -f docs/MAXESS-RESULTS-PRODUCT-SPEC.md
+          test -f docs/DEPLOYMENT-CONTRACT.md
+          test -f docs/RELEASE-CHECKLIST.md
+          test -f '20260817 912am RESULTS PAGE CODE'
+          test -f BASELINE-WORKING.html
+          test -f tools/nitro_aaa_upgrade.py
+
+      - name: Source authority gate
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('20260817 912am RESULTS PAGE CODE')
+          s = p.read_text(encoding='utf-8')
+          assert 'window.MAXESS_RESULT' in s
+          assert '<html' in s.lower()
+          assert s.lower().count('</html>') == 1
+          assert not re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', s)
+          assert len(s.encode()) > 500_000
+          assert len(s.splitlines()) > 6500
+          print('SOURCE AUTHORITY GATE: PASS')
+          print('bytes:', len(s.encode()))
+          print('lines:', len(s.splitlines()))
+          PY
+
+      - name: Python syntax gate
+        run: python -m py_compile tools/*.py
+
+      - name: Runtime contract QA
+        run: python tools/qa_v21_runtime_contract.py
+
+      - name: System flow QA
+        run: python tools/qa_v21_system_flow.py
