@@ -1,78 +1,58 @@
 # MAXESS Results
 
-Canonical production workspace for the MAXESS Results experience.
+> 🔒 **CANONICAL REPOSITORY:** `SoulSchoolAcademy/MaxRESULTS`
+>
+> **ACTIVE RESULTS BRANCH:** `maxess-results-v21-working`
+>
+> **LEGACY:** `SoulSchoolAcademy/maxess` is historical/reference only unless explicitly requested.
 
-## Mission
+## START HERE
 
-Deliver a premium, human, personalized AI-mastery experience that transforms:
+1. [`START-HERE.md`](./START-HERE.md) — mandatory execution trigger and read order.
+2. [`docs/REPOSITORY-MAP.md`](./docs/REPOSITORY-MAP.md) — table of contents, categories, state, and source map.
+3. [`NAYA-OS.md`](./NAYA-OS.md) — governing laws.
+4. [`docs/NAYA-NITRO-MODE.md`](./docs/NAYA-NITRO-MODE.md) — execution and QA loop.
+5. Read the task-relevant product, source, design, deployment, and release documents identified by the map.
 
-DATA → INSIGHT → UNDERSTANDING → ACTION → CAPABILITY
+## GITHUB-FIRST LAW
 
-## Naya execution trigger
+For EVERY MAXESS execution, iteration, and consequential command: **inspect `SoulSchoolAcademy/MaxRESULTS` BEFORE acting.** Resolve the active branch, locate the authoritative artifact by path, inspect current state, and use repository evidence instead of conversation memory. Never guess.
 
-Say:
+## MISSION
 
-**Naya Read GitHub**
+Build a premium, human, personalized AI-mastery experience that transforms:
 
-or
+**DATA → INSIGHT → UNDERSTANDING → ACTION → CAPABILITY**
 
-**Naya MAX Mode**
+MAXESS measures. Results interprets. Naya guides. The report explains. NayaNET provides continuation.
 
-or
+## CURRENT STATE
 
-**Naya Nitro Mode**
+The active V21 implementation lives on `maxess-results-v21-working`. Its current working artifact is `20260817 912am RESULTS PAGE CODE`; `BASELINE-WORKING.html` is the frozen recovery baseline. `window.MAXESS_RESULT` is the authoritative runtime result object.
 
-These are explicit instructions to activate the repository operating system before consequential work.
+Do not infer authority from filename, size, timestamp, commit, or public URL. Repository governance and explicit state determine authority.
 
-Start here:
+## EXECUTION
 
-`START-HERE.md`
+**GITHUB FIRST → READ → MAP → ESTABLISH STATE → SOURCE-LOCK → BASELINE → IMPLEMENT IN COHERENT BATCHES → BUILD → REFETCH → DIFF → QA → OSCAR → REPAIR → RE-TEST → FREEZE → DELIVER**
 
-The mandatory read chain is:
+## PRODUCT
 
-`START-HERE.md` → `NAYA-OS.md` → `docs/NAYA-NITRO-MODE.md` → task-relevant product/deployment/source documents → release checklist.
+The Results experience must function as an interactive web experience, guided Naya experience, personalized written report, and intentionally designed printable/downloadable PDF.
 
-## Current canonical paths
+## SOURCE-OF-TRUTH
 
-- `MAXESS-RESULTS-GROOVE.html` — canonical V21 working artifact.
-- `BASELINE-WORKING.html` — frozen recovery baseline; do not edit during V21.
-- `NAYA-OS.md` — optimized Naya operating system.
-- `START-HERE.md` — Nitro activation and mandatory read order.
-- `docs/NAYA-NITRO-MODE.md` — high-efficiency execution operating system.
-- `docs/NAYA-NITRO-LEARNING-LOG.md` — durable execution lessons.
-- `docs/` — product, deployment, QA, and memory documentation.
+- One active working Results artifact.
+- `window.MAXESS_RESULT` is authoritative runtime data.
+- Preserve verified functionality.
+- No competing renderers, result sources, hero systems, or uncontrolled patch layers.
+- Never replace a complete working artifact with a tiny renderer, loader, mock, or excerpt.
 
-## Source-of-truth rules
+## RELEASE TRUTH
 
-- The production Results experience has one canonical HTML artifact.
-- `window.MAXESS_RESULT` is the authoritative runtime result object.
-- Do not create competing renderers, result sources, hero systems, or uncontrolled patch layers.
-- Preserve the approved working experience before making structural changes.
-- Test the complete experience before declaring a release complete.
+Code written is not completion. GitHub state is not live deployment. Groove requires separate public verification.
 
-## Development protocol
+Use explicit status:
+**IMPLEMENTED · VERIFIED · LIVE VERIFIED · HUMAN REVIEW REQUIRED**
 
-INSPECT → MAP → BASELINE → SOURCE-LOCK → IMPLEMENT IN COHERENT BATCHES → BUILD → REFETCH → DIFF → QA → OSCAR → FIX → QA AGAIN → RELEASE
-
-## Product requirements
-
-The Results experience must work as:
-
-1. an interactive web experience;
-2. a guided Naya experience;
-3. a personalized written report; and
-4. an intentionally designed printable/downloadable PDF.
-
-## State model
-
-The V21 candidate is an UPDATED EDITED FILE until explicitly approved.
-
-Do not silently promote a new commit, newer filename, or verified build to APPROVED/AUTHORITATIVE status.
-
-## Learning rule
-
-Durable lessons from meaningful executions belong in `docs/NAYA-NITRO-LEARNING-LOG.md` or another clearly identified operating document. Do not rely on conversation memory for durable project knowledge.
-
-## Deployment
-
-GitHub stores and verifies engineering artifacts. Groove is the external publishing mechanism. A GitHub commit does not prove public Groove deployment.
+**Protect scope. Preserve what works. Find root causes. Add guardrails. Ask: WHY IS THIS NOT A 10?**
