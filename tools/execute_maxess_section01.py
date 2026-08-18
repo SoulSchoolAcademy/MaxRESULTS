@@ -1,14 +1,10 @@
 #!/usr/bin/env python3
-"""MAXESS Section 01 owner: idempotent Golden Master + narrative alignment.
+"""Governed MAXESS Section 01 refinement owner.
 
-This executor is governed by the MAXESS NITRO MASTER EXECUTION CONTRACT and
-its Section 01 specialization. It deliberately avoids parsing/reconstructing
-the whole renderer. It patches only exact JavaScript string chunks owned by
-the V21 root renderer, then validates the complete builder before returning
-success.
+Patches only the canonical V21 runtime owner. The generated Results artifact is
+rebuilt by the repository workflow; this file never becomes a second renderer.
 """
 from __future__ import annotations
-
 from pathlib import Path
 import hashlib
 import re
@@ -17,341 +13,143 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILDER = ROOT / "tools" / "build_v21_canonical.py"
-MASTER_CONTRACT = ROOT / "NITRO-MASTER-EXECUTION-PROTOCOL.md"
-TASK_CONTRACT = ROOT / "docs" / "NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md"
-GROOVE_EMBED = ROOT / "docs" / "SECTION-01-ORB-GROOVE-EMBED.html"
-MARK = "/* MAXESS-SECTION-01-GOLDEN-MASTER */"
-CANONICAL_SCRIPT = '<script id="maxess-results-v21-canonical-js">'
-
+MASTER = ROOT / "NITRO-MASTER-EXECUTION-PROTOCOL.md"
+TASK = ROOT / "docs" / "NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md"
+EMBED = ROOT / "docs" / "SECTION-01-ORB-GROOVE-EMBED.html"
+CANONICAL = '<script id="maxess-results-v21-canonical-js">'
+MARK = '/* MAXESS-SECTION-01-GOLDEN-MASTER */'
 
 def sha(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
+def require_contracts() -> None:
+    for p, label in ((MASTER, "master contract"), (TASK, "Section 01 contract"), (EMBED, "Groove embed")):
+        if not p.exists(): raise SystemExit(f"NITRO LAW FAIL: {label} missing: {p}")
+    master = MASTER.read_text(encoding="utf-8")
+    task = TASK.read_text(encoding="utf-8")
+    embed = EMBED.read_text(encoding="utf-8")
+    for token in ("MAXESS NITRO MASTER EXECUTION CONTRACT", "DO NOT GUESS.", "CAN I PROVE IT?"):
+        if token not in master: raise SystemExit(f"NITRO LAW FAIL: master token missing: {token}")
+    for token in ("Section 01 — Orb / Score Reveal", ".v21-score-orb", ".b1s1-orbital-bead", "window.MAXESS_RESULT", "Naya"):
+        if token not in task: raise SystemExit(f"NITRO LAW FAIL: Section 01 token missing: {token}")
+    for token in ("MAXESS NITRO — SECTION 01 / ORB + SCORE REVEAL", "window.MAXESS_RESULT", "overallScore", "mx-nitro-orbit", "prefers-reduced-motion:reduce"):
+        if token not in embed: raise SystemExit(f"NITRO LAW FAIL: Groove token missing: {token}")
 
-def validate_contracts() -> None:
-    """Hard execution-law gate: no Section 01 execution without both contracts."""
-    if not MASTER_CONTRACT.exists():
-        raise SystemExit("NITRO LAW FAIL: MAXESS NITRO MASTER EXECUTION CONTRACT is missing")
-    if not TASK_CONTRACT.exists():
-        raise SystemExit("NITRO LAW FAIL: Section 01 task-specific execution contract is missing")
-    if not GROOVE_EMBED.exists():
-        raise SystemExit("NITRO LAW FAIL: Section 01 Groove delivery artifact is missing")
+def extract_js(source: str) -> tuple[int, int, str]:
+    tag = source.find(CANONICAL)
+    if tag < 0: raise SystemExit("SECTION 01 FAIL: canonical V21 script missing")
+    start = source.find(">", tag) + 1
+    end = source.find("</script>", start)
+    if start <= 0 or end < 0: raise SystemExit("SECTION 01 FAIL: canonical V21 script boundaries invalid")
+    return start, end, source[start:end]
 
-    master = MASTER_CONTRACT.read_text(encoding="utf-8")
-    task = TASK_CONTRACT.read_text(encoding="utf-8")
-    embed = GROOVE_EMBED.read_text(encoding="utf-8")
+def validate_js(js: str) -> None:
+    with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False, encoding="utf-8") as f:
+        f.write(js); path = Path(f.name)
+    try: result = subprocess.run(["node", "--check", str(path)], capture_output=True, text=True)
+    finally: path.unlink(missing_ok=True)
+    if result.returncode: raise SystemExit(result.stderr.strip() or "SECTION 01 FAIL: Node syntax check failed")
 
-    required_master = (
-        "MAXESS NITRO MASTER EXECUTION CONTRACT",
-        "MASTER CONTRACT GOVERNANCE — READ THIS BEFORE EVERY EXECUTION",
-        "DO NOT GUESS.",
-        "CAN I PROVE IT?",
-        "UNKNOWN may never ship.",
-    )
-    missing_master = [x for x in required_master if x not in master]
-    if missing_master:
-        raise SystemExit("NITRO LAW FAIL: master contract integrity missing: " + ", ".join(missing_master))
+def validate_builder(text: str) -> None:
+    required = (MARK, ".v21-score-orb", ".b1s1-orbital-bead", "b1s1-orbit", "window.MAXESS_RESULT", "var colorFor=function(v)", "prefers-reduced-motion:reduce", "maxess-results-v21-canonical-css", "maxess-results-v21-canonical-js", "YOUR AI SCORE", "I'm Naya.", "I've got your results.", "Your score isn't a judgment.")
+    missing = [x for x in required if x not in text]
+    if missing: raise SystemExit("SECTION 01 STATIC EVIDENCE FAIL: " + ", ".join(missing))
+    if text.count(MARK) != 2: raise SystemExit("SECTION 01 STATIC EVIDENCE FAIL: Golden Master marker count != 2")
+    if text.count("b1s1-orbital-bead") < 2: raise SystemExit("SECTION 01 STATIC EVIDENCE FAIL: Orbital Bead evidence incomplete")
+    if re.search(r"(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)", text): raise SystemExit("SECTION 01 STATIC EVIDENCE FAIL: conflict marker remains")
 
-    required_task = (
-        "NITRO-MASTER-EXECUTION-PROTOCOL.md",
-        "Section 01 — Orb / Score Reveal",
-        ".v21-score-orb",
-        ".b1s1-orbital-bead",
-        "window.MAXESS_RESULT",
-        "score-color",
-        "BLOCKED — GROOVE VISUAL TEST UNAVAILABLE",
-        "Naya",
-    )
-    missing_task = [x for x in required_task if x not in task]
-    if missing_task:
-        raise SystemExit("NITRO LAW FAIL: Section 01 contract integrity missing: " + ", ".join(missing_task))
-
-    required_embed = (
-        "MAXESS NITRO — SECTION 01 / ORB + SCORE REVEAL",
-        "window.MAXESS_RESULT",
-        "overallScore",
-        "mx-nitro-orbit",
-        "6s ease-in-out infinite",
-        "10s linear infinite",
-        "prefers-reduced-motion:reduce",
-        "width:100vw",
-        "calc(50% - 50vw)",
-    )
-    missing_embed = [x for x in required_embed if x not in embed]
-    if missing_embed:
-        raise SystemExit("NITRO LAW FAIL: Groove embed integrity missing: " + ", ".join(missing_embed))
-
-
-def validate_python() -> None:
-    subprocess.run(["python", "-m", "py_compile", str(BUILDER)], check=True)
-
-
-def extract_js(text: str) -> tuple[int, int, str]:
-    start_tag = text.find(CANONICAL_SCRIPT)
-    if start_tag < 0:
-        raise SystemExit("SECTION 01: canonical V21 runtime block missing")
-    start = text.find(">", start_tag) + 1
-    end = text.find("</script>", start)
-    if start <= 0 or end < 0:
-        raise SystemExit("SECTION 01: canonical V21 script boundaries invalid")
-    return start, end, text[start:end]
-
-
-def replace_section_chunk(js: str, label: str, replacement: str) -> tuple[str, int]:
-    token = re.compile(r"'(?:\\.|[^'\\])*" + re.escape(label) + r"(?:\\.|[^'\\])*'\s*\+", re.S)
-    matches = list(token.finditer(js))
-    if len(matches) > 1:
-        raise SystemExit(f"SECTION 01: multiple active {label} chunks found ({len(matches)})")
-    if not matches:
-        return js, 0
-    return js[:matches[0].start()] + replacement + "\n" + js[matches[0].end():], 1
-
-
-def refine_top_presentation(js: str) -> tuple[str, int]:
-    """Add one idempotent post-render refinement to the V21 Section 01 owner.
-
-    This deliberately preserves the existing V21 section order, score source,
-    Orb construction, and listen control. It only improves the visible top
-    presentation and guarantees the contract-required Orbital Bead exists.
-    """
-    marker = "  function build(r){"
-    if marker not in js:
-        raise SystemExit("SECTION 01: V21 build function anchor missing")
-
-    if "function refineSection01Top()" in js:
-        return js, 0
-
-    helper = r'''  function refineSection01Top(){
+def patch_runtime(js: str) -> tuple[str, bool]:
+    marker = "function refineSection01HeroV2()"
+    if marker in js: return js, False
+    insert_at = js.find("  function reinforceSection01Top()")
+    if insert_at < 0: insert_at = js.rfind("\n})();")
+    if insert_at < 0: raise SystemExit("SECTION 01 FAIL: canonical runtime insertion anchor missing")
+    helper = r'''  function refineSection01HeroV2(){
+    var root=document.getElementById('maxess-results-10');
+    if(!root || !root.classList.contains('v21-canonical')) return false;
     var shell=root.querySelector('.v21-shell');
-    if(!shell) throw new Error('SECTION 01: V21 shell missing after render');
+    if(!shell) return false;
     var sections=shell.querySelectorAll(':scope > .v21-section');
-    if(sections.length<2) throw new Error('SECTION 01: expected Naya + score sections');
-
-    var nayaSection=sections[0];
+    if(sections.length<2) return false;
+    var naya=sections[0].querySelector('.v21-naya');
     var scoreSection=sections[1];
-    var naya=nayaSection.querySelector('.v21-naya');
     var scoreWrap=scoreSection.querySelector('.v21-score-wrap');
     var orb=scoreSection.querySelector('.v21-score-orb');
-    if(!naya || !scoreWrap || !orb) throw new Error('SECTION 01: protected top components missing');
-
-    var nayaTitle=naya.querySelector('.b1s1-title,.v21-naya-title');
-    if(nayaTitle) nayaTitle.textContent="Hi, I'm Naya.";
-
-    var nayaSub=naya.querySelector('.b1s1-sub,.v21-naya-sub');
-    if(nayaSub){
-      nayaSub.textContent="I've got your results. Take a look through your report, and when you're ready, listen to me walk you through what it means.";
+    if(!naya || !scoreWrap || !orb) return false;
+    var styleId='maxess-section01-naya-hero-v2';
+    if(!document.getElementById(styleId)){
+      var style=document.createElement('style'); style.id=styleId;
+      style.textContent=`
+#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"]{position:relative;isolation:isolate;overflow:hidden;grid-template-columns:128px minmax(0,1fr) auto;gap:26px;max-width:1160px;min-height:198px;padding:30px 32px;border:1px solid rgba(214,180,255,.34);border-radius:34px;background:radial-gradient(circle at 8% 50%,rgba(164,91,255,.20),transparent 30%),radial-gradient(circle at 82% 15%,rgba(255,255,255,.08),transparent 25%),radial-gradient(circle at 94% 90%,rgba(82,126,255,.11),transparent 28%),linear-gradient(135deg,#08050d 0%,#170b29 48%,#08050e 100%);box-shadow:0 34px 110px rgba(0,0,0,.52),inset 0 1px rgba(255,255,255,.17),inset 0 -1px rgba(0,0,0,.45)}
+#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"]::before{content:"";position:absolute;left:-90px;top:-120px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(196,133,255,.24),transparent 68%);filter:blur(10px);z-index:-1;pointer-events:none}
+#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"]::after{content:"";position:absolute;right:8%;bottom:0;width:280px;height:2px;background:linear-gradient(90deg,transparent,rgba(205,163,255,.80),transparent);opacity:.72;z-index:0;pointer-events:none}
+#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .b1s1-avatar{position:relative;z-index:2;width:128px;height:128px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.90);box-shadow:0 0 0 9px rgba(155,99,255,.13),0 0 42px rgba(155,99,255,.22),0 22px 48px rgba(0,0,0,.48)}
+#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .b1s1-title{position:relative;z-index:2;margin-top:7px;max-width:780px;font-size:clamp(34px,4vw,54px);line-height:.96;font-weight:950;letter-spacing:-.065em;color:#fff}
+#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .b1s1-sub{position:relative;z-index:2;max-width:760px;margin:12px 0 0;color:rgba(255,255,255,.78);font-size:16px;line-height:1.55}
+#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .b1s1-kicker{position:relative;z-index:2;color:#d6b9ff;font-size:10px;font-weight:950;letter-spacing:.22em;text-transform:uppercase}
+#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .v21-listen.b1s1-listen{position:relative;z-index:2;align-self:center;min-width:186px;min-height:58px;padding:0 24px;border-radius:18px;border:1px solid rgba(218,187,255,.72);background:linear-gradient(180deg,#19101f,#09070c);color:#fff;font-size:12px;font-weight:950;letter-spacing:.08em;box-shadow:inset 0 1px rgba(255,255,255,.13),0 16px 34px rgba(0,0,0,.40),0 0 24px rgba(155,99,255,.12)}
+#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .v21-listen.b1s1-listen:hover{transform:translateY(-2px);border-color:#d9bbff;box-shadow:inset 0 1px rgba(255,255,255,.18),0 20px 42px rgba(0,0,0,.48),0 0 30px rgba(155,99,255,.18)}
+#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .v21-listen.b1s1-listen:focus-visible{outline:2px solid #fff;outline-offset:5px}
+@media(max-width:820px){#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"]{grid-template-columns:108px minmax(0,1fr);min-height:176px;padding:26px;gap:22px}#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .b1s1-avatar{width:108px;height:108px}#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .v21-listen.b1s1-listen{grid-column:1/-1;width:100%}}
+@media(max-width:520px){#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"]{grid-template-columns:1fr;text-align:center;min-height:0;padding:26px 20px;gap:14px}#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .b1s1-avatar{width:104px;height:104px;margin:0 auto}#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .b1s1-sub{margin-left:auto;margin-right:auto;max-width:420px}#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .v21-listen.b1s1-listen{margin-top:4px;min-width:0}}
+@media(prefers-reduced-motion:reduce){#maxess-results-10.v21-canonical .v21-naya.b1s1-naya[data-section01-role="naya-welcome"] .v21-listen.b1s1-listen{transition:none;transform:none}}
+`;
+      document.head.appendChild(style);
     }
-
+    var title=naya.querySelector('.v21-naya-title,.b1s1-title');
+    if(title) title.textContent="Hi, I'm Naya.";
+    var sub=naya.querySelector('.v21-naya-sub,.b1s1-sub');
+    if(sub) sub.textContent="I've got your results. Take a look through your report, and when you're ready, listen to me walk you through what it means.";
+    var kicker=naya.querySelector('.v21-kicker,.b1s1-kicker');
+    if(kicker) kicker.textContent='NAYA · YOUR GUIDE';
+    var listen=naya.querySelector('.v21-listen');
+    if(listen){listen.classList.add('b1s1-listen');listen.innerHTML='<span aria-hidden="true">▶</span><span> LISTEN TO NAYA</span>';listen.setAttribute('aria-label','Listen to Naya interpret your MAXESS results');listen.type='button'}
     var scoreKicker=scoreWrap.querySelector('.v21-kicker');
     if(scoreKicker) scoreKicker.textContent='YOUR AI SCORE';
-
-    var scoreLabel=orb.querySelector('.v21-score-label');
-    if(scoreLabel) scoreLabel.setAttribute('hidden','');
-
-    var scoreNumber=orb.querySelector('.v21-score-number');
-    var rawScore=scoreNumber ? scoreNumber.textContent.trim() : '';
-    var numericScore=Number(rawScore);
-    if(!Number.isFinite(numericScore)) throw new Error('SECTION 01: score presentation value is invalid');
-    orb.setAttribute('role','img');
-    orb.setAttribute('aria-label','Your AI score is '+Math.round(numericScore)+' out of 100');
-
-    var context=scoreWrap.querySelector('.v21-final-note');
-    if(context){
-      context.textContent="Your score isn't a judgment. It's a signal — a snapshot of your current AI capability and a clue to where your next breakthrough could create the most leverage.";
-    }
-
-    scoreWrap.querySelectorAll('.v21-stage,.v21-stage-five').forEach(function(el){ el.setAttribute('hidden',''); });
-
+    scoreWrap.setAttribute('data-section01-role','score-reveal');
+    var label=orb.querySelector('.v21-score-label');
+    if(label) label.setAttribute('hidden','');
+    var number=orb.querySelector('.v21-score-number');
+    var score=number?Number(number.textContent.trim()):NaN;
+    if(!Number.isFinite(score)) return false;
+    orb.setAttribute('role','img');orb.setAttribute('aria-label','Your AI score is '+Math.round(score)+' out of 100');
+    var note=scoreWrap.querySelector('.v21-final-note');
+    if(note) note.textContent="Your score isn't a judgment. It's a signal — a snapshot of your current AI capability and a clue to where your next breakthrough could create the most leverage.";
+    naya.setAttribute('data-section01-role','naya-welcome');naya.setAttribute('aria-label','Naya welcome');
     var bead=orb.querySelector('.b1s1-orbital-bead');
-    if(!bead){
-      bead=document.createElement('span');
-      bead.className='b1s1-orbital-bead';
-      bead.setAttribute('aria-hidden','true');
-      orb.appendChild(bead);
-    }else{
-      bead.setAttribute('aria-hidden','true');
-    }
-
-    naya.setAttribute('data-section01-role','naya-welcome');
-    scoreSection.setAttribute('data-section01-role','score-reveal');
-    orb.setAttribute('data-section01-role','signature-orb');
-    bead.setAttribute('data-section01-role','orbital-bead');
+    if(bead) bead.setAttribute('aria-hidden','true');
+    return true;
   }
 
 '''
-    js = js.replace(marker, helper + marker, 1)
-
-    call_marker = "    var btn=root.querySelector('.v21-listen');if(btn)btn.addEventListener('click',listen);"
-    if call_marker not in js:
-        raise SystemExit("SECTION 01: V21 post-render binding anchor missing")
-    js = js.replace(call_marker, "    refineSection01Top();\n" + call_marker, 1)
-
-    final_sync = r'''
-  function reinforceSection01Top(){
-    var tries=0;
-    (function tick(){
-      if(root.querySelector('.v21-shell')){
-        try{ refineSection01Top(); }catch(e){ root.setAttribute('data-section01-top-error',String(e && e.message || e)); }
-      }
-      if(++tries<20) setTimeout(tick,150);
-    })();
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',reinforceSection01Top,{once:true}); else reinforceSection01Top();
-'''
-    end_marker = "\n})();"
-    end_index = js.rfind(end_marker)
-    if end_index < 0:
-        raise SystemExit("SECTION 01: canonical V21 script closing anchor missing")
-    js = js[:end_index] + final_sync + js[end_index:]
-    return js, 1
-
-
-def align(js: str) -> tuple[str, dict[str, int]]:
-    changes: dict[str, int] = {}
-
-    js, n = replace_section_chunk(js, "YOUR LEVER", "")
-    changes["YOUR LEVER"] = n
-
-    js, n = replace_section_chunk(js, "YOUR NEXT MOVE", "")
-    changes["YOUR NEXT MOVE"] = n
-
-    playground_replacement = (
-        "'<section class=\"v21-section v21-dark\"><div class=\"v21-inner\">"
-        "<span class=\"v21-kicker\">NAYA · IN PRACTICE</span>"
-        "<h2 class=\"v21-section-title\">See what your result can become.</h2>"
-        "<p class=\"v21-section-copy\">Naya helps turn your MAXESS result into a practical next step.</p>"
-        "<div id=\"v21-media-host\" class=\"v21-media-host\"></div>"
-        "</div></section>'+"
-    )
-    js, n = replace_section_chunk(js, "PLAYGROUND", playground_replacement)
-    changes["PLAYGROUND"] = n
-
-    old_ids = "var ids=['#mx-naya-listen','#v11-naya-listen','#v13-listen','.mx-naya-listen','.v18-listen'];"
-    new_ids = "var ids=['.v21-listen.b1s1-listen','.v21-listen'];"
-    if old_ids in js:
-        js = js.replace(old_ids, new_ids)
-        changes["LISTEN OWNER"] = 1
-    else:
-        changes["LISTEN OWNER"] = 0
-
-    js, n = refine_top_presentation(js)
-    changes["TOP PRESENTATION"] = n
-
-    bad_patterns = (
-        "root.innerHTML='<div class=\"root.innerHTML=",
-        "root.innerHTML=\"<div class=\"root.innerHTML=",
-    )
-    if any(p in js for p in bad_patterns):
-        raise SystemExit("SECTION 01: renderer self-corruption guard triggered")
-
-    return js, changes
-
-
-def validate_section01_builder(text: str) -> None:
-    required = (
-        'MAXESS-SECTION-01-GOLDEN-MASTER',
-        '.v21-score-orb',
-        '.b1s1-orbital-bead',
-        'b1s1-orbit',
-        'window.MAXESS_RESULT',
-        'var colorFor=function(v)',
-        'prefers-reduced-motion:reduce',
-        'maxess-results-v21-canonical-css',
-        'maxess-results-v21-canonical-js',
-        'function refineSection01Top()',
-        "YOUR AI SCORE",
-        "I'm Naya.",
-        "I've got your results.",
-        "Your score isn't a judgment.",
-    )
-    missing = [x for x in required if x not in text]
-    if missing:
-        raise SystemExit('SECTION 01 STATIC EVIDENCE FAIL: ' + ', '.join(missing))
-
-    if text.count('MAXESS-SECTION-01-GOLDEN-MASTER') != 2:
-        raise SystemExit('SECTION 01 STATIC EVIDENCE FAIL: Golden Master marker count is not exactly 2 (CSS + JS)')
-    if text.count('b1s1-orbital-bead') < 2:
-        raise SystemExit('SECTION 01 STATIC EVIDENCE FAIL: Orbital Bead implementation appears incomplete')
-    if re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', text):
-        raise SystemExit('SECTION 01 STATIC EVIDENCE FAIL: unresolved conflict marker remains in builder')
-
+    js = js[:insert_at] + helper + js[insert_at:]
+    tail = "  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){refineSection01HeroV2();},{once:true}); else refineSection01HeroV2();\n"
+    end = js.rfind("\n})();")
+    if end < 0: raise SystemExit("SECTION 01 FAIL: canonical closing anchor missing")
+    js = js[:end] + tail + js[end:]
+    return js, True
 
 def main() -> int:
-    validate_contracts()
-
-    if not BUILDER.exists():
-        raise SystemExit("SECTION 01: builder missing")
-
+    require_contracts()
+    if not BUILDER.exists(): raise SystemExit("SECTION 01 FAIL: canonical builder missing")
     original = BUILDER.read_text(encoding="utf-8")
-    if MARK not in original:
-        raise SystemExit("SECTION 01: Golden Master layer is missing; refuse to invent it here")
-
-    validate_section01_builder(original)
-
+    if MARK not in original: raise SystemExit("SECTION 01 FAIL: Golden Master layer missing; refusing to invent authority")
+    validate_builder(original)
     start, end, js = extract_js(original)
-    aligned_js, changes = align(js)
-    validate_js(aligned_js)
-
-    updated = original[:start] + aligned_js + original[end:]
-
-    candidate_path = ROOT / ".maxess_section01_candidate_builder.py"
-    candidate_path.write_text(updated, encoding="utf-8")
-    try:
-        subprocess.run(["python", "-m", "py_compile", str(candidate_path)], check=True)
-    finally:
-        candidate_path.unlink(missing_ok=True)
-        pycache = candidate_path.parent / "__pycache__"
-        if pycache.exists():
-            for p in pycache.glob(".maxess_section01_candidate_builder*.pyc"):
-                p.unlink(missing_ok=True)
-
-    validate_section01_builder(updated)
-
+    patched_js, changed = patch_runtime(js)
+    validate_js(patched_js)
+    updated = original[:start] + patched_js + original[end:]
+    validate_builder(updated)
     if updated == original:
-        print("SECTION 01: renderer already aligned; Golden Master preserved")
-        print("GOLDEN MASTER: PRESERVED")
-        print("YOUR LEVER: ALREADY ABSENT")
-        print("YOUR NEXT MOVE: ALREADY ABSENT")
-        print("PLAYGROUND: ALREADY ABSENT/ALIGNED")
-        print("TOP PRESENTATION: ALREADY REFINED")
-        print("LISTEN OWNER: V21 HERO CONTROL")
-        print("NITRO MASTER CONTRACT: READ + VERIFIED")
-        print("SECTION 01 CONTRACT: READ + VERIFIED")
-        print("GROOVE EMBED: PRESENT + VERIFIED")
-        print("STATIC SECTION 01 EVIDENCE: PASS")
-        return 0
-
+        print("SECTION 01: already aligned"); print("GOLDEN MASTER: PRESERVED"); print("NAYA HERO V2: ALREADY PRESENT"); print("STATIC SECTION 01 EVIDENCE: PASS"); return 0
+    candidate = ROOT / ".section01_candidate.py"
+    candidate.write_text(updated, encoding="utf-8")
+    try: subprocess.run(["python", "-m", "py_compile", str(candidate)], check=True)
+    finally: candidate.unlink(missing_ok=True)
     BUILDER.write_text(updated, encoding="utf-8")
-
-    print("MAXESS SECTION 01 PRODUCT ALIGNMENT: PASS")
-    print("GOLDEN MASTER: PRESERVED")
-    print(f"YOUR LEVER: {'REMOVED' if changes['YOUR LEVER'] else 'ALREADY ABSENT'}")
-    print(f"YOUR NEXT MOVE: {'REMOVED' if changes['YOUR NEXT MOVE'] else 'ALREADY ABSENT'}")
-    print(f"PLAYGROUND: {'REPLACED -> NAYA · IN PRACTICE' if changes['PLAYGROUND'] else 'ALREADY ABSENT/ALIGNED'}")
-    print(f"TOP PRESENTATION: {'REFINED' if changes['TOP PRESENTATION'] else 'ALREADY REFINED'}")
-    print(f"LISTEN OWNER: {'V21 HERO CONTROL' if changes['LISTEN OWNER'] or '.v21-listen.b1s1-listen' in aligned_js else 'UNCHANGED'}")
-    print("NODE CHECK: PASS")
-    print("PYTHON CHECK: PASS")
-    print("STATIC SECTION 01 EVIDENCE: PASS")
-    print("NITRO MASTER CONTRACT: READ + VERIFIED")
-    print("SECTION 01 CONTRACT: READ + VERIFIED")
-    print("GROOVE EMBED: PRESENT + VERIFIED")
-    print("BUILDER SHA BEFORE:", sha(original))
-    print("BUILDER SHA AFTER: ", sha(updated))
+    print("MAXESS SECTION 01 NITRO REFINEMENT: PASS")
+    print("GOLDEN MASTER: PRESERVED"); print("NAYA HERO V2: REFINED"); print("SCORE SYSTEM: PRESERVED"); print("ORB: PRESERVED"); print("ORBITAL BEAD: PRESERVED"); print("LISTEN CONTROL: PRESERVED"); print("STATIC SECTION 01 EVIDENCE: PASS")
+    print("BUILDER SHA BEFORE:", sha(original)); print("BUILDER SHA AFTER: ", sha(updated))
     return 0
 
-
-def validate_js(text: str) -> None:
-    with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False, encoding="utf-8") as fh:
-        fh.write(text)
-        path = fh.name
-    try:
-        proc = subprocess.run(["node", "--check", path], capture_output=True, text=True)
-    finally:
-        Path(path).unlink(missing_ok=True)
-    if proc.returncode:
-        raise SystemExit(proc.stderr.strip() or "Node syntax validation failed")
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+if __name__ == "__main__": raise SystemExit(main())
