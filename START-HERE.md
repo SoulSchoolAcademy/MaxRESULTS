@@ -1,33 +1,49 @@
 # MAXESS / NAYA — START HERE
 
-**Canonical repository:** `SoulSchoolAcademy/MaxRESULTS`  
-**Active Results branch:** `maxess-results-v21-working`
+## Canonical repository
 
-This is the mandatory entry point for every consequential MAXESS Results / Naya execution.
+`SoulSchoolAcademy/MaxRESULTS`
+
+## Branch model
+
+This branch, `maxess-results-v21-working`, is the **active Results engineering branch**.
+
+The repository `main` branch is the **canonical governance/reference branch**. The current cold-start operating system, Naya Nitro rules, Smart Notes rules, authority hierarchy, and reusable execution contract are maintained there.
+
+**Do not create a second governance system on this branch.**
+
+When a branch-local document conflicts with the current governance on `main`, the current `main` governance wins unless the human explicitly changes the rule.
+
+## Mandatory cold-start sequence
+
+### A. Read canonical governance on `main`
+
+1. `main:START-HERE.md`
+2. `main:docs/REPOSITORY-MAP.md`
+3. `main:NAYA-OS.md`
+4. `main:docs/NAYA-EXECUTIVE-PLAN.md`
+5. `main:docs/NAYA-NITRO-MODE.md`
+6. `main:docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md`
+7. `main:docs/NAYA-SMART-NOTES-SYSTEM.md`
+8. `main:docs/NAYA-NITRO-MASTER-BLUEPRINT.md`
+9. `main:docs/smart-notes/INDEX.md`
+
+### B. Then inspect this active branch
+
+10. `START-HERE.md` — this branch-specific implementation entry point.
+11. `docs/REPOSITORY-MAP.md` — active branch implementation map.
+12. Relevant active source, tools, QA, deployment, and release documents.
+13. Relevant recent/topic Smart Notes from `main`.
+
+**Never substitute branch-local history for canonical governance.**
 
 ## Activation
 
 Treat `Naya Read GitHub`, `Naya MAX Mode`, `Naya Nitro Mode`, and `Naya Nitro` as explicit activation commands.
 
-## Mandatory read order
+## Every consequential execution
 
-1. `README.md`
-2. `START-HERE.md`
-3. `docs/REPOSITORY-MAP.md`
-4. `NAYA-REPO-LOCK.md`
-5. `NAYA-OS.md`
-6. `NITRO-MASTER-EXECUTION-PROTOCOL.md`
-7. `docs/SMART-NOTES.md`
-8. `docs/smart-notes/INDEX.md`
-9. Review relevant recent/topic Smart Notes / Naya Notes.
-10. Read the task-specific product, design, source, QA, deployment, and release documents identified by the map.
-11. Read `docs/MAXESS-EXECUTION-PROMPT-TEMPLATE.md` and specialize it for the current job.
-
-**Do not reference a required file that does not exist.** If a document named by older instructions is missing, investigate and repair the map rather than guessing.
-
-## Every execution
-
-**GITHUB FIRST.** Resolve repository and active branch before acting. Inspect actual files and current source state. Never substitute conversation memory for repository evidence.
+**GITHUB FIRST.** Resolve repository, governance branch, active branch, and current artifact before acting.
 
 Establish:
 
@@ -35,7 +51,7 @@ Establish:
 
 Then:
 
-**READ → MAP → REVIEW MEMORY → SCORE → SOURCE-LOCK → PLAN COMPLETE TODO → IMPLEMENT → BUILD → TEST → RENDER → VISUAL QA → OSCAR → REPAIR → RE-TEST → RECORD LEARNING → REPORT.**
+**READ → MAP → REVIEW MEMORY → SCORE → SOURCE-LOCK → PLAN COMPLETE TODO → IMPLEMENT → BUILD → TEST → RENDER → VISUAL QA → OSCAR → REPAIR → RE-TEST → RECORD LEARNING → REPORT → NEXT ACTION PROMPT.**
 
 ## Current Section 01 authority rule
 
@@ -49,25 +65,17 @@ Everything surrounding that protected Orb behavior is working candidate material
 
 ## Smart Notes / Naya Notes
 
-**Naya Notes = Smart Notes.** They are two names for the same durable project-memory system.
+**Naya Notes = Smart Notes = durable project memory.**
 
-At the end of every consequential conversation or execution, identify durable learning that would make future work better, safer, faster, clearer, or more correct. Record it by default.
+The canonical Smart Notes system lives on `main` under `docs/smart-notes/` and is governed by `main:docs/NAYA-SMART-NOTES-SYSTEM.md`.
+
+At the end of every project conversation or consequential execution, identify durable learning that would make future work better, safer, faster, clearer, or more correct. Record it by default when durable value exists.
 
 Do not store raw transcripts, temporary chatter, guesses, secrets, or duplicates.
 
-Every durable note must be:
-
-- timestamped with timezone;
-- assigned a stable Entry ID;
-- categorized by type and scope;
-- indexed with broad natural-language keywords and aliases;
-- linked to evidence;
-- given a clear action/implication;
-- linked from `docs/smart-notes/INDEX.md`.
-
 Search by concepts, synonyms, aliases, dates, section names, and failure modes — never only by exact original wording.
 
-Smart Notes are **memory, not authority**. Current human requirements and current repository governance/source outrank historical notes.
+Smart Notes are **memory, not authority**. Current human requirements and current repository governance outrank historical notes.
 
 ## Product chain
 
@@ -81,8 +89,20 @@ A GitHub commit is not live deployment.
 
 Use explicit states:
 
-`IMPLEMENTED` · `VERIFIED` · `LIVE VERIFIED` · `HUMAN REVIEW REQUIRED` · `BLOCKED`
+`IMPLEMENTED` · `VERIFIED` · `LIVE VERIFIED` · `HUMAN REVIEW REQUIRED` · `UNKNOWN`
 
 Never claim a test, browser result, visual inspection, Groove result, or deployment that did not actually occur.
 
 **Never guess. Preserve what works. Fix root causes. Add guardrails. Ask: WHY IS THIS NOT A 10?**
+
+## Required ending
+
+Every consequential execution must end with:
+
+- CURRENT STATE
+- WHAT WAS FOUND
+- RECOMMENDATION
+- EXACT NEXT ACTION
+- COPY-PASTE EXECUTION PROMPT
+- OPTIONS A/B/C only when genuinely useful
+- VERIFICATION STATUS
