@@ -6,6 +6,7 @@ on:
       - maxess-results-v21-working
     paths:
       - .github/workflows/execute-maxess-section01.yml
+      - tools/execute_maxess_section01.py
 
 permissions:
   contents: write
@@ -25,7 +26,7 @@ jobs:
           git config user.name "Naya Lead Mode"
           git config user.email "naya-lead-mode@users.noreply.github.com"
 
-      - name: Execute Section 01 product mutation
+      - name: Execute Section 01 Golden Master refinement
         run: python tools/execute_maxess_section01.py
 
       - name: Rebuild canonical artifact
@@ -41,10 +42,11 @@ jobs:
           p = Path('tools/build_v21_canonical.py')
           s = p.read_text(encoding='utf-8')
           required = [
-              'MAXESS-SECTION-01-AAA',
+              'MAXESS-SECTION-01-GOLDEN-MASTER',
               'b1s1-naya',
               'b1s1-listen',
-              'b1s1-orb' if 'b1s1-orb' in s else 'v21-score-orb',
+              'b1s1-orb-live',
+              'b1s1-orbital-bead',
               'b1s1-bridge',
           ]
           missing = [x for x in required if x not in s]
@@ -52,11 +54,16 @@ jobs:
               raise SystemExit('SECTION 01 evidence missing: ' + ', '.join(missing))
           if 'window.MAXESS_RESULT' not in s:
               raise SystemExit('MAXESS_RESULT authority marker missing')
-          if 'MAXESS-SECTION-01-AAA' not in s:
-              raise SystemExit('Section 01 mutation marker missing')
+          if re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', s):
+              raise SystemExit('Unresolved conflict marker remains in builder')
           print('SECTION 01 SOURCE VERIFICATION: PASS')
           print('BUILDER SHA256:', hashlib.sha256(s.encode('utf-8')).hexdigest())
           PY
+
+      - name: Run focused Section 01 verification
+        run: |
+          python -m py_compile tools/execute_maxess_section01.py tools/build_v21_canonical.py
+          echo "Section 01 focused verification: PASS"
 
       - name: Commit verified Section 01 checkpoint
         run: |
@@ -65,5 +72,5 @@ jobs:
             echo "No product delta to checkpoint."
             exit 1
           fi
-          git commit -m "MAXESS Section 01 AAA hero checkpoint"
+          git commit -m "MAXESS Section 01 Golden Master checkpoint"
           git push origin maxess-results-v21-working
