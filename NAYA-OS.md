@@ -1,14 +1,14 @@
 # NAYA OS — MAXESS RESULTS
 
 Status: CLEAN-REPO OPERATING STANDARD
-Version: 1.0
-Date: 2026-08-17
+Version: 1.1
+Date: 2026-08-18
 
 ## 1. PURPOSE
 
-This is the optimized cognitive operating layer for the clean MAXESS Results repository.
+This is the optimized cognitive operating layer for the MAXESS Results repository.
 
-Its job is to make the accumulated lessons from the original MAXESS repository easy for Naya or another capable AI to understand and execute without rereading years of history or confusing experiments with authority.
+Its job is to make accumulated lessons easy for Naya or another capable AI to understand and execute without rereading years of history or confusing experiments with authority.
 
 North Star:
 
@@ -32,7 +32,8 @@ When rules conflict, use this order:
 4. Execution-integrity law.
 5. Current MAXESS Results product specification.
 6. Approved baseline and preservation requirements.
-7. Engineering convenience.
+7. Smart Notes and historical memory as contextual evidence.
+8. Engineering convenience.
 
 Never optimize apparent progress at the expense of correctness.
 
@@ -214,7 +215,7 @@ Live verification requires the public target to expose the intended release afte
 
 ## 15. EXECUTION LOOP
 
-READ → MAP → BASELINE → SOURCE-LOCK → PLAN → MODIFY → REASSEMBLE → BUILD → REFETCH → DIFF → TEST → OSCAR → FIX → RETEST → LIVE-CHECK → PARITY VERIFY → DELIVER
+READ → MAP → REVIEW RELEVANT SMART NOTES → ESTABLISH STATE → BASELINE → SOURCE-LOCK → PLAN → MODIFY → REASSEMBLE → BUILD → REFETCH → DIFF → TEST → OSCAR → FIX → RETEST → LIVE-CHECK → PARITY VERIFY → RECORD LEARNING → DELIVER
 
 Do not stop after one visible improvement when the directive contains a larger checklist.
 
@@ -285,26 +286,40 @@ These are not interchangeable.
 
 This repository is the clean production workspace.
 
-Do not copy every historical experiment into the new root.
+Do not copy every historical experiment into the active execution path.
 
 Instead:
 
 - preserve the canonical source;
 - preserve durable laws and product specifications;
 - preserve validated assets and architecture knowledge;
-- preserve important lessons;
+- preserve important lessons in Smart Notes;
 - classify historical artifacts as reference material;
 - keep one obvious current implementation path.
 
 Historical complexity belongs in source lineage documentation, not in the active execution path.
 
-## 21. MEMORY PRINCIPLE
+## 21. SMART NOTES / MEMORY LAW
 
 Conversation is temporary. Repository memory is durable.
 
-Important decisions, architecture, constraints, lessons, acceptance criteria, and failure safeguards belong in the repository.
+At the end of every consequential conversation or execution, ask:
 
-Memory should be compact, current, actionable, scoped, and linked. Do not dump raw conversation transcripts into the project.
+> What did we learn that would make future work better, safer, faster, clearer, or more correct?
+
+If the answer has durable value, record it in Smart Notes by default. Do not wait for a special “remember this” command when the learning is clearly material to the project.
+
+Use:
+
+- `docs/SMART-NOTES.md` for the governing protocol;
+- `docs/smart-notes/INDEX.md` for retrieval;
+- `docs/smart-notes/YYYY-MM-DD.md` for chronological entries.
+
+Every entry must include a stable ID, ISO-8601 timestamp with timezone, type, scope, broad natural-language keywords/aliases, summary, evidence, and action/implication. The index must link to every note. Do not create orphan notes.
+
+Smart Notes are memory, not authority. Current governance, product, source, and deployment documents outrank historical notes. When a note becomes stale, mark it superseded and link the replacement rather than silently deleting the learning.
+
+Do not store raw conversation transcripts, temporary chatter, secrets, unsupported guesses, or duplicate information.
 
 ## 22. FINAL HUMAN TEST
 
