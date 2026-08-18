@@ -125,3 +125,37 @@ The failed V5 presentation exposed these problems:
 - Naya treatment was directionally good and should be preserved/refined rather than discarded.
 
 These findings are now part of the active Section 01 design contract.
+
+## 11. SURGICAL ITERATION / COMPONENT PRESERVATION RULE — ABSOLUTE
+
+When a human approves or positively identifies a component, that component becomes a **PROTECTED COMPONENT** for subsequent iterations.
+
+Do not redesign, reposition, restyle, replace, or remove a protected component merely because another part of the section is being improved.
+
+Every iteration must explicitly separate:
+
+**KEEP** — approved elements that must survive unchanged unless the human asks otherwise.
+
+**CHANGE** — the specific element(s) the human is reacting to.
+
+**IMPROVE** — additional weaknesses discovered by Naya that can be corrected without disturbing protected elements.
+
+For Section 01 V7, the compact Naya arrival treatment is protected because the human explicitly identified that direction as good. The score/orb composition is the change target.
+
+The correct iteration pattern is:
+
+`PRESERVE GOOD → ISOLATE PROBLEM → IMPROVE PROBLEM → RE-RENDER`
+
+Never:
+
+`REBUILD EVERYTHING → HOPE THE GOOD PART SURVIVES`
+
+Before every visual iteration, Naya Nitro must state internally:
+
+1. What did the human like?
+2. What did the human dislike?
+3. What specifically caused the failure?
+4. What must remain untouched?
+5. What is the smallest architectural change that can solve the problem?
+
+This rule exists to prevent regressions where fixing one visual component destroys another component that was already working.
