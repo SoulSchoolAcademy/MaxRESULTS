@@ -2,6 +2,7 @@ name: Execute MAXESS Section 01
 
 # Governed Section 01 checkpoint trigger.
 # Execution is locked to the Nitro Master Contract + Section 01 specialization.
+# NITRO LEAD: every owner-level Section 01 refinement must rebuild and verify the generated artifact.
 
 on:
   push:
