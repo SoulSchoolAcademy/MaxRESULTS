@@ -1,133 +1,152 @@
-# MAXESS Clean Repository — Source & Memory Map
+# MAXESS / NAYA — SOURCE & MEMORY MAP
 
 ## Purpose
+This file prevents source confusion by separating **governance, active engineering state, approved baselines, durable memory, and historical evidence**.
 
-This file prevents the new repository from inheriting the old repository's ambiguity.
+It is a map, not a competing source of product law.
 
-## Current clean-repo roles
+## Current repository roles
 
-### Active execution path
+### Canonical project brain
 
-- `NAYA-OS.md` — compact operating system for Naya/AI execution.
-- `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — practical working protocol.
-- `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — consolidated product requirements.
-- `docs/RELEASE-CHECKLIST.md` — release gate.
-- Future canonical Results artifact — one clearly named production HTML source, established only after its baseline is imported and verified.
+- `SoulSchoolAcademy/MaxRESULTS`
+- `main` = governance/reference branch.
+- `maxess-results-v21-working` = current active Results engineering branch.
 
-### Reference-only knowledge
+### Governance / operating authority
 
-The original `SoulSchoolAcademy/maxess` repository remains the historical knowledge base until migration is complete. Its `.naya` system contains governance, laws, product specifications, deployment contracts, asset registries, execution directives, memory, smart notes, and historical implementations.
+- `START-HERE.md` — entry and cold-start law.
+- `docs/REPOSITORY-MAP.md` — navigation, categories, authority, and current state.
+- `NAYA-OS.md` — governing Naya/Nitro operating laws.
+- `docs/NAYA-NITRO-MODE.md` — execution protocol.
+- `docs/NAYA-EXECUTIVE-PLAN.md` — North Star and executive operating objective.
+- `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` — reusable execution contract.
+- `docs/NAYA-SMART-NOTES-SYSTEM.md` — memory rules.
 
-Do not blindly copy every historical artifact into the active path.
+### Product authority
 
-## Knowledge classes
+- `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current consolidated Results requirements.
+- `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — practical Results operating rules.
+- Task-specific design directives, when explicitly identified by the current user/task.
 
-### A. Constitutional / execution law
+### Runtime data authority
 
-Source files include:
+`window.MAXESS_RESULT` is the authoritative runtime result object for the Results experience.
 
-- `00-UNDERSTANDING-FIRST.md`
-- `01-PRIME-DIRECTIVE.md`
-- `02-LAWS-AND-RULES.md`
-- `03-SYSTEM-DESIGN-LAWS.md`
-- `04-EXECUTION-PROCEDURE.md`
-- `05-QUALITY-AND-OSCAR.md`
-- `NAYA-GOVERNANCE.md`
-- `NAYA-LAW.md`
-- `NAYA-WORK-PROTOCOL.md`
+### Deployment authority
 
-These have been distilled into `NAYA-OS.md`.
+`docs/DEPLOYMENT-CONTRACT.md` defines GitHub → Groove → public verification. GitHub state is never proof of live publication.
 
-### B. Results product specification
+### Release authority
 
-Primary sources include:
+`docs/RELEASE-CHECKLIST.md` defines the release gate. A release is not complete merely because code exists or source QA passes.
 
-- `MAXESS-RESULTS-MASTER-INSTRUCTION-SET.md`
-- `MAXESS-RESULTS-EXECUTION-DIRECTIVE-V16.md`
-- `memory/08-MAXESS-RESULTS-MASTER-SPEC.md`
-- `memory/15-MAXESS-10-STAR-RESULTS-EXPERIENCE.md`
-- `memory/23-MAXESS-9-9-BUILD-BLUEPRINT.md`
-- `memory/28-MAXESS-FINAL-RESULTS-BUILD-DIRECTIVE.md`
+## State model
 
-Durable product requirements are consolidated into `docs/MAXESS-RESULTS-PRODUCT-SPEC.md`.
+Use these states explicitly:
 
-Where older documents conflict with the current approved baseline or explicit current user requirements, the current state must be reconciled deliberately rather than copied blindly.
+**WORKING** → actively being developed; not automatically approved.
 
-### C. Source/state/deployment governance
+**VERIFIED** → applicable engineering/behavior QA passed.
 
-Primary sources include:
+**HUMAN REVIEW REQUIRED** → human visual/product judgment remains.
 
-- `RESULTS-SOURCE-REGISTRY.md`
-- `REPOSITORY-OPERATING-MAP.md`
-- `GROOVE-DEPLOYMENT-CONTRACT.md`
-- `MAXESS-RESULTS-EXECUTION-LOCK.md`
-- `MAXESS-RESULTS-SPAGHETTI-PREVENTION-AMENDMENT.md`
-- `MAXESS-AAA-DELIVERY-MANIFEST.md`
-- `smart-notes/2026-08-16-execution-flow-law.md`
+**APPROVED BASELINE** → explicitly approved by the human/product authority.
 
-The new repo's operating model incorporates their durable lessons:
+**LIVE VERIFIED** → public target has been fetched and parity/visual QA passed.
 
-1. one authoritative path;
-2. explicit baseline/candidate states;
-3. write → refetch → diff;
-4. no tiny replacement when a complete artifact is required;
-5. GitHub change ≠ Groove publication;
-6. repeated failures must change the system;
-7. complete upstream work even when external publishing is unavailable.
+**HISTORICAL** → preserved evidence, not active authority.
 
-### D. Assets
+No file becomes authoritative merely because it is newer, larger, committed, or named “final.”
 
-`MAXESS-RESULTS-ASSET-REGISTRY.md` is the reference for approved Naya/brand assets. Do not substitute random portraits or logos when an approved asset exists.
+## Fresh Section 01 state
 
-### E. Historical implementation artifacts
+The current Section 01 build is a fresh working build. There is **no human-approved production baseline for the full Section 01 experience yet**.
 
-Files such as:
+The user has explicitly protected the existing **Orb visual/behavior system** as the element to preserve while the rest of Section 01 remains open to improvement.
 
-- `MAXESS-RESULTS-NAYA-EXPERIENCE-FIX-V2.html` through V6;
-- `MAXESS-RESULTS-NAYA-EXPERIENCE-FRAGMENT.html`;
-- `maxess-results-v14-personalization.py`;
-- `maxess-results-v15-polish.py`;
-- `maxess-results-v15-reconstruction.py`;
-- older 9.x/10.x Results HTML files;
-- duplicate Groove embeds;
-- old standalone `results` renderers;
+Therefore:
 
-are historical evidence, not active source. Reuse only after inspecting the implementation and proving it is better/compatible with the current architecture.
+- Orb = **PROTECTED WORKING DESIGN ELEMENT**.
+- Surrounding Section 01 presentation = **OPEN FOR REFINEMENT**.
+- Full Section 01 = **WORKING / NOT APPROVED**.
+- Live/public parity = **NOT VERIFIED unless separately tested**.
+
+Do not use stale “authoritative V21 renderer” wording from older delivery artifacts as a reason to freeze the rest of the design. If such wording appears in a supplied artifact, treat it as historical/contextual until reconciled with current human requirements.
+
+## Memory architecture
+
+### Naya Note / Smart Note
+
+**Naya Note = Smart Note = durable Naya memory.**
+
+The durable memory system is defined by `docs/NAYA-SMART-NOTES-SYSTEM.md` and stored under `docs/smart-notes/`.
+
+The memory system must support retrieval by:
+
+- date;
+- category;
+- title/topic;
+- keywords;
+- aliases/synonyms;
+- related concepts;
+- project/feature scope;
+- natural-language meaning.
+
+It must not depend on exact phrasing from the original conversation.
+
+### Learning log
+
+`docs/NAYA-NITRO-LEARNING-LOG.md` is the compact running record of durable execution-system lessons. It is not a replacement for the structured Smart Note system.
+
+### Governance promotion
+
+A Smart Note records learning/context. When a lesson becomes a true governing rule, promote it deliberately into the appropriate governance/product document and cross-reference the originating note.
+
+## Historical knowledge
+
+The original `SoulSchoolAcademy/maxess` repository remains historical reference material unless explicitly requested or deliberately migrated.
+
+Historical source classes include:
+
+- old governance documents;
+- prior Results specifications;
+- old execution directives;
+- previous HTML renderers;
+- generated fragments;
+- old scripts;
+- prior deployment artifacts;
+- old Smart Notes.
+
+Do not blindly copy historical authority into the active path.
 
 ## Migration rule
 
-The new repository should eventually contain:
+The clean repository should converge toward:
 
 ```text
-ONE canonical Results source
-+ compact governance
-+ product specification
-+ source/state registry
-+ deployment contract
-+ asset registry
-+ QA/release checks
-+ durable lessons
+ONE governance system
++ ONE current product specification per product
++ ONE explicit active engineering path
++ ONE approved baseline when approved
++ ONE runtime data authority
++ ONE deployment/release contract
++ ONE durable Smart Note memory system
++ historical evidence clearly marked as historical
++ deterministic QA/guardrails
 ```
 
-It should NOT contain:
+Avoid:
 
 ```text
-many competing FINAL files
-many patch renderers
-old generated duplicates
+competing FINAL files
+competing source-of-truth documents
+duplicate memory systems
 mystery loaders
 unclassified experiments
+stale claims of authority
 ```
 
-## Current migration status
+## Legacy-reference rule
 
-- Clean repository created: YES
-- Governance distilled: YES
-- Product spec distilled: YES
-- Release gate established: YES
-- Historical knowledge mapped: YES
-- Canonical production HTML migrated: NOT YET
-- Canonical production baseline verified: NOT YET
-- V21 implementation in clean repo: NOT YET
-
-This explicit state is intentional. The clean repository must never pretend that the production source has been migrated before it actually has.
+When an old document conflicts with the current explicit human requirement or current governance, do not silently choose the old rule. Surface the conflict, determine the current rule, update the appropriate authority, and preserve the historical evidence as historical.
