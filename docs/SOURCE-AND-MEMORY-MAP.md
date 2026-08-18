@@ -1,115 +1,102 @@
-# MAXESS Clean Repository — Source & Memory Map
+# MAXESS Results — Source & Memory Map
 
 ## Purpose
 
-This file prevents the new repository from inheriting the old repository's ambiguity.
+This file prevents repository ambiguity by distinguishing current authority, durable memory, historical evidence, and obsolete migration statements.
 
-## Current clean-repo roles
+## Current active roles
 
-### Active execution path
+### A. Governance / execution
 
-- `NAYA-OS.md` — compact operating system for Naya/AI execution.
-- `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — practical working protocol.
-- `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — consolidated product requirements.
+- `NAYA-OS.md` — governing AI execution and product laws.
+- `START-HERE.md` — mandatory entry point and execution sequence.
+- `NAYA-REPO-LOCK.md` — repository/branch/source-selection lock.
+- `docs/NAYA-NITRO-MODE.md` — execution and QA method.
+
+### B. Product / experience
+
+- `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — consolidated current product requirements.
+- `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — practical Results operating rules.
+- Relevant current design, section, QA, and implementation specifications identified by `docs/REPOSITORY-MAP.md`.
+
+### C. Source / state / release
+
+- `20260817 912am RESULTS PAGE CODE` — current V21 working artifact on the active branch.
+- `BASELINE-WORKING.html` — frozen working baseline.
+- `docs/MAXESS-CHANGE-LEDGER.md` — material requirement and state ledger.
+- `docs/DEPLOYMENT-CONTRACT.md` — GitHub → Groove → public verification contract.
 - `docs/RELEASE-CHECKLIST.md` — release gate.
-- Future canonical Results artifact — one clearly named production HTML source, established only after its baseline is imported and verified.
 
-### Reference-only knowledge
+### D. Durable memory / learning
 
-The original `SoulSchoolAcademy/maxess` repository remains the historical knowledge base until migration is complete. Its `.naya` system contains governance, laws, product specifications, deployment contracts, asset registries, execution directives, memory, smart notes, and historical implementations.
+- `docs/SMART-NOTES.md` — Smart Notes protocol, schema, capture law, retrieval law, and precedence.
+- `docs/smart-notes/INDEX.md` — searchable retrieval index.
+- `docs/smart-notes/YYYY-MM-DD.md` — chronological durable-learning entries.
 
-Do not blindly copy every historical artifact into the active path.
+Smart Notes preserve valuable project learning from conversations and executions. They are memory, not authority. Current authoritative repository files outrank them.
 
-## Knowledge classes
+### E. Engineering / automation
 
-### A. Constitutional / execution law
+- `tools/` — deterministic builders, executors, and QA scripts.
+- `.github/workflows/` — repository integrity and QA automation.
 
-Source files include:
+### F. Assets / references
 
-- `00-UNDERSTANDING-FIRST.md`
-- `01-PRIME-DIRECTIVE.md`
-- `02-LAWS-AND-RULES.md`
-- `03-SYSTEM-DESIGN-LAWS.md`
-- `04-EXECUTION-PROCEDURE.md`
-- `05-QUALITY-AND-OSCAR.md`
-- `NAYA-GOVERNANCE.md`
-- `NAYA-LAW.md`
-- `NAYA-WORK-PROTOCOL.md`
+Approved asset registries and reference packs are authoritative only within their documented scope. Random or historical substitutes must not silently become production assets.
 
-These have been distilled into `NAYA-OS.md`.
+## Historical knowledge
 
-### B. Results product specification
+The original `SoulSchoolAcademy/maxess` repository remains reference-only unless explicitly requested. Historical governance, memory, smart notes, product specifications, and implementations have informed the clean repository but must not be treated as current source merely because they are older or more extensive.
 
-Primary sources include:
+When a historical lesson remains useful, preserve the durable lesson in current Smart Notes or governance rather than importing an entire obsolete system.
 
-- `MAXESS-RESULTS-MASTER-INSTRUCTION-SET.md`
-- `MAXESS-RESULTS-EXECUTION-DIRECTIVE-V16.md`
-- `memory/08-MAXESS-RESULTS-MASTER-SPEC.md`
-- `memory/15-MAXESS-10-STAR-RESULTS-EXPERIENCE.md`
-- `memory/23-MAXESS-9-9-BUILD-BLUEPRINT.md`
-- `memory/28-MAXESS-FINAL-RESULTS-BUILD-DIRECTIVE.md`
+## Knowledge precedence
 
-Durable product requirements are consolidated into `docs/MAXESS-RESULTS-PRODUCT-SPEC.md`.
+When sources disagree, use this order:
 
-Where older documents conflict with the current approved baseline or explicit current user requirements, the current state must be reconciled deliberately rather than copied blindly.
+1. Truth, safety, and platform constraints.
+2. Explicit current human requirements.
+3. Current governance / execution law.
+4. Current product specification and approved source-of-truth records.
+5. Current verified baseline / working artifact evidence.
+6. Smart Notes and historical records as contextual memory.
+7. Engineering convenience.
 
-### C. Source/state/deployment governance
+A Smart Note never silently overrides current source truth.
 
-Primary sources include:
+## Current state — 2026-08-18
 
-- `RESULTS-SOURCE-REGISTRY.md`
-- `REPOSITORY-OPERATING-MAP.md`
-- `GROOVE-DEPLOYMENT-CONTRACT.md`
-- `MAXESS-RESULTS-EXECUTION-LOCK.md`
-- `MAXESS-RESULTS-SPAGHETTI-PREVENTION-AMENDMENT.md`
-- `MAXESS-AAA-DELIVERY-MANIFEST.md`
-- `smart-notes/2026-08-16-execution-flow-law.md`
+- Canonical repository: YES — `SoulSchoolAcademy/MaxRESULTS`
+- Active Results branch: YES — `maxess-results-v21-working`
+- Governance distilled: YES
+- Product specification present: YES
+- Release gate present: YES
+- V21 implementation present: YES
+- Working artifact present: YES
+- Frozen baseline present: YES
+- Smart Notes system: YES — repository-local and indexed
+- Browser rendering verification: NOT YET VERIFIED
+- Groove/live parity verification: NOT YET VERIFIED
+- Final AAA product quality: NOT YET VERIFIED
 
-The new repo's operating model incorporates their durable lessons:
+Do not reuse the old migration-status language that says the V21 implementation or canonical production HTML is absent. That was an obsolete clean-repo migration statement and is no longer current truth.
 
-1. one authoritative path;
-2. explicit baseline/candidate states;
-3. write → refetch → diff;
-4. no tiny replacement when a complete artifact is required;
-5. GitHub change ≠ Groove publication;
-6. repeated failures must change the system;
-7. complete upstream work even when external publishing is unavailable.
+## Migration / cleanup rule
 
-### D. Assets
-
-`MAXESS-RESULTS-ASSET-REGISTRY.md` is the reference for approved Naya/brand assets. Do not substitute random portraits or logos when an approved asset exists.
-
-### E. Historical implementation artifacts
-
-Files such as:
-
-- `MAXESS-RESULTS-NAYA-EXPERIENCE-FIX-V2.html` through V6;
-- `MAXESS-RESULTS-NAYA-EXPERIENCE-FRAGMENT.html`;
-- `maxess-results-v14-personalization.py`;
-- `maxess-results-v15-polish.py`;
-- `maxess-results-v15-reconstruction.py`;
-- older 9.x/10.x Results HTML files;
-- duplicate Groove embeds;
-- old standalone `results` renderers;
-
-are historical evidence, not active source. Reuse only after inspecting the implementation and proving it is better/compatible with the current architecture.
-
-## Migration rule
-
-The new repository should eventually contain:
+The active path should converge toward:
 
 ```text
-ONE canonical Results source
+ONE authoritative Results source
 + compact governance
-+ product specification
-+ source/state registry
++ current product specification
++ explicit state/lineage
++ durable indexed memory
++ QA/release automation
 + deployment contract
-+ asset registry
-+ QA/release checks
-+ durable lessons
++ validated assets
 ```
 
-It should NOT contain:
+It should not converge toward:
 
 ```text
 many competing FINAL files
@@ -117,17 +104,5 @@ many patch renderers
 old generated duplicates
 mystery loaders
 unclassified experiments
+orphan memory notes
 ```
-
-## Current migration status
-
-- Clean repository created: YES
-- Governance distilled: YES
-- Product spec distilled: YES
-- Release gate established: YES
-- Historical knowledge mapped: YES
-- Canonical production HTML migrated: NOT YET
-- Canonical production baseline verified: NOT YET
-- V21 implementation in clean repo: NOT YET
-
-This explicit state is intentional. The clean repository must never pretend that the production source has been migrated before it actually has.
