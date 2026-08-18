@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BUILDER = ROOT / "tools" / "build_v21_canonical.py"
 MASTER_CONTRACT = ROOT / "NITRO-MASTER-EXECUTION-PROTOCOL.md"
 TASK_CONTRACT = ROOT / "docs" / "NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md"
+GROOVE_EMBED = ROOT / "docs" / "SECTION-01-ORB-GROOVE-EMBED.html"
 MARK = "/* MAXESS-SECTION-01-GOLDEN-MASTER */"
 CANONICAL_SCRIPT = '<script id="maxess-results-v21-canonical-js">'
 
@@ -33,9 +34,12 @@ def validate_contracts() -> None:
         raise SystemExit("NITRO LAW FAIL: MAXESS NITRO MASTER EXECUTION CONTRACT is missing")
     if not TASK_CONTRACT.exists():
         raise SystemExit("NITRO LAW FAIL: Section 01 task-specific execution contract is missing")
+    if not GROOVE_EMBED.exists():
+        raise SystemExit("NITRO LAW FAIL: Section 01 Groove delivery artifact is missing")
 
     master = MASTER_CONTRACT.read_text(encoding="utf-8")
     task = TASK_CONTRACT.read_text(encoding="utf-8")
+    embed = GROOVE_EMBED.read_text(encoding="utf-8")
 
     required_master = (
         "MAXESS NITRO MASTER EXECUTION CONTRACT",
@@ -62,6 +66,21 @@ def validate_contracts() -> None:
     if missing_task:
         raise SystemExit("NITRO LAW FAIL: Section 01 contract integrity missing: " + ", ".join(missing_task))
 
+    required_embed = (
+        "MAXESS NITRO — SECTION 01 / ORB + SCORE REVEAL",
+        "window.MAXESS_RESULT",
+        "overallScore",
+        "mx-nitro-orbit",
+        "6s ease-in-out infinite",
+        "10s linear infinite",
+        "prefers-reduced-motion:reduce",
+        "width:100vw",
+        "calc(50% - 50vw)",
+    )
+    missing_embed = [x for x in required_embed if x not in embed]
+    if missing_embed:
+        raise SystemExit("NITRO LAW FAIL: Groove embed integrity missing: " + ", ".join(missing_embed))
+
 
 def validate_python() -> None:
     subprocess.run(["python", "-m", "py_compile", str(BUILDER)], check=True)
@@ -79,9 +98,6 @@ def extract_js(text: str) -> tuple[int, int, str]:
 
 
 def replace_section_chunk(js: str, label: str, replacement: str) -> tuple[str, int]:
-    # A canonical root renderer section is emitted as one JS single-quoted
-    # string chunk followed by +. Match only that chunk; never rebuild the
-    # surrounding renderer expression.
     token = re.compile(r"'(?:\\.|[^'\\])*" + re.escape(label) + r"(?:\\.|[^'\\])*'\s*\+", re.S)
     matches = list(token.finditer(js))
     if len(matches) > 1:
@@ -94,23 +110,12 @@ def replace_section_chunk(js: str, label: str, replacement: str) -> tuple[str, i
 def align(js: str) -> tuple[str, dict[str, int]]:
     changes: dict[str, int] = {}
 
-    js, n = replace_section_chunk(
-        js,
-        "YOUR LEVER",
-        "",
-    )
+    js, n = replace_section_chunk(js, "YOUR LEVER", "")
     changes["YOUR LEVER"] = n
 
-    js, n = replace_section_chunk(
-        js,
-        "YOUR NEXT MOVE",
-        "",
-    )
+    js, n = replace_section_chunk(js, "YOUR NEXT MOVE", "")
     changes["YOUR NEXT MOVE"] = n
 
-    # Replace the obsolete Playground section chunk with the approved
-    # compact Naya guided-experience moment. The real media assets remain
-    # owned by the existing page and are not cloned or relocated here.
     playground_replacement = (
         "'<section class=\"v21-section v21-dark\"><div class=\"v21-inner\">"
         "<span class=\"v21-kicker\">NAYA · IN PRACTICE</span>"
@@ -122,7 +127,6 @@ def align(js: str) -> tuple[str, dict[str, int]]:
     js, n = replace_section_chunk(js, "PLAYGROUND", playground_replacement)
     changes["PLAYGROUND"] = n
 
-    # The V21 Hero must own the single visible Listen control.
     old_ids = "var ids=['#mx-naya-listen','#v11-naya-listen','#v13-listen','.mx-naya-listen','.v18-listen'];"
     new_ids = "var ids=['.v21-listen.b1s1-listen','.v21-listen'];"
     if old_ids in js:
@@ -131,8 +135,6 @@ def align(js: str) -> tuple[str, dict[str, int]]:
     else:
         changes["LISTEN OWNER"] = 0
 
-    # Hard corruption guard: the executor must never introduce nested
-    # root.innerHTML assignments into the canonical renderer expression.
     bad_patterns = (
         "root.innerHTML='<div class=\"root.innerHTML=",
         "root.innerHTML=\"<div class=\"root.innerHTML=",
@@ -144,7 +146,6 @@ def align(js: str) -> tuple[str, dict[str, int]]:
 
 
 def validate_section01_builder(text: str) -> None:
-    """Static evidence gate for the exact Section 01 implementation contract."""
     required = (
         'MAXESS-SECTION-01-GOLDEN-MASTER',
         '.v21-score-orb',
@@ -169,8 +170,6 @@ def validate_section01_builder(text: str) -> None:
 
 
 def main() -> int:
-    # RULE #1: the Master Contract and its specialized Section 01 contract
-    # must be read and validated before any mutation is allowed.
     validate_contracts()
 
     if not BUILDER.exists():
@@ -188,7 +187,6 @@ def main() -> int:
 
     updated = original[:start] + aligned_js + original[end:]
 
-    # Always validate the complete Python builder before accepting the edit.
     candidate_path = ROOT / ".maxess_section01_candidate_builder.py"
     candidate_path.write_text(updated, encoding="utf-8")
     try:
@@ -211,6 +209,7 @@ def main() -> int:
         print("LISTEN OWNER: V21 HERO CONTROL")
         print("NITRO MASTER CONTRACT: READ + VERIFIED")
         print("SECTION 01 CONTRACT: READ + VERIFIED")
+        print("GROOVE EMBED: PRESENT + VERIFIED")
         print("STATIC SECTION 01 EVIDENCE: PASS")
         return 0
 
@@ -227,6 +226,7 @@ def main() -> int:
     print("STATIC SECTION 01 EVIDENCE: PASS")
     print("NITRO MASTER CONTRACT: READ + VERIFIED")
     print("SECTION 01 CONTRACT: READ + VERIFIED")
+    print("GROOVE EMBED: PRESENT + VERIFIED")
     print("BUILDER SHA BEFORE:", sha(original))
     print("BUILDER SHA AFTER: ", sha(updated))
     return 0
