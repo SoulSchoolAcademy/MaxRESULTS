@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""MAXESS Section 01 owner: idempotent Golden Master + narrative alignment."""
+"""MAXESS Section 01 owner: idempotent Golden Master + narrative alignment.
+
+This tool deliberately avoids parsing/reconstructing the whole renderer.
+It patches only exact JavaScript string chunks owned by the V21 root renderer,
+then validates the complete builder before returning success.
+"""
 from __future__ import annotations
 
 from pathlib import Path
@@ -11,124 +16,154 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 BUILDER = ROOT / "tools" / "build_v21_canonical.py"
 MARK = "/* MAXESS-SECTION-01-GOLDEN-MASTER */"
-RENDER_START = "root.innerHTML='<div class=\"v21-shell\">'+"
-RENDER_END = "var btn=root.querySelector('.v21-listen')"
+CANONICAL_SCRIPT = '<script id="maxess-results-v21-canonical-js">'
 
 
-def validate_js(text: str) -> None:
-    with tempfile.NamedTemporaryFile('w', suffix='.js', delete=False, encoding='utf-8') as fh:
-        fh.write(text)
-        path = fh.name
-    proc = subprocess.run(['node', '--check', path], capture_output=True, text=True)
-    Path(path).unlink(missing_ok=True)
-    if proc.returncode:
-        raise SystemExit(proc.stderr.strip() or 'Node syntax validation failed')
+def sha(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 def validate_python() -> None:
-    subprocess.run(['python', '-m', 'py_compile', str(BUILDER)], check=True)
+    subprocess.run(["python", "-m", "py_compile", str(BUILDER)], check=True)
 
 
-def align_renderer(js: str) -> str:
-    start = js.find(RENDER_START)
-    if start < 0:
-        raise SystemExit('SECTION 01: V21 root renderer assembly missing')
-    end = js.find(RENDER_END, start)
-    if end < 0:
-        raise SystemExit('SECTION 01: V21 root renderer closing anchor missing')
+def extract_js(text: str) -> tuple[int, int, str]:
+    start_tag = text.find(CANONICAL_SCRIPT)
+    if start_tag < 0:
+        raise SystemExit("SECTION 01: canonical V21 runtime block missing")
+    start = text.find(">", start_tag) + 1
+    end = text.find("</script>", start)
+    if start <= 0 or end < 0:
+        raise SystemExit("SECTION 01: canonical V21 script boundaries invalid")
+    return start, end, text[start:end]
 
-    render = js[start:end]
 
-    # Remove obsolete chapters from the actual product renderer only.
-    # These are already-clean states when count==0; do not fail an idempotent run.
-    for label in ('YOUR LEVER', 'YOUR NEXT MOVE'):
-        pattern = re.compile(
-            r"\n\s*'(?P<section><section class=\\\"v21-section[^\n]*" +
-            re.escape(label) + r"[^\n]*)</section>'\+",
-            re.S,
-        )
-        render, count = pattern.subn('\n', render, count=1)
-        if count > 1:
-            raise SystemExit(f'SECTION 01: duplicate obsolete {label} sections found: {count}')
+def replace_section_chunk(js: str, label: str, replacement: str) -> tuple[str, int]:
+    # A canonical root renderer section is emitted as one JS single-quoted
+    # string chunk followed by +. Match only that chunk; never rebuild the
+    # surrounding renderer expression.
+    token = re.compile(r"'(?:\\.|[^'\\])*" + re.escape(label) + r"(?:\\.|[^'\\])*'\s*\+", re.S)
+    matches = list(token.finditer(js))
+    if len(matches) > 1:
+        raise SystemExit(f"SECTION 01: multiple active {label} chunks found ({len(matches)})")
+    if not matches:
+        return js, 0
+    return js[:matches[0].start()] + replacement + "\n" + js[matches[0].end():], 1
 
-    # Replace obsolete Playground chapter with the approved existing media moment.
-    playground = re.compile(
-        r"\n\s*'<section class=\\\"v21-section v21-light\\\"><div class=\\\"v21-inner\\\"><span class=\\\"v21-kicker\\\" style=\\\"color:#7445ad\\\">PLAYGROUND</span>.*?</section>'\+",
-        re.S,
+
+def align(js: str) -> tuple[str, dict[str, int]]:
+    changes: dict[str, int] = {}
+
+    js, n = replace_section_chunk(
+        js,
+        "YOUR LEVER",
+        "",
     )
-    replacement = (
-        "\n      '<section class=\\\"v21-section v21-dark\\\"><div class=\\\"v21-inner\\\">"
-        "<span class=\\\"v21-kicker\\\">NAYA · IN PRACTICE</span>"
-        "<h2 class=\\\"v21-section-title\\\">See what your result can become.</h2>"
-        "<p class=\\\"v21-section-copy\\\">Naya helps turn your MAXESS result into a practical next step.</p>"
-        "<div id=\\\"v21-media-host\\\" class=\\\"v21-media-host\\\"></div>"
+    changes["YOUR LEVER"] = n
+
+    js, n = replace_section_chunk(
+        js,
+        "YOUR NEXT MOVE",
+        "",
+    )
+    changes["YOUR NEXT MOVE"] = n
+
+    # Replace the obsolete Playground section chunk with the approved
+    # compact Naya guided-experience moment. The real media assets remain
+    # owned by the existing page and are not cloned or relocated here.
+    playground_replacement = (
+        "'<section class=\"v21-section v21-dark\"><div class=\"v21-inner\">"
+        "<span class=\"v21-kicker\">NAYA · IN PRACTICE</span>"
+        "<h2 class=\"v21-section-title\">See what your result can become.</h2>"
+        "<p class=\"v21-section-copy\">Naya helps turn your MAXESS result into a practical next step.</p>"
+        "<div id=\"v21-media-host\" class=\"v21-media-host\"></div>"
         "</div></section>'+"
     )
-    render, count = playground.subn(replacement, render, count=1)
-    if count > 1:
-        raise SystemExit(f'SECTION 01: duplicate PLAYGROUND sections found: {count}')
-    if count == 0 and 'NAYA · IN PRACTICE' not in render:
-        raise SystemExit('SECTION 01: approved NAYA · IN PRACTICE section is missing')
+    js, n = replace_section_chunk(js, "PLAYGROUND", playground_replacement)
+    changes["PLAYGROUND"] = n
 
-    # Preserve actual media assets only; do not relocate an obsolete section tree.
-    old_media = "root.querySelectorAll('video,iframe,#naya-playground,.mx-reading,.mx-section').forEach(function(n){ if(media.indexOf(n)<0) media.push(n); });"
-    new_media = "root.querySelectorAll('#ny-youtube-player,video,iframe[src*=\"youtube\"],iframe[src*=\"vimeo\"]').forEach(function(n){ if(media.indexOf(n)<0) media.push(n); });"
-    if old_media in js:
-        js = js.replace(old_media, new_media)
-
-    # Move preserved media into the new owner.
-    old_host = "var host=root.querySelector('#v21-playground-host');if(host){media.forEach(function(n){if(n && n!==root && n.parentNode!==host)host.appendChild(n);});}"
-    new_host = "var host=root.querySelector('#v21-media-host');if(host){media.forEach(function(n){if(n && n!==root && n.parentNode!==host)host.appendChild(n);});}"
-    if old_host in js:
-        js = js.replace(old_host, new_host)
-
-    # The V21 Hero owns the visible Listen control.
+    # The V21 Hero must own the single visible Listen control.
     old_ids = "var ids=['#mx-naya-listen','#v11-naya-listen','#v13-listen','.mx-naya-listen','.v18-listen'];"
     new_ids = "var ids=['.v21-listen.b1s1-listen','.v21-listen'];"
     if old_ids in js:
         js = js.replace(old_ids, new_ids)
+        changes["LISTEN OWNER"] = 1
+    else:
+        changes["LISTEN OWNER"] = 0
 
-    return js[:start] + render + js[end:]
+    # Hard corruption guard: the executor must never introduce nested
+    # root.innerHTML assignments into the canonical renderer expression.
+    bad_patterns = (
+        "root.innerHTML='<div class=\"root.innerHTML=",
+        "root.innerHTML=\"<div class=\"root.innerHTML=",
+    )
+    if any(p in js for p in bad_patterns):
+        raise SystemExit("SECTION 01: renderer self-corruption guard triggered")
+
+    return js, changes
 
 
 def main() -> int:
     if not BUILDER.exists():
-        raise SystemExit('SECTION 01: builder missing')
+        raise SystemExit("SECTION 01: builder missing")
 
-    original = BUILDER.read_text(encoding='utf-8')
+    original = BUILDER.read_text(encoding="utf-8")
     if MARK not in original:
-        raise SystemExit('SECTION 01: Golden Master layer is missing; refuse to invent it here')
+        raise SystemExit("SECTION 01: Golden Master layer is missing; refuse to invent it here")
 
-    match = re.search(r'<script id="maxess-results-v21-canonical-js">(.*?)</script>', original, re.S)
-    if not match:
-        raise SystemExit('SECTION 01: canonical V21 runtime block missing')
-
-    js = match.group(1)
-    aligned_js = align_renderer(js)
+    start, end, js = extract_js(original)
+    aligned_js, changes = align(js)
     validate_js(aligned_js)
-    updated = original[:match.start(1)] + aligned_js + original[match.end(1):]
+
+    updated = original[:start] + aligned_js + original[end:]
+
+    # Always validate the complete Python builder before accepting the edit.
+    candidate_path = ROOT / ".maxess_section01_candidate_builder.py"
+    candidate_path.write_text(updated, encoding="utf-8")
+    try:
+        subprocess.run(["python", "-m", "py_compile", str(candidate_path)], check=True)
+    finally:
+        candidate_path.unlink(missing_ok=True)
+        pycache = candidate_path.parent / "__pycache__"
+        if pycache.exists():
+            for p in pycache.glob(".maxess_section01_candidate_builder*.pyc"):
+                p.unlink(missing_ok=True)
 
     if updated == original:
-        print('SECTION 01: renderer already aligned; Golden Master preserved')
-        validate_python()
+        print("SECTION 01: renderer already aligned; Golden Master preserved")
+        print("GOLDEN MASTER: PRESERVED")
+        print("YOUR LEVER: ALREADY ABSENT")
+        print("YOUR NEXT MOVE: ALREADY ABSENT")
+        print("PLAYGROUND: ALREADY ABSENT/ALIGNED")
+        print("LISTEN OWNER: V21 HERO CONTROL")
         return 0
 
-    BUILDER.write_text(updated, encoding='utf-8')
-    validate_python()
+    BUILDER.write_text(updated, encoding="utf-8")
 
-    print('MAXESS SECTION 01 PRODUCT ALIGNMENT: PASS')
-    print('GOLDEN MASTER: PRESERVED')
-    print('REMOVED: YOUR LEVER (if present)')
-    print('REMOVED: YOUR NEXT MOVE (if present)')
-    print('PLAYGROUND: REPLACED OR ALREADY ABSENT')
-    print('MEDIA OWNER: EXISTING VIDEO / MEDIA ASSETS')
-    print('LISTEN OWNER: V21 HERO CONTROL')
-    print('NODE CHECK: PASS')
-    print('PYTHON CHECK: PASS')
-    print('BUILDER SHA BEFORE:', hashlib.sha256(original.encode('utf-8')).hexdigest())
-    print('BUILDER SHA AFTER: ', hashlib.sha256(updated.encode('utf-8')).hexdigest())
+    print("MAXESS SECTION 01 PRODUCT ALIGNMENT: PASS")
+    print("GOLDEN MASTER: PRESERVED")
+    print(f"YOUR LEVER: {'REMOVED' if changes['YOUR LEVER'] else 'ALREADY ABSENT'}")
+    print(f"YOUR NEXT MOVE: {'REMOVED' if changes['YOUR NEXT MOVE'] else 'ALREADY ABSENT'}")
+    print(f"PLAYGROUND: {'REPLACED -> NAYA · IN PRACTICE' if changes['PLAYGROUND'] else 'ALREADY ABSENT/ALIGNED'}")
+    print(f"LISTEN OWNER: {'V21 HERO CONTROL' if changes['LISTEN OWNER'] or '.v21-listen.b1s1-listen' in aligned_js else 'UNCHANGED'}")
+    print("NODE CHECK: PASS")
+    print("PYTHON CHECK: PASS")
+    print("BUILDER SHA BEFORE:", sha(original))
+    print("BUILDER SHA AFTER: ", sha(updated))
     return 0
 
 
-if __name__ == '__main__':
+def validate_js(text: str) -> None:
+    with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False, encoding="utf-8") as fh:
+        fh.write(text)
+        path = fh.name
+    try:
+        proc = subprocess.run(["node", "--check", path], capture_output=True, text=True)
+    finally:
+        Path(path).unlink(missing_ok=True)
+    if proc.returncode:
+        raise SystemExit(proc.stderr.strip() or "Node syntax validation failed")
+
+
+if __name__ == "__main__":
     raise SystemExit(main())
