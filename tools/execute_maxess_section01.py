@@ -107,6 +107,87 @@ def replace_section_chunk(js: str, label: str, replacement: str) -> tuple[str, i
     return js[:matches[0].start()] + replacement + "\n" + js[matches[0].end():], 1
 
 
+def refine_top_presentation(js: str) -> tuple[str, int]:
+    """Add one idempotent post-render refinement to the V21 Section 01 owner.
+
+    This deliberately preserves the existing V21 section order, score source,
+    Orb construction, and listen control. It only improves the visible top
+    presentation and guarantees the contract-required Orbital Bead exists.
+    """
+    marker = "  function build(r){"
+    if marker not in js:
+        raise SystemExit("SECTION 01: V21 build function anchor missing")
+
+    if "function refineSection01Top()" in js:
+        return js, 0
+
+    helper = r'''  function refineSection01Top(){
+    var shell=root.querySelector('.v21-shell');
+    if(!shell) throw new Error('SECTION 01: V21 shell missing after render');
+    var sections=shell.querySelectorAll(':scope > .v21-section');
+    if(sections.length<2) throw new Error('SECTION 01: expected Naya + score sections');
+
+    var nayaSection=sections[0];
+    var scoreSection=sections[1];
+    var naya=nayaSection.querySelector('.v21-naya');
+    var scoreWrap=scoreSection.querySelector('.v21-score-wrap');
+    var orb=scoreSection.querySelector('.v21-score-orb');
+    if(!naya || !scoreWrap || !orb) throw new Error('SECTION 01: protected top components missing');
+
+    var nayaTitle=naya.querySelector('.b1s1-title,.v21-naya-title');
+    if(nayaTitle) nayaTitle.textContent="Hi, I'm Naya.";
+
+    var nayaSub=naya.querySelector('.b1s1-sub,.v21-naya-sub');
+    if(nayaSub){
+      nayaSub.textContent="I've got your results. Take a look through your report, and when you're ready, listen to me walk you through what it means.";
+    }
+
+    var scoreKicker=scoreWrap.querySelector('.v21-kicker');
+    if(scoreKicker) scoreKicker.textContent='YOUR AI SCORE';
+
+    var scoreLabel=orb.querySelector('.v21-score-label');
+    if(scoreLabel) scoreLabel.setAttribute('hidden','');
+
+    var scoreNumber=orb.querySelector('.v21-score-number');
+    var rawScore=scoreNumber ? scoreNumber.textContent.trim() : '';
+    var numericScore=Number(rawScore);
+    if(!Number.isFinite(numericScore)) throw new Error('SECTION 01: score presentation value is invalid');
+    orb.setAttribute('role','img');
+    orb.setAttribute('aria-label','Your AI score is '+Math.round(numericScore)+' out of 100');
+
+    var context=scoreWrap.querySelector('.v21-final-note');
+    if(context){
+      context.textContent="Your score isn't a judgment. It's a signal — a snapshot of your current AI capability and a clue to where your next breakthrough could create the most leverage.";
+    }
+
+    scoreWrap.querySelectorAll('.v21-stage,.v21-stage-five').forEach(function(el){ el.setAttribute('hidden',''); });
+
+    var bead=orb.querySelector('.b1s1-orbital-bead');
+    if(!bead){
+      bead=document.createElement('span');
+      bead.className='b1s1-orbital-bead';
+      bead.setAttribute('aria-hidden','true');
+      orb.appendChild(bead);
+    }else{
+      bead.setAttribute('aria-hidden','true');
+    }
+
+    naya.setAttribute('data-section01-role','naya-welcome');
+    scoreSection.setAttribute('data-section01-role','score-reveal');
+    orb.setAttribute('data-section01-role','signature-orb');
+    bead.setAttribute('data-section01-role','orbital-bead');
+  }
+
+'''
+    js = js.replace(marker, helper + marker, 1)
+
+    call_marker = "    var btn=root.querySelector('.v21-listen');if(btn)btn.addEventListener('click',listen);"
+    if call_marker not in js:
+        raise SystemExit("SECTION 01: V21 post-render binding anchor missing")
+    js = js.replace(call_marker, "    refineSection01Top();\n" + call_marker, 1)
+    return js, 1
+
+
 def align(js: str) -> tuple[str, dict[str, int]]:
     changes: dict[str, int] = {}
 
@@ -135,6 +216,9 @@ def align(js: str) -> tuple[str, dict[str, int]]:
     else:
         changes["LISTEN OWNER"] = 0
 
+    js, n = refine_top_presentation(js)
+    changes["TOP PRESENTATION"] = n
+
     bad_patterns = (
         "root.innerHTML='<div class=\"root.innerHTML=",
         "root.innerHTML=\"<div class=\"root.innerHTML=",
@@ -156,6 +240,11 @@ def validate_section01_builder(text: str) -> None:
         'prefers-reduced-motion:reduce',
         'maxess-results-v21-canonical-css',
         'maxess-results-v21-canonical-js',
+        'function refineSection01Top()',
+        "YOUR AI SCORE",
+        "I'm Naya.",
+        "I've got your results.",
+        "Your score isn't a judgment.",
     )
     missing = [x for x in required if x not in text]
     if missing:
@@ -206,6 +295,7 @@ def main() -> int:
         print("YOUR LEVER: ALREADY ABSENT")
         print("YOUR NEXT MOVE: ALREADY ABSENT")
         print("PLAYGROUND: ALREADY ABSENT/ALIGNED")
+        print("TOP PRESENTATION: ALREADY REFINED")
         print("LISTEN OWNER: V21 HERO CONTROL")
         print("NITRO MASTER CONTRACT: READ + VERIFIED")
         print("SECTION 01 CONTRACT: READ + VERIFIED")
@@ -220,6 +310,7 @@ def main() -> int:
     print(f"YOUR LEVER: {'REMOVED' if changes['YOUR LEVER'] else 'ALREADY ABSENT'}")
     print(f"YOUR NEXT MOVE: {'REMOVED' if changes['YOUR NEXT MOVE'] else 'ALREADY ABSENT'}")
     print(f"PLAYGROUND: {'REPLACED -> NAYA · IN PRACTICE' if changes['PLAYGROUND'] else 'ALREADY ABSENT/ALIGNED'}")
+    print(f"TOP PRESENTATION: {'REFINED' if changes['TOP PRESENTATION'] else 'ALREADY REFINED'}")
     print(f"LISTEN OWNER: {'V21 HERO CONTROL' if changes['LISTEN OWNER'] or '.v21-listen.b1s1-listen' in aligned_js else 'UNCHANGED'}")
     print("NODE CHECK: PASS")
     print("PYTHON CHECK: PASS")
