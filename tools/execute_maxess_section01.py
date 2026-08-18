@@ -40,6 +40,7 @@ def align_renderer(js: str) -> str:
     render = js[start:end]
 
     # Remove obsolete chapters from the actual product renderer only.
+    # These are already-clean states when count==0; do not fail an idempotent run.
     for label in ('YOUR LEVER', 'YOUR NEXT MOVE'):
         pattern = re.compile(
             r"\n\s*'(?P<section><section class=\\\"v21-section[^\n]*" +
@@ -47,8 +48,8 @@ def align_renderer(js: str) -> str:
             re.S,
         )
         render, count = pattern.subn('\n', render, count=1)
-        if count != 1:
-            raise SystemExit(f'SECTION 01: expected one obsolete {label} section, found {count}')
+        if count > 1:
+            raise SystemExit(f'SECTION 01: duplicate obsolete {label} sections found: {count}')
 
     # Replace obsolete Playground chapter with the approved existing media moment.
     playground = re.compile(
@@ -64,8 +65,10 @@ def align_renderer(js: str) -> str:
         "</div></section>'+"
     )
     render, count = playground.subn(replacement, render, count=1)
-    if count != 1:
-        raise SystemExit(f'SECTION 01: expected one PLAYGROUND section, found {count}')
+    if count > 1:
+        raise SystemExit(f'SECTION 01: duplicate PLAYGROUND sections found: {count}')
+    if count == 0 and 'NAYA · IN PRACTICE' not in render:
+        raise SystemExit('SECTION 01: approved NAYA · IN PRACTICE section is missing')
 
     # Preserve actual media assets only; do not relocate an obsolete section tree.
     old_media = "root.querySelectorAll('video,iframe,#naya-playground,.mx-reading,.mx-section').forEach(function(n){ if(media.indexOf(n)<0) media.push(n); });"
@@ -115,9 +118,9 @@ def main() -> int:
 
     print('MAXESS SECTION 01 PRODUCT ALIGNMENT: PASS')
     print('GOLDEN MASTER: PRESERVED')
-    print('REMOVED: YOUR LEVER')
-    print('REMOVED: YOUR NEXT MOVE')
-    print('REPLACED: PLAYGROUND -> NAYA · IN PRACTICE')
+    print('REMOVED: YOUR LEVER (if present)')
+    print('REMOVED: YOUR NEXT MOVE (if present)')
+    print('PLAYGROUND: REPLACED OR ALREADY ABSENT')
     print('MEDIA OWNER: EXISTING VIDEO / MEDIA ASSETS')
     print('LISTEN OWNER: V21 HERO CONTROL')
     print('NODE CHECK: PASS')
