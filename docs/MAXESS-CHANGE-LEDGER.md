@@ -36,7 +36,7 @@ DRAFT | IN PROGRESS | BLOCKED | COMPLETE | FROZEN
 | V21 | Print/PDF | Release | Professional intentional document | Actual PDF generated and inspected | IN PROGRESS | Contract |
 | V22 | Real result handoff | Data | Assessment → Result Contract → MAXESS_RESULT | Real completed assessment verified | IN PROGRESS | Contract |
 | V23 | Groove deployment | Release | Public page shows intended artifact | Live URL verified | IN PROGRESS | Deployment contract |
-| V24 | Smart Notes | Memory | Durable execution learning | Important decisions/failures recorded | COMPLETE | MAXESS-SMART-NOTES.md |
+| V24 | Smart Notes | Memory | Durable execution learning | Protocol + indexed daily notes + broad retrieval vocabulary + integrity guard | COMPLETE | `docs/SMART-NOTES.md`, `docs/smart-notes/INDEX.md`, `docs/smart-notes/2026-08-18.md`; repository-local memory system implemented |
 | V25 | Reference implementation proof | Masterclass | MAXESS demonstrates the OS works | Contract + ledger + tests + live proof | IN PROGRESS | North Star |
 | V26 | HMC reference pack | Brand / Memory | HMC knowledge is connected to MAXESS memory | Source pack indexed; reusable principles stored without unsupported paraphrase | COMPLETE | MAXESS-HMC-REFERENCE-PACK.md |
 | V27 | Product-language / Lead Mode | Operating System | Naya leads from vision to release | Persistent lead behavior, next action, suggested prompt, best-interest rules | COMPLETE | AI Product Creation OS + Naya Lead Mode |
