@@ -34,11 +34,13 @@ def main() -> int:
             failures.append("canonical V21 JS layer could not be isolated")
 
     # Static order QA must inspect only the actual root.innerHTML renderer payload.
-    # Runtime-enhanced chapters (such as fingerprint/media wrappers) are governed by
-    # the Master Contract and runtime QA, not by token ordering inside helper functions.
+    # Runtime-enhanced chapters remain governed by the Master Contract and runtime QA.
     render_start = canonical.find("root.innerHTML")
     render_payload = canonical[render_start:] if render_start >= 0 else canonical
 
+    # Authoritative renderer sequence from MAXESS-MASTER-CONTRACT.md.
+    # The live renderer may add enhancement wrappers at runtime, so this list covers
+    # the sections actually emitted by root.innerHTML in the canonical build.
     renderer_order = [
         "NAYA · YOUR AI GUIDE",
         "YOUR RESULT",
