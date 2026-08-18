@@ -96,3 +96,51 @@ QA → REPAIR → BUILD → QA → REPAIR
 
 ### Reusable masterclass lesson
 When software-generated code becomes brittle, move the tool closer to the software's real structural ownership rather than adding more regex or more layers.
+
+## 2026-08-18 — Nitro Destructive-Overwrite Root Cause
+
+### Discovery
+The Section 01 Golden Master mutation was successfully applied and checkpointed in commit `61eee4f`. A later automated Nitro run (`8b686a3`) then rewrote the authoritative Results source from `BASELINE-NITRO-20260817.html` and deleted the entire `MAXESS-SECTION-01-GOLDEN-MASTER` layer. The diff proved the overwrite: 179 Golden Master lines were deleted from `20260817 912am RESULTS PAGE CODE` and replaced by the Nitro-generated layer.
+
+### Root cause
+There were competing source writers:
+
+PRODUCT / CANONICAL BUILDER
+versus
+NITRO ARTIFACT REGENERATION
+
+The problem was not primarily AI design quality. It was ownership conflict.
+
+### Fix
+The Nitro ownership guard was rewritten in commit `8b0e2c9` so Nitro no longer resets the authoritative product source from its obsolete baseline. When its existing layer is present, it preserves the current source. When the layer is absent, it refuses destructive baseline reconstruction instead of silently deleting verified product work.
+
+### Recovery
+The exact verified Section 01 Golden Master artifact from `61eee4f` was restored onto the current authoritative branch as commit `01c381c`, without rewinding the rest of the repository.
+
+### Permanent rule
+A verified product mutation may never be silently overwritten by an automation lane. Every automation lane must declare ownership and preserve higher-authority product state.
+
+### Masterclass lesson
+Fast AI product development requires not only a strong prompt or QA system. It requires **single-source ownership and write isolation**. If two automation processes can write the same product artifact, verified work can disappear even when every individual process appears to succeed.
+
+## 2026-08-18 — Section 01 Golden Master Recovery
+
+### Verified product state
+Section 01 currently exists in the authoritative product artifact with:
+
+- Naya arrival presentation;
+- black tactile Listen control;
+- Golden Master hero styling;
+- Orb breathing;
+- mandatory Orbital Bead;
+- Hero-to-score bridge;
+- reduced-motion handling;
+- `window.MAXESS_RESULT` authority preserved.
+
+### Evidence
+Golden Master source artifact restored from the verified `61eee4f` checkpoint into `01c381c`.
+Builder still contains the Golden Master implementation layer.
+Canonical build evidence records Node syntax PASS and candidate SHA `4e512d7aeffda51efe547dbcca08fc752f2b485fca4174a598fb8d595a13010b`.
+
+### Status
+Section 01 is **implemented and checkpointed**, but it is not yet FROZEN because rendered human review and 9.5+ Oscar evidence have not been completed in this branch state.
