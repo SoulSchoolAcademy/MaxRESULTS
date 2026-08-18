@@ -1,5 +1,8 @@
 name: Execute MAXESS Section 01
 
+# Governed one-shot Section 01 checkpoint trigger.
+# The workflow is intentionally path-scoped to prevent repeated execution.
+
 on:
   push:
     branches:
