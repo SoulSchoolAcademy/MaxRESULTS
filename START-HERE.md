@@ -3,48 +3,86 @@
 **Canonical repository:** `SoulSchoolAcademy/MaxRESULTS`  
 **Active Results branch:** `maxess-results-v21-working`
 
-This is the mandatory entry point for every consequential MAXESS Results execution.
+This is the mandatory entry point for every consequential MAXESS Results / Naya execution.
 
-## Automatic trigger
+## Activation
 
 Treat `Naya Read GitHub`, `Naya MAX Mode`, `Naya Nitro Mode`, and `Naya Nitro` as explicit activation commands.
 
-## Mandatory sequence
+## Mandatory read order
 
-1. Read `README.md`.
-2. Read `docs/REPOSITORY-MAP.md`.
-3. Read `NAYA-REPO-LOCK.md`.
-4. Read `NAYA-OS.md`.
-5. Read `docs/SMART-NOTES.md`.
-6. Read `docs/smart-notes/INDEX.md` and review relevant recent/topic entries.
-7. Read `docs/NAYA-NITRO-MODE.md`.
-8. Read the task-relevant product/design/source/deployment documents identified by the map.
-9. Establish current state before editing.
+1. `README.md`
+2. `START-HERE.md`
+3. `docs/REPOSITORY-MAP.md`
+4. `NAYA-REPO-LOCK.md`
+5. `NAYA-OS.md`
+6. `NITRO-MASTER-EXECUTION-PROTOCOL.md`
+7. `docs/SMART-NOTES.md`
+8. `docs/smart-notes/INDEX.md`
+9. Review relevant recent/topic Smart Notes / Naya Notes.
+10. Read the task-specific product, design, source, QA, deployment, and release documents identified by the map.
+11. Read `docs/MAXESS-EXECUTION-PROMPT-TEMPLATE.md` and specialize it for the current job.
+
+**Do not reference a required file that does not exist.** If a document named by older instructions is missing, investigate and repair the map rather than guessing.
 
 ## Every execution
 
-**GITHUB FIRST.** Resolve the repository and active branch before acting. Inspect actual files and current source state. Never substitute conversation memory for repository evidence.
+**GITHUB FIRST.** Resolve repository and active branch before acting. Inspect actual files and current source state. Never substitute conversation memory for repository evidence.
+
+Establish:
+
+**WHERE ARE WE → WHAT ARE WE BUILDING → WHAT IS PROTECTED → WHAT WORKS → WHAT FAILED → WHAT MUST NOT REGRESS → WHAT IS UNKNOWN → WHAT HAPPENS NEXT.**
 
 Then:
 
-**WHERE ARE WE → WHAT ARE WE BUILDING → WHAT IS AUTHORITATIVE → WHAT WORKS → WHAT FAILED → WHAT MUST NOT REGRESS → WHAT HAPPENS NEXT.**
+**READ → MAP → REVIEW MEMORY → SCORE → SOURCE-LOCK → PLAN COMPLETE TODO → IMPLEMENT → BUILD → TEST → RENDER → VISUAL QA → OSCAR → REPAIR → RE-TEST → RECORD LEARNING → REPORT.**
 
-## Memory rule
+## Current Section 01 authority rule
 
-At the end of every consequential conversation or execution, identify durable learning. Record valuable decisions, discoveries, failures, root causes, constraints, acceptance criteria, and successful methods in Smart Notes by default.
+The current Section 01 cycle is a fresh build/refinement cycle.
 
-Do not store raw transcripts or temporary chatter. Use broad keywords and aliases so a future AI can retrieve the note without knowing the exact original wording.
+Do **not** describe the current presentation artifact as “authoritative code,” “canonical renderer,” or “approved baseline” unless the human explicitly promotes it.
 
-## Execution loop
+The **Orb + Orbital Bead core behavior supplied by the human is protected** for this cycle. Its specified visual behavior, score mapping, breathing, orbit, sizes, timing, reduced-motion behavior, and MAXESS visual language must be preserved unless the human explicitly changes them.
 
-**UNDERSTAND → PROBE → INVENTORY → MAP → REVIEW MEMORY → BASELINE → SOURCE-LOCK → BATCH → IMPLEMENT → BUILD → STATIC QA → BEHAVIOR QA → OSCAR → REPAIR → RE-VALIDATE → RECORD LEARNING → FREEZE → DELIVER.**
+Everything surrounding that protected Orb behavior is working candidate material and may be refined according to the current human direction.
+
+## Smart Notes / Naya Notes
+
+**Naya Notes = Smart Notes.** They are two names for the same durable project-memory system.
+
+At the end of every consequential conversation or execution, identify durable learning that would make future work better, safer, faster, clearer, or more correct. Record it by default.
+
+Do not store raw transcripts, temporary chatter, guesses, secrets, or duplicates.
+
+Every durable note must be:
+
+- timestamped with timezone;
+- assigned a stable Entry ID;
+- categorized by type and scope;
+- indexed with broad natural-language keywords and aliases;
+- linked to evidence;
+- given a clear action/implication;
+- linked from `docs/smart-notes/INDEX.md`.
+
+Search by concepts, synonyms, aliases, dates, section names, and failure modes — never only by exact original wording.
+
+Smart Notes are **memory, not authority**. Current human requirements and current repository governance/source outrank historical notes.
 
 ## Product chain
 
-`15 answers → authoritative scoring → Result Contract → window.MAXESS_RESULT → Results → personalized interpretation → Naya guidance → next action`
+`15 answers → scoring → Result Contract → window.MAXESS_RESULT → Results → interpretation → Naya guidance → next action`
 
-## Release truth
+## Verification law
 
-Code written is not completion. A GitHub commit is not live deployment. Use explicit states: `IMPLEMENTED`, `VERIFIED`, `LIVE VERIFIED`, `HUMAN REVIEW REQUIRED`.
+Code written is not completion.
+
+A GitHub commit is not live deployment.
+
+Use explicit states:
+
+`IMPLEMENTED` · `VERIFIED` · `LIVE VERIFIED` · `HUMAN REVIEW REQUIRED` · `BLOCKED`
+
+Never claim a test, browser result, visual inspection, Groove result, or deployment that did not actually occur.
 
 **Never guess. Preserve what works. Fix root causes. Add guardrails. Ask: WHY IS THIS NOT A 10?**
