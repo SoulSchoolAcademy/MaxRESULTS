@@ -45,9 +45,11 @@ Change the actual product owner.
 
 For the canonical V21 implementation, Batch 1 uses:
 
-`tools/execute_maxess_batch1_v2.py`
+`tools/execute_maxess_batch1_v3.py`
 
-This executor edits `tools/build_v21_canonical.py` at stable ownership anchors and refuses to report success when no source delta exists.
+V3 owns both builder integrity and product mutation. It deterministically removes balanced Git conflict blocks from the embedded canonical JavaScript, then mutates `tools/build_v21_canonical.py` at stable ownership anchors.
+
+It refuses to report success when no source delta exists.
 
 An existing AAA marker, Nitro layer, or previous patch is never treated as proof of completion.
 
@@ -57,6 +59,7 @@ Before build, prove:
 
 - source hash changed;
 - intended section implementation changed;
+- no unresolved conflict markers remain in the builder;
 - no duplicate renderer was introduced;
 - authoritative data source remains intact;
 - preserved functionality remains.
@@ -106,6 +109,6 @@ A successful build of unchanged source is not product progress.
 
 The current executable path is:
 
-`python tools/execute_maxess_batch1_v2.py`
+`python tools/execute_maxess_batch1_v3.py`
 
 followed by the standard build and QA chain.
