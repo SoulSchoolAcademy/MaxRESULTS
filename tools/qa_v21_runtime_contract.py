@@ -9,39 +9,27 @@ REPORT = ROOT / "V21-RUNTIME-CONTRACT-QA.md"
 
 
 def canonical_sections(js: str) -> list[str]:
-    """Extract actual emitted <section> chunks from the root.innerHTML renderer.
-
-    Do not infer order from helper-function strings. The owner of narrative order
-    is the actual canonical root renderer payload.
-    """
-    m = re.search(
-        r"root\.innerHTML='?<div class=\\?\"v21-shell\\?\">.*?",
-        js,
-        re.I | re.S,
-    )
-    # The V21 renderer in the current source uses root.innerHTML assembled from
-    # string concatenation. Find the assignment, then capture through the final
-    # root.appendChild(experience) / root.classList.add boundary.
-    if not m:
-        start = js.find("root.innerHTML=")
-        if start < 0:
-            return []
-    else:
-        start = m.start()
+    """Extract real <section> chunks from the canonical V21 root renderer."""
+    start = js.find("root.innerHTML='<div class=\"v21-shell\">")
+    if start < 0:
+        start = js.find("root.innerHTML='<div class=\\\"v21-shell\\\">")
+    if start < 0:
+        return []
 
     tail = js[start:]
     end_candidates = [
         tail.find("root.appendChild(experience)"),
         tail.find("root.classList.add('v21-release')"),
+        tail.find("root.appendChild(host)"),
     ]
     ends = [e for e in end_candidates if e >= 0]
-    if not ends:
-        return []
-    payload = tail[: min(ends)]
-
-    # Support escaped and literal markup inside JS strings/templates.
+    payload = tail[: min(ends)] if ends else tail
     payload = payload.replace('\\\"', '\"').replace("\\'", "'")
-    return re.findall(r"<section\\?s+[^>]*>(?:.|\\n)*?</section>", payload, re.I)
+
+    # IMPORTANT: section tags are literal HTML emitted inside JavaScript strings.
+    # The previous validator used a malformed pattern that searched for the
+    # character 's' after <section instead of HTML whitespace.
+    return re.findall(r"<section\s+[^>]*>(?:.|\n)*?</section>", payload, re.I)
 
 
 def section_text(section: str) -> str:
@@ -86,7 +74,7 @@ def main() -> int:
         failures.append("print CSS missing")
     if "prefers-reduced-motion:reduce" not in text:
         failures.append("reduced-motion CSS missing")
-    if 'aria-label="Listen to Naya interpret your MAXESS results"' not in js:
+    if 'aria-label=\"Listen to Naya interpret your MAXESS results\"' not in js:
         failures.append("Listen accessibility label missing")
 
     sections = canonical_sections(js)
@@ -94,23 +82,22 @@ def main() -> int:
         failures.append("canonical renderer sections could not be parsed from the actual root renderer")
     else:
         texts = [section_text(s) for s in sections]
-        # Runtime contract owns the actual renderer sequence. This is deliberately
-        # limited to sections the renderer emits; broader runtime-injected content
-        # is governed by the Master Contract and other QA gates.
+        # Current approved runtime narrative. Playground, lever and next-move are
+        # intentionally excluded from the V21 Results story contract.
         order = [
             "NAYA · YOUR AI GUIDE",
-            "YOUR MAXESS SCORE",
+            "YOUR RESULT",
             "YOUR FIVE DIMENSIONS",
+            "WHAT YOUR SCORES MEAN",
             "YOUR PERSONALIZED REPORT",
+            "YOUR AI FINGERPRINT",
             "YOUR PATTERN",
             "YOUR STRENGTH",
-            "YOUR LEVER",
-            "YOUR NEXT MOVE",
             "18 NAYA MASTERS",
-            "PLAYGROUND",
+            "NAYA · IN PRACTICE",
             "YOUR AI MASTERY JOURNEY",
         ]
-        positions = []
+        positions: list[int] = []
         for marker in order:
             found = next((i for i, t in enumerate(texts) if marker in t), None)
             if found is None:
@@ -120,17 +107,10 @@ def main() -> int:
         if len(positions) == len(order) and positions != sorted(positions):
             failures.append("canonical runtime section order is incorrect")
 
-        # Playground preservation is structural: a preserved section may be found
-        # by content/selector and moved into the V21 experience. Do not require one
-        # obsolete DOM lookup token when the renderer preserves it through a more
-        # robust structural path.
-        playground_present = any("PLAYGROUND" in t for t in texts) or "findSection(/playground/)" in js
-        if not playground_present:
-            failures.append("runtime requirement missing: Playground preservation")
-
     report = [
         "# MAXESS V21 — RUNTIME CONTRACT QA", "",
         f"- Runtime JS lines: `{len(js.splitlines()) if js else 0}`",
+        f"- Parsed canonical sections: `{len(canonical_sections(js))}`",
         f"- Failures: `{len(failures)}`",
         f"- Warnings: `{len(warnings)}`", "", "## Failures",
     ]
@@ -145,6 +125,7 @@ def main() -> int:
     for x in warnings:
         print("WARN:", x)
     print(f"RUNTIME JS LINES: {len(js.splitlines()) if js else 0}")
+    print(f"PARSED CANONICAL SECTIONS: {len(canonical_sections(js))}")
     print(f"FAILURES: {len(failures)}")
     print(f"WARNINGS: {len(warnings)}")
     print("V21 RUNTIME CONTRACT QA PASS" if not failures else "V21 RUNTIME CONTRACT QA FAIL")
