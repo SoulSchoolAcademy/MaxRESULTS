@@ -13,7 +13,7 @@ DRAFT | IN PROGRESS | BLOCKED | COMPLETE | FROZEN
 
 | ID | Requirement | Section | Target | Acceptance | Status | Evidence |
 |---|---|---|---|---|---|---|
-| V01 | Clean canonical builder source | Foundation | No unresolved merge markers | No `<<<<<<<`, `=======`, `>>>>>>>`; Node syntax PASS | IN PROGRESS | Builder inspection; deterministic repair tool |
+| V01 | Clean canonical builder source | Foundation | No unresolved merge markers | No `<<<<<<<`, `=======`, `>>>>>>>`; Node syntax PASS | IN PROGRESS | Deterministic repair tool now idempotent; clean-state run not yet fully verified after latest changes |
 | V02 | Naya arrival | Naya | Personal, warm, one primary Listen | Correct copy, one Listen, accessible | COMPLETE | Existing source + QA |
 | V03 | Score Orb | Hero | Dominant signature visual | Real score centered, responsive, reduced motion | COMPLETE | Existing source + QA |
 | V04 | Score meaning | Meaning | Explain the score in plain language | Stage + interpretation + use guidance | IN PROGRESS | Contract |
@@ -40,6 +40,7 @@ DRAFT | IN PROGRESS | BLOCKED | COMPLETE | FROZEN
 | V25 | Reference implementation proof | Masterclass | MAXESS demonstrates the OS works | Contract + ledger + tests + live proof | IN PROGRESS | North Star |
 | V26 | HMC reference pack | Brand / Memory | HMC knowledge is connected to MAXESS memory | Source pack indexed; reusable principles stored without unsupported paraphrase | COMPLETE | MAXESS-HMC-REFERENCE-PACK.md |
 | V27 | Product-language / Lead Mode | Operating System | Naya leads from vision to release | Persistent lead behavior, next action, suggested prompt, best-interest rules | COMPLETE | AI Product Creation OS + Naya Lead Mode |
+| V28 | Experience QA ownership | QA / Operating System | Validator tests the layer it actually owns | Static renderer-order QA must match the current root renderer; broader chapter completeness stays with Master Contract/runtime QA | COMPLETE | qa_v21_experience_v2.py updated; lesson recorded in Smart Notes |
 
 ## Freeze rule
 
