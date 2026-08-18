@@ -41,6 +41,10 @@ DRAFT | IN PROGRESS | BLOCKED | COMPLETE | FROZEN
 | V26 | HMC reference pack | Brand / Memory | HMC knowledge is connected to MAXESS memory | Source pack indexed; reusable principles stored without unsupported paraphrase | COMPLETE | MAXESS-HMC-REFERENCE-PACK.md |
 | V27 | Product-language / Lead Mode | Operating System | Naya leads from vision to release | Persistent lead behavior, next action, suggested prompt, best-interest rules | COMPLETE | AI Product Creation OS + Naya Lead Mode |
 | V28 | Experience QA ownership | QA / Operating System | Validator tests the layer it actually owns | Static renderer-order QA must match the current root renderer; broader chapter completeness stays with Master Contract/runtime QA | COMPLETE | qa_v21_experience_v2.py updated; lesson recorded in Smart Notes |
+| V29 | AAA section design specification | Product Design | Explicit Definition of 10 for every section | Each section has current problem, AAA target, purpose, content, visual, interaction, evidence | COMPLETE | docs/MAXESS-AAA-SECTION-DESIGN-SPEC.md |
+| V30 | Weighted execution priority | Execution | Work highest-impact unfinished product first | Dynamic weighted priority matrix and anti-loop rules | COMPLETE | docs/MAXESS-PRIORITY-MATRIX.md |
+| V31 | Section execution workflow | Execution | Turn design contract into measurable product deltas | READ → SCORE → PRIORITIZE → MUTATE → PROVE → BUILD → VERIFY → RESCORE → FREEZE → CONTINUE | COMPLETE | docs/MAXESS-SECTION-EXECUTION-WORKFLOW.md |
+| V32 | Batch 1 product mutation | Product | Materially improve Sections 01–03 | Builder SHA changes; all 3 section implementations change; preserve result/media; QA follows mutation | IN PROGRESS | tools/execute_maxess_batch1.py |
 
 ## Freeze rule
 
