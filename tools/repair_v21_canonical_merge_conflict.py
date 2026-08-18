@@ -11,11 +11,11 @@ BUILDER = ROOT / "tools" / "build_v21_canonical.py"
 s = BUILDER.read_text(encoding="utf-8")
 
 marker_re = re.compile(
-    r"(?ms)^(?P<start><<<<<<<[^\n]*)\n"
+    r"(?ms)^(?P<start><<{7}[^\n]*)\n"
     r"(?P<ours>.*?)"
-    r"^=======\n"
+    r"^={7}\n"
     r"(?P<theirs>.*?)"
-    r"^(?P<end>>>>>>>>[^\n]*)$"
+    r"^(?P<end>>{7}[^\n]*)$"
 )
 
 matches = list(marker_re.finditer(s))
@@ -55,10 +55,9 @@ def normalize_narrative(text: str) -> tuple[str, bool]:
     assembly = text[root_start:root_end]
     suffix = text[root_end:]
 
-    # Section boundaries are identified from the actual HTML section start markers,
-    # not from Python/JS quoting or line layout. Each chunk runs from one <section>
-    # start to the next <section> start, preserving all concatenation syntax around it.
-    starts = [m.start() for m in re.finditer(r"'<section class=\\\"v21-section", assembly)]
+    # Section boundaries are based on the actual HTML emitted by the root renderer.
+    # Do not depend on Python/JS quoting, indentation, or line layout.
+    starts = [m.start() for m in re.finditer(r"<section\s+class=[\"']v21-section", assembly)]
     if not starts:
         raise SystemExit("CANONICAL MERGE REPAIR: no canonical sections found")
 
@@ -68,7 +67,7 @@ def normalize_narrative(text: str) -> tuple[str, bool]:
         chunks.append(assembly[start:end])
 
     def section_name(chunk: str) -> str:
-        for token in (
+        tokens = (
             "NAYA · YOUR AI GUIDE",
             "YOUR RESULT",
             "WHAT YOUR SCORES MEAN",
@@ -83,7 +82,8 @@ def normalize_narrative(text: str) -> tuple[str, bool]:
             "PLAYGROUND",
             "NAYA · IN PRACTICE",
             "YOUR AI MASTERY JOURNEY",
-        ):
+        )
+        for token in tokens:
             if token in chunk:
                 return token
         return ""
@@ -101,14 +101,10 @@ def normalize_narrative(text: str) -> tuple[str, bool]:
         return text, False
 
     moved = chunks.pop(d)
-    p = names[:p].count("YOUR FIVE DIMENSIONS") + p
-    # After removing the dimensions chunk from after Pattern, insert it immediately
-    # before Pattern's chunk.
+    p = names.index("YOUR PATTERN")
     chunks.insert(p, moved)
 
-    # Rebuild only the assembly, leaving the prefix/suffix byte-for-byte unchanged.
-    new_assembly = "".join(chunks)
-    return prefix + new_assembly + suffix, True
+    return prefix + "".join(chunks) + suffix, True
 
 
 patched, changed = normalize_narrative(patched)
