@@ -14,12 +14,20 @@ Read these in order before consequential work:
 2. [`docs/REPOSITORY-MAP.md`](./docs/REPOSITORY-MAP.md) — table of contents, categories, state, and source map.
 3. [`NAYA-REPO-LOCK.md`](./NAYA-REPO-LOCK.md) — repository/branch/source lock.
 4. [`NAYA-OS.md`](./NAYA-OS.md) — governing laws.
-5. [`docs/NAYA-NITRO-MODE.md`](./docs/NAYA-NITRO-MODE.md) — execution and QA loop.
-6. Task-relevant product, design, source, deployment, and release documents.
+5. [`docs/SMART-NOTES.md`](./docs/SMART-NOTES.md) — durable learning and retrieval protocol.
+6. [`docs/smart-notes/INDEX.md`](./docs/smart-notes/INDEX.md) — searchable memory index; review relevant entries.
+7. [`docs/NAYA-NITRO-MODE.md`](./docs/NAYA-NITRO-MODE.md) — execution and QA loop.
+8. Task-relevant product, design, source, deployment, and release documents.
 
 ## GITHUB-FIRST LAW
 
-For EVERY MAXESS execution, iteration, and consequential command: **inspect `SoulSchoolAcademy/MaxRESULTS` BEFORE acting.** Resolve the active branch, locate the authoritative artifact by path, inspect current state, and use repository evidence instead of conversation memory. Never guess.
+For EVERY MAXESS execution, iteration, and consequential command: **inspect `SoulSchoolAcademy/MaxRESULTS` BEFORE acting.** Resolve the active branch, locate the authoritative artifact by path, inspect current state, review relevant Smart Notes, and use repository evidence instead of conversation memory. Never guess.
+
+## MEMORY LAW
+
+Conversation is temporary. Durable project learning belongs in Smart Notes by default.
+
+At the end of every consequential conversation or execution, capture valuable decisions, discoveries, failures, root causes, constraints, acceptance criteria, and successful methods. Use broad keywords and aliases so future AI can retrieve the learning without knowing the original wording. Smart Notes are memory, not authority.
 
 ## MISSION
 
@@ -36,6 +44,7 @@ MAXESS measures. Results interprets. Naya guides. The report explains. NayaNET p
 - **Frozen baseline:** `BASELINE-WORKING.html`
 - **Runtime authority:** `window.MAXESS_RESULT`
 - **Nitro guard:** `tools/nitro_aaa_upgrade.py`
+- **Smart Notes:** `docs/SMART-NOTES.md` + indexed daily notes
 - **State:** UPDATED EDITED FILE / working candidate; not automatically approved.
 
 ## SOURCE-OF-TRUTH RULES
@@ -46,10 +55,11 @@ MAXESS measures. Results interprets. Naya guides. The report explains. NayaNET p
 - No competing renderers, result sources, hero systems, or uncontrolled patch layers.
 - Never replace a complete working artifact with a tiny renderer, loader, mock, or excerpt.
 - A newer filename, larger file, commit, or public URL does not automatically become authoritative.
+- Smart Notes provide context and learning; current authoritative repository sources provide truth.
 
 ## EXECUTION
 
-**READ → MAP → ESTABLISH STATE → SOURCE-LOCK → BASELINE → IMPLEMENT IN COHERENT BATCHES → BUILD → REFETCH → DIFF → QA → OSCAR → REPAIR → RE-TEST → FREEZE → DELIVER**
+**READ → MAP → REVIEW MEMORY → ESTABLISH STATE → SOURCE-LOCK → BASELINE → IMPLEMENT IN COHERENT BATCHES → BUILD → REFETCH → DIFF → QA → OSCAR → REPAIR → RE-TEST → RECORD LEARNING → FREEZE → DELIVER**
 
 ## PRODUCT
 
