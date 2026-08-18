@@ -67,3 +67,28 @@ Before changing product code to satisfy a failing QA assertion:
 5. record the lesson.
 
 This becomes part of the AI Product Creation System.
+
+## 2026-08-17 — Section-First AAA Execution
+
+### Discovery
+The live Results experience has a strong information spine and substantial personalized content, but the public presentation remains largely a linear report. The highest-value product improvement is to define and execute each major section against an explicit AAA target rather than continuing broad page-level iteration.
+
+### Decision
+Use the weighted Section Design Specification and Priority Matrix as the execution authority. Product progress is measured by material section source deltas, not by additional QA/documentation commits.
+
+### Execution lesson
+A build/QA cycle that regenerates the same candidate hash is not product progress. The execution engine must be driven by the Change Ledger and must refuse to report success if the targeted product source did not change.
+
+### Batch 1
+Target the first three chapters together:
+
+1. Naya Arrival / Orientation
+2. MAXESS Score / Signature Orb
+3. What Your Score Means
+
+### Prevention rule
+Each batch must:
+
+READ → SCORE → PRIORITIZE → MUTATE → PROVE → BUILD → VERIFY → RESCORE → FREEZE → CONTINUE
+
+If no material product source changes, the batch is a NO-OP and must be treated as failure.
