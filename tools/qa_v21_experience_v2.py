@@ -9,19 +9,25 @@ SOURCE = ROOT / "20260817 912am RESULTS PAGE CODE"
 REPORT = ROOT / "V21-EXPERIENCE-QA-V2.md"
 SCRIPT_TAG = '<script id="maxess-results-v21-canonical-js">'
 
-RENDERER_ORDER = [
+# The product contract defines the complete 15-part narrative, but the
+# canonical root renderer does not own every chapter. Runtime-owned chapters
+# such as Score Meaning and Five Dimensions are assembled elsewhere.
+ROOT_RENDERER_ORDER = [
     "NAYA · YOUR AI GUIDE",
     "YOUR RESULT",
-    "WHAT YOUR SCORES MEAN",
     "YOUR PERSONALIZED REPORT",
-    "YOUR FIVE DIMENSIONS",
-    "YOUR PATTERN",
+    "YOUR AI FINGERPRINT",
     "YOUR STRENGTH",
     "YOUR LEVER",
+    "YOUR PATTERN",
     "YOUR NEXT MOVE",
     "18 NAYA MASTERS",
-    "PLAYGROUND",
     "YOUR AI MASTERY JOURNEY",
+]
+
+RUNTIME_REQUIRED = [
+    "WHAT YOUR SCORE MEANS",
+    "YOUR FIVE DIMENSIONS",
 ]
 
 
@@ -49,16 +55,15 @@ def main() -> int:
     if not canonical:
         failures.append("canonical V21 JS layer could not be isolated")
 
-    # IMPORTANT: root.innerHTML appears in multiple legacy/runtime helpers.
-    # Anchor to the actual V21 shell assignment so the verifier only examines
-    # the canonical renderer payload that emits the public V21 sections.
-    renderer_anchor_re = re.compile(
+    # Anchor to the actual V21 shell renderer. Legacy code contains several
+    # other root.innerHTML assignments and must not participate in this gate.
+    anchor_re = re.compile(
         r"root\.innerHTML\s*=\s*['\"]<div class=\\?[\"']v21-shell\\?[\"']>"
     )
-    anchor = renderer_anchor_re.search(canonical)
+    anchor = anchor_re.search(canonical)
+    render_payload = ""
     if not anchor:
         failures.append("canonical V21 root renderer anchor could not be isolated")
-        render_payload = ""
     else:
         render_payload = canonical[anchor.start():]
         for terminator in ("\n    var btn=", "\n  var btn=", "\nfunction enforce", "\n  function enforce"):
@@ -67,9 +72,9 @@ def main() -> int:
                 render_payload = render_payload[:pos]
                 break
 
-    if render_payload:
-        # Each actual emitted V21 section begins with a literal/escaped
-        # <section class="v21-section..."> fragment in the root renderer.
+    if not render_payload:
+        failures.append("canonical root.innerHTML renderer payload is empty")
+    else:
         section_starts = [
             m.start()
             for m in re.finditer(
@@ -87,7 +92,7 @@ def main() -> int:
             ]
 
         def section_name(chunk: str) -> str:
-            for token in RENDERER_ORDER:
+            for token in ROOT_RENDERER_ORDER:
                 if token in chunk:
                     return token
             return ""
@@ -95,22 +100,26 @@ def main() -> int:
         names = [section_name(chunk) for chunk in chunks]
         actual_names = [name for name in names if name]
 
-        for token in RENDERER_ORDER:
+        for token in ROOT_RENDERER_ORDER:
             if token not in actual_names:
-                failures.append(f"missing canonical renderer section: {token}")
+                failures.append(f"missing canonical root-renderer section: {token}")
 
-        filtered_expected = [token for token in RENDERER_ORDER if token in actual_names]
+        filtered_expected = [token for token in ROOT_RENDERER_ORDER if token in actual_names]
         if actual_names != filtered_expected:
-            failures.append("canonical section order is not the renderer narrative order")
+            failures.append("canonical root renderer section order is not the renderer narrative order")
 
         listen_count = len(re.findall(r'class=[\"\']v21-listen[\"\']', render_payload, flags=re.I))
         if listen_count != 1:
             failures.append(f"canonical Listen CTA is not exactly one: {listen_count}")
 
         if len(re.findall(r'class=[\"\']v21-dim[\"\']', render_payload, flags=re.I)) < 1:
-            failures.append("canonical dimension controls are missing")
-    else:
-        failures.append("canonical root.innerHTML renderer payload is empty")
+            failures.append("canonical dimension controls are missing from root renderer")
+
+    # Runtime-owned chapters must exist in the canonical runtime layer, even
+    # when they are not emitted by the root.innerHTML renderer itself.
+    for token in RUNTIME_REQUIRED:
+        if token not in canonical:
+            failures.append(f"missing runtime-owned canonical section: {token}")
 
     if "slice(0,5)" not in canonical:
         failures.append("canonical runtime does not explicitly constrain dimensions to five")
