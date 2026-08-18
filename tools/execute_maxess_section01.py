@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """MAXESS Section 01 owner: idempotent Golden Master + narrative alignment.
 
-This tool deliberately avoids parsing/reconstructing the whole renderer.
-It patches only exact JavaScript string chunks owned by the V21 root renderer,
-then validates the complete builder before returning success.
+This executor is governed by the MAXESS NITRO MASTER EXECUTION CONTRACT and
+its Section 01 specialization. It deliberately avoids parsing/reconstructing
+the whole renderer. It patches only exact JavaScript string chunks owned by
+the V21 root renderer, then validates the complete builder before returning
+success.
 """
 from __future__ import annotations
 
@@ -15,12 +17,50 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILDER = ROOT / "tools" / "build_v21_canonical.py"
+MASTER_CONTRACT = ROOT / "NITRO-MASTER-EXECUTION-PROTOCOL.md"
+TASK_CONTRACT = ROOT / "docs" / "NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md"
 MARK = "/* MAXESS-SECTION-01-GOLDEN-MASTER */"
 CANONICAL_SCRIPT = '<script id="maxess-results-v21-canonical-js">'
 
 
 def sha(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def validate_contracts() -> None:
+    """Hard execution-law gate: no Section 01 execution without both contracts."""
+    if not MASTER_CONTRACT.exists():
+        raise SystemExit("NITRO LAW FAIL: MAXESS NITRO MASTER EXECUTION CONTRACT is missing")
+    if not TASK_CONTRACT.exists():
+        raise SystemExit("NITRO LAW FAIL: Section 01 task-specific execution contract is missing")
+
+    master = MASTER_CONTRACT.read_text(encoding="utf-8")
+    task = TASK_CONTRACT.read_text(encoding="utf-8")
+
+    required_master = (
+        "MAXESS NITRO MASTER EXECUTION CONTRACT",
+        "MASTER CONTRACT GOVERNANCE — READ THIS BEFORE EVERY EXECUTION",
+        "DO NOT GUESS.",
+        "CAN I PROVE IT?",
+        "UNKNOWN may never ship.",
+    )
+    missing_master = [x for x in required_master if x not in master]
+    if missing_master:
+        raise SystemExit("NITRO LAW FAIL: master contract integrity missing: " + ", ".join(missing_master))
+
+    required_task = (
+        "NITRO-MASTER-EXECUTION-PROTOCOL.md",
+        "Section 01 — Orb / Score Reveal",
+        ".v21-score-orb",
+        ".b1s1-orbital-bead",
+        "window.MAXESS_RESULT",
+        "score-color",
+        "BLOCKED — GROOVE VISUAL TEST UNAVAILABLE",
+        "Naya",
+    )
+    missing_task = [x for x in required_task if x not in task]
+    if missing_task:
+        raise SystemExit("NITRO LAW FAIL: Section 01 contract integrity missing: " + ", ".join(missing_task))
 
 
 def validate_python() -> None:
@@ -103,13 +143,44 @@ def align(js: str) -> tuple[str, dict[str, int]]:
     return js, changes
 
 
+def validate_section01_builder(text: str) -> None:
+    """Static evidence gate for the exact Section 01 implementation contract."""
+    required = (
+        'MAXESS-SECTION-01-GOLDEN-MASTER',
+        '.v21-score-orb',
+        '.b1s1-orbital-bead',
+        'b1s1-orbit',
+        'window.MAXESS_RESULT',
+        'var colorFor=function(v)',
+        'prefers-reduced-motion:reduce',
+        'maxess-results-v21-canonical-css',
+        'maxess-results-v21-canonical-js',
+    )
+    missing = [x for x in required if x not in text]
+    if missing:
+        raise SystemExit('SECTION 01 STATIC EVIDENCE FAIL: ' + ', '.join(missing))
+
+    if text.count('MAXESS-SECTION-01-GOLDEN-MASTER') != 2:
+        raise SystemExit('SECTION 01 STATIC EVIDENCE FAIL: Golden Master marker count is not exactly 2 (CSS + JS)')
+    if text.count('b1s1-orbital-bead') < 2:
+        raise SystemExit('SECTION 01 STATIC EVIDENCE FAIL: Orbital Bead implementation appears incomplete')
+    if re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', text):
+        raise SystemExit('SECTION 01 STATIC EVIDENCE FAIL: unresolved conflict marker remains in builder')
+
+
 def main() -> int:
+    # RULE #1: the Master Contract and its specialized Section 01 contract
+    # must be read and validated before any mutation is allowed.
+    validate_contracts()
+
     if not BUILDER.exists():
         raise SystemExit("SECTION 01: builder missing")
 
     original = BUILDER.read_text(encoding="utf-8")
     if MARK not in original:
         raise SystemExit("SECTION 01: Golden Master layer is missing; refuse to invent it here")
+
+    validate_section01_builder(original)
 
     start, end, js = extract_js(original)
     aligned_js, changes = align(js)
@@ -129,6 +200,8 @@ def main() -> int:
             for p in pycache.glob(".maxess_section01_candidate_builder*.pyc"):
                 p.unlink(missing_ok=True)
 
+    validate_section01_builder(updated)
+
     if updated == original:
         print("SECTION 01: renderer already aligned; Golden Master preserved")
         print("GOLDEN MASTER: PRESERVED")
@@ -136,6 +209,9 @@ def main() -> int:
         print("YOUR NEXT MOVE: ALREADY ABSENT")
         print("PLAYGROUND: ALREADY ABSENT/ALIGNED")
         print("LISTEN OWNER: V21 HERO CONTROL")
+        print("NITRO MASTER CONTRACT: READ + VERIFIED")
+        print("SECTION 01 CONTRACT: READ + VERIFIED")
+        print("STATIC SECTION 01 EVIDENCE: PASS")
         return 0
 
     BUILDER.write_text(updated, encoding="utf-8")
@@ -148,6 +224,9 @@ def main() -> int:
     print(f"LISTEN OWNER: {'V21 HERO CONTROL' if changes['LISTEN OWNER'] or '.v21-listen.b1s1-listen' in aligned_js else 'UNCHANGED'}")
     print("NODE CHECK: PASS")
     print("PYTHON CHECK: PASS")
+    print("STATIC SECTION 01 EVIDENCE: PASS")
+    print("NITRO MASTER CONTRACT: READ + VERIFIED")
+    print("SECTION 01 CONTRACT: READ + VERIFIED")
     print("BUILDER SHA BEFORE:", sha(original))
     print("BUILDER SHA AFTER: ", sha(updated))
     return 0
