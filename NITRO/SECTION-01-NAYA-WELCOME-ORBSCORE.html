@@ -1,5 +1,6 @@
 <!-- MAXESS NITRO — SECTION 01 / NAYA WELCOME + ORB SCORE REVEAL -->
 <!-- Groove-ready Section 01 only. Preserve MAXESS_RESULT, Orb, Orbital Bead and approved Naya asset. -->
+<!-- STATE: UPDATED EDITED FILE — NOT YET AUTHORITATIVE -->
 <section id="maxess-nitro-section01" aria-labelledby="maxess-nitro-section01-score-title">
 <style>
 #maxess-nitro-section01{--mx-bg:#040307;--mx-deep:#030204;--mx-white:#fff;--mx-purple:#A66CFF;--mx-violet:#D0A8FF;--mx-muted:rgba(255,255,255,.48);--mx-orb-color:#A66CFF;width:100%;position:relative;overflow:hidden;isolation:isolate;color:#fff;background:radial-gradient(ellipse 80% 42% at 50% 0,rgba(166,108,255,.18),transparent 70%),linear-gradient(180deg,#09040f 0%,var(--mx-bg) 52%,var(--mx-deep) 100%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
@@ -17,7 +18,7 @@
 #maxess-nitro-section01 .nitro-naya-title{margin:7px 0 0;font-size:clamp(30px,3.8vw,52px);line-height:.96;letter-spacing:-.06em;font-weight:920}
 #maxess-nitro-section01 .nitro-naya-sub{max-width:700px;margin:11px 0 0;color:rgba(255,255,255,.74);font-size:16px;line-height:1.58}
 #maxess-nitro-section01 .nitro-naya-sub strong{color:#fff;font-weight:850}
-#maxess-nitro-section01 .nitro-listen{appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:198px;min-height:58px;padding:0 24px;border:1px solid rgba(185,144,255,.82);border-radius:999px;background:linear-gradient(180deg,#17131d 0%,#09070d 100%);color:#fff;font:inherit;font-size:14px;font-weight:950;letter-spacing:.065em;cursor:pointer;box-shadow:inset 0 1px rgba(255,255,255,.16),inset 0 -2px rgba(0,0,0,.44),0 10px 24px rgba(0,0,0,.46),0 0 24px rgba(155,99,255,.18);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+#maxess-nitro-section01 .nitro-listen{appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:198px;min-height:58px;padding:0 24px;border:1px solid rgba(185,144,255,.82);border-radius:999px;background:linear-gradient(180deg,#17131d 0%,#09070d 100%);color:#fff;font:inherit;font-size:13px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;box-shadow:inset 0 1px rgba(255,255,255,.16),inset 0 -2px rgba(0,0,0,.44),0 10px 24px rgba(0,0,0,.46),0 0 24px rgba(155,99,255,.18);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
 #maxess-nitro-section01 .nitro-listen:hover{transform:translateY(-2px);border-color:#caa8ff;box-shadow:inset 0 1px rgba(255,255,255,.22),inset 0 -2px rgba(0,0,0,.42),0 16px 34px rgba(0,0,0,.52),0 0 34px rgba(155,99,255,.28)}
 #maxess-nitro-section01 .nitro-listen:active{transform:translateY(1px) scale(.988)}
 #maxess-nitro-section01 .nitro-listen:focus-visible{outline:3px solid #fff;outline-offset:5px}
@@ -54,13 +55,13 @@
 <div class="nitro-shell">
   <div class="nitro-ambient" aria-hidden="true"></div>
   <section class="nitro-naya" aria-labelledby="maxess-nitro-naya-title">
-    <div class="nitro-avatar-wrap"><img class="nitro-avatar" src="https://raw.githubusercontent.com/SoulSchoolAcademy/maxess/main/Naya%20Profile%20Black.jpg" alt="Naya, your AI guide" loading="eager" decoding="async"></div>
+    <div class="nitro-avatar-wrap"><img class="nitro-avatar" src="https://i.postimg.cc/dVXw7sRN/grok-image-f75a6f12-4e3a-4c99-a334-5684ba0f7401.jpg" alt="Naya, your AI guide" loading="eager" decoding="async"></div>
     <div class="nitro-naya-copy">
-      <p class="nitro-naya-kicker">NAYA · YOUR GUIDE</p>
-      <h2 id="maxess-nitro-naya-title" class="nitro-naya-title">Hi, I'm Naya.</h2>
-      <p class="nitro-naya-sub"><strong>I've got your results.</strong> Take a look through your report, and when you're ready, listen to me walk you through what it means.</p>
+      <p class="nitro-naya-kicker">NAYA · YOUR AI GUIDE</p>
+      <h2 id="maxess-nitro-naya-title" class="nitro-naya-title">Hi, I'm Naya. <strong>I've got your results.</strong></h2>
+      <p class="nitro-naya-sub">Take a look through your report, and when you're ready, listen to me walk you through what it means.</p>
     </div>
-    <button id="maxess-nitro-listen" class="nitro-listen" type="button" aria-label="Listen to Naya explain your MAXESS results"><span class="nitro-listen-icon" aria-hidden="true">▶</span><span>Listen to Naya</span></button>
+    <button id="maxess-nitro-listen" class="nitro-listen" type="button" aria-label="Listen to Naya explain your MAXESS results"><span class="nitro-listen-icon" aria-hidden="true">▶</span><span>LISTEN TO NAYA</span></button>
   </section>
   <div class="nitro-bridge" aria-hidden="true"><span class="nitro-bridge-dot"></span></div>
   <header class="nitro-score-intro"><h1 id="maxess-nitro-section01-score-title" class="nitro-score-title">YOUR AI SCORE</h1><p class="nitro-score-copy">Your score isn't a judgment. It's a signal — a snapshot of your current AI capability and a clue to where your next breakthrough could create the most leverage.</p></header>
@@ -78,7 +79,7 @@ function clamp(v){var n=Number(v);return Number.isFinite(n)?Math.max(0,Math.min(
 function scoreColor(v){var s=clamp(v);if(s===null)return '#A66CFF';var h=178+s*1.05,l=55+s*.10;return 'hsl('+h.toFixed(0)+' 78% '+l.toFixed(0)+'%)'}
 function getResult(){if(window.MAXESS_RESULT&&typeof window.MAXESS_RESULT==='object')return window.MAXESS_RESULT;if(new URLSearchParams(window.location.search).get('fixture')==='demo')return{overallScore:82,band:'Advancing',__nitroFixture:true};return null}
 function render(){var result=getResult(),score=clamp(result&&result.overallScore);if(score===null){scoreNode.textContent='—';unavailableNode.setAttribute('data-visible','true');orb.setAttribute('aria-label','Your MAXESS AI score is not currently available');liveNode.textContent='MAXESS score unavailable.';return}var color=scoreColor(score);root.style.setProperty('--mx-orb-color',color);scoreNode.textContent=String(Math.round(score));unavailableNode.setAttribute('data-visible','false');orb.setAttribute('aria-label','Your MAXESS AI score is '+Math.round(score)+' out of 100');liveNode.textContent='Your MAXESS AI score is '+Math.round(score)+' out of 100.'}
-function listen(){var selectors=['.v21-listen.b1s1-listen','.v21-listen','#maxess-naya-listen'];for(var i=0;i<selectors.length;i++){var nodes=document.querySelectorAll(selectors[i]);for(var j=0;j<nodes.length;j++){var node=nodes[j];if(node&&node!==listenButton&&getComputedStyle(node).display!=='none'){node.click();return}}}root.dispatchEvent(new CustomEvent('maxess:naya-listen',{bubbles:true,detail:{result:getResult()}}))}
+function listen(){var selectors=['.v21-listen.b1s1-listen','.v21-listen','#maxess-naya-listen'];for(var i=0;i<selectors.length;i++){var nodes=document.querySelectorAll(selectors[i]);for(var j=0;j<nodes.length;j++){var node=nodes[j];if(node&&node!==listenButton&&getComputedStyle(node).display!=='none'){node.click();return}}}root.dispatchEvent(new CustomEvent('maxess:naya-listen',{bubbles:true,detail:{result:getResult()}}));window.dispatchEvent(new CustomEvent('maxess:naya-listen',{detail:{result:getResult()}}))}
 listenButton.addEventListener('click',listen);render();window.addEventListener('load',render,{once:true})})();
 </script>
 </section>
