@@ -15,7 +15,7 @@ marker_re = re.compile(
     r"(?P<ours>.*?)"
     r"^={7}\n"
     r"(?P<theirs>.*?)"
-    r"^(?P<end>>{7}[^\n]*)$"
+    r"^(?P<end}>{7}[^\n]*)$"
 )
 
 matches = list(marker_re.finditer(s))
@@ -56,12 +56,17 @@ def normalize_narrative(text: str) -> tuple[str, bool]:
     assembly = text[root_start:root_end]
     suffix = text[root_end:]
 
-    # HTML section boundaries are independent of Python/JS quoting and indentation.
-    starts = [m.start() for m in re.finditer(r"<section\s+class=[\"']v21-section", assembly)]
+    # Canonical HTML lives inside JavaScript string literals, so the class quote may
+    # be escaped as class=\"...\". Accept either escaped or literal quote syntax.
+    section_start_re = re.compile(r"<section\s+class=\\?[\"']v21-section")
+    starts = [m.start() for m in section_start_re.finditer(assembly)]
     if not starts:
         raise SystemExit("CANONICAL MERGE REPAIR: no canonical sections found")
 
-    chunks = [assembly[start:(starts[i + 1] if i + 1 < len(starts) else len(assembly))] for i, start in enumerate(starts)]
+    chunks = [
+        assembly[start:(starts[i + 1] if i + 1 < len(starts) else len(assembly))]
+        for i, start in enumerate(starts)
+    ]
 
     tokens = (
         "NAYA · YOUR AI GUIDE",
