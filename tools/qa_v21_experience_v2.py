@@ -7,7 +7,65 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "20260817 912am RESULTS PAGE CODE"
 REPORT = ROOT / "V21-EXPERIENCE-QA-V2.md"
-MARKER = 'id="maxess-results-v21-canonical-js"'
+SCRIPT_TAG = '<script id="maxess-results-v21-canonical-js">'
+
+RENDERER_ORDER = [
+    "NAYA · YOUR AI GUIDE",
+    "YOUR RESULT",
+    "WHAT YOUR SCORES MEAN",
+    "YOUR PERSONALIZED REPORT",
+    "YOUR FIVE DIMENSIONS",
+    "YOUR PATTERN",
+    "YOUR STRENGTH",
+    "YOUR LEVER",
+    "YOUR NEXT MOVE",
+    "18 NAYA MASTERS",
+    "PLAYGROUND",
+    "YOUR AI MASTERY JOURNEY",
+]
+
+
+def extract_canonical(text: str) -> str:
+    start = text.find(SCRIPT_TAG)
+    if start < 0:
+        return ""
+    end = text.find("</script>", start)
+    if end < 0:
+        return ""
+    return text[start:end + len("</script>")]
+
+
+def extract_render_payload(canonical: str) -> str:
+    # The production renderer uses a root.innerHTML assignment assembled from
+    # string fragments. Capture that assignment through its terminating
+    # render-enforcement statement rather than relying on arbitrary title text.
+    start = canonical.find("root.innerHTML")
+    if start < 0:
+        return ""
+    end_candidates = [
+        canonical.find("\n    var btn=", start),
+        canonical.find("\n  var btn=", start),
+        canonical.find("\nfunction enforce", start),
+    ]
+    end_candidates = [x for x in end_candidates if x >= 0]
+    end = min(end_candidates) if end_candidates else len(canonical)
+    return canonical[start:end]
+
+
+def parse_section_chunks(render_payload: str) -> list[str]:
+    # Parse emitted section boundaries structurally. Accept quoted/escaped
+    # representations because the renderer lives inside a JavaScript string.
+    starts = [m.start() for m in re.finditer(r"<section\s+class=\\?[\"']v21-section\\?[\"']", render_payload)]
+    if not starts:
+        return []
+    return [render_payload[s:(starts[i + 1] if i + 1 < len(starts) else len(render_payload))] for i, s in enumerate(starts)]
+
+
+def section_name(chunk: str) -> str:
+    for token in RENDERER_ORDER:
+        if token in chunk:
+            return token
+    return ""
 
 
 def main() -> int:
@@ -17,61 +75,31 @@ def main() -> int:
 
     if not text:
         failures.append("working Results source missing or empty")
-        return 5
+    canonical = extract_canonical(text) if text else ""
+    if not canonical:
+        failures.append("canonical V21 JS layer could not be isolated")
 
-    marker_count = text.count(MARKER)
+    marker_count = text.count(SCRIPT_TAG) if text else 0
     if marker_count != 1:
-        failures.append(f"canonical JS marker is not exactly once: {marker_count}")
-        canonical = ""
-    else:
-        start = text.index(MARKER)
-        script_open = text.rfind("<script", 0, start)
-        end = text.find("</script>", start)
-        canonical = text[script_open:end + len("</script>")] if script_open >= 0 and end >= 0 else ""
-        if not canonical:
-            failures.append("canonical V21 JS layer could not be isolated")
+        failures.append(f"canonical JS script tag is not exactly once: {marker_count}")
 
-    render_start = canonical.find("root.innerHTML")
-    render_payload = canonical[render_start:] if render_start >= 0 else canonical
+    render_payload = extract_render_payload(canonical)
+    if not render_payload:
+        failures.append("canonical root.innerHTML renderer could not be isolated")
 
-    renderer_order = [
-        "NAYA · YOUR AI GUIDE",
-        "YOUR RESULT",
-        "WHAT YOUR SCORES MEAN",
-        "YOUR PERSONALIZED REPORT",
-        "YOUR FIVE DIMENSIONS",
-        "YOUR PATTERN",
-        "YOUR STRENGTH",
-        "YOUR LEVER",
-        "YOUR NEXT MOVE",
-        "18 NAYA MASTERS",
-        "PLAYGROUND",
-        "YOUR AI MASTERY JOURNEY",
-    ]
-
-    # Parse only actual section chunks emitted by root.innerHTML. Do not search the
-    # whole JavaScript payload for title strings because helper code/runtime strings
-    # can contain the same labels and produce false ordering failures.
-    section_re = re.compile(r"<section\s+class=\\?[\"']v21-section\\?[\"'].*?(?=<section\s+class=\\?[\"']v21-section\\?[\"']|$)", re.S)
-    chunks = section_re.findall(render_payload)
+    chunks = parse_section_chunks(render_payload)
     if not chunks:
         failures.append("canonical renderer sections could not be parsed from root.innerHTML")
-        chunks = []
-
-    def section_name(chunk: str) -> str:
-        for token in renderer_order:
-            if token in chunk:
-                return token
-        return ""
 
     names = [section_name(chunk) for chunk in chunks]
     actual_names = [name for name in names if name]
-    missing = [token for token in renderer_order if token not in actual_names]
-    for token in missing:
-        failures.append(f"missing canonical renderer section: {token}")
 
-    filtered_expected = [token for token in renderer_order if token in actual_names]
-    if filtered_expected != actual_names:
+    for token in RENDERER_ORDER:
+        if token not in actual_names:
+            failures.append(f"missing canonical renderer section: {token}")
+
+    filtered_expected = [token for token in RENDERER_ORDER if token in actual_names]
+    if actual_names != filtered_expected:
         failures.append("canonical section order is not the renderer narrative order")
 
     listen_count = len(re.findall(r'class=[\"\']v21-listen[\"\']', render_payload, flags=re.I))
@@ -80,10 +108,13 @@ def main() -> int:
 
     if len(re.findall(r'class=[\"\']v21-dim[\"\']', render_payload, flags=re.I)) < 1:
         failures.append("canonical dimension controls are missing")
+
     if "slice(0,5)" not in canonical:
         failures.append("canonical runtime does not explicitly constrain dimensions to five")
+
     if "window.MAXESS_RESULT" not in canonical:
         failures.append("MAXESS_RESULT source-of-truth is missing from canonical runtime")
+
     if (
         'data-results-data-source=\\"window.MAXESS_RESULT\\"' not in canonical
         and "data-results-data-source='window.MAXESS_RESULT'" not in canonical
@@ -102,7 +133,7 @@ def main() -> int:
         failures.append("reduced-motion handling missing")
     if "focus-visible" not in text:
         failures.append("focus-visible handling missing")
-    if 'aria-label=\\"Listen to Naya' not in canonical:
+    if not re.search(r'aria-label=\\?[\"\']Listen to Naya', canonical, flags=re.I):
         failures.append("Listen CTA accessibility label missing")
 
     if re.search(r"Math\.round\(s\)\s*/\s*100", canonical):
