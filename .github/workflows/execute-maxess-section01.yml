@@ -1,7 +1,7 @@
 name: Execute MAXESS Section 01
 
-# Governed one-shot Section 01 checkpoint trigger.
-# The workflow is intentionally path-scoped to prevent repeated execution.
+# Governed Section 01 checkpoint trigger.
+# Execution is locked to the Nitro Master Contract + Section 01 specialization.
 
 on:
   push:
@@ -10,9 +10,17 @@ on:
     paths:
       - .github/workflows/execute-maxess-section01.yml
       - tools/execute_maxess_section01.py
+      - tools/build_v21_canonical.py
+      - NITRO-MASTER-EXECUTION-PROTOCOL.md
+      - docs/NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md
+  workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: maxess-section01-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   section01:
@@ -28,6 +36,15 @@ jobs:
         run: |
           git config user.name "Naya Lead Mode"
           git config user.email "naya-lead-mode@users.noreply.github.com"
+
+      - name: Verify Nitro Master Contract and Section 01 contract exist
+        run: |
+          test -f NITRO-MASTER-EXECUTION-PROTOCOL.md
+          test -f docs/NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md
+          grep -q 'MAXESS NITRO MASTER EXECUTION CONTRACT' NITRO-MASTER-EXECUTION-PROTOCOL.md
+          grep -q 'Section 01 — Orb / Score Reveal' docs/NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md
+          echo "NITRO MASTER CONTRACT: PRESENT"
+          echo "SECTION 01 CONTRACT: PRESENT"
 
       - name: Execute Section 01 Golden Master refinement
         run: python tools/execute_maxess_section01.py
@@ -51,12 +68,13 @@ jobs:
               'b1s1-orb-live',
               'b1s1-orbital-bead',
               'b1s1-bridge',
+              'window.MAXESS_RESULT',
+              'var colorFor=function(v)',
+              'prefers-reduced-motion:reduce',
           ]
           missing = [x for x in required if x not in s]
           if missing:
               raise SystemExit('SECTION 01 evidence missing: ' + ', '.join(missing))
-          if 'window.MAXESS_RESULT' not in s:
-              raise SystemExit('MAXESS_RESULT authority marker missing')
           if re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', s):
               raise SystemExit('Unresolved conflict marker remains in builder')
           print('SECTION 01 SOURCE VERIFICATION: PASS')
@@ -68,12 +86,30 @@ jobs:
           python -m py_compile tools/execute_maxess_section01.py tools/build_v21_canonical.py
           echo "Section 01 focused verification: PASS"
 
+      - name: Verify generated source integrity
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('20260817 912am RESULTS PAGE CODE')
+          s = p.read_text(encoding='utf-8')
+          assert len(s.encode('utf-8')) > 500000, 'Canonical Results source suspiciously small'
+          assert 'window.MAXESS_RESULT' in s, 'MAXESS_RESULT authority marker missing'
+          assert 'MAXESS-SECTION-01-GOLDEN-MASTER' in s, 'Section 01 Golden Master missing from generated artifact'
+          assert 'b1s1-orbital-bead' in s, 'Orbital Bead missing from generated artifact'
+          assert 'prefers-reduced-motion:reduce' in s, 'Reduced-motion contract missing from generated artifact'
+          assert not re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', s), 'Conflict marker remains'
+          print('GENERATED SOURCE INTEGRITY: PASS')
+          print('BYTES:', len(s.encode('utf-8')))
+          print('LINES:', len(s.splitlines()))
+          PY
+
       - name: Commit verified Section 01 checkpoint
         run: |
-          git add "20260817 912am RESULTS PAGE CODE" tools/build_v21_canonical.py V21-CANONICAL-BUILD-RESULT.md
+          git add "20260817 912am RESULTS PAGE CODE" tools/build_v21_canonical.py tools/execute_maxess_section01.py NITRO-MASTER-EXECUTION-PROTOCOL.md docs/NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md V21-CANONICAL-BUILD-RESULT.md
           if git diff --cached --quiet; then
             echo "No product delta to checkpoint."
             exit 1
           fi
-          git commit -m "MAXESS Section 01 Golden Master checkpoint"
+          git commit -m "MAXESS Section 01 Nitro Master checkpoint"
           git push origin maxess-results-v21-working
