@@ -1,8 +1,10 @@
 name: MAXESS Nitro V2 Execution
 
+# Mutation workflow: explicit dispatch only.
+# Automatic pushes use repository-integrity.yml for verification and must not
+# silently rewrite the working product artifact.
+
 on:
-  push:
-    branches: [maxess-results-v21-working]
   workflow_dispatch:
 
 permissions:
@@ -10,25 +12,27 @@ permissions:
 
 jobs:
   execute:
-    if: ${{ !contains(github.event.head_commit.message, '[nitro-generated]') }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout authoritative branch
+      - name: Checkout working branch
         uses: actions/checkout@v4
         with:
           ref: maxess-results-v21-working
           fetch-depth: 0
+
       - name: Lock check
         run: |
           test "${GITHUB_REPOSITORY}" = "SoulSchoolAcademy/MaxRESULTS"
           test "${GITHUB_REF_NAME}" = "maxess-results-v21-working"
           test -f '20260817 912am RESULTS PAGE CODE'
           test -f tools/nitro_aaa_upgrade.py
-      - name: Execute Nitro upgrade with captured diagnostics
+
+      - name: Execute Nitro guard with captured diagnostics
         shell: bash
         run: |
           set -o pipefail
           python -u tools/nitro_aaa_upgrade.py 2>&1 | tee nitro-execution.log
+
       - name: Verify result
         run: |
           python -m py_compile tools/nitro_aaa_upgrade.py
@@ -42,6 +46,7 @@ jobs:
           assert 'window.MAXESS_RESULT' in s
           print('verified bytes',len(s.encode()),'lines',len(s.splitlines()))
           PY
+
       - name: Upload execution evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -49,36 +54,13 @@ jobs:
           name: maxess-nitro-v2-evidence
           path: nitro-execution.log
           if-no-files-found: ignore
-      - name: Publish verified artifact to authoritative branch
-        if: success()
-        uses: actions/github-script@v7
-        env:
-          ARTIFACT_PATH: '20260817 912am RESULTS PAGE CODE'
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const path = process.env.ARTIFACT_PATH;
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const branch = 'maxess-results-v21-working';
-            const data = await github.rest.repos.getContent({owner, repo, path, ref: branch});
-            const current = Array.isArray(data.data) ? data.data[0] : data.data;
-            const content = fs.readFileSync(path).toString('base64');
-            const result = await github.rest.repos.createOrUpdateFileContents({
-              owner, repo, path,
-              message: 'MAXESS Nitro V3 AAA upgrade — verified [nitro-generated]',
-              content,
-              sha: current.sha,
-              branch,
-            });
-            core.info(`Published ${path}`);
-            core.info(`Commit: ${result.data.commit.sha}`);
-      - name: Final evidence
+
+      - name: Commit only verified Nitro mutation
         if: success()
         run: |
-          echo "REPOSITORY=${GITHUB_REPOSITORY}"
-          echo "BRANCH=maxess-results-v21-working"
-          echo "SOURCE=20260817 912am RESULTS PAGE CODE"
-          wc -c '20260817 912am RESULTS PAGE CODE'
-          wc -l '20260817 912am RESULTS PAGE CODE'
+          git config user.name 'Naya Master'
+          git config user.email 'naya-master@users.noreply.github.com'
+          git add '20260817 912am RESULTS PAGE CODE'
+          git diff --cached --quiet && exit 0
+          git commit -m 'MAXESS Nitro V3 AAA upgrade — verified [nitro-generated]'
+          git push origin maxess-results-v21-working
