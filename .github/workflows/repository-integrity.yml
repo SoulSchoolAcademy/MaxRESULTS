@@ -27,6 +27,9 @@ jobs:
           test -f docs/REPOSITORY-MAP.md
           test -f NAYA-REPO-LOCK.md
           test -f NAYA-OS.md
+          test -f docs/SMART-NOTES.md
+          test -f docs/smart-notes/INDEX.md
+          test -f docs/smart-notes/$(date -u +%Y-%m-%d).md
           test -f docs/NAYA-NITRO-MODE.md
           test -f docs/MAXESS-RESULTS-PRODUCT-SPEC.md
           test -f docs/DEPLOYMENT-CONTRACT.md
@@ -34,6 +37,27 @@ jobs:
           test -f '20260817 912am RESULTS PAGE CODE'
           test -f BASELINE-WORKING.html
           test -f tools/nitro_aaa_upgrade.py
+
+      - name: Smart Notes integrity gate
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          protocol = Path('docs/SMART-NOTES.md').read_text(encoding='utf-8')
+          index = Path('docs/smart-notes/INDEX.md').read_text(encoding='utf-8')
+          daily = Path('docs/smart-notes') / __import__('datetime').date.today().isoformat() + Path('.md')
+          daily = Path(str(daily))
+          assert 'Default capture law' in protocol
+          assert 'Retrieval law' in protocol
+          assert 'Smart Notes are **memory, not authority**' in protocol
+          assert 'Entry ID' in protocol
+          assert 'Keywords' in protocol
+          assert 'Every new durable note gets:' in index
+          assert daily.exists(), f'Missing current daily Smart Notes file: {daily}'
+          assert re.search(r'SN-\d{8}-\d{3}', index), 'No indexed Smart Notes entry found'
+          print('SMART NOTES INTEGRITY GATE: PASS')
+          print('daily:', daily)
+          PY
 
       - name: Source authority gate
         run: |
