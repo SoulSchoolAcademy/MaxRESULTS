@@ -185,6 +185,24 @@ def refine_top_presentation(js: str) -> tuple[str, int]:
     if call_marker not in js:
         raise SystemExit("SECTION 01: V21 post-render binding anchor missing")
     js = js.replace(call_marker, "    refineSection01Top();\n" + call_marker, 1)
+
+    final_sync = r'''
+  function reinforceSection01Top(){
+    var tries=0;
+    (function tick(){
+      if(root.querySelector('.v21-shell')){
+        try{ refineSection01Top(); }catch(e){ root.setAttribute('data-section01-top-error',String(e && e.message || e)); }
+      }
+      if(++tries<20) setTimeout(tick,150);
+    })();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',reinforceSection01Top,{once:true}); else reinforceSection01Top();
+'''
+    end_marker = "\n})();"
+    end_index = js.rfind(end_marker)
+    if end_index < 0:
+        raise SystemExit("SECTION 01: canonical V21 script closing anchor missing")
+    js = js[:end_index] + final_sync + js[end_index:]
     return js, 1
 
 
