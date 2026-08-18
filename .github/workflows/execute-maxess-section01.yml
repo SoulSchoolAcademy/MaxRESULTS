@@ -1,20 +1,10 @@
 name: Execute MAXESS Section 01
 
-# Governed Section 01 checkpoint trigger.
-# Execution is locked to the Nitro Master Contract + Section 01 specialization.
-# NITRO LEAD: every owner-level Section 01 refinement must rebuild and verify the generated artifact.
+# Governed Section 01 mutation workflow.
+# Automatic pushes are handled by repository-integrity.yml.
+# Product mutation requires an explicit human/agent dispatch.
 
 on:
-  push:
-    branches:
-      - maxess-results-v21-working
-    paths:
-      - .github/workflows/execute-maxess-section01.yml
-      - tools/execute_maxess_section01.py
-      - tools/build_v21_canonical.py
-      - NITRO-MASTER-EXECUTION-PROTOCOL.md
-      - docs/NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md
-      - docs/NAYA-TOP-HERO-FAILURE-MEMORY.md
   workflow_dispatch:
 
 permissions:
@@ -28,7 +18,7 @@ jobs:
   section01:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout authoritative branch
+      - name: Checkout working branch
         uses: actions/checkout@v4
         with:
           ref: maxess-results-v21-working
@@ -60,23 +50,14 @@ jobs:
           from pathlib import Path
           import hashlib
           import re
-
           p = Path('tools/build_v21_canonical.py')
           s = p.read_text(encoding='utf-8')
           required = [
-              'MAXESS-SECTION-01-GOLDEN-MASTER',
-              'b1s1-naya',
-              'b1s1-listen',
-              'b1s1-orb-live',
-              'b1s1-orbital-bead',
-              'b1s1-bridge',
-              'window.MAXESS_RESULT',
-              'var colorFor=function(v)',
-              'prefers-reduced-motion:reduce',
-              'YOUR AI SCORE',
-              "Hi, I'm Naya.",
-              "I've got your results.",
-              "Your score isn't a judgment."
+              'MAXESS-SECTION-01-GOLDEN-MASTER', 'b1s1-naya', 'b1s1-listen',
+              'b1s1-orb-live', 'b1s1-orbital-bead', 'b1s1-bridge',
+              'window.MAXESS_RESULT', 'var colorFor=function(v)',
+              'prefers-reduced-motion:reduce', 'YOUR AI SCORE', "Hi, I'm Naya.",
+              "I've got your results.", "Your score isn't a judgment."
           ]
           missing = [x for x in required if x not in s]
           if missing:
@@ -99,16 +80,16 @@ jobs:
           import re
           p = Path('20260817 912am RESULTS PAGE CODE')
           s = p.read_text(encoding='utf-8')
-          assert len(s.encode('utf-8')) > 500000, 'Canonical Results source suspiciously small'
-          assert 'window.MAXESS_RESULT' in s, 'MAXESS_RESULT authority marker missing'
-          assert 'MAXESS-SECTION-01-GOLDEN-MASTER' in s, 'Section 01 Golden Master missing from generated artifact'
-          assert 'b1s1-orbital-bead' in s, 'Orbital Bead missing from generated artifact'
-          assert 'prefers-reduced-motion:reduce' in s, 'Reduced-motion contract missing from generated artifact'
-          assert 'YOUR AI SCORE' in s, 'Section 01 score identifier missing from generated artifact'
-          assert "Hi, I'm Naya." in s, 'Naya title missing from generated artifact'
-          assert "I've got your results." in s, 'Naya welcome copy missing from generated artifact'
-          assert "Your score isn't a judgment." in s, 'Score context missing from generated artifact'
-          assert not re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', s), 'Conflict marker remains'
+          assert len(s.encode('utf-8')) > 500000
+          assert 'window.MAXESS_RESULT' in s
+          assert 'MAXESS-SECTION-01-GOLDEN-MASTER' in s
+          assert 'b1s1-orbital-bead' in s
+          assert 'prefers-reduced-motion:reduce' in s
+          assert 'YOUR AI SCORE' in s
+          assert "Hi, I'm Naya." in s
+          assert "I've got your results." in s
+          assert "Your score isn't a judgment." in s
+          assert not re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', s)
           print('GENERATED SOURCE INTEGRITY: PASS')
           print('BYTES:', len(s.encode('utf-8')))
           print('LINES:', len(s.splitlines()))
