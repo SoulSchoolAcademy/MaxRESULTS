@@ -1,12 +1,13 @@
 # Naya Nitro North Star — Executive Execution Plan
 
-- Timestamp: 2026-08-18
+- Timestamp: 2026-08-18 (exact creation time unavailable in the original capture)
+- Last Updated: 2026-08-18 (exact update time unavailable in this repair pass)
 - Category: DECISION
 - Status: ACTIVE
 - Scope: PROJECT
-- Keywords: Naya Nitro, Smart Notes, Naya Notes, North Star, executive plan, Take the Lead, AI partner, master execution, AAA, MaxIS, Cake Icing Ice Cream Cherry Star, next action, continuous learning, reusable AI system
-- Aliases: Naya Note, Smart Note, Naya Nitro Mode, master execution prompt, project brain, AI operating system
-- Related: `docs/NAYA-EXECUTIVE-PLAN.md`, `docs/NAYA-SMART-NOTES-SYSTEM.md`, `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md`, `START-HERE.md`, `docs/NAYA-NITRO-MODE.md`
+- Keywords: Naya Nitro, Smart Notes, Naya Notes, North Star, executive plan, Take the Lead, AI partner, master execution, AAA, MaxIS, Cake Icing Ice Cream Cherry Star, next action, continuous learning, reusable AI system, project brain
+- Aliases: Naya Note, Smart Note, Nitro Mode, master execution prompt, project brain, AI operating system, human AI operating system
+- Related: `docs/NAYA-EXECUTIVE-PLAN.md`, `docs/NAYA-SMART-NOTES-SYSTEM.md`, `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md`, `START-HERE.md`, `docs/NAYA-NITRO-MODE.md`, `docs/smart-notes/INDEX.md`
 
 ## Context
 
@@ -15,7 +16,7 @@ The project is being designed not merely as a better prompt system but as a reus
 ## What We Learned / Decided
 
 1. **Naya Note and Smart Note are synonyms.** They refer to the same durable memory system.
-2. Valuable learning from consequential conversations should be captured by default rather than relying on the user to remember to request a note.
+2. Valuable learning from project conversations should be evaluated for durable capture by default rather than relying on the user to remember to request a note.
 3. Notes must be structured for AI retrieval using categories, timestamps, keywords, aliases, relationships, context, evidence, and required behavior — not exact-keyword dependence.
 4. The repository needs an explicit executive North Star that defines the what, why, how, and quality model.
 5. Every consequential Naya response should automatically project the next likely course of action and provide a copy-paste-ready execution prompt. The user chooses whether to use it.
@@ -45,7 +46,7 @@ For future consequential work:
 - verify rather than assume;
 - actively resist premature completion;
 - score against 10/10;
-- capture durable lessons automatically;
+- capture durable lessons from project conversations automatically when they have future value;
 - preserve useful knowledge in searchable Smart Notes;
 - always provide the likely next action and a complete execution prompt at the end;
 - clearly distinguish IMPLEMENTED, VERIFIED, LIVE VERIFIED, HUMAN REVIEW REQUIRED, and UNKNOWN.
@@ -56,4 +57,4 @@ This note was created from the 2026-08-18 project conversation and was converted
 
 ## Follow-up
 
-Use these three documents as the reusable foundation for future Naya Nitro work. Promote future durable lessons into them when appropriate rather than creating fragmented competing instruction systems.
+Use these documents as the reusable foundation for future Naya Nitro work. Promote future durable lessons into them when appropriate rather than creating fragmented competing instruction systems.
