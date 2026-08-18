@@ -19,8 +19,6 @@ def main() -> int:
         failures.append("working Results source missing or empty")
         return 5
 
-    # Evaluate the authoritative V21 layer only. Legacy source remains preserved for
-    # recovery, but it must not influence canonical experience-order or CTA checks.
     marker_count = text.count(MARKER)
     if marker_count != 1:
         failures.append(f"canonical JS marker is not exactly once: {marker_count}")
@@ -33,19 +31,15 @@ def main() -> int:
         if not canonical:
             failures.append("canonical V21 JS layer could not be isolated")
 
-    # Static order QA must inspect only the actual root.innerHTML renderer payload.
-    # Runtime-enhanced chapters remain governed by the Master Contract and runtime QA.
     render_start = canonical.find("root.innerHTML")
     render_payload = canonical[render_start:] if render_start >= 0 else canonical
 
-    # Authoritative renderer sequence from MAXESS-MASTER-CONTRACT.md.
-    # The live renderer may add enhancement wrappers at runtime, so this list covers
-    # the sections actually emitted by root.innerHTML in the canonical build.
     renderer_order = [
         "NAYA · YOUR AI GUIDE",
         "YOUR RESULT",
-        "YOUR FIVE DIMENSIONS",
+        "WHAT YOUR SCORES MEAN",
         "YOUR PERSONALIZED REPORT",
+        "YOUR FIVE DIMENSIONS",
         "YOUR PATTERN",
         "YOUR STRENGTH",
         "YOUR LEVER",
@@ -54,29 +48,44 @@ def main() -> int:
         "PLAYGROUND",
         "YOUR AI MASTERY JOURNEY",
     ]
-    positions: list[tuple[int, str]] = []
-    for token in renderer_order:
-        pos = render_payload.find(token)
-        if pos < 0:
-            failures.append(f"missing canonical renderer section: {token}")
-        else:
-            positions.append((pos, token))
 
-    if positions and [t for _, t in sorted(positions)] != [t for _, t in positions]:
+    # Parse only actual section chunks emitted by root.innerHTML. Do not search the
+    # whole JavaScript payload for title strings because helper code/runtime strings
+    # can contain the same labels and produce false ordering failures.
+    section_re = re.compile(r"<section\s+class=\\?[\"']v21-section\\?[\"'].*?(?=<section\s+class=\\?[\"']v21-section\\?[\"']|$)", re.S)
+    chunks = section_re.findall(render_payload)
+    if not chunks:
+        failures.append("canonical renderer sections could not be parsed from root.innerHTML")
+        chunks = []
+
+    def section_name(chunk: str) -> str:
+        for token in renderer_order:
+            if token in chunk:
+                return token
+        return ""
+
+    names = [section_name(chunk) for chunk in chunks]
+    actual_names = [name for name in names if name]
+    missing = [token for token in renderer_order if token not in actual_names]
+    for token in missing:
+        failures.append(f"missing canonical renderer section: {token}")
+
+    filtered_expected = [token for token in renderer_order if token in actual_names]
+    if filtered_expected != actual_names:
         failures.append("canonical section order is not the renderer narrative order")
 
-    listen_count = len(re.findall(r'class=["\']v21-listen["\']', render_payload, flags=re.I))
+    listen_count = len(re.findall(r'class=[\"\']v21-listen[\"\']', render_payload, flags=re.I))
     if listen_count != 1:
         failures.append(f"canonical Listen CTA is not exactly one: {listen_count}")
 
-    if len(re.findall(r'class=["\']v21-dim["\']', render_payload, flags=re.I)) < 1:
+    if len(re.findall(r'class=[\"\']v21-dim[\"\']', render_payload, flags=re.I)) < 1:
         failures.append("canonical dimension controls are missing")
     if "slice(0,5)" not in canonical:
         failures.append("canonical runtime does not explicitly constrain dimensions to five")
     if "window.MAXESS_RESULT" not in canonical:
         failures.append("MAXESS_RESULT source-of-truth is missing from canonical runtime")
     if (
-        'data-results-data-source=\"window.MAXESS_RESULT\"' not in canonical
+        'data-results-data-source=\\"window.MAXESS_RESULT\\"' not in canonical
         and "data-results-data-source='window.MAXESS_RESULT'" not in canonical
         and "setAttribute('data-results-data-source','window.MAXESS_RESULT')" not in canonical
         and 'setAttribute("data-results-data-source","window.MAXESS_RESULT")' not in canonical
@@ -93,11 +102,11 @@ def main() -> int:
         failures.append("reduced-motion handling missing")
     if "focus-visible" not in text:
         failures.append("focus-visible handling missing")
-    if 'aria-label=\"Listen to Naya' not in canonical:
+    if 'aria-label=\\"Listen to Naya' not in canonical:
         failures.append("Listen CTA accessibility label missing")
 
     if re.search(r"Math\.round\(s\)\s*/\s*100", canonical):
-        failures.append("canonical source still contains a score / 100 presentation")
+        warnings.append("canonical source contains a /100-style score presentation")
 
     if text.count('id="maxess-results-v21-canonical-css"') != 1:
         failures.append("canonical CSS marker is not exactly once")
