@@ -13,7 +13,7 @@ DRAFT | IN PROGRESS | BLOCKED | COMPLETE | FROZEN
 
 | ID | Requirement | Section | Target | Acceptance | Status | Evidence |
 |---|---|---|---|---|---|---|
-| V01 | Clean canonical builder source | Foundation | No unresolved merge markers | No `<<<<<<<`, `=======`, `>>>>>>>`; Node syntax PASS | IN PROGRESS | Builder inspection |
+| V01 | Clean canonical builder source | Foundation | No unresolved merge markers | No `<<<<<<<`, `=======`, `>>>>>>>`; Node syntax PASS | IN PROGRESS | Builder inspection; deterministic repair tool |
 | V02 | Naya arrival | Naya | Personal, warm, one primary Listen | Correct copy, one Listen, accessible | COMPLETE | Existing source + QA |
 | V03 | Score Orb | Hero | Dominant signature visual | Real score centered, responsive, reduced motion | COMPLETE | Existing source + QA |
 | V04 | Score meaning | Meaning | Explain the score in plain language | Stage + interpretation + use guidance | IN PROGRESS | Contract |
@@ -25,8 +25,8 @@ DRAFT | IN PROGRESS | BLOCKED | COMPLETE | FROZEN
 | V10 | Next Move | Action | Three personalized actions | Connected to strength/lever/result | IN PROGRESS | Contract + source |
 | V11 | 18 Naya Masters | Pathways | Personalized doors, not generic library | All validated pathways retained + relevance | IN PROGRESS | Contract |
 | V12 | Naya interpretation | Naya | Guide throughout report | Interprets meaning/pattern/strength/lever/next move | IN PROGRESS | Contract |
-| V13 | Button system | Design | HMC AAA controls | Correct family, states, hierarchy, accessibility | IN PROGRESS | HMC button system |
-| V14 | Icon/micro-icon system | Design | Proprietary coherent icon rhythm | Semantic family + optical consistency | IN PROGRESS | HMC button system |
+| V13 | Button system | Design | HMC AAA controls | Correct family, states, hierarchy, accessibility | IN PROGRESS | HMC button system + HMC reference pack |
+| V14 | Icon/micro-icon system | Design | Proprietary coherent icon rhythm | Semantic family + optical consistency | IN PROGRESS | HMC button system + HMC reference pack |
 | V15 | Visual rhythm | Design | Premium chapter transitions | Each section earns visual breakpoint | IN PROGRESS | Design contract |
 | V16 | Lower media | Media | Video and walkthrough reliably render | No disappearing lower content | IN PROGRESS | Source + runtime QA |
 | V17 | Playground | Practice | Understand → Decide → Practice | Existing useful functionality preserved + styled | IN PROGRESS | Contract |
@@ -36,8 +36,10 @@ DRAFT | IN PROGRESS | BLOCKED | COMPLETE | FROZEN
 | V21 | Print/PDF | Release | Professional intentional document | Actual PDF generated and inspected | IN PROGRESS | Contract |
 | V22 | Real result handoff | Data | Assessment → Result Contract → MAXESS_RESULT | Real completed assessment verified | IN PROGRESS | Contract |
 | V23 | Groove deployment | Release | Public page shows intended artifact | Live URL verified | IN PROGRESS | Deployment contract |
-| V24 | Smart Notes | Memory | Durable execution learning | Important decisions/failures recorded | IN PROGRESS | Lead Mode |
+| V24 | Smart Notes | Memory | Durable execution learning | Important decisions/failures recorded | COMPLETE | MAXESS-SMART-NOTES.md updated |
 | V25 | Reference implementation proof | Masterclass | MAXESS demonstrates the OS works | Contract + ledger + tests + live proof | IN PROGRESS | North Star |
+| V26 | HMC reference pack | Brand / Memory | HMC knowledge is connected to MAXESS memory | Source pack indexed; reusable principles stored without unsupported paraphrase | COMPLETE | MAXESS-HMC-REFERENCE-PACK.md |
+| V27 | Product-language / Lead Mode | Operating System | Naya leads from vision to release | Persistent lead behavior, next action, suggested prompt, best-interest rules | COMPLETE | AI Product Creation OS + Naya Lead Mode |
 
 ## Freeze rule
 
