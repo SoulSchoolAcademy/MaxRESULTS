@@ -9,8 +9,8 @@ Usage examples:
   python tools/fast_edit_maxess.py --edit naya-headline-spacing --value 12
 
 The tool edits only the active V21 canonical builder. Every edit requires an
-exactly-one anchor match, a source hash delta, and Node syntax validation of
-the embedded canonical JavaScript before it will report success.
+exactly-one owner match, a source hash delta, and Python + canonical JavaScript
+syntax validation before reporting success.
 """
 from __future__ import annotations
 
@@ -41,7 +41,6 @@ def replace_once(text: str, pattern: str, replacement: str, label: str, flags: i
 
 
 def edit_orb_size(text: str, percent: float) -> str:
-    # Apply only to the active V21 score orb rule.
     pattern = r"(#maxess-results-10\.v21-canonical \.v21-score-orb\{[^}]*?width:)min\(510px,78vw\)"
     factor = 1.0 + percent / 100.0
     width_px = round(510 * factor)
@@ -51,10 +50,9 @@ def edit_orb_size(text: str, percent: float) -> str:
 
 
 def edit_naya_up(text: str, pixels: int) -> str:
-    # Add a local upward transform to the active V21 Naya container.
-    anchor = r"(#maxess-results-10\.v21-canonical \.v21-naya\{[^}]*?align-items:center;)"
+    pattern = r"(#maxess-results-10\.v21-canonical \.v21-naya\{[^}]*?align-items:center;)"
     replacement = rf"\1\ntransform:translateY(-{pixels}px);"
-    return replace_once(text, anchor, replacement, "Naya Arrival positioning")
+    return replace_once(text, pattern, replacement, "Naya Arrival positioning")
 
 
 def edit_primary_button(text: str) -> str:
@@ -72,7 +70,6 @@ def edit_score_size(text: str, percent: float) -> str:
 
 
 def edit_naya_headline_spacing(text: str, pixels: int) -> str:
-    # Adjust the existing title/subtext relationship without touching content.
     pattern = r"(#maxess-results-10\.v21-canonical \.v21-naya-sub\{margin:)8px 0 0"
     replacement = rf"\1{pixels}px 0 0"
     return replace_once(text, pattern, replacement, "Naya headline/subtext spacing")
@@ -88,25 +85,35 @@ EDITORS = {
 
 
 def validate_node(text: str) -> None:
-    marker = 'MARKER = \'id="maxess-results-v21-canonical-js"\''
-    # We validate the builder source itself by extracting the canonical JS block
-    # exactly as the production builder does: import the module safely is not
-    # required; this keeps the micro-edit validation independent of build side effects.
-    m = re.search(r'JS\s*=\s*(["\']{3})(.*?)(?:\1)\s*\n', text, re.S)
-    if not m:
-        # The current builder may use a JS assignment assembled differently.
-        # In that case use the same production build script as the authoritative parser.
-        with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False, encoding="utf-8") as f:
-            f.write(text)
-            path = Path(f.name)
-        try:
-            subprocess.run(["python", "-m", "py_compile", str(path)], check=True, capture_output=True, text=True)
-        except subprocess.CalledProcessError as exc:
-            raise EditError(exc.stderr.strip() or "Builder Python syntax validation failed") from exc
-        finally:
-            path.unlink(missing_ok=True)
+    with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False, encoding="utf-8") as f:
+        f.write(text)
+        py_path = Path(f.name)
+    try:
+        proc = subprocess.run(["python", "-m", "py_compile", str(py_path)], capture_output=True, text=True)
+        if proc.returncode != 0:
+            raise EditError(proc.stderr.strip() or "Builder Python syntax validation failed")
+    finally:
+        py_path.unlink(missing_ok=True)
+
+    # Extract the canonical JS assignment robustly enough for the current builder.
+    markers = ['JS = r"""', 'JS = """']
+    start = -1
+    marker = ""
+    for candidate in markers:
+        pos = text.find(candidate)
+        if pos >= 0 and (start < 0 or pos < start):
+            start, marker = pos, candidate
+    if start < 0:
+        # The production builder is itself the authoritative fallback validator.
+        proc = subprocess.run(["python", str(BUILDER)], capture_output=True, text=True)
+        if proc.returncode != 0:
+            raise EditError(proc.stderr.strip() or "Canonical builder validation failed")
         return
-    js = m.group(2)
+    start += len(marker)
+    end = text.find('"""', start)
+    if end < 0:
+        raise EditError("Canonical JS triple-quoted block is not closed")
+    js = text[start:end]
     with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False, encoding="utf-8") as f:
         f.write(js)
         js_path = Path(f.name)
@@ -121,8 +128,7 @@ def validate_node(text: str) -> None:
 def perform(edit: str, value: float | int | None) -> tuple[str, str, str]:
     before = BUILDER.read_text(encoding="utf-8")
     before_sha = sha256(before)
-    fn = EDITORS[edit]
-    after = fn(before, value if value is not None else 0)
+    after = EDITORS[edit](before, value if value is not None else 0)
     after_sha = sha256(after)
     if before_sha == after_sha:
         raise EditError("NO-OP: source hash did not change")
