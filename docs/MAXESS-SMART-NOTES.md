@@ -68,27 +68,31 @@ Before changing product code to satisfy a failing QA assertion:
 
 This becomes part of the AI Product Creation System.
 
-## 2026-08-17 — Section-First AAA Execution
+## 2026-08-17 — Batch 1 Branch-Ownership and Structural Executor Lesson
 
 ### Discovery
-The live Results experience has a strong information spine and substantial personalized content, but the public presentation remains largely a linear report. The highest-value product improvement is to define and execute each major section against an explicit AAA target rather than continuing broad page-level iteration.
+The first Batch 1 executor was not available in the active Codespace branch, so the requested product mutation could not execute. In parallel, the earlier executor attempted brittle exact matching against escaped HTML fragments inside a Python-generated JavaScript string.
 
 ### Decision
-Use the weighted Section Design Specification and Priority Matrix as the execution authority. Product progress is measured by material section source deltas, not by additional QA/documentation commits.
+For product execution tools:
 
-### Execution lesson
-A build/QA cycle that regenerates the same candidate hash is not product progress. The execution engine must be driven by the Change Ledger and must refuse to report success if the targeted product source did not change.
+- publish the executable to the exact authoritative working branch;
+- use stable ownership anchors in the real builder;
+- avoid brittle full-fragment regex replacement when a stable insertion point exists;
+- refuse to succeed on a no-op;
+- make product source mutation the primary success criterion before QA.
 
-### Batch 1
-Target the first three chapters together:
+### Product insight
+A successful build of the same candidate is not product progress. Product progress requires a measurable source/candidate delta or a documented blocker.
 
-1. Naya Arrival / Orientation
-2. MAXESS Score / Signature Orb
-3. What Your Score Means
+### Operating principle
+The correct Batch 1 flow is:
 
-### Prevention rule
-Each batch must:
+PRODUCT SOURCE MUTATION → SOURCE PROOF → BUILD → QA → RESCORE → FREEZE
 
-READ → SCORE → PRIORITIZE → MUTATE → PROVE → BUILD → VERIFY → RESCORE → FREEZE → CONTINUE
+not:
 
-If no material product source changes, the batch is a NO-OP and must be treated as failure.
+QA → REPAIR → BUILD → QA → REPAIR
+
+### Reusable masterclass lesson
+When software-generated code becomes brittle, move the tool closer to the software's real structural ownership rather than adding more regex or more layers.
