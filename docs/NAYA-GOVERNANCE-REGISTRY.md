@@ -21,6 +21,8 @@
 | Naya Nitro product thesis | `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` | related product docs | PRODUCT REFERENCE |
 | MAXESS Results operating rules | `docs/NAYA-MAXESS-OPERATING-MANUAL.md` | task-specific docs | PRODUCT OPERATING |
 | MAXESS Results requirements | `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` | design directives | PRODUCT REQUIREMENTS |
+| MAXESS section build/integrity law | `docs/MAXESS-SECTION-BUILD-LAW.md` + `docs/MAXESS-SECTION-INTEGRITY-GATE.md` | section-specific locks | GOVERNING |
+| Active E02 execution lock | `docs/MAXESS-E02-EXECUTION-LOCK.md` | E02 section contract | CANONICAL TASK GUARDRAIL |
 | Source/state/history | `docs/SOURCE-AND-MEMORY-MAP.md` | change ledger / notes | STATE AUTHORITY |
 | Deployment truth | `docs/DEPLOYMENT-CONTRACT.md` | release checklist | DEPLOYMENT AUTHORITY |
 | Release gate | `docs/RELEASE-CHECKLIST.md` | QA tooling | RELEASE AUTHORITY |
