@@ -1,5 +1,6 @@
 from pathlib import Path
 
+# Deterministic E01 mutation: this file is the executable patch, not a renderer.
 TARGET = Path("E01-SECTION-01-WORKING.html")
 
 REQUIRED_OLD = [
