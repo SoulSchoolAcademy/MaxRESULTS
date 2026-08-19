@@ -2,6 +2,23 @@
 
 Purpose: durable memory of execution-system lessons that materially improve future work.
 
+## 2026-08-19 — Active Source Must Match Automation
+
+### Failure
+The active Section 01 source was moved to `E01-SECTION-01-WORKING.html`, but an older Section 01 GitHub Actions mutation workflow still referenced the retired monolithic Results artifact and its old builder lane. This created a source-routing hazard even though the current branch map correctly identified E01 as the active working source.
+
+### Root cause
+Repository evolution changed the active artifact, but the automation lane was not reconciled at the same time. The system therefore contained contradictory operational paths: current source governance pointed to E01 while automation still targeted historical source files.
+
+### Safeguard
+For every active feature/section, automation must validate the exact active source named by the current repository map and section index. A mutation workflow must never write to a retired artifact as a side effect of a current task.
+
+### Rule promoted into project guardrails
+> **ACTIVE SOURCE = AUTOMATION SOURCE. If they disagree, STOP and repair the routing before executing.**
+
+### Evidence
+Active branch map: `docs/REPOSITORY-MAP.md`; Section 01 index/guardrails; repaired workflow `.github/workflows/execute-maxess-section01.yml`; Section 01 refinement commit `1581ac8`.
+
 ## 2026-08-18 — Proactive Best-Path Guidance
 
 ### Lesson
