@@ -31,7 +31,9 @@ This is the execution map for AI and humans. Read this after `START-HERE.md` and
 17. `docs/RELEASE-CHECKLIST.md` — release gate.
 18. `docs/NAYA-NITRO-LEARNING-LOG.md` — durable execution-system lessons when relevant.
 19. `docs/smart-notes/INDEX.md` — Smart Note/Naya Note retrieval index.
-20. Read only additional task-specific documents, scorecards, exemplars, assets, and Smart Notes required by the request.
+20. `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` — mandatory lead-mode communication standard.
+21. **If E02 is active:** `docs/MAXESS-E02-EXECUTION-LOCK.md` — mandatory E02 source, scope, visual, self-review, and stop-send contract.
+22. Read only additional task-specific documents, scorecards, exemplars, assets, and Smart Notes required by the request.
 
 This read order is intentionally identical to `START-HERE.md`. If the two documents disagree, repair the documentation rather than inventing a third authority.
 
@@ -53,7 +55,7 @@ Core rule:
 
 ## Categories
 ### GOVERNANCE / EXECUTION
-`.naya/NAYA-LAW-SYSTEM-PROTOCOL.md` · `NAYA-OS.md` · `docs/NAYA-LANGUAGE-DICTIONARY.md` · `docs/NAYA-SCORECARDING-SYSTEM.md` · `docs/NAYA-GOVERNANCE-REGISTRY.md` · `docs/NAYA-EXECUTIVE-PLAN.md` · `docs/NAYA-NITRO-MODE.md` · `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` · repository entry/map documents.
+`.naya/NAYA-LAW-SYSTEM-PROTOCOL.md` · `NAYA-OS.md` · `docs/NAYA-LANGUAGE-DICTIONARY.md` · `docs/NAYA-SCORECARDING-SYSTEM.md` · `docs/NAYA-GOVERNANCE-REGISTRY.md` · `docs/NAYA-EXECUTIVE-PLAN.md` · `docs/NAYA-NITRO-MODE.md` · `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` · `docs/MAXESS-SECTION-BUILD-LAW.md` · `docs/MAXESS-SECTION-INTEGRITY-GATE.md` · task-specific execution locks.
 
 ### MEMORY / LEARNING
 `docs/NAYA-SMART-NOTES-SYSTEM.md` · `docs/NAYA-NITRO-LEARNING-LOG.md` · `docs/smart-notes/` — durable Naya Notes / Smart Notes. These preserve learning and context but do not automatically become product law.
