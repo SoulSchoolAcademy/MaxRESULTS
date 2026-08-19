@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#040307">
 <meta name="maxess-artifact" content="E01-SECTION-01-WORKING">
+<meta name="maxess-version" content="nitro-e01-v23">
 <title>MAXESS — Section 01 · Naya Welcome + AI Score Reveal</title>
 <style>
 :root{--bg:#040307;--deep:#030204;--white:#fff;--muted:rgba(255,255,255,.70);--soft:rgba(255,255,255,.48);--purple:#A66CFF;--violet:#D0A8FF;--gold:#F7D58C}
@@ -28,9 +29,9 @@
 </style>
 </head>
 <body>
-<main id="e01" aria-labelledby="section-title"><div class="shell"><div class="ambient" aria-hidden="true"></div>
+<main id="e01" data-maxess-version="nitro-e01-v23" aria-labelledby="section-title"><div class="shell"><div class="ambient" aria-hidden="true"></div>
 <section class="naya" aria-labelledby="naya-title"><div class="avatar-wrap"><img class="avatar" src="https://i.postimg.cc/dVXw7sRN/grok-image-f75a6f12-4e3a-4c99-a334-5684ba0f7401.jpg" alt="Naya, your AI guide" loading="eager" decoding="async"></div>
-<div class="naya-copy"><p class="kicker">NAYA</p><h1 id="naya-title" class="naya-title">I’ve got your results.</h1><p class="naya-sub">Let’s see what they reveal about the way you already work with AI.</p></div>
+<div class="naya-copy"><p class="kicker">NAYA</p><h1 id="naya-title" class="naya-title">Hi. I’ve looked at your results.</h1><p class="naya-sub">This isn’t your judgment. It’s your map.</p></div>
 <button id="listen" class="listen" type="button" aria-label="Listen to Naya explain your MAXESS results"><span class="listen-icon" aria-hidden="true">▶</span><span>LISTEN TO NAYA</span></button></section>
 <header class="score-intro"><p class="score-kicker">MAXESS CAPABILITY REVEAL</p><h2 id="section-title" class="score-title">YOUR AI SCORE</h2></header>
 <section class="orb-wrap" aria-label="Your AI score visualization"><div class="orb-atmosphere" aria-hidden="true"></div><div class="orb-track" aria-hidden="true"></div>
@@ -44,7 +45,7 @@ function colorFor(v){var s=clamp(v);if(s===null)return '#A66CFF';var h=178+s*1.0
 function getResult(){if(window.MAXESS_RESULT&&typeof window.MAXESS_RESULT==='object')return window.MAXESS_RESULT;var params=new URLSearchParams(window.location.search);if(params.get('fixture')==='demo'){var fixtureScore=params.get('score');return{overallScore:fixtureScore===null?82:fixtureScore,__e01Fixture:true}}return null}
 function render(){var result=getResult(),score=clamp(result&&result.overallScore);if(score===null){scoreNode.textContent='—';scoreNode.setAttribute('data-hydrated','false');unavailableNode.setAttribute('data-visible','true');orb.setAttribute('aria-label','Your MAXESS AI score is not currently available');scoreDescription.textContent='Your MAXESS AI score is not currently available.';liveNode.textContent='MAXESS score unavailable.';return false}var displayScore=formatScore(score),color=colorFor(score);orb.style.setProperty('--orb-color',color);scoreNode.textContent=displayScore;scoreNode.setAttribute('data-hydrated','true');unavailableNode.setAttribute('data-visible','false');orb.setAttribute('aria-label','Your MAXESS AI score is '+displayScore+' out of 100');scoreDescription.textContent='Your MAXESS AI score is '+displayScore+' out of 100.';liveNode.textContent='Your MAXESS AI score is '+displayScore+' out of 100.';return true}
 function listenToNaya(){var selectors=['.v21-listen.b1s1-listen','.v21-listen','#maxess-naya-listen'];for(var i=0;i<selectors.length;i++){var nodes=document.querySelectorAll(selectors[i]);for(var j=0;j<nodes.length;j++){var node=nodes[j];if(node&&node!==listen&&getComputedStyle(node).display!=='none'){node.click();return}}}root.dispatchEvent(new CustomEvent('maxess:naya-listen',{bubbles:true,detail:{result:getResult()}}));window.dispatchEvent(new CustomEvent('maxess:naya-listen',{detail:{result:getResult()}}))}
-listen.addEventListener('click',listenToNaya);window.MAXESS_E01={artifact:'E01-SECTION-01-WORKING',version:'nitro-e01-v22',render:render,listen:listenToNaya};window.MAXESS_E01_ARTIFACT='E01-SECTION-01-WORKING';render();window.addEventListener('load',render,{once:true})();
+listen.addEventListener('click',listenToNaya);window.MAXESS_E01={artifact:'E01-SECTION-01-WORKING',version:'nitro-e01-v23',render:render,listen:listenToNaya};window.MAXESS_E01_ARTIFACT='E01-SECTION-01-WORKING';render();window.addEventListener('load',render,{once:true})();
 </script>
 </body>
 </html>
