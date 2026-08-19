@@ -1,17 +1,18 @@
-name: Execute MAXESS Section 01
+name: Verify MAXESS Section 01
 
-# Governed Section 01 mutation workflow.
-# Automatic pushes are handled by repository-integrity.yml.
-# Product mutation requires an explicit human/agent dispatch.
+# Safe Section 01 verification workflow.
+# IMPORTANT: the former mutation lane referenced retired monolithic source files.
+# This workflow is intentionally verification-only until a current human/agent
+# execution path explicitly authorizes product mutation through the active E01 source.
 
 on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: maxess-section01-${{ github.ref }}
+  group: verify-maxess-section01-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -22,85 +23,83 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: maxess-results-v21-working
-          fetch-depth: 0
+          fetch-depth: 1
 
-      - name: Configure identity
+      - name: Verify canonical execution contracts
         run: |
-          git config user.name "Naya Lead Mode"
-          git config user.email "naya-lead-mode@users.noreply.github.com"
-
-      - name: Verify Nitro Master Contract and Section 01 contract exist
-        run: |
+          test -f NAYA-REPO-LOCK.md
           test -f NITRO-MASTER-EXECUTION-PROTOCOL.md
-          test -f docs/NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md
-          grep -q 'MAXESS NITRO MASTER EXECUTION CONTRACT' NITRO-MASTER-EXECUTION-PROTOCOL.md
-          grep -q 'Section 01 — Orb / Score Reveal' docs/NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md
-          echo "NITRO MASTER CONTRACT: PRESENT"
-          echo "SECTION 01 CONTRACT: PRESENT"
+          test -f docs/MAXESS-NITRO-SECTION-01-INDEX.md
+          test -f docs/MAXESS-NITRO-SECTION-01-GUARDRAILS.md
+          test -f E01-SECTION-01-WORKING.html
+          grep -q 'E01-SECTION-01-WORKING.html' docs/MAXESS-NITRO-SECTION-01-INDEX.md
+          grep -q 'E01-SECTION-01-WORKING.html' docs/MAXESS-NITRO-SECTION-01-GUARDRAILS.md
+          echo "SECTION 01 CONTRACT ROUTING: PASS"
 
-      - name: Execute Section 01 Golden Master refinement
-        run: python tools/execute_maxess_section01.py
-
-      - name: Rebuild canonical artifact
-        run: python tools/build_v21_canonical.py
-
-      - name: Verify Section 01 source delta
+      - name: Static Section 01 integrity gate
         run: |
           python - <<'PY'
           from pathlib import Path
-          import hashlib
           import re
-          p = Path('tools/build_v21_canonical.py')
+
+          p = Path('E01-SECTION-01-WORKING.html')
           s = p.read_text(encoding='utf-8')
+
           required = [
-              'MAXESS-SECTION-01-GOLDEN-MASTER', 'b1s1-naya', 'b1s1-listen',
-              'b1s1-orb-live', 'b1s1-orbital-bead', 'b1s1-bridge',
-              'window.MAXESS_RESULT', 'var colorFor=function(v)',
-              'prefers-reduced-motion:reduce', 'YOUR AI SCORE', "Hi, I'm Naya.",
-              "I've got your results.", "Your score isn't a judgment."
+              '<!doctype html>',
+              'NAYA · YOUR AI GUIDE',
+              "Hi, I'm Naya.",
+              "I've got your results.",
+              'LISTEN TO NAYA',
+              'YOUR AI SCORE',
+              'window.MAXESS_RESULT',
+              'overallScore',
+              'class="orb"',
+              'class="bead"',
+              'orb-breathe',
+              'orb-orbit',
+              'prefers-reduced-motion:reduce',
+              '?fixture=demo',
+              'maxess:naya-listen',
           ]
-          missing = [x for x in required if x not in s]
+          missing = [item for item in required if item not in s]
           if missing:
-              raise SystemExit('SECTION 01 evidence missing: ' + ', '.join(missing))
+              raise SystemExit('Missing required Section 01 evidence: ' + ', '.join(missing))
+
+          if s.count('id="e01"') != 1:
+              raise SystemExit('Expected exactly one E01 root id')
+          if s.count('id="listen"') != 1:
+              raise SystemExit('Expected exactly one primary Listen control')
           if re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', s):
-              raise SystemExit('Unresolved conflict marker remains in builder')
-          print('SECTION 01 SOURCE VERIFICATION: PASS')
-          print('BUILDER SHA256:', hashlib.sha256(s.encode('utf-8')).hexdigest())
-          PY
+              raise SystemExit('Unresolved conflict marker remains in E01 source')
+          if '20260817 912am RESULTS PAGE CODE' in s:
+              raise SystemExit('Retired monolithic artifact referenced by E01')
 
-      - name: Run focused Section 01 verification
-        run: |
-          python -m py_compile tools/execute_maxess_section01.py tools/build_v21_canonical.py
-          echo "Section 01 focused verification: PASS"
-
-      - name: Verify generated source integrity
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import re
-          p = Path('20260817 912am RESULTS PAGE CODE')
-          s = p.read_text(encoding='utf-8')
-          assert len(s.encode('utf-8')) > 500000
-          assert 'window.MAXESS_RESULT' in s
-          assert 'MAXESS-SECTION-01-GOLDEN-MASTER' in s
-          assert 'b1s1-orbital-bead' in s
-          assert 'prefers-reduced-motion:reduce' in s
-          assert 'YOUR AI SCORE' in s
-          assert "Hi, I'm Naya." in s
-          assert "I've got your results." in s
-          assert "Your score isn't a judgment." in s
-          assert not re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', s)
-          print('GENERATED SOURCE INTEGRITY: PASS')
+          print('SECTION 01 STATIC INTEGRITY: PASS')
           print('BYTES:', len(s.encode('utf-8')))
           print('LINES:', len(s.splitlines()))
           PY
 
-      - name: Commit verified Section 01 checkpoint
+      - name: Score-source and safety gate
         run: |
-          git add "20260817 912am RESULTS PAGE CODE" tools/build_v21_canonical.py tools/execute_maxess_section01.py NITRO-MASTER-EXECUTION-PROTOCOL.md docs/NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md docs/NAYA-TOP-HERO-FAILURE-MEMORY.md V21-CANONICAL-BUILD-RESULT.md .github/workflows/execute-maxess-section01.yml
-          if git diff --cached --quiet; then
-            echo "No product delta to checkpoint."
-            exit 1
-          fi
-          git commit -m "MAXESS Section 01 Nitro Master checkpoint"
-          git push origin maxess-results-v21-working
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s = Path('E01-SECTION-01-WORKING.html').read_text(encoding='utf-8')
+
+          if not re.search(r'window\.MAXESS_RESULT\s*&&\s*typeof window\.MAXESS_RESULT', s):
+              raise SystemExit('Production result authority guard missing')
+          if 'overallScore:82' in s.replace(' ', ''):
+              raise SystemExit('Hard-coded production score detected')
+          if 'Nothing has been invented' in s:
+              raise SystemExit('Unexpected legacy error copy detected')
+
+          print('RESULT SOURCE / SAFE FAILURE GATE: PASS')
+          PY
+
+      - name: Report verification boundary
+        run: |
+          echo "STATIC/STRUCTURAL VERIFICATION: PASS"
+          echo "BROWSER VISUAL QA: NOT RUN BY THIS WORKFLOW"
+          echo "GROOVE/LIVE VERIFICATION: NOT RUN BY THIS WORKFLOW"
+          echo "Those remain separate verification gates under the deployment contract."
