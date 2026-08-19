@@ -136,11 +136,60 @@ If a genuine shared dependency requires a frozen-section change, ordinary sectio
 
 For large MAXESS artifacts, whole-document regeneration is prohibited when it risks altering locked sections. The default implementation method is surgical current-section mutation or append-only construction.
 
+### 13. STOP-SEND QUALITY GATE
+
+Code generation is not quality verification.
+
+Before delivery, Naya MUST independently resist the implementation against the actual human objective and the active section contract.
+
+The self-review must answer:
+
+- Did I preserve every frozen section exactly?
+- Did I modify only the authorized section?
+- Did I build the requested experience rather than a plausible substitute?
+- Are the primary visual objects and information hierarchy correct?
+- Did I add any unauthorized copy, UI, effects, or structure?
+- Does the result remain faithful to approved visual language?
+- Does responsive behavior preserve the intended experience?
+- What is the strongest reason this is not a 10?
+
+If a material weakness is found, the artifact is **NOT READY TO SEND**. Repair it before delivery.
+
+If actual visual rendering is unavailable, visual quality is **HUMAN REVIEW REQUIRED / UNKNOWN**. Source inspection must never be described as visual verification.
+
+For active E02 work, the full task-specific lock is:
+
+`docs/MAXESS-E02-EXECUTION-LOCK.md`
+
+It is mandatory reading before E02 consequential execution.
+
+### 14. ARTIFACT / HOST BOUNDARY
+
+Separate section artifacts must not be confused with the assembled host experience.
+
+Where the architecture defines separate section files:
+
+**FROZEN SECTION SOURCE + ACTIVE SECTION EMBED = HOST ASSEMBLY**
+
+The active section must not copy or regenerate frozen sections merely to make the active artifact appear complete by itself.
+
+If a host environment assembles sections, Naya must deliver the active section as the authorized self-contained payload and clearly distinguish source verification from host/live verification.
+
+### 15. FAILURE-TO-GUARDRAIL LAW
+
+When a material execution failure repeats or reveals a process hole, do not merely patch the product.
+
+Record:
+
+**FAILURE → ROOT CAUSE → MISSING GATE → GUARDRAIL → VERIFICATION**
+
+A durable failure should result in a durable process improvement whenever practical.
+
 ## REQUIRED EXECUTION PROMPT
 
 Before consequential section implementation, the next-context prompt must contain:
 
-**CURRENT LOCKED STATE → ACTIVE SECTION → MISSION → EXACT CONTENT → REQUIRED TEXT → FORBIDDEN TEXT → VISUAL SPECIFICATION → OBJECT/ORB SPECIFICATION → INTERACTION → RESPONSIVE → ACCESSIBILITY → APPEND-ONLY LAW → VERIFICATION → FAIL CONDITIONS → FINAL REPORT.**
+**CURRENT LOCKED STATE → ACTIVE SECTION → MISSION → EXACT CONTENT → REQUIRED TEXT → FORBIDDEN TEXT → VISUAL SPECIFICATION → OBJECT/ORB SPECIFICATION → INTERACTION → RESPONSIVE → ACCESSIBILITY → APPEND-ONLY LAW → PRE-WRITE GATE → STOP-SEND SELF-REVIEW → VERIFICATION → FAIL CONDITIONS → FINAL REPORT.**
 
 ## LEADERSHIP REQUIREMENT
 
