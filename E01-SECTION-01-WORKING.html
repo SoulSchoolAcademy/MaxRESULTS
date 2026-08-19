@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#05030a">
 <meta name="maxess-artifact" content="E01-SECTION-01-WORKING">
-<meta name="maxess-version" content="nitro-e01-v35">
+<meta name="maxess-version" content="nitro-e01-v36">
 <title>MAXESS — Section 01 · Naya Welcome + AI Score Reveal</title>
 <style>
 :root{--bg:#05030a;--deep:#020107;--white:#fff;--muted:rgba(255,255,255,.72);--soft:rgba(255,255,255,.50);--purple:#a66cff;--violet:#d0a8ff;--gold:#f7d58c;--score-a:#a66cff;--score-b:#ff4fd8;--score-rgb:166,108,255}
@@ -29,7 +29,7 @@
 </style>
 </head>
 <body>
-<main id="e01" data-maxess-version="nitro-e01-v35" aria-labelledby="section-title"><div class="shell"><div class="ambient" aria-hidden="true"></div>
+<main id="e01" data-maxess-version="nitro-e01-v36" aria-labelledby="section-title"><div class="shell"><div class="ambient" aria-hidden="true"></div>
 <section class="naya" id="naya-card" aria-labelledby="naya-title"><div class="avatar-wrap"><img class="avatar" src="https://i.postimg.cc/dVXw7sRN/grok-image-f75a6f12-4e3a-4c99-a334-5684ba0f7401.jpg" alt="Naya, your AI guide" loading="eager" decoding="async"></div>
 <div class="naya-copy"><p class="kicker">NAYA</p><h1 id="naya-title" class="naya-title">Hi. I’ve looked at your results.</h1><p class="naya-sub">This isn’t your judgment. It’s your map.</p><span class="naya-note">I’m here to help you understand what your score actually means — and reveal the strengths, patterns, and next opportunities hiding inside it.</span></div>
 <button id="listen" class="listen" type="button" aria-label="Listen to Naya explain your MAXESS results"><span class="listen-icon" aria-hidden="true">▶</span><span class="listen-label">LISTEN TO NAYA</span></button></section>
@@ -49,7 +49,7 @@ function applyPalette(s){var p=palette(s);root.style.setProperty('--score-a',p.a
 function render(){var s=getScore();if(s===null){scoreNode.textContent='';scoreNode.dataset.hydrated='false';scoreDescription.textContent='Your AI score is not available yet.';if(Date.now()<resultDeadline){unavailableNode.dataset.visible='false';if(resultRetry)clearTimeout(resultRetry);resultRetry=setTimeout(render,250);return}unavailableNode.dataset.visible='true';liveNode.textContent='MAXESS is waiting for a valid result.';return}if(resultRetry){clearTimeout(resultRetry);resultRetry=null}scoreNode.textContent=formatScore(s);scoreNode.dataset.hydrated='true';unavailableNode.dataset.visible='false';scoreDescription.textContent='Your AI score is '+formatScore(s)+' out of 100.';liveNode.textContent='Your AI score is '+formatScore(s)+' out of 100.';applyPalette(s)}
 function setSpeaking(active){if(!orbWrap)return;orbWrap.classList.toggle('orb-speaking',!!active);if(nayaCard)nayaCard.classList.toggle('is-speaking',!!active);if(listen)listen.classList.toggle('is-speaking',!!active);if(listen){var label=listen.querySelector('.listen-label');if(label)label.textContent=active?'NAYA IS SPEAKING':'LISTEN TO NAYA'}if(speakTimer){clearTimeout(speakTimer);speakTimer=null}if(active){speakTimer=setTimeout(function(){setSpeaking(false)},30000)}}
 function onSpeechStart(){setSpeaking(true)}function onSpeechEnd(){setSpeaking(false)}
-render();window.addEventListener('maxess:result-updated',render);window.addEventListener('MAXESS_RESULT_READY',render);window.addEventListener('storage',render);if(window.MutationObserver){try{new MutationObserver(function(){render()}).observe(document.body,{childList:true,subtree:true,characterData:true})}catch(e){}}['naya:speaking','naya:speech-start','naya:audio-start','naya:voice-start'].forEach(function(name){window.addEventListener(name,onSpeechStart)});['naya:speech-end','naya:audio-end','naya:voice-end'].forEach(function(name){window.addEventListener(name,onSpeechEnd)});
+render();window.addEventListener('maxess:result-updated',render);window.addEventListener('MAXESS_RESULT_READY',render);window.addEventListener('storage',render);var hydrationPoll=setInterval(function(){if(getScore()!==null){render();clearInterval(hydrationPoll)}else if(Date.now()>=resultDeadline){clearInterval(hydrationPoll)}},250);['naya:speaking','naya:speech-start','naya:audio-start','naya:voice-start'].forEach(function(name){window.addEventListener(name,onSpeechStart)});['naya:speech-end','naya:audio-end','naya:voice-end'].forEach(function(name){window.addEventListener(name,onSpeechEnd)});
 if(listen){listen.addEventListener('click',function(){setSpeaking(true);window.dispatchEvent(new CustomEvent('naya:listen',{detail:{source:'maxess-e01-section-01',score:getScore()}}));var result;if(window.Naya&&typeof window.Naya.listen==='function')result=window.Naya.listen();else if(window.nayaListen&&typeof window.nayaListen==='function')result=window.nayaListen();if(result&&typeof result.then==='function'){result.then(onSpeechEnd).catch(function(){onSpeechEnd()})}})}
 })();
 </script>
