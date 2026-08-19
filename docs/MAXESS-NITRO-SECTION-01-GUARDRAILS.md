@@ -57,3 +57,15 @@ Automation must never write to retired monolithic artifacts as a side effect of 
 ## 11 — Source ambiguity is a stop condition
 
 If the active source, product owner, or deployment payload is ambiguous, STOP and resolve the authority before editing. Never choose a source merely because it is larger, newer-looking, or historically successful.
+
+## 12 — Responsive containment law
+
+Section 01 responsive elements must size themselves to their actual containing block rather than assuming viewport width equals available content width.
+
+Do not use viewport-relative widths such as `92vw` or `94vw` for a child whose parent has horizontal padding unless the resulting geometry has been explicitly proven not to overflow at every required viewport.
+
+Prefer `width:100%` with an appropriate `max-width` inside the padded content container.
+
+For the protected Orb/Bead system, preserve the approved desktop/mobile bead geometry while ensuring the containing Orb wrapper itself cannot exceed its parent.
+
+This rule exists because the previous Section 01 implementation could make the Orb wrapper wider than the padded content area at mid-width viewports such as 600px and 768px, creating a potential horizontal clipping/overflow condition.
