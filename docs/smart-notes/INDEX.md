@@ -62,6 +62,12 @@ The filename is a locator, not the authority.
 
 ## Current note inventory
 
+### 2026-08-19
+
+| Topic | Primary category | Useful retrieval terms | Note |
+|---|---|---|---|
+| Section 01 Bead Geometry and Score Fidelity Learning | LEARNING | Section 01, Orb, Orbital Bead, bead radius, mobile geometry, score fidelity, 67.8, MAXESS_RESULT, responsive QA, visual verification | `2026-08-19-section-01-bead-score-verification-learning.md` |
+
 ### 2026-08-18
 
 | Topic | Primary category | Useful retrieval terms | Note |
