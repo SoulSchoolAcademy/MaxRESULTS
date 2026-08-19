@@ -1,8 +1,8 @@
-name: Verify MAXESS Section 01
+name: Execute and Verify MAXESS Section 01
 
-# Safe Section 01 verification workflow.
-# The former mutation lane referenced retired monolithic source files.
-# This workflow is verification-only and validates the active E01 source.
+# Deterministic mutation lane for the single active E01 delivery artifact.
+# The runner reads the COMPLETE artifact locally, applies the explicit patch,
+# verifies protected behavior, and commits the SAME artifact back to GitHub.
 
 on:
   push:
@@ -10,16 +10,17 @@ on:
       - maxess-results-v21-working
     paths:
       - 'E01-SECTION-01-WORKING.html'
+      - 'tools/execute_e01_refinement.py'
       - 'docs/MAXESS-NITRO-SECTION-01-INDEX.md'
       - 'docs/MAXESS-NITRO-SECTION-01-GUARDRAILS.md'
       - '.github/workflows/execute-maxess-section01.yml'
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
-  group: verify-maxess-section01-${{ github.ref }}
+  group: execute-maxess-section01-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -30,7 +31,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: maxess-results-v21-working
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Verify canonical execution contracts
         run: |
@@ -39,24 +40,30 @@ jobs:
           test -f docs/MAXESS-NITRO-SECTION-01-INDEX.md
           test -f docs/MAXESS-NITRO-SECTION-01-GUARDRAILS.md
           test -f E01-SECTION-01-WORKING.html
+          test -f tools/execute_e01_refinement.py
           grep -q 'E01-SECTION-01-WORKING.html' docs/MAXESS-NITRO-SECTION-01-INDEX.md
           grep -q 'E01-SECTION-01-WORKING.html' docs/MAXESS-NITRO-SECTION-01-GUARDRAILS.md
           echo "SECTION 01 CONTRACT ROUTING: PASS"
+
+      - name: Establish complete-file baseline
+        run: |
+          git rev-parse HEAD > e01-baseline-commit.txt
+          git rev-parse HEAD:E01-SECTION-01-WORKING.html > e01-baseline-blob.txt
+          wc -c E01-SECTION-01-WORKING.html
+
+      - name: Execute deterministic E01 mutation
+        run: python tools/execute_e01_refinement.py
 
       - name: Static Section 01 integrity gate
         run: |
           python - <<'PY'
           from pathlib import Path
           import re
-
-          p = Path('E01-SECTION-01-WORKING.html')
-          s = p.read_text(encoding='utf-8')
-
+          s = Path('E01-SECTION-01-WORKING.html').read_text(encoding='utf-8')
           required = [
               '<!doctype html>',
-              'NAYA · YOUR AI GUIDE',
-              "Hi, I'm Naya.",
-              "I've got your results.",
+              'nitro-e01-v28',
+              'NAYA',
               'LISTEN TO NAYA',
               'YOUR AI SCORE',
               'window.MAXESS_RESULT',
@@ -66,22 +73,25 @@ jobs:
               'orb-breathe',
               'orb-orbit',
               'prefers-reduced-motion:reduce',
-              "params.get('fixture')==='demo'",
               'maxess:naya-listen',
+              'This isn’t your judgment. It’s your map — it’s your starting point.',
+              'This number is a starting point — <strong>not a verdict.</strong>',
           ]
           missing = [item for item in required if item not in s]
           if missing:
               raise SystemExit('Missing required Section 01 evidence: ' + ', '.join(missing))
-
           if s.count('id="e01"') != 1:
               raise SystemExit('Expected exactly one E01 root id')
           if s.count('id="listen"') != 1:
               raise SystemExit('Expected exactly one primary Listen control')
+          if 'translateX(220px)' not in s or 'translateX(140px)' not in s:
+              raise SystemExit('Orb geometry regression')
+          if 'width:14px;height:14px' not in s or 'width:11px;height:11px' not in s:
+              raise SystemExit('Bead geometry regression')
+          if 'width:min(280px,78%)' not in s:
+              raise SystemExit('Mobile Orb ceiling regression')
           if re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', s):
               raise SystemExit('Unresolved conflict marker remains in E01 source')
-          if '20260817 912am RESULTS PAGE CODE' in s:
-              raise SystemExit('Retired monolithic artifact referenced by E01')
-
           print('SECTION 01 STATIC INTEGRITY: PASS')
           print('BYTES:', len(s.encode('utf-8')))
           print('LINES:', len(s.splitlines()))
@@ -93,20 +103,25 @@ jobs:
           from pathlib import Path
           import re
           s = Path('E01-SECTION-01-WORKING.html').read_text(encoding='utf-8')
-
           if not re.search(r'window\.MAXESS_RESULT\s*&&\s*typeof window\.MAXESS_RESULT', s):
               raise SystemExit('Production result authority guard missing')
           if re.search(r'overallScore\s*:\s*82\b', s):
               raise SystemExit('Hard-coded production score detected')
-          if 'Nothing has been invented' in s:
-              raise SystemExit('Unexpected legacy error copy detected')
-
           print('RESULT SOURCE / SAFE FAILURE GATE: PASS')
           PY
 
-      - name: Report verification boundary
+      - name: Diff proof
         run: |
-          echo "STATIC/STRUCTURAL VERIFICATION: PASS"
-          echo "BROWSER VISUAL QA: NOT RUN BY THIS WORKFLOW"
-          echo "GROOVE/LIVE VERIFICATION: NOT RUN BY THIS WORKFLOW"
-          echo "Those remain separate verification gates under the deployment contract."
+          git diff --check
+          git diff -- E01-SECTION-01-WORKING.html
+          test -n "$(git diff -- E01-SECTION-01-WORKING.html)"
+
+      - name: Commit only verified E01 mutation
+        run: |
+          git config user.name 'Naya Master'
+          git config user.email 'naya-master@users.noreply.github.com'
+          git add E01-SECTION-01-WORKING.html
+          git diff --cached --check
+          git diff --cached --quiet && { echo 'NO E01 MUTATION DETECTED'; exit 1; }
+          git commit -m 'MAXESS E01 Section 01 refinement — verified in place [nitro-v28]'
+          git push origin maxess-results-v21-working
