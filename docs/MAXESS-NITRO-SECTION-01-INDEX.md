@@ -1,24 +1,42 @@
 # MAXESS NITRO — SECTION 01 INDEX
 
-**Status:** ACTIVE SECTION EXECUTION MEMORY  
+**Status:** ACTIVE SECTION EXECUTION MEMORY + DELIVERY LOCK  
 **Branch:** `maxess-results-v21-working`  
 **Scope:** SECTION 01 ONLY
 
-## Primary artifact
+## PRIMARY DELIVERY ARTIFACT — HARD LOCK
 
-- `E01-SECTION-01-WORKING.html` — **current active Section 01 working source**.
+`E01-SECTION-01-WORKING.html` is the **single active Section 01 engineering source AND the exact Groove handoff payload**.
 
-`NITRO/SECTION-01-NAYA-WELCOME-ORBSCORE.html` is preserved as a prior Section 01 implementation/reference artifact. It is not an independent active source and must not become a competing renderer.
+**Naya edits this file. GitHub stores this file. Naya verifies this file. Shawn copies this file into Groove.**
 
-## Execution memory
+There is no translation step between engineering and Groove handoff.
 
-- `docs/MAXESS-NITRO-SECTION-01-EXECUTION-REPORT.md` — latest evidence/state from the prior focused Section 01 mutation.
-- `docs/MAXESS-NITRO-SECTION-01-GUARDRAILS.md` — durable Section 01 rules.
+`NITRO/SECTION-01-NAYA-WELCOME-ORBSCORE.html` is preserved as a prior Section 01 implementation/reference artifact. It is not an independent active source and must not become a competing renderer or delivery payload.
+
+## NON-NEGOTIABLE EXECUTION LOOP
+
+`READ → FETCH ACTIVE FILE → ESTABLISH BASELINE SHA → BUILD COMPLETE CHECKLIST → MUTATE SAME FILE → RE-FETCH SAME FILE → INSPECT ACTUAL CHANGES → DIFF → STATIC QA → BEHAVIOR/REGRESSION QA → COMMIT → RAW LINK → HUMAN GROOVE DEPLOYMENT`
+
+**A commit is not proof. A version bump is not proof. A successful write is not proof. A plan is not proof. The re-fetched artifact containing the requested changes is proof of implementation.**
+
+## SELF-INSTRUCTION / LEAD MODE
+
+At the end of every execution, before responding, Naya must ask herself:
+
+> **Did I actually change the active delivery file? Did I re-fetch the same file after the write? Can I point to the requested edits inside that re-fetched source? Does the raw link point to that exact file? If not, I am not done. Continue execution or report the exact blocker.**
+
+Do not return a prompt asking the human to tell Naya to finish work that Naya has already been instructed to execute. **Take the lead and execute.**
+
+## EXECUTION MEMORY
+
+- `docs/MAXESS-NITRO-SECTION-01-EXECUTION-REPORT.md` — latest evidence/state from prior focused Section 01 mutation.
+- `docs/MAXESS-NITRO-SECTION-01-GUARDRAILS.md` — durable hard rules and delivery lock.
 - `docs/MAXESS-SECTION-01-AAA-BUILD-PROMPT.md` — existing Section 01 build prompt.
 - `docs/MAXESS-SECTION-01-LOCKED-BUILD-CONTRACT.md` — existing Section 01 contract.
 - `docs/SMART-NOTE-2026-08-18-SECTION-01-VISUAL-QA.md` — latest Section 01 visual QA memory.
 
-## Required governance
+## REQUIRED GOVERNANCE
 
 Canonical governance is on `main` and must be read first:
 
@@ -35,11 +53,7 @@ Canonical governance is on `main` and must be read first:
 
 Then inspect active-branch implementation sources, including `START-HERE.md`, `NAYA-REPO-LOCK.md`, `NITRO-MASTER-EXECUTION-PROTOCOL.md`, `docs/MAXESS-AAA-SECTION-DESIGN-SPEC.md`, `docs/MAXESS-COMPONENT-OWNERSHIP-REGISTRY.md`, `docs/MAXESS-CHANGE-LEDGER.md`, `docs/MAXESS-NITRO-SECTION-01-GUARDRAILS.md`, and `docs/DEPLOYMENT-CONTRACT.md`.
 
-## Section 01 owner
-
-For the current fresh E01 cycle, `E01-SECTION-01-WORKING.html` is the single active Section 01 working source. The component ownership registry remains the authority for the product's V21 runtime component ownership; this E01 artifact is the current section-scoped engineering source for the isolated build/refinement cycle.
-
-## Protected behavior
+## PROTECTED BEHAVIOR
 
 - `window.MAXESS_RESULT.overallScore` is the production score source.
 - Explicit `?fixture=demo` is the only demo path.
@@ -51,18 +65,35 @@ For the current fresh E01 cycle, `E01-SECTION-01-WORKING.html` is the single act
 - No hard-coded production result.
 - Missing/invalid production data fails safely rather than inventing a score.
 
-## Current Section 01 hierarchy
+## CURRENT SECTION 01 HIERARCHY
 
 **NAYA PRESENCE → NAYA MESSAGE → LISTEN → YOUR AI SCORE → SCORE REVEAL → ORB/BEAD → SCORE CONTEXT**
 
-The surrounding presentation is a working candidate and remains open to refinement until rendered review and the applicable release/freeze gates pass.
+The surrounding presentation remains open to refinement until rendered review and applicable release/freeze gates pass.
 
-## Execution law
+## GROOVE ROLE BOUNDARY
+
+Naya does **not** need Groove editor access for this workflow and must not treat it as an engineering blocker.
+
+- **Naya:** engineering, editing, verification, GitHub commit, raw-code handoff.
+- **Shawn:** Groove deployment/paste and rendered human review.
+
+Do not send an unverified public/Groove link as though it were updated.
+
+## SOURCE-OF-TRUTH REPAIR RULE
+
+If any older document disagrees with this index, resolve the disagreement through current governance and the latest explicit human-approved state. Do not silently create or use a second active renderer.
+
+## COMPLETION STATES
+
+- **IMPLEMENTED:** requested edits exist in the active artifact.
+- **VERIFIED:** active artifact was re-fetched after mutation and inspected for the requested edits.
+- **LIVE VERIFIED:** public/Groove deployment independently fetched and confirmed.
+- **HUMAN REVIEW REQUIRED:** rendered visual/interaction review remains with Shawn.
+- **UNKNOWN:** evidence is unavailable; never convert UNKNOWN into success language.
+
+## EXECUTION LAW
 
 `READ → SCORE → MUTATE → PROVE → BUILD → VERIFY → OSCAR → REPAIR → RETEST`
 
-GitHub commit state, rendered state, Groove state, and public/live state are separate verification gates.
-
-## Source-of-truth repair rule
-
-If this index, the active branch map, or any older Section 01 document disagrees about the current active source, resolve the disagreement through current governance and the most recent explicit human-approved state. Do not silently create or use a second active renderer.
+**No report-only completion. No stale-link completion. No version-number completion. No commit-only completion.**
