@@ -60,6 +60,41 @@ jobs:
           print('latest:', latest)
           PY
 
+      - name: Frozen E01 / active E02 section integrity gate
+        run: |
+          set -euo pipefail
+          E01='E01-SECTION-01-WORKING.html'
+          E02='E02-SECTION-02-WORKING.html'
+          EXPECTED_E01='c01ba966c4b1439b8b3e95161c6f8316202736d8'
+          test -f "$E01"
+          test -f "$E02"
+          ACTUAL_E01="$(git hash-object "$E01")"
+          test "$ACTUAL_E01" = "$EXPECTED_E01"
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          e01 = Path('E01-SECTION-01-WORKING.html').read_text(encoding='utf-8')
+          e02 = Path('E02-SECTION-02-WORKING.html').read_text(encoding='utf-8')
+          assert 'maxess-artifact" content="E01-SECTION-01-WORKING"' in e01
+          assert 'maxess-version" content="nitro-e01-v39"' in e01
+          assert 'maxess-artifact" content="E02-SECTION-02-WORKING"' in e02
+          assert 'MAXESS — Section 02 · Your Five Dimensions' in e02
+          assert '<main id="e02"' in e02
+          assert 'id="e01"' not in e02
+          assert 'E01-SECTION-01-WORKING' not in e02
+          assert 'nitro-e01-v39' not in e02
+          assert e02.count('id="e02"') == 1
+          assert e02.count('id="e02-orbs"') == 1
+          for name in ('Direction','Communication','Evaluation','Iteration','Systems Thinking'):
+              assert name in e02, f'missing dimension: {name}'
+          assert 'window.MAXESS_RESULT' in e02
+          assert 'DEMO' not in e02.upper()
+          assert 'PLACEHOLDER' not in e02.upper()
+          assert 'iframe' not in e02.lower()
+          print('FROZEN E01 / ACTIVE E02 INTEGRITY GATE: PASS')
+          PY
+          echo "E01 blob: $ACTUAL_E01"
+
       - name: Source authority gate
         run: |
           python - <<'PY'
