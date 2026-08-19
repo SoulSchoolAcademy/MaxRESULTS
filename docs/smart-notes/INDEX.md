@@ -30,6 +30,10 @@ A request such as **“What did we learn about making Naya remember things?”**
 
 `Naya Note · Smart Note · memory · durable memory · project brain · recall · context restoration · learning · notes`
 
+A request such as **“What does AAA mean here?”** should search concepts including:
+
+`AAA · 10/10 · quality · language dictionary · scorecard · MaxIS · Why is this not a 10 · excellence`
+
 Do not require the user or AI to know the exact phrase **“Smart Notes System.”**
 
 ## Directory convention
@@ -64,6 +68,7 @@ The filename is a locator, not the authority.
 |---|---|---|---|
 | Naya Nitro North Star / executive execution plan | DECISION | Naya Nitro, Smart Notes, Naya Notes, North Star, Take the Lead, AAA, MaxIS, master execution, next action, project brain | `2026-08-18-naya-nitro-north-star.md` |
 | Cold-start governance repair / main-active branch model | SOLUTION | cold start, governance, main branch, active branch, repository map, branch divergence, source of truth, governance bridge, AI comprehension, Section 01 | `2026-08-18-cold-start-governance-repair.md` |
+| Naya language + scorecard governance | SOLUTION | Naya Nitro, language dictionary, AAA, 10/10, scorecard, weighting, Why is this not a 10, quality loop, execution prompt, exemplars, HMC | `2026-08-18-naya-language-scorecard-governance.md` |
 
 ## Cross-system retrieval map
 
@@ -72,6 +77,8 @@ The filename is a locator, not the authority.
 | Naya's overall operating philosophy | `NAYA-OS.md` | Executive Plan, Blueprint, relevant notes |
 | What Naya Nitro is | `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` | Executive Plan, relevant notes |
 | North Star / what-why-how | `docs/NAYA-EXECUTIVE-PLAN.md` | North Star Smart Note |
+| Project language / what AAA or 10 means | `docs/NAYA-LANGUAGE-DICTIONARY.md` | `docs/NAYA-SCORECARDING-SYSTEM.md`, relevant notes |
+| Scorecard / “scorecard this” | `docs/NAYA-SCORECARDING-SYSTEM.md` | task-specific rubric, relevant notes |
 | How to execute work | `docs/NAYA-NITRO-MODE.md` | Execution Prompt Template, learning log |
 | Reusable execution prompt | `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` | current task-specific notes |
 | Naya Note / Smart Note / memory | `docs/NAYA-SMART-NOTES-SYSTEM.md` | this index, relevant notes |
