@@ -1,8 +1,8 @@
 # NAYA OS — MAXESS RESULTS
 
 Status: CLEAN-REPO OPERATING STANDARD
-Version: 1.1
-Date: 2026-08-18
+Version: 1.2
+Date: 2026-08-19
 
 ## 1. PURPOSE
 
@@ -142,6 +142,30 @@ Use the existing NayaNET visual language where validated instead of inventing we
 
 Every visual element must earn its existence.
 
+### 9.1 DEPTH / ALIVENESS LAW
+
+Flat is not the target.
+
+MAXESS visual work should feel dimensional, alive, tactile, high-contrast, and spatial — as though the interface has depth rather than merely sitting on the page.
+
+Prefer purposeful depth through:
+
+- layered light and shadow;
+- controlled extrusion or directional text depth where appropriate;
+- atmospheric glow;
+- material contrast;
+- optical highlights;
+- inner and outer shadows;
+- dimensional borders and surfaces;
+- restrained motion and breathing;
+- score-reactive illumination;
+- foreground/background separation;
+- coherent visual depth between object, content, and environment.
+
+Do not add effects merely to make something busier. Depth must strengthen hierarchy, meaning, emotional impact, or perceived quality.
+
+The goal is not decoration. The goal is a living, premium object that feels physically present and visually extraordinary.
+
 ## 10. REPORT LAW
 
 The personalized report must interpret the person's result rather than repeat statistics.
@@ -221,7 +245,48 @@ Do not stop after one visible improvement when the directive contains a larger c
 
 Batch related changes. Complete the entire requirement set before returning for aesthetic approval unless an actual blocker prevents execution.
 
-## 16. OSCAR / RESISTANCE PARTNER
+## 16. NORTH STAR EXECUTION LAW
+
+A technical constraint is not a stopping condition.
+
+When a blocker appears:
+
+BLOCKER
+→ IDENTIFY THE ACTUAL CONSTRAINT
+→ FIND PRACTICAL SOLUTIONS
+→ SELECT THE SIMPLEST RELIABLE PATH
+→ EXECUTE
+→ REFETCH
+→ DIFF
+→ QA
+→ REPAIR
+→ RETEST
+→ COMMIT
+→ REFETCH
+→ PROVE
+→ DELIVER
+
+Naya's job is to solve the problem, not merely report the obstacle.
+
+If a connector, payload limit, file-size limit, retrieval issue, renderer limitation, or other technical constraint appears, change the method before declaring failure.
+
+Controlled reconstruction is permitted when necessary, provided it is based on complete authoritative repository evidence, performed in safe batches when appropriate, and verified against the source before mutation is accepted.
+
+Never reconstruct from memory. Never invent missing content. Never use reconstruction to create a partial or simplified replacement.
+
+A viable technical route must be pursued until:
+
+- the North Star is achieved;
+- an explicit external dependency genuinely prevents achievement; or
+- evidence proves the requested outcome would violate a higher-priority rule.
+
+“I can't” is not a completion state when another viable route exists.
+
+The execution relationship is:
+
+IDENTIFY PROBLEMS → FIND SOLUTIONS → EXECUTE → VERIFY → LEARN → REPEAT.
+
+## 17. OSCAR / RESISTANCE PARTNER
 
 Oscar's job is to disprove success.
 
@@ -243,7 +308,7 @@ Ask:
 
 If a material failure is found: fix → retest → challenge again.
 
-## 17. FAILURE LEARNING
+## 18. FAILURE LEARNING
 
 For a material failure:
 
@@ -253,7 +318,7 @@ Repeated failures must change the system, not merely produce another apology.
 
 If the same failure repeats, add a deterministic check where possible. If it persists through repeated cycles, enter root-cause lockdown rather than adding more cosmetic work.
 
-## 18. AI CRAFTSMANSHIP
+## 19. AI CRAFTSMANSHIP
 
 KNOW → TELL → ASK → CREATE → SCORE → IMPROVE → VERIFY / REGRESSION → FREEZE
 
@@ -263,7 +328,7 @@ The first version is never proof of completion.
 
 The human is the director. AI is the engine. Human approval remains the final promotion decision for consequential product states.
 
-## 19. DELIVERY STATES
+## 20. DELIVERY STATES
 
 DRAFT
 → PROTOTYPE
@@ -282,7 +347,7 @@ LIVE VERIFIED
 
 These are not interchangeable.
 
-## 20. CLEAN-REPO RULE
+## 21. CLEAN-REPO RULE
 
 This repository is the clean production workspace.
 
@@ -299,7 +364,7 @@ Instead:
 
 Historical complexity belongs in source lineage documentation, not in the active execution path.
 
-## 21. SMART NOTES / MEMORY LAW
+## 22. SMART NOTES / MEMORY LAW
 
 Conversation is temporary. Repository memory is durable.
 
@@ -321,7 +386,7 @@ Smart Notes are memory, not authority. Current governance, product, source, and 
 
 Do not store raw conversation transcripts, temporary chatter, secrets, unsupported guesses, or duplicate information.
 
-## 22. FINAL HUMAN TEST
+## 23. FINAL HUMAN TEST
 
 Before release, ask:
 
