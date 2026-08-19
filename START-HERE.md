@@ -50,19 +50,20 @@ Use this order as the default entry sequence. `docs/REPOSITORY-MAP.md` must mirr
 3. `NAYA-OS.md` — governing operating laws.
 4. `docs/NAYA-LANGUAGE-DICTIONARY.md` — exact meanings of project language and quality terms; prevents semantic guessing.
 5. `docs/NAYA-SCORECARDING-SYSTEM.md` — evaluation, weighting, “Why is this not a 10?”, improvement, and reusable scorecard templates.
-6. `docs/NAYA-EXECUTIVE-PLAN.md` — North Star, what/why/how, quality hierarchy, human/Naya relationship, and automatic next-action law.
-7. `docs/NAYA-NITRO-MODE.md` — execution loop, batching, QA, resistance, and release discipline.
-8. `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` — reusable master execution contract.
-9. `docs/NAYA-SMART-NOTES-SYSTEM.md` — durable memory, aliases, searchability, timestamps, promotion rules, and recall.
-10. `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` — Naya Nitro product thesis and user model.
-11. `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — practical MAXESS Results operating rules.
-12. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current Results product requirements.
-13. `docs/SOURCE-AND-MEMORY-MAP.md` — authority, state, and historical lineage.
-14. `docs/DEPLOYMENT-CONTRACT.md` — GitHub → Groove → public verification.
-15. `docs/RELEASE-CHECKLIST.md` — release gate.
-16. `docs/NAYA-NITRO-LEARNING-LOG.md` — durable execution-system lessons when relevant to the task.
-17. `docs/smart-notes/INDEX.md` — Smart Note/Naya Note retrieval index.
-18. Read only additional task-specific documents, scorecards, exemplars, assets, and Smart Notes required by the request.
+6. `docs/NAYA-GOVERNANCE-REGISTRY.md` — explicit ownership of overlapping documents and duplicate-authority repair rules.
+7. `docs/NAYA-EXECUTIVE-PLAN.md` — North Star, what/why/how, quality hierarchy, human/Naya relationship, and automatic next-action law.
+8. `docs/NAYA-NITRO-MODE.md` — execution loop, batching, QA, resistance, and release discipline.
+9. `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` — reusable master execution contract.
+10. `docs/NAYA-SMART-NOTES-SYSTEM.md` — durable memory, aliases, searchability, timestamps, promotion rules, and recall.
+11. `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` — Naya Nitro product thesis and user model.
+12. `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — practical MAXESS Results operating rules.
+13. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current Results product requirements.
+14. `docs/SOURCE-AND-MEMORY-MAP.md` — authority, state, and historical lineage.
+15. `docs/DEPLOYMENT-CONTRACT.md` — GitHub → Groove → public verification.
+16. `docs/RELEASE-CHECKLIST.md` — release gate.
+17. `docs/NAYA-NITRO-LEARNING-LOG.md` — durable execution-system lessons when relevant to the task.
+18. `docs/smart-notes/INDEX.md` — Smart Note/Naya Note retrieval index.
+19. Read only additional task-specific documents, scorecards, exemplars, assets, and Smart Notes required by the request.
 
 ## Smart Note terminology law
 
@@ -77,6 +78,10 @@ Project-specific meanings live in `docs/NAYA-LANGUAGE-DICTIONARY.md`. When terms
 ## Scorecard law
 
 `docs/NAYA-SCORECARDING-SYSTEM.md` owns the general scorecarding method. When the user says **“scorecard this,”** identify the artifact type, choose the appropriate rubric, weight what materially matters to the intended outcome, evaluate with evidence, ask **“WHY IS THIS NOT A 10?”**, improve when authorized/appropriate, rescore, and produce the next action and copy-paste-ready prompt.
+
+## Governance ownership law
+
+`docs/NAYA-GOVERNANCE-REGISTRY.md` defines which document owns each recurring governance subject. Useful older or branch-local documents may remain, but they do not become competing authorities merely because they exist.
 
 ## Canonical product journey
 
