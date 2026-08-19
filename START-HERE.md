@@ -8,7 +8,7 @@
 
 This branch, `maxess-results-v21-working`, is the **active Results engineering branch**.
 
-The repository `main` branch is the **canonical governance/reference branch**. The current cold-start operating system, Naya Nitro rules, Smart Notes rules, authority hierarchy, and reusable execution contract are maintained there.
+The repository `main` branch is the **canonical governance/reference branch**. The current cold-start operating system, Naya Nitro rules, project language, scorecarding method, Smart Notes rules, authority hierarchy, and reusable execution contract are maintained there.
 
 **Do not create a second governance system on this branch.**
 
@@ -21,21 +21,31 @@ When a branch-local document conflicts with the current governance on `main`, th
 1. `main:START-HERE.md`
 2. `main:docs/REPOSITORY-MAP.md`
 3. `main:NAYA-OS.md`
-4. `main:docs/NAYA-EXECUTIVE-PLAN.md`
-5. `main:docs/NAYA-NITRO-MODE.md`
-6. `main:docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md`
-7. `main:docs/NAYA-SMART-NOTES-SYSTEM.md`
-8. `main:docs/NAYA-NITRO-MASTER-BLUEPRINT.md`
-9. `main:docs/smart-notes/INDEX.md`
+4. `main:docs/NAYA-LANGUAGE-DICTIONARY.md`
+5. `main:docs/NAYA-SCORECARDING-SYSTEM.md`
+6. `main:docs/NAYA-EXECUTIVE-PLAN.md`
+7. `main:docs/NAYA-NITRO-MODE.md`
+8. `main:docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md`
+9. `main:docs/NAYA-SMART-NOTES-SYSTEM.md`
+10. `main:docs/NAYA-NITRO-MASTER-BLUEPRINT.md`
+11. `main:docs/smart-notes/INDEX.md`
 
 ### B. Then inspect this active branch
 
-10. `START-HERE.md` — this branch-specific implementation entry point.
-11. `docs/REPOSITORY-MAP.md` — active branch implementation map.
-12. Relevant active source, tools, QA, deployment, and release documents.
-13. Relevant recent/topic Smart Notes from `main`.
+12. `START-HERE.md` — this branch-specific implementation entry point.
+13. `docs/REPOSITORY-MAP.md` — active branch implementation map.
+14. Relevant active source, tools, QA, deployment, release documents, exemplars, and assets.
+15. Relevant recent/topic Smart Notes from `main`.
 
 **Never substitute branch-local history for canonical governance.**
+
+## Branch-local duplicate authority rule
+
+This branch contains historical/working documents from earlier execution cycles, including language, scorecard, prompt, design, and execution documents. They may contain useful implementation context, but they are **not independent governance authorities**.
+
+Examples include `docs/AI-PRODUCT-LANGUAGE.md`, `docs/AI-DEFINITION-OF-10.md`, `docs/MAXESS-FAST-EDIT-SCORECARD.md`, `docs/MAXESS-EXECUTION-PROMPT-TEMPLATE.md`, and older Nitro/design directives.
+
+Use the canonical `main:` governance documents for current definitions and operating rules. Consult branch-local documents only when they are specifically relevant to the active implementation or historical lineage.
 
 ## Activation
 
