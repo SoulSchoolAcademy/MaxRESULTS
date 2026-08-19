@@ -3,94 +3,96 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#050505">
+<meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <meta name="maxess-artifact" content="E03-SECTION-03-WORKING">
-<meta name="maxess-version" content="e03-illuminated-letter-v1">
+<meta name="maxess-version" content="e03-editorial-letter-v2">
 <title>MAXESS — Section 03 · Your Personal Report</title>
 <style>
 /* ================================================================
-   MAXESS E03 — ILLUMINATED PERSONAL LETTER
+   MAXESS E03 v2 — THE ILLUMINATED LETTER
    Standalone Groove embed. Scoped to #e03.
-   Runtime authority: window.MAXESS_RESULT when present.
-   Demo state: 82 / ADVANCING for isolated visual development.
+   E01/E02 remain completely independent.
+   Runtime authority: window.MAXESS_RESULT.
+   Demo state: 82 / ADVANCING.
    ================================================================ */
-#e03{--e03-bg:#050505;--e03-ink:#17151a;--e03-paper:#f5f0e7;--e03-paper-hi:#fffdf8;--e03-purple:#a66cff;--e03-violet:#d5b8ff;--e03-gold:#d8b56a;--e03-muted:#6e6870;--e03-line:rgba(24,20,29,.13);--e03-shadow:rgba(0,0,0,.68);position:relative;width:100%;min-height:100vh;overflow:clip;background:#050505;color:#fff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;isolation:isolate}
+#e03{--black:#000;--ink:#f8f7fb;--soft:#d9d6df;--muted:#8e8998;--purple:#a66cff;--purple2:#d7bfff;--line:rgba(255,255,255,.14);position:relative;width:100%;min-height:100vh;overflow:clip;background:#000;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;isolation:isolate}
 #e03,#e03 *{box-sizing:border-box}
 #e03 button{font:inherit}
-#e03 .e03-stage{position:relative;width:100%;min-height:100vh;padding:clamp(44px,7vw,92px) clamp(18px,4vw,56px) clamp(70px,9vw,120px);display:flex;justify-content:center;overflow:clip}
-#e03 .e03-stage::before{content:"";position:absolute;inset:0;z-index:-5;background:radial-gradient(ellipse 70% 48% at 50% 14%,rgba(166,108,255,.11),transparent 70%),radial-gradient(ellipse 52% 42% at 50% 66%,rgba(255,218,157,.045),transparent 72%),#050505}
-#e03 .e03-stage::after{content:"";position:absolute;inset:0;z-index:-4;pointer-events:none;opacity:.035;background-image:radial-gradient(rgba(255,255,255,.9) .45px,transparent .65px);background-size:5px 5px;mask-image:linear-gradient(180deg,#000,transparent 92%)}
-#e03 .e03-aura{position:absolute;z-index:-3;top:clamp(100px,12vw,170px);left:50%;width:min(1000px,120vw);height:min(1100px,120vw);transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle at 50% 32%,rgba(166,108,255,.12),transparent 42%),radial-gradient(circle at 50% 60%,rgba(245,219,169,.055),transparent 62%);filter:blur(48px);pointer-events:none}
-#e03 .e03-document-wrap{position:relative;width:min(930px,100%);margin:auto}
-#e03 .e03-document-wrap::before{content:"";position:absolute;inset:-24px -18px -30px;border-radius:30px;background:radial-gradient(ellipse at 50% 12%,rgba(255,255,255,.10),transparent 46%),radial-gradient(ellipse at 50% 82%,rgba(166,108,255,.10),transparent 60%);filter:blur(24px);z-index:-2;opacity:.9}
-#e03 .e03-document-wrap::after{content:"";position:absolute;inset:12px 0 0;border-radius:22px;background:rgba(0,0,0,.55);filter:blur(32px);z-index:-3;transform:translateY(24px) scale(.97)}
-#e03 .e03-paper{position:relative;overflow:hidden;width:100%;min-height:1120px;padding:clamp(48px,7vw,88px) clamp(30px,7vw,92px) clamp(58px,7vw,92px);background:linear-gradient(135deg,var(--e03-paper-hi) 0%,var(--e03-paper) 46%,#eee7dc 100%);color:var(--e03-ink);border:1px solid rgba(255,255,255,.70);box-shadow:0 44px 110px var(--e03-shadow),0 0 0 1px rgba(255,255,255,.09),inset 0 1px rgba(255,255,255,.92),inset 0 -1px rgba(86,66,45,.08);border-radius:18px}
-#e03 .e03-paper::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 13% 9%,rgba(255,255,255,.80),transparent 18%),radial-gradient(circle at 89% 82%,rgba(166,108,255,.045),transparent 28%),linear-gradient(115deg,transparent 0 55%,rgba(255,255,255,.22) 70%,transparent 84%);mix-blend-mode:screen}
-#e03 .e03-paper::after{content:"";position:absolute;inset:14px;border:1px solid rgba(96,75,52,.07);border-radius:11px;pointer-events:none}
-#e03 .e03-inner{position:relative;z-index:2;max-width:760px;margin:0 auto}
-#e03 .e03-masthead{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;margin-bottom:52px}
-#e03 .e03-rule{height:1px;background:linear-gradient(90deg,transparent,rgba(79,58,35,.24));}
-#e03 .e03-rule.right{background:linear-gradient(90deg,rgba(79,58,35,.24),transparent)}
-#e03 .e03-mark{width:52px;height:52px;display:grid;place-items:center;border:1px solid rgba(112,82,40,.32);border-radius:50%;color:#7d5c31;position:relative;box-shadow:0 0 0 6px rgba(216,181,106,.055),inset 0 0 16px rgba(216,181,106,.10)}
-#e03 .e03-mark::before,#e03 .e03-mark::after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(125,92,49,.16)}
-#e03 .e03-mark::before{inset:6px}.e03-mark::after{inset:-6px}
-#e03 .e03-mark-glyph{font-size:18px;line-height:1;transform:translateY(-1px)}
-#e03 .e03-kicker{margin:0;text-align:center;color:#7d5c31;font-size:10px;font-weight:900;letter-spacing:.34em;text-transform:uppercase}
-#e03 .e03-title{margin:0;text-align:center;font-family:Georgia,"Times New Roman",serif;font-size:clamp(38px,6vw,66px);line-height:.98;letter-spacing:-.035em;font-weight:500;color:#18151a}
-#e03 .e03-title-accent{display:block;margin:18px auto 0;width:76px;height:1px;background:linear-gradient(90deg,transparent,#b08a50,transparent)}
-#e03 .e03-intro{margin:44px 0 0;text-align:center}
-#e03 .e03-name{margin:0;color:#2a252c;font-family:Georgia,"Times New Roman",serif;font-size:clamp(30px,4vw,44px);font-weight:500;line-height:1.08}
-#e03 .e03-stage-label{display:inline-flex;align-items:center;gap:9px;margin-top:15px;color:#72562f;font-size:10px;font-weight:900;letter-spacing:.25em;text-transform:uppercase}
-#e03 .e03-stage-dot{width:7px;height:7px;border-radius:50%;background:#a66cff;box-shadow:0 0 0 4px rgba(166,108,255,.09),0 0 15px rgba(166,108,255,.28)}
-#e03 .e03-opening{margin:56px auto 0;max-width:700px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(21px,2.3vw,28px);line-height:1.55;letter-spacing:-.01em;color:#272229}
-#e03 .e03-opening p{margin:0 0 1.15em}
-#e03 .e03-opening p:first-child:first-letter{float:left;font-size:4.15em;line-height:.76;padding:.08em .12em 0 0;color:#a66cff;font-weight:600}
-#e03 .e03-script{margin:0 auto;max-width:700px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(18px,1.75vw,21px);line-height:1.82;color:#332e35}
-#e03 .e03-script p{margin:0 0 1.12em}
-#e03 .e03-script strong{color:#1c1820;font-weight:700}
-#e03 .e03-emphasis{margin:40px 0;padding:28px 0 30px;border-top:1px solid var(--e03-line);border-bottom:1px solid var(--e03-line);font-family:Georgia,"Times New Roman",serif;font-size:clamp(24px,3vw,35px);line-height:1.25;color:#241f27;text-align:center;position:relative}
-#e03 .e03-emphasis::before{content:"✦";display:block;margin:0 auto 17px;color:#a66cff;font-size:15px}
-#e03 .e03-signoff{margin:60px auto 0;max-width:700px;text-align:right;font-family:Georgia,"Times New Roman",serif;color:#342e37}
-#e03 .e03-signoff-line{font-size:20px;line-height:1.6}.e03-signature{margin-top:10px;font-size:34px;font-style:italic;color:#6c4e89}
-#e03 .e03-footer{margin-top:72px;padding-top:28px;border-top:1px solid rgba(79,58,35,.16);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#756c73;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
-#e03 .e03-footer-left{display:flex;flex-direction:column;gap:8px}.e03-footer-left span:last-child{color:#9a8d95;font-size:8px;letter-spacing:.13em}
-#e03 .e03-seal{width:62px;height:62px;border:1px solid rgba(112,82,40,.22);border-radius:50%;display:grid;place-items:center;color:#86653b;font-size:8px;letter-spacing:.13em;text-align:center;line-height:1.4;box-shadow:inset 0 0 18px rgba(216,181,106,.07)}
-#e03 .e03-printbar{display:flex;justify-content:center;gap:12px;margin:26px auto 0;max-width:930px}
-#e03 .e03-print{appearance:none;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.055);color:rgba(255,255,255,.90);border-radius:999px;padding:12px 18px;min-height:44px;font-size:10px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:transform .2s ease,border-color .2s ease,background .2s ease}
-#e03 .e03-print:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.72);background:rgba(255,255,255,.09)}
+#e03 .e03-stage{position:relative;width:100%;min-height:100vh;padding:clamp(58px,8vw,110px) clamp(20px,5vw,72px) clamp(90px,10vw,140px);display:flex;justify-content:center;overflow:clip;background:#000}
+#e03 .e03-stage::before{content:"";position:absolute;z-index:0;inset:0;pointer-events:none;background:radial-gradient(ellipse 68% 38% at 50% 9%,rgba(166,108,255,.115),transparent 72%),radial-gradient(ellipse 55% 48% at 50% 48%,rgba(116,72,190,.045),transparent 72%),#000}
+#e03 .e03-stage::after{content:"";position:absolute;z-index:0;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.018),transparent 24%,transparent 78%,rgba(166,108,255,.018));opacity:.9}
+#e03 .e03-light{position:absolute;z-index:1;top:clamp(110px,14vw,190px);left:50%;width:min(780px,95vw);height:720px;transform:translateX(-50%);pointer-events:none;opacity:.8;background:radial-gradient(ellipse at center,rgba(166,108,255,.075),transparent 60%);filter:blur(48px)}
+#e03 .e03-report{position:relative;z-index:2;width:min(880px,100%);margin:auto}
+#e03 .e03-report::before{content:"";position:absolute;z-index:-1;inset:10% 8% 2%;border-radius:50%;background:radial-gradient(ellipse at center,rgba(166,108,255,.06),transparent 68%);filter:blur(44px);pointer-events:none}
+#e03 .e03-header{text-align:center}
+#e03 .e03-logo{display:block;width:clamp(58px,7vw,82px);height:auto;margin:0 auto 30px;object-fit:contain;filter:drop-shadow(0 0 20px rgba(166,108,255,.18));}
+#e03 .e03-kicker{margin:0;color:var(--muted);font-size:9px;font-weight:900;letter-spacing:.34em;text-transform:uppercase}
+#e03 .e03-title{margin:18px 0 0;color:#fff;font-family:Georgia,"Times New Roman",serif;font-size:clamp(42px,6.6vw,76px);font-weight:400;line-height:.98;letter-spacing:-.045em;text-wrap:balance}
+#e03 .e03-title-rule{width:86px;height:1px;margin:25px auto 0;background:linear-gradient(90deg,transparent,var(--purple),transparent);box-shadow:0 0 16px rgba(166,108,255,.4)}
+#e03 .e03-stage{ }
+#e03 .e03-stage-name{display:inline-flex;align-items:center;gap:9px;margin-top:25px;color:#c8bfd4;font-size:10px;font-weight:900;letter-spacing:.24em;text-transform:uppercase}
+#e03 .e03-stage-dot{width:6px;height:6px;border-radius:50%;background:var(--purple);box-shadow:0 0 0 4px rgba(166,108,255,.09),0 0 18px rgba(166,108,255,.5)}
+#e03 .e03-letter{position:relative;margin:74px auto 0;max-width:710px;padding:0 clamp(0px,2vw,22px);font-family:Georgia,"Times New Roman",serif}
+#e03 .e03-letter::before{content:"“";position:absolute;top:-70px;left:-20px;color:rgba(166,108,255,.13);font-size:190px;line-height:1;font-family:Georgia,serif;pointer-events:none}
+#e03 .e03-letter p{position:relative;margin:0 0 1.25em;color:var(--soft);font-size:clamp(19px,2vw,23px);line-height:1.82;letter-spacing:-.006em}
+#e03 .e03-letter p:first-child{font-size:clamp(23px,2.7vw,31px);line-height:1.52;color:#fff;letter-spacing:-.015em}
+#e03 .e03-letter p:first-child::first-letter{color:var(--purple2)}
+#e03 .e03-letter strong{color:#fff;font-weight:700}
+#e03 .e03-breath{height:18px}
+#e03 .e03-pause{position:relative;margin:52px auto 56px;padding:30px 20px 34px;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+#e03 .e03-pause::before{content:"✦";display:block;margin:0 auto 18px;color:var(--purple2);font-size:13px;text-shadow:0 0 16px rgba(166,108,255,.6)}
+#e03 .e03-pause strong{display:block;color:#fff;font-family:Georgia,"Times New Roman",serif;font-size:clamp(27px,3.6vw,43px);line-height:1.16;font-weight:400;letter-spacing:-.025em}
+#e03 .e03-list{margin:42px 0 48px;padding:0;list-style:none;text-align:center}
+#e03 .e03-list li{margin:9px 0;color:#fff;font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:clamp(11px,1.1vw,14px);font-weight:800;letter-spacing:.25em;text-transform:uppercase}
+#e03 .e03-list li::before{content:"—";margin-right:11px;color:var(--purple)}
+#e03 .e03-closing{margin-top:54px}
+#e03 .e03-signoff{margin:70px auto 0;max-width:710px;padding-top:30px;border-top:1px solid rgba(255,255,255,.10);text-align:right}
+#e03 .e03-signoff-line{color:#bdb7c4;font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.6}
+#e03 .e03-signature{margin-top:9px;color:#d7bfff;font-family:"Brush Script MT","Segoe Script",cursive;font-size:38px;font-style:italic;text-shadow:0 0 22px rgba(166,108,255,.22)}
+#e03 .e03-footer{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin:74px auto 0;max-width:710px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);color:#716b78;font-size:8px;font-weight:900;letter-spacing:.2em;text-transform:uppercase}
+#e03 .e03-footer-mark{display:flex;align-items:center;gap:10px}.e03-footer-mark-dot{width:5px;height:5px;border-radius:50%;background:var(--purple);box-shadow:0 0 10px rgba(166,108,255,.5)}
+#e03 .e03-printbar{display:flex;justify-content:center;margin:30px auto 0}
+#e03 .e03-print{appearance:none;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.035);color:#eee;border-radius:999px;padding:12px 20px;min-height:44px;font-size:9px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .2s ease,border-color .2s ease,transform .2s ease}
+#e03 .e03-print:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.42);transform:translateY(-1px)}
 #e03 .e03-audio-hook{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-#e03[data-stage="foundation"] .e03-stage-dot{background:#8d74ff}#e03[data-stage="developing"] .e03-stage-dot{background:#ff6b9c}#e03[data-stage="advancing"] .e03-stage-dot{background:#4c8dff}#e03[data-stage="mastery"] .e03-stage-dot{background:#d7ad55}
+#e03[data-stage="foundation"] .e03-stage-dot{background:#8d74ff}#e03[data-stage="developing"] .e03-stage-dot{background:#ff719f}#e03[data-stage="advancing"] .e03-stage-dot{background:#5d91ff}#e03[data-stage="mastery"] .e03-stage-dot{background:#d8b45f}
 @media (max-width:720px){
-  #e03 .e03-stage{padding:28px 12px 60px}
-  #e03 .e03-paper{min-height:0;padding:40px 24px 52px;border-radius:14px}
-  #e03 .e03-paper::after{inset:9px;border-radius:8px}
-  #e03 .e03-masthead{gap:10px;margin-bottom:38px}.e03-rule{display:none!important}
-  #e03 .e03-mark{width:46px;height:46px}.e03-mark-glyph{font-size:16px}
-  #e03 .e03-title{font-size:39px}.e03-kicker{font-size:8px;letter-spacing:.26em}
-  #e03 .e03-intro{margin-top:34px}.e03-name{font-size:32px}
-  #e03 .e03-opening{margin-top:38px;font-size:22px;line-height:1.52}
-  #e03 .e03-script{font-size:18px;line-height:1.75}
-  #e03 .e03-emphasis{margin:34px 0;padding:24px 2px;font-size:27px}
-  #e03 .e03-signoff{margin-top:44px}.e03-signature{font-size:31px}
-  #e03 .e03-footer{margin-top:52px}.e03-seal{width:52px;height:52px;font-size:7px}
+  #e03 .e03-stage{padding:46px 18px 78px}
+  #e03 .e03-logo{width:60px;margin-bottom:25px}
+  #e03 .e03-kicker{font-size:8px;letter-spacing:.27em}
+  #e03 .e03-title{font-size:43px;line-height:1.02}
+  #e03 .e03-title-rule{margin-top:21px}
+  #e03 .e03-letter{margin-top:57px;padding:0 3px}
+  #e03 .e03-letter::before{left:-10px;top:-50px;font-size:140px}
+  #e03 .e03-letter p{font-size:18px;line-height:1.78}
+  #e03 .e03-letter p:first-child{font-size:22px;line-height:1.5}
+  #e03 .e03-pause{margin:42px 0 46px;padding:26px 8px 30px}
+  #e03 .e03-pause strong{font-size:28px}
+  #e03 .e03-list{margin:35px 0 42px}.e03-list li{font-size:10px;letter-spacing:.19em}
+  #e03 .e03-signoff{margin-top:54px}.e03-signature{font-size:34px}
+  #e03 .e03-footer{margin-top:60px}
 }
 @media print{
-  #e03{background:#fff!important;color:#17151a!important;min-height:0;overflow:visible}
-  #e03 .e03-stage{display:block;min-height:0;padding:0;background:#fff!important}
-  #e03 .e03-stage::before,#e03 .e03-stage::after,#e03 .e03-aura,#e03 .e03-document-wrap::before,#e03 .e03-document-wrap::after{display:none!important}
-  #e03 .e03-document-wrap{width:100%;max-width:none;margin:0}
-  #e03 .e03-paper{min-height:0;width:100%;padding:28mm 22mm 25mm;background:#fff!important;border:0!important;border-radius:0!important;box-shadow:none!important;color:#17151a!important}
-  #e03 .e03-paper::before,#e03 .e03-paper::after{display:none!important}
-  #e03 .e03-inner{max-width:170mm}
-  #e03 .e03-masthead{margin-bottom:16mm}
-  #e03 .e03-opening,#e03 .e03-script{font-size:12.2pt;line-height:1.72;color:#272229}
-  #e03 .e03-title{font-size:34pt}.e03-name{font-size:24pt}
-  #e03 .e03-emphasis{break-inside:avoid;page-break-inside:avoid;font-size:20pt;margin:10mm 0;padding:7mm 0}
-  #e03 .e03-signoff{break-inside:avoid;page-break-inside:avoid}
-  #e03 .e03-footer{break-inside:avoid;page-break-inside:avoid}
+  #e03{background:#fff!important;color:#111!important;min-height:0;overflow:visible}
+  #e03 .e03-stage{display:block;min-height:0;padding:0 18mm 20mm;background:#fff!important}
+  #e03 .e03-stage::before,#e03 .e03-stage::after,#e03 .e03-light,#e03 .e03-report::before{display:none!important}
+  #e03 .e03-report{width:100%;max-width:none}
+  #e03 .e03-logo{width:42mm;filter:none;margin-bottom:8mm}
+  #e03 .e03-kicker{color:#666;font-size:7pt}.e03-title{color:#111!important;font-size:30pt!important}
+  #e03 .e03-title-rule{background:#8c6acb;box-shadow:none}
+  #e03 .e03-stage-name{color:#555;font-size:7pt}.e03-stage-dot{box-shadow:none}
+  #e03 .e03-letter{max-width:165mm;margin-top:12mm;padding:0}
+  #e03 .e03-letter::before{display:none}
+  #e03 .e03-letter p{color:#222;font-size:11.5pt;line-height:1.72;orphans:3;widows:3}
+  #e03 .e03-letter p:first-child{color:#111;font-size:15pt;line-height:1.5}
+  #e03 .e03-letter strong{color:#111}
+  #e03 .e03-pause{break-inside:avoid;page-break-inside:avoid;margin:9mm 0;padding:6mm 4mm 7mm;border-color:#ddd}
+  #e03 .e03-pause::before{color:#8c6acb;text-shadow:none}.e03-pause strong{color:#111!important;font-size:20pt!important}
+  #e03 .e03-list li{color:#222;font-size:8pt}.e03-list li::before{color:#8c6acb}
+  #e03 .e03-signoff{break-inside:avoid;page-break-inside:avoid;margin-top:12mm;border-color:#ddd}.e03-signoff-line{color:#444}.e03-signature{color:#63418b;text-shadow:none}
+  #e03 .e03-footer{break-inside:avoid;page-break-inside:avoid;margin-top:12mm;color:#777;border-color:#ddd}
   #e03 .e03-printbar{display:none!important}
-  #e03 .e03-script p,#e03 .e03-opening p{orphans:3;widows:3}
 }
 @media (prefers-reduced-motion:reduce){#e03 *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -98,71 +100,32 @@
 <body>
 <section id="e03" aria-labelledby="e03-title" data-stage="advancing">
   <div class="e03-stage">
-    <div class="e03-aura" aria-hidden="true"></div>
-    <div class="e03-document-wrap">
-      <article class="e03-paper" aria-label="MAXESS personalized report">
-        <div class="e03-inner">
-          <header class="e03-masthead">
-            <div class="e03-rule" aria-hidden="true"></div>
-            <div class="e03-mark" aria-hidden="true"><span class="e03-mark-glyph">✦</span></div>
-            <div class="e03-rule right" aria-hidden="true"></div>
-          </header>
+    <div class="e03-light" aria-hidden="true"></div>
+    <main class="e03-report">
+      <header class="e03-header">
+        <img class="e03-logo" src="https://i.postimg.cc/Twqw14vv/ICON-LOGO.png" alt="MAXESS" loading="eager">
+        <p class="e03-kicker">MAXESS · PERSONAL REPORT</p>
+        <h2 id="e03-title" class="e03-title">Your Personal Report</h2>
+        <div class="e03-title-rule" aria-hidden="true"></div>
+        <div class="e03-stage-name"><span class="e03-stage-dot" aria-hidden="true"></span><span id="e03-stage-label">Advancing Stage</span></div>
+      </header>
 
-          <div class="e03-kicker">MAXESS · PERSONAL REPORT</div>
-          <h2 id="e03-title" class="e03-title">Your Personal Report<span class="e03-title-accent" aria-hidden="true"></span></h2>
+      <article class="e03-letter" id="e03-letter" aria-live="polite"></article>
 
-          <div class="e03-intro">
-            <p class="e03-name" id="e03-name">Shawn</p>
-            <div class="e03-stage-label"><span class="e03-stage-dot" aria-hidden="true"></span><span id="e03-stage-label">Advancing Stage</span></div>
-          </div>
-
-          <div class="e03-opening" id="e03-opening" aria-live="polite">
-            <p>I've looked at your results, and you're currently in what we call the <strong>Advancing stage.</strong></p>
-            <p>And that tells me something important.</p>
-            <p><strong>You already know how to work with AI.</strong></p>
-          </div>
-
-          <div class="e03-script" id="e03-script">
-            <p>You can direct it. You can recognize useful output. You can shape a conversation and use AI for much more than simple questions and answers.</p>
-            <p>You've developed real capability.</p>
-            <div class="e03-emphasis">But here's where it gets interesting.</div>
-            <p>At this level, the biggest gains usually don't come from learning another collection of AI tricks.</p>
-            <p>They come from becoming more deliberate.</p>
-            <p>Better direction.</p>
-            <p>Better evaluation.</p>
-            <p>Better refinement.</p>
-            <p>Better consistency.</p>
-            <p>Because there's a difference between getting an impressive result occasionally and being able to produce exceptional results <strong>reliably.</strong></p>
-            <p><strong>That's the next level you're looking at.</strong></p>
-            <p>The MAXESS approach is built around that idea.</p>
-            <p>Don't settle for the first good answer.</p>
-            <p>Direct the work. Look at it critically. Score it. Ask what's missing. Improve it. Then do it again.</p>
-            <p>That's how good becomes excellent.</p>
-            <p>And that's why I want you to pay attention to what you're experiencing right now.</p>
-            <p>This assessment isn't simply giving you an answer. It's interpreting the result, looking for the pattern, identifying the opportunity, and showing you what to do next.</p>
-            <p><strong>You already have significant capability.</strong></p>
-            <p>Now imagine what happens when you pair that capability with a deliberate system for consistently getting more from AI.</p>
-            <p><strong>That's where your next level begins.</strong></p>
-          </div>
-
-          <footer class="e03-signoff">
-            <div class="e03-signoff-line">Keep going. There's more available to you.</div>
-            <div class="e03-signature">Naya</div>
-          </footer>
-
-          <div class="e03-footer">
-            <div class="e03-footer-left">
-              <span>MAXESS · AI MASTERY</span>
-              <span id="e03-footer-stage">ADVANCING · PERSONAL REPORT</span>
-            </div>
-            <div class="e03-seal" aria-hidden="true">MAXESS<br>RESULTS</div>
-          </div>
-        </div>
-      </article>
-      <div class="e03-printbar" aria-label="Report actions">
-        <button class="e03-print" type="button" id="e03-print">Print / Save Report</button>
+      <div class="e03-signoff">
+        <div class="e03-signoff-line">Keep going. There is more available to you.</div>
+        <div class="e03-signature" aria-label="Naya">Naya</div>
       </div>
-    </div>
+
+      <footer class="e03-footer">
+        <div class="e03-footer-mark"><span class="e03-footer-mark-dot" aria-hidden="true"></span><span>MAXESS · AI MASTERY</span></div>
+        <span id="e03-footer-stage">ADVANCING · PERSONAL REPORT</span>
+      </footer>
+
+      <div class="e03-printbar" aria-label="Report actions">
+        <button class="e03-print" id="e03-print" type="button">Print / Save Report</button>
+      </div>
+    </main>
   </div>
   <div class="e03-audio-hook" id="e03-audio-hook" aria-hidden="true"></div>
 </section>
@@ -173,24 +136,94 @@
   const root=document.getElementById('e03');
   if(!root)return;
 
-  /* ---------------------------------------------------------------
-     CONTENT CONTRACT
-     The renderer is intentionally separated from the future Naya
-     audio/content bridge. A production result can provide narrative
-     and audio identifiers without changing the visual renderer.
-     --------------------------------------------------------------- */
-  const DEMO_RESULT={overallScore:82,displayName:'Shawn',masteryStage:'ADVANCING'};
+  const DEMO_RESULT={overallScore:82,masteryStage:'ADVANCING'};
+  const STAGES={foundation:'Foundation Stage',developing:'Developing Stage',advancing:'Advancing Stage',mastery:'Mastery Stage'};
 
-  const STAGE_COPY={
-    foundation:{label:'Foundation Stage'},
-    developing:{label:'Developing Stage'},
-    advancing:{label:'Advancing Stage'},
-    mastery:{label:'Mastery Stage'}
+  const NARRATIVES={
+    foundation:{
+      blocks:[
+        {p:"I've looked at your results, and I want you to know something right away. You're currently in what we call the <strong>Foundation stage.</strong>"},
+        {p:"That doesn't mean you're bad at AI. And it certainly doesn't mean you can't become excellent at it."},
+        {p:"It simply means you're still building the fundamentals that allow AI to work at its highest level for you."},
+        {p:"Right now, you may be using AI to get answers, create things, or help you complete tasks. But you may not yet be consistently directing it, evaluating what it gives you, refining the work, and guiding the process toward the result you actually want."},
+        {pause:"And that's the opportunity."},
+        {p:"You don't need to become more technical. You need a better way of working with the intelligence that's already available to you."},
+        {p:"That's exactly what the MAXESS method is designed to help you develop."},
+        {p:"It's a battle-tested approach to thinking with AI — giving it better direction, asking better questions, looking carefully at what it produces, scoring the result, improving it, and repeating that process until the work becomes exceptional."},
+        {p:"And here's something I really want you to notice: <strong>You're experiencing that approach right now.</strong>"},
+        {p:"This assessment isn't simply telling you where you are. It's beginning to show you how powerful AI can become when you have a deliberate process for working with it."},
+        {p:"You have a foundation."},
+        {p:"<strong>Now let's build something extraordinary on it.</strong>"}
+      ]
+    },
+    developing:{
+      blocks:[
+        {p:"I've looked at your results, and you're currently in the <strong>Developing stage.</strong>"},
+        {p:"And I actually like this stage because it means something important: <strong>You've already discovered that AI can do far more than simply answer questions.</strong>"},
+        {p:"You're beginning to direct it, experiment with it, and use it to create better results."},
+        {p:"But there's still a gap between what you're capable of getting from AI and what you're consistently getting from it."},
+        {p:"That's completely normal. Most people never learn how to close that gap."},
+        {p:"They learn a few prompts. They discover a few tricks. They get occasional great results. But they don't have a repeatable system for producing exceptional work."},
+        {pause:"That's where your next level is."},
+        {p:"The MAXESS approach is built around a simple idea: exceptional results don't happen by accident."},
+        {p:"You give AI clear direction. You tell it what matters. You ask intelligently. You look at what it produces. You score the result. You improve it. And you repeat until the work reaches the standard you're looking for."},
+        {p:"It's a simple process, but when you apply it consistently, something changes."},
+        {p:"<strong>AI stops feeling like a tool you're experimenting with and starts becoming an intelligence you know how to work with.</strong>"},
+        {p:"And you're actually experiencing that process right now."},
+        {p:"So your result isn't a ceiling. <strong>It's a starting point for becoming much more powerful with AI.</strong>"}
+      ]
+    },
+    advancing:{
+      blocks:[
+        {p:"I've looked at your results, and you're currently in the <strong>Advancing stage.</strong>"},
+        {p:"And that tells me something important."},
+        {pause:"You already know how to work with AI."},
+        {p:"You can direct it. You can recognize useful output. You can shape a conversation and turn AI into something more than a simple question-and-answer machine."},
+        {p:"You've developed real capability."},
+        {p:"But here's where it gets interesting."},
+        {p:"At this level, the biggest gains don't usually come from learning more AI tricks."},
+        {p:"They come from becoming more deliberate."},
+        {list:['Better direction.','Better evaluation.','Better refinement.','Better consistency.']},
+        {p:"Because there's a difference between getting an impressive result from AI occasionally and being able to produce exceptional results <strong>reliably.</strong>"},
+        {p:"That's the gap the MAXESS method is designed to close."},
+        {p:"It's a battle-tested protocol built around a simple principle: <strong>Don't settle for the first good answer.</strong>"},
+        {p:"Direct the work. Look at it critically. Score it. Ask what's missing. Improve it. Then do it again."},
+        {p:"That's how good becomes excellent."},
+        {p:"And that's why I want you to pay attention to what you're experiencing right now."},
+        {p:"This assessment itself is an example of that philosophy."},
+        {p:"We're not simply giving you an answer. We're looking at the result, interpreting the pattern, identifying the opportunity, and showing you what to do next."},
+        {p:"<strong>You already have significant capability.</strong>"},
+        {p:"Now imagine what happens when you pair that capability with a proven system for consistently getting more from AI."},
+        {pause:"That's where your next level begins."}
+      ]
+    },
+    mastery:{
+      blocks:[
+        {p:"I've looked at your results, and you're currently in the <strong>Mastery stage.</strong>"},
+        {p:"That's significant."},
+        {p:"You've developed the ability to work with AI deliberately, critically, and creatively."},
+        {p:"You understand that the quality of the result depends heavily on the quality of the direction, the thinking, the evaluation, and the refinement behind it."},
+        {pause:"You don't simply use AI. You know how to work with it."},
+        {p:"But mastery has an interesting quality."},
+        {p:"The better you become, the more you realize there's always another level available."},
+        {p:"At this stage, the question isn't really whether you can get excellent results. You can."},
+        {p:"The question becomes: <strong>Can you make exceptional results repeatable?</strong>"},
+        {p:"Can you build systems around your thinking? Can you teach what you've learned? Can you turn your capability into something that compounds?"},
+        {p:"That's where the MAXESS protocol becomes especially powerful."},
+        {p:"It's not designed to replace your intelligence. <strong>It's designed to amplify it.</strong>"},
+        {p:"Direction. Ask. Look. Score. Improve. Repeat."},
+        {p:"The process is simple. The depth you can reach with it isn't."},
+        {p:"And you're experiencing that philosophy right now."},
+        {p:"This assessment isn't the end of your journey. <strong>It's evidence of what you're already capable of — and an invitation to see how far you can take it.</strong>"},
+        {p:"You've built the capability."},
+        {pause:"Now let's turn that capability into mastery you can repeat, teach, and use to create extraordinary results."}
+      ]
+    }
   };
 
   function normalizeStage(score,explicit){
     const raw=String(explicit||'').trim().toLowerCase();
-    if(raw==='foundation'||raw==='developing'||raw==='advancing'||raw==='mastery')return raw;
+    if(STAGES[raw])return raw;
     if(!Number.isFinite(score))return 'advancing';
     if(score<50)return 'foundation';
     if(score<75)return 'developing';
@@ -198,70 +231,30 @@
     return 'mastery';
   }
 
-  /* Demo-only narrative resolver. The four authored stage scripts will
-     replace this switch once the narrative library is connected. */
-  const NARRATIVE={
-    advancing:{
-      opening:[
-        'I\'ve looked at your results, and you\'re currently in what we call the <strong>Advancing stage.</strong>',
-        'And that tells me something important.',
-        '<strong>You already know how to work with AI.</strong>'
-      ],
-      body:[
-        'You can direct it. You can recognize useful output. You can shape a conversation and use AI for much more than simple questions and answers.',
-        'You\'ve developed real capability.',
-        {emphasis:'But here\'s where it gets interesting.'},
-        'At this level, the biggest gains usually don\'t come from learning another collection of AI tricks.',
-        'They come from becoming more deliberate.',
-        'Better direction.',
-        'Better evaluation.',
-        'Better refinement.',
-        'Better consistency.',
-        'Because there\'s a difference between getting an impressive result occasionally and being able to produce exceptional results <strong>reliably.</strong>',
-        '<strong>That\'s the next level you\'re looking at.</strong>',
-        'The MAXESS approach is built around that idea.',
-        'Don\'t settle for the first good answer.',
-        'Direct the work. Look at it critically. Score it. Ask what\'s missing. Improve it. Then do it again.',
-        'That\'s how good becomes excellent.',
-        'And that\'s why I want you to pay attention to what you\'re experiencing right now.',
-        'This assessment isn\'t simply giving you an answer. It\'s interpreting the result, looking for the pattern, identifying the opportunity, and showing you what to do next.',
-        '<strong>You already have significant capability.</strong>',
-        'Now imagine what happens when you pair that capability with a deliberate system for consistently getting more from AI.',
-        '<strong>That\'s where your next level begins.</strong>'
-      ]
-    }
-  };
-
   function getResult(){
     const external=(window.MAXESS_RESULT&&typeof window.MAXESS_RESULT==='object')?window.MAXESS_RESULT:null;
-    if(!external)return DEMO_RESULT;
-    return Object.assign({},DEMO_RESULT,external);
-  }
-
-  function resolveIdentity(result){
-    return result.displayName||result.userName||result.name||result.firstName||'You';
+    return external?Object.assign({},DEMO_RESULT,external):DEMO_RESULT;
   }
 
   function render(result){
     const score=Number(result.overallScore);
     const stage=normalizeStage(score,result.masteryStage||result.stage||result.masteryBand);
     root.dataset.stage=stage;
-    document.getElementById('e03-name').textContent=resolveIdentity(result);
-    document.getElementById('e03-stage-label').textContent=STAGE_COPY[stage].label;
+    document.getElementById('e03-stage-label').textContent=STAGES[stage];
     document.getElementById('e03-footer-stage').textContent=stage.toUpperCase()+' · PERSONAL REPORT';
 
-    const narrative=NARRATIVE[stage]||NARRATIVE.advancing;
-    const opening=document.getElementById('e03-opening');
-    const script=document.getElementById('e03-script');
-    opening.innerHTML=narrative.opening.map(function(p){return '<p>'+p+'</p>';}).join('');
-    script.innerHTML=narrative.body.map(function(item){
-      if(typeof item==='string')return '<p>'+item+'</p>';
-      return '<div class="e03-emphasis">'+item.emphasis+'</div>';
+    const letter=document.getElementById('e03-letter');
+    const blocks=NARRATIVES[stage].blocks;
+    letter.innerHTML=blocks.map(function(block){
+      if(block.pause)return '<div class="e03-pause"><strong>'+block.pause+'</strong></div>';
+      if(block.list)return '<ul class="e03-list">'+block.list.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';
+      return '<p>'+block.p+'</p>';
     }).join('');
 
-    /* Future Naya bridge insertion point. A result may later provide:
+    /* Future Naya bridge. No invented audio is played here.
+       Production contract may provide:
        result.naya = { section:'E03', narrativeId:'e03_advancing_v1', audioId:'...' }
-       We expose the resolved contract without inventing or playing audio. */
+    */
     const hook=document.getElementById('e03-audio-hook');
     const naya=result.naya&&typeof result.naya==='object'?result.naya:null;
     hook.dataset.section='E03';
