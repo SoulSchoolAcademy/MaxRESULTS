@@ -66,7 +66,7 @@ jobs:
               'orb-breathe',
               'orb-orbit',
               'prefers-reduced-motion:reduce',
-              '?fixture=demo',
+              "params.get('fixture')==='demo'",
               'maxess:naya-listen',
           ]
           missing = [item for item in required if item not in s]
