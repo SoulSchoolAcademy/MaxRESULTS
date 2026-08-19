@@ -47,6 +47,7 @@ DRAFT | IN PROGRESS | BLOCKED | COMPLETE | FROZEN
 | V32 | Batch 1 product mutation | Product | Materially improve Sections 01–03 | Builder SHA changes; all 3 section implementations change; preserve result/media; QA follows mutation | IN PROGRESS | V3 mutation proof; Section 01 Golden Master now independently checkpointed |
 | V33 | Nitro ownership protection | Tooling / Governance | Prevent destructive overwrite of verified product mutations | Nitro must never reset authoritative source from obsolete baseline | COMPLETE | Nitro tool corrected in commit `8b0e2c9`; prior destructive behavior proven by Nitro commit `8b686a3` deleting Golden Master layer |
 | V34 | Section 01 Golden Master checkpoint | Product | Hero / Reveal meets Ultimate + Golden Master target | Naya, black Listen CTA, Orb breathing, Orbital Bead, bridge, real result authority, no conflict markers | IN PROGRESS | Verified product checkpoint `61eee4f`; restored to authoritative branch in `01c381c`; rendered 9.5+ human freeze still pending |
+| V35 | E01 active-source refinement + automation repair | Section 01 / QA | Naya arrival hierarchy + score reveal in the active E01 source; no stale mutation lane | One active E01 source; Naya → Listen → score → Orb/Bead hierarchy; real result authority; reduced motion; safe CI validation; no retired-source writes | IN PROGRESS | E01 content commit `1581ac8`; source re-fetch SHA `d3b1f356`; Section 01 index/guardrails reconciled; verification workflow repaired in `6b68c9d`; browser/Groove visual proof still outstanding |
 
 ## Freeze rule
 
