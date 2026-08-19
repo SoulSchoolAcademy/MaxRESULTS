@@ -66,6 +66,7 @@ The filename is a locator, not the authority.
 
 | Topic | Primary category | Useful retrieval terms | Note |
 |---|---|---|---|
+| Leadership Continuity + Solution-Over-Constraint | LEARNING / SOLUTION | Naya Lead Mode, Take the Lead, leadership continuity, next action, execution prompt, technical constraint, solution-over-constraint, root cause, progress, section isolation | `2026-08-19-leadership-continuity-and-solution-over-constraint.md` |
 | Section Isolation + Nitro Execution Learning | LEARNING / SOLUTION | Section 01, Section 02, section freeze, section isolation, same-file mutation, GitHub connector, large artifact, Nitro, raw Groove artifact, AAA | `2026-08-19-section-isolation-and-nitro-execution-learning.md` |
 | Section 01 Bead Geometry and Score Fidelity Learning | LEARNING | Section 01, Orb, Orbital Bead, bead radius, mobile geometry, score fidelity, 67.8, MAXESS_RESULT, responsive QA, visual verification | `2026-08-19-section-01-bead-score-verification-learning.md` |
 
