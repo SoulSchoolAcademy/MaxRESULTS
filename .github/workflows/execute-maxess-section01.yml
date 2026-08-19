@@ -1,11 +1,18 @@
 name: Verify MAXESS Section 01
 
 # Safe Section 01 verification workflow.
-# IMPORTANT: the former mutation lane referenced retired monolithic source files.
-# This workflow is intentionally verification-only until a current human/agent
-# execution path explicitly authorizes product mutation through the active E01 source.
+# The former mutation lane referenced retired monolithic source files.
+# This workflow is verification-only and validates the active E01 source.
 
 on:
+  push:
+    branches:
+      - maxess-results-v21-working
+    paths:
+      - 'E01-SECTION-01-WORKING.html'
+      - 'docs/MAXESS-NITRO-SECTION-01-INDEX.md'
+      - 'docs/MAXESS-NITRO-SECTION-01-GUARDRAILS.md'
+      - '.github/workflows/execute-maxess-section01.yml'
   workflow_dispatch:
 
 permissions:
@@ -89,7 +96,7 @@ jobs:
 
           if not re.search(r'window\.MAXESS_RESULT\s*&&\s*typeof window\.MAXESS_RESULT', s):
               raise SystemExit('Production result authority guard missing')
-          if 'overallScore:82' in s.replace(' ', ''):
+          if re.search(r'overallScore\s*:\s*82\b', s):
               raise SystemExit('Hard-coded production score detected')
           if 'Nothing has been invented' in s:
               raise SystemExit('Unexpected legacy error copy detected')
