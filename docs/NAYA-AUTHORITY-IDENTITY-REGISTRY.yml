@@ -31,6 +31,19 @@ authority_types:
   - RELEASE
   - UNKNOWN
 
+authority_states:
+  - CANONICAL
+  - PRODUCT AUTHORITY
+  - PROPOSED
+  - IMPLEMENTATION OWNER
+  - ACTIVE ENGINEERING OWNER
+  - RUNTIME DATA AUTHORITY
+  - RETRIEVAL INDEX
+  - DEPLOYMENT AUTHORITY
+  - RELEASE AUTHORITY
+  - HISTORY
+  - UNKNOWN
+
 approval_states:
   - UNKNOWN
   - PROPOSED
@@ -75,7 +88,7 @@ owners:
       owner: "main:START-HERE.md"
       authority_state: CANONICAL
       approval_state: IMPLEMENTED
-      approval_evidence: "Repository evidence establishes canonical governance ownership; this is not treated as human product approval."
+      authority_evidence: "Repository evidence establishes canonical governance ownership; this is not treated as human product approval."
     - subject: REPOSITORY MAP
       type: GOVERNANCE
       owner: "main:docs/REPOSITORY-MAP.md"
@@ -130,7 +143,7 @@ owners:
       caveat: "Product specification is the current product requirements owner; it is not itself proof of human-approved production baseline."
   design:
     - subject: MAXESS V4 DESIGN DIRECTIVE
-      type: PROPOSED RULE
+      type: DESIGN
       owner: "main:docs/MAXESS-MASTER-DESIGN-DIRECTIVE-V4.md"
       authority_state: PROPOSED
       approval_state: PROPOSED
@@ -245,21 +258,21 @@ owners:
       approval_state: UNKNOWN
 
 product_sections:
-  P01: {name: "Naya Arrival / Orientation", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N01], status: WORKING}
-  P02: {name: "MAXESS Score / Orb", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N02], status: WORKING}
-  P03: {name: "What Your Score Means", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N03], status: WORKING}
-  P04: {name: "Personalized Report", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N03], status: WORKING}
-  P05: {name: "AI Fingerprint", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N04], status: WORKING}
-  P06: {name: "Five Dimensions Deep Dive", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N02], status: WORKING}
-  P07: {name: "Pattern", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N04], status: WORKING}
-  P08: {name: "Strength", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N05], status: WORKING}
-  P09: {name: "Biggest Lever", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [], narrative_units_proposed: [N05, N08], status: UNKNOWN, note: "V4 removes a standalone Lever chapter; exact narrative placement remains unresolved."}
-  P10: {name: "Next Move", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [], narrative_units_proposed: [N05, N08], status: UNKNOWN, note: "Exact placement is unresolved between recognition/focus and final invitation/action."}
-  P11: {name: "18 Naya Masters", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N07], status: WORKING}
-  P12: {name: "Naya in Practice / Media", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N06], status: WORKING}
-  P13: {name: "Playground / Practice", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [], narrative_units_proposed: [N06], status: UNKNOWN, note: "V4 removes a standalone Practice / Playground chapter from the primary narrative; implementation preservation remains required until explicitly resolved."}
-  P14: {name: "Closing Naya", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N08], status: WORKING}
-  P15: {name: "Final Continuation CTA", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N08], status: WORKING}
+  P01: {name: "Naya Arrival / Orientation", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N01], status: WORKING, mapping_status: PROPOSED}
+  P02: {name: "MAXESS Score / Orb", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N02], status: WORKING, mapping_status: PROPOSED}
+  P03: {name: "What Your Score Means", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N03], status: WORKING, mapping_status: PROPOSED}
+  P04: {name: "Personalized Report", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N03], status: WORKING, mapping_status: PROPOSED}
+  P05: {name: "AI Fingerprint", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N04], status: WORKING, mapping_status: PROPOSED}
+  P06: {name: "Five Dimensions Deep Dive", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N02], status: WORKING, mapping_status: PROPOSED}
+  P07: {name: "Pattern", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N04], status: WORKING, mapping_status: PROPOSED}
+  P08: {name: "Strength", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N05], status: WORKING, mapping_status: PROPOSED}
+  P09: {name: "Biggest Lever", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [], narrative_units_proposed: [N05, N08], status: UNKNOWN, mapping_status: UNKNOWN, note: "V4 removes a standalone Lever chapter; exact narrative placement remains unresolved."}
+  P10: {name: "Next Move", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [], narrative_units_proposed: [N05, N08], status: UNKNOWN, mapping_status: UNKNOWN, note: "Exact placement is unresolved between recognition/focus and final invitation/action."}
+  P11: {name: "18 Naya Masters", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N07], status: WORKING, mapping_status: PROPOSED}
+  P12: {name: "Naya in Practice / Media", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N06], status: WORKING, mapping_status: PROPOSED}
+  P13: {name: "Playground / Practice", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [], narrative_units_proposed: [N06], status: UNKNOWN, mapping_status: UNKNOWN, note: "V4 removes a standalone Practice / Playground chapter from the primary narrative; implementation preservation remains required until explicitly resolved."}
+  P14: {name: "Closing Naya", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N08], status: WORKING, mapping_status: PROPOSED}
+  P15: {name: "Final Continuation CTA", source: "active:docs/MAXESS-SECTION-REGISTRY.md", narrative_units: [N08], status: WORKING, mapping_status: PROPOSED}
 
 narrative_units:
   N01: {name: "Naya Arrival / Hero Reveal", source: "main:docs/MAXESS-MASTER-DESIGN-DIRECTIVE-V4.md", status: PROPOSED}
@@ -414,7 +427,7 @@ cold_start:
     MEMORY: "main:docs/NAYA-SMART-NOTES-SYSTEM.md plus main docs/smart-notes/ index/dates."
     HISTORY: "active:docs/MAXESS-SMART-NOTES.md and other explicitly historical material."
     PROPOSED: "V4 and dependent active Golden/Ultimate directives."
-    APPROVED: "Only explicitly approved scoped governance/deployment/release owners; no global Section 01 product baseline."
+    APPROVED: "No global Section 01 product baseline is established by repository evidence; authority and approval are separate states."
     PROTECTED: "E01 Orb + Orbital Bead behavior for the current task only."
     P01: "Naya Arrival / Orientation."
     E01: "Orb / Score Reveal execution target."
