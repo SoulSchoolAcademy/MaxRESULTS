@@ -73,60 +73,73 @@ owners:
     - subject: REPOSITORY ENTRY
       type: GOVERNANCE
       owner: "main:START-HERE.md"
-      approval_state: APPROVED
-      approval_evidence: "Canonical repository entry law is explicitly established in the document and main repository governance."
+      authority_state: CANONICAL
+      approval_state: IMPLEMENTED
+      approval_evidence: "Repository evidence establishes canonical governance ownership; this is not treated as human product approval."
     - subject: REPOSITORY MAP
       type: GOVERNANCE
       owner: "main:docs/REPOSITORY-MAP.md"
-      approval_state: APPROVED
+      authority_state: CANONICAL
+      approval_state: IMPLEMENTED
     - subject: CORE OPERATING LAWS
       type: GOVERNANCE
       owner: "main:NAYA-OS.md"
-      approval_state: APPROVED
+      authority_state: CANONICAL
+      approval_state: IMPLEMENTED
     - subject: PROJECT LANGUAGE
       type: GOVERNANCE
       owner: "main:docs/NAYA-LANGUAGE-DICTIONARY.md"
-      approval_state: APPROVED
+      authority_state: CANONICAL
+      approval_state: IMPLEMENTED
     - subject: GENERAL SCORECARDING
       type: GOVERNANCE
       owner: "main:docs/NAYA-SCORECARDING-SYSTEM.md"
-      approval_state: APPROVED
+      authority_state: CANONICAL
+      approval_state: IMPLEMENTED
     - subject: GOVERNANCE OWNERSHIP
       type: GOVERNANCE
       owner: "main:docs/NAYA-GOVERNANCE-REGISTRY.md"
-      approval_state: APPROVED
+      authority_state: CANONICAL
+      approval_state: IMPLEMENTED
     - subject: NITRO EXECUTION MODE
       type: GOVERNANCE
       owner: "main:docs/NAYA-NITRO-MODE.md"
-      approval_state: APPROVED
+      authority_state: CANONICAL
+      approval_state: IMPLEMENTED
     - subject: EXECUTION PROMPT TEMPLATE
       type: GOVERNANCE
       owner: "main:docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md"
-      approval_state: APPROVED
+      authority_state: CANONICAL
+      approval_state: IMPLEMENTED
     - subject: DURABLE MEMORY PROTOCOL
       type: MEMORY
       owner: "main:docs/NAYA-SMART-NOTES-SYSTEM.md"
-      approval_state: APPROVED
+      authority_state: CANONICAL
+      approval_state: IMPLEMENTED
     - subject: SMART NOTE RETRIEVAL INDEX
       type: MEMORY
       owner: "main:docs/smart-notes/INDEX.md"
+      authority_state: RETRIEVAL INDEX
       approval_state: IMPLEMENTED
   product:
     - subject: MAXESS RESULTS PRODUCT REQUIREMENTS
       type: PRODUCT
       owner: "main:docs/MAXESS-RESULTS-PRODUCT-SPEC.md"
+      authority_state: PRODUCT AUTHORITY
       approval_state: WORKING
-      caveat: "Product specification is the current product requirements owner; it is not itself proof of a human-approved production baseline."
+      caveat: "Product specification is the current product requirements owner; it is not itself proof of human-approved production baseline."
   design:
     - subject: MAXESS V4 DESIGN DIRECTIVE
       type: PROPOSED RULE
       owner: "main:docs/MAXESS-MASTER-DESIGN-DIRECTIVE-V4.md"
+      authority_state: PROPOSED
       approval_state: PROPOSED
       caveat: "V4 is not promoted to canonical design authority."
   implementation:
     - subject: E01 ORB / SCORE REVEAL
       type: IMPLEMENTATION
       owner: "active:tools/build_v21_canonical.py"
+      authority_state: IMPLEMENTATION OWNER
       approval_state: WORKING
       selector: ".v21-score-orb"
       source_chain:
@@ -138,81 +151,97 @@ owners:
     - subject: RESULTS SECTION REGISTRY
       type: ACTIVE ENGINEERING
       owner: "active:docs/MAXESS-SECTION-REGISTRY.md"
+      authority_state: ACTIVE ENGINEERING OWNER
       approval_state: WORKING
     - subject: COMPONENT OWNERSHIP
       type: ACTIVE ENGINEERING
       owner: "active:docs/MAXESS-COMPONENT-OWNERSHIP-REGISTRY.md"
+      authority_state: ACTIVE ENGINEERING OWNER
       approval_state: WORKING
     - subject: E01 EXECUTION CONTRACT
       type: ACTIVE ENGINEERING
       owner: "active:docs/NITRO-SECTION-01-ORB-EXECUTION-CONTRACT.md"
+      authority_state: ACTIVE ENGINEERING OWNER
       approval_state: WORKING
   runtime:
     - subject: RESULTS RUNTIME DATA
       type: RUNTIME DATA
       owner: "window.MAXESS_RESULT"
+      authority_state: RUNTIME DATA AUTHORITY
       approval_state: IMPLEMENTED
       caveat: "Runtime result authority, not a document authority."
   deployment:
     - subject: DEPLOYMENT TRUTH
       type: DEPLOYMENT
       owner: "main:docs/DEPLOYMENT-CONTRACT.md"
-      approval_state: APPROVED
+      authority_state: DEPLOYMENT AUTHORITY
+      approval_state: IMPLEMENTED
     - subject: RELEASE GATE
       type: RELEASE
       owner: "main:docs/RELEASE-CHECKLIST.md"
-      approval_state: APPROVED
+      authority_state: RELEASE AUTHORITY
+      approval_state: IMPLEMENTED
   history:
     - subject: HISTORICAL MAXESS SMART NOTES
       type: HISTORY
       owner: "active:docs/MAXESS-SMART-NOTES.md"
+      authority_state: HISTORY
       approval_state: SUPERSEDED
       caveat: "Historical/domain learning only; not an independent memory authority."
   exemplar:
     - subject: DESIGN EXEMPLARS
       type: EXEMPLAR
       owner: UNKNOWN
+      authority_state: UNKNOWN
       approval_state: UNKNOWN
       caveat: "No single explicit canonical exemplar registry was established by the inspected authority documents."
   asset:
     - subject: APPROVED NAYA / BRAND ASSETS
       type: ASSET
       owner: UNKNOWN
+      authority_state: UNKNOWN
       approval_state: UNKNOWN
       caveat: "Asset references exist in product/design documents, but a single machine-readable asset authority was not established by this registry."
   proposed_rules:
     - subject: ACTIVE GOLDEN MASTER
       type: PROPOSED RULE
       owner: "active:docs/MAXESS-GOLDEN-MASTER-DIRECTIVE.md"
+      authority_state: PROPOSED
       approval_state: PROPOSED
       parent: "main:docs/MAXESS-MASTER-DESIGN-DIRECTIVE-V4.md"
     - subject: ACTIVE ULTIMATE DIRECTIVE
       type: PROPOSED RULE
       owner: "active:docs/MAXESS-ULTIMATE-AI-DESIGN-EXECUTION-DIRECTIVE.md"
+      authority_state: PROPOSED
       approval_state: PROPOSED
       caveat: "Implementation-facing directive; cannot promote V4 or itself to global governance."
   human_approved:
     - subject: GLOBAL PRODUCT BASELINE
       type: HUMAN-APPROVED
       owner: UNKNOWN
+      authority_state: UNKNOWN
       approval_state: UNKNOWN
       caveat: "No explicit repository evidence establishes a current global human-approved Section 01 product baseline."
   unknown:
     - subject: FORMAL HUMAN APPROVAL EVIDENCE
       type: UNKNOWN
       owner: UNKNOWN
+      authority_state: UNKNOWN
       approval_state: UNKNOWN
     - subject: DESIGN AUTHORITY PROMOTION
       type: UNKNOWN
       owner: UNKNOWN
+      authority_state: UNKNOWN
       approval_state: UNKNOWN
     - subject: SMART NOTES MIGRATION
       type: UNKNOWN
       owner: UNKNOWN
+      authority_state: UNKNOWN
       approval_state: UNKNOWN
     - subject: ACTIVE BRANCH AUTHORITY WORDING
       type: UNKNOWN
       owner: UNKNOWN
+      authority_state: UNKNOWN
       approval_state: UNKNOWN
 
 product_sections:
@@ -321,6 +350,7 @@ v4:
   canonical_location: "main:docs/MAXESS-MASTER-DESIGN-DIRECTIVE-V4.md"
   active_branch_presence: ABSENT
   status: PROPOSED
+  authority_state: PROPOSED
   approval_state: PROPOSED
   promote: false
   depends_on:
