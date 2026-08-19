@@ -17,6 +17,8 @@ Canonical operating rules live on `main`:
 - `main:START-HERE.md`
 - `main:docs/REPOSITORY-MAP.md`
 - `main:NAYA-OS.md`
+- `main:docs/NAYA-LANGUAGE-DICTIONARY.md`
+- `main:docs/NAYA-SCORECARDING-SYSTEM.md`
 - `main:docs/NAYA-EXECUTIVE-PLAN.md`
 - `main:docs/NAYA-NITRO-MODE.md`
 - `main:docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md`
@@ -25,6 +27,20 @@ Canonical operating rules live on `main`:
 - `main:docs/smart-notes/INDEX.md`
 
 If any branch-local document conflicts with current `main` governance, do not guess. Treat `main` governance as authoritative and repair the conflicting branch-local instruction when appropriate.
+
+## Duplicate-authority containment
+
+Earlier execution cycles created branch-local documents with overlapping names and concepts, including language, scorecard, execution-prompt, design-directive, and Nitro operating documents. These remain useful historical/implementation references, but they do **not** create parallel governance.
+
+Examples include:
+
+- `docs/AI-PRODUCT-LANGUAGE.md`
+- `docs/AI-DEFINITION-OF-10.md`
+- `docs/MAXESS-FAST-EDIT-SCORECARD.md`
+- `docs/MAXESS-EXECUTION-PROMPT-TEMPLATE.md`
+- older `NITRO-*`, `MAXESS-*`, and design-directive documents
+
+For current project language, quality definitions, scorecard methodology, and reusable execution contracts, use the canonical `main:` documents first. Consult branch-local duplicates only for task-specific implementation context or historical evidence.
 
 ## Active branch implementation map
 
@@ -72,7 +88,7 @@ Do not call any artifact “authoritative production,” “canonical renderer,�
 
 ## Execution law
 
-**READ CANONICAL GOVERNANCE → READ ACTIVE MAP → REVIEW RELEVANT MEMORY → ESTABLISH STATE → SCORE → SOURCE-LOCK → COMPLETE TODO → IMPLEMENT → BUILD → REFETCH → DIFF → STATIC QA → BEHAVIOR QA → RENDER → VISUAL QA → OSCAR → REPAIR → RE-TEST → REGRESSION → FREEZE ONLY WHEN APPROVED → RECORD DURABLE LEARNING → DELIVER → NEXT ACTION PROMPT.**
+**READ CANONICAL GOVERNANCE → READ ACTIVE MAP → REVIEW RELEVANT MEMORY → ESTABLISH STATE → SCORE → SOURCE-LOCK → COMPLETE TODO → IMPLEMENT → BUILD → REFETCH → DIFF → STATIC QA → BEHAVIOR QA → RENDER → VISUAL QA → SCORECARD → OSCAR → REPAIR → RE-TEST → REGRESSION → FREEZE ONLY WHEN APPROVED → RECORD DURABLE LEARNING → DELIVER → NEXT ACTION PROMPT.**
 
 ## Non-negotiable checks
 
