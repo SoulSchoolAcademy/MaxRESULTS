@@ -12,35 +12,7 @@ The repository is `SoulSchoolAcademy/MaxRESULTS`.
 - `maxess-results-v21-working` = active Results engineering branch.
 - `SoulSchoolAcademy/maxess` = legacy reference only unless explicitly requested.
 
-Canonical operating rules live on `main`:
-
-- `main:START-HERE.md`
-- `main:docs/REPOSITORY-MAP.md`
-- `main:NAYA-OS.md`
-- `main:docs/NAYA-LANGUAGE-DICTIONARY.md`
-- `main:docs/NAYA-SCORECARDING-SYSTEM.md`
-- `main:docs/NAYA-EXECUTIVE-PLAN.md`
-- `main:docs/NAYA-NITRO-MODE.md`
-- `main:docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md`
-- `main:docs/NAYA-SMART-NOTES-SYSTEM.md`
-- `main:docs/NAYA-NITRO-MASTER-BLUEPRINT.md`
-- `main:docs/smart-notes/INDEX.md`
-
-If any branch-local document conflicts with current `main` governance, do not guess. Treat `main` governance as authoritative and repair the conflicting branch-local instruction when appropriate.
-
-## Duplicate-authority containment
-
-Earlier execution cycles created branch-local documents with overlapping names and concepts, including language, scorecard, execution-prompt, design-directive, and Nitro operating documents. These remain useful historical/implementation references, but they do **not** create parallel governance.
-
-Examples include:
-
-- `docs/AI-PRODUCT-LANGUAGE.md`
-- `docs/AI-DEFINITION-OF-10.md`
-- `docs/MAXESS-FAST-EDIT-SCORECARD.md`
-- `docs/MAXESS-EXECUTION-PROMPT-TEMPLATE.md`
-- older `NITRO-*`, `MAXESS-*`, and design-directive documents
-
-For current project language, quality definitions, scorecard methodology, and reusable execution contracts, use the canonical `main:` documents first. Consult branch-local duplicates only for task-specific implementation context or historical evidence.
+Canonical operating rules live on `main` and outrank branch-local history.
 
 ## Active branch implementation map
 
@@ -60,8 +32,6 @@ For current project language, quality definitions, scorecard methodology, and re
 ### D. MEMORY / LEARNING
 Canonical durable memory lives on `main` under `docs/smart-notes/`.
 
-Use the canonical Smart Notes system and retrieval index. Do not create a second branch-specific memory system.
-
 ### E. ENGINEERING / TOOLS
 `tools/` — deterministic builders, executors, validators, and QA scripts. Inspect before using; never assume a named tool exists.
 
@@ -72,23 +42,31 @@ Use the canonical Smart Notes system and retrieval index. Do not create a second
 - `docs/DEPLOYMENT-CONTRACT.md`
 - `docs/RELEASE-CHECKLIST.md`
 
-GitHub state is never proof of Groove/public state.
+GitHub state is never proof of public/live state.
 
 ## Current implementation state
 
 - Active branch: `maxess-results-v21-working`.
-- Working full Results artifact: `20260817 912am RESULTS PAGE CODE`.
-- Existing restoration references include `BASELINE-WORKING.html` and `BASELINE-NITRO-20260817.html`.
+- **E01 active working source:** `E01-SECTION-01-WORKING.html`.
+- **Retired monolithic source:** `20260817 912am RESULTS PAGE CODE` — deleted from the active branch and must not be recreated or routed as an E01 source.
+- Existing restoration references remain `BASELINE-WORKING.html` and `BASELINE-NITRO-20260817.html`; they are historical/restoration references, not the active E01 source.
 - Runtime result contract: `window.MAXESS_RESULT`.
+- Production score authority for E01: `window.MAXESS_RESULT.overallScore` only.
 - Current Section 01 cycle: **fresh build / refinement — not approved**.
 - Protected Section 01 component: **Orb + Orbital Bead core behavior supplied by the human**.
-- Current Section 01 surrounding presentation: **working candidate material; open to refinement** unless explicitly protected by the current human instruction.
+- Current Section 01 surrounding presentation: **new working implementation; open to refinement** unless explicitly protected by the current human instruction.
 
-Do not call any artifact “authoritative production,” “canonical renderer,” or “approved baseline” merely because an older artifact or historical document uses those words.
+### E01 source-of-truth rule
+
+There is exactly one active E01 working source: `E01-SECTION-01-WORKING.html`.
+
+Historical, baseline, candidate, generated, and retired artifacts must not be treated as the active E01 implementation source.
+
+The E01 working source is **not yet approved/canonical production**. Human approval is required before promotion.
 
 ## Execution law
 
-**READ CANONICAL GOVERNANCE → READ ACTIVE MAP → REVIEW RELEVANT MEMORY → ESTABLISH STATE → SCORE → SOURCE-LOCK → COMPLETE TODO → IMPLEMENT → BUILD → REFETCH → DIFF → STATIC QA → BEHAVIOR QA → RENDER → VISUAL QA → SCORECARD → OSCAR → REPAIR → RE-TEST → REGRESSION → FREEZE ONLY WHEN APPROVED → RECORD DURABLE LEARNING → DELIVER → NEXT ACTION PROMPT.**
+**READ CANONICAL GOVERNANCE → READ ACTIVE MAP → ESTABLISH STATE → SOURCE-LOCK → IMPLEMENT → BUILD → REFETCH → DIFF → STATIC QA → BEHAVIOR QA → RENDER → VISUAL QA → SCORECARD → OSCAR → REPAIR → RE-TEST → REGRESSION → FREEZE ONLY WHEN APPROVED → RECORD DURABLE LEARNING → DELIVER.**
 
 ## Non-negotiable checks
 
@@ -96,12 +74,9 @@ Do not call any artifact “authoritative production,” “canonical renderer,�
 - Never use conversation memory when repository evidence exists.
 - Never create a competing renderer or result source.
 - Never replace a complete working artifact with a tiny test renderer.
-- Never call GitHub state “live.” Groove requires separate public verification.
-- Never rely on exact keyword wording for memory retrieval.
-- Never create an orphan Smart Note; canonical notes must be indexed.
-- Never let Smart Notes override current authoritative sources.
+- Never call GitHub state “live.” Public deployment requires separate verification.
 - Every material failure must produce a root cause and, where practical, a durable guardrail.
-- Every execution must score the current state, ask **WHY IS THIS NOT A 10?**, write the complete repair list, then execute the full authorized batch.
+- Every execution must ask **WHY IS THIS NOT A 10?** and repair safely repairable weaknesses.
 - Final status must distinguish `IMPLEMENTED`, `VERIFIED`, `LIVE VERIFIED`, `HUMAN REVIEW REQUIRED`, and `UNKNOWN`.
 
 ## Product north star
