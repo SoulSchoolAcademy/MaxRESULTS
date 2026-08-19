@@ -1,6 +1,7 @@
 from pathlib import Path
 
 # Deterministic E01 mutation: this file is the executable patch, not a renderer.
+# Trigger note: repository push intentionally executes this mutation lane.
 TARGET = Path("E01-SECTION-01-WORKING.html")
 
 REQUIRED_OLD = [
