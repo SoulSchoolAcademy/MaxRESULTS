@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="maxess-artifact" content="E05-SECTION-05-WORKING">
+<title>MAXESS — Section 05 · The AI Friction You May Recognize</title>
+<style>
+#e05{--bg:#000;--white:#fff;--soft:rgba(255,255,255,.68);--purple:#9b62ff;--magenta:#d94fba;position:relative;width:100%;min-height:620px;background:#000;color:#fff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden;isolation:isolate}
+#e05,#e05 *{box-sizing:border-box}
+#e05 .e05-glow{position:absolute;left:50%;top:30px;width:760px;height:520px;transform:translateX(-50%);background:radial-gradient(circle,rgba(155,98,255,.12),transparent 67%);filter:blur(38px);pointer-events:none}
+#e05 .e05-wrap{position:relative;z-index:2;width:min(1120px,100%);margin:auto;padding:78px 32px 88px}
+#e05 .e05-head{text-align:center;max-width:790px;margin:0 auto 54px}
+#e05 .e05-kicker{margin:0 0 17px;font-size:9px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,.62)}
+#e05 h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(38px,5.8vw,68px);line-height:1.02;letter-spacing:-.045em}
+#e05 .e05-intro{max-width:620px;margin:23px auto 0;color:rgba(255,255,255,.72);font-size:15px;line-height:1.7}
+#e05 .e05-rule{width:84px;height:1px;margin:26px auto 0;background:linear-gradient(90deg,transparent,var(--purple),transparent);box-shadow:0 0 20px rgba(155,98,255,.55)}
+#e05 .e05-story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:44px;align-items:center;width:min(980px,100%);margin:0 auto}
+#e05 .e05-visual{position:relative;aspect-ratio:16/9;border:1px solid rgba(255,255,255,.12);border-radius:26px;overflow:hidden;background:#050505;box-shadow:0 24px 70px rgba(0,0,0,.55),0 0 60px rgba(155,98,255,.08)}
+#e05 .e05-visual img{width:100%;height:100%;object-fit:cover;display:block;opacity:.9;filter:saturate(.78) contrast(1.05)}
+#e05 .e05-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.22),rgba(10,0,20,.36)),radial-gradient(circle at 72% 28%,rgba(155,98,255,.22),transparent 40%);pointer-events:none}
+#e05 .e05-orbit{position:absolute;right:20px;bottom:18px;width:74px;height:74px;border:1px solid rgba(255,255,255,.22);border-radius:50%;box-shadow:0 0 26px rgba(155,98,255,.22);z-index:2}
+#e05 .e05-orbit::before{content:"";position:absolute;inset:12px;border:1px solid rgba(255,255,255,.16);border-radius:50%}
+#e05 .e05-orbit::after{content:"";position:absolute;top:1px;left:50%;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 12px 4px rgba(155,98,255,.8);transform:translateX(-50%)}
+#e05 .e05-copy{padding:8px 2px}
+#e05 .e05-naya{display:flex;align-items:center;gap:11px;margin-bottom:23px}
+#e05 .e05-face{width:43px;height:43px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.28);box-shadow:0 0 22px rgba(155,98,255,.2)}
+#e05 .e05-naya-name{font-size:9px;font-weight:900;letter-spacing:.25em;text-transform:uppercase;color:#fff}
+#e05 .e05-mark{margin-left:auto;width:29px;height:29px;object-fit:contain;opacity:.8}
+#e05 .e05-quote-mark{margin:0 0 -10px;color:var(--purple);font-family:Georgia,serif;font-size:76px;line-height:.7;text-shadow:0 0 24px rgba(155,98,255,.35)}
+#e05 blockquote{margin:0;color:#fff;font-family:Georgia,"Times New Roman",serif;font-size:clamp(23px,2.8vw,34px);line-height:1.27;letter-spacing:-.025em}
+#e05 .e05-caption{margin:24px 0 0;padding-left:17px;border-left:1px solid rgba(155,98,255,.75);color:rgba(255,255,255,.67);font-size:12px;line-height:1.7}
+#e05 .e05-number{margin-top:30px;color:rgba(255,255,255,.35);font-size:9px;font-weight:800;letter-spacing:.3em;text-transform:uppercase}
+#e05 .e05-footer{margin:70px auto 0;width:min(780px,100%);text-align:center;padding-top:28px;border-top:1px solid rgba(255,255,255,.1)}
+#e05 .e05-footer p{margin:0;color:rgba(255,255,255,.62);font-family:Georgia,serif;font-size:18px;line-height:1.65}
+@media(max-width:760px){
+#e05 .e05-wrap{padding:54px 18px 64px}
+#e05 .e05-head{margin-bottom:39px}
+#e05 .e05-intro{font-size:14px}
+#e05 .e05-story{grid-template-columns:1fr;gap:29px}
+#e05 .e05-visual{border-radius:21px}
+#e05 .e05-copy{padding:0 5px}
+#e05 blockquote{font-size:26px}
+#e05 .e05-footer{margin-top:54px}
+}
+@media print{
+#e05{min-height:0;background:#fff!important;color:#111!important;overflow:visible}
+#e05 .e05-glow{display:none}
+#e05 .e05-wrap{padding:16mm 13mm;background:#fff!important}
+#e05 h1,#e05 blockquote{color:#111}
+#e05 .e05-intro,#e05 .e05-caption,#e05 .e05-footer p{color:#444}
+#e05 .e05-story{break-inside:avoid;page-break-inside:avoid}
+#e05 .e05-visual{box-shadow:none;border-color:#ddd}
+#e05 .e05-visual::after{display:none}
+#e05 .e05-naya-name{color:#111}
+}
+@media(prefers-reduced-motion:reduce){#e05 *{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<section id="e05" aria-labelledby="e05-title">
+<div class="e05-glow" aria-hidden="true"></div>
+<div class="e05-wrap">
+<header class="e05-head">
+<p class="e05-kicker">MAXESS · THE AI FRICTION</p>
+<h1 id="e05-title">Sound familiar?</h1>
+<p class="e05-intro">AI can be extraordinarily capable and still leave you wondering why getting the result you want sometimes feels harder than it should.</p>
+<div class="e05-rule" aria-hidden="true"></div>
+</header>
+<article class="e05-story">
+<div class="e05-visual" aria-hidden="true">
+<img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%20black%20face%20zoom.jpg" alt="">
+<div class="e05-orbit"></div>
+</div>
+<div class="e05-copy">
+<div class="e05-naya">
+<img class="e05-face" src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%20black%20face%20zoom.jpg" alt="">
+<span class="e05-naya-name">Naya</span>
+<img class="e05-mark" src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/ICON%20LOGO.png" alt="MAXESS">
+</div>
+<div class="e05-quote-mark" aria-hidden="true">“</div>
+<blockquote>“You know what you want. You explain it to AI… and somehow, the answer still isn't what you had in your head.”</blockquote>
+<p class="e05-caption">That's one of the most common frustrations I see. The intelligence is there. The challenge is learning how to direct it toward the result you actually want.</p>
+<div class="e05-number">01 · Direction friction</div>
+</div>
+</article>
+<footer class="e05-footer">
+<p>And if you've experienced this, you're not alone. Let's look at what is really getting in the way.</p>
+</footer>
+</div>
+</section>
+</body>
+</html>
