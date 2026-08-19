@@ -11,6 +11,7 @@
 | Repository entry / cold start | `START-HERE.md` | active branch START-HERE | CANONICAL |
 | Repository navigation / authority map | `docs/REPOSITORY-MAP.md` | active branch map | CANONICAL |
 | Core operating laws | `NAYA-OS.md` | Nitro protocols | GOVERNING |
+| Lead execution / excellence / communication | `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` | `NAYA-OS.md`, Naya Law, Nitro protocols | GOVERNING LAW |
 | Project language / definitions | `docs/NAYA-LANGUAGE-DICTIONARY.md` | branch-local language docs | GOVERNING |
 | General scorecarding method | `docs/NAYA-SCORECARDING-SYSTEM.md` | artifact-specific scorecards | GOVERNING |
 | Executive North Star / what-why-how | `docs/NAYA-EXECUTIVE-PLAN.md` | Blueprint / Smart Notes | GOVERNING |
