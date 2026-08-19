@@ -14,7 +14,7 @@ The user should immediately understand:
 
 **ONE SCORE → FIVE DIMENSIONS → FIVE LIVING ORBS → FIVE SCORES → CURIOSITY → DESIRE TO UNDERSTAND THE REPORT**
 
-Section 02 is not a report, dashboard, statistics dump, or sales section.
+Section 02 is not a dashboard, statistics dump, or sales section.
 
 ## 2. HUMAN EXPERIENCE
 
@@ -27,7 +27,27 @@ The user should feel:
 
 The experience should create curiosity, not explain everything yet.
 
-## 3. VISUAL OBJECTIVE
+## 3. ARTIFACT / HOST BOUNDARY
+
+E01 and E02 are **separate section artifacts** in GitHub.
+
+- `E01-SECTION-01-WORKING.html` is the frozen Section 01 source.
+- `E02-SECTION-02-WORKING.html` is the active Section 02 source.
+- The host/publishing environment places the E02 section **after E01** to create the assembled experience.
+- Naya must not copy, regenerate, embed, or duplicate E01 source inside E02.
+- E02 must remain a self-contained, embed-ready Section 02 payload.
+
+Therefore:
+
+**E01 FILE = FROZEN SOURCE**
+
+**E02 FILE = ACTIVE SECTION 02 EMBED**
+
+**ASSEMBLED EXPERIENCE = E01 → E02 IN HOST ORDER**
+
+This resolves a critical source-integrity ambiguity: E02 is not required to contain a second copy of E01 in order to follow E01.
+
+## 4. VISUAL OBJECTIVE
 
 Move from E01's dark, intimate score reveal into a **premium pearl/white spatial environment**.
 
@@ -41,7 +61,7 @@ The visual hierarchy is:
 
 The composition must feel like a **field of five capability objects**, not five widgets in a grid.
 
-## 4. EXACT TEXT REQUIRED
+## 5. EXACT TEXT REQUIRED
 
 Section marker:
 
@@ -73,7 +93,7 @@ Dimension names, exactly:
 
 Each Orb must display its real score as **NUMBER / 100** visually or through an equivalent immediately readable accessible representation.
 
-## 5. TEXT FORBIDDEN
+## 6. TEXT FORBIDDEN
 
 Do NOT add:
 
@@ -93,7 +113,7 @@ Do NOT add:
 
 If data is unavailable, fail safely. Do not present fabricated production scores as real.
 
-## 6. FIVE DIMENSIONS
+## 7. FIVE DIMENSIONS
 
 The canonical five dimensions are:
 
@@ -105,7 +125,7 @@ The canonical five dimensions are:
 
 The renderer consumes the authoritative `window.MAXESS_RESULT` data. It must not become a second scoring engine.
 
-## 7. FIVE LIVING ORBS
+## 8. FIVE LIVING ORBS
 
 Each dimension receives exactly one primary visual Orb.
 
@@ -126,9 +146,9 @@ Animation default:
 
 **6-second breathing cycle**, subtle and continuous.
 
-Do not add orbiting beads, complex particles, floating text, or gratuitous motion unless rendered evidence later proves a material weakness that requires them.
+An orbiting bead/ring may be used when it is a deliberate mirror of the approved E01 Orb language and remains restrained. It must never obscure the score or become the primary visual.
 
-## 8. SCORE HIERARCHY
+## 9. SCORE HIERARCHY
 
 The score is the most important information inside each Orb.
 
@@ -144,7 +164,7 @@ Requirements:
 
 The score must never be visually hidden or replaced by decorative effects.
 
-## 9. COLOR SYSTEM
+## 10. COLOR SYSTEM
 
 Use five distinct but harmonious MAXESS jewel accents:
 
@@ -156,7 +176,7 @@ Use five distinct but harmonious MAXESS jewel accents:
 
 Colors should be luminous accents within a restrained black/pearl system, not a rainbow dashboard.
 
-## 10. PEARL / WHITE ENVIRONMENT
+## 11. PEARL / WHITE ENVIRONMENT
 
 The surrounding environment must feel:
 
@@ -172,7 +192,7 @@ Avoid flat pure-white page treatment.
 
 Use subtle pearl gradients, atmospheric light, depth, and controlled shadows.
 
-## 11. BLACK CAPABILITY NODE
+## 12. BLACK CAPABILITY NODE
 
 The node is a visual anchor, not a generic information card.
 
@@ -186,7 +206,7 @@ It must feel:
 
 It must remain concise.
 
-## 12. SPATIAL COMPOSITION
+## 13. SPATIAL COMPOSITION
 
 Desktop target:
 
@@ -203,7 +223,7 @@ Allow:
 
 Do not sacrifice score readability for spatial effects.
 
-## 13. MOBILE
+## 14. MOBILE
 
 Mobile is intentionally designed, not a compressed desktop grid.
 
@@ -220,7 +240,7 @@ Requirements:
 
 Preferred mobile composition: a deliberate two-column/two-column/centered rhythm or another composition that preserves the feeling of a capability constellation.
 
-## 14. ACCESSIBILITY
+## 15. ACCESSIBILITY
 
 Required:
 
@@ -232,7 +252,7 @@ Required:
 - reduced-motion support;
 - no hidden score due to animation or visual effects.
 
-## 15. TRANSITION FROM E01
+## 16. TRANSITION FROM E01
 
 E01 ends with the user's primary AI score reveal.
 
@@ -244,31 +264,32 @@ Do not repeat E01's Naya introduction, primary score, Listen control, or explana
 
 Do not modify E01 to create the transition.
 
-The transition is created by the beginning of E02 itself.
+The transition is created by the beginning of E02 itself and by the host placing E02 immediately after E01.
 
-## 16. ACCEPTANCE CRITERIA
+## 17. ACCEPTANCE CRITERIA
 
 E02 passes only if:
 
 1. E01 source remains unchanged within its protected boundary.
-2. E02 exists after E01 in the assembled experience.
-3. Exactly five canonical dimensions are presented.
-4. Exactly five primary living Orbs are presented.
-5. Each Orb has one score.
-6. Scores are immediately readable.
-7. Scores consume real `window.MAXESS_RESULT` data when available.
-8. Missing data fails safely.
-9. Pearl/white environment feels premium rather than flat.
-10. Black capability node feels dimensional rather than card-like.
-11. Five colors feel coherent rather than rainbow-like.
-12. Composition feels spatial rather than dashboard-like.
-13. Desktop and mobile are intentionally designed.
-14. Reduced motion is supported.
-15. No unauthorized explanatory/textual clutter appears.
-16. E02 creates curiosity about the personal report.
-17. E02 feels unmistakably MAXESS.
+2. E02 is a distinct Section 02 embed-ready artifact.
+3. The assembled host order is E01 → E02.
+4. Exactly five canonical dimensions are presented.
+5. Exactly five primary living Orbs are presented.
+6. Each Orb has one score.
+7. Scores are immediately readable.
+8. Scores consume real `window.MAXESS_RESULT` data when available.
+9. Missing data fails safely.
+10. Pearl/white environment feels premium rather than flat.
+11. Black capability node feels dimensional rather than card-like.
+12. Five colors feel coherent rather than rainbow-like.
+13. Composition feels spatial rather than dashboard-like.
+14. Desktop and mobile are intentionally designed.
+15. Reduced motion is supported.
+16. No unauthorized explanatory/textual clutter appears.
+17. E02 creates curiosity about the personal report.
+18. E02 feels unmistakably MAXESS.
 
-## 17. FAILURE CONDITIONS
+## 18. FAILURE CONDITIONS
 
 Automatic rejection if any of the following occurs:
 
@@ -277,8 +298,8 @@ Automatic rejection if any of the following occurs:
 - E01 JS changes;
 - E01 copy changes;
 - E01 assets change;
-- E02 replaces rather than follows E01;
-- E02 becomes a standalone page when the assembled experience requires E01 + E02;
+- E02 duplicates or regenerates E01 source;
+- E02 is delivered as a competing full-product renderer;
 - scores are missing or unreadable;
 - demo values are presented as real production results;
 - excessive explanatory text appears;
@@ -290,22 +311,28 @@ Automatic rejection if any of the following occurs:
 - the implementation introduces unrelated functionality;
 - the implementation regenerates or restructures E01.
 
-## 18. IMPLEMENTATION LAW
+## 19. IMPLEMENTATION LAW
 
 The active implementation must use:
 
-**LOCKED E01 PREFIX + APPENDED E02**
+**FROZEN E01 SOURCE + DISTINCT E02 SECTION EMBED**
 
-The E01 protected source must be preserved byte-for-byte through the E01 closing boundary. E02 styles, markup, and script are appended after that protected boundary and must be scoped so they do not alter E01.
+E01 remains byte-for-byte unchanged in its own artifact. E02 is implemented only in `E02-SECTION-02-WORKING.html` with section-scoped styles, markup, and behavior. The host/publishing layer composes the two artifacts in order.
 
-Do not rewrite the E01 implementation to make E02 easier.
+Do not rewrite E01 to make E02 easier.
 
-## 19. VERIFICATION
+Do not copy E01 into E02.
+
+Do not create a second assembled renderer.
+
+## 20. VERIFICATION
 
 Required after implementation:
 
-**RE-FETCH → E01 BYTE/BOUNDARY DIFF → STATIC QA → JS QA → RESPONSIVE QA → ACCESSIBILITY QA → RENDER → HUMAN REVIEW → OSCAR → REPAIR → RE-TEST → COMMIT → RE-FETCH → PROVE**
+**RE-FETCH → E01 BLOB PROOF → E02 IDENTITY PROOF → DIFF → STATIC QA → JS QA → RESPONSIVE QA → ACCESSIBILITY QA → OSCAR → REPAIR → RE-TEST → COMMIT → RE-FETCH → FINAL E01 BLOB PROOF → FINAL E02 BLOB PROOF → DELIVER EMBED**
 
-## 20. NORTH STAR
+Groove/publishing review remains outside Naya's engineering verification boundary and is performed by the human after delivery.
+
+## 21. NORTH STAR
 
 **FIVE DIMENSIONS → FIVE LIVING ORBS → FIVE SCORES → CURIOSITY → DESIRE TO UNDERSTAND THE PERSONAL REPORT**
