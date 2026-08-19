@@ -1,8 +1,39 @@
 # MAXESS NITRO — SECTION 01 GUARDRAILS
 
-**Status:** ACTIVE  
+**Status:** ACTIVE + HARD LOCK  
 **Scope:** Section-by-section execution  
 **Active working source:** `E01-SECTION-01-WORKING.html`
+
+## 00 — EXECUTION SUCCESS LOCK
+
+**The objective is observable completed work, not a report.**
+
+For every Section 01 execution:
+
+1. Read canonical governance and the active Section 01 map first.
+2. Fetch the current `E01-SECTION-01-WORKING.html` before planning or editing.
+3. Establish the exact baseline blob SHA and current version marker.
+4. Build the complete material-change checklist from the user's directive + current source + applicable Section 01 requirements.
+5. Edit the **same active file** in place. Never create a substitute renderer for convenience.
+6. The file written to GitHub must be the exact file intended for the human Groove handoff.
+7. After writing, immediately re-fetch the **same path on the same branch**.
+8. Verify the re-fetched content contains the actual requested changes. Do not treat a changed commit SHA, changed version string, or successful write response as implementation proof.
+9. Compare baseline → new commit and confirm the intended artifact changed.
+10. Run static QA and available behavior/regression QA.
+11. Only then provide the raw GitHub link.
+12. State IMPLEMENTED / VERIFIED / LIVE VERIFIED / HUMAN REVIEW REQUIRED / UNKNOWN separately.
+
+### Hard completion rule
+
+**NO REPORT-ONLY COMPLETION.**
+
+A plan, critique, checklist, version bump, commit, or explanation is not completion. If the requested edits are not visibly present in the re-fetched active artifact, the work is **NOT DONE**.
+
+### Self-instruction after every execution
+
+Before returning the response, Naya must internally ask:
+
+> **Did I actually mutate the active delivery file? Can I point to the requested changes inside the re-fetched file? Did I verify the exact raw link points to that same file? If any answer is NO or UNKNOWN, do not claim completion; continue execution or report the exact blocker.**
 
 ## 01 — Section scope is absolute
 
@@ -12,13 +43,15 @@ A Section 01 task produces Section 01 only. The complete Results implementation 
 
 `NITRO/SECTION-01-NAYA-WELCOME-ORBSCORE.html` is preserved as a prior implementation/reference artifact. It is not a second active renderer and must not silently become the production source.
 
-The current active E01 source is:
+## 03 — One obvious artifact / one delivery payload
 
-`E01-SECTION-01-WORKING.html`
+`E01-SECTION-01-WORKING.html` is the single active Section 01 engineering source **and the Groove handoff payload** unless the user explicitly changes that decision.
 
-## 03 — One obvious artifact
+The human workflow is:
 
-Future Section 01 work should start from `E01-SECTION-01-WORKING.html` and `docs/MAXESS-NITRO-SECTION-01-INDEX.md`, after canonical `main` governance and the active-branch map have been read.
+**Naya edits E01 → GitHub stores E01 → Naya verifies E01 → Naya returns E01 raw → human pastes E01 into Groove.**
+
+Do not introduce a second delivery file, reconstructed embed, alternate renderer, or stale copy.
 
 ## 04 — Preserve validated Orb behavior
 
@@ -39,6 +72,8 @@ Never create a second audio system. Delegate to an existing listener when presen
 ## 07 — Honest verification
 
 Static implementation success does not equal rendered visual QA, Groove publication, or live verification. Unknown evidence remains UNKNOWN.
+
+**However, lack of Groove access is not a blocker to engineering execution.** The human owns Groove deployment. Naya owns the GitHub engineering artifact and handoff.
 
 ## 08 — Discoverable memory
 
