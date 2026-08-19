@@ -1,0 +1,84 @@
+name: Mutate MAXESS E01 Section 01
+
+# Deterministic mutation lane for the single active E01 delivery artifact.
+# This workflow reads the complete file on the GitHub runner, applies the
+# explicit transformer, verifies protected behavior, and commits the SAME file.
+
+on:
+  push:
+    branches:
+      - maxess-results-v21-working
+    paths:
+      - 'tools/execute_e01_refinement.py'
+      - '.github/workflows/mutate-e01-section01.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mutate-e01-section01
+  cancel-in-progress: false
+
+jobs:
+  mutate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact working branch
+        uses: actions/checkout@v4
+        with:
+          ref: maxess-results-v21-working
+          fetch-depth: 0
+
+      - name: Establish baseline
+        run: |
+          test -f E01-SECTION-01-WORKING.html
+          git rev-parse HEAD > e01-baseline-commit.txt
+          git rev-parse HEAD:E01-SECTION-01-WORKING.html > e01-baseline-blob.txt
+          wc -c E01-SECTION-01-WORKING.html
+
+      - name: Execute deterministic E01 mutation
+        run: python tools/execute_e01_refinement.py
+
+      - name: Static QA and protected-system regression
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('E01-SECTION-01-WORKING.html')
+          s = p.read_text(encoding='utf-8')
+          required = [
+              '<!doctype html>', 'nitro-e01-v28', 'NAYA', 'LISTEN TO NAYA',
+              'YOUR AI SCORE', 'window.MAXESS_RESULT', 'overallScore',
+              'class="orb"', 'class="bead"', 'orb-breathe', 'orb-orbit',
+              'prefers-reduced-motion:reduce', 'maxess:naya-listen',
+              'This isn’t your judgment. It’s your map — it’s your starting point.',
+              'This number is a starting point — <strong>not a verdict.</strong>',
+          ]
+          missing = [x for x in required if x not in s]
+          if missing: raise SystemExit('Missing evidence: ' + ', '.join(missing))
+          if s.count('id="e01"') != 1: raise SystemExit('E01 root count failed')
+          if s.count('id="listen"') != 1: raise SystemExit('Listen control count failed')
+          if 'translateX(220px)' not in s or 'translateX(140px)' not in s: raise SystemExit('Orbit geometry regression')
+          if 'width:14px;height:14px' not in s or 'width:11px;height:11px' not in s: raise SystemExit('Bead geometry regression')
+          if 'width:min(280px,78%)' not in s: raise SystemExit('Mobile orb ceiling regression')
+          if re.search(r'(^|\\n)(<<<<<<<|=======|>>>>>>>)( |\\n|$)', s): raise SystemExit('Conflict marker')
+          print('E01 STATIC + PROTECTED REGRESSION: PASS')
+          print('bytes:', len(s.encode()))
+          print('lines:', len(s.splitlines()))
+          PY
+
+      - name: Diff proof
+        run: |
+          git diff --check
+          git diff -- E01-SECTION-01-WORKING.html
+          test -n "$(git diff -- E01-SECTION-01-WORKING.html)"
+
+      - name: Commit exact E01 mutation
+        run: |
+          git config user.name 'Naya Master'
+          git config user.email 'naya-master@users.noreply.github.com'
+          git add E01-SECTION-01-WORKING.html
+          git diff --cached --check
+          git diff --cached --quiet && { echo 'NO E01 MUTATION DETECTED'; exit 1; }
+          git commit -m 'MAXESS E01 Section 01 refinement — verified in place [nitro-v28]'
+          git push origin maxess-results-v21-working
