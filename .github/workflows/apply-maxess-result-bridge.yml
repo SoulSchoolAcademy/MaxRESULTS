@@ -93,15 +93,25 @@ jobs:
       - name: Diff proof
         run: |
           git diff --check
-          git diff -- 'AIScoreMAXESS code'
-          test -n "$(git diff -- 'AIScoreMAXESS code')"
+          if git diff --quiet -- 'AIScoreMAXESS code'; then
+            echo 'BRIDGE ALREADY PRESENT IN HEAD — IDEMPOTENT NO-OP'
+            git show HEAD:'AIScoreMAXESS code' | grep -Fq 'MAXESS_RESULT_BRIDGE_V1'
+            git show HEAD:'AIScoreMAXESS code' | grep -Fq 'window.MAXESS_RESULT'
+            git show HEAD:'AIScoreMAXESS code' | grep -Fq 'results.nayanet.xyz'
+          else
+            echo 'NEW BRIDGE MUTATION DETECTED'
+            git diff -- 'AIScoreMAXESS code'
+          fi
 
-      - name: Commit bridge
+      - name: Commit bridge when needed
         run: |
           git config user.name 'Naya Master'
           git config user.email 'naya-master@users.noreply.github.com'
           git add 'AIScoreMAXESS code'
           git diff --cached --check
-          git diff --cached --quiet && { echo 'NO BRIDGE MUTATION DETECTED'; exit 1; }
-          git commit -m 'MAXESS assessment → Results bridge [MAXESS_RESULT_V1]'
-          git push origin "${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+          if git diff --cached --quiet; then
+            echo 'NO COMMIT REQUIRED — BRIDGE ALREADY APPLIED'
+          else
+            git commit -m 'MAXESS assessment → Results bridge [MAXESS_RESULT_V1]'
+            git push origin "${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+          fi
