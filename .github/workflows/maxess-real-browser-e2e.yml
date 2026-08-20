@@ -5,7 +5,6 @@ on:
     branches:
       - maxess-results-v21-working
     paths:
-      - 'AIScoreMAXESS code'
       - 'E01-SECTION-01-WORKING.html'
       - 'tests/maxess-real-browser-e2e.mjs'
       - '.github/workflows/maxess-real-browser-e2e.yml'
@@ -23,14 +22,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout Results engineering branch
+        uses: actions/checkout@v5
         with:
           ref: maxess-results-v21-working
           fetch-depth: 1
 
-      - name: Prepare real assessment artifact
-        run: cp 'AIScoreMAXESS code' AIScoreMAXESS-e2e.html
+      - name: Fetch canonical assessment from main
+        run: |
+          git fetch origin main --depth=1
+          git show origin/main:'AIScoreMAXESS code' > AIScoreMAXESS-e2e.html
+          test -s AIScoreMAXESS-e2e.html
+          echo "Assessment bytes: $(wc -c < AIScoreMAXESS-e2e.html)"
 
       - name: Setup Node
         uses: actions/setup-node@v5
