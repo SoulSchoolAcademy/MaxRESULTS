@@ -52,8 +52,7 @@ async function completeAssessment(page, answerIndexes, profileName) {
       await page.locator('#cloudContinue').click();
     }
 
-    const answers = page.locator('#answers .answer');
-    await answers.nth(answerIndexes[i]).click();
+    await page.locator('#answers .answer').nth(answerIndexes[i]).click();
     await page.locator('#continueButton').click();
   }
 
@@ -67,7 +66,21 @@ async function completeAssessment(page, answerIndexes, profileName) {
   const navigatedUrl = page.url();
   if (!navigatedUrl.startsWith(resultsUrl)) throw new Error(`${profileName}: did not navigate to public Results URL: ${navigatedUrl}`);
 
-  await page.waitForFunction(() => window.MAXESS_RESULT && window.MAXESS_RESULT.contractVersion === 'MAXESS_RESULT_V1', null, { timeout: 30000 });
+  try {
+    await page.waitForFunction(() => window.MAXESS_RESULT && window.MAXESS_RESULT.contractVersion === 'MAXESS_RESULT_V1', null, { timeout: 5000 });
+  } catch (error) {
+    const diagnostics = await page.evaluate(() => ({
+      readyState: document.readyState,
+      href: location.href,
+      hashLength: location.hash.length,
+      hasConsumer: !!document.getElementById('MAXESS_RESULT_CONSUMER_V1'),
+      result: window.MAXESS_RESULT || null,
+      bodyPrefix: document.body.innerText.slice(0, 800),
+      scoreText: document.querySelector('.score-number')?.textContent?.trim() || '',
+      hydrated: document.querySelector('.score-number')?.dataset?.hydrated || ''
+    }));
+    throw new Error(`${profileName}: Results contract did not hydrate. ${JSON.stringify(diagnostics)}; original=${error.message}`);
+  }
 
   const contract = await page.evaluate(() => window.MAXESS_RESULT);
   if (!contract) throw new Error(`${profileName}: MAXESS_RESULT missing on real Results page`);
@@ -91,13 +104,8 @@ async function completeAssessment(page, answerIndexes, profileName) {
 
   const scoreText = resultsSnapshot.visibleScore.replace(/[^0-9.]/g, '');
   if (!scoreText) throw new Error(`${profileName}: Results visible score did not hydrate`);
-  if (Number(scoreText) !== Math.round(Number(contract.overallScore))) {
-    throw new Error(`${profileName}: visible Results score ${scoreText} != ${Math.round(contract.overallScore)}`);
-  }
-
-  if (/demo score|preview score 82|DEMO_SCORE=82/i.test(resultsSnapshot.bodyText)) {
-    throw new Error(`${profileName}: fabricated/demo score detected in Results`);
-  }
+  if (Number(scoreText) !== Math.round(Number(contract.overallScore))) throw new Error(`${profileName}: visible Results score ${scoreText} != ${Math.round(contract.overallScore)}`);
+  if (/demo score|preview score 82|DEMO_SCORE=82/i.test(resultsSnapshot.bodyText)) throw new Error(`${profileName}: fabricated/demo score detected in Results`);
 
   return { contract, resultsUrl: navigatedUrl };
 }
@@ -105,12 +113,13 @@ async function completeAssessment(page, answerIndexes, profileName) {
 const browser = await chromium.launch({ headless: true });
 const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
 const page = await context.newPage();
+page.on('pageerror', (error) => console.error(`PAGEERROR: ${error.message}`));
+page.on('console', (message) => { if (message.type() === 'error') console.error(`CONSOLE ERROR: ${message.text()}`); });
 const server = await startServer();
 
 try {
   const profileA = Array(15).fill(0);
   const profileB = [3,4,4,4,0,3,4,4,4,0,3,4,4,4,0];
-
   const a = await completeAssessment(page, profileA, 'PROFILE A');
   const b = await completeAssessment(page, profileB, 'PROFILE B');
 
@@ -125,9 +134,7 @@ try {
     nextMove: JSON.stringify(a.contract.nextMove) !== JSON.stringify(b.contract.nextMove)
   };
 
-  if (!different.overallScore || !different.dimensions || !different.masteryStage || !different.strongestCapability || !different.highestLeverageOpportunity || !different.overallPattern || !different.personalizedInterpretation || !different.nextMove) {
-    throw new Error(`Differentiation proof failed: ${JSON.stringify(different)}`);
-  }
+  if (!different.overallScore || !different.dimensions || !different.masteryStage || !different.strongestCapability || !different.highestLeverageOpportunity || !different.overallPattern || !different.personalizedInterpretation || !different.nextMove) throw new Error(`Differentiation proof failed: ${JSON.stringify(different)}`);
 
   console.log(JSON.stringify({
     status: 'PASS',
