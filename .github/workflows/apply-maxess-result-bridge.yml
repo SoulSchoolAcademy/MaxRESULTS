@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout execution branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
@@ -76,15 +76,19 @@ jobs:
 
       - name: Syntax QA
         run: |
-          node --check <(python - <<'PY'
+          python - <<'PY'
           from pathlib import Path
           import re
           s=Path('AIScoreMAXESS code').read_text(encoding='utf-8')
           scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>',s,re.S|re.I)
-          if not scripts: raise SystemExit('No script blocks found')
-          print('\n'.join(scripts))
+          if not scripts:
+              raise SystemExit('No script blocks found')
+          Path('/tmp/maxess-assessment-scripts.js').write_text('\n\n'.join(scripts),encoding='utf-8')
+          print('Extracted script blocks:',len(scripts))
+          print('JavaScript bytes:',Path('/tmp/maxess-assessment-scripts.js').stat().st_size)
           PY
-          )
+          node --check /tmp/maxess-assessment-scripts.js
+          echo 'MAXESS ASSESSMENT JAVASCRIPT SYNTAX QA: PASS'
 
       - name: Diff proof
         run: |
