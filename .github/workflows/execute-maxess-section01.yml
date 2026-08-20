@@ -1,10 +1,12 @@
 name: Execute and Verify MAXESS Section 01
 
-# TEMPORARY E06 mutation lane. This reuses the already-active push-triggered
-# workflow so the complete E06 artifact can be mutated on the GitHub runner.
-# Restore the original Section 01 workflow after the verified E06 commit.
+# TEMPORARY E06 mutation lane. Reuses the existing mutation workflow through
+# a PR-triggered run so the complete E06 artifact is edited on the GitHub runner.
 
 on:
+  pull_request:
+    branches:
+      - maxess-results-v21-working
   push:
     branches:
       - maxess-results-v21-working
@@ -33,7 +35,6 @@ jobs:
       - name: Establish source lock
         run: |
           test "${GITHUB_REPOSITORY}" = "SoulSchoolAcademy/MaxRESULTS"
-          test "${GITHUB_REF_NAME}" = "maxess-results-v21-working"
           test -f 'E06 CODE 2200'
           grep -q '<!doctype html>' 'E06 CODE 2200'
           grep -q 'E06-SECTION-06-WORKING' 'E06 CODE 2200'
@@ -45,16 +46,13 @@ jobs:
         run: |
           from pathlib import Path
           import re
-
-          path = Path('E06 CODE 2200')
-          s = path.read_text(encoding='utf-8')
-          original = s
-
+          path=Path('E06 CODE 2200')
+          s=path.read_text(encoding='utf-8')
+          original=s
           if 'E06_COLOR_FLOW_V1' in s:
               print('E06 refinement already present; nothing to mutate.')
               raise SystemExit(0)
-
-          headlines = [
+          headlines=[
               'Shape AI around the way you work.',
               'Give AI a stronger thinking foundation.',
               'Make important context stay with you.',
@@ -65,93 +63,34 @@ jobs:
               'Turn good ideas into exceptional experiences.',
               'Build code that holds up in the real world.',
           ]
-          for i, headline in enumerate(headlines, 1):
-              pattern = rf'(<span class="board-index">{i:02d} · [^<]+</span>\s*<h3>).*?(</h3>)'
-              s, n = re.subn(pattern, rf'\1{headline}\2', s, count=1, flags=re.S)
-              if n != 1:
-                  raise SystemExit(f'Board headline replacement failed for board {i}: {n}')
-
-          flow_css = r'''
+          for i,headline in enumerate(headlines,1):
+              pattern=rf'(<span class="board-index">{i:02d} · [^<]+</span>\s*<h3>).*?(</h3>)'
+              s,n=re.subn(pattern,rf'\1{headline}\2',s,count=1,flags=re.S)
+              if n!=1: raise SystemExit(f'Board headline replacement failed for board {i}: {n}')
+          flow_css=r'''
 /* E06_COLOR_FLOW_V1 — MAGENTA → PURPLE → BLUE → GREEN → YELLOW */
-:root{
---flow-magenta:#ed42c4;
---flow-purple:#8a5cff;
---flow-blue:#3ca8ff;
---flow-green:#35e39b;
---flow-yellow:#ffd84d;
-}
-
-.node.node-1{--accent:var(--flow-magenta)!important}
-.node.node-2{--accent:var(--flow-purple)!important}
-.node.node-3{--accent:var(--flow-blue)!important}
-.node.node-4{--accent:var(--flow-green)!important}
-.node.node-5{--accent:var(--flow-yellow)!important}
-.node.node-6{--accent:var(--flow-magenta)!important}
-.node.node-7{--accent:var(--flow-purple)!important}
-.node.node-8{--accent:var(--flow-blue)!important}
-.node.node-9{--accent:var(--flow-green)!important}
-
-.board-grid .board:nth-child(1){--accent:var(--flow-magenta)!important}
-.board-grid .board:nth-child(2){--accent:var(--flow-purple)!important}
-.board-grid .board:nth-child(3){--accent:var(--flow-blue)!important}
-.board-grid .board:nth-child(4){--accent:var(--flow-green)!important}
-.board-grid .board:nth-child(5){--accent:var(--flow-yellow)!important}
-.board-grid .board:nth-child(6){--accent:var(--flow-magenta)!important}
-.board-grid .board:nth-child(7){--accent:var(--flow-purple)!important}
-.board-grid .board:nth-child(8){--accent:var(--flow-blue)!important}
-.board-grid .board:nth-child(9){--accent:var(--flow-green)!important}
-
-.orbit-ring{
-border-color:transparent;
-background:conic-gradient(from -90deg,var(--flow-magenta),var(--flow-purple),var(--flow-blue),var(--flow-green),var(--flow-yellow),var(--flow-magenta));
--webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 1px),#000 0);
-mask:radial-gradient(farthest-side,transparent calc(100% - 1px),#000 0);
-box-shadow:0 0 70px rgba(138,92,255,.08),inset 0 0 65px rgba(138,92,255,.035)
-}
-
-.answers{counter-reset:e06-answer}
-.answer{position:relative;min-height:72px}
-.answer .jewel{
-position:relative;flex:0 0 20px;width:20px;height:20px;border-radius:50%;
-background:color-mix(in srgb,var(--accent) 18%,#050505);
-border:1px solid color-mix(in srgb,var(--accent) 72%,white 8%);
-box-shadow:0 0 18px color-mix(in srgb,var(--accent) 22%,transparent),inset 0 0 8px color-mix(in srgb,var(--accent) 22%,transparent)
-}
-.answer .glyph{font-size:0}
-.answer .glyph:after{content:"";display:block;width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
-.answer .answer-title{font-size:clamp(14px,1.35vw,17px);font-weight:950;line-height:1.22;letter-spacing:-.01em}
-.answer .answer-sub{max-width:650px;font-size:12px;line-height:1.55;color:rgba(255,255,255,.62)}
-.answer:hover .jewel,.answer:focus-within .jewel{transform:scale(1.08)}
-
-.naya-rail{display:grid;grid-template-columns:repeat(4,1fr);max-width:900px;margin:30px auto 36px;border:1px solid rgba(255,255,255,.12);border-radius:999px;overflow:hidden;background:rgba(255,255,255,.025)}
-.naya-rail span{padding:11px 12px;text-align:center;font-size:9px;font-weight:950;letter-spacing:.2em;color:rgba(255,255,255,.7)}
-.naya-rail span:nth-child(1){color:var(--flow-magenta)}
-.naya-rail span:nth-child(2){color:var(--flow-purple)}
-.naya-rail span:nth-child(3){color:var(--flow-blue)}
-.naya-rail span:nth-child(4){color:var(--flow-green)}
-@media (max-width:640px){.naya-rail{grid-template-columns:repeat(2,1fr);border-radius:18px}.naya-rail span{padding:10px 8px}}
+:root{--flow-magenta:#ed42c4;--flow-purple:#8a5cff;--flow-blue:#3ca8ff;--flow-green:#35e39b;--flow-yellow:#ffd84d}
+.node.node-1{--accent:var(--flow-magenta)!important}.node.node-2{--accent:var(--flow-purple)!important}.node.node-3{--accent:var(--flow-blue)!important}.node.node-4{--accent:var(--flow-green)!important}.node.node-5{--accent:var(--flow-yellow)!important}.node.node-6{--accent:var(--flow-magenta)!important}.node.node-7{--accent:var(--flow-purple)!important}.node.node-8{--accent:var(--flow-blue)!important}.node.node-9{--accent:var(--flow-green)!important}
+.board-grid .board:nth-child(1){--accent:var(--flow-magenta)!important}.board-grid .board:nth-child(2){--accent:var(--flow-purple)!important}.board-grid .board:nth-child(3){--accent:var(--flow-blue)!important}.board-grid .board:nth-child(4){--accent:var(--flow-green)!important}.board-grid .board:nth-child(5){--accent:var(--flow-yellow)!important}.board-grid .board:nth-child(6){--accent:var(--flow-magenta)!important}.board-grid .board:nth-child(7){--accent:var(--flow-purple)!important}.board-grid .board:nth-child(8){--accent:var(--flow-blue)!important}.board-grid .board:nth-child(9){--accent:var(--flow-green)!important}
+.orbit-ring{border-color:transparent;background:conic-gradient(from -90deg,var(--flow-magenta),var(--flow-purple),var(--flow-blue),var(--flow-green),var(--flow-yellow),var(--flow-magenta));-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 1px),#000 0);mask:radial-gradient(farthest-side,transparent calc(100% - 1px),#000 0)}
+.answers{counter-reset:e06-answer}.answer{position:relative;min-height:72px}.answer .jewel{position:relative;flex:0 0 20px;width:20px;height:20px;border-radius:50%;background:color-mix(in srgb,var(--accent) 18%,#050505);border:1px solid color-mix(in srgb,var(--accent) 72%,white 8%);box-shadow:0 0 18px color-mix(in srgb,var(--accent) 22%,transparent),inset 0 0 8px color-mix(in srgb,var(--accent) 22%,transparent)}.answer .glyph{font-size:0}.answer .glyph:after{content:"";display:block;width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}.answer .answer-title{font-size:clamp(14px,1.35vw,17px);font-weight:950;line-height:1.22}.answer .answer-sub{max-width:650px;font-size:12px;line-height:1.55;color:rgba(255,255,255,.62)}
+.naya-rail{display:grid;grid-template-columns:repeat(4,1fr);max-width:900px;margin:30px auto 36px;border:1px solid rgba(255,255,255,.12);border-radius:999px;overflow:hidden;background:rgba(255,255,255,.025)}.naya-rail span{padding:11px 12px;text-align:center;font-size:9px;font-weight:950;letter-spacing:.2em;color:rgba(255,255,255,.7)}.naya-rail span:nth-child(1){color:var(--flow-magenta)}.naya-rail span:nth-child(2){color:var(--flow-purple)}.naya-rail span:nth-child(3){color:var(--flow-blue)}.naya-rail span:nth-child(4){color:var(--flow-green)}@media(max-width:640px){.naya-rail{grid-template-columns:repeat(2,1fr);border-radius:18px}.naya-rail span{padding:10px 8px}}
 '''
-          if '</style>' not in s:
-              raise SystemExit('Missing style closing marker')
-          s = s.replace('</style>', flow_css + '\n</style>', 1)
-
-          intro_end = '''</p>\n\n<div class="operating-system"'''
-          rail = '''</p>\n\n<div class="naya-rail" aria-label="Naya Power transformation path">\n<span>PRE-TUNED</span>\n<span>PERSONAL</span>\n<span>ACTIVATED</span>\n<span>YOURS</span>\n</div>\n\n<div class="operating-system"'''
-          if intro_end not in s:
-              raise SystemExit('Naya Power intro insertion point not found')
-          s = s.replace(intro_end, rail, 1)
-
-          s = s.replace('<span class="offer-label">KEY 4 · NAYA POWER INCLUDED</span>', '<span class="offer-label">AI SUPERCHARGER · EXCLUSIVE WITH KEY 4</span>', 1)
-          s = s.replace('<h3>\nThe Naya Supercharger.<br>\n<em>Skip the struggle. Start further ahead.</em>\n</h3>', '<h3>\nNaya Power.<br>\n<em>Your AI Supercharger.</em>\n</h3>', 1)
-          s = s.replace('Included value with Key 4', 'Included with Key 4 · $300+ value', 1)
-          s = s.replace('<span class="closing-kicker">THE PAYOFF</span>', '<span class="closing-kicker">THE TRANSFORMATION</span>', 1)
-          s = s.replace('All working together to make your AI experience\n<strong>\nmore personal, more capable, more proactive and more aligned with the way you want to work.\n</strong>', 'All working together so your AI becomes\n<strong>\nmore personal, more capable, more proactive and more aligned with the way you work.\n</strong>', 1)
-          s = s.replace('</script>\n\n</body>', '</script>\n\n<!-- E06_COLOR_FLOW_V1 -->\n</body>', 1)
-
-          if s == original:
-              raise SystemExit('No E06 mutation occurred')
-          path.write_text(s, encoding='utf-8')
-          print('E06 mutated:', len(s.encode('utf-8')), 'bytes', len(s.splitlines()), 'lines')
+          if '</style>' not in s: raise SystemExit('Missing style closing marker')
+          s=s.replace('</style>',flow_css+'\n</style>',1)
+          needle='</p>\n\n<div class="operating-system"'
+          insert='</p>\n\n<div class="naya-rail" aria-label="Naya Power transformation path">\n<span>PRE-TUNED</span>\n<span>PERSONAL</span>\n<span>ACTIVATED</span>\n<span>YOURS</span>\n</div>\n\n<div class="operating-system"'
+          if needle not in s: raise SystemExit('Naya Power insertion point not found')
+          s=s.replace(needle,insert,1)
+          s=s.replace('<span class="offer-label">KEY 4 · NAYA POWER INCLUDED</span>','<span class="offer-label">AI SUPERCHARGER · EXCLUSIVE WITH KEY 4</span>',1)
+          s=s.replace('<h3>\nThe Naya Supercharger.<br>\n<em>Skip the struggle. Start further ahead.</em>\n</h3>','<h3>\nNaya Power.<br>\n<em>Your AI Supercharger.</em>\n</h3>',1)
+          s=s.replace('Included value with Key 4','Included with Key 4 · $300+ value',1)
+          s=s.replace('<span class="closing-kicker">THE PAYOFF</span>','<span class="closing-kicker">THE TRANSFORMATION</span>',1)
+          s=s.replace('All working together to make your AI experience\n<strong>\nmore personal, more capable, more proactive and more aligned with the way you want to work.\n</strong>','All working together so your AI becomes\n<strong>\nmore personal, more capable, more proactive and more aligned with the way you work.\n</strong>',1)
+          s=s.replace('</script>\n\n</body>','</script>\n\n<!-- E06_COLOR_FLOW_V1 -->\n</body>',1)
+          if s==original: raise SystemExit('No E06 mutation occurred')
+          path.write_text(s,encoding='utf-8')
+          print('E06 mutated',len(s.encode()),'bytes',len(s.splitlines()),'lines')
 
       - name: Complete artifact integrity gate
         run: |
@@ -163,15 +102,11 @@ box-shadow:0 0 18px color-mix(in srgb,var(--accent) 22%,transparent),inset 0 0 8
           missing=[x for x in required if x not in s]
           if missing: raise SystemExit('Missing required E06 evidence: '+', '.join(missing))
           boards=len(re.findall(r'<article class="board"',s)); answers=len(re.findall(r'class="answer"',s)); nodes=len(re.findall(r'class="node node-',s))
-          if boards!=9: raise SystemExit(f'Expected 9 boards, found {boards}')
-          if answers!=45: raise SystemExit(f'Expected 45 answer bullets, found {answers}')
-          if nodes!=9: raise SystemExit(f'Expected 9 orbit nodes, found {nodes}')
+          if boards!=9 or answers!=45 or nodes!=9: raise SystemExit(f'Integrity counts failed: boards={boards} answers={answers} nodes={nodes}')
           if s.count('<!doctype html>')!=1 or s.count('</html>')!=1: raise SystemExit('Document integrity failure')
           if re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)',s): raise SystemExit('Unresolved conflict marker')
           print('E06 COMPLETE ARTIFACT INTEGRITY: PASS')
-          print('BYTES:',len(s.encode('utf-8')))
-          print('LINES:',len(s.splitlines()))
-          print('BOARDS:',boards,'ANSWERS:',answers,'NODES:',nodes)
+          print('BYTES:',len(s.encode('utf-8')),'LINES:',len(s.splitlines()),'BOARDS:',boards,'ANSWERS:',answers,'NODES:',nodes)
           PY
           git diff --check
 
