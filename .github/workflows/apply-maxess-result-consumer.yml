@@ -1,0 +1,92 @@
+name: Apply MAXESS Results Consumer
+
+on:
+  push:
+    branches:
+      - maxess-results-v21-working
+    paths:
+      - 'tools/execute_maxess_result_consumer.py'
+      - '.github/workflows/apply-maxess-result-consumer.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: maxess-result-consumer
+  cancel-in-progress: false
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout working Results branch
+        uses: actions/checkout@v4
+        with:
+          ref: maxess-results-v21-working
+          fetch-depth: 0
+
+      - name: Baseline
+        run: |
+          test -f E01-SECTION-01-WORKING.html
+          git rev-parse HEAD > result-consumer-baseline-commit.txt
+          git rev-parse HEAD:E01-SECTION-01-WORKING.html > result-consumer-baseline-blob.txt
+          wc -c E01-SECTION-01-WORKING.html
+
+      - name: Apply consumer mutation
+        run: python tools/execute_maxess_result_consumer.py
+
+      - name: Static consumer QA
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('E01-SECTION-01-WORKING.html').read_text(encoding='utf-8')
+          required=[
+            'MAXESS_RESULT_CONSUMER_V1',
+            'MAXESS_RESULT_V1',
+            'window.MAXESS_RESULT',
+            'MAXESS_RESULT_READY',
+            'overallScore',
+            'width:14px;height:14px',
+            'width:11px;height:11px',
+            'prefers-reduced-motion:reduce',
+            'Naya-Profile-black-face-zoom.jpg'
+          ]
+          missing=[x for x in required if x not in s]
+          if missing: raise SystemExit('Missing consumer evidence: '+', '.join(missing))
+          if 'DEMO_SCORE=82' in s: raise SystemExit('Hard-coded demo score remains')
+          if 'Preview score 82' in s: raise SystemExit('Demo score text remains')
+          if re.search(r'(^|\\n)(<<<<<<<|=======|>>>>>>>)( |\\n|$)',s): raise SystemExit('Conflict marker')
+          print('RESULT CONSUMER STATIC QA: PASS')
+          print('bytes:',len(s.encode()))
+          print('lines:',len(s.splitlines()))
+          PY
+
+      - name: JavaScript syntax QA
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('E01-SECTION-01-WORKING.html').read_text(encoding='utf-8')
+          scripts=re.findall(r'<script(?:\\s[^>]*)?>(.*?)</script>',s,re.S|re.I)
+          Path('/tmp/e01-scripts.js').write_text('\\n'.join(scripts),encoding='utf-8')
+          print('script blocks:',len(scripts))
+          PY
+          node --check /tmp/e01-scripts.js
+
+      - name: Diff proof
+        run: |
+          git diff --check
+          git diff -- E01-SECTION-01-WORKING.html
+          test -n "$(git diff -- E01-SECTION-01-WORKING.html)"
+
+      - name: Commit consumer
+        run: |
+          git config user.name 'Naya Master'
+          git config user.email 'naya-master@users.noreply.github.com'
+          git add E01-SECTION-01-WORKING.html
+          git diff --cached --check
+          git diff --cached --quiet && { echo 'NO CONSUMER MUTATION DETECTED'; exit 1; }
+          git commit -m 'MAXESS Results consumer — authoritative Result Contract [V1]'
+          git push origin maxess-results-v21-working
