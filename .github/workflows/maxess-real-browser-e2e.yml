@@ -8,6 +8,9 @@ on:
       - 'E01-SECTION-01-WORKING.html'
       - 'tests/maxess-real-browser-e2e.mjs'
       - '.github/workflows/maxess-real-browser-e2e.yml'
+  pull_request:
+    branches:
+      - maxess-results-v21-working
   workflow_dispatch:
 
 permissions:
