@@ -1,0 +1,49 @@
+name: MAXESS Real Browser E2E
+
+on:
+  push:
+    branches:
+      - maxess-results-v21-working
+    paths:
+      - 'AIScoreMAXESS code'
+      - 'E01-SECTION-01-WORKING.html'
+      - 'tests/maxess-real-browser-e2e.mjs'
+      - '.github/workflows/maxess-real-browser-e2e.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maxess-real-browser-e2e
+  cancel-in-progress: true
+
+jobs:
+  browser-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: maxess-results-v21-working
+          fetch-depth: 1
+
+      - name: Prepare real assessment artifact
+        run: cp 'AIScoreMAXESS code' AIScoreMAXESS-e2e.html
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run real 15-question browser E2E
+        run: node tests/maxess-real-browser-e2e.mjs
