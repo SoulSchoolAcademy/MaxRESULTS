@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MAXESS E08 — Human Maximus Codex Ecosystem</title>
+<meta name="description" content="Human Maximus Codex ecosystem — four learning experiences plus Naya Power AI Supercharger.">
+<style>
+:root{--bg:#030305;--panel:#09090d;--text:#fff;--muted:#a9a9b5;--line:rgba(255,255,255,.13);--gold:#f6c84c;--green:#55d68b;--blue:#5aa9ff;--purple:#a97bff;--magenta:#ef55c7;--max:1180px}
+*{box-sizing:border-box}
+html{background:var(--bg);scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 50% 35%,rgba(116,69,255,.13),transparent 34%),linear-gradient(180deg,#020204,#050507 55%,#020203);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+a{color:inherit;text-decoration:none}
+.e08{width:min(100%,var(--max));margin:auto;padding:clamp(42px,7vw,90px) 22px 70px;overflow:hidden}
+.kicker{text-align:center;color:#fff;font-size:clamp(10px,1vw,12px);font-weight:800;letter-spacing:.22em;text-transform:uppercase;opacity:.78}
+h1{text-align:center;font-size:clamp(30px,5vw,62px);line-height:1.02;margin:14px auto 10px;letter-spacing:-.045em}
+.intro{text-align:center;max-width:700px;margin:0 auto;color:#fff;font-size:clamp(15px,1.7vw,19px);line-height:1.6}
+.constellation{position:relative;min-height:clamp(720px,78vw,920px);margin:35px auto 15px;max-width:1120px}
+.ring{position:absolute;left:50%;top:50%;width:min(68vw,700px);height:min(68vw,700px);transform:translate(-50%,-50%);border:1px solid rgba(255,255,255,.08);border-radius:50%;box-shadow:0 0 100px rgba(142,93,255,.08),inset 0 0 90px rgba(142,93,255,.035)}
+.ring:after{content:"";position:absolute;inset:9%;border:1px dashed rgba(255,255,255,.055);border-radius:50%}
+.center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:clamp(210px,25vw,310px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#17131d,#08080b 67%,#050506);border:1px solid rgba(255,255,255,.25);box-shadow:0 0 0 8px rgba(255,255,255,.025),0 0 65px rgba(169,123,255,.2),inset 0 0 45px rgba(255,255,255,.04);z-index:5}
+.center img{width:72%;height:auto;max-height:72%;object-fit:contain;filter:drop-shadow(0 10px 28px rgba(0,0,0,.7))}
+.orb{position:absolute;width:clamp(150px,18vw,210px);aspect-ratio:1;border-radius:50%;padding:14px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:radial-gradient(circle at 36% 25%,rgba(255,255,255,.17),rgba(255,255,255,.035) 42%,rgba(0,0,0,.7) 76%);border:1px solid rgba(255,255,255,.2);box-shadow:0 18px 55px rgba(0,0,0,.55),inset 0 0 34px rgba(255,255,255,.045);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;z-index:4}
+.orb:hover,.orb:focus-visible{transform:scale(1.045);border-color:rgba(255,255,255,.55);box-shadow:0 22px 70px rgba(0,0,0,.65),0 0 38px var(--orb-glow),inset 0 0 34px rgba(255,255,255,.06);outline:none}
+.orb:before{content:"";position:absolute;inset:7px;border-radius:50%;border:1px solid var(--orb-border);opacity:.55}
+.orb-icon{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;margin-bottom:10px;background:var(--orb-color);box-shadow:0 0 25px var(--orb-glow),inset 0 0 12px rgba(255,255,255,.3);border:2px solid rgba(255,255,255,.55);font-weight:900;color:#09090b;font-size:19px;z-index:1}
+.orb h2{font-size:clamp(12px,1.25vw,16px);line-height:1.15;margin:0 0 7px;letter-spacing:.03em;text-transform:uppercase;max-width:165px;z-index:1}
+.orb p{font-size:11px;line-height:1.35;color:#fff;margin:0;max-width:165px;z-index:1}
+.orb .view{font-size:9px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;margin-top:9px;color:#fff;opacity:.75;z-index:1}
+.super{left:50%;top:3%;transform:translateX(-50%);--orb-color:var(--magenta);--orb-glow:rgba(239,85,199,.42);--orb-border:rgba(239,85,199,.5);width:clamp(180px,21vw,235px);background:radial-gradient(circle at 38% 24%,rgba(239,85,199,.26),rgba(255,255,255,.035) 42%,rgba(0,0,0,.72) 78%)}
+.super:hover,.super:focus-visible{transform:translateX(-50%) scale(1.045)}
+.pro{left:5%;top:24%;--orb-color:var(--gold);--orb-glow:rgba(246,200,76,.34);--orb-border:rgba(246,200,76,.45)}
+.complete{right:5%;top:24%;--orb-color:var(--green);--orb-glow:rgba(85,214,139,.34);--orb-border:rgba(85,214,139,.45)}
+.ai{left:10%;bottom:10%;--orb-color:var(--blue);--orb-glow:rgba(90,169,255,.34);--orb-border:rgba(90,169,255,.45)}
+.power{right:10%;bottom:10%;--orb-color:var(--purple);--orb-glow:rgba(169,123,255,.36);--orb-border:rgba(169,123,255,.48)}
+.connector{position:absolute;left:50%;top:50%;width:min(38vw,410px);height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.11),transparent);transform-origin:left center;opacity:.45;z-index:1}
+.c1{transform:rotate(-90deg)}.c2{transform:rotate(-27deg)}.c3{transform:rotate(27deg)}.c4{transform:rotate(153deg)}.c5{transform:rotate(207deg)}
+.closing{text-align:center;margin:10px auto 0;max-width:850px}
+.closing h2{font-size:clamp(24px,3.5vw,42px);margin:0 0 10px;letter-spacing:-.035em}
+.closing p{margin:0 auto;color:#fff;font-size:clamp(14px,1.6vw,18px);line-height:1.6;max-width:730px}
+.cta{margin:30px auto 0;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:#fff;color:#050507;font-weight:850;letter-spacing:.02em;box-shadow:0 12px 35px rgba(0,0,0,.35)}
+.btn.secondary{background:transparent;color:#fff}
+@media(max-width:760px){.e08{padding-left:16px;padding-right:16px}.constellation{min-height:auto;margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 4px}.ring,.connector{display:none}.center{position:relative;left:auto;top:auto;transform:none;grid-column:1/-1;width:min(74vw,280px);margin:12px auto 4px;order:0}.orb,.super,.pro,.complete,.ai,.power{position:relative;left:auto;right:auto;top:auto;bottom:auto;transform:none;width:100%;max-width:210px;margin:auto;order:2}.super{grid-column:1/-1;order:1;max-width:230px}.orb:hover,.orb:focus-visible,.super:hover,.super:focus-visible{transform:scale(1.025)}.closing{margin-top:34px}}
+@media(max-width:430px){.constellation{grid-template-columns:1fr}.orb,.super{max-width:230px}.center{width:min(78vw,280px)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.orb{transition:none}}
+</style>
+</head>
+<body>
+<main class="e08" id="e08">
+  <div class="kicker">MAXESS · THE ECOSYSTEM</div>
+  <h1>Everything you need to become more.</h1>
+  <p class="intro">One Human Maximus Codex ecosystem. Four powerful learning experiences — plus Naya Power, the AI Supercharger.</p>
+
+  <section class="constellation" aria-label="Human Maximus Codex ecosystem map">
+    <div class="ring" aria-hidden="true"></div>
+    <div class="connector c1" aria-hidden="true"></div>
+    <div class="connector c2" aria-hidden="true"></div>
+    <div class="connector c3" aria-hidden="true"></div>
+    <div class="connector c4" aria-hidden="true"></div>
+    <div class="connector c5" aria-hidden="true"></div>
+
+    <a class="orb super" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener" aria-label="Explore Naya Power AI Supercharger">
+      <span class="orb-icon">✦</span>
+      <h2>Naya Power</h2>
+      <p>AI Supercharger</p>
+      <span class="view">Explore →</span>
+    </a>
+
+    <a class="orb pro" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener" aria-label="Explore Human Maximus Pro Max Player">
+      <span class="orb-icon">◆</span>
+      <h2>Human Maximus Pro Max Player</h2>
+      <p>Experience the Human Maximus library.</p>
+      <span class="view">Explore →</span>
+    </a>
+
+    <a class="orb complete" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener" aria-label="Explore Human Maximus Complete Series">
+      <span class="orb-icon">✦</span>
+      <h2>Human Maximus Complete Series</h2>
+      <p>The complete Human Maximus journey.</p>
+      <span class="view">Explore →</span>
+    </a>
+
+    <a class="orb ai" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener" aria-label="Explore Human Maximus AI Masterclass">
+      <span class="orb-icon">△</span>
+      <h2>Human Maximus AI Masterclass</h2>
+      <p>Build extraordinary AI capability.</p>
+      <span class="view">Explore →</span>
+    </a>
+
+    <a class="orb power" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener" aria-label="Explore Human Maximus Power Seven Days a Week">
+      <span class="orb-icon">✧</span>
+      <h2>Human Maximus Power Seven Days a Week</h2>
+      <p>Activate your potential every day.</p>
+      <span class="view">Explore →</span>
+    </a>
+
+    <div class="center" aria-label="Human Maximus Codex ecosystem hub">
+      <img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Maximus%202.png" alt="Human Maximus Codex">
+    </div>
+  </section>
+
+  <section class="closing" aria-labelledby="closing-title">
+    <h2 id="closing-title">One ecosystem. Five powerful paths.</h2>
+    <p>Master AI. Be Your MAX. Get Paid.</p>
+    <div class="cta">
+      <a class="btn" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener">Explore the Human Maximus Codex Library</a>
+      <a class="btn secondary" href="#e08">Choose Your Key ↓</a>
+    </div>
+  </section>
+</main>
+</body>
+</html>
