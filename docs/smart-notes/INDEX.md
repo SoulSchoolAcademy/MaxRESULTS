@@ -66,8 +66,9 @@ The filename is a locator, not the authority.
 
 | Topic | Primary category | Useful retrieval terms | Note |
 |---|---|---|---|
+| Naya Power Digital Codex Product Vision, Modes, and Sales Page | KNOWLEDGE / DECISION / GOAL | Naya Power, AI Supercharger, Digital Codex, Naya Modes, Lead Mode, Naya Hub, sales page, Naya Supercharger, product education, GrooveBlog, MAXESS | `2026-08-20-naya-power-digital-codex-sales-page-and-modes.md` |
 | User Effort Minimization + Complete Delivery Law | SOLUTION / LEARNING | user effort, 10-star service, complete delivery, minimize friction, cognitive load, take the lead, full code, integrated work, Naya Law, user experience, AAA | `2026-08-20-user-effort-and-complete-delivery-law.md` |
-| Versioned Backup + Safe Editing Law | SOLUTION | backups, timestamped backups, versioning, safe editing, preservation, recovery point, rollback, destructive change, source of truth, MAXESS, Naya Law, GitHub | `2026-08-20-versioned-backup-and-safe-editing-law.md` |
+| Versioned Backup + Safe Editing Law | SOLUTION | backups, timestamped backups, versioning, safe editing, preservation, recovery point, rollback, destructive change, source of truth, MAXESS, Naya Law | `2026-08-20-versioned-backup-and-safe-editing-law.md` |
 
 ### 2026-08-19
 
@@ -90,6 +91,7 @@ The filename is a locator, not the authority.
 
 | If the user asks about… | Start with… | Then inspect… |
 |---|---|---|
+| Naya Power / Digital Codex / Naya Modes | `2026-08-20-naya-power-digital-codex-sales-page-and-modes.md` | `docs/NAYA-LEAD-SERVICE-STANDARD.md`, Naya Power product/page plans |
 | Naya's overall operating philosophy | `NAYA-OS.md` | Executive Plan, Blueprint, relevant notes |
 | What Naya Nitro is | `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` | Executive Plan, relevant notes |
 | North Star / what-why-how | `docs/NAYA-EXECUTIVE-PLAN.md` | North Star Smart Note |
