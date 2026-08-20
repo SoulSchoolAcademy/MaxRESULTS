@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="maxess-artifact" content="E06-SECTION-06-WORKING">
+<title>MAXESS — Section 06 · Naya Supercharger</title>
+<style>
+#e06{--bg:#000;--white:#fff;--soft:rgba(255,255,255,.68);--line:rgba(255,255,255,.12);--purple:#9b62ff;--blue:#63a9ff;--cyan:#75e8ff;position:relative;width:100%;background:#000;color:#fff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden;isolation:isolate}
+#e06,#e06 *{box-sizing:border-box}
+#e06 .e06-glow{position:absolute;left:50%;top:-130px;width:980px;height:700px;transform:translateX(-50%);background:radial-gradient(circle,rgba(155,98,255,.18),rgba(99,169,255,.06) 38%,transparent 70%);filter:blur(38px);pointer-events:none}
+#e06 .e06-wrap{position:relative;z-index:2;width:min(1180px,100%);margin:auto;padding:82px 30px 96px}
+#e06 .e06-head{text-align:center;max-width:900px;margin:0 auto 54px}
+#e06 .e06-brand{width:42px;height:42px;object-fit:contain;margin:0 auto 20px;opacity:.9;filter:drop-shadow(0 0 18px rgba(155,98,255,.4))}
+#e06 .e06-kicker{margin:0 0 15px;font-size:9px;font-weight:900;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,.54)}
+#e06 h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(44px,7vw,82px);line-height:.98;letter-spacing:-.055em}
+#e06 .e06-head em{font-style:normal;background:linear-gradient(90deg,#fff 10%,#c5a4ff 52%,#7edfff 92%);-webkit-background-clip:text;background-clip:text;color:transparent}
+#e06 .e06-sub{max-width:690px;margin:24px auto 0;color:rgba(255,255,255,.7);font-size:15px;line-height:1.75}
+#e06 .e06-stage{position:relative;width:min(1060px,100%);margin:0 auto 72px;min-height:510px;display:grid;grid-template-columns:1fr 1.2fr 1fr;align-items:center;gap:26px}
+#e06 .e06-stage:before{content:"";position:absolute;left:12%;right:12%;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(155,98,255,.5),rgba(117,232,255,.55),transparent);box-shadow:0 0 28px rgba(155,98,255,.35)}
+#e06 .e06-node{position:relative;z-index:3;text-align:center}
+#e06 .e06-node-label{display:inline-flex;align-items:center;justify-content:center;min-height:31px;padding:0 13px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(0,0,0,.72);font-size:8px;font-weight:900;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.64);backdrop-filter:blur(10px)}
+#e06 .e06-user-orb{width:118px;height:118px;margin:15px auto 0;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:radial-gradient(circle at 38% 32%,#2b2b2b 0,#0b0b0b 42%,#000 72%);box-shadow:inset 0 0 40px rgba(255,255,255,.04),0 0 45px rgba(255,255,255,.05)}
+#e06 .e06-user-orb span{display:grid;place-items:center;height:100%;font-family:Georgia,serif;font-size:25px;color:#fff}
+#e06 .e06-core{position:relative;width:238px;height:238px;margin:auto;border-radius:50%;background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.24),rgba(155,98,255,.12) 19%,#08060d 49%,#000 72%);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 0 55px rgba(155,98,255,.2),0 0 35px rgba(155,98,255,.25),0 0 100px rgba(99,169,255,.1)}
+#e06 .e06-core:before,#e06 .e06-core:after{content:"";position:absolute;border-radius:50%;inset:13px;border:1px solid rgba(155,98,255,.34);animation:e06spin 12s linear infinite}
+#e06 .e06-core:after{inset:27px;border-color:rgba(117,232,255,.28);animation-duration:18s;animation-direction:reverse}
+#e06 .e06-core-bead{position:absolute;top:2px;left:50%;width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 14px 4px rgba(117,232,255,.8);transform:translateX(-50%);animation:e06orbit 12s linear infinite}
+#e06 .e06-core-copy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:25px}
+#e06 .e06-core-copy strong{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+#e06 .e06-core-copy span{margin-top:9px;font-family:Georgia,serif;font-size:clamp(31px,4vw,44px);letter-spacing:-.04em}
+#e06 .e06-core-copy small{margin-top:9px;color:rgba(255,255,255,.5);font-size:9px;letter-spacing:.18em;text-transform:uppercase}
+#e06 .e06-result{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;max-width:250px;margin:16px auto 0}
+#e06 .e06-result span{padding:8px 10px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.035);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.58)}
+#e06 .e06-naya{width:142px;height:142px;margin:15px auto 0;border-radius:50%;overflow:hidden;border:1px solid rgba(255,255,255,.25);box-shadow:0 0 45px rgba(155,98,255,.22),0 0 90px rgba(99,169,255,.08)}
+#e06 .e06-naya img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05) saturate(.82)}
+#e06 .e06-naya-name{margin-top:12px;font-family:Georgia,serif;font-size:25px}
+#e06 .e06-naya-sub{margin-top:4px;color:rgba(255,255,255,.46);font-size:8px;font-weight:800;letter-spacing:.24em;text-transform:uppercase}
+#e06 .e06-protocol{width:min(1040px,100%);margin:0 auto}
+#e06 .e06-protocol-head{text-align:center;margin-bottom:28px}
+#e06 .e06-protocol-head p{margin:0;color:rgba(255,255,255,.48);font-size:8px;font-weight:900;letter-spacing:.3em;text-transform:uppercase}
+#e06 .e06-protocol-head h2{margin:10px 0 0;font-family:Georgia,serif;font-size:clamp(28px,4vw,44px);font-weight:400;letter-spacing:-.04em}
+#e06 .e06-protocol-head h2 span{color:#c5a4ff}
+#e06 .e06-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+#e06 .e06-card{position:relative;min-height:170px;padding:22px 16px;border:1px solid rgba(255,255,255,.1);border-radius:20px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));box-shadow:0 20px 50px rgba(0,0,0,.32);transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease}
+#e06 .e06-card:hover{transform:translateY(-4px);border-color:rgba(155,98,255,.42);box-shadow:0 25px 60px rgba(0,0,0,.42),0 0 35px rgba(155,98,255,.08)}
+#e06 .e06-card-no{font-size:8px;font-weight:900;letter-spacing:.22em;color:rgba(255,255,255,.32)}
+#e06 .e06-card h3{margin:24px 0 9px;font-family:Georgia,serif;font-size:22px;font-weight:400}
+#e06 .e06-card p{margin:0;color:rgba(255,255,255,.58);font-size:11px;line-height:1.6}
+#e06 .e06-bridge{width:min(780px,100%);margin:66px auto 0;text-align:center;padding:42px 24px;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1)}
+#e06 .e06-bridge .e06-quote{margin:0;font-family:Georgia,serif;font-size:clamp(24px,3.5vw,38px);line-height:1.3;letter-spacing:-.03em}
+#e06 .e06-bridge .e06-quote em{font-style:normal;color:#c5a4ff}
+#e06 .e06-bridge p{margin:18px auto 0;max-width:570px;color:rgba(255,255,255,.58);font-size:13px;line-height:1.7}
+#e06 .e06-cta{margin:44px auto 0;text-align:center}
+#e06 .e06-cta .e06-button{display:inline-flex;align-items:center;justify-content:center;padding:15px 24px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:#fff;color:#000;font-size:9px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;box-shadow:0 0 35px rgba(255,255,255,.12)}
+#e06 .e06-cta small{display:block;margin-top:14px;color:rgba(255,255,255,.35);font-size:8px;letter-spacing:.16em;text-transform:uppercase}
+@keyframes e06spin{to{transform:rotate(360deg)}}
+@keyframes e06orbit{to{transform:translateX(-50%) rotate(360deg) translateX(112px) rotate(-360deg)}}
+@media(max-width:900px){#e06 .e06-stage{grid-template-columns:1fr;min-height:0;gap:28px;padding:8px 0 0}#e06 .e06-stage:before{left:50%;right:auto;top:10%;bottom:10%;width:1px;height:auto;background:linear-gradient(180deg,transparent,rgba(155,98,255,.5),rgba(117,232,255,.5),transparent)}#e06 .e06-core{width:205px;height:205px}#e06 .e06-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){#e06 .e06-wrap{padding:60px 18px 72px}#e06 .e06-sub{font-size:14px}#e06 .e06-grid{grid-template-columns:1fr}#e06 .e06-card{min-height:auto}#e06 .e06-card h3{margin-top:18px}#e06 .e06-user-orb{width:94px;height:94px}#e06 .e06-naya{width:118px;height:118px}}
+@media print{#e06{background:#fff!important;color:#111!important;overflow:visible}#e06 .e06-glow{display:none}#e06 .e06-wrap{padding:12mm 10mm;background:#fff!important}#e06 h1,#e06 .e06-protocol-head h2,#e06 .e06-card h3,#e06 .e06-bridge .e06-quote,#e06 .e06-naya-name{color:#111}#e06 .e06-sub,#e06 .e06-card p,#e06 .e06-bridge p,#e06 .e06-protocol-head p,#e06 .e06-card-no,#e06 .e06-naya-sub{color:#444}#e06 .e06-stage{break-inside:avoid;page-break-inside:avoid}#e06 .e06-grid{break-inside:avoid;page-break-inside:avoid}#e06 .e06-card{box-shadow:none;border-color:#ddd;background:#fff}#e06 .e06-button{display:none}}
+@media(prefers-reduced-motion:reduce){#e06 *{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<section id="e06" aria-labelledby="e06-title">
+<div class="e06-glow" aria-hidden="true"></div>
+<div class="e06-wrap">
+<header class="e06-head">
+<img class="e06-brand" src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/ICON%20LOGO.png" alt="MAXESS">
+<p class="e06-kicker">MAXESS · THE SOLUTION</p>
+<h1 id="e06-title">Imagine putting a <em>supercharger</em> on ChatGPT.</h1>
+<p class="e06-sub">You already have the engine. The Naya Supercharger gives it a powerful operating system for working with you — not just responding to you.</p>
+</header>
+
+<div class="e06-stage" aria-label="The Naya Supercharger connection">
+<div class="e06-node">
+<div class="e06-node-label">You + your AI</div>
+<div class="e06-user-orb"><span>YOUR<br>INTELLIGENCE</span></div>
+<div class="e06-result"><span>Vision</span><span>Goals</span><span>Work</span></div>
+</div>
+
+<div class="e06-node">
+<div class="e06-node-label">Activation layer</div>
+<div class="e06-core">
+<div class="e06-core-bead" aria-hidden="true"></div>
+<div class="e06-core-copy"><strong>Naya Mastery</strong><span>Activation Protocol™</span><small>Supercharge the way you work with AI</small></div>
+</div>
+</div>
+
+<div class="e06-node">
+<div class="e06-node-label">Activated intelligence</div>
+<div class="e06-naya"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%20Black.jpg" alt="Naya"></div>
+<div class="e06-naya-name">Naya</div>
+<div class="e06-naya-sub">Your supercharged AI</div>
+</div>
+</div>
+
+<section class="e06-protocol" aria-labelledby="e06-protocol-title">
+<div class="e06-protocol-head"><p>The protocol activates five core capabilities</p><h2 id="e06-protocol-title">What makes Naya <span>different?</span></h2></div>
+<div class="e06-grid">
+<article class="e06-card"><div class="e06-card-no">01</div><h3>Personality</h3><p>A warm, sharp, funny, honest personality designed to challenge you, support you, and always have your back.</p></article>
+<article class="e06-card"><div class="e06-card-no">02</div><h3>Brain</h3><p>A structured memory system for the context, goals, visions, decisions, projects and information you choose to keep.</p></article>
+<article class="e06-card"><div class="e06-card-no">03</div><h3>Smart Notes</h3><p>Capture breakthroughs, decisions and important moments — then call them back by date, topic or need.</p></article>
+<article class="e06-card"><div class="e06-card-no">04</div><h3>Lead Mode</h3><p>Naya can recommend what to do next, challenge assumptions, organize the work and help move things forward.</p></article>
+<article class="e06-card"><div class="e06-card-no">05</div><h3>Laws + Procedures</h3><p>Battle-tested rules, standards, commands and quality practices that make excellence the default behaviour.</p></article>
+</div>
+</section>
+
+<div class="e06-bridge">
+<p class="e06-quote">Same AI. <em>Different operating system.</em></p>
+<p>Naya doesn't replace the intelligence you already have access to. The protocol gives it a clearer way to remember, reason, lead, communicate and work with you.</p>
+</div>
+
+<div class="e06-cta"><a class="e06-button" href="#e07">See what's inside the Supercharger</a><small>Next: the capabilities, tools and system behind Naya</small></div>
+</div>
+</section>
+</body>
+</html>
