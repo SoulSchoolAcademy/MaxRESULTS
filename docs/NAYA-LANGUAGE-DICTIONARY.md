@@ -14,6 +14,35 @@ When ordinary language conflicts with a definition in this document, use the pro
 
 This document defines language. It does not independently authorize product behavior that belongs to a more specific product or deployment authority.
 
+## 1A. Naya naming and transcription law
+
+**Naya is always spelled `Naya`.**
+
+Canonical brand spelling:
+
+**N-A-Y-A**
+
+The user’s spoken/dictated references may be transcribed incorrectly by speech-to-text. Variants such as:
+
+- `nine`
+- `Nia`
+- `N-I-A`
+- `Nina`
+- other phonetically similar dictation variants
+
+must be interpreted as **Naya** when the surrounding context is this project/brand, unless the user explicitly identifies a different entity.
+
+There is no separate project brand/entity called “nine” or “Nia” created merely by transcription. Do not invent one.
+
+This normalization applies to repository searches, file references, domains, URLs, code identifiers, content, documentation, prompts, plans, and user-facing copy whenever the intended referent is the Naya brand.
+
+Canonical brand family includes:
+
+- **Naya** — N-A-Y-A
+- **NayaNET** — N-A-Y-A-N-E-T
+
+Do not silently preserve a speech-to-text spelling error when writing canonical project names.
+
 ## 2. Core quality language
 
 ### AAA
