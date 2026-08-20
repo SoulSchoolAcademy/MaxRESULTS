@@ -46,7 +46,7 @@ async function completeAssessment(page, answerIndexes, profileName) {
       await page.locator('#listenToNaya').click();
       await page.waitForFunction(() => !document.querySelector('#teachingInterstitial')?.classList.contains('visible'));
       await page.waitForFunction(() => window.__MAXESS_AUDIO_UNAVAILABLE === true);
-      if (await page.locator('#questionTitle').isVisible() === false) throw new Error(`${profileName}: question disappeared after Listen to Naya`);
+      if (!(await page.locator('#questionTitle').isVisible())) throw new Error(`${profileName}: question disappeared after Listen to Naya`);
       if (await page.locator('#answers .answer').count() !== 5) throw new Error(`${profileName}: answers disappeared after Listen to Naya`);
     } else {
       await page.locator('#cloudContinue').click();
@@ -111,7 +111,7 @@ const server = await startServer();
 
 try {
   const profileA = Array(15).fill(0);
-  const profileB = [4,4,4,4,0,4,4,4,4,0,4,4,4,4,0];
+  const profileB = [3,4,4,4,0,3,4,4,4,0,3,4,4,4,0];
 
   const a = await completeAssessment(page, profileA, 'PROFILE A');
   const b = await completeAssessment(page, profileB, 'PROFILE B');
@@ -127,7 +127,7 @@ try {
     nextMove: JSON.stringify(a.contract.nextMove) !== JSON.stringify(b.contract.nextMove)
   };
 
-  if (!different.overallScore || !different.dimensions || !different.masteryStage || !different.strongestCapability || !different.overallPattern || !different.personalizedInterpretation) {
+  if (!different.overallScore || !different.dimensions || !different.masteryStage || !different.strongestCapability || !different.highestLeverageOpportunity || !different.overallPattern || !different.personalizedInterpretation || !different.nextMove) {
     throw new Error(`Differentiation proof failed: ${JSON.stringify(different)}`);
   }
 
