@@ -68,6 +68,20 @@ Use size, weight, spacing, contrast, position, grouping, imagery, and restrained
 
 Do not use visual effects to compensate for weak hierarchy.
 
+### Headline hierarchy law
+
+The headline is the headline. The supporting copy is supporting copy.
+
+Never create a visual hierarchy where a section headline is dramatically smaller, weaker, lower-contrast, or less visually important than the subheadline/body copy beneath it.
+
+A strong default hierarchy is:
+
+**HEADLINE → SUPPORTING STATEMENT → DETAIL**
+
+The headline should be immediately identifiable during a fast scan. Supporting text may explain; it must not visually overpower the thing it explains.
+
+If the user cannot instantly tell what a block is about, the hierarchy has failed.
+
 ## 3.2 Readability is a design requirement
 
 No important information should be visually hidden by tiny type, weak contrast, excessive density, or decorative noise.
@@ -79,6 +93,23 @@ When text is small on a dark/black surface, it must remain highly legible. **Whi
 Do not make important copy tiny merely to make a card fit.
 
 If the text matters, redesign the presentation so the person can comfortably read it.
+
+### High-contrast text law
+
+Do not place text over a visually similar background merely because the colors are brand-consistent.
+
+**Purple-on-purple, light-purple-on-purple, gray-on-gray, or other low-contrast combinations are not acceptable for important copy when a stronger contrast option exists.**
+
+Preferred high-readability combinations include:
+
+- white text on black;
+- white text on sufficiently dark purple;
+- black/dark text on white;
+- near-white text on sufficiently dark surfaces.
+
+Brand color is an accent and identity tool. It is not permission to sacrifice readability.
+
+When choosing between visual cleverness and clear reading, choose clear reading.
 
 ## 3.3 One visual idea at a time
 
@@ -95,6 +126,28 @@ When content is dense:
 - remove redundant words.
 
 **Information architecture is part of visual design.**
+
+### Visual translation law
+
+Do not assume every useful idea needs to be expressed as another paragraph.
+
+When a concept can be communicated more quickly and clearly through a visual, prefer the visual solution.
+
+Possible translations include:
+
+- icon + short phrase;
+- diagram;
+- number + outcome;
+- visual sequence;
+- comparison;
+- progress indicator;
+- symbolic object;
+- image + caption;
+- short card rather than paragraph.
+
+The goal is not to eliminate text. The goal is to find the **sweet spot between text, visual communication, and breathing room**.
+
+If a person must read a wall of text to discover the value, the presentation is not finished.
 
 ## 3.4 Scanability law
 
@@ -113,6 +166,23 @@ Use:
 - clear CTA hierarchy.
 
 Never rely on a wall of beautiful prose to communicate a product.
+
+### Brain-breakup law
+
+Repeated blocks should not become visually indistinguishable unless sameness is itself meaningful.
+
+When presenting multiple related items, intentionally create enough **contrast, spacing, shape, scale, alignment, color, imagery, or ordering** for the brain to separate the units quickly.
+
+For example, three consecutive value cards do not automatically need three identical backgrounds. A deliberate visual sequence may use:
+
+- contrasting light/dark surfaces;
+- one strong accent panel among quieter panels;
+- alternating compositions;
+- numbered visual anchors;
+- distinct iconography;
+- clear spatial separation.
+
+Do not add variation randomly. Variation must improve comprehension and hierarchy.
 
 ## 3.5 Premium simplicity law
 
@@ -149,6 +219,16 @@ Use contrast deliberately between:
 - product promise and supporting explanation.
 
 Accent colors are signals. Do not turn every element into a signal.
+
+### Color-rhythm law
+
+When a sequence contains multiple equivalent items, restrained color variation may be used to create visual rhythm and improve memory/scanning.
+
+Use a deliberate sequence rather than arbitrary color assignment. For the established five-point MAXESS answer system, the canonical sequence is:
+
+**MAGENTA → PURPLE → BLUE → GREEN → YELLOW**
+
+Color should reinforce structure, not replace structure. Contrast and legibility always outrank color styling.
 
 ## 3.7 CTA law
 
@@ -482,10 +562,15 @@ Before calling a visual experience strong, ask:
 
 - Is the primary message obvious in three seconds?
 - Is the hierarchy unmistakable?
+- Is the headline visibly stronger than its supporting copy?
 - Can a person skim it successfully?
 - Is important text actually readable?
 - Is small text sufficiently contrasted?
+- Have I avoided low-contrast brand-on-brand text such as purple on purple for important copy?
 - Is there unnecessary density?
+- Can any paragraph be replaced by a clearer visual?
+- Are repeated blocks visually separated enough for the brain to chunk them?
+- Does the color rhythm help comprehension without becoming noise?
 - Does every visual element have a job?
 - Does the CTA have the correct visual priority?
 - Does the experience feel human rather than computery?
