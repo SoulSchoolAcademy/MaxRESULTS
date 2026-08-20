@@ -3,73 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MAXESS E09 — Member Access</title>
-<meta name="description" content="A visual preview of the member experience inside the Human Maximus ecosystem.">
+<title>MAXESS E09 — Member Preview</title>
+<meta name="description" content="Preview the Human Maximus member experience, courses, Codex library and private member network.">
 <style>
-.maxess-e09{--bg:#030305;--fg:#fff;--muted:rgba(255,255,255,.68);--line:rgba(255,255,255,.14);--purple:#aa7dff;--gold:#f5c84b;box-sizing:border-box;width:100%;margin:0 auto;padding:clamp(34px,6vw,76px) clamp(16px,4vw,40px) clamp(58px,8vw,100px);background:radial-gradient(circle at 50% 8%,rgba(170,125,255,.14),transparent 32%),radial-gradient(circle at 50% 75%,rgba(245,200,75,.045),transparent 34%),var(--bg);color:var(--fg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden;isolation:isolate}.maxess-e09 *,.maxess-e09 *::before,.maxess-e09 *::after{box-sizing:border-box}.maxess-e09 a{color:inherit;text-decoration:none}.e9-shell{width:min(100%,1120px);margin:0 auto}.e9-kicker{text-align:center;font-size:10px;font-weight:950;letter-spacing:.3em;text-transform:uppercase;opacity:.68}.e9-title{text-align:center;max-width:900px;margin:12px auto 12px;font-size:clamp(38px,6vw,72px);line-height:.94;letter-spacing:-.06em;font-weight:950}.e9-title em{font-style:normal;color:#fff}.e9-lead{text-align:center;max-width:720px;margin:0 auto;color:var(--muted);font-size:clamp(15px,1.6vw,19px);line-height:1.55;font-weight:650}.e9-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.82fr);gap:clamp(28px,5vw,64px);align-items:center;margin:clamp(38px,6vw,72px) auto 0}.e9-copy{max-width:610px}.e9-eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 16px;padding:8px 12px;border:1px solid rgba(170,125,255,.42);border-radius:999px;background:rgba(170,125,255,.09);font-size:10px;font-weight:950;letter-spacing:.16em;text-transform:uppercase}.e9-eyebrow::before{content:"✦";color:var(--purple)}.e9-copy h2{margin:0 0 15px;font-size:clamp(29px,4vw,50px);line-height:1.02;letter-spacing:-.045em;font-weight:950}.e9-copy p{margin:0;color:#fff;font-size:clamp(16px,1.7vw,20px);line-height:1.55;font-weight:600}.e9-copy p+p{margin-top:14px;color:var(--muted);font-size:15px}.e9-cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.e9-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 25px;border-radius:999px;border:1px solid rgba(255,255,255,.25);font-size:13px;font-weight:950;letter-spacing:.02em;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}.e9-btn--primary{background:#fff;color:#050507;border-color:#fff;box-shadow:0 12px 36px rgba(255,255,255,.1)}.e9-btn--secondary{background:rgba(255,255,255,.035);color:#fff}.e9-btn:hover,.e9-btn:focus-visible{transform:translateY(-2px);box-shadow:0 16px 40px rgba(170,125,255,.16);outline:none}.e9-visual{position:relative;min-height:390px;display:grid;place-items:center}.e9-glow{position:absolute;width:310px;height:310px;border-radius:50%;background:radial-gradient(circle,rgba(170,125,255,.22),rgba(170,125,255,.06) 42%,transparent 70%);filter:blur(5px)}.e9-ring{position:absolute;width:320px;height:320px;border:1px solid rgba(255,255,255,.12);border-radius:50%;box-shadow:0 0 70px rgba(170,125,255,.12),inset 0 0 60px rgba(170,125,255,.045)}.e9-ring::before,.e9-ring::after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.055)}.e9-ring::before{inset:25px}.e9-ring::after{inset:68px;border-style:dashed}.e9-badge{position:relative;z-index:2;width:170px;height:170px;border-radius:50%;display:grid;place-items:center;background:#050507;border:1px solid rgba(255,255,255,.42);box-shadow:0 0 0 8px rgba(255,255,255,.02),0 0 70px rgba(170,125,255,.22),0 24px 70px rgba(0,0,0,.65);text-align:center}.e9-badge span{display:block}.e9-badge .small{font-size:9px;font-weight:950;letter-spacing:.25em;text-transform:uppercase;opacity:.6}.e9-badge .big{margin-top:7px;font-size:35px;line-height:1;font-weight:950;letter-spacing:-.06em}.e9-orbit-label{position:absolute;z-index:3;padding:8px 11px;border:1px solid rgba(255,255,255,.15);border-radius:999px;background:rgba(3,3,5,.78);backdrop-filter:blur(12px);font-size:9px;font-weight:950;letter-spacing:.13em;text-transform:uppercase}.e9-label-a{top:22px;right:8%}.e9-label-b{bottom:34px;left:4%}.e9-label-c{bottom:78px;right:0}.e9-preview{margin:clamp(52px,8vw,94px) auto 0}.e9-preview-head{text-align:center;max-width:760px;margin:0 auto 28px}.e9-preview-head h3{margin:0 0 9px;font-size:clamp(27px,4vw,46px);line-height:1;letter-spacing:-.045em;font-weight:950}.e9-preview-head p{margin:0;color:var(--muted);font-size:15px;line-height:1.5;font-weight:600}.e9-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.e9-card{position:relative;display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));box-shadow:0 18px 55px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.05);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}.e9-card:hover,.e9-card:focus-within{transform:translateY(-4px);border-color:rgba(170,125,255,.42);box-shadow:0 24px 65px rgba(0,0,0,.42),0 0 36px rgba(170,125,255,.08)}.e9-media{aspect-ratio:16/10;overflow:hidden;background:#000}.e9-media img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .45s ease}.e9-card:hover .e9-media img,.e9-card:focus-within .e9-media img{transform:scale(1.035)}.e9-card-body{padding:20px 19px 21px}.e9-card-number{font-size:9px;font-weight:950;letter-spacing:.2em;text-transform:uppercase;color:var(--purple)}.e9-card h4{margin:8px 0 7px;font-size:23px;line-height:1.03;letter-spacing:-.035em;font-weight:950}.e9-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.5;font-weight:600}.e9-card-link{display:inline-flex;align-items:center;gap:8px;margin-top:17px;font-size:11px;font-weight:950;letter-spacing:.08em;text-transform:uppercase}.e9-card-link::after{content:"→";font-size:16px;transition:transform .2s ease}.e9-card:hover .e9-card-link::after,.e9-card:focus-within .e9-card-link::after{transform:translateX(3px)}.e9-member{margin:clamp(46px,7vw,78px) auto 0;padding:clamp(25px,4vw,42px);border:1px solid rgba(245,200,75,.25);border-radius:28px;background:linear-gradient(105deg,rgba(245,200,75,.07),rgba(255,255,255,.025) 48%,rgba(170,125,255,.07));text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.05)}.e9-member-kicker{font-size:10px;font-weight:950;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}.e9-member h3{margin:10px 0 9px;font-size:clamp(28px,4vw,48px);line-height:1;letter-spacing:-.045em;font-weight:950}.e9-member p{max-width:680px;margin:0 auto;color:var(--muted);font-size:15px;line-height:1.5;font-weight:600}.e9-member .e9-cta-row{justify-content:center}.e9-note{text-align:center;margin:16px auto 0;color:rgba(255,255,255,.45);font-size:10px;line-height:1.45;font-weight:700}.e9-note strong{color:rgba(255,255,255,.72)}
-@media(max-width:820px){.e9-hero{grid-template-columns:1fr}.e9-copy{max-width:760px;margin:0 auto;text-align:center}.e9-eyebrow{margin-left:auto;margin-right:auto}.e9-cta-row{justify-content:center}.e9-visual{min-height:340px}.e9-cards{grid-template-columns:1fr}.e9-card{max-width:620px;margin:0 auto;width:100%}}
-@media(max-width:520px){.maxess-e09{padding-top:30px}.e9-title{font-size:clamp(36px,12vw,52px)}.e9-visual{min-height:300px}.e9-ring{width:260px;height:260px}.e9-glow{width:250px;height:250px}.e9-badge{width:145px;height:145px}.e9-badge .big{font-size:30px}.e9-label-a{top:18px;right:0}.e9-label-b{bottom:22px;left:0}.e9-label-c{bottom:62px;right:-4px}.e9-btn{width:100%}.e9-card-body{padding:18px}.e9-member{padding:26px 18px}}
-@media(prefers-reduced-motion:reduce){.e9-btn,.e9-card,.e9-media img{transition:none}}
+.maxess-e09{--bg:#030305;--fg:#fff;--muted:rgba(255,255,255,.67);--soft:rgba(255,255,255,.09);--line:rgba(255,255,255,.14);--purple:#ad82ff;--gold:#f4c95d;box-sizing:border-box;width:100%;margin:0;padding:clamp(34px,6vw,76px) clamp(16px,4vw,40px) clamp(58px,8vw,96px);background:radial-gradient(circle at 50% 0%,rgba(173,130,255,.14),transparent 32%),linear-gradient(180deg,#030305 0%,#06050a 100%);color:var(--fg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden;isolation:isolate}.maxess-e09 *,.maxess-e09 *::before,.maxess-e09 *::after{box-sizing:border-box}.maxess-e09 a{color:inherit;text-decoration:none}.e9-shell{width:min(100%,1160px);margin:auto}.e9-kicker{text-align:center;color:var(--gold);font-size:10px;font-weight:950;letter-spacing:.3em;text-transform:uppercase}.e9-title{text-align:center;max-width:920px;margin:12px auto 14px;font-size:clamp(39px,6.2vw,76px);line-height:.92;letter-spacing:-.065em;font-weight:950}.e9-title span{background:linear-gradient(100deg,#fff 0%,#fff 42%,#d5bcff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}.e9-lead{text-align:center;max-width:760px;margin:auto;color:var(--muted);font-size:clamp(15px,1.65vw,19px);line-height:1.55;font-weight:650}.e9-statement{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin:clamp(28px,4vw,44px) auto 0}.e9-pill{display:inline-flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.035);font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.82)}.e9-pill::before{content:"✦";color:var(--purple)}.e9-flow{margin:clamp(44px,7vw,74px) auto 0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px}.e9-flow-line{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent)}.e9-flow-node{display:grid;place-items:center;width:58px;height:58px;border:1px solid rgba(173,130,255,.5);border-radius:50%;background:#08070c;box-shadow:0 0 40px rgba(173,130,255,.14);font-size:11px;font-weight:950;letter-spacing:.08em}.e9-flow-copy{text-align:center;margin-top:11px;font-size:10px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.54)}.e9-gallery{margin:18px auto 0;display:grid;grid-template-columns:1.35fr .825fr .825fr;gap:15px;align-items:stretch}.e9-shot{position:relative;display:flex;min-width:0;overflow:hidden;border:1px solid rgba(255,255,255,.14);border-radius:24px;background:#08080b;box-shadow:0 24px 70px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.05);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}.e9-shot:hover,.e9-shot:focus-visible{transform:translateY(-5px);border-color:rgba(173,130,255,.5);box-shadow:0 30px 80px rgba(0,0,0,.48),0 0 45px rgba(173,130,255,.1);outline:none}.e9-shot:first-child{min-height:430px}.e9-shot:not(:first-child){min-height:430px}.e9-shot img{display:block;width:100%;height:100%;object-fit:cover}.e9-shot:first-child img{object-position:center}.e9-shot::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.6));pointer-events:none}.e9-shot-label{position:absolute;z-index:2;left:16px;bottom:15px;padding:8px 11px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(3,3,5,.72);backdrop-filter:blur(12px);font-size:9px;font-weight:950;letter-spacing:.16em;text-transform:uppercase}.e9-shot-label b{color:var(--gold);font-weight:950}.e9-under{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.e9-feature{padding:18px 18px 19px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(255,255,255,.025)}.e9-feature-num{font-size:9px;font-weight:950;letter-spacing:.18em;color:var(--purple)}.e9-feature h3{margin:7px 0 5px;font-size:18px;line-height:1.05;letter-spacing:-.025em}.e9-feature p{margin:0;color:var(--muted);font-size:12px;line-height:1.5;font-weight:600}.e9-threshold{position:relative;margin:clamp(48px,7vw,76px) auto 0;padding:clamp(30px,4.5vw,48px) clamp(20px,5vw,60px);border:1px solid rgba(244,201,93,.27);border-radius:30px;text-align:center;background:radial-gradient(circle at 50% 0%,rgba(244,201,93,.09),transparent 55%),linear-gradient(120deg,rgba(255,255,255,.045),rgba(173,130,255,.055));box-shadow:0 24px 80px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05)}.e9-threshold-kicker{color:var(--gold);font-size:10px;font-weight:950;letter-spacing:.28em;text-transform:uppercase}.e9-threshold h2{max-width:800px;margin:11px auto 10px;font-size:clamp(30px,4.5vw,54px);line-height:.98;letter-spacing:-.05em;font-weight:950}.e9-threshold p{max-width:700px;margin:0 auto;color:var(--muted);font-size:15px;line-height:1.55;font-weight:600}.e9-cta{display:inline-flex;align-items:center;justify-content:center;min-height:54px;margin-top:24px;padding:0 28px;border-radius:999px;background:#fff;color:#050507;border:1px solid #fff;box-shadow:0 14px 40px rgba(255,255,255,.1);font-size:12px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;transition:transform .2s ease,box-shadow .2s ease}.e9-cta:hover,.e9-cta:focus-visible{transform:translateY(-2px);box-shadow:0 18px 50px rgba(173,130,255,.2);outline:none}.e9-micro{margin:15px auto 0;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;letter-spacing:.03em}.e9-micro strong{color:rgba(255,255,255,.7)}
+@media(max-width:900px){.e9-gallery{grid-template-columns:1fr 1fr}.e9-shot:first-child{grid-column:1/-1;min-height:360px}.e9-shot:not(:first-child){min-height:300px}}
+@media(max-width:620px){.maxess-e09{padding-top:30px}.e9-title{font-size:clamp(37px,12vw,54px)}.e9-flow{grid-template-columns:1fr;gap:9px}.e9-flow-line{display:none}.e9-gallery{grid-template-columns:1fr}.e9-shot:first-child,.e9-shot:not(:first-child){grid-column:auto;min-height:0;aspect-ratio:16/10}.e9-under{grid-template-columns:1fr}.e9-cta{width:100%}.e9-threshold{border-radius:24px}}
+@media(prefers-reduced-motion:reduce){.e9-shot,.e9-cta{transition:none}}
 </style>
 </head>
 <body>
-<section class="maxess-e09" aria-label="Member access and preview">
+<section class="maxess-e09" aria-label="Member preview">
 <div class="e9-shell">
-<div class="e9-kicker">THE NEXT STEP</div>
-<h1 class="e9-title">Your MAX gets <em>more powerful</em> when you become a member.</h1>
-<p class="e9-lead">A simple preview of what opens up inside the Human Maximus ecosystem.</p>
+<div class="e9-kicker">MEMBER</div>
+<h1 class="e9-title">Your free trial is the <span>beginning.</span></h1>
+<p class="e9-lead">Membership opens the door to the connected Human Maximus experience — courses, tools, the Codex library, and a private place to keep going.</p>
 
-<div class="e9-hero">
-<div class="e9-copy">
-<span class="e9-eyebrow">MEMBER ACCESS</span>
-<h2>One place to keep learning, listening, exploring, and activating your MAX.</h2>
-<p>The member experience brings the pieces of the ecosystem together so you can actually use them—not just read about them.</p>
-<p>See a few of the experiences waiting inside. When you're ready, go straight in.</p>
-<div class="e9-cta-row">
-<a class="e9-btn e9-btn--primary" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener">MEMBER LOGIN →</a>
-</div>
+<div class="e9-statement" aria-label="Member experience highlights">
+<span class="e9-pill">Learn</span><span class="e9-pill">Explore</span><span class="e9-pill">Activate</span><span class="e9-pill">Keep Growing</span>
 </div>
 
-<div class="e9-visual" aria-hidden="true">
-<div class="e9-glow"></div>
-<div class="e9-ring"></div>
-<div class="e9-badge"><div><span class="small">HUMAN</span><span class="big">MAX</span><span class="small">MEMBER</span></div></div>
-<span class="e9-orbit-label e9-label-a">LEARN</span>
-<span class="e9-orbit-label e9-label-b">LISTEN</span>
-<span class="e9-orbit-label e9-label-c">ACTIVATE</span>
-</div>
+<div class="e9-flow" aria-hidden="true">
+<div><div class="e9-flow-line"></div><div class="e9-flow-copy">What you discover</div></div>
+<div class="e9-flow-node">MAX</div>
+<div><div class="e9-flow-line"></div><div class="e9-flow-copy">What you can access</div></div>
 </div>
 
-<div class="e9-preview">
-<div class="e9-preview-head">
-<h3>Take a look inside.</h3>
-<p>Three experiences. One connected member journey.</p>
-</div>
-
-<div class="e9-cards">
-<a class="e9-card" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener" aria-label="Open Naya Power member experience">
-<div class="e9-media"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/NAYA%20POWER.jpg" alt="Naya Power experience"></div>
-<div class="e9-card-body"><div class="e9-card-number">01 · MEMBER</div><h4>Naya Power</h4><p>Your AI supercharger—built to help you think, create, and move with more power.</p><span class="e9-card-link">Explore inside</span></div>
+<div class="e9-gallery">
+<a class="e9-shot" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener" aria-label="Preview the membership experience">
+<img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Memberships.png" alt="Preview of the Human Maximus membership experience" loading="lazy">
+<span class="e9-shot-label"><b>01</b>&nbsp; Member Experience</span>
 </a>
-
-<a class="e9-card" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener" aria-label="Open Pro Max Player member experience">
-<div class="e9-media"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Pro%20Max%20Player.jpg" alt="Pro Max Player experience"></div>
-<div class="e9-card-body"><div class="e9-card-number">02 · MEMBER</div><h4>Pro Max Player</h4><p>Experience the Human Maximus library through a player designed for deeper engagement.</p><span class="e9-card-link">Explore inside</span></div>
+<a class="e9-shot" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener" aria-label="Preview the membership page">
+<img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Membrship%20page.png" alt="Preview of the Human Maximus membership page" loading="lazy">
+<span class="e9-shot-label"><b>02</b>&nbsp; Your Member Space</span>
 </a>
-
-<a class="e9-card" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener" aria-label="Open Human Maximus Codex member experience">
-<div class="e9-media"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Human%20Maximus%20Codex%20Series.jpg" alt="Human Maximus Codex Series"></div>
-<div class="e9-card-body"><div class="e9-card-number">03 · MEMBER</div><h4>Human Maximus Codex</h4><p>The visual operating system for understanding yourself, your potential, and your next move.</p><span class="e9-card-link">Explore inside</span></div>
+<a class="e9-shot" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener" aria-label="Preview the Human Maximus Codex membership page">
+<img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Human%20Maximus%20Codex%20membership%20page.png" alt="Preview of the Human Maximus Codex membership page" loading="lazy">
+<span class="e9-shot-label"><b>03</b>&nbsp; Codex Library</span>
 </a>
 </div>
+
+<div class="e9-under">
+<div class="e9-feature"><div class="e9-feature-num">01</div><h3>Courses</h3><p>Keep learning with experiences designed to turn insight into something you can actually use.</p></div>
+<div class="e9-feature"><div class="e9-feature-num">02</div><h3>Human Maximus</h3><p>Explore the Codex and the wider ecosystem built around your personal growth and potential.</p></div>
+<div class="e9-feature"><div class="e9-feature-num">03</div><h3>Private Member Access</h3><p>A dedicated member environment where the deeper experience lives beyond the free trial.</p></div>
 </div>
 
-<div class="e9-member">
-<div class="e9-member-kicker">READY WHEN YOU ARE</div>
-<h3>Become a member.</h3>
-<p>You've seen the door. Now step through it and explore the full experience.</p>
-<div class="e9-cta-row"><a class="e9-btn e9-btn--primary" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener">ENTER MEMBER AREA →</a></div>
-<div class="e9-note"><strong>MEMBER</strong> access opens the connected Human Maximus experience.</div>
+<div class="e9-threshold">
+<div class="e9-threshold-kicker">WHEN YOU'RE READY</div>
+<h2>Go from getting a taste to having the whole experience.</h2>
+<p>The free trial lets you step inside. Membership gives you a place to keep exploring, learning, and activating what you discover.</p>
+<a class="e9-cta" href="https://hmclibrary.groovemember.net/home" target="_blank" rel="noopener">ENTER THE MEMBER AREA →</a>
+<div class="e9-micro"><strong>MEMBER</strong> access · Human Maximus ecosystem</div>
 </div>
 </div>
 </section>
