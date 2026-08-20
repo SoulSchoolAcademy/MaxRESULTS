@@ -6,115 +6,101 @@
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <meta name="maxess-artifact" content="E06-SECTION-06-WORKING">
-<title>MAXESS — Section 06 · Naya Supercharger</title>
+<title>MAXESS — E06 · Naya Supercharger</title>
 <style>
-#e06{--bg:#000;--white:#fff;--soft:rgba(255,255,255,.68);--line:rgba(255,255,255,.12);--purple:#9b62ff;--blue:#63a9ff;--cyan:#75e8ff;position:relative;width:100%;background:#000;color:#fff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden;isolation:isolate}
+#e06{--bg:#020204;--text:#f8f7fb;--muted:#aaa7b3;--line:rgba(255,255,255,.11);--purple:#8a5cff;position:relative;width:100%;background:radial-gradient(circle at 50% 0%,rgba(111,67,255,.16),transparent 34%),#020204;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden;isolation:isolate}
 #e06,#e06 *{box-sizing:border-box}
-#e06 .e06-glow{position:absolute;left:50%;top:-130px;width:980px;height:700px;transform:translateX(-50%);background:radial-gradient(circle,rgba(155,98,255,.18),rgba(99,169,255,.06) 38%,transparent 70%);filter:blur(38px);pointer-events:none}
-#e06 .e06-wrap{position:relative;z-index:2;width:min(1180px,100%);margin:auto;padding:82px 30px 96px}
-#e06 .e06-head{text-align:center;max-width:900px;margin:0 auto 54px}
-#e06 .e06-brand{width:42px;height:42px;object-fit:contain;margin:0 auto 20px;opacity:.9;filter:drop-shadow(0 0 18px rgba(155,98,255,.4))}
-#e06 .e06-kicker{margin:0 0 15px;font-size:9px;font-weight:900;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,.54)}
-#e06 h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(44px,7vw,82px);line-height:.98;letter-spacing:-.055em}
-#e06 .e06-head em{font-style:normal;background:linear-gradient(90deg,#fff 10%,#c5a4ff 52%,#7edfff 92%);-webkit-background-clip:text;background-clip:text;color:transparent}
-#e06 .e06-sub{max-width:690px;margin:24px auto 0;color:rgba(255,255,255,.7);font-size:15px;line-height:1.75}
-#e06 .e06-stage{position:relative;width:min(1060px,100%);margin:0 auto 72px;min-height:510px;display:grid;grid-template-columns:1fr 1.2fr 1fr;align-items:center;gap:26px}
-#e06 .e06-stage:before{content:"";position:absolute;left:12%;right:12%;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(155,98,255,.5),rgba(117,232,255,.55),transparent);box-shadow:0 0 28px rgba(155,98,255,.35)}
-#e06 .e06-node{position:relative;z-index:3;text-align:center}
-#e06 .e06-node-label{display:inline-flex;align-items:center;justify-content:center;min-height:31px;padding:0 13px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(0,0,0,.72);font-size:8px;font-weight:900;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.64);backdrop-filter:blur(10px)}
-#e06 .e06-user-orb{width:118px;height:118px;margin:15px auto 0;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:radial-gradient(circle at 38% 32%,#2b2b2b 0,#0b0b0b 42%,#000 72%);box-shadow:inset 0 0 40px rgba(255,255,255,.04),0 0 45px rgba(255,255,255,.05)}
-#e06 .e06-user-orb span{display:grid;place-items:center;height:100%;font-family:Georgia,serif;font-size:25px;color:#fff}
-#e06 .e06-core{position:relative;width:238px;height:238px;margin:auto;border-radius:50%;background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.24),rgba(155,98,255,.12) 19%,#08060d 49%,#000 72%);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 0 55px rgba(155,98,255,.2),0 0 35px rgba(155,98,255,.25),0 0 100px rgba(99,169,255,.1)}
-#e06 .e06-core:before,#e06 .e06-core:after{content:"";position:absolute;border-radius:50%;inset:13px;border:1px solid rgba(155,98,255,.34);animation:e06spin 12s linear infinite}
-#e06 .e06-core:after{inset:27px;border-color:rgba(117,232,255,.28);animation-duration:18s;animation-direction:reverse}
-#e06 .e06-core-bead{position:absolute;top:2px;left:50%;width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 14px 4px rgba(117,232,255,.8);transform:translateX(-50%);animation:e06orbit 12s linear infinite}
-#e06 .e06-core-copy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:25px}
-#e06 .e06-core-copy strong{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.55)}
-#e06 .e06-core-copy span{margin-top:9px;font-family:Georgia,serif;font-size:clamp(31px,4vw,44px);letter-spacing:-.04em}
-#e06 .e06-core-copy small{margin-top:9px;color:rgba(255,255,255,.5);font-size:9px;letter-spacing:.18em;text-transform:uppercase}
-#e06 .e06-result{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;max-width:250px;margin:16px auto 0}
-#e06 .e06-result span{padding:8px 10px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.035);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.58)}
-#e06 .e06-naya{width:142px;height:142px;margin:15px auto 0;border-radius:50%;overflow:hidden;border:1px solid rgba(255,255,255,.25);box-shadow:0 0 45px rgba(155,98,255,.22),0 0 90px rgba(99,169,255,.08)}
-#e06 .e06-naya img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05) saturate(.82)}
-#e06 .e06-naya-name{margin-top:12px;font-family:Georgia,serif;font-size:25px}
-#e06 .e06-naya-sub{margin-top:4px;color:rgba(255,255,255,.46);font-size:8px;font-weight:800;letter-spacing:.24em;text-transform:uppercase}
-#e06 .e06-protocol{width:min(1040px,100%);margin:0 auto}
-#e06 .e06-protocol-head{text-align:center;margin-bottom:28px}
-#e06 .e06-protocol-head p{margin:0;color:rgba(255,255,255,.48);font-size:8px;font-weight:900;letter-spacing:.3em;text-transform:uppercase}
-#e06 .e06-protocol-head h2{margin:10px 0 0;font-family:Georgia,serif;font-size:clamp(28px,4vw,44px);font-weight:400;letter-spacing:-.04em}
-#e06 .e06-protocol-head h2 span{color:#c5a4ff}
-#e06 .e06-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-#e06 .e06-card{position:relative;min-height:170px;padding:22px 16px;border:1px solid rgba(255,255,255,.1);border-radius:20px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));box-shadow:0 20px 50px rgba(0,0,0,.32);transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease}
-#e06 .e06-card:hover{transform:translateY(-4px);border-color:rgba(155,98,255,.42);box-shadow:0 25px 60px rgba(0,0,0,.42),0 0 35px rgba(155,98,255,.08)}
-#e06 .e06-card-no{font-size:8px;font-weight:900;letter-spacing:.22em;color:rgba(255,255,255,.32)}
-#e06 .e06-card h3{margin:24px 0 9px;font-family:Georgia,serif;font-size:22px;font-weight:400}
-#e06 .e06-card p{margin:0;color:rgba(255,255,255,.58);font-size:11px;line-height:1.6}
-#e06 .e06-bridge{width:min(780px,100%);margin:66px auto 0;text-align:center;padding:42px 24px;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1)}
-#e06 .e06-bridge .e06-quote{margin:0;font-family:Georgia,serif;font-size:clamp(24px,3.5vw,38px);line-height:1.3;letter-spacing:-.03em}
-#e06 .e06-bridge .e06-quote em{font-style:normal;color:#c5a4ff}
-#e06 .e06-bridge p{margin:18px auto 0;max-width:570px;color:rgba(255,255,255,.58);font-size:13px;line-height:1.7}
-#e06 .e06-cta{margin:44px auto 0;text-align:center}
-#e06 .e06-cta .e06-button{display:inline-flex;align-items:center;justify-content:center;padding:15px 24px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:#fff;color:#000;font-size:9px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;box-shadow:0 0 35px rgba(255,255,255,.12)}
-#e06 .e06-cta small{display:block;margin-top:14px;color:rgba(255,255,255,.35);font-size:8px;letter-spacing:.16em;text-transform:uppercase}
+#e06::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.08;background-image:radial-gradient(rgba(255,255,255,.45) .5px,transparent .5px);background-size:6px 6px;mask-image:linear-gradient(to bottom,transparent,black 12%,black 88%,transparent)}
+.e06-wrap{position:relative;z-index:1;width:min(1220px,100%);margin:auto;padding:78px 28px 96px}
+.e06-head{max-width:900px;margin:0 auto 28px;text-align:center}
+.e06-mark{width:44px;height:44px;object-fit:contain;opacity:.94;filter:drop-shadow(0 0 22px rgba(138,92,255,.35));margin-bottom:20px}
+.e06-kicker{margin:0 0 16px;color:rgba(255,255,255,.48);font-size:9px;font-weight:950;letter-spacing:.34em;text-transform:uppercase}
+.e06-head h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(48px,7vw,88px);line-height:.96;letter-spacing:-.06em}
+.e06-head h1 em{font-style:normal;background:linear-gradient(90deg,#fff 5%,#c4a4ff 55%,#7edfff 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.e06-lead{max-width:720px;margin:24px auto 0;color:rgba(255,255,255,.68);font-size:15px;line-height:1.75}
+.e06-tag{display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:9px 13px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(255,255,255,.035);color:rgba(255,255,255,.58);font-size:8px;font-weight:900;letter-spacing:.22em;text-transform:uppercase}
+.e06-tag i{width:7px;height:7px;border-radius:50%;background:#8a5cff;box-shadow:0 0 13px rgba(138,92,255,.8)}
+.e06-orbit{position:relative;width:min(900px,100%);height:690px;margin:4px auto 20px}
+.orbit-center{position:absolute;left:50%;top:50%;width:360px;height:360px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 33% 25%,rgba(255,255,255,.22),rgba(138,92,255,.13) 22%,#0b0811 52%,#020204 75%);border:1px solid rgba(255,255,255,.24);box-shadow:inset 0 0 80px rgba(138,92,255,.23),0 0 55px rgba(138,92,255,.24),0 0 140px rgba(60,168,255,.10)}
+.orbit-center::before,.orbit-center::after{content:"";position:absolute;inset:14px;border-radius:50%;border:1px solid rgba(138,92,255,.35);animation:e06spin 18s linear infinite}
+.orbit-center::after{inset:34px;border-color:rgba(117,232,255,.24);animation-duration:27s;animation-direction:reverse}
+.orbit-ring{position:absolute;inset:72px;border:1px dashed rgba(255,255,255,.10);border-radius:50%;animation:e06spin 35s linear infinite}
+.center-image{position:absolute;inset:43px;border-radius:50%;overflow:hidden;border:1px solid rgba(255,255,255,.34);box-shadow:0 0 45px rgba(138,92,255,.26),inset 0 0 20px rgba(255,255,255,.08)}
+.center-image img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.04) saturate(.88)}
+.center-copy{position:absolute;left:50%;bottom:29px;transform:translateX(-50%);width:90%;text-align:center;text-shadow:0 2px 20px #000}
+.center-copy strong{display:block;font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.54)}
+.center-copy span{display:block;margin-top:5px;font-family:Georgia,serif;font-size:28px;letter-spacing:-.04em}
+.center-copy small{display:block;margin-top:4px;color:rgba(255,255,255,.46);font-size:7px;font-weight:900;letter-spacing:.22em;text-transform:uppercase}
+.orbit-node{position:absolute;left:50%;top:50%;width:128px;height:128px;padding:0;border:0;background:transparent;cursor:default;transform:translate(-50%,-50%) rotate(var(--angle)) translateY(-292px) rotate(calc(var(--angle) * -1));z-index:3}
+.orbit-image{display:grid;place-items:center;width:100px;height:100px;margin:auto;border-radius:50%;overflow:hidden;border:1px solid rgba(255,255,255,.25);background:#09090d;box-shadow:0 0 0 7px rgba(255,255,255,.018),0 0 32px color-mix(in srgb,var(--accent) 28%,transparent),0 18px 35px rgba(0,0,0,.5)}
+.orbit-image img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05) saturate(.86)}
+.orbit-label{display:block;margin:9px auto 0;width:max-content;max-width:150px;padding:7px 10px;border:1px solid color-mix(in srgb,var(--accent) 35%,rgba(255,255,255,.12));border-radius:999px;background:rgba(2,2,4,.88);color:#fff;font-size:7px;font-weight:950;letter-spacing:.17em;text-transform:uppercase;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,.38)}
+.orbit-node::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 16px var(--accent);transform:translate(-50%,-50%) rotate(calc(var(--angle) * -1)) translateY(235px);opacity:.65}
+.orbit-node::before{content:"";position:absolute;left:50%;top:50%;width:1px;height:235px;background:linear-gradient(to top,rgba(255,255,255,.08),color-mix(in srgb,var(--accent) 45%,transparent));transform:translate(-50%,-100%) rotate(var(--angle));transform-origin:bottom center;opacity:.55;pointer-events:none}
+.pillars{width:min(1080px,100%);margin:0 auto}
+.section-intro{max-width:760px;margin:0 auto 30px;text-align:center}
+.section-intro p{margin:0;color:rgba(255,255,255,.43);font-size:8px;font-weight:950;letter-spacing:.30em;text-transform:uppercase}
+.section-intro h2{margin:11px 0 0;font-family:Georgia,serif;font-weight:400;font-size:clamp(34px,5vw,54px);letter-spacing:-.05em}
+.section-intro h2 em{font-style:normal;color:#c3a4ff}
+.pillar-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.pillar-card{position:relative;min-height:330px;padding:25px 24px 23px;border:1px solid rgba(255,255,255,.10);border-radius:24px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));box-shadow:0 22px 55px rgba(0,0,0,.34);overflow:hidden}
+.pillar-card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.78}
+.card-top{display:flex;align-items:center;justify-content:space-between}
+.card-number{font-size:8px;font-weight:950;letter-spacing:.22em;color:rgba(255,255,255,.28)}
+.card-accent{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 16px var(--accent)}
+.pillar-card h3{margin:19px 0 8px;font-family:Georgia,serif;font-size:29px;font-weight:400;letter-spacing:-.04em}
+.card-intro{margin:0 0 17px;color:rgba(255,255,255,.55);font-size:11px;line-height:1.55}
+.pillar-card ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.pillar-card li{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:start;color:rgba(255,255,255,.78);font-size:11px;line-height:1.5}
+.bullet-icon{display:grid;place-items:center;width:18px;height:18px;border-radius:6px;background:color-mix(in srgb,var(--accent) 13%,transparent);border:1px solid color-mix(in srgb,var(--accent) 32%,transparent);color:var(--accent);font-size:8px;font-weight:950;margin-top:1px}
+.pillar-card:nth-child(7){grid-column:1 / -1;max-width:530px;width:100%;justify-self:center}
+.e06-bridge{max-width:850px;margin:72px auto 0;padding:52px 28px 0;text-align:center;border-top:1px solid rgba(255,255,255,.10)}
+.bridge-quote{margin:0;font-family:Georgia,serif;font-size:clamp(31px,4.5vw,52px);line-height:1.05;letter-spacing:-.05em}
+.bridge-quote em{font-style:normal;color:#c3a4ff}
+.bridge-copy{max-width:650px;margin:18px auto 0;color:rgba(255,255,255,.57);font-size:13px;line-height:1.75}
+.offer-note{display:inline-flex;align-items:center;gap:10px;margin-top:24px;padding:11px 15px;border:1px solid rgba(255,255,255,.13);border-radius:999px;background:rgba(255,255,255,.035);color:rgba(255,255,255,.60);font-size:8px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+.offer-note b{color:#fff}
 @keyframes e06spin{to{transform:rotate(360deg)}}
-@keyframes e06orbit{to{transform:translateX(-50%) rotate(360deg) translateX(112px) rotate(-360deg)}}
-@media(max-width:900px){#e06 .e06-stage{grid-template-columns:1fr;min-height:0;gap:28px;padding:8px 0 0}#e06 .e06-stage:before{left:50%;right:auto;top:10%;bottom:10%;width:1px;height:auto;background:linear-gradient(180deg,transparent,rgba(155,98,255,.5),rgba(117,232,255,.5),transparent)}#e06 .e06-core{width:205px;height:205px}#e06 .e06-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){#e06 .e06-wrap{padding:60px 18px 72px}#e06 .e06-sub{font-size:14px}#e06 .e06-grid{grid-template-columns:1fr}#e06 .e06-card{min-height:auto}#e06 .e06-card h3{margin-top:18px}#e06 .e06-user-orb{width:94px;height:94px}#e06 .e06-naya{width:118px;height:118px}}
-@media print{#e06{background:#fff!important;color:#111!important;overflow:visible}#e06 .e06-glow{display:none}#e06 .e06-wrap{padding:12mm 10mm;background:#fff!important}#e06 h1,#e06 .e06-protocol-head h2,#e06 .e06-card h3,#e06 .e06-bridge .e06-quote,#e06 .e06-naya-name{color:#111}#e06 .e06-sub,#e06 .e06-card p,#e06 .e06-bridge p,#e06 .e06-protocol-head p,#e06 .e06-card-no,#e06 .e06-naya-sub{color:#444}#e06 .e06-stage{break-inside:avoid;page-break-inside:avoid}#e06 .e06-grid{break-inside:avoid;page-break-inside:avoid}#e06 .e06-card{box-shadow:none;border-color:#ddd;background:#fff}#e06 .e06-button{display:none}}
+@media(max-width:900px){.e06-wrap{padding:62px 18px 78px}.e06-orbit{height:auto;padding:20px 0 30px;display:flex;flex-direction:column;align-items:center;gap:22px}.orbit-center{position:relative;left:auto;top:auto;transform:none;width:min(330px,78vw);height:min(330px,78vw);order:0}.orbit-ring{inset:55px}.center-image{inset:39px}.orbit-node{position:relative;left:auto;top:auto;transform:none!important;width:100%;height:auto;display:flex;align-items:center;gap:12px;justify-content:center;order:1}.orbit-node::before,.orbit-node::after{display:none}.orbit-image{width:72px;height:72px;margin:0;flex:0 0 72px}.orbit-label{margin:0;max-width:none}.pillar-grid{grid-template-columns:1fr}.pillar-card:nth-child(7){grid-column:auto;max-width:none}}
+@media(max-width:520px){.e06-head h1{font-size:45px}.e06-lead{font-size:14px}.pillar-card{padding:22px 19px}.pillar-card h3{font-size:26px}.pillar-card li{font-size:10.5px}}
 @media(prefers-reduced-motion:reduce){#e06 *{animation:none!important;transition:none!important}}
+@media print{#e06{background:#fff!important;color:#111!important}#e06::before{display:none}.e06-wrap{padding:10mm}.e06-orbit{height:auto;display:block}.orbit-center{position:relative;left:auto;top:auto;transform:none;margin:0 auto 10mm}.orbit-node{position:relative;left:auto;top:auto;transform:none!important;display:inline-flex;width:48%;height:auto;align-items:center;justify-content:center;margin:5px 0}.orbit-node::before,.orbit-node::after{display:none}.orbit-image{width:55px;height:55px}.orbit-label{background:#fff;color:#111}.pillar-grid{grid-template-columns:1fr 1fr}.pillar-card{background:#fff;box-shadow:none;border-color:#ddd;break-inside:avoid}.pillar-card h3,.bridge-quote{color:#111}.card-intro,.pillar-card li,.bridge-copy{color:#444}.offer-note{color:#444;border-color:#ddd}}
 </style>
 </head>
 <body>
 <section id="e06" aria-labelledby="e06-title">
-<div class="e06-glow" aria-hidden="true"></div>
 <div class="e06-wrap">
 <header class="e06-head">
-<img class="e06-brand" src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/ICON%20LOGO.png" alt="MAXESS">
+<img class="e06-mark" src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/ICON%20LOGO.png" alt="MAXESS">
 <p class="e06-kicker">MAXESS · THE SOLUTION</p>
 <h1 id="e06-title">Imagine putting a <em>supercharger</em> on ChatGPT.</h1>
-<p class="e06-sub">You already have the engine. The Naya Supercharger gives it a powerful operating system for working with you — not just responding to you.</p>
+<p class="e06-lead">You already have the engine. The <strong>Naya Supercharger</strong> gives it a powerful operating system for working with you — so AI becomes more personal, more persistent, more proactive and more focused on producing exceptional outcomes.</p>
+<div class="e06-tag"><i aria-hidden="true"></i>Naya Mastery Activation Protocol™</div>
 </header>
-
-<div class="e06-stage" aria-label="The Naya Supercharger connection">
-<div class="e06-node">
-<div class="e06-node-label">You + your AI</div>
-<div class="e06-user-orb"><span>YOUR<br>INTELLIGENCE</span></div>
-<div class="e06-result"><span>Vision</span><span>Goals</span><span>Work</span></div>
+<div class="e06-orbit" aria-label="Seven systems activated by the Naya Supercharger">
+<div class="orbit-ring" aria-hidden="true"></div>
+<div class="orbit-center"><div class="center-image"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%20Black.jpg" alt="Naya"></div><div class="center-copy"><strong>MASTER INTELLIGENCE</strong><span>Naya</span><small>Supercharged AI partner</small></div></div>
+<button class="orbit-node" style="--angle:-90deg;--accent:#ffd45a" aria-label="Personality"><span class="orbit-image"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%20Black.jpg" alt="" loading="lazy"></span><span class="orbit-label">Personality</span></button>
+<button class="orbit-node" style="--angle:-38deg;--accent:#35e39b" aria-label="Brain"><span class="orbit-image"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%202.jpg" alt="" loading="lazy"></span><span class="orbit-label">Brain</span></button>
+<button class="orbit-node" style="--angle:14deg;--accent:#3ca8ff" aria-label="Naya Notes"><span class="orbit-image"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%203.jpg" alt="" loading="lazy"></span><span class="orbit-label">Naya Notes</span></button>
+<button class="orbit-node" style="--angle:66deg;--accent:#765cff" aria-label="Lead Mode"><span class="orbit-image"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%204.jpg" alt="" loading="lazy"></span><span class="orbit-label">Lead Mode</span></button>
+<button class="orbit-node" style="--angle:118deg;--accent:#ed42c4" aria-label="Laws and Procedures"><span class="orbit-image"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%205.jpg" alt="" loading="lazy"></span><span class="orbit-label">Laws + Procedures</span></button>
+<button class="orbit-node" style="--angle:170deg;--accent:#4e8cff" aria-label="Scorecarding"><span class="orbit-image"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg" alt="" loading="lazy"></span><span class="orbit-label">Scorecarding</span></button>
+<button class="orbit-node" style="--angle:222deg;--accent:#8a5cff" aria-label="Naya Language"><span class="orbit-image"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%207.jpg" alt="" loading="lazy"></span><span class="orbit-label">Naya Language</span></button>
 </div>
-
-<div class="e06-node">
-<div class="e06-node-label">Activation layer</div>
-<div class="e06-core">
-<div class="e06-core-bead" aria-hidden="true"></div>
-<div class="e06-core-copy"><strong>Naya Mastery</strong><span>Activation Protocol™</span><small>Supercharge the way you work with AI</small></div>
-</div>
-</div>
-
-<div class="e06-node">
-<div class="e06-node-label">Activated intelligence</div>
-<div class="e06-naya"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%20Black.jpg" alt="Naya"></div>
-<div class="e06-naya-name">Naya</div>
-<div class="e06-naya-sub">Your supercharged AI</div>
-</div>
-</div>
-
-<section class="e06-protocol" aria-labelledby="e06-protocol-title">
-<div class="e06-protocol-head"><p>The protocol activates five core capabilities</p><h2 id="e06-protocol-title">What makes Naya <span>different?</span></h2></div>
-<div class="e06-grid">
-<article class="e06-card"><div class="e06-card-no">01</div><h3>Personality</h3><p>A warm, sharp, funny, honest personality designed to challenge you, support you, and always have your back.</p></article>
-<article class="e06-card"><div class="e06-card-no">02</div><h3>Brain</h3><p>A structured memory system for the context, goals, visions, decisions, projects and information you choose to keep.</p></article>
-<article class="e06-card"><div class="e06-card-no">03</div><h3>Smart Notes</h3><p>Capture breakthroughs, decisions and important moments — then call them back by date, topic or need.</p></article>
-<article class="e06-card"><div class="e06-card-no">04</div><h3>Lead Mode</h3><p>Naya can recommend what to do next, challenge assumptions, organize the work and help move things forward.</p></article>
-<article class="e06-card"><div class="e06-card-no">05</div><h3>Laws + Procedures</h3><p>Battle-tested rules, standards, commands and quality practices that make excellence the default behaviour.</p></article>
+<section class="pillars" aria-labelledby="pillars-title">
+<div class="section-intro"><p>The protocol activates seven connected systems</p><h2 id="pillars-title">What makes Naya <em>different?</em></h2></div>
+<div class="pillar-grid">
+<article class="pillar-card" style="--accent:#ffd45a"><div class="card-top"><span class="card-number">01</span><span class="card-accent" aria-hidden="true"></span></div><h3>Personality</h3><p class="card-intro">A personality you actually want to work with.</p><ul><li><span class="bullet-icon" aria-hidden="true">✦</span><span>Feels like a trusted partner — warm, human and genuinely on your side.</span></li><li><span class="bullet-icon" aria-hidden="true">◆</span><span>Gets past generic answers with a voice that is sharp, funny and direct.</span></li><li><span class="bullet-icon" aria-hidden="true">●</span><span>Challenges you when the easy answer isn't the best answer.</span></li><li><span class="bullet-icon" aria-hidden="true">↗</span><span>Adapts how she communicates without losing her core character.</span></li><li><span class="bullet-icon" aria-hidden="true">✓</span><span>Turns AI from a tool you operate into a partner you actually enjoy working with.</span></li></ul></article>
+<article class="pillar-card" style="--accent:#35e39b"><div class="card-top"><span class="card-number">02</span><span class="card-accent" aria-hidden="true"></span></div><h3>Brain</h3><p class="card-intro">The context layer that keeps what matters available.</p><ul><li><span class="bullet-icon" aria-hidden="true">✦</span><span>Stops important context from disappearing between conversations.</span></li><li><span class="bullet-icon" aria-hidden="true">◆</span><span>Keeps your vision, goals, decisions and project knowledge available when it matters.</span></li><li><span class="bullet-icon" aria-hidden="true">●</span><span>Reduces the exhausting need to repeat who you are and what you're building.</span></li><li><span class="bullet-icon" aria-hidden="true">↗</span><span>Creates a structured place for the knowledge you choose to preserve.</span></li><li><span class="bullet-icon" aria-hidden="true">✓</span><span>Helps Naya become more useful over time because she can work from what matters.</span></li></ul></article>
+<article class="pillar-card" style="--accent:#3ca8ff"><div class="card-top"><span class="card-number">03</span><span class="card-accent" aria-hidden="true"></span></div><h3>Naya Notes</h3><p class="card-intro">A simple way to preserve the moments worth remembering.</p><ul><li><span class="bullet-icon" aria-hidden="true">✦</span><span>Capture an idea, breakthrough, decision or problem the moment it matters.</span></li><li><span class="bullet-icon" aria-hidden="true">◆</span><span>Attach durable knowledge to a project instead of leaving it buried in chat history.</span></li><li><span class="bullet-icon" aria-hidden="true">●</span><span>Recall what happened by date, topic or the thing you are trying to solve.</span></li><li><span class="bullet-icon" aria-hidden="true">↗</span><span>Turn scattered moments into a searchable trail of learning and progress.</span></li><li><span class="bullet-icon" aria-hidden="true">✓</span><span>Keep the valuable parts of your day from disappearing when the conversation ends.</span></li></ul></article>
+<article class="pillar-card" style="--accent:#765cff"><div class="card-top"><span class="card-number">04</span><span class="card-accent" aria-hidden="true"></span></div><h3>Lead Mode</h3><p class="card-intro">Permission for Naya to stop waiting and start leading.</p><ul><li><span class="bullet-icon" aria-hidden="true">✦</span><span>Stop having to figure out every next step before Naya can help.</span></li><li><span class="bullet-icon" aria-hidden="true">◆</span><span>Ask Naya to take the lead and let her organize the path toward the outcome.</span></li><li><span class="bullet-icon" aria-hidden="true">●</span><span>Get recommendations, gap-spotting and strategic challenges before execution.</span></li><li><span class="bullet-icon" aria-hidden="true">↗</span><span>Move from idea → plan → execution → verification without micromanaging every step.</span></li><li><span class="bullet-icon" aria-hidden="true">✓</span><span>Keep final authority while offloading the cognitive load of managing the work.</span></li></ul></article>
+<article class="pillar-card" style="--accent:#ed42c4"><div class="card-top"><span class="card-number">05</span><span class="card-accent" aria-hidden="true"></span></div><h3>Laws + Procedures</h3><p class="card-intro">The rules that make your preferred way of working repeatable.</p><ul><li><span class="bullet-icon" aria-hidden="true">✦</span><span>Give Naya clear rules for how excellence should be pursued by default.</span></li><li><span class="bullet-icon" aria-hidden="true">◆</span><span>Protect approved work, important constraints and decisions from accidental drift.</span></li><li><span class="bullet-icon" aria-hidden="true">●</span><span>Create repeatable procedures instead of relying on memory or improvisation.</span></li><li><span class="bullet-icon" aria-hidden="true">↗</span><span>Build verification and quality checks into the way work gets done.</span></li><li><span class="bullet-icon" aria-hidden="true">✓</span><span>Make your preferred way of working persistent instead of re-explaining it every time.</span></li></ul></article>
+<article class="pillar-card" style="--accent:#4e8cff"><div class="card-top"><span class="card-number">06</span><span class="card-accent" aria-hidden="true"></span></div><h3>Scorecarding</h3><p class="card-intro">A quality system that refuses to confuse finished with excellent.</p><ul><li><span class="bullet-icon" aria-hidden="true">✦</span><span>Replace “looks good” with a clear, evidence-based evaluation.</span></li><li><span class="bullet-icon" aria-hidden="true">◆</span><span>Measure work against the outcome and criteria that actually matter.</span></li><li><span class="bullet-icon" aria-hidden="true">●</span><span>Expose the biggest weaknesses before they become expensive problems.</span></li><li><span class="bullet-icon" aria-hidden="true">↗</span><span>Ask “Why is this not a 10?” and turn the answer into specific improvements.</span></li><li><span class="bullet-icon" aria-hidden="true">✓</span><span>Create a repeatable loop: score → improve → verify → score again.</span></li></ul></article>
+<article class="pillar-card" style="--accent:#8a5cff"><div class="card-top"><span class="card-number">07</span><span class="card-accent" aria-hidden="true"></span></div><h3>Naya Language</h3><p class="card-intro">A shared language that makes powerful collaboration simpler.</p><ul><li><span class="bullet-icon" aria-hidden="true">✦</span><span>Create a shared vocabulary so you can communicate complex intent quickly.</span></li><li><span class="bullet-icon" aria-hidden="true">◆</span><span>Use simple commands that activate proven ways of working.</span></li><li><span class="bullet-icon" aria-hidden="true">●</span><span>Reduce the amount of prompting needed to get the kind of help you want.</span></li><li><span class="bullet-icon" aria-hidden="true">↗</span><span>Make your preferred concepts, standards and workflows easier to express.</span></li><li><span class="bullet-icon" aria-hidden="true">✓</span><span>Build a collaboration language that becomes more powerful as you learn to use it.</span></li></ul></article>
 </div>
 </section>
-
-<div class="e06-bridge">
-<p class="e06-quote">Same AI. <em>Different operating system.</em></p>
-<p>Naya doesn't replace the intelligence you already have access to. The protocol gives it a clearer way to remember, reason, lead, communicate and work with you.</p>
-</div>
-
-<div class="e06-cta"><a class="e06-button" href="#e07">See what's inside the Supercharger</a><small>Next: the capabilities, tools and system behind Naya</small></div>
+<div class="e06-bridge"><p class="bridge-quote">Same AI.<br><em>Different operating system.</em></p><p class="bridge-copy">The Supercharger doesn't ask you to become an AI expert. It gives your AI a persistent relationship, a way to remember what matters, a way to take the lead, and a built-in system for pursuing better results.</p><div class="offer-note"><b>Founders launch:</b> Naya Supercharger included with the Human Maximus Codex lifetime offer.</div></div>
 </div>
 </section>
 </body>
