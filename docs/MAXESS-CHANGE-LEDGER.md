@@ -19,7 +19,7 @@ DRAFT | IN PROGRESS | BLOCKED | COMPLETE | FROZEN
 | V04 | Score meaning | Meaning | Explain the score in plain language | Stage + interpretation + use guidance | IN PROGRESS | Contract; not part of Section 01 freeze |
 | V05 | AI fingerprint | Fingerprint | Five-axis visual capability map | Real data + textual equivalent | IN PROGRESS | Contract |
 | V06 | Five dimensions | Dimensions | Five interactive capability orbs | Exactly five, real data, detail interaction | IN PROGRESS | Contract + source |
-| V07 | Pattern | Pattern | Explain relationships | Relational interpretation, not score repetition | IN PROGRESS | Contract |
+| V07 | Pattern | Pattern | Explain relationships | Relational interpretation, not score repetition | IN PROGRESS | Contract + source |
 | V08 | Strength | Strength | Recognition + compounding | Dynamic strongest capability + action | IN PROGRESS | Contract + source |
 | V09 | Lever | Lever | Focus without judgment | Dynamic opportunity + improvement loop | IN PROGRESS | Contract + source |
 | V10 | Next Move | Action | Three personalized actions | Connected to strength/lever/result | IN PROGRESS | Contract + source |
@@ -48,6 +48,7 @@ DRAFT | IN PROGRESS | BLOCKED | COMPLETE | FROZEN
 | V33 | Nitro ownership protection | Tooling / Governance | Prevent destructive overwrite of verified product mutations | Nitro must never reset authoritative source from obsolete baseline | COMPLETE | Nitro tool corrected in commit `8b0e2c9`; prior destructive behavior proven by Nitro commit `8b686a3` deleting Golden Master layer |
 | V34 | Section 01 Golden Master checkpoint | Product | Hero / Reveal meets Ultimate + Golden Master target | Naya, black Listen CTA, Orb breathing, Orbital Bead, bridge, real result authority, no conflict markers | IN PROGRESS | Verified product checkpoint `61eee4f`; restored to authoritative branch in `01c381c`; rendered 9.5+ human freeze still pending |
 | V35 | E01 active-source refinement + automation repair | Section 01 / QA | Naya arrival hierarchy + score reveal in the active E01 source; no stale mutation lane | One active E01 source; Naya → Listen → score → Orb/Bead hierarchy; real result authority; reduced motion; safe CI validation; no retired-source writes | IN PROGRESS | E01 content commit `1581ac8`; source re-fetch SHA `d3b1f356`; Section 01 index/guardrails reconciled; verification workflow repaired in `6b68c9d`; browser/Groove visual proof still outstanding |
+| V36 | E06 Naya Supercharger redesign | Section 06 | Maxis-native Naya architecture + benefit-first boards | Naya hero; Supercharger hierarchy; 7 exact names; 5 user benefits each; actual Maxis visual/component language; customization message; responsive/reduced-motion; no Laws + Procedures | IN PROGRESS | Content lock updated in commit `03093bdce99fb4a704e1d10471d3e1fa9f0d4e48`; E06 implementation updated in commit `189490c9dc458ff338d68b2ee6144f83bc5d12ba`; rendered/browser/Groove verification still required |
 
 ## Freeze rule
 
