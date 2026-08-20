@@ -28,6 +28,50 @@
 @media(max-width:360px){.score-title{font-size:32px}.score-position{font-size:17px}.score-support{font-size:11px}.score-number{font-size:76px}.score-summary{margin-top:-5px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.orb,.bead,.orb-track,.orb-core,.listen,.score-number,.avatar-wrap:before{animation:none!important;transition:none!important}.orb-speaking .orb,.orb-speaking .orb-track,.orb-speaking .orb-core{animation:none!important}.orb-speaking .orb{transform:scale(1.02)}}
 </style>
+
+<script id="MAXESS_RESULT_CONSUMER_V1">
+(function(){
+  'use strict';
+  const KEY = 'MAXESS_RESULT_V1';
+  function decode(value){
+    try{
+      const normalized = value.replace(/-/g,'+').replace(/_/g,'/');
+      const padded = normalized + '='.repeat((4-normalized.length%4)%4);
+      const binary = atob(padded);
+      const bytes = Uint8Array.from(binary, c=>c.charCodeAt(0));
+      return JSON.parse(new TextDecoder().decode(bytes));
+    }catch(e){ return null; }
+  }
+  function readHash(){
+    const match = location.hash.match(/(?:^|#)maxess-result=([^&]+)/);
+    return match ? decode(match[1]) : null;
+  }
+  function readStorage(){
+    try{
+      const raw = sessionStorage.getItem(KEY) || localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : null;
+    }catch(e){ return null; }
+  }
+  function valid(result){
+    return !!(
+      result &&
+      result.contractVersion === 'MAXESS_RESULT_V1' &&
+      Number.isFinite(Number(result.overallScore)) &&
+      Array.isArray(result.dimensions) && result.dimensions.length === 5 &&
+      Array.isArray(result.responses) && result.responses.length === 15
+    );
+  }
+  const result = readHash() || readStorage();
+  if(valid(result)){
+    window.MAXESS_RESULT = result;
+    try{ sessionStorage.setItem(KEY, JSON.stringify(result)); }catch(e){}
+    try{ localStorage.setItem(KEY, JSON.stringify(result)); }catch(e){}
+    window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:result}));
+    window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:result}));
+  }
+})();
+</script>
+
 </head>
 <body>
 <main id="e01" data-maxess-version="nitro-e01-v39" aria-labelledby="section-title"><div class="shell"><div class="ambient" aria-hidden="true"></div>
@@ -39,7 +83,7 @@
 <div id="unavailable" class="unavailable" data-visible="false">MAXESS has not received a valid result yet. This experience will not invent a score.</div><div id="live" class="live" aria-live="polite"></div></div></main>
 <script>
 (function(){'use strict';var root=document.getElementById('e01');if(!root)return;var scoreNode=document.getElementById('score-number'),unavailableNode=document.getElementById('unavailable'),liveNode=document.getElementById('live'),scoreDescription=document.getElementById('score-description'),orbWrap=document.querySelector('.orb-wrap'),nayaCard=document.getElementById('naya-card'),listen=document.getElementById('listen'),speakTimer=null,resultDeadline=Date.now()+5000,resultRetry=null;
-var DEMO_SCORE=82; /* VISUAL REVIEW ONLY: real MAXESS_RESULT.overallScore replaces this automatically when connected. */
+var DEMO_SCORE=null; /* Production safety: no invented result. */
 function clamp(v){if(v===null||v===undefined||v==='')return null;var n=Number(v);return Number.isFinite(n)?Math.max(0,Math.min(100,n)):null}
 function formatScore(v){return Number.isInteger(v)?String(v):String(Math.round(v*10)/10)}
 function getScore(){var sources=[];try{sources.push(window.MAXESS_RESULT)}catch(e){}try{if(window.parent&&window.parent!==window)sources.push(window.parent.MAXESS_RESULT)}catch(e){}try{if(window.top&&window.top!==window&&window.top!==window.parent)sources.push(window.top.MAXESS_RESULT)}catch(e){}for(var i=0;i<sources.length;i++){var r=sources[i];if(r&&typeof r==='object'){var s=clamp(r.overallScore);if(s!==null)return s}}var docs=[document];try{if(window.parent&&window.parent!==window)docs.push(window.parent.document)}catch(e){}for(var d=0;d<docs.length;d++){try{var text=(docs[d].body&&docs[d].body.innerText)||'';var m=text.match(/(?:^|\n)\s*(\d+(?:\.\d+)?)\s*(?:MAXESS\s+SCORE|overall)\b/i);if(m){var parsed=clamp(m[1]);if(parsed!==null)return parsed}}catch(e){}}return null}
@@ -48,7 +92,7 @@ function rgbToHex(r,g,b){return'#'+[r,g,b].map(function(v){return Math.max(0,Mat
 function mix(a,b,t){var x=hexToRgb(a),y=hexToRgb(b);return rgbToHex(x.r+(y.r-x.r)*t,x.g+(y.g-x.g)*t,x.b+(y.b-x.b)*t)}
 function palette(s){if(s<50){var t=s/50;return{a:mix('#ff2d55','#ff3b1f',t),b:mix('#ff5a36','#ff1744',t),rgb:hexToRgb(mix('#ff2d55','#ff3b1f',t)),label:'EMERGING'}}if(s<75){var t=(s-50)/25;return{a:mix('#ff7a18','#ffd166',t),b:mix('#ff9f1c','#fff06a',t),rgb:hexToRgb(mix('#ff9f1c','#fff06a',t)),label:'DEVELOPING'}}if(s<90){var t=(s-75)/15;return{a:mix('#20c96b','#38bdf8',t),b:mix('#22e67d','#2563eb',t),rgb:hexToRgb(mix('#20c96b','#38bdf8',t)),label:'ADVANCING'}}var t=Math.min(1,(s-90)/10);return{a:mix('#8b5cf6','#d946ef',t),b:mix('#a855f7','#ff3cac',t),rgb:hexToRgb(mix('#8b5cf6','#d946ef',t)),label:'MASTERING'}}
 function applyPalette(s){var p=palette(s);root.style.setProperty('--score-a',p.a);root.style.setProperty('--score-b',p.b);root.style.setProperty('--score-rgb',p.rgb.r+','+p.rgb.g+','+p.rgb.b)}
-function render(){var s=getScore();if(s===null){scoreNode.textContent=formatScore(DEMO_SCORE);scoreNode.dataset.hydrated='true';scoreNode.dataset.demo='true';applyPalette(DEMO_SCORE);scoreDescription.textContent='Preview score '+formatScore(DEMO_SCORE)+' of 100. A live MAXESS result will replace this demo value automatically.';liveNode.textContent='Preview score '+formatScore(DEMO_SCORE)+' of 100. A live MAXESS result will replace this demo value automatically.';unavailableNode.dataset.visible='false';return}if(resultRetry){clearTimeout(resultRetry);resultRetry=null}scoreNode.textContent=formatScore(s);scoreNode.dataset.hydrated='true';scoreNode.dataset.demo='false';unavailableNode.dataset.visible='false';scoreDescription.textContent='Your AI score is '+formatScore(s)+' out of 100.';liveNode.textContent='Your AI score is '+formatScore(s)+' out of 100.';applyPalette(s)}
+function render(){var s=getScore();if(s===null){scoreNode.textContent='';scoreNode.dataset.hydrated='false';scoreNode.dataset.demo='false';unavailableNode.dataset.visible='true';scoreDescription.textContent='MAXESS has not received a valid result yet.';liveNode.textContent='MAXESS has not received a valid result yet.';return}if(resultRetry){clearTimeout(resultRetry);resultRetry=null}scoreNode.textContent=formatScore(s);scoreNode.dataset.hydrated='true';scoreNode.dataset.demo='false';unavailableNode.dataset.visible='false';scoreDescription.textContent='Your AI score is '+formatScore(s)+' out of 100.';liveNode.textContent='Your AI score is '+formatScore(s)+' out of 100.';applyPalette(s)}
 function setSpeaking(active){if(!orbWrap)return;orbWrap.classList.toggle('orb-speaking',!!active);if(nayaCard)nayaCard.classList.toggle('is-speaking',!!active);if(listen)listen.classList.toggle('is-speaking',!!active);if(listen){var label=listen.querySelector('.listen-label');if(label)label.textContent=active?'NAYA IS SPEAKING':'LISTEN TO NAYA'}if(speakTimer){clearTimeout(speakTimer);speakTimer=null}if(active){speakTimer=setTimeout(function(){setSpeaking(false)},30000)}}
 function onSpeechStart(){setSpeaking(true)}function onSpeechEnd(){setSpeaking(false)}
 render();window.addEventListener('maxess:result-updated',render);window.addEventListener('MAXESS_RESULT_READY',render);window.addEventListener('storage',render);var hydrationPoll=setInterval(function(){var real=getScore();if(real!==null){render();clearInterval(hydrationPoll)}else if(Date.now()>=resultDeadline){clearInterval(hydrationPoll)}},250);['naya:speaking','naya:speech-start','naya:audio-start','naya:voice-start'].forEach(function(name){window.addEventListener(name,onSpeechStart)});['naya:speech-end','naya:audio-end','naya:voice-end'].forEach(function(name){window.addEventListener(name,onSpeechEnd)});
