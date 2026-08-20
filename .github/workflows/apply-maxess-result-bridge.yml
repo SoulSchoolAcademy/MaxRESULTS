@@ -7,6 +7,11 @@ on:
     paths:
       - 'tools/execute_maxess_result_bridge.py'
       - '.github/workflows/apply-maxess-result-bridge.yml'
+  pull_request:
+    paths:
+      - 'tools/execute_maxess_result_bridge.py'
+      - '.github/workflows/apply-maxess-result-bridge.yml'
+      - 'AIScoreMAXESS code'
   workflow_dispatch:
 
 permissions:
@@ -20,10 +25,10 @@ jobs:
   patch:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
+      - name: Checkout execution branch
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
 
       - name: Establish baseline
@@ -95,4 +100,4 @@ jobs:
           git diff --cached --check
           git diff --cached --quiet && { echo 'NO BRIDGE MUTATION DETECTED'; exit 1; }
           git commit -m 'MAXESS assessment → Results bridge [MAXESS_RESULT_V1]'
-          git push origin main
+          git push origin "${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
