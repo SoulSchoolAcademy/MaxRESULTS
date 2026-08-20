@@ -62,6 +62,12 @@ The filename is a locator, not the authority.
 
 ## Current note inventory
 
+### 2026-08-20
+
+| Topic | Primary category | Useful retrieval terms | Note |
+|---|---|---|---|
+| User Effort Minimization + Complete Delivery Law | SOLUTION / LEARNING | user effort, 10-star service, complete delivery, minimize friction, cognitive load, take the lead, full code, integrated work, Naya Law, user experience, AAA | `2026-08-20-user-effort-and-complete-delivery-law.md` |
+
 ### 2026-08-19
 
 | Topic | Primary category | Useful retrieval terms | Note |
