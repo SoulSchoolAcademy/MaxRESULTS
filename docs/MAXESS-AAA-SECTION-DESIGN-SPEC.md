@@ -58,6 +58,261 @@ Visual principles:
 7. Favor editorial composition: asymmetric balance, large type, deliberate whitespace, visual anchors, and scene changes.
 8. Every major section should feel like a new chapter, not another component row.
 
+## MASTER DESIGNER STANDARD — DIMENSIONAL DEPTH / 3D VISUAL LANGUAGE
+
+**This is a required MAXESS AAA design standard, not an optional finishing effect.**
+
+MAXESS must not default to flat 2D presentation when a stronger dimensional composition can improve hierarchy, tactility, readability, or emotional impact.
+
+The target is:
+
+**FLAT INFORMATION → DIMENSIONAL EXPERIENCE**
+
+The page should feel alive, electric, tactile, layered, and spatial. Important elements should appear capable of coming toward the user, sitting within the scene, or receding behind other elements. The interface should feel like a designed world rather than a collection of objects placed on one plane.
+
+### 1. Depth is a design system, not a shadow effect
+
+Depth must be constructed deliberately through a visual stack such as:
+
+**BACKGROUND → ATMOSPHERE → STRUCTURE → SURFACE → EDGE → LIGHT → CONTENT → FOREGROUND DETAIL**
+
+A major object should be evaluated as a layered visual object, not merely as one box, one border, or one text color.
+
+### 2. Every important visual object requires a depth review
+
+For each major object, ask:
+
+- What is behind it?
+- What is inside it?
+- What sits above it?
+- Where is its light coming from?
+- Does it have a believable edge or rim?
+- Does it feel elevated, embedded, recessed, floating, or projected?
+- Does its depth reinforce its meaning?
+- Does it remain exceptionally readable and accessible?
+
+This applies to:
+
+- numbers;
+- headlines;
+- typography;
+- buttons;
+- orbs;
+- circles and rings;
+- cards and boxes;
+- icons;
+- badges;
+- progress indicators;
+- pathways;
+- media frames;
+- CTAs;
+- section transitions;
+- hero compositions.
+
+### 3. Numbers are visual objects
+
+Important numbers must not look like ordinary text dropped into a circle.
+
+A major score or numbered step should have a dimensional architecture appropriate to its importance, potentially including:
+
+- foreground numeral;
+- inner light or glow;
+- elevated or recessed number plate;
+- ring or halo layer;
+- subtle rim light;
+- controlled depth separation;
+- atmospheric field behind it;
+- restrained micro-detail where semantically appropriate.
+
+The number should have presence and hierarchy. Tiny, flat, unexplained numbering is not an AAA treatment.
+
+### 4. Typography can have depth
+
+Large headlines are visual architecture, not merely copy.
+
+Dimensional type may use restrained combinations of:
+
+- tonal layering;
+- optical highlights;
+- subtle extrusion-like separation;
+- atmospheric glow;
+- controlled shadow depth;
+- gradient light across glyphs;
+- foreground/background separation;
+- scale and overlap;
+- spatial framing.
+
+The objective is not flashy text effects. The objective is to make major typography feel physically situated in the scene while preserving exceptional readability.
+
+Body copy should remain cleaner. Depth should concentrate where hierarchy and emotional emphasis justify it.
+
+### 5. Buttons must feel physical
+
+Buttons are physical controls and should communicate physicality.
+
+The standard state progression is:
+
+**REST → HOVER → FOCUS → PRESSED → SUCCESS**
+
+Dimensional techniques may include:
+
+- layered surface gradients;
+- edge/rim highlights;
+- controlled elevation;
+- inset or recessed treatment;
+- directional lighting;
+- subtle inner glow;
+- meaningful icon depth;
+- press displacement;
+- state-specific elevation changes.
+
+A button should feel touchable, not like a flat rectangle with text placed inside it.
+
+### 6. Circles, Orbs, and rings need spatial architecture
+
+A circle is not dimensional merely because it has a gradient.
+
+For signature MAXESS geometry, consider a layered construction such as:
+
+**ATMOSPHERE → OUTER HALO → ORBIT/RING → RIM → BODY → INNER LIGHT → CORE → CONTENT**
+
+This is especially important for the MAXESS Orb, score circles, mini-orbs, numbered markers, and energy systems.
+
+### 7. Cards and boxes need depth without generic glassmorphism
+
+Panels should not all become floating translucent rectangles.
+
+Depth can come from:
+
+- layered surfaces;
+- background separation;
+- inset light;
+- edge treatment;
+- subtle elevation;
+- internal gradients;
+- overlapping components;
+- visual occlusion;
+- foreground accents;
+- spatial offsets.
+
+Cards must earn their shape. When a card is unnecessary, use a more organic composition.
+
+### 8. Use both emergence and recession
+
+High-level composition should create a controlled relationship with the screen.
+
+Some elements should feel like they are:
+
+**COMING TOWARD YOU**
+
+while others feel like they are:
+
+**SITTING INSIDE / BEHIND / WITHIN THE EXPERIENCE**
+
+Examples include an elevated CTA, a score projected forward from the Orb, secondary metadata recessed into a surface, background energy receding behind Naya, rings orbiting a core, a headline emerging from atmosphere, or a pathway receding into the page to suggest progression.
+
+### 9. Layering must create hierarchy
+
+Use a deliberate spatial hierarchy:
+
+**LEVEL 0 — BACKDROP**
+Atmosphere, texture, energy field.
+
+**LEVEL 1 — ENVIRONMENT**
+Large structural shapes and scene geometry.
+
+**LEVEL 2 — PRIMARY OBJECT**
+Hero Orb, Naya, major visual, or section anchor.
+
+**LEVEL 3 — SUPPORTING OBJECTS**
+Cards, rings, data objects, secondary controls.
+
+**LEVEL 4 — INTERACTIVE FOREGROUND**
+Buttons, selected states, active controls.
+
+**LEVEL 5 — MICRO DETAIL**
+Highlights, sparks, glints, tiny markers, edge accents.
+
+The hierarchy must remain understandable even when motion and decorative effects are removed.
+
+### 10. High contrast is mandatory
+
+Depth must never be purchased at the expense of readability.
+
+Preserve:
+
+- strong foreground/background contrast;
+- readable type at all required sizes;
+- visible focus states;
+- accessible labels;
+- non-color equivalents;
+- reduced-motion support;
+- mobile readability;
+- sufficient separation between overlapping layers.
+
+Depth succeeds only when the user can understand the message immediately.
+
+### 11. Motion may reinforce depth, but depth must survive without motion
+
+Motion can strengthen spatial perception through subtle parallax, controlled scale changes, hover elevation, orbit movement, light movement, entrance transitions, and press displacement.
+
+However, the composition must remain premium and understandable with reduced motion enabled. No essential hierarchy may depend on animation.
+
+### 12. Dimensionality must remain coherent
+
+Do not mix random lighting directions, unrelated shadows, inconsistent bevels, or competing visual materials.
+
+Each section should feel like it belongs to the same physical universe. Establish coherent:
+
+- light direction;
+- elevation language;
+- shadow softness;
+- highlight behavior;
+- surface/material language;
+- glow intensity;
+- edge treatment;
+- foreground/background relationship.
+
+### 13. Depth must serve meaning
+
+Every effect should answer:
+
+**Why is this object in front?**
+**Why is this object recessed?**
+**Why is this edge illuminated?**
+**Why is this element glowing?**
+**Why does this object move?**
+
+If the answer is only “because it looks cool,” reduce or remove it.
+
+The goal is not visual noise. The goal is a believable, energetic, premium spatial experience.
+
+### 14. Dimensional depth is part of visual QA
+
+Before a section can be considered AAA, Oscar must ask:
+
+- Does anything important still look like plain 2D text or a flat box?
+- Are the most important objects visually closest to the user?
+- Is there a believable foreground/midground/background relationship?
+- Do the numbers have presence?
+- Do buttons feel pressable?
+- Do circles and Orbs feel volumetric?
+- Does typography have appropriate dimensional hierarchy?
+- Are cards and surfaces layered rather than merely bordered?
+- Is the lighting coherent?
+- Does depth improve comprehension rather than compete with it?
+- Does the design still work without motion?
+- Does mobile retain dimensional hierarchy without becoming crowded?
+- Would an expert designer describe the composition as alive, tactile, premium, and intentional?
+
+### Dimensional Depth Law
+
+> **Nothing important should feel accidentally flat.**
+>
+> **Build layers. Establish space. Create foreground, midground, and background. Use light to reveal form. Use depth to communicate hierarchy. Make the interface feel alive.**
+
+This standard supplements the existing MAXESS visual language. “3D” does not mean indiscriminate skeuomorphism, giant shadows, fake bevels, or noisy effects. It means intentional visual dimensionality that improves the human experience.
+
 ## Typography
 
 - Use a high-quality, highly legible primary sans-serif for body and controls.
