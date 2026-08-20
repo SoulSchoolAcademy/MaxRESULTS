@@ -27,7 +27,6 @@ async function completeAssessment(page, answerIndexes, profileName) {
 
   for (let i = 0; i < 15; i += 1) {
     await page.locator('#teachingInterstitial.visible').waitFor({ state: 'visible', timeout: 10000 });
-
     if (i === 0) {
       const nayaUi = await page.evaluate(() => ({
         image: !!document.querySelector('.maxess-naya-teacher-image'),
@@ -35,10 +34,7 @@ async function completeAssessment(page, answerIndexes, profileName) {
         listen: !!document.querySelector('#listenToNaya'),
         close: !!document.querySelector('#cloudContinue')
       }));
-      if (!nayaUi.image || nayaUi.name !== 'Naya' || !nayaUi.listen || !nayaUi.close) {
-        throw new Error(`${profileName}: Naya teaching popup is incomplete: ${JSON.stringify(nayaUi)}`);
-      }
-
+      if (!nayaUi.image || nayaUi.name !== 'Naya' || !nayaUi.listen || !nayaUi.close) throw new Error(`${profileName}: Naya teaching popup is incomplete: ${JSON.stringify(nayaUi)}`);
       await page.evaluate(() => {
         window.__MAXESS_AUDIO_UNAVAILABLE = false;
         window.addEventListener('naya:audio-unavailable', () => { window.__MAXESS_AUDIO_UNAVAILABLE = true; }, { once: true });
@@ -51,18 +47,36 @@ async function completeAssessment(page, answerIndexes, profileName) {
     } else {
       await page.locator('#cloudContinue').click();
     }
-
-    const answers = page.locator('#answers .answer');
-    await answers.nth(answerIndexes[i]).click();
+    await page.locator('#answers .answer').nth(answerIndexes[i]).click();
     await page.locator('#continueButton').click();
   }
 
   await page.locator('#interestsView.visible').waitFor({ state: 'visible', timeout: 10000 });
   await page.locator('.interest-area').first().click();
+  const navigation = page.waitForURL((url) => url.toString().startsWith(resultsUrl), { timeout: 30000, waitUntil: 'domcontentloaded' });
   await page.locator('#interestContinue').click();
+  await navigation;
+
+  const navigatedUrl = page.url();
+  if (!navigatedUrl.startsWith(resultsUrl)) throw new Error(`${profileName}: did not navigate to public Results URL: ${navigatedUrl}`);
+  try {
+    await page.waitForFunction(() => window.MAXESS_RESULT && window.MAXESS_RESULT.contractVersion === 'MAXESS_RESULT_V1', null, { timeout: 5000 });
+  } catch (error) {
+    const diagnostics = await page.evaluate(() => ({
+      readyState: document.readyState,
+      href: location.href,
+      hashLength: location.hash.length,
+      hasConsumer: !!document.getElementById('MAXESS_RESULT_CONSUMER_V1'),
+      result: window.MAXESS_RESULT || null,
+      bodyPrefix: document.body.innerText.slice(0, 800),
+      scoreText: document.querySelector('.score-number')?.textContent?.trim() || '',
+      hydrated: document.querySelector('.score-number')?.dataset?.hydrated || ''
+    }));
+    throw new Error(`${profileName}: Results contract did not hydrate. ${JSON.stringify(diagnostics)}; original=${error.message}`);
+  }
 
   const contract = await page.evaluate(() => window.MAXESS_RESULT);
-  if (!contract) throw new Error(`${profileName}: MAXESS_RESULT missing after real assessment completion`);
+  if (!contract) throw new Error(`${profileName}: MAXESS_RESULT missing on real Results page`);
   if (contract.contractVersion !== 'MAXESS_RESULT_V1') throw new Error(`${profileName}: wrong contract version`);
   if (!Number.isFinite(Number(contract.overallScore)) || Number(contract.overallScore) < 0 || Number(contract.overallScore) > 100) throw new Error(`${profileName}: invalid overallScore`);
   if (!Array.isArray(contract.dimensions) || contract.dimensions.length !== 5) throw new Error(`${profileName}: dimensions != 5`);
@@ -75,47 +89,29 @@ async function completeAssessment(page, answerIndexes, profileName) {
   if (!contract.nextMove) throw new Error(`${profileName}: nextMove missing`);
   if (!contract.naya) throw new Error(`${profileName}: naya metadata missing`);
 
-  const navigatedUrl = page.url();
-  if (!navigatedUrl.startsWith(resultsUrl)) throw new Error(`${profileName}: did not navigate to public Results URL: ${navigatedUrl}`);
-
-  await page.goto(navigatedUrl, { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => window.MAXESS_RESULT && window.MAXESS_RESULT.contractVersion === 'MAXESS_RESULT_V1', null, { timeout: 30000 });
-
   const resultsSnapshot = await page.evaluate(() => ({
-    contract: window.MAXESS_RESULT,
     visibleScore: document.querySelector('.score-number, [data-maxess-result-score], #score')?.textContent?.trim() || '',
     bodyText: document.body.innerText
   }));
-
-  if (Number(resultsSnapshot.contract.overallScore) !== Number(contract.overallScore)) {
-    throw new Error(`${profileName}: Results contract score does not match assessment score`);
-  }
-
   const scoreText = resultsSnapshot.visibleScore.replace(/[^0-9.]/g, '');
   if (!scoreText) throw new Error(`${profileName}: Results visible score did not hydrate`);
-  if (Number(scoreText) !== Math.round(Number(contract.overallScore))) {
-    throw new Error(`${profileName}: visible Results score ${scoreText} != ${Math.round(contract.overallScore)}`);
-  }
-
-  if (/demo score|preview score 82|DEMO_SCORE=82/i.test(resultsSnapshot.bodyText)) {
-    throw new Error(`${profileName}: fabricated/demo score detected in Results`);
-  }
-
+  if (Number(scoreText) !== Math.round(Number(contract.overallScore))) throw new Error(`${profileName}: visible Results score ${scoreText} != ${Math.round(contract.overallScore)}`);
+  if (/demo score|preview score 82|DEMO_SCORE=82/i.test(resultsSnapshot.bodyText)) throw new Error(`${profileName}: fabricated/demo score detected in Results`);
   return { contract, resultsUrl: navigatedUrl };
 }
 
 const browser = await chromium.launch({ headless: true });
 const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
 const page = await context.newPage();
+page.on('pageerror', (error) => console.error(`PAGEERROR: ${error.message}`));
+page.on('console', (message) => { if (message.type() === 'error') console.error(`CONSOLE ERROR: ${message.text()}`); });
 const server = await startServer();
 
 try {
   const profileA = Array(15).fill(0);
   const profileB = [3,4,4,4,0,3,4,4,4,0,3,4,4,4,0];
-
   const a = await completeAssessment(page, profileA, 'PROFILE A');
   const b = await completeAssessment(page, profileB, 'PROFILE B');
-
   const different = {
     overallScore: Number(a.contract.overallScore) !== Number(b.contract.overallScore),
     dimensions: JSON.stringify(a.contract.dimensions) !== JSON.stringify(b.contract.dimensions),
@@ -126,17 +122,8 @@ try {
     personalizedInterpretation: JSON.stringify(a.contract.personalizedInterpretation) !== JSON.stringify(b.contract.personalizedInterpretation),
     nextMove: JSON.stringify(a.contract.nextMove) !== JSON.stringify(b.contract.nextMove)
   };
-
-  if (!different.overallScore || !different.dimensions || !different.masteryStage || !different.strongestCapability || !different.highestLeverageOpportunity || !different.overallPattern || !different.personalizedInterpretation || !different.nextMove) {
-    throw new Error(`Differentiation proof failed: ${JSON.stringify(different)}`);
-  }
-
-  console.log(JSON.stringify({
-    status: 'PASS',
-    profileA: { overallScore: a.contract.overallScore, masteryStage: a.contract.masteryStage, strongest: a.contract.strongestCapability, opportunity: a.contract.highestLeverageOpportunity, resultsUrl: a.resultsUrl },
-    profileB: { overallScore: b.contract.overallScore, masteryStage: b.contract.masteryStage, strongest: b.contract.strongestCapability, opportunity: b.contract.highestLeverageOpportunity, resultsUrl: b.resultsUrl },
-    differentiation: different
-  }, null, 2));
+  if (!different.overallScore || !different.dimensions || !different.masteryStage || !different.strongestCapability || !different.highestLeverageOpportunity || !different.overallPattern || !different.personalizedInterpretation || !different.nextMove) throw new Error(`Differentiation proof failed: ${JSON.stringify(different)}`);
+  console.log(JSON.stringify({ status: 'PASS', profileA: { overallScore: a.contract.overallScore, masteryStage: a.contract.masteryStage, strongest: a.contract.strongestCapability, opportunity: a.contract.highestLeverageOpportunity, resultsUrl: a.resultsUrl }, profileB: { overallScore: b.contract.overallScore, masteryStage: b.contract.masteryStage, strongest: b.contract.strongestCapability, opportunity: b.contract.highestLeverageOpportunity, resultsUrl: b.resultsUrl }, differentiation: different }, null, 2));
 } finally {
   await browser.close();
   await new Promise((resolve) => server.close(resolve));
