@@ -6,9 +6,8 @@
 <title>MAXESS E09 — Member Preview</title>
 <meta name="description" content="A visual preview of the Human Maximus member experience.">
 <style>
-.maxess-e09{--bg:#030305;--fg:#fff;--line:rgba(255,255,255,.14);--purple:#ad82ff;--gold:#f4c95d;box-sizing:border-box;width:100%;margin:0;padding:clamp(28px,4vw,52px) clamp(14px,3vw,34px) clamp(44px,6vw,72px);background:linear-gradient(180deg,#030305 0%,#06050a 100%);color:var(--fg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden;isolation:isolate}.maxess-e09 *,.maxess-e09 *::before,.maxess-e09 *::after{box-sizing:border-box}.e9-shell{width:min(100%,1320px);margin:auto}.e9-member{margin:0 0 clamp(18px,2.5vw,28px);text-align:center;color:var(--gold);font-size:10px;font-weight:950;letter-spacing:.32em;text-transform:uppercase}.e9-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.5vw,20px);align-items:start}.e9-shot{display:block;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:22px;background:#08080b;box-shadow:0 20px 60px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.05);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}.e9-shot:hover,.e9-shot:focus-visible{transform:translateY(-4px);border-color:rgba(173,130,255,.52);box-shadow:0 28px 72px rgba(0,0,0,.46),0 0 36px rgba(173,130,255,.1);outline:none}.e9-shot img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain;background:#08080b}.e9-shot:focus-visible{outline:2px solid var(--purple);outline-offset:3px}
-@media(max-width:900px){.e9-gallery{grid-template-columns:1fr 1fr}.e9-shot:first-child{grid-column:1/-1}.e9-shot:first-child img{max-height:none}}
-@media(max-width:620px){.maxess-e09{padding-top:24px}.e9-member{margin-bottom:16px}.e9-gallery{grid-template-columns:1fr;gap:14px}.e9-shot:first-child{grid-column:auto}.e9-shot{border-radius:18px}}
+.maxess-e09{box-sizing:border-box;width:100%;margin:0;padding:clamp(22px,3vw,42px) clamp(14px,3vw,34px) clamp(36px,5vw,60px);background:#030305;color:#fff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden;isolation:isolate}.maxess-e09 *,.maxess-e09 *::before,.maxess-e09 *::after{box-sizing:border-box}.e9-shell{width:min(100%,1180px);margin:0 auto}.e9-member{margin:0 0 clamp(16px,2vw,24px);text-align:center;color:#f4c95d;font-size:10px;font-weight:900;letter-spacing:.34em;text-transform:uppercase}.e9-gallery{display:flex;flex-direction:column;gap:clamp(18px,3vw,34px);align-items:center}.e9-shot{display:block;width:100%;margin:0;overflow:hidden;border:1px solid rgba(255,255,255,.13);border-radius:20px;background:#08080b;box-shadow:0 18px 55px rgba(0,0,0,.42);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}.e9-shot:hover,.e9-shot:focus-visible{border-color:rgba(173,130,255,.55);box-shadow:0 24px 70px rgba(0,0,0,.5),0 0 34px rgba(173,130,255,.09);transform:translateY(-2px);outline:none}.e9-shot img{display:block;width:100%;height:auto;max-width:100%;margin:0;background:#08080b}.e9-shot:focus-visible{outline:2px solid #ad82ff;outline-offset:3px}.e9-shot--first,.e9-shot--third{width:min(100%,980px)}.e9-shot--middle{width:min(100%,1120px)}
+@media(max-width:620px){.maxess-e09{padding:20px 12px 38px}.e9-member{margin-bottom:14px}.e9-gallery{gap:14px}.e9-shot,.e9-shot--first,.e9-shot--middle,.e9-shot--third{width:100%;border-radius:15px}}
 @media(prefers-reduced-motion:reduce){.e9-shot{transition:none}}
 </style>
 </head>
@@ -17,14 +16,14 @@
 <div class="e9-shell">
 <div class="e9-member">MEMBER</div>
 <div class="e9-gallery">
-<a class="e9-shot" href="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Memberships%20.png" target="_blank" rel="noopener" aria-label="Open the membership preview image">
+<a class="e9-shot e9-shot--first" href="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Memberships%20.png" target="_blank" rel="noopener" aria-label="Open the membership preview image full size">
 <img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Memberships%20.png" alt="Preview of the Human Maximus membership experience" loading="eager">
 </a>
-<a class="e9-shot" href="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Membrship%20page.png" target="_blank" rel="noopener" aria-label="Open the member space preview image">
+<a class="e9-shot e9-shot--middle" href="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Membrship%20page.png" target="_blank" rel="noopener" aria-label="Open the member courses preview image full size">
 <img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Membrship%20page.png" alt="Preview of the Human Maximus member space and courses" loading="eager">
 </a>
-<a class="e9-shot" href="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Human%20Maximus%20Codex%20membership%20page.png" target="_blank" rel="noopener" aria-label="Open the Human Maximus Codex membership preview image">
-<img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Human%20Maximus%20Codex%20membership%20page.png" alt="Preview of the Human Maximus Codex membership page" loading="eager">
+<a class="e9-shot e9-shot--third" href="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Human%20Maximus%20Codex%20membership%20page.png" target="_blank" rel="noopener" aria-label="Open the Human Maximus Codex membership preview image full size">
+<img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Human%20Maximus%20Codex%20membership%20page.png" alt="Preview of the Human Maximus Codex membership page" loading="lazy">
 </a>
 </div>
 </div>
