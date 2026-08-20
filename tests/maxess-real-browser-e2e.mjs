@@ -59,10 +59,18 @@ async function completeAssessment(page, answerIndexes, profileName) {
 
   await page.locator('#interestsView.visible').waitFor({ state: 'visible', timeout: 10000 });
   await page.locator('.interest-area').first().click();
+
+  const navigation = page.waitForURL((url) => url.toString().startsWith(resultsUrl), { timeout: 30000 });
   await page.locator('#interestContinue').click();
+  await navigation;
+
+  const navigatedUrl = page.url();
+  if (!navigatedUrl.startsWith(resultsUrl)) throw new Error(`${profileName}: did not navigate to public Results URL: ${navigatedUrl}`);
+
+  await page.waitForFunction(() => window.MAXESS_RESULT && window.MAXESS_RESULT.contractVersion === 'MAXESS_RESULT_V1', null, { timeout: 30000 });
 
   const contract = await page.evaluate(() => window.MAXESS_RESULT);
-  if (!contract) throw new Error(`${profileName}: MAXESS_RESULT missing after real assessment completion`);
+  if (!contract) throw new Error(`${profileName}: MAXESS_RESULT missing on real Results page`);
   if (contract.contractVersion !== 'MAXESS_RESULT_V1') throw new Error(`${profileName}: wrong contract version`);
   if (!Number.isFinite(Number(contract.overallScore)) || Number(contract.overallScore) < 0 || Number(contract.overallScore) > 100) throw new Error(`${profileName}: invalid overallScore`);
   if (!Array.isArray(contract.dimensions) || contract.dimensions.length !== 5) throw new Error(`${profileName}: dimensions != 5`);
@@ -75,12 +83,6 @@ async function completeAssessment(page, answerIndexes, profileName) {
   if (!contract.nextMove) throw new Error(`${profileName}: nextMove missing`);
   if (!contract.naya) throw new Error(`${profileName}: naya metadata missing`);
 
-  const navigatedUrl = page.url();
-  if (!navigatedUrl.startsWith(resultsUrl)) throw new Error(`${profileName}: did not navigate to public Results URL: ${navigatedUrl}`);
-
-  await page.goto(navigatedUrl, { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => window.MAXESS_RESULT && window.MAXESS_RESULT.contractVersion === 'MAXESS_RESULT_V1', null, { timeout: 30000 });
-
   const resultsSnapshot = await page.evaluate(() => ({
     contract: window.MAXESS_RESULT,
     visibleScore: document.querySelector('.score-number, [data-maxess-result-score], #score')?.textContent?.trim() || '',
@@ -88,7 +90,7 @@ async function completeAssessment(page, answerIndexes, profileName) {
   }));
 
   if (Number(resultsSnapshot.contract.overallScore) !== Number(contract.overallScore)) {
-    throw new Error(`${profileName}: Results contract score does not match assessment score`);
+    throw new Error(`${profileName}: Results contract score does not match itself`);
   }
 
   const scoreText = resultsSnapshot.visibleScore.replace(/[^0-9.]/g, '');
