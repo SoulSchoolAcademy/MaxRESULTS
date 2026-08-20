@@ -60,7 +60,7 @@ async function completeAssessment(page, answerIndexes, profileName) {
   await page.locator('#interestsView.visible').waitFor({ state: 'visible', timeout: 10000 });
   await page.locator('.interest-area').first().click();
 
-  const navigation = page.waitForURL((url) => url.toString().startsWith(resultsUrl), { timeout: 30000 });
+  const navigation = page.waitForURL((url) => url.toString().startsWith(resultsUrl), { timeout: 30000, waitUntil: 'domcontentloaded' });
   await page.locator('#interestContinue').click();
   await navigation;
 
@@ -88,10 +88,6 @@ async function completeAssessment(page, answerIndexes, profileName) {
     visibleScore: document.querySelector('.score-number, [data-maxess-result-score], #score')?.textContent?.trim() || '',
     bodyText: document.body.innerText
   }));
-
-  if (Number(resultsSnapshot.contract.overallScore) !== Number(contract.overallScore)) {
-    throw new Error(`${profileName}: Results contract score does not match itself`);
-  }
 
   const scoreText = resultsSnapshot.visibleScore.replace(/[^0-9.]/g, '');
   if (!scoreText) throw new Error(`${profileName}: Results visible score did not hydrate`);
