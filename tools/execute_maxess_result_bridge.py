@@ -55,18 +55,17 @@ BRIDGE = r'''
   }
 
   function buildContract(){
-    if(!window.MAXESS_ASSESSMENT || !window.state) return null;
-
-    const questions = Array.isArray(window.MAXESS_ASSESSMENT.questions)
-      ? [...window.MAXESS_ASSESSMENT.questions].sort((a,b)=>a.order-b.order)
+    // These are lexical bindings from the authoritative assessment script.
+    const questions = Array.isArray(MAXESS_ASSESSMENT.questions)
+      ? [...MAXESS_ASSESSMENT.questions].sort((a,b)=>a.order-b.order)
       : [];
-    const responses = Array.isArray(window.state.responses)
-      ? window.state.responses.slice()
+    const responses = Array.isArray(state.responses)
+      ? state.responses.slice()
       : [];
 
     if(questions.length !== 15 || responses.length !== 15) return null;
 
-    const dimensions = (window.MAXESS_ASSESSMENT.dimensions || []).map(dimension => {
+    const dimensions = (MAXESS_ASSESSMENT.dimensions || []).map(dimension => {
       const relevant = responses.filter(r => r.dimensionId === dimension.id);
       if(!relevant.length) return null;
       const raw = relevant.reduce((sum,r)=>sum + Number(r.score || 0),0) / relevant.length;
@@ -90,7 +89,7 @@ BRIDGE = r'''
       (dimensions.reduce((sum,d)=>sum + d.score * Number(d.weight || 0),0) / weightTotal) * 10
     ) / 10;
 
-    const band = (window.MAXESS_ASSESSMENT.scoreBands || []).find(
+    const band = (MAXESS_ASSESSMENT.scoreBands || []).find(
       item => overallScore >= item.min && overallScore <= item.max
     );
     if(!band) return null;
@@ -98,8 +97,8 @@ BRIDGE = r'''
     const strongest = [...dimensions].sort((a,b)=>b.score-a.score)[0];
     const opportunity = [...dimensions].sort((a,b)=>a.score-b.score)[0];
 
-    const selectedInterests = Array.from(window.state.selectedInterests || []);
-    const interestMeta = (window.AI_AREAS || [])
+    const selectedInterests = Array.from(state.selectedInterests || []);
+    const interestMeta = (typeof AI_AREAS !== 'undefined' ? AI_AREAS : [])
       .filter(area => selectedInterests.includes(area.id));
 
     const interpretation = {
@@ -113,9 +112,9 @@ BRIDGE = r'''
 
     return {
       contractVersion: 'MAXESS_RESULT_V1',
-      assessmentId: window.MAXESS_ASSESSMENT.id,
-      assessmentVersion: window.MAXESS_ASSESSMENT.version,
-      completedAt: window.state.completedAt || new Date().toISOString(),
+      assessmentId: MAXESS_ASSESSMENT.id,
+      assessmentVersion: MAXESS_ASSESSMENT.version,
+      completedAt: state.completedAt || new Date().toISOString(),
       overallScore,
       masteryStage: band.label,
       masteryBand: band,
@@ -170,15 +169,12 @@ BRIDGE = r'''
     const encoded = encodeContract(contract);
     if(!encoded) return false;
 
-    const destination = `${RESULTS_URL}#maxess-result=${encoded}`;
-    window.location.assign(destination);
+    window.location.assign(`${RESULTS_URL}#maxess-result=${encoded}`);
     return true;
   }
 
   function ensureNayaFields(){
-    const questions = window.MAXESS_ASSESSMENT && window.MAXESS_ASSESSMENT.questions;
-    if(!Array.isArray(questions)) return;
-    questions.forEach(question => {
+    MAXESS_ASSESSMENT.questions.forEach(question => {
       if(!Object.prototype.hasOwnProperty.call(question,'nayaScript')){
         question.nayaScript = question.teaching || '';
       }
@@ -191,22 +187,30 @@ BRIDGE = r'''
   window.MAXESS_RESULT_BRIDGE = {buildContract, validateContract, publish, ensureNayaFields};
   ensureNayaFields();
 
-  // Replace the legacy inline Results presentation with the authoritative Results destination.
-  window.finishInterestSelection = function(){
-    publish();
-  };
-
-  // If the original handler is still bound, neutralize its renderer by preventing the old view from being shown.
+  // Retire the old Results presentation. The new Results product is the sole renderer.
+  window.finishInterestSelection = function(){ publish(); };
   const oldResults = document.getElementById('resultsView');
   if(oldResults){
     oldResults.setAttribute('data-retired-renderer','true');
     oldResults.style.display = 'none';
   }
 
-  // Teaching popup: Naya is present here, not on every question slide.
+  // Naya appears in the teaching popup only — not on every question slide.
   const interstitial = document.getElementById('teachingInterstitial');
   const cloud = interstitial && interstitial.querySelector('.teaching-cloud');
   if(cloud && !cloud.querySelector('.maxess-naya-teacher')){
+    const style = document.createElement('style');
+    style.textContent = `
+      .maxess-naya-teacher{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:14px;margin:0 auto 22px;max-width:560px;text-align:left}
+      .maxess-naya-teacher-image{width:58px;height:58px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.92);box-shadow:0 0 0 5px rgba(155,99,255,.14),0 0 28px rgba(155,99,255,.24)}
+      .maxess-naya-teacher-copy{display:flex;flex-direction:column;min-width:0}
+      .maxess-naya-teacher-copy strong{font-size:17px;font-weight:950;color:#fff}
+      .maxess-naya-teacher-copy span{margin-top:4px;font-size:12px;color:#cfc8da;font-weight:700}
+      .maxess-listen-naya{grid-column:1/-1;width:100%;margin-top:2px;min-height:54px}
+      @media(max-width:600px){.maxess-naya-teacher{gap:11px}.maxess-naya-teacher-image{width:52px;height:52px}}
+    `;
+    document.head.appendChild(style);
+
     const teacher = document.createElement('div');
     teacher.className = 'maxess-naya-teacher';
     teacher.innerHTML = `
@@ -225,14 +229,18 @@ BRIDGE = r'''
       const q = typeof currentQuestion === 'function' ? currentQuestion() : null;
       const audio = q && q.nayaAudio;
       if(audio && typeof audio === 'string'){
-        const player = new Audio(audio);
-        player.play().catch(()=>{});
-        window.__MAXESS_NAYA_AUDIO = player;
-        window.dispatchEvent(new CustomEvent('naya:audio-start',{detail:{questionId:q.id}}));
-        player.addEventListener('ended',()=>window.dispatchEvent(new CustomEvent('naya:audio-end')),{once:true});
+        try{
+          const player = new Audio(audio);
+          player.addEventListener('ended',()=>window.dispatchEvent(new CustomEvent('naya:audio-end')),{once:true});
+          player.addEventListener('error',()=>window.dispatchEvent(new CustomEvent('naya:audio-error')),{once:true});
+          window.__MAXESS_NAYA_AUDIO = player;
+          player.play().then(()=>{
+            window.dispatchEvent(new CustomEvent('naya:audio-start',{detail:{questionId:q.id}}));
+          }).catch(()=>{});
+        }catch(e){}
         return;
       }
-      if(typeof playNaya === 'function') playNaya();
+      window.dispatchEvent(new CustomEvent('naya:audio-unavailable',{detail:{questionId:q && q.id}}));
     });
   }
 
@@ -241,13 +249,11 @@ BRIDGE = r'''
 
 s = ASSESSMENT.read_text(encoding='utf-8')
 if MARKER not in s:
-    # Put the bridge in the existing assessment script immediately before its closing script tag.
     idx = s.rfind('</script>')
     if idx < 0:
         raise SystemExit('No closing script tag found in assessment source')
     s = s[:idx] + '\n' + BRIDGE + '\n' + s[idx:]
 
-# Ensure the legacy renderer cannot be shown by the original finishInterestSelection call.
 pattern = re.compile(r'function finishInterestSelection\(\)\{.*?\n\}', re.S)
 replacement = '''function finishInterestSelection(){\n\n  if(window.MAXESS_RESULT_BRIDGE && typeof window.MAXESS_RESULT_BRIDGE.publish === "function"){\n    window.MAXESS_RESULT_BRIDGE.publish();\n    return;\n  }\n\n  throw new Error("MAXESS_RESULT_BRIDGE unavailable; refusing legacy Results renderer.");\n\n}'''
 s, count = pattern.subn(replacement, s, count=1)
