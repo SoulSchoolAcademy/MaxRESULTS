@@ -67,6 +67,7 @@ The filename is a locator, not the authority.
 | Topic | Primary category | Useful retrieval terms | Note |
 |---|---|---|---|
 | User Effort Minimization + Complete Delivery Law | SOLUTION / LEARNING | user effort, 10-star service, complete delivery, minimize friction, cognitive load, take the lead, full code, integrated work, Naya Law, user experience, AAA | `2026-08-20-user-effort-and-complete-delivery-law.md` |
+| Versioned Backup + Safe Editing Law | SOLUTION | backups, timestamped backups, versioning, safe editing, preservation, recovery point, rollback, destructive change, source of truth, MAXESS, Naya Law, GitHub | `2026-08-20-versioned-backup-and-safe-editing-law.md` |
 
 ### 2026-08-19
 
@@ -103,6 +104,7 @@ The filename is a locator, not the authority.
 | MAXESS Results | `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` | Operating Manual, task-specific notes |
 | Source of truth / current state | `docs/REPOSITORY-MAP.md` | `docs/SOURCE-AND-MEMORY-MAP.md` |
 | Live/deployment status | `docs/DEPLOYMENT-CONTRACT.md` | Release Checklist |
+| Safe editing / backups / rollback | `docs/NAYA-VERSIONED-BACKUP-AND-EDITING-PROTOCOL.md` | Versioned Backup + Safe Editing Smart Note |
 
 ## Update rule
 
