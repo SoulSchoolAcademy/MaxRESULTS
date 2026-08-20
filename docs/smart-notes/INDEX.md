@@ -19,6 +19,7 @@ This index is the first retrieval surface for durable project learning. Search b
 
 | Entry ID | Date / Time | Type | Scope | Keywords / aliases | Summary | Note |
 |---|---|---|---|---|---|---|
+| SN-20260820-001 | 2026-08-20 09:38 PDT | design decision, visual quality, UX | MAXESS / visual design | dimensional design, 3D design, visual depth, layering, tactile UI, typography depth, button depth, Orb depth, premium design, high contrast, visual hierarchy, non-flat design | MAXESS visual work must treat important elements as dimensional, layered objects rather than flat 2D components, using coherent light, elevation, inset, rim, atmosphere, overlap, scale, and spatial hierarchy to make the experience feel alive, tactile, premium, and readable. | [`2026-08-20-dimensional-depth-design-standard.md`](./2026-08-20-dimensional-depth-design-standard.md) |
 | SN-20260818-001 | 2026-08-18 15:55 PDT | architecture, process, memory | repository / AI execution | smart notes, smart note, Naya Notes, Naya Note, memory, durable learning, conversation learning, timestamp, retrieval, keywords, AI context, notes system, daily notes | Smart Notes and Naya Notes are the same durable-learning system with timestamped entries, broad retrieval vocabulary, an index, and explicit capture/retrieval rules. | [`2026-08-18`](./2026-08-18.md) |
 | SN-20260818-002 | 2026-08-18 09:00 PDT | product philosophy, judgment, execution | Naya / Nitro / AI execution | Naya, Naya Nitro, Lead Mode, Take the Lead, AI partner, intended outcome, best interests, judgment, recommendation, autonomy, human authority, zoom out, zoom in, challenge, trusted partner, human capability | Naya Nitro should optimize for intended outcomes, provide judgment and recommendations, respectfully challenge weak paths, execute when authorized, and preserve human final authority. | [`2026-08-18`](./2026-08-18.md) |
 | SN-20260818-003 | 2026-08-18 09:25 PDT | governance, execution, Section 01 | MAXESS Results / Orb / repository AI workflow | Section 01, Orb, Orbital Bead, score reveal, fresh build, fresh start, authority, authoritative code, canonical renderer, baseline, working candidate, presentation, exact text, visual hierarchy, 10/10, scorecard, execution prompt, task contract, repair list | Section 01 is a fresh build/refinement cycle: protect the supplied Orb + Orbital Bead behavior, refine the surrounding presentation, never label the current presentation authoritative without human promotion, and execute complete 10/10 repair batches. | [`2026-08-18`](./2026-08-18.md) |
@@ -36,6 +37,9 @@ Search: `Naya`, `Nitro`, `Lead Mode`, `Take the Lead`, `intended outcome`, `best
 
 ### Section 01 / Orb / Score Reveal
 Search: `Section 01`, `Orb`, `Orbital Bead`, `score reveal`, `score`, `presentation`, `top`, `heading`, `copy`, `labels`, `waiting for result`, `visual hierarchy`, `fresh build`, `10/10`, `repair list`, `execution prompt`
+
+### Visual design / dimensional depth
+Search: `dimensional design`, `3D`, `depth`, `layering`, `tactile`, `buttons`, `numbers`, `typography`, `Orb`, `cards`, `visual hierarchy`, `foreground`, `midground`, `background`, `light`, `rim`, `elevation`, `recessed`, `premium`, `alive`
 
 ### QA / failures
 Search: `failure`, `root cause`, `regression`, `guardrail`, `QA`, `verification`, `Oscar`, `retest`, `blocked`
