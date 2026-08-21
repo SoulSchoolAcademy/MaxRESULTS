@@ -1,0 +1,37 @@
+name: MAXESS assessment/results pipeline repair
+
+on:
+  push:
+    branches: [maxess-results-v21-working]
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: contains(github.event.head_commit.message, 'stage MAXESS assessment/results pipeline repair')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout active engineering branch
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Apply coherent repair
+        run: python3 .tmp/maxess-assessment-results-repair.py
+      - name: Verify scope
+        run: |
+          test -f IASCORE.NAYANET.APP
+          grep -q 'Naya%20Profile%206.jpg' IASCORE.NAYANET.APP
+          ! grep -q 'interestStage' IASCORE.NAYANET.APP
+          grep -q 'MAXESS_RESULT_V1' IASCORE.NAYANET.APP
+          grep -q 'function getDimensions' E02-SECTION-02-WORKING.html
+          grep -q 'function direction' E04-SECTION-04-WORKING.html
+          git diff --exit-code -- E01-SECTION-01-WORKING.html
+      - name: Commit repaired artifacts and remove temporary executor
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add IASCORE.NAYANET.APP E02-SECTION-02-WORKING.html E04-SECTION-04-WORKING.html
+          git rm .tmp/maxess-assessment-results-repair.py .github/workflows/repair-assessment-results-pipeline.yml
+          git commit -m 'fix: connect assessment Naya and E01-E04 result flow'
+          git push
