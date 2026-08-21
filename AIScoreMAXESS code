@@ -5304,7 +5304,7 @@ try{
 
   const RESULT_KEY = 'MAXESS_RESULT_V1';
   const RESULT_EVENT = 'MAXESS_RESULT_READY';
-  const RESULTS_URL = 'https://results.nayanet.xyz/';
+  const RESULTS_URL = 'https://results.nayanet.app/';
 
   function finite(value){
     const n = Number(value);
