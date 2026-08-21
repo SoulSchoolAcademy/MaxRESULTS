@@ -1,24 +1,40 @@
-name: Repair AIScore app Results bridge
+name: Repair canonical MaxessCode AIScore artifact
+
 on:
   push:
     paths:
       - '.github/workflows/repair-aiscore-bridge.yml'
+
 permissions:
   contents: write
+
 jobs:
   repair:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Rebuild AIScore from known-good baseline
+
+      - name: Surgically repair the canonical full AIScore artifact
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-          import subprocess
-          p = Path('AIScoreMAXESS code')
-          baseline = subprocess.check_output(['git','show','f0b4bf5b8bdc895c9895e235791f97b5b041b00f:AIScoreMAXESS code'], text=True)
-          old = '''function finishInterestSelection(){
+          import re
+
+          p = Path('MaxessCode')
+          if not p.exists():
+              raise SystemExit('FAIL: canonical MaxessCode artifact is missing.')
+
+          source = p.read_text(encoding='utf-8')
+          original_bytes = len(source.encode('utf-8'))
+          original_lines = len(source.splitlines())
+
+          if original_bytes < 90000 or original_lines < 5000:
+              raise SystemExit(f'FAIL: MaxessCode does not look like the full artifact: {original_bytes} bytes / {original_lines} lines')
+
+          # 1. Preserve the existing assessment engine and replace only the final
+          #    in-page Results action with the canonical external Results handoff.
+          old_finish = '''function finishInterestSelection(){
 
   DOM.interestsView.classList.remove(
     "visible"
@@ -27,106 +43,395 @@ jobs:
   renderResults();
 
 }'''
-          new = '''function finishInterestSelection(){
+
+          new_finish = '''function finishInterestSelection(){
 
   publishMAXESSResultToApp();
 
 }'''
-          if old not in baseline:
-              raise SystemExit('Known-good finishInterestSelection block not found.')
-          bridge = r'''
+
+          if old_finish not in source:
+              raise SystemExit('FAIL: expected canonical finishInterestSelection block was not found. Refusing to guess.')
+
+          source = source.replace(old_finish, new_finish, 1)
+
+          # 2. Add a real Results contract publisher. This uses the existing
+          #    calculateResults() engine and existing state; it does not invent
+          #    scoring or replace the assessment architecture.
+          bridge_marker = 'MAXESS_CANONICAL_APP_BRIDGE_V2'
+          if bridge_marker not in source:
+              bridge = r'''
 
 /* =========================================================
-   MAXESS_RESULT_V1 — APP RESULTS BRIDGE
+   MAXESS_CANONICAL_APP_BRIDGE_V2
+   Canonical full AIScore -> Results application handoff.
+   Uses the existing scoring engine; never manufactures a result.
 ========================================================= */
 
 function publishMAXESSResultToApp(){
 
   const results = calculateResults();
 
-  if(!results || !Array.isArray(results.dimensions) || results.dimensions.length !== 5){
-    console.error('MAXESS: unable to build Results payload.');
+  if(
+    !results ||
+    !Array.isArray(results.dimensions) ||
+    results.dimensions.length !== 5
+  ){
+    console.error("MAXESS: Results calculation failed.");
     return;
   }
 
-  if(!Array.isArray(state.responses) || state.responses.length !== 15){
-    console.error('MAXESS: refusing to publish an incomplete assessment.');
+  if(
+    !Array.isArray(state.responses) ||
+    state.responses.length !== 15
+  ){
+    console.error("MAXESS: refusing to publish an incomplete assessment.");
     return;
   }
 
-  state.results = results;
-  state.status = "completed";
-  state.completedAt = new Date().toISOString();
+  const strongest =
+    [...results.dimensions]
+      .sort((a,b)=>Number(b.score)-Number(a.score))[0];
+
+  const opportunity =
+    [...results.dimensions]
+      .sort((a,b)=>Number(a.score)-Number(b.score))[0];
+
+  const overallScore =
+    Math.round(Number(results.overall) * 10) / 10;
 
   const contract = {
     contractVersion: "MAXESS_RESULT_V1",
     assessmentId: MAXESS_ASSESSMENT.id,
     assessmentVersion: MAXESS_ASSESSMENT.version,
-    completedAt: state.completedAt,
-    overallScore: Math.round(Number(results.overall) * 10) / 10,
-    masteryStage: results.band && results.band.label ? results.band.label : "",
+    completedAt: new Date().toISOString(),
+    overallScore,
+    masteryStage:
+      results.band && results.band.label
+        ? results.band.label
+        : "",
     masteryBand: results.band || null,
-    fiveDimensions: results.dimensions,
     dimensions: results.dimensions,
+    fiveDimensions: results.dimensions,
+    strongestDimension: strongest || null,
+    opportunityDimension: opportunity || null,
     responses: state.responses.slice(),
     selectedInterests: Array.from(state.selectedInterests || []),
+    personalizedAnalysis:
+      typeof buildAnalysis === "function"
+        ? buildAnalysis(results, strongest, opportunity)
+        : "",
     naya: {
       name: "Naya",
-      image: "https://i.postimg.cc/bw4fyKF8/Naya-Profile-black-face-zoom.jpg"
+      image: "https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg"
     }
   };
 
-  if(!Number.isFinite(contract.overallScore) ||
-     contract.overallScore < 0 ||
-     contract.overallScore > 100 ||
-     contract.responses.length !== 15){
-    console.error('MAXESS: invalid Results payload.');
+  if(
+    !Number.isFinite(contract.overallScore) ||
+    contract.overallScore < 0 ||
+    contract.overallScore > 100 ||
+    contract.responses.length !== 15
+  ){
+    console.error("MAXESS: invalid Results contract.");
     return;
   }
 
   const json = JSON.stringify(contract);
   const bytes = new TextEncoder().encode(json);
   let binary = "";
-  bytes.forEach(byte => binary += String.fromCharCode(byte));
-  const encoded = btoa(binary)
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/g, "");
 
-  try{ sessionStorage.setItem("MAXESS_RESULT_V1", json); }catch(e){}
-  try{ localStorage.setItem("MAXESS_RESULT_V1", json); }catch(e){}
+  bytes.forEach(byte=>{
+    binary += String.fromCharCode(byte);
+  });
+
+  const encoded = btoa(binary)
+    .replace(/\\+/g,"-")
+    .replace(/\\//g,"_")
+    .replace(/=+$/g,"");
+
+  try{
+    sessionStorage.setItem("MAXESS_RESULT_V1",json);
+  }catch(e){}
+
+  try{
+    localStorage.setItem("MAXESS_RESULT_V1",json);
+  }catch(e){}
 
   window.MAXESS_RESULT = contract;
-  window.dispatchEvent(new CustomEvent("MAXESS_RESULT_READY", {detail:contract}));
-  window.dispatchEvent(new CustomEvent("maxess:result-updated", {detail:contract}));
 
-  window.location.assign(
-    "https://results.nayanet.app/#maxess-result=" + encoded
-  );
+  try{
+    window.dispatchEvent(
+      new CustomEvent("MAXESS_RESULT_READY",{detail:contract})
+    );
+    window.dispatchEvent(
+      new CustomEvent("maxess:result-updated",{detail:contract})
+    );
+  }catch(e){}
+
+  const destination =
+    "https://results.kninet.app/?result=" +
+    encodeURIComponent(encoded) +
+    "#maxess-result=" +
+    encoded;
+
+  window.location.assign(destination);
 }
 
 '''
-          marker = '\n</script>'
-          if marker not in baseline:
-              raise SystemExit('AIScore closing script marker not found.')
-          built = baseline.replace(old, new, 1).replace(marker, bridge + marker, 1)
-          p.write_text(built, encoding='utf-8')
+              marker = '\n</script>'
+              if marker not in source:
+                  raise SystemExit('FAIL: closing script marker not found.')
+              source = source.replace(marker, bridge + marker, 1)
+
+          # 3. Human Naya presentation: presentation-layer only. Existing
+          #    assessment/Naya state/audio/button mechanics remain untouched.
+          human_css_marker = 'MAXESS_NAYA_HUMAN_V3'
+          if human_css_marker not in source:
+              human_css = r'''
+
+/* =========================================================
+   MAXESS_NAYA_HUMAN_V3
+   Warm, centered, portrait-led Naya presentation.
+========================================================= */
+
+/* MAXESS_NAYA_HUMAN_V3 */
+.interstitial{
+  place-items:center!important;
+  padding:20px!important;
+  background:
+    radial-gradient(circle at 50% 42%,rgba(86,35,151,.34),rgba(7,2,16,.82) 50%,rgba(0,0,0,.95) 84%)!important;
+  backdrop-filter:blur(22px) saturate(118%)!important;
+  -webkit-backdrop-filter:blur(22px) saturate(118%)!important;
+}
+
+.teaching-cloud{
+  position:relative!important;
+  width:min(720px,calc(100vw - 32px))!important;
+  min-height:390px!important;
+  padding:58px 58px 42px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  align-items:center!important;
+  text-align:center!important;
+  border-radius:42px!important;
+  background:
+    radial-gradient(circle at 54% 0,rgba(142,91,255,.34),transparent 45%),
+    linear-gradient(145deg,#29124a 0%,#160a28 48%,#09040f 100%)!important;
+  border:1px solid rgba(213,190,255,.48)!important;
+  box-shadow:
+    0 45px 120px rgba(0,0,0,.80),
+    0 0 100px rgba(116,62,255,.30),
+    inset 0 1px 0 rgba(255,255,255,.16)!important;
+  overflow:visible!important;
+}
+
+.teaching-cloud .cloud-icon{
+  display:none!important;
+}
+
+.maxess-naya-portrait{
+  position:absolute;
+  top:-44px;
+  right:32px;
+  width:112px;
+  height:112px;
+  padding:4px;
+  border-radius:50%;
+  background:linear-gradient(145deg,#fff,#dfceff 45%,#8150e8);
+  box-shadow:
+    0 0 0 7px rgba(138,92,255,.14),
+    0 0 44px rgba(138,92,255,.40),
+    0 18px 44px rgba(0,0,0,.62);
+  z-index:10;
+}
+
+.maxess-naya-portrait img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center 16%;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.96);
+}
+
+.cloud-eyebrow{
+  color:rgba(232,219,255,.78)!important;
+  letter-spacing:.13em!important;
+}
+
+.cloud-title{
+  max-width:570px!important;
+  margin-top:12px!important;
+  color:#fff!important;
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-size:clamp(34px,5vw,52px)!important;
+  font-weight:400!important;
+  letter-spacing:-.045em!important;
+  line-height:1.02!important;
+  text-shadow:0 8px 35px rgba(0,0,0,.30)!important;
+}
+
+.cloud-body{
+  max-width:570px!important;
+  margin:18px auto 0!important;
+  color:rgba(255,255,255,.88)!important;
+  font-size:clamp(16px,2vw,19px)!important;
+  line-height:1.62!important;
+  font-weight:500!important;
+}
+
+.cloud-button{
+  min-height:56px!important;
+  border-radius:18px!important;
+  padding:0 27px!important;
+  background:rgba(7,4,13,.72)!important;
+  border:1px solid rgba(221,205,255,.58)!important;
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.36),
+    0 0 28px rgba(138,92,255,.14)!important;
+}
+
+@media(max-width:600px){
+  .interstitial{padding:16px!important}
+  .teaching-cloud{
+    width:min(100%,calc(100vw - 24px))!important;
+    min-height:430px!important;
+    padding:64px 23px 28px!important;
+    border-radius:30px!important;
+  }
+  .maxess-naya-portrait{
+    top:-34px;
+    right:20px;
+    width:82px;
+    height:82px;
+  }
+  .cloud-title{font-size:clamp(31px,9vw,43px)!important}
+  .cloud-body{font-size:15px!important}
+  .cloud-actions{flex-direction:column!important;width:100%!important}
+  .cloud-button{width:100%!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .teaching-cloud{animation:none!important}
+}
+'''
+              style_marker = '\n</style>'
+              if style_marker not in source:
+                  raise SystemExit('FAIL: closing style marker not found.')
+              source = source.replace(style_marker, human_css + style_marker, 1)
+
+          # 4. Inject the authoritative portrait into the existing teaching
+          #    cloud without replacing the underlying Naya dialog mechanics.
+          human_js_marker = 'MAXESS_NAYA_PORTRAIT_INJECT_V3'
+          if human_js_marker not in source:
+              human_js = r'''
+
+<script>
+/* MAXESS_NAYA_PORTRAIT_INJECT_V3 */
+(function(){
+  "use strict";
+
+  var IMAGE = "https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg";
+  var interstitial = document.getElementById("teachingInterstitial");
+  if(!interstitial) return;
+
+  function ensurePortrait(){
+    var cloud = interstitial.querySelector(".teaching-cloud");
+    if(!cloud) return;
+
+    var portrait = cloud.querySelector(".maxess-naya-portrait");
+    if(!portrait){
+      portrait = document.createElement("div");
+      portrait.className = "maxess-naya-portrait";
+      portrait.innerHTML =
+        '<img src="'+IMAGE+'" alt="Naya" loading="eager">';
+      cloud.appendChild(portrait);
+    }
+  }
+
+  ensurePortrait();
+
+  new MutationObserver(function(){
+    if(interstitial.classList.contains("visible")) ensurePortrait();
+  }).observe(interstitial,{attributes:true,attributeFilter:["class"]});
+})();
+</script>
+'''
+              body_marker = '\n</body>'
+              if body_marker not in source:
+                  raise SystemExit('FAIL: closing body marker not found.')
+              source = source.replace(body_marker, human_js + body_marker, 1)
+
+          # 5. Guardrails: this must still be the same full application.
+          final_bytes = len(source.encode('utf-8'))
+          final_lines = len(source.splitlines())
+
+          if final_bytes < original_bytes * 0.90:
+              raise SystemExit(f'FAIL: artifact shrank from {original_bytes} to {final_bytes} bytes.')
+          if final_lines < original_lines * 0.90:
+              raise SystemExit(f'FAIL: artifact shrank from {original_lines} to {final_lines} lines.')
+
+          required = [
+              'MAXESS_ASSESSMENT',
+              'calculateResults',
+              'finishInterestSelection',
+              'MAXESS_RESULT_V1',
+              'state.responses.length !== 15',
+              'results.kninet.app',
+              'Naya%20Profile%206.jpg',
+              'MAXESS_NAYA_HUMAN_V3',
+              'MAXESS_NAYA_PORTRAIT_INJECT_V3'
+          ]
+          for token in required:
+              if token not in source:
+                  raise SystemExit(f'FAIL: required token disappeared: {token}')
+
+          p.write_text(source,encoding='utf-8')
+
+          print('ORIGINAL_BYTES=',original_bytes)
+          print('FINAL_BYTES=',final_bytes)
+          print('ORIGINAL_LINES=',original_lines)
+          print('FINAL_LINES=',final_lines)
+          print('CANONICAL_ARTIFACT=MaxessCode')
+          print('RESULTS_DESTINATION=https://results.kninet.app/')
+          print('NAYA_ASSET=Naya Profile 6.jpg')
           PY
-      - name: Verify generated source
+
+      - name: Verify canonical artifact and JavaScript
         shell: bash
         run: |
-          grep -q 'https://results.nayanet.app/#maxess-result=' 'AIScoreMAXESS code'
-          grep -q 'contractVersion: "MAXESS_RESULT_V1"' 'AIScoreMAXESS code'
-          grep -q 'state.responses.length !== 15' 'AIScoreMAXESS code'
-          grep -q 'publishMAXESSResultToApp' 'AIScoreMAXESS code'
-          if grep -q 'results.nayanet.xyz' 'AIScoreMAXESS code'; then exit 1; fi
-          if grep -q 'oldResults.style.display' 'AIScoreMAXESS code'; then exit 1; fi
-      - name: Commit generated source
+          test -f 'MaxessCode'
+          grep -q 'MAXESS_RESULT_V1' 'MaxessCode'
+          grep -q 'results.kninet.app' 'MaxessCode'
+          grep -q 'Naya%20Profile%206.jpg' 'MaxessCode'
+          grep -q 'MAXESS_NAYA_HUMAN_V3' 'MaxessCode'
+          grep -q 'MAXESS_NAYA_PORTRAIT_INJECT_V3' 'MaxessCode'
+          if grep -q 'results.kninet.xyz' 'MaxessCode'; then exit 1; fi
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('MaxessCode').read_text(encoding='utf-8')
+          m=re.search(r'<script>(.*?)</script>',s,re.S)
+          if not m:
+              raise SystemExit('No script block found')
+          print('Full artifact bytes:',len(s.encode()))
+          print('Full artifact lines:',len(s.splitlines()))
+          print('finishInterestSelection count:',s.count('function finishInterestSelection'))
+          print('MAXESS_RESULT_V1 count:',s.count('MAXESS_RESULT_V1'))
+          print('kninet.app count:',s.count('results.kninet.app'))
+          PY
+
+      - name: Commit canonical artifact and remove temporary repair workflow
         shell: bash
         run: |
           git config user.name 'SoulSchoolAcademy'
           git config user.email '221210320+SoulSchoolAcademy@users.noreply.github.com'
-          git add 'AIScoreMAXESS code'
-          git diff --cached --quiet && exit 0
-          git commit -m 'Build AIScore Results app bridge from known-good baseline'
+          git add -- 'MaxessCode' '.github/workflows/repair-aiscore-bridge.yml'
+          git rm --cached '.github/workflows/repair-aiscore-bridge.yml' || true
+          git rm -- '.github/workflows/repair-aiscore-bridge.yml'
+          git add -- 'MaxessCode'
+          git commit -m 'Repair canonical MaxessCode AIScore and Naya experience'
           git push
