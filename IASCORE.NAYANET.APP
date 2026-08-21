@@ -26,7 +26,7 @@
 </style>
 <style>
 /* NAYA_IMAGE_SURGICAL_V1 — image-only enhancement; preserve all existing UI/behavior */
-.presence-orb{background-image:url('Naya Profile 6.jpg');background-size:cover;background-position:center 16%;background-repeat:no-repeat;}
+.presence-orb{background-image:url('https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg');background-size:cover;background-position:center 16%;background-repeat:no-repeat;}
 </style></head>
 <body>
 <main class="app" aria-label="MAXESS AI Mastery Assessment">
