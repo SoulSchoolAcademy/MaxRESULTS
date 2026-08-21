@@ -51,7 +51,7 @@ jobs:
           assert 'Keywords' in protocol
           assert 'Every new durable note gets:' in index
           assert daily_files, 'No dated Smart Notes file exists'
-          assert re.search(r'SN-\\d{8}-\\d{3}', index), 'No indexed Smart Notes entry found'
+          assert re.search(r'SN-\d{8}-\d{3}', index), 'No indexed Smart Notes entry found'
           latest = daily_files[-1].name
           assert latest in index, f'Latest daily Smart Notes file is not indexed: {latest}'
           print('SMART NOTES INTEGRITY GATE: PASS')
@@ -103,7 +103,7 @@ jobs:
           assert 'window.MAXESS_RESULT' in s
           assert '<html' in s.lower()
           assert s.lower().count('</html>') == 1
-          assert not re.search(r'(^|\\n)(<<<<<<<|=======|>>>>>>>)( |\\n|$)', s)
+          assert not re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)', s)
           assert len(s.encode()) > 500_000
           assert len(s.splitlines()) > 6500
           print('SOURCE AUTHORITY GATE: PASS')
