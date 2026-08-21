@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <meta name="maxess-artifact" content="E04-SECTION-04-WORKING">
-<meta name="maxess-version" content="e04-direction-spectrum-v4">
+<meta name="maxess-version" content="e04-direction-spectrum-v5">
 <title>MAXESS — Section 04 · Your Direction</title>
 <style>
 /* MAXESS E04 — isolated modular Groove section. */
@@ -28,7 +28,7 @@
 #e04 .advancing{width:15%;background:linear-gradient(90deg,var(--green) 0%,var(--cyan) 100%)}
 #e04 .mastery{width:10%;background:linear-gradient(90deg,var(--blue) 0%,var(--violet) 100%)}
 #e04 .e04-segment::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.3),transparent 45%,rgba(0,0,0,.12));pointer-events:none}
-#e04 .e04-marker{position:absolute;top:-22px;left:82%;transform:translateX(-50%);width:66px;height:66px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center;background:#050505;color:#fff;font-size:17px;font-weight:800;box-shadow:0 0 0 5px rgba(255,255,255,.04),0 0 25px rgba(95,226,245,.48),0 0 52px rgba(141,99,255,.22);z-index:5}
+#e04 .e04-marker{position:absolute;top:-22px;left:0%;transform:translateX(-50%);width:66px;height:66px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center;background:#050505;color:#fff;font-size:17px;font-weight:800;box-shadow:0 0 0 5px rgba(255,255,255,.04),0 0 25px rgba(95,226,245,.48),0 0 52px rgba(141,99,255,.22);z-index:5}
 #e04 .e04-marker::after{content:"";position:absolute;bottom:-13px;left:50%;width:1px;height:13px;transform:translateX(-50%);background:rgba(255,255,255,.65)}
 #e04 .e04-labels{display:flex;margin-top:17px;text-align:center;font-size:10px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;line-height:1.2}
 #e04 .e04-labels span:nth-child(1){width:50%;color:#ff5365}
@@ -38,12 +38,14 @@
 #e04 .e04-ticks{position:absolute;left:0;right:0;bottom:0;height:23px;display:flex;justify-content:space-between;align-items:flex-end;color:rgba(255,255,255,.7);font-size:10px;font-weight:700}
 #e04 .e04-stage{margin:31px auto 0;text-align:center;color:#fff;font-size:10px;font-weight:900;letter-spacing:.25em;text-transform:uppercase}
 #e04 .e04-stage span{opacity:.75}
+#e04 .e04-stage-name{ }
 #e04 .e04-letter{position:relative;width:min(860px,100%);margin:42px auto 0;padding:34px 38px 38px;border-top:1px solid rgba(255,255,255,.14);border-bottom:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,rgba(255,255,255,.018),transparent)}
 #e04 .e04-quote{position:absolute;top:0;left:2px;color:rgba(255,255,255,.92);font-family:Georgia,serif;font-size:88px;line-height:.7;font-weight:400;pointer-events:none;text-shadow:0 0 18px rgba(141,99,255,.32)}
 #e04 .e04-copy{position:relative;margin:0;color:#fff;font-family:Georgia,"Times New Roman",serif;font-size:clamp(17px,1.7vw,21px);line-height:1.78;letter-spacing:-.004em}
 #e04 .e04-copy strong{color:#fff;font-weight:700}
 #e04 .e04-note{margin:25px auto 0;color:#fff;text-align:center;font-size:10px;letter-spacing:.13em;text-transform:uppercase;opacity:.65}
 #e04 .e04-bg-glow{position:absolute;z-index:0;left:50%;top:0;width:900px;height:500px;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(141,99,255,.075),transparent 67%);filter:blur(45px);pointer-events:none}
+#e04 .e04-waiting{margin:25px auto 0;color:#8e8998;text-align:center;font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
 @media(max-width:760px){
 #e04 .e04-wrap{padding:52px 17px 62px}
 #e04 .e04-kicker{font-size:8px;letter-spacing:.25em}
@@ -62,7 +64,7 @@
 #e04 .e04-wrap{padding:20mm 15mm;background:#fff!important}
 #e04 .e04-title,#e04 .e04-score,#e04 .e04-copy{color:#111}
 #e04 .e04-letter{break-inside:avoid;page-break-inside:avoid;background:#fff;border-color:#ddd}
-#e04 .e04-note,#e04 .e04-stage{color:#444}
+#e04 .e04-note,#e04 .e04-stage,#e04 .e04-waiting{color:#444}
 }
 @media(prefers-reduced-motion:reduce){#e04 *{animation:none!important;transition:none!important}}
 </style>
@@ -75,7 +77,7 @@
 <p class="e04-kicker">MAXESS · CAPABILITY PROFILE</p>
 <h1 class="e04-title" id="e04-title">Your Direction</h1>
 <div class="e04-rule" aria-hidden="true"></div>
-<div class="e04-score" id="e04-score" aria-label="Direction score">82</div>
+<div class="e04-score" id="e04-score" aria-label="Direction score">—</div>
 </header>
 <section class="e04-spectrum" aria-label="Direction capability spectrum">
 <div class="e04-bar" role="img" aria-label="Foundation 0 to 49, Developing 50 to 74, Advancing 75 to 89, Mastery 90 to 100">
@@ -83,7 +85,7 @@
 <div class="e04-segment developing"></div>
 <div class="e04-segment advancing"></div>
 <div class="e04-segment mastery"></div>
-<div class="e04-marker" id="e04-marker" aria-hidden="true">82</div>
+<div class="e04-marker" id="e04-marker" aria-hidden="true">—</div>
 </div>
 <div class="e04-labels" aria-hidden="true">
 <span>Foundation</span>
@@ -95,45 +97,74 @@
 <span>0</span><span>50</span><span>75</span><span>90</span><span>100</span>
 </div>
 </section>
-<div class="e04-stage" id="e04-stage">ADVANCING <span>· 75–89</span></div>
+<div class="e04-stage" id="e04-stage">RESULT PENDING</div>
 <article class="e04-letter" aria-live="polite">
 <div class="e04-quote" aria-hidden="true">“</div>
-<p class="e04-copy" id="e04-copy"><strong>Your Direction capability is Advancing.</strong> You already know how to establish useful context, intention, and outcomes for AI. Your next level is precision — knowing which details matter most and giving AI exactly what it needs without unnecessary complexity.</p>
+<p class="e04-copy" id="e04-copy"><strong>Your Direction result is awaiting the MAXESS result contract.</strong> This section will populate from your real result as soon as it arrives.</p>
 </article>
 <p class="e04-note">A capability is not a ceiling. It is a point of leverage.</p>
+<p class="e04-waiting" id="e04-waiting">Awaiting your MAXESS result</p>
 </div>
 </section>
 <script>
 (function(){
 'use strict';
-var score=82;
-try{
-var result=window.MAXESS_RESULT||window.MAXESS_RESULTS||{};
-var candidate=result.directionScore;
-if(candidate===undefined&&result.dimensions){
-var d=result.dimensions.direction||result.dimensions.DIRECTION;
-if(typeof d==='number')candidate=d;
-else if(d&&typeof d.score==='number')candidate=d.score;
-}
-if(candidate===undefined)candidate=result.score;
-if(candidate!==undefined&&isFinite(Number(candidate)))score=Number(candidate);
-}catch(error){}
-score=Math.max(0,Math.min(100,score));
-var stage=score<50?'FOUNDATION':score<75?'DEVELOPING':score<90?'ADVANCING':'MASTERY';
-var range=stage==='FOUNDATION'?'0–49':stage==='DEVELOPING'?'50–74':stage==='ADVANCING'?'75–89':'90–100';
-var text={
+var scoreEl=document.getElementById('e04-score');
+var markerEl=document.getElementById('e04-marker');
+var stageEl=document.getElementById('e04-stage');
+var copyEl=document.getElementById('e04-copy');
+var waitingEl=document.getElementById('e04-waiting');
+var texts={
 FOUNDATION:'Your Direction capability is currently in the Foundation stage. This means you may sometimes know what you want AI to help you accomplish, but the instruction you give it may not yet consistently provide enough clarity, context, or desired outcome for AI to produce its best work. The opportunity here isn’t to write longer prompts. It’s to become clearer about what you’re actually asking AI to accomplish.',
 DEVELOPING:'Your Direction capability is currently Developing. You already understand that better instructions create better results, and you’re beginning to give AI more useful context and intention. Your next opportunity is consistency — learning to establish the destination clearly before asking AI to start moving.',
 ADVANCING:'Your Direction capability is Advancing. You already know how to establish useful context, intention, and outcomes for AI. Your next level is precision — knowing which details matter most and giving AI exactly what it needs without unnecessary complexity.',
 MASTERY:'Your Direction capability is at the Mastery stage. You have developed a strong instinct for translating intention into direction AI can act on. You understand that the quality of the destination you define has enormous influence on the quality of the journey. Your opportunity now is to turn that instinct into a repeatable system you can apply across increasingly complex work.'
 };
-var prefix={FOUNDATION:'Foundation',DEVELOPING:'Developing',ADVANCING:'Advancing',MASTERY:'Mastery'}[stage];
-document.getElementById('e04-score').textContent=Math.round(score);
-document.getElementById('e04-marker').textContent=Math.round(score);
-document.getElementById('e04-marker').style.left=score+'%';
-document.getElementById('e04-stage').innerHTML=prefix+' <span>· '+range+'</span>';
-document.getElementById('e04-copy').innerHTML='<strong>'+text[stage].split('.')[0]+'.</strong>'+text[stage].substring(text[stage].indexOf('.')+1);
-}());
+function readResult(){
+  try{
+    var result=window.MAXESS_RESULT;
+    return result&&typeof result==='object'?result:null;
+  }catch(error){return null;}
+}
+function readDirectionScore(result){
+  if(!result)return null;
+  var candidate=result.directionScore;
+  if(candidate===undefined&&result.dimensions){
+    var d=result.dimensions.direction||result.dimensions.DIRECTION;
+    if(typeof d==='number')candidate=d;
+    else if(d&&typeof d.score==='number')candidate=d.score;
+  }
+  return candidate!==undefined&&isFinite(Number(candidate))?Number(candidate):null;
+}
+function render(result){
+  var score=readDirectionScore(result);
+  if(score===null){
+    scoreEl.textContent='—';
+    markerEl.textContent='—';
+    markerEl.style.left='0%';
+    stageEl.textContent='RESULT PENDING';
+    copyEl.innerHTML='<strong>Your Direction result is awaiting the MAXESS result contract.</strong> This section will populate from your real result as soon as it arrives.';
+    waitingEl.hidden=false;
+    return;
+  }
+  score=Math.max(0,Math.min(100,score));
+  var stage=score<50?'FOUNDATION':score<75?'DEVELOPING':score<90?'ADVANCING':'MASTERY';
+  var range=stage==='FOUNDATION'?'0–49':stage==='DEVELOPING'?'50–74':stage==='ADVANCING'?'75–89':'90–100';
+  var prefix={FOUNDATION:'Foundation',DEVELOPING:'Developing',ADVANCING:'Advancing',MASTERY:'Mastery'}[stage];
+  scoreEl.textContent=Math.round(score);
+  markerEl.textContent=Math.round(score);
+  markerEl.style.left=score+'%';
+  stageEl.innerHTML=prefix+' <span>· '+range+'</span>';
+  var sentence=texts[stage];
+  var firstPeriod=sentence.indexOf('.');
+  copyEl.innerHTML='<strong>'+sentence.slice(0,firstPeriod+1)+'</strong>'+sentence.slice(firstPeriod+1);
+  waitingEl.hidden=true;
+}
+render(readResult());
+window.addEventListener('MAXESS_RESULT_READY',function(event){render(event.detail&&typeof event.detail==='object'?event.detail:readResult());});
+window.addEventListener('maxess:result-updated',function(event){render(event.detail&&typeof event.detail==='object'?event.detail:readResult());});
+window.addEventListener('storage',function(){render(readResult());});
+})();
 </script>
 </body>
 </html>
