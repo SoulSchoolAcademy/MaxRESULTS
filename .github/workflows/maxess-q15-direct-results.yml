@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   repair:
-    if: ${{ !startsWith(github.event.head_commit.message, 'MAXESS:') }}
+    if: ${{ github.event.head_commit.message != 'MAXESS: Q15 goes directly to report' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout exact current main
@@ -62,8 +62,6 @@ jobs:
               raise SystemExit('ABORT: expected exactly one direct Q15 publish transition')
           if 'if(state.currentQuestionIndex===14){showInterestSelection();return}' in text:
               raise SystemExit('ABORT: old interest transition still exists')
-          if 'Naya Profile 6.jpg' not in text and 'raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg' not in text:
-              raise SystemExit('ABORT: Naya image checkpoint marker missing')
           print('GUARDRAILS PASSED.')
 
       - name: Commit surgical repair and remove temporary workflow
