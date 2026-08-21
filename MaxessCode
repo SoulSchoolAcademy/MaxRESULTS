@@ -2266,7 +2266,7 @@ button:disabled{
     transition:none!important;
     animation:none!important;
   }
-}
+}\n\n/* MAXESS_NAYA_HUMAN_V3 */\n.interstitial{place-items:center!important;padding:20px!important;background:radial-gradient(circle at 50% 42%,rgba(86,35,151,.34),rgba(7,2,16,.82) 50%,rgba(0,0,0,.95) 84%)!important;backdrop-filter:blur(22px) saturate(118%)!important;-webkit-backdrop-filter:blur(22px) saturate(118%)!important}\n.teaching-cloud{position:relative!important;width:min(720px,calc(100vw - 32px))!important;min-height:390px!important;padding:58px 58px 42px!important;display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;text-align:center!important;border-radius:42px!important;background:radial-gradient(circle at 54% 0,rgba(142,91,255,.34),transparent 45%),linear-gradient(145deg,#29124a 0%,#160a28 48%,#09040f 100%)!important;border:1px solid rgba(213,190,255,.48)!important;box-shadow:0 45px 120px rgba(0,0,0,.80),0 0 100px rgba(116,62,255,.30),inset 0 1px 0 rgba(255,255,255,.16)!important;overflow:visible!important}\n.teaching-cloud .cloud-icon{display:none!important}\n.maxess-naya-portrait{position:absolute;top:-44px;right:32px;width:112px;height:112px;padding:4px;border-radius:50%;background:linear-gradient(145deg,#fff,#dfceff 45%,#8150e8);box-shadow:0 0 0 7px rgba(138,92,255,.14),0 0 44px rgba(138,92,255,.40),0 18px 44px rgba(0,0,0,.62);z-index:10}\n.maxess-naya-portrait img{width:100%;height:100%;display:block;object-fit:cover;object-position:center 16%;border-radius:50%;border:2px solid rgba(255,255,255,.96)}\n.cloud-title{max-width:570px!important;margin-top:12px!important;color:#fff!important;font-family:Georgia,'Times New Roman',serif!important;font-size:clamp(34px,5vw,52px)!important;font-weight:400!important;letter-spacing:-.045em!important;line-height:1.02!important}\n.cloud-body{max-width:570px!important;margin:18px auto 0!important;color:rgba(255,255,255,.88)!important;font-size:clamp(16px,2vw,19px)!important;line-height:1.62!important;font-weight:500!important}\n.cloud-button{min-height:56px!important;border-radius:18px!important;padding:0 27px!important;background:rgba(7,4,13,.72)!important;border:1px solid rgba(221,205,255,.58)!important;box-shadow:0 14px 30px rgba(0,0,0,.36),0 0 28px rgba(138,92,255,.14)!important}\n@media(max-width:600px){.interstitial{padding:16px!important}.teaching-cloud{width:min(100%,calc(100vw - 24px))!important;min-height:430px!important;padding:64px 23px 28px!important;border-radius:30px!important}.maxess-naya-portrait{top:-34px;right:20px;width:82px;height:82px}.cloud-title{font-size:clamp(31px,9vw,43px)!important}.cloud-body{font-size:15px!important}.cloud-actions{flex-direction:column!important;width:100%!important}.cloud-button{width:100%!important}}\n@media(prefers-reduced-motion:reduce){.teaching-cloud{animation:none!important}}\n
 </style>
 </head>
 
@@ -4947,11 +4947,7 @@ function renderResults(){
 
 function finishInterestSelection(){
 
-  DOM.interestsView.classList.remove(
-    "visible"
-  );
-
-  renderResults();
+  publishMAXESSResultToApp();
 
 }
 
@@ -5294,8 +5290,8 @@ try{
   DOM.continueButton.disabled=true;
 
 }
-
+\n\n/* MAXESS_CANONICAL_APP_BRIDGE_V2 */\nfunction publishMAXESSResultToApp(){\n  const results=calculateResults();\n  if(!results||!Array.isArray(results.dimensions)||results.dimensions.length!==5){console.error('MAXESS: Results calculation failed.');return;}\n  if(!Array.isArray(state.responses)||state.responses.length!==15){console.error('MAXESS: refusing incomplete assessment.');return;}\n  const strongest=[...results.dimensions].sort((a,b)=>Number(b.score)-Number(a.score))[0];\n  const opportunity=[...results.dimensions].sort((a,b)=>Number(a.score)-Number(b.score))[0];\n  const overallScore=Math.round(Number(results.overall)*10)/10;\n  const contract={contractVersion:'MAXESS_RESULT_V1',assessmentId:MAXESS_ASSESSMENT.id,assessmentVersion:MAXESS_ASSESSMENT.version,completedAt:new Date().toISOString(),overallScore,masteryStage:results.band&&results.band.label?results.band.label:'',masteryBand:results.band||null,dimensions:results.dimensions,fiveDimensions:results.dimensions,strongestDimension:strongest||null,opportunityDimension:opportunity||null,responses:state.responses.slice(),selectedInterests:Array.from(state.selectedInterests||[]),personalizedAnalysis:typeof buildAnalysis==='function'?buildAnalysis(results,strongest,opportunity):'',naya:{name:'Naya',image:'https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg'}};\n  if(!Number.isFinite(contract.overallScore)||contract.overallScore<0||contract.overallScore>100||contract.responses.length!==15){console.error('MAXESS: invalid Results contract.');return;}\n  const bytes=new TextEncoder().encode(JSON.stringify(contract));let binary='';bytes.forEach(byte=>binary+=String.fromCharCode(byte));\n  const encoded=btoa(binary).replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/g,'');\n  try{sessionStorage.setItem('MAXESS_RESULT_V1',JSON.stringify(contract));}catch(e){}\n  try{localStorage.setItem('MAXESS_RESULT_V1',JSON.stringify(contract));}catch(e){}\n  window.MAXESS_RESULT=contract;\n  try{window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:contract}));window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:contract}));}catch(e){}\n  window.location.assign('https://results.kninet.app/?result='+encodeURIComponent(encoded)+'#maxess-result='+encoded);\n}\n
 </script>
-
+\n\n<script>\n/* MAXESS_NAYA_PORTRAIT_INJECT_V3 */\n(function(){'use strict';var IMAGE='https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg';var interstitial=document.getElementById('teachingInterstitial');if(!interstitial)return;function ensurePortrait(){var cloud=interstitial.querySelector('.teaching-cloud');if(!cloud||cloud.querySelector('.maxess-naya-portrait'))return;var portrait=document.createElement('div');portrait.className='maxess-naya-portrait';portrait.innerHTML='<img src="'+IMAGE+'" alt="Naya" loading="eager">';cloud.appendChild(portrait);}ensurePortrait();new MutationObserver(function(){if(interstitial.classList.contains('visible'))ensurePortrait();}).observe(interstitial,{attributes:true,attributeFilter:['class']});})();\n</script>\n
 </body>
 </html>
