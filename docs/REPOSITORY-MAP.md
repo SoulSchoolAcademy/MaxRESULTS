@@ -12,6 +12,10 @@ The repository is `SoulSchoolAcademy/MaxRESULTS`.
 - `maxess-results-v21-working` = active Results engineering branch.
 - `SoulSchoolAcademy/maxess` = legacy reference only unless explicitly requested.
 
+**Official MAXESS Results production/public target:** `https://results.nayanet.app/`
+
+`.xyz` is obsolete for the MAXESS Results production target. Any branch-local instruction, implementation note, navigation reference, redirect, embed, or AI execution guidance referring to the MAXESS Results public target MUST use `results.nayanet.app`.
+
 Canonical operating rules live on `main`:
 
 - `main:START-HERE.md`
