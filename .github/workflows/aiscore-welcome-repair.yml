@@ -1,0 +1,66 @@
+name: AIScore welcome experience repair
+on:
+  push:
+    branches: [feat/aiscore-clean-v1]
+    paths: [AIScoreMAXESS-CLEAN-V1.html, .github/workflows/aiscore-welcome-repair.yml]
+permissions:
+  contents: write
+jobs:
+  repair:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/aiscore-clean-v1
+          fetch-depth: 0
+      - name: Add Naya welcome state
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('AIScoreMAXESS-CLEAN-V1.html')
+          s=p.read_text(encoding='utf-8')
+          if 'NAYA_WELCOME_V1' in s:
+              raise SystemExit('welcome repair already applied')
+          s=s.replace("const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={index:0,selected:null,responses:[],interests:new Set(),nayaPlaying:false,completed:false};", "const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],interests:new Set(),nayaPlaying:false,completed:false};")
+          if "state={firstVisit:true" not in s:
+              s=s.replace("const state={index:0,selected:null,responses:[],interests:new Set(),nayaPlaying:false,completed:false};", "const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],interests:new Set(),nayaPlaying:false,completed:false};")
+          old="function openNaya(){const q=current();$('dialogKicker').textContent=`${q.label} · QUESTION ${q.order}`;$('dialogBody').textContent=q.teaching;$('nayaDialog').classList.add('open');$('playNaya').focus()}"
+          new="function openNaya(){const q=current();if(state.firstVisit){state.nayaText=\"Hi, I'm Naya. I'm going to walk you through this assessment. It takes about three minutes. I'll help you understand what each question is really asking, then you can answer based on what you actually do today. Ready?\";$('dialogKicker').textContent='WELCOME · MAXESS AI MASTERY ASSESSMENT';$('dialogTitle').textContent=\"Hi, I'm Naya.\";$('dialogBody').textContent=state.nayaText;$('closeNaya').innerHTML=\"LET'S GO <span class='arrow'>→</span>\"}else{state.nayaText=q.teaching;$('dialogKicker').textContent=`${q.label} · QUESTION ${q.order}`;$('dialogTitle').textContent=\"Here's what we're really looking at.\";$('dialogBody').textContent=q.teaching;$('closeNaya').innerHTML=\"Got it — let's go <span class='arrow'>→</span>\"}$('nayaDialog').classList.add('open');$('playNaya').focus()}"
+          if old not in s: raise SystemExit('openNaya pattern missing')
+          s=s.replace(old,new)
+          old="function closeNaya(){stopNaya();$('nayaDialog').classList.remove('open');$('nayaButton').focus()}"
+          new="function closeNaya(){stopNaya();state.firstVisit=false;state.nayaText='';$('nayaDialog').classList.remove('open');$('nayaButton').focus()}"
+          if old not in s: raise SystemExit('closeNaya pattern missing')
+          s=s.replace(old,new)
+          old="function playNaya(){stopNaya();const q=current();const src=q.nayaAudio||null;"
+          new="function playNaya(){stopNaya();const q=current();const src=q.nayaAudio||null;"
+          if old not in s: raise SystemExit('playNaya start missing')
+          s=s.replace("const u=new SpeechSynthesisUtterance(q.teaching);", "const u=new SpeechSynthesisUtterance(state.nayaText||q.teaching);")
+          s=s.replace("$('playNaya').addEventListener('click',()=>{playNaya();$('nayaDialog').classList.remove('open');$('nayaButton').focus()});", "$('playNaya').addEventListener('click',()=>{playNaya();state.firstVisit=false;$('nayaDialog').classList.remove('open');$('nayaButton').focus()});")
+          s=s.replace("window.MAXESS_CLEAN_V1_REPAIR_APPLIED=true;", "window.MAXESS_CLEAN_V1_REPAIR_APPLIED=true;window.NAYA_WELCOME_V1=true;")
+          p.write_text(s,encoding='utf-8')
+      - name: Static QA
+        run: |
+          grep -q 'NAYA_WELCOME_V1' AIScoreMAXESS-CLEAN-V1.html
+          grep -q "Hi, I'm Naya" AIScoreMAXESS-CLEAN-V1.html
+          grep -q "Ready?" AIScoreMAXESS-CLEAN-V1.html
+          git diff --check
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          s=Path('AIScoreMAXESS-CLEAN-V1.html').read_text(encoding='utf-8')
+          scripts=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S|re.I)
+          Path('/tmp/aiscore.js').write_text('\n'.join(scripts),encoding='utf-8')
+          print('script blocks:',len(scripts),'bytes:',len(s.encode('utf-8')),'lines:',len(s.splitlines()))
+          PY
+          node --check /tmp/aiscore.js
+      - name: Remove one-time workflow and commit
+        run: |
+          git config user.name 'Naya Master'
+          git config user.email 'naya-master@users.noreply.github.com'
+          git rm .github/workflows/aiscore-welcome-repair.yml
+          git add AIScoreMAXESS-CLEAN-V1.html
+          git diff --cached --check
+          git commit -m 'repair: add Naya welcome experience to AIScore CLEAN V1'
+          git push origin feat/aiscore-clean-v1
