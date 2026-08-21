@@ -1,0 +1,42 @@
+name: Restore AIScore working source
+
+on:
+  push:
+    paths:
+      - '.github/workflows/restore-aiscore-working.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore authoritative working AIScore file
+        shell: bash
+        run: |
+          set -euo pipefail
+          git show c1fa0e52b9816f1e7f50078245fb3d53e9c084f4 > 'AIScoreMAXESS code'
+          test -s 'AIScoreMAXESS code'
+          grep -q "MAXESS_RESULT_V1" 'AIScoreMAXESS code'
+          grep -q "https://results.nayanet.app/" 'AIScoreMAXESS code'
+          if grep -q "<!-- PATCH PENDING -->\|<!-- PLACEHOLDER -->" 'AIScoreMAXESS code'; then exit 1; fi
+
+      - name: Commit restored AIScore
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add 'AIScoreMAXESS code'
+          if git diff --cached --quiet; then
+            echo 'AIScore already restored.'
+            exit 0
+          fi
+          git commit -m 'Restore working AIScore assessment source'
+          git push
