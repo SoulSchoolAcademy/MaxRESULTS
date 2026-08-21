@@ -1,0 +1,152 @@
+<script>
+(function(){
+  'use strict';
+
+  /* MAXESS_RESULT_V1 — non-invasive bridge for the known-good AIScore UI */
+  const RESULTS_URL = 'https://results.nayanet.app/';
+  const responseLog = [];
+  let currentQuestionIndex = 0;
+  let finalizing = false;
+
+  function hideLegacyResults(){
+    const resultsView = document.getElementById('resultsView');
+    if(resultsView){
+      resultsView.style.visibility = 'hidden';
+      resultsView.setAttribute('aria-hidden','true');
+    }
+  }
+
+  function readQuestionNumber(){
+    const label = document.querySelector('.progress-label');
+    if(!label) return;
+    const match = label.textContent.match(/QUESTION\s+(\d+)\s+OF\s+15/i);
+    if(match) currentQuestionIndex = Number(match[1]) - 1;
+  }
+
+  function recordAnswer(button){
+    const answerId = button && button.dataset ? button.dataset.answerId : '';
+    if(!answerId) return;
+    responseLog[currentQuestionIndex] = {
+      questionIndex: currentQuestionIndex + 1,
+      answerId
+    };
+  }
+
+  function encode(contract){
+    const json = JSON.stringify(contract);
+    const bytes = new TextEncoder().encode(json);
+    let binary = '';
+    bytes.forEach(byte => binary += String.fromCharCode(byte));
+    return btoa(binary)
+      .replace(/\+/g,'-')
+      .replace(/\//g,'_')
+      .replace(/=+$/,'');
+  }
+
+  function buildFromRenderedResult(){
+    const scoreNode = document.getElementById('overallScore');
+    const overallScore = scoreNode
+      ? Number(String(scoreNode.textContent).replace(/[^0-9.]/g,''))
+      : NaN;
+
+    const dimensions = Array.from(
+      document.querySelectorAll('#dimensionConstellation .dimension-orb')
+    ).map(card => {
+      const nameNode = card.querySelector('.dimension-name');
+      const scoreNode = card.querySelector('.dimension-score');
+      return {
+        id: nameNode
+          ? nameNode.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-')
+          : 'dimension',
+        name: nameNode ? nameNode.textContent.trim() : 'Dimension',
+        score: scoreNode
+          ? Number(String(scoreNode.textContent).replace(/[^0-9.]/g,''))
+          : 0
+      };
+    });
+
+    if(!Number.isFinite(overallScore) || overallScore < 0 || overallScore > 100){
+      throw new Error('MAXESS bridge could not read the completed overall score.');
+    }
+
+    if(dimensions.length !== 5){
+      throw new Error('MAXESS bridge could not read all five dimensions.');
+    }
+
+    const responses = responseLog.filter(Boolean);
+    if(responses.length !== 15){
+      throw new Error('MAXESS bridge captured ' + responses.length + ' responses; expected 15.');
+    }
+
+    return {
+      contractVersion: 'MAXESS_RESULT_V1',
+      overallScore,
+      dimensions,
+      fiveDimensions: dimensions,
+      responses,
+      selectedInterests: [],
+      completedAt: new Date().toISOString(),
+      naya: {
+        name: 'Naya',
+        image: 'https://i.postimg.cc/bw4fyKF8/Naya-Profile-black-face-zoom.jpg'
+      }
+    };
+  }
+
+  document.addEventListener('click', function(event){
+    readQuestionNumber();
+
+    const answer = event.target.closest && event.target.closest('.answer');
+    if(answer){
+      setTimeout(function(){
+        readQuestionNumber();
+        recordAnswer(answer);
+      },0);
+      return;
+    }
+
+    const finish = event.target.closest && (
+      event.target.closest('#interestContinue') ||
+      event.target.closest('#interestSkip')
+    );
+
+    if(!finish || finalizing) return;
+
+    finalizing = true;
+
+    /* Prevent the retired built-in Results screen from becoming visible. */
+    hideLegacyResults();
+
+    setTimeout(function(){
+      try{
+        const contract = buildFromRenderedResult();
+        const json = JSON.stringify(contract);
+        const encoded = encode(contract);
+
+        try{ sessionStorage.setItem('MAXESS_RESULT_V1', json); }catch(e){}
+        try{ localStorage.setItem('MAXESS_RESULT_V1', json); }catch(e){}
+
+        window.MAXESS_RESULT = contract;
+        window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:contract}));
+        window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:contract}));
+
+        window.location.assign(
+          RESULTS_URL + '#maxess-result=' + encoded
+        );
+      }catch(error){
+        console.error('MAXESS_RESULT bridge error:', error);
+        finalizing = false;
+        const resultsView = document.getElementById('resultsView');
+        if(resultsView){
+          resultsView.style.visibility = '';
+          resultsView.removeAttribute('aria-hidden');
+        }
+      }
+    },100);
+  }, true);
+
+  const observer = new MutationObserver(readQuestionNumber);
+  observer.observe(document.documentElement,{subtree:true,childList:true,characterData:true});
+  readQuestionNumber();
+})();
+</script>
