@@ -13,11 +13,16 @@ jobs:
     if: github.event.pull_request.head.ref == 'fix/aiscore-cleanv1-tonight' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout exact PR head
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
+
+      - name: Switch explicitly to PR head
+        shell: bash
+        run: |
+          git fetch origin "refs/heads/${{ github.event.pull_request.head.ref }}:refs/remotes/origin/${{ github.event.pull_request.head.ref }}"
+          git checkout --force "${{ github.event.pull_request.head.ref }}"
 
       - name: Apply surgical repair
         shell: python
@@ -36,6 +41,8 @@ jobs:
           old_url="location.assign('https://results.nayanet.app/#maxess-result='+payload);"
           if old_url not in s: raise SystemExit('Expected .app Results URL not found.')
           s=s.replace(old_url,"location.assign('https://results.nayanet.xyz/#maxess-result='+payload);",1)
+          old_complete='<div id="completeStage" class="complete hidden" aria-live="polite"><div class="complete-orb" aria-hidden="true"></div><h2>Your personal report is ready.</h2><p>I\'m sending your real assessment result to MAXESS Results now. Nothing is being invented or substituted.</p><button class="primary" id="continueToResults" type="button">Continue to My Report <span class="arrow">→</span></button></div>'
+          s=s.replace(old_complete,'',1)
           marker='window.MAXESS_CLEAN_V1_TONIGHT_REPAIR_V1=true;'
           if marker not in s: s=s.replace("window.NAYA_WELCOME_V1=true;","window.NAYA_WELCOME_V1=true;"+marker,1)
           p.write_text(s,encoding='utf-8')
@@ -47,8 +54,10 @@ jobs:
           grep -q 'MAXESS_RESULT_V1' 'AIScoreMAXESS-CLEAN-V1.html'
           grep -q 'https://results.nayanet.xyz/#maxess-result=' 'AIScoreMAXESS-CLEAN-V1.html'
           grep -q 'MAXESS_CLEAN_V1_TONIGHT_REPAIR_V1' 'AIScoreMAXESS-CLEAN-V1.html'
+          grep -q 'function finishInterests(){try{publish()}' 'AIScoreMAXESS-CLEAN-V1.html'
           if grep -q 'id="presenceOrb"' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
           if grep -q 'results.nayanet.app/#maxess-result=' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
+          if grep -q 'id="completeStage"' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
           python - <<'PY'
           import re
           from pathlib import Path
@@ -59,7 +68,7 @@ jobs:
           PY
           node --check /tmp/aiscore.js
           git diff --check
-      - name: Commit repair and remove target runner
+      - name: Commit repair and remove runners
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
@@ -68,7 +77,7 @@ jobs:
           git rm -- '.github/workflows/naya-cleanv1-tonight-repair.yml' || true
           git commit -m 'Repair CLEAN V1 Naya and Results transition'
           git push origin HEAD:fix/aiscore-cleanv1-tonight
-          git checkout feat/aiscore-clean-v1
+          git checkout --force feat/aiscore-clean-v1
           git pull --ff-only origin feat/aiscore-clean-v1
           git rm -- '.github/workflows/naya-cleanv1-tonight-target.yml'
           git commit -m 'Remove temporary CLEAN V1 target repair runner'
