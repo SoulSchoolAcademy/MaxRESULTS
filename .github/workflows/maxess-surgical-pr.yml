@@ -1,0 +1,31 @@
+name: MAXESS Surgical PR Runner
+on:
+  pull_request:
+    types: [opened, synchronize]
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+      - name: Execute the protected surgical runner
+        shell: python
+        run: |
+          from pathlib import Path
+          import re, textwrap, subprocess
+          wf=Path('.github/workflows/maxess-surgical-20260821.yml').read_text(encoding='utf-8')
+          m=re.search(r'(?m)^        run: \|\n(?P<body>.*?)(?=^      - name: Verify surgical scope and syntax)',wf,re.S)
+          if not m:
+              raise SystemExit('Protected surgical runner body not found; refusing execution.')
+          code=textwrap.dedent(m.group('body'))
+          # Remove the first workflow-step's final commit/push block; this PR runner owns the final commit.
+          code=code.replace("          git config user.name 'github-actions[bot]'\n          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'\n          git add -- IASCORE.NAYANET.APP E01 E02 E03 E04\n          git rm -- .github/workflows/maxess-surgical-20260821.yml\n          git commit -m 'fix: surgical MAXESS image flow and result hydration'\n          git push", "")
+          # Execute only the Python portion before the next shell verification step.
+          code=code.split("      - name: Verify surgical scope and syntax")[0]
+          exec(compile(code,'protected-surgical-runner','exec'),{})
+          subprocess.run(['bash','-lc','set -e; git diff --check; python - <<\"PY\"\nfrom pathlib import Path\nimport re\nfor name in [\"IASCORE.NAYANET.APP\",\"E01\",\"E02\",\"E03\",\"E04\"]:\n s=Path(name).read_text(encoding=\"utf-8\")\n scripts=re.findall(r\"<script[^>]*>(.*?)</script>\",s,re.S|re.I)\n Path(\"/tmp/\"+name+\".js\").write_text(\"\\n\".join(scripts),encoding=\"utf-8\")\n print(name,len(s.splitlines()),len(s.encode()))\nPY\nfor f in /tmp/IASCORE.NAYANET.APP.js /tmp/E01.js /tmp/E02.js /tmp/E03.js /tmp/E04.js; do node --check \"$f\"; done'],check=True)
+          subprocess.run(['bash','-lc',"git config user.name 'github-actions[bot]'; git config user.email '41898282+github-actions[bot]@users.noreply.github.com'; git add -- IASCORE.NAYANET.APP E01 E02 E03 E04; git rm -- .github/workflows/maxess-surgical-20260821.yml .github/workflows/maxess-surgical-pr.yml NAYA_SURGICAL_TRIGGER_20260821.txt; git commit -m 'fix: surgical MAXESS image flow and result hydration'; git push"],check=True)
