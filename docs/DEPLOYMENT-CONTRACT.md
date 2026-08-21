@@ -1,7 +1,7 @@
 # MAXESS Results — Deployment + Groove Boundary Contract
 
 **Status:** CANONICAL GOVERNANCE
-**Effective:** 2026-08-19
+**Effective:** 2026-08-21
 **Authority:** NAYA LAW / MAXESS EXECUTION SYSTEM
 
 ## 1. PURPOSE
@@ -17,6 +17,17 @@ GitHub is the engineering source of truth.
 - Repository: `SoulSchoolAcademy/MaxRESULTS`
 - Governance/reference branch: `main`
 - Active Results engineering branch: `maxess-results-v21-working`
+- **Official MAXESS Results production/public target: `https://results.nayanet.app/`**
+
+### Canonical domain law
+
+`results.nayanet.app` is the only official MAXESS Results production/public target.
+
+`.xyz` is obsolete for MAXESS Results and MUST NOT be used for Results navigation, redirects, deployment instructions, embeds, prompts, AI instructions, or public-target documentation.
+
+This is a Results-specific rule. Do not blindly replace unrelated `.xyz` domains elsewhere in the system.
+
+The durable decision is recorded in `docs/smart-notes/2026/08/2026-08-21-canonical-results-app-domain.md`.
 
 The MAXESS artifact in GitHub is the source Naya must build, inspect, protect, diff, test, and deliver.
 
