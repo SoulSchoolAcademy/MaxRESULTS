@@ -24,7 +24,9 @@
 @media(max-width:420px){.naya-copy span{display:none}.naya-btn{padding-right:7px}.continue{padding:0 11px}.answer-sub{font-size:12.4px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
-</head>
+<style>
+/* NAYA_IMAGE_AAA_V1 */
+.naya-portrait{width:92px;height:92px;flex:0 0 92px;border-radius:50%;padding:3px;background:linear-gradient(145deg,#fff,#dfceff 45%,#8150e8);box-shadow:0 0 0 6px rgba(138,92,255,.12),0 0 38px rgba(138,92,255,.34),0 14px 34px rgba(0,0,0,.55);overflow:hidden}.naya-portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 16%;border-radius:50%;border:2px solid rgba(255,255,255,.96)}.dialog .naya-presence{flex-direction:column;gap:12px;margin-bottom:24px;text-align:center}.dialog .presence-copy{text-align:center}.dialog .presence-copy strong{font-size:20px}.dialog .presence-copy span{font-size:12px}.naya-orb{background-image:url('https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg');background-size:cover;background-position:center 16%;background-repeat:no-repeat}.naya-orb:after{background:rgba(0,0,0,.24);border-radius:50%;box-shadow:inset 0 0 0 999px rgba(0,0,0,.08)}@media(max-width:760px){.naya-portrait{width:78px;height:78px;flex-basis:78px}.dialog .naya-presence{margin-bottom:18px}}</style></head>
 <body>
 <main class="app" aria-label="MAXESS AI Mastery Assessment">
 <div class="shell">
@@ -46,7 +48,7 @@
 </div></section>
 <footer class="footer">MAXESS · AI Mastery Assessment · DATA → INSIGHT → UNDERSTANDING → ACTION → CAPABILITY</footer>
 </div></main>
-<div class="dialog" id="nayaDialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle" aria-describedby="dialogBody"><div class="dialog-card"><div class="naya-presence"><div class="presence-orb" id="presenceOrb" aria-hidden="true"></div><div class="presence-copy"><strong>Naya</strong><span>Let me walk you through this.</span></div></div><div class="dialog-kicker" id="dialogKicker">DIRECTION · QUESTION 1</div><h2 class="dialog-title" id="dialogTitle">Here's what we're really looking at.</h2><div class="dialog-body" id="dialogBody"></div><div class="dialog-actions"><button class="dialog-btn" id="playNaya" type="button">PLAY NAYA <span class="arrow">▶</span></button><button class="dialog-btn secondary" id="closeNaya" type="button">Got it — let's go <span class="arrow">→</span></button></div></div></div>
+<div class="dialog" id="nayaDialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle" aria-describedby="dialogBody"><div class="dialog-card"><div class="naya-presence"><div class="naya-portrait" aria-hidden="true"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg" alt=""></div><div class="presence-orb" id="presenceOrb" aria-hidden="true"></div><div class="presence-copy"><strong>Naya</strong><span>Let me walk you through this.</span></div></div><div class="dialog-kicker" id="dialogKicker">DIRECTION · QUESTION 1</div><h2 class="dialog-title" id="dialogTitle">Here's what we're really looking at.</h2><div class="dialog-body" id="dialogBody"></div><div class="dialog-actions"><button class="dialog-btn" id="playNaya" type="button">PLAY NAYA <span class="arrow">▶</span></button><button class="dialog-btn secondary" id="closeNaya" type="button">Got it — let's go <span class="arrow">→</span></button></div></div></div>
 <script>
 'use strict';
 const NAYA_AUDIO_REPORTS={foundation:null,developing:null,advancing:null,mastery:null};
