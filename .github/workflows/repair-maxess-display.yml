@@ -1,0 +1,34 @@
+name: Repair MAXESS display bridge
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove unsafe load-time Results DOM hide
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('AIScoreMAXESS code')
+          s = p.read_text()
+          old = '''  // Retire the old Results presentation. The new Results product is the sole renderer.\n  window.finishInterestSelection = function(){ publish(); };\n  const oldResults = document.getElementById('resultsView');\n  if(oldResults){\n    oldResults.setAttribute('data-retired-renderer','true');\n    oldResults.style.display = 'none';\n  }'''
+          new = '''  // Retire the old Results renderer by replacing its completion action.\n  // Do not hide the DOM at assessment load; the assessment UI must remain untouched.\n  window.finishInterestSelection = function(){ publish(); };'''
+          if old not in s:
+              raise SystemExit('Expected bridge block not found; refusing to modify file.')
+          p.write_text(s.replace(old, new, 1))
+          PY
+      - name: Commit repair
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "AIScoreMAXESS code"
+          git commit -m "Fix MAXESS assessment load-time display regression"
+          git push
+      - name: Remove workflow after repair
+        run: |
+          git rm .github/workflows/repair-maxess-display.yml
+          git commit -m "Remove one-time MAXESS display repair workflow"
+          git push
