@@ -1,0 +1,88 @@
+name: MAXESS surgical repair PR
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          fetch-depth: 2
+      - name: Apply surgical edits
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re, subprocess, tempfile
+          IMAGE='https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg'
+          files=['IASCORE.NAYANET.APP','E01','E02','E03','E04']
+          originals={p:Path(p).read_text() for p in files}
+          def replace_once(text, old, new, label):
+              n=text.count(old)
+              if n != 1: raise SystemExit(f'{label}: expected 1 match, found {n}')
+              return text.replace(old,new,1)
+          p='IASCORE.NAYANET.APP'; s=originals[p]
+          s=replace_once(s,'.naya-orb{width:40px;height:40px;flex:0 0 40px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%,#fff,#d7c8ff 16%,#9568ff 42%,#3c197f 72%,#09050f);','.naya-orb{width:40px;height:40px;flex:0 0 40px;border-radius:50%;display:grid;place-items:center;background-image:url("'+IMAGE+'");background-size:cover;background-position:center;','AIScore Naya button image')
+          s=replace_once(s,'.presence-orb{width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 30% 20%,#fff,#d7c8ff 16%,#9568ff 42%,#3c197f 72%,#09050f);','.presence-orb{width:56px;height:56px;border-radius:50%;background-image:url("'+IMAGE+'");background-size:cover;background-position:center;','AIScore Naya dialog image')
+          s=replace_once(s,"if(state.index===14){showInterestSelection();return}state.index++;renderQuestion();setTimeout(openNaya,140)","if(state.index===14){publish();return}state.index++;renderQuestion();setTimeout(openNaya,140)",'AIScore Q15 transition')
+          originals[p]=s
+          loader=r'''function __MAXESS_LOAD_RESULT(){
+            const sources=[];
+            try{sources.push(window.MAXESS_RESULT)}catch(e){}
+            try{if(window.parent&&window.parent!==window)sources.push(window.parent.MAXESS_RESULT)}catch(e){}
+            try{if(window.top&&window.top!==window&&window.top!==window.parent)sources.push(window.top.MAXESS_RESULT)}catch(e){}
+            for(const r of sources){if(r&&typeof r==='object'&&r.contractVersion==='MAXESS_RESULT_V1')return r}
+            for(const key of ['MAXESS_RESULT_V1','MAXESS_RESULT']){try{const raw=sessionStorage.getItem(key)||localStorage.getItem(key);if(raw){const r=JSON.parse(raw);if(r&&r.contractVersion==='MAXESS_RESULT_V1')return r}}catch(e){}}
+            try{const m=String(location.hash||'').match(/(?:^|#|&)maxess-result=([^&]+)/);if(m){let b64=m[1].replace(/-/g,'+').replace(/_/g,'/');while(b64.length%4)b64+='=';const bin=atob(b64);const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));const r=JSON.parse(new TextDecoder().decode(bytes));if(r&&r.contractVersion==='MAXESS_RESULT_V1')return r}}catch(e){}
+            return null;
+          }
+          p='E01'; s=originals[p]
+          s=replace_once(s,'src="https://i.postimg.cc/bw4fyKF8/Naya-Profile-black-face-zoom.jpg"','src="'+IMAGE+'"','E01 Naya image')
+          s=replace_once(s,"var DEMO_SCORE=82; /* VISUAL REVIEW ONLY: real MAXESS_RESULT.overallScore replaces this automatically when connected. */","var DEMO_SCORE=null;",'E01 demo score removal')
+          s=s.replace("function getScore(){var sources=[];try{sources.push(window.MAXESS_RESULT)}catch(e){}try{if(window.parent&&window.parent!==window)sources.push(window.parent.MAXESS_RESULT)}catch(e){}try{if(window.top&&window.top!==window&&window.top!==window.parent)sources.push(window.top.MAXESS_RESULT)}catch(e){}for(var i=0;i<sources.length;i++){var r=sources[i];if(r&&typeof r==='object'){var s=clamp(r.overallScore);if(s!==null)return s}}","function getScore(){var loaded=__MAXESS_LOAD_RESULT();if(loaded){var live=clamp(loaded.overallScore);if(live!==null)return live}var sources=[];try{sources.push(window.MAXESS_RESULT)}catch(e){}try{if(window.parent&&window.parent!==window)sources.push(window.parent.MAXESS_RESULT)}catch(e){}try{if(window.top&&window.top!==window&&window.top!==window.parent)sources.push(window.top.MAXESS_RESULT)}catch(e){}for(var i=0;i<sources.length;i++){var r=sources[i];if(r&&typeof r==='object'){var s=clamp(r.overallScore);if(s!==null)return s}}")
+          s=s.replace("if(s===null){scoreNode.textContent=formatScore(DEMO_SCORE);scoreNode.dataset.hydrated='true';scoreNode.dataset.demo='true';applyPalette(DEMO_SCORE);scoreDescription.textContent='Preview score '+formatScore(DEMO_SCORE)+' of 100. A live MAXESS result will replace this demo value automatically.';liveNode.textContent='Preview score '+formatScore(DEMO_SCORE)+' of 100. A live MAXESS result will replace this demo value automatically.';unavailableNode.dataset.visible='false';return}","if(s===null){scoreNode.textContent='—';scoreNode.dataset.hydrated='true';scoreNode.dataset.demo='false';unavailableNode.dataset.visible='true';scoreDescription.textContent='Your real MAXESS score is not available yet.';liveNode.textContent='MAXESS is waiting for your real assessment result.';return}")
+          s=s.replace("(function(){'use strict';var root=document.getElementById('e01');if(!root)return;","(function(){'use strict';var root=document.getElementById('e01');if(!root)return;"+loader)
+          originals[p]=s
+          p='E02'; s=originals[p]
+          for old,new in [('COMMUNICATION','CONTEXT'),('EVALUATION','COLLABORATION'),('ITERATION','EVALUATION'),('SYSTEMS THINKING','ITERATION')]: s=s.replace(old,new)
+          anchor='  const scoreNodes = Array.from(root.querySelectorAll(".e02-score"));\n'
+          s=replace_once(s,anchor,anchor+loader,'E02 result loader')
+          s=s.replace('    const sources = [];\n    try { sources.push(window.MAXESS_RESULT); } catch (error) {}','    const loaded = __MAXESS_LOAD_RESULT();\n    if (loaded) return loaded;\n    const sources = [];\n    try { sources.push(window.MAXESS_RESULT); } catch (error) {}',1)
+          originals[p]=s
+          p='E03'; s=originals[p]
+          anchor="  const root=document.getElementById('e03');\n  if(!root)return;\n"
+          s=replace_once(s,anchor,anchor+loader,'E03 result loader')
+          s=s.replace("  function getResult(){\n    try{\n      const external=window.MAXESS_RESULT;\n      return external&&typeof external==='object'?external:null;\n    }catch(error){\n      return null;\n    }\n  }","  function getResult(){ return __MAXESS_LOAD_RESULT(); }")
+          originals[p]=s
+          p='E04'; s=originals[p]
+          anchor="var scoreEl=document.getElementById('e04-score');\n"
+          s=replace_once(s,anchor,loader+anchor,'E04 result loader')
+          s=s.replace("function readResult(){\n  try{\n    var result=window.MAXESS_RESULT;\n    return result&&typeof result==='object'?result:null;\n  }catch(error){return null;}\n}","function readResult(){return __MAXESS_LOAD_RESULT();}")
+          s=s.replace("  var candidate=result.directionScore;\n  if(candidate===undefined&&result.dimensions){\n    var d=result.dimensions.direction||result.dimensions.DIRECTION;\n    if(typeof d==='number')candidate=d;\n    else if(d&&typeof d.score==='number')candidate=d.score;\n  }","  var candidate=result.directionScore;\n  if(candidate===undefined&&Array.isArray(result.dimensions)){\n    var d=result.dimensions.find(function(x){return x&&String(x.id||x.name||'').toLowerCase()==='direction';});\n    if(d&&typeof d.score==='number')candidate=d.score;\n  }")
+          originals[p]=s
+          for p,s in originals.items(): Path(p).write_text(s)
+          for p in files:
+              text=Path(p).read_text(); scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>',text,re.I|re.S)
+              if not scripts: raise SystemExit(f'{p}: no script blocks found')
+              for js in scripts:
+                  with tempfile.NamedTemporaryFile('w',suffix='.js',delete=False) as f: f.write(js); name=f.name
+                  subprocess.run(['node','--check',name],check=True)
+          assert IMAGE in Path('E01').read_text()
+          assert 'if(state.index===14){publish();return}' in Path('IASCORE.NAYANET.APP').read_text()
+          print('SURGICAL EDITS COMPLETE')
+          PY
+      - name: Commit surgical repair
+        shell: bash
+        run: |
+          git config user.name 'SoulSchoolAcademy'
+          git config user.email '221210320+SoulSchoolAcademy@users.noreply.github.com'
+          git add IASCORE.NAYANET.APP E01 E02 E03 E04
+          git diff --cached --check
+          git diff --cached --stat
+          git commit -m 'MAXESS: surgical Naya image, direct Q15 results, real result contract'
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
