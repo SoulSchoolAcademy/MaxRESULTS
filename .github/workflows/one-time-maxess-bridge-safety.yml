@@ -1,0 +1,42 @@
+name: One-time MAXESS bridge safety repair
+
+on:
+  push:
+    paths:
+      - '.github/workflows/one-time-maxess-bridge-safety.yml'
+      - '.github/MAXESS-BRIDGE-REPAIR'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Repair bridge initialization
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('AIScoreMAXESS code')
+          text = path.read_text(encoding='utf-8')
+
+          old = '  ensureNayaFields();\n\n  // Retire the old Results renderer by replacing its completion action.\n'
+          new = '  // IMPORTANT: do not execute bridge work during assessment initialization.\n  // The bridge is invoked only after the user completes all 15 questions.\n\n  // Retire the old Results renderer by replacing its completion action.\n'
+          if old not in text:
+              raise SystemExit('Expected bridge initialization block not found; refusing to modify file.')
+
+          text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit repair
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add 'AIScoreMAXESS code'
+          git commit -m 'Prevent MAXESS bridge from executing during assessment load' || exit 0
+          git push
