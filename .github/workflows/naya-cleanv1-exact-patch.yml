@@ -51,4 +51,4 @@ jobs:
           git rm -- .github/workflows/naya-cleanv1-exact-patch.yml
           git rm -- NAYA_EXACT_TRIGGER.txt || true
           git commit -m 'AAA Naya portrait integration for exact CLEAN V1 assessment'
-          git push origin HEAD:naya-cleanv1-exact-execute
+          git push --force origin HEAD:naya-cleanv1-exact-execute
