@@ -5,7 +5,7 @@ import { join } from 'node:path';
 
 const PORT = 4173;
 const assessmentPath = join(process.cwd(), 'AIScoreMAXESS-e2e.html');
-const resultsUrl = 'https://results.nayanet.xyz/';
+const resultsUrl = 'https://results.nayanet.app/';
 
 async function startServer() {
   const html = await readFile(assessmentPath);
@@ -51,11 +51,9 @@ async function completeAssessment(page, answerIndexes, profileName) {
     await page.locator('#continueButton').click();
   }
 
-  await page.locator('#interestsView.visible').waitFor({ state: 'visible', timeout: 10000 });
-  await page.locator('.interest-area').first().click();
-  const navigation = page.waitForURL((url) => url.toString().startsWith(resultsUrl), { timeout: 30000, waitUntil: 'domcontentloaded' });
-  await page.locator('#interestContinue').click();
-  await navigation;
+  // Question 15 must publish the authoritative result and navigate directly to Results.
+  // There is no interest-selection/completion stage in the required flow.
+  await page.waitForURL((url) => url.toString().startsWith(resultsUrl), { timeout: 30000, waitUntil: 'domcontentloaded' });
 
   const navigatedUrl = page.url();
   if (!navigatedUrl.startsWith(resultsUrl)) throw new Error(`${profileName}: did not navigate to public Results URL: ${navigatedUrl}`);
@@ -81,7 +79,6 @@ async function completeAssessment(page, answerIndexes, profileName) {
   if (!Number.isFinite(Number(contract.overallScore)) || Number(contract.overallScore) < 0 || Number(contract.overallScore) > 100) throw new Error(`${profileName}: invalid overallScore`);
   if (!Array.isArray(contract.dimensions) || contract.dimensions.length !== 5) throw new Error(`${profileName}: dimensions != 5`);
   if (!Array.isArray(contract.responses) || contract.responses.length !== 15) throw new Error(`${profileName}: responses != 15`);
-  if (!Array.isArray(contract.selectedInterests) || contract.selectedInterests.length !== 1) throw new Error(`${profileName}: selectedInterests missing`);
   if (!contract.strongestCapability) throw new Error(`${profileName}: strongestCapability missing`);
   if (!contract.highestLeverageOpportunity) throw new Error(`${profileName}: highestLeverageOpportunity missing`);
   if (!contract.overallPattern) throw new Error(`${profileName}: overallPattern missing`);
