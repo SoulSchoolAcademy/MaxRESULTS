@@ -1,1 +1,0 @@
-Temporary trigger for exact CLEAN V1 Naya integration; removed by the runner after QA.
