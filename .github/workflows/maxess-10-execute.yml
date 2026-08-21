@@ -1,0 +1,137 @@
+name: MAXESS 10-Point Execution
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/MAXESS-10-POINT-MASTER-DIRECTIVE.md'
+
+permissions:
+  contents: write
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply minimum E02 contract repair
+        env:
+          TARGET: E02
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path("E02")
+          text = path.read_text(encoding="utf-8")
+
+          old_dims = 'const dimensions = ["DIRECTION", "COMMUNICATION", "EVALUATION", "ITERATION", "SYSTEMS THINKING"];'
+          new_dims = '''const fallbackDimensions = ["DIRECTION", "COMMUNICATION", "EVALUATION", "ITERATION", "SYSTEMS THINKING"];
+
+          function dimensionLabel(result, index) {
+            const fallback = fallbackDimensions[index] || "DIMENSION";
+            if (!result || !Array.isArray(result.dimensions)) return fallback;
+            const dimension = result.dimensions[index];
+            if (!dimension || typeof dimension !== "object") return fallback;
+            return String(
+              dimension.name ||
+              dimension.label ||
+              dimension.title ||
+              dimension.id ||
+              dimension.dimensionId ||
+              fallback
+            ).replace(/[_-]+/g, " ").trim().toUpperCase();
+          }'''
+
+          if old_dims not in text:
+              raise SystemExit("Expected E02 dimension declaration was not found; refusing to modify file.")
+          text = text.replace(old_dims, new_dims, 1)
+
+          old_render = '''  function render() {
+    const result = readResult();
+
+    scoreNodes.forEach((node, index) => {
+      const score = readDimensionScore(result, dimensions[index], index);
+
+      node.textContent = score === null
+        ? "—"
+        : Number.isInteger(score)
+          ? String(score)
+          : String(Math.round(score * 10) / 10);
+
+      node.dataset.score = score === null ? "" : String(score);
+      node.dataset.demo = "false";
+      node.setAttribute(
+        "aria-label",
+        score === null
+          ? dimensions[index] + " score unavailable"
+          : dimensions[index] + " score " + node.textContent + " out of 100"
+      );
+    });
+  }'''
+
+          new_render = '''  function render() {
+    const result = readResult();
+
+    scoreNodes.forEach((node, index) => {
+      const label = dimensionLabel(result, index);
+      const score = readDimensionScore(result, label, index);
+
+      node.textContent = score === null
+        ? "—"
+        : Number.isInteger(score)
+          ? String(score)
+          : String(Math.round(score * 10) / 10);
+
+      node.dataset.score = score === null ? "" : String(score);
+      node.dataset.demo = "false";
+      const labelNode = node.closest(".e02-dimension")?.querySelector(".e02-name");
+      if (labelNode && result) labelNode.textContent = label;
+      node.setAttribute(
+        "aria-label",
+        score === null
+          ? label + " score unavailable"
+          : label + " score " + node.textContent + " out of 100"
+      );
+    });
+  }'''
+
+          if old_render not in text:
+              raise SystemExit("Expected E02 render function was not found; refusing to modify file.")
+          text = text.replace(old_render, new_render, 1)
+
+          path.write_text(text, encoding="utf-8")
+          print("E02 minimum contract repair applied.")
+          PY
+
+      - name: Validate repair
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text = Path("E02").read_text(encoding="utf-8")
+          required = [
+              "fallbackDimensions",
+              "function dimensionLabel(result, index)",
+              'dimension.name ||',
+              'labelNode && result',
+              'node.setAttribute(',
+              'MAXESS_RESULT_V1'
+          ]
+          missing = [x for x in required if x not in text]
+          if missing:
+              raise SystemExit(f"Validation failed; missing: {missing}")
+          print("E02 contract repair validated.")
+          PY
+
+      - name: Commit repair and remove executor
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add E02 .github/workflows/maxess-10-execute.yml
+          git rm .github/workflows/maxess-10-execute.yml
+          git commit -m "MAXESS: hydrate E02 from authoritative dimensions"
+          git push origin main
