@@ -1,9 +1,7 @@
 name: Naya Assessment AAA Patch
 on:
-  push:
-    paths:
-      - '.github/workflows/naya-assessment-aaa-patch.yml'
-  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize]
 permissions:
   contents: write
 jobs:
@@ -34,11 +32,12 @@ jobs:
           grep -q 'NAYA_IMAGE_AAA_V1' MaxessCode
           grep -q 'Naya%20Profile%206.jpg' MaxessCode
           grep -q 'MAXESS_RESULT_V1' MaxessCode
-      - name: Commit
+      - name: Commit artifact and remove one-shot workflow
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -- MaxessCode
+          git rm -- .github/workflows/naya-assessment-aaa-patch.yml
           git commit -m 'AAA Naya portrait integration for AIScore assessment'
           git push
