@@ -1,0 +1,92 @@
+<!--
+MAXESS_RESULT_CONSUMER_V1
+Purpose: Groove-ready Results-page bridge.
+Placement: Add this as a standalone HTML embed on results.nayanet.app.
+The assessment supplies #maxess-result=<URL-safe-base64(JSON)>.
+This bridge validates that payload and exposes it as window.MAXESS_RESULT for E01-E06.
+Do not add demo/fallback scores here.
+-->
+<script>
+(function () {
+  'use strict';
+
+  if (window.__MAXESS_RESULT_CONSUMER_V1__) return;
+  window.__MAXESS_RESULT_CONSUMER_V1__ = true;
+
+  var CONTRACT = 'MAXESS_RESULT_V1';
+  var READY = 'MAXESS_RESULT_READY';
+  var UPDATED = 'maxess:result-updated';
+  var STORAGE_KEY = 'MAXESS_RESULT_V1';
+
+  function dispatch(name, detail) {
+    try {
+      window.dispatchEvent(new CustomEvent(name, { detail: detail || null }));
+    } catch (e) {
+      try { window.dispatchEvent(new Event(name)); } catch (_) {}
+    }
+  }
+
+  function decodeBase64Url(value) {
+    var normalized = String(value || '').replace(/-/g, '+').replace(/_/g, '/');
+    while (normalized.length % 4) normalized += '=';
+    return decodeURIComponent(Array.prototype.map.call(atob(normalized), function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  }
+
+  function getPayload() {
+    var hash = window.location.hash || '';
+    var match = hash.match(/(?:^|#|&)maxess-result=([^&]+)/);
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
+  function isValidResult(result) {
+    if (!result || typeof result !== 'object') return false;
+    if (result.contractVersion !== CONTRACT) return false;
+    if (!Number.isFinite(Number(result.overallScore))) return false;
+    if (Number(result.overallScore) < 0 || Number(result.overallScore) > 100) return false;
+    if (!Array.isArray(result.dimensions) || result.dimensions.length !== 5) return false;
+    if (!Array.isArray(result.responses) || result.responses.length !== 15) return false;
+    return result.dimensions.every(function (d) {
+      return d && typeof d === 'object' && Number.isFinite(Number(d.score));
+    });
+  }
+
+  function publish(result, source) {
+    window.MAXESS_RESULT = result;
+    try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(result)); } catch (_) {}
+    dispatch(READY, { result: result, source: source || 'hash' });
+    dispatch(UPDATED, { result: result, source: source || 'hash' });
+  }
+
+  function consume() {
+    var encoded = getPayload();
+    if (!encoded) return false;
+
+    try {
+      var result = JSON.parse(decodeBase64Url(encoded));
+      if (!isValidResult(result)) return false;
+      publish(result, 'hash');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Prefer the current URL payload. Never manufacture a result.
+  if (!consume()) {
+    try {
+      var stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || 'null');
+      if (isValidResult(stored)) publish(stored, 'session');
+    } catch (_) {}
+  }
+
+  window.MAXESS_RESULT_CONSUMER_V1 = {
+    consume: consume,
+    get: function () { return window.MAXESS_RESULT || null; },
+    contractVersion: CONTRACT
+  };
+
+  window.addEventListener('hashchange', consume);
+})();
+</script>
