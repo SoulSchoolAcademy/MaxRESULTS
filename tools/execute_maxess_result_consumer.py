@@ -6,6 +6,8 @@ E02 = Path('E02-SECTION-02-WORKING.html')
 CONSUMER = Path('MAXESS-RESULT-CONSUMER-V1.html')
 MARKER = 'MAXESS_RESULT_CONSUMER_V1'
 
+# NAYA TRANSPORT REPAIR TRIGGER: execute the canonical cleanup against the current branch source.
+
 
 def strip_e01_consumer(s):
     pattern = r'<script[^>]*id=["\']MAXESS_RESULT_CONSUMER_V1["\'][^>]*>.*?</script>\s*'
@@ -28,8 +30,6 @@ def strip_e02_transport(s):
     mid = s.find('function render(){', start)
     if start < 0 or mid < 0:
         raise SystemExit('E02 transport block boundaries not found; refusing speculative mutation')
-    transport = s[start:mid]
-    # Remove all local hash/storage hydration. The standalone consumer is the only transport authority.
     s = s[:start] + s[mid:]
     s = s.replace("hydrateFromHash()||hydrateFromStorage();\n", "", 1)
     s = re.sub(r"window\.addEventListener\('hashchange',\(\)=>\{if\(hydrateFromHash\(\)\)render\(\)\}\);\n", '', s, count=1)
