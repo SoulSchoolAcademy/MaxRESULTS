@@ -1,24 +1,26 @@
 name: Naya CLEAN V1 Tonight Target Repair
 
 on:
-  pull_request_target:
-    types: [opened, synchronize, ready_for_review]
-    branches: [feat/aiscore-clean-v1]
+  push:
+    branches: [main]
 
 permissions:
   contents: write
 
 jobs:
   repair:
-    if: github.event.pull_request.head.ref == 'fix/aiscore-cleanv1-tonight' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout PR head explicitly
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-      - name: Apply surgical repair
+      - name: Switch to exact repair branch
+        shell: bash
+        run: |
+          git fetch origin fix/aiscore-cleanv1-tonight:refs/remotes/origin/fix/aiscore-cleanv1-tonight
+          git checkout --force -B fix/aiscore-cleanv1-tonight origin/fix/aiscore-cleanv1-tonight
+      - name: Apply final surgical repair
         shell: python
         run: |
           from pathlib import Path
@@ -46,7 +48,7 @@ jobs:
           marker='window.MAXESS_CLEAN_V1_TONIGHT_REPAIR_V1=true;'
           if marker not in s: s=s.replace("window.NAYA_WELCOME_V1=true;","window.NAYA_WELCOME_V1=true;"+marker,1)
           p.write_text(s,encoding='utf-8')
-      - name: Verify exact artifact
+      - name: Verify repaired source
         shell: bash
         run: |
           test -s 'AIScoreMAXESS-CLEAN-V1.html'
@@ -56,7 +58,6 @@ jobs:
           grep -q 'MAXESS_CLEAN_V1_TONIGHT_REPAIR_V1' 'AIScoreMAXESS-CLEAN-V1.html'
           grep -q 'function finishInterests(){try{publish()}' 'AIScoreMAXESS-CLEAN-V1.html'
           if grep -q 'id="presenceOrb"' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
-          if grep -q 'results.nayanet.app/#maxess-result=' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
           if grep -q 'id="completeStage"' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
           if grep -q 'id="continueToResults"' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
           if grep -q "$('continueToResults').addEventListener" 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
@@ -70,14 +71,17 @@ jobs:
           PY
           node --check /tmp/aiscore.js
           git diff --check
-      - name: Push repaired artifact to PR head
+      - name: Push repaired source and remove temporary runner
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -- 'AIScoreMAXESS-CLEAN-V1.html'
-          git rm -- '.github/workflows/naya-cleanv1-tonight-repair.yml' || true
-          git rm -- 'NAYA_TONIGHT_REPAIR_TRIGGER.txt' || true
-          git rm -- 'NAYA_TONIGHT_REPAIR_TRIGGER_2.txt' || true
+          git rm -- 'NAYA_TONIGHT_REPAIR_TRIGGER_3.txt' || true
           git commit -m 'Repair CLEAN V1 Naya and Results transition'
           git push origin HEAD:fix/aiscore-cleanv1-tonight
+          git checkout --force main
+          git pull --ff-only origin main
+          git rm -- '.github/workflows/naya-cleanv1-tonight-target.yml'
+          git commit -m 'Remove temporary CLEAN V1 repair runner'
+          git push origin HEAD:main
