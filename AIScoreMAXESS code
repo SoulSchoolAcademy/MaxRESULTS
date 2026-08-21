@@ -5478,7 +5478,8 @@ try{
   }
 
   window.MAXESS_RESULT_BRIDGE = {buildContract, validateContract, publish, ensureNayaFields};
-  ensureNayaFields();
+  // IMPORTANT: do not execute bridge work during assessment initialization.
+  // The bridge is invoked only after the user completes all 15 questions.
 
   // Retire the old Results renderer by replacing its completion action.
   // Do not hide the DOM at assessment load; the assessment UI must remain untouched.
