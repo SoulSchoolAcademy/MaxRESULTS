@@ -100,8 +100,9 @@ Use this order as the default entry sequence. `docs/REPOSITORY-MAP.md` must mirr
 18. `docs/NAYA-NITRO-LEARNING-LOG.md` — durable execution-system lessons when relevant to the task.
 19. `docs/smart-notes/INDEX.md` — Smart Note/Naya Note retrieval index.
 20. `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` — mandatory lead-mode communication standard: independent critique, Oscar review, checklist/to-do, recommendation, actual implementation/code, execution prompt, and verification status.
-21. **If E02 is the active section:** `docs/MAXESS-E02-EXECUTION-LOCK.md` — mandatory E02 source, scope, visual, self-review, and stop-send contract.
-22. Read only additional task-specific documents, scorecards, exemplars, assets, and Smart Notes required by the request.
+21. `docs/smart-notes/2026/08/2026-08-21-naya-execution-integrity-failure-and-customer-safety.md` — **MANDATORY EXECUTION-INTEGRITY MEMORY:** read before every consequential Naya/Lead/MAXESS action; records the failure mode in which execution narrative replaced actual execution, and the customer-safety guardrails that must prevent recurrence.
+22. **If E02 is the active section:** `docs/MAXESS-E02-EXECUTION-LOCK.md` — mandatory E02 source, scope, visual, self-review, and stop-send contract.
+23. Read only additional task-specific documents, scorecards, exemplars, assets, and Smart Notes required by the request.
 
 ## Smart Note terminology law
 
