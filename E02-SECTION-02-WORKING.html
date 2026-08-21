@@ -64,13 +64,43 @@ const root=document.getElementById('maxess-e02-v3');
 const host=document.getElementById('e02-orbs');
 const missing=document.getElementById('e02-missing');
 if(!root||!host)return;
-const fallback=[{name:'Direction',key:'direction'},{name:'Context',key:'context'},{name:'Collaboration',key:'collaboration'},{name:'Evaluation',key:'evaluation'},{name:'Iteration',key:'iteration'}];
+const fallback=[{name:'Direction',key:'direction'},{name:'Communication',key:'communication'},{name:'Evaluation',key:'evaluation'},{name:'Iteration',key:'iteration'},{name:'Systems Thinking',key:'systems-thinking'}];
 const colors=['purple','coral','emerald','blue','gold'];
 function score(v){const n=Number(v);return Number.isFinite(n)&&n>=0&&n<=100?n:null}
 function getDimensions(result){
  if(result&&Array.isArray(result.dimensions)&&result.dimensions.length===5)return result.dimensions.map((d,i)=>({name:d?.name||fallback[i].name,key:d?.id||fallback[i].key,score:score(d?.score)}));
  if(result&&Array.isArray(result.fiveDimensions)&&result.fiveDimensions.length===5)return result.fiveDimensions.map((d,i)=>({name:d?.name||fallback[i].name,key:d?.id||fallback[i].key,score:score(d?.score)}));
  return fallback.map(d=>({...d,score:null}));
+}
+function decodeResultPayload(payload){
+ try{
+  const normalized=payload.replace(/-/g,'+').replace(/_/g,'/');
+  const padded=normalized+'='.repeat((4-normalized.length%4)%4);
+  const binary=atob(padded);
+  const bytes=new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
+  const result=JSON.parse(new TextDecoder().decode(bytes));
+  if(!result||result.contractVersion!=='MAXESS_RESULT_V1'||!Number.isInteger(result.overallScore)||result.overallScore<0||result.overallScore>100||!Array.isArray(result.dimensions)||result.dimensions.length!==5)return null;
+  return result;
+ }catch(error){return null}
+}
+function hydrateFromHash(){
+ const hash=window.location.hash||'';
+ const match=hash.match(/^#maxess-result=([^&]+)$/);
+ if(!match)return false;
+ const result=decodeResultPayload(match[1]);
+ if(!result)return false;
+ window.MAXESS_RESULT=result;
+ try{sessionStorage.setItem('MAXESS_RESULT_V1',JSON.stringify(result))}catch(e){}
+ try{localStorage.setItem('MAXESS_RESULT_V1',JSON.stringify(result))}catch(e){}
+ window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:result}));
+ window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:result}));
+ return true;
+}
+function hydrateFromStorage(){
+ if(window.MAXESS_RESULT)return true;
+ try{const raw=sessionStorage.getItem('MAXESS_RESULT_V1')||localStorage.getItem('MAXESS_RESULT_V1');if(raw){const result=JSON.parse(raw);if(result&&result.contractVersion==='MAXESS_RESULT_V1'){window.MAXESS_RESULT=result;window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:result}));return true}}}catch(e){}
+ return false;
 }
 function render(){
  const result=window.MAXESS_RESULT;const dims=getDimensions(result);const fragment=document.createDocumentFragment();let any=false;
@@ -89,8 +119,11 @@ function render(){
  });
  host.replaceChildren(fragment);missing.classList.toggle('is-visible',!any);
 }
-render();window.addEventListener('MAXESS_RESULT_READY',render);window.addEventListener('maxess:result-updated',render);window.addEventListener('storage',render);
-let attempts=0;const timer=setInterval(()=>{attempts++;render();if(window.MAXESS_RESULT||attempts>=20)clearInterval(timer)},250);
+hydrateFromHash()||hydrateFromStorage();
+render();
+window.addEventListener('hashchange',()=>{if(hydrateFromHash())render()});
+window.addEventListener('MAXESS_RESULT_READY',render);window.addEventListener('maxess:result-updated',render);window.addEventListener('storage',render);
+let attempts=0;const timer=setInterval(()=>{attempts++;if(hydrateFromHash()||hydrateFromStorage())render();if(window.MAXESS_RESULT||attempts>=20)clearInterval(timer)},250);
 })();
 </script>
 </section>
