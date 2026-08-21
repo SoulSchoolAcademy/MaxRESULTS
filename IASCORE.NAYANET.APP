@@ -24,7 +24,10 @@
 @media(max-width:420px){.naya-copy span{display:none}.naya-btn{padding-right:7px}.continue{padding:0 11px}.answer-sub{font-size:12.4px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
-</head>
+<style>
+/* NAYA_IMAGE_SURGICAL_V1 — image-only enhancement; preserve all existing UI/behavior */
+.presence-orb{background-image:url('Naya Profile 6.jpg');background-size:cover;background-position:center 16%;background-repeat:no-repeat;}
+</style></head>
 <body>
 <main class="app" aria-label="MAXESS AI Mastery Assessment">
 <div class="shell">
