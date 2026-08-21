@@ -67,6 +67,7 @@ The filename is a locator, not the authority.
 | Topic | Primary category | Useful retrieval terms | Note |
 |---|---|---|---|
 | Naya Power High-Performance Memory System | INSIGHT | Naya Power, Smart Notes, Naya Notes, memory, project brain, timestamps, recall, searchability, learning loop, daily review | `2026-08-20-naya-power-high-performance-memory-system.md` |
+| AIScore First-Load Naya Welcome | LEARNING | AIScore, Naya welcome, first load, onboarding, teaching popup, optional audio, Let's Go, Naya presence, UX, MAXESS | `2026-08-20-aiscore-first-load-naya-welcome-learning.md` |
 | AIScore Execution Branch Guardrail | LEARNING | AIScore, GitHub, branch safety, active branch, main branch, feature branch, execution guardrail, source of truth, Naya Law, PR #8 | `2026-08-20-aiscore-execution-branch-guardrail-learning.md` |
 | Naya Power Digital Codex Product Vision, Modes, and Sales Page | KNOWLEDGE / DECISION / GOAL | Naya Power, AI Supercharger, Digital Codex, Naya Modes, Lead Mode, Naya Hub, sales page, Naya Supercharger, product education, GrooveBlog, MAXESS | `2026-08-20-naya-power-digital-codex-sales-page-and-modes.md` |
 | User Effort Minimization + Complete Delivery Law | SOLUTION / LEARNING | user effort, 10-star service, complete delivery, minimize friction, cognitive load, take the lead, full code, integrated work, Naya Law, user experience, AAA | `2026-08-20-user-effort-and-complete-delivery-law.md` |
@@ -94,6 +95,8 @@ The filename is a locator, not the authority.
 | If the user asks about… | Start with… | Then inspect… |
 |---|---|---|
 | Naya Power / Smart Notes / durable memory / project brain | `2026-08-20-naya-power-high-performance-memory-system.md` | `docs/NAYA-SMART-NOTES-SYSTEM.md`, this index, relevant dated notes |
+| AIScore first-load / Naya onboarding | `2026-08-20-aiscore-first-load-naya-welcome-learning.md` | AIScore artifact, PR #8, relevant MAXESS execution prompt |
+| AIScore GitHub branch safety / wrong-branch prevention | `2026-08-20-aiscore-execution-branch-guardrail-learning.md` | Naya Law, START-HERE, deployment contract |
 | Naya Power / Digital Codex / Naya Modes | `2026-08-20-naya-power-digital-codex-sales-page-and-modes.md` | `docs/NAYA-LEAD-SERVICE-STANDARD.md`, Naya Power product/page plans |
 | Naya's overall operating philosophy | `NAYA-OS.md` | Executive Plan, Blueprint, relevant notes |
 | What Naya Nitro is | `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` | Executive Plan, relevant notes |
