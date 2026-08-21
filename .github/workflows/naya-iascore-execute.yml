@@ -1,0 +1,58 @@
+name: Naya IASCORE surgical execute
+on:
+  push:
+    paths:
+      - 'NAYA_IASCORE_EXECUTE_TRIGGER.txt'
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch exact IASCORE artifact
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('IASCORE.NAYANET.APP')
+          s=p.read_text(encoding='utf-8')
+          if 'NAYA_IMAGE_SURGICAL_V1' in s:
+              raise SystemExit('Already patched; refusing duplicate edit.')
+          required='<div class="naya-presence"><div class="presence-orb" id="presenceOrb" aria-hidden="true"></div><div class="presence-copy"><strong>Naya</strong><span>Let me walk you through this.</span></div></div>'
+          if required not in s:
+              raise SystemExit('Expected Naya presence structure missing; refusing edit.')
+          if 'function openNaya()' not in s or 'setTimeout(openNaya,180)' not in s:
+              raise SystemExit('Expected Naya welcome behavior missing; refusing edit.')
+          css='''<style>\n/* NAYA_IMAGE_SURGICAL_V1 — image-only enhancement; preserve all existing UI/behavior */\n.presence-orb{background-image:url('Naya Profile 6.jpg');background-size:cover;background-position:center 16%;background-repeat:no-repeat;}\n</style>'''
+          s=s.replace('</head>',css+'</head>',1)
+          p.write_text(s,encoding='utf-8')
+      - name: Static QA
+        shell: bash
+        run: |
+          test -s IASCORE.NAYANET.APP
+          grep -q 'NAYA_IMAGE_SURGICAL_V1' IASCORE.NAYANET.APP
+          grep -q 'Naya Profile 6.jpg' IASCORE.NAYANET.APP
+          grep -q 'WELCOME · MAXESS AI MASTERY ASSESSMENT' IASCORE.NAYANET.APP
+          grep -q 'setTimeout(openNaya,180)' IASCORE.NAYANET.APP
+          grep -q 'function openNaya()' IASCORE.NAYANET.APP
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          s=Path('IASCORE.NAYANET.APP').read_text(encoding='utf-8')
+          scripts=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S|re.I)
+          Path('/tmp/iascore.js').write_text('\n'.join(scripts),encoding='utf-8')
+          print('bytes',len(s.encode()))
+          print('lines',len(s.splitlines()))
+          PY
+          node --check /tmp/iascore.js
+          git diff --check
+      - name: Commit surgical result and remove trigger
+        shell: bash
+        run: |
+          git config user.name 'SoulSchoolAcademy'
+          git config user.email '221210320+SoulSchoolAcademy@users.noreply.github.com'
+          git rm NAYA_IASCORE_EXECUTE_TRIGGER.txt
+          git add IASCORE.NAYANET.APP
+          git rm .github/workflows/naya-iascore-execute.yml
+          git commit -m 'MAXESS: surgical Naya profile image enhancement'
+          git push
