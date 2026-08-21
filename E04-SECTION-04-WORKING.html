@@ -109,61 +109,12 @@
 <script>
 (function(){
 'use strict';
-var scoreEl=document.getElementById('e04-score');
-var markerEl=document.getElementById('e04-marker');
-var stageEl=document.getElementById('e04-stage');
-var copyEl=document.getElementById('e04-copy');
-var waitingEl=document.getElementById('e04-waiting');
-var texts={
-FOUNDATION:'Your Direction capability is currently in the Foundation stage. This means you may sometimes know what you want AI to help you accomplish, but the instruction you give it may not yet consistently provide enough clarity, context, or desired outcome for AI to produce its best work. The opportunity here isn’t to write longer prompts. It’s to become clearer about what you’re actually asking AI to accomplish.',
-DEVELOPING:'Your Direction capability is currently Developing. You already understand that better instructions create better results, and you’re beginning to give AI more useful context and intention. Your next opportunity is consistency — learning to establish the destination clearly before asking AI to start moving.',
-ADVANCING:'Your Direction capability is Advancing. You already know how to establish useful context, intention, and outcomes for AI. Your next level is precision — knowing which details matter most and giving AI exactly what it needs without unnecessary complexity.',
-MASTERY:'Your Direction capability is at the Mastery stage. You have developed a strong instinct for translating intention into direction AI can act on. You understand that the quality of the destination you define has enormous influence on the quality of the journey. Your opportunity now is to turn that instinct into a repeatable system you can apply across increasingly complex work.'
-};
-function readResult(){
-  try{
-    var result=window.MAXESS_RESULT;
-    return result&&typeof result==='object'?result:null;
-  }catch(error){return null;}
-}
-function readDirectionScore(result){
-  if(!result)return null;
-  var candidate=result.directionScore;
-  if(candidate===undefined&&result.dimensions){
-    var d=result.dimensions.direction||result.dimensions.DIRECTION;
-    if(typeof d==='number')candidate=d;
-    else if(d&&typeof d.score==='number')candidate=d.score;
-  }
-  return candidate!==undefined&&isFinite(Number(candidate))?Number(candidate):null;
-}
-function render(result){
-  var score=readDirectionScore(result);
-  if(score===null){
-    scoreEl.textContent='—';
-    markerEl.textContent='—';
-    markerEl.style.left='0%';
-    stageEl.textContent='RESULT PENDING';
-    copyEl.innerHTML='<strong>Your Direction result is awaiting the MAXESS result contract.</strong> This section will populate from your real result as soon as it arrives.';
-    waitingEl.hidden=false;
-    return;
-  }
-  score=Math.max(0,Math.min(100,score));
-  var stage=score<50?'FOUNDATION':score<75?'DEVELOPING':score<90?'ADVANCING':'MASTERY';
-  var range=stage==='FOUNDATION'?'0–49':stage==='DEVELOPING'?'50–74':stage==='ADVANCING'?'75–89':'90–100';
-  var prefix={FOUNDATION:'Foundation',DEVELOPING:'Developing',ADVANCING:'Advancing',MASTERY:'Mastery'}[stage];
-  scoreEl.textContent=Math.round(score);
-  markerEl.textContent=Math.round(score);
-  markerEl.style.left=score+'%';
-  stageEl.innerHTML=prefix+' <span>· '+range+'</span>';
-  var sentence=texts[stage];
-  var firstPeriod=sentence.indexOf('.');
-  copyEl.innerHTML='<strong>'+sentence.slice(0,firstPeriod+1)+'</strong>'+sentence.slice(firstPeriod+1);
-  waitingEl.hidden=true;
-}
-render(readResult());
-window.addEventListener('MAXESS_RESULT_READY',function(event){render(event.detail&&typeof event.detail==='object'?event.detail:readResult());});
-window.addEventListener('maxess:result-updated',function(event){render(event.detail&&typeof event.detail==='object'?event.detail:readResult());});
-window.addEventListener('storage',function(){render(readResult());});
+var scoreEl=document.getElementById('e04-score'),markerEl=document.getElementById('e04-marker'),stageEl=document.getElementById('e04-stage'),copyEl=document.getElementById('e04-copy'),waitingEl=document.getElementById('e04-waiting');
+var texts={FOUNDATION:'Your Direction capability is currently in the Foundation stage. This means you may sometimes know what you want AI to help you accomplish, but the instruction you give it may not yet consistently provide enough clarity, context, or desired outcome for AI to produce its best work. The opportunity here isn’t to write longer prompts. It’s to become clearer about what you’re actually asking AI to accomplish.',DEVELOPING:'Your Direction capability is currently Developing. You already understand that better instructions create better results, and you’re beginning to give AI more useful context and intention. Your next opportunity is consistency — learning to establish the destination clearly before asking AI to start moving.',ADVANCING:'Your Direction capability is Advancing. You already know how to establish useful context, intention, and outcomes for AI. Your next level is precision — knowing which details matter most and giving AI exactly what it needs without unnecessary complexity.',MASTERY:'Your Direction capability is at the Mastery stage. You have developed a strong instinct for translating intention into direction AI can act on. You understand that the quality of the destination you define has enormous influence on the quality of the journey. Your opportunity now is to turn that instinct into a repeatable system you can apply across increasingly complex work.'};
+function result(){try{var r=window.MAXESS_RESULT;return r&&typeof r==='object'?r:null}catch(e){return null}}
+function direction(r){if(!r)return null;var lists=[r.dimensions,r.fiveDimensions];for(var l=0;l<lists.length;l++){var a=lists[l];if(!Array.isArray(a))continue;for(var i=0;i<a.length;i++){var d=a[i],id=String(d&&(d.id||d.name||'')).toLowerCase().replace(/[^a-z0-9]/g,'');if(id==='direction'){var n=Number(d.score);return isFinite(n)?n:null}}}var direct=Number(r.directionScore);return isFinite(direct)?direct:null}
+function render(r){var score=direction(r);if(score===null){scoreEl.textContent='—';markerEl.textContent='—';markerEl.style.left='0%';stageEl.textContent='RESULT PENDING';copyEl.innerHTML='<strong>Your Direction result is awaiting the MAXESS result contract.</strong> This section will populate from your real result as soon as it arrives.';waitingEl.hidden=false;return}score=Math.max(0,Math.min(100,score));var stage=score<50?'FOUNDATION':score<75?'DEVELOPING':score<90?'ADVANCING':'MASTERY';var range=stage==='FOUNDATION'?'0–49':stage==='DEVELOPING'?'50–74':stage==='ADVANCING'?'75–89':'90–100';var prefix={FOUNDATION:'Foundation',DEVELOPING:'Developing',ADVANCING:'Advancing',MASTERY:'Mastery'}[stage];scoreEl.textContent=Math.round(score);markerEl.textContent=Math.round(score);markerEl.style.left=score+'%';stageEl.innerHTML=prefix+' <span>· '+range+'</span>';var sentence=texts[stage],p=sentence.indexOf('.');copyEl.innerHTML='<strong>'+sentence.slice(0,p+1)+'</strong>'+sentence.slice(p+1);waitingEl.hidden=true}
+render(result());window.addEventListener('MAXESS_RESULT_READY',function(e){render(e.detail&&typeof e.detail==='object'?e.detail:result())});window.addEventListener('maxess:result-updated',function(e){render(e.detail&&typeof e.detail==='object'?e.detail:result())});window.addEventListener('storage',function(){render(result())});
 })();
 </script>
 </body>
