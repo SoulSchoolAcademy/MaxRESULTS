@@ -70,6 +70,7 @@ The filename is a locator, not the authority.
 | AIScore First-Load Naya Welcome | LEARNING | AIScore, Naya welcome, first load, onboarding, teaching popup, optional audio, Let's Go, Naya presence, UX, MAXESS | `2026-08-20-aiscore-first-load-naya-welcome-learning.md` |
 | AIScore Execution Branch Guardrail | LEARNING | AIScore, GitHub, branch safety, active branch, main branch, feature branch, execution guardrail, source of truth, Naya Law, PR #8 | `2026-08-20-aiscore-execution-branch-guardrail-learning.md` |
 | Repository Integrity Gate Stale Source | PROBLEM | CI, GitHub Actions, repository integrity, stale gate, source authority, Smart Notes, BASELINE-WORKING, legacy source, verification, guardrail | `2026-08-20-repository-integrity-gate-stale-source-learning.md` |
+| Frozen E01 Integrity Gate Caught Preexisting Drift | PROBLEM | E01, frozen baseline, integrity gate, preexisting drift, protected scope, MAXESS, preservation, blob SHA, branch drift, do not weaken gate, PR #8 | `2026-08-20-frozen-e01-integrity-gate-caught-preexisting-drift.md` |
 | Naya Power Digital Codex Product Vision, Modes, and Sales Page | KNOWLEDGE / DECISION / GOAL | Naya Power, AI Supercharger, Digital Codex, Naya Modes, Lead Mode, Naya Hub, sales page, Naya Supercharger, product education, GrooveBlog, MAXESS | `2026-08-20-naya-power-digital-codex-sales-page-and-modes.md` |
 | User Effort Minimization + Complete Delivery Law | SOLUTION / LEARNING | user effort, 10-star service, complete delivery, minimize friction, cognitive load, take the lead, full code, integrated work, Naya Law, user experience, AAA | `2026-08-20-user-effort-and-complete-delivery-law.md` |
 | Versioned Backup + Safe Editing Law | SOLUTION | backups, timestamped backups, versioning, safe editing, preservation, recovery point, rollback, destructive change, source of truth, MAXESS, Naya Law | `2026-08-20-versioned-backup-and-safe-editing-law.md` |
@@ -99,6 +100,7 @@ The filename is a locator, not the authority.
 | AIScore first-load / Naya onboarding | `2026-08-20-aiscore-first-load-naya-welcome-learning.md` | AIScore artifact, PR #8, relevant MAXESS execution prompt |
 | AIScore GitHub branch safety / wrong-branch prevention | `2026-08-20-aiscore-execution-branch-guardrail-learning.md` | Naya Law, START-HERE, deployment contract |
 | Repository integrity / stale CI / source-gate failures | `2026-08-20-repository-integrity-gate-stale-source-learning.md` | `.github/workflows/repository-integrity.yml`, `docs/SOURCE-AND-MEMORY-MAP.md`, `docs/NAYA-GOVERNANCE-REGISTRY.md` |
+| Frozen E01 / protected artifact drift | `2026-08-20-frozen-e01-integrity-gate-caught-preexisting-drift.md` | `docs/MAXESS-E01-FROZEN-BASELINE.md`, repository integrity workflow |
 | Naya Power / Digital Codex / Naya Modes | `2026-08-20-naya-power-digital-codex-sales-page-and-modes.md` | `docs/NAYA-LEAD-SERVICE-STANDARD.md`, Naya Power product/page plans |
 | Naya's overall operating philosophy | `NAYA-OS.md` | Executive Plan, Blueprint, relevant notes |
 | What Naya Nitro is | `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` | Executive Plan, relevant notes |
