@@ -1,0 +1,43 @@
+name: Naya IASCORE absolute asset repair
+on:
+  push:
+    paths:
+      - 'NAYA_IASCORE_ABSOLUTE_ASSET_TRIGGER.txt'
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Normalize surgical asset URL
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('IASCORE.NAYANET.APP')
+          s=p.read_text(encoding='utf-8')
+          old="url('Naya Profile 6.jpg')"
+          new="url('https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg')"
+          if old not in s:
+              raise SystemExit('Expected relative Naya Profile 6 asset reference not found; refusing edit.')
+          if s.count(old) != 1:
+              raise SystemExit('Unexpected duplicate asset reference; refusing edit.')
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+      - name: Verify
+        shell: bash
+        run: |
+          grep -q 'NAYA_IMAGE_SURGICAL_V1' IASCORE.NAYANET.APP
+          grep -q 'https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg' IASCORE.NAYANET.APP
+          if grep -q "url('Naya Profile 6.jpg')" IASCORE.NAYANET.APP; then exit 1; fi
+          git diff --check
+      - name: Commit and clean runner
+        shell: bash
+        run: |
+          git config user.name 'SoulSchoolAcademy'
+          git config user.email '221210320+SoulSchoolAcademy@users.noreply.github.com'
+          git rm NAYA_IASCORE_ABSOLUTE_ASSET_TRIGGER.txt
+          git add IASCORE.NAYANET.APP
+          git rm .github/workflows/naya-iascore-absolute-asset.yml
+          git commit -m 'MAXESS: use canonical Naya profile asset URL'
+          git push
