@@ -1,63 +1,59 @@
 from pathlib import Path
+import re
 
-TARGET = Path('E01-SECTION-01-WORKING.html')
+E01 = Path('E01-SECTION-01-WORKING.html')
+E02 = Path('E02-SECTION-02-WORKING.html')
+CONSUMER = Path('MAXESS-RESULT-CONSUMER-V1.html')
 MARKER = 'MAXESS_RESULT_CONSUMER_V1'
 
-BOOTSTRAP = r'''
-<script id="MAXESS_RESULT_CONSUMER_V1">
-(function(){
-  'use strict';
-  const KEY = 'MAXESS_RESULT_V1';
-  function decode(value){
-    try{
-      const normalized = value.replace(/-/g,'+').replace(/_/g,'/');
-      const padded = normalized + '='.repeat((4-normalized.length%4)%4);
-      const binary = atob(padded);
-      const bytes = Uint8Array.from(binary, c=>c.charCodeAt(0));
-      return JSON.parse(new TextDecoder().decode(bytes));
-    }catch(e){ return null; }
-  }
-  function readHash(){
-    const match = location.hash.match(/(?:^|#)maxess-result=([^&]+)/);
-    return match ? decode(match[1]) : null;
-  }
-  function readStorage(){
-    try{
-      const raw = sessionStorage.getItem(KEY) || localStorage.getItem(KEY);
-      return raw ? JSON.parse(raw) : null;
-    }catch(e){ return null; }
-  }
-  function valid(result){
-    return !!(
-      result &&
-      result.contractVersion === 'MAXESS_RESULT_V1' &&
-      Number.isFinite(Number(result.overallScore)) &&
-      Array.isArray(result.dimensions) && result.dimensions.length === 5 &&
-      Array.isArray(result.responses) && result.responses.length === 15
-    );
-  }
-  const result = readHash() || readStorage();
-  if(valid(result)){
-    window.MAXESS_RESULT = result;
-    try{ sessionStorage.setItem(KEY, JSON.stringify(result)); }catch(e){}
-    try{ localStorage.setItem(KEY, JSON.stringify(result)); }catch(e){}
-    window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:result}));
-    window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:result}));
-  }
-})();
-</script>
-'''
 
-s = TARGET.read_text(encoding='utf-8')
-if MARKER not in s:
-    head = s.lower().find('</head>')
-    if head < 0:
-        raise SystemExit('E01 consumer: closing head tag missing')
-    s = s[:head] + BOOTSTRAP + '\n' + s[head:]
+def strip_e01_consumer(s):
+    pattern = r'<script[^>]*id=["\']MAXESS_RESULT_CONSUMER_V1["\'][^>]*>.*?</script>\s*'
+    out, n = re.subn(pattern, '', s, count=1, flags=re.S | re.I)
+    if n > 1:
+        raise SystemExit('E01 consumer duplication: more than one embedded consumer found')
+    return out
 
-# Remove the visual-review demo fallback. A missing contract must remain a safe missing-result state.
-s = s.replace("var DEMO_SCORE=82; /* VISUAL REVIEW ONLY: real MAXESS_RESULT.overallScore replaces this automatically when connected. */", "var DEMO_SCORE=null; /* Production safety: no invented result. */")
-s = s.replace("if(s===null){scoreNode.textContent=formatScore(DEMO_SCORE);scoreNode.dataset.hydrated='true';scoreNode.dataset.demo='true';applyPalette(DEMO_SCORE);scoreDescription.textContent='Preview score '+formatScore(DEMO_SCORE)+' of 100. A live MAXESS result will replace this demo value automatically.';liveNode.textContent='Preview score '+formatScore(DEMO_SCORE)+' of 100. A live MAXESS result will replace this demo value automatically.';unavailableNode.dataset.visible='false';return}", "if(s===null){scoreNode.textContent='';scoreNode.dataset.hydrated='false';scoreNode.dataset.demo='false';unavailableNode.dataset.visible='true';scoreDescription.textContent='MAXESS has not received a valid result yet.';liveNode.textContent='MAXESS has not received a valid result yet.';return}")
 
-TARGET.write_text(s, encoding='utf-8')
-print('patched Results consumer:', len(s.encode('utf-8')), 'bytes')
+def strip_e01_text_fallback(s):
+    old = """function getScore(){var sources=[];try{sources.push(window.MAXESS_RESULT)}catch(e){}try{if(window.parent&&window.parent!==window)sources.push(window.parent.MAXESS_RESULT)}catch(e){}try{if(window.top&&window.top!==window&&window.top!==window.parent)sources.push(window.top.MAXESS_RESULT)}catch(e){}for(var i=0;i<sources.length;i++){var r=sources[i];if(r&&typeof r==='object'){var s=clamp(r.overallScore);if(s!==null)return s}}var docs=[document];try{if(window.parent&&window.parent!==window)docs.push(window.parent.document)}catch(e){}for(var d=0;d<docs.length;d++){try{var text=(docs[d].body&&docs[d].body.innerText)||'';var m=text.match(/(?:^|\\n)\\s*(\\d+(?:\\.\\d+)?)\\s*(?:MAXESS\\s+SCORE|overall)\\b/i);if(m){var parsed=clamp(m[1]);if(parsed!==null)return parsed}}catch(e){}}return null}"""
+    new = """function getScore(){var sources=[];try{sources.push(window.MAXESS_RESULT)}catch(e){}try{if(window.parent&&window.parent!==window)sources.push(window.parent.MAXESS_RESULT)}catch(e){}try{if(window.top&&window.top!==window&&window.top!==window.parent)sources.push(window.top.MAXESS_RESULT)}catch(e){}for(var i=0;i<sources.length;i++){var r=sources[i];if(r&&typeof r==='object'){var s=clamp(r.overallScore);if(s!==null)return s}}return null}"""
+    if old not in s:
+        raise SystemExit('E01 authoritative score reader pattern not found; refusing speculative mutation')
+    return s.replace(old, new, 1)
+
+
+def strip_e02_transport(s):
+    start = s.find('function decodeResultPayload(payload){')
+    mid = s.find('function render(){', start)
+    if start < 0 or mid < 0:
+        raise SystemExit('E02 transport block boundaries not found; refusing speculative mutation')
+    transport = s[start:mid]
+    # Remove all local hash/storage hydration. The standalone consumer is the only transport authority.
+    s = s[:start] + s[mid:]
+    s = s.replace("hydrateFromHash()||hydrateFromStorage();\n", "", 1)
+    s = re.sub(r"window\.addEventListener\('hashchange',\(\)=>\{if\(hydrateFromHash\(\)\)render\(\)\}\);\n", '', s, count=1)
+    s = re.sub(r"let attempts=0;const timer=setInterval\(\(\)=>\{.*?\},250\);\n", '', s, count=1, flags=re.S)
+    if 'decodeResultPayload' in s or 'hydrateFromHash' in s or 'hydrateFromStorage' in s or 'location.hash' in s:
+        raise SystemExit('E02 still contains a competing result transport path')
+    return s
+
+
+def main():
+    if not CONSUMER.exists():
+        raise SystemExit('Standalone MAXESS_RESULT_CONSUMER_V1 artifact is missing')
+    consumer = CONSUMER.read_text(encoding='utf-8')
+    if consumer.count(MARKER) != 2:
+        raise SystemExit('Standalone consumer identity check failed')
+    e01 = strip_e01_consumer(E01.read_text(encoding='utf-8'))
+    e01 = strip_e01_text_fallback(e01)
+    e02 = strip_e02_transport(E02.read_text(encoding='utf-8'))
+    E01.write_text(e01, encoding='utf-8')
+    E02.write_text(e02, encoding='utf-8')
+    print('Canonical transport architecture applied: standalone consumer -> E01 -> E02 -> E03 -> E04')
+    print('E01 bytes:', len(e01.encode('utf-8')))
+    print('E02 bytes:', len(e02.encode('utf-8')))
+
+
+if __name__ == '__main__':
+    main()
