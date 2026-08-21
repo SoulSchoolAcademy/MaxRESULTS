@@ -10,6 +10,22 @@
 
 This repository is the authoritative working project brain for the current MAXESS Results product and the Naya Nitro operating system being developed around it.
 
+### Official MAXESS Results domain law
+
+**THE OFFICIAL MAXESS RESULTS PRODUCTION/PUBLIC DOMAIN IS:**
+
+`https://results.nayanet.app/`
+
+This is now a permanent project rule.
+
+`.xyz` is obsolete for the MAXESS Results production/public target and MUST NOT be used in Results navigation, redirects, deployment instructions, embeds, prompts, AI instructions, or public-target documentation.
+
+Every AI/agent working on MAXESS Results must use `results.nayanet.app` when referring to the Results production/public destination.
+
+Do not perform a blanket replacement of unrelated `.xyz` domains. This rule applies specifically to MAXESS Results.
+
+The durable decision is recorded in `docs/smart-notes/2026/08/2026-08-21-canonical-results-app-domain.md` and the deployment boundary is governed by `docs/DEPLOYMENT-CONTRACT.md`.
+
 ### Repository selection law
 
 When the user says **“put this in GitHub,” “save this to GitHub,” “read GitHub,” “make a note,” “remember this,” “update the brain,”** or equivalent language while working on MAXESS/Naya Nitro, use **MaxRESULTS** unless the user explicitly names a different repository.
