@@ -1,0 +1,157 @@
+name: MAXESS Surgical 20260821
+on:
+  push:
+    branches: [maxess-surgical-20260821]
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply surgical edits only
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          def fail(msg):
+              raise SystemExit(msg)
+
+          # Baseline guard: these are the existing complete artifacts. A redesign/replacement is a hard failure.
+          baselines = {
+              'IASCORE.NAYANET.APP': 126,
+              'E01': 59,
+              'E02': 841,
+              'E03': 280,
+              'E04': 170,
+          }
+          for name, minimum in baselines.items():
+              p=Path(name)
+              if not p.exists(): fail(f'Missing protected artifact: {name}')
+              lines=len(p.read_text(encoding='utf-8').splitlines())
+              if lines < int(minimum*0.85): fail(f'Protected artifact unexpectedly small before edit: {name} ({lines} lines)')
+
+          # ================================================================
+          # AISCORE — ONLY: Naya image + Q15 direct Results.
+          # ================================================================
+          p=Path('IASCORE.NAYANET.APP')
+          s=p.read_text(encoding='utf-8')
+          naya='https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg'
+
+          old="background:radial-gradient(circle at 30% 20%,#fff,#d7c8ff 16%,#9568ff 42%,#3c197f 72%,#09050f);border:1px solid #e5dcff;"
+          new=f"background-image:url('{naya}');background-size:cover;background-position:center 16%;background-repeat:no-repeat;background-color:#09050f;border:1px solid #e5dcff;"
+          if old not in s: fail('AIScore Naya control target not found; refusing edit')
+          s=s.replace(old,new,1)
+
+          old="background:radial-gradient(circle at 30% 20%,#fff,#d7c8ff 16%,#9568ff 42%,#3c197f 72%,#09050f);border:1px solid #e5dcff;box-shadow:inset 0 2px 4px rgba(255,255,255,.75),0 0 28px rgba(149,104,255,.3)"
+          new=f"background-image:url('{naya}');background-size:cover;background-position:center 16%;background-repeat:no-repeat;background-color:#09050f;border:1px solid #e5dcff;box-shadow:inset 0 2px 4px rgba(255,255,255,.75),0 0 28px rgba(149,104,255,.3)"
+          if old not in s: fail('AIScore Naya dialog target not found; refusing edit')
+          s=s.replace(old,new,1)
+
+          old='if(state.index===14){showInterestSelection();return}'
+          new='if(state.index===14){publish();return}'
+          if old not in s: fail('AIScore Q15 transition target not found; refusing edit')
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+
+          # ================================================================
+          # E01 — preserve all presentation; replace demo fallback with real hash/storage hydration.
+          # ================================================================
+          p=Path('E01'); s=p.read_text(encoding='utf-8')
+          old="var DEMO_SCORE=82; /* VISUAL REVIEW ONLY: real MAXESS_RESULT.overallScore replaces this automatically when connected. */"
+          if old not in s: fail('E01 demo marker not found; refusing edit')
+          s=s.replace(old,"/* REAL MAXESS RESULT ONLY — no demo score */",1)
+
+          start=s.index('function getScore(){')
+          end=s.index('\n-function', start) if '\n-function' in s[start:] else -1
+          # Files are formatted with one function per line in this artifact. Use the next named function marker safely.
+          marker='function hexToRgb('
+          end=s.index(marker,start)
+          new_get="""function getScore(){var sources=[];try{sources.push(window.MAXESS_RESULT)}catch(e){}try{if(window.parent&&window.parent!==window)sources.push(window.parent.MAXESS_RESULT)}catch(e){}try{if(window.top&&window.top!==window)sources.push(window.top.MAXESS_RESULT)}catch(e){}for(var i=0;i<sources.length;i++){var r=sources[i];if(r&&typeof r==='object'){var s=clamp(r.overallScore);if(s!==null)return s}}for(var k=0;k<2;k++){try{var st=k===0?sessionStorage:localStorage;var raw=st.getItem('MAXESS_RESULT_V1');if(raw){var parsed=JSON.parse(raw);var ss=clamp(parsed&&parsed.overallScore);if(ss!==null)return ss}}catch(e){}}try{var encoded=new URLSearchParams(location.hash.replace(/^#/,'')).get('maxess-result');if(encoded){var b64=encoded.replace(/-/g,'+').replace(/_/g,'/');var bin=atob(b64.padEnd(b64.length+((4-b64.length%4)%4),'='));var bytes=new Uint8Array(bin.length);for(var j=0;j<bin.length;j++)bytes[j]=bin.charCodeAt(j);var result=JSON.parse(new TextDecoder().decode(bytes));var hs=clamp(result&&result.overallScore);if(hs!==null)return hs}}catch(e){}return null}\n"""
+          s=s[:start]+new_get+s[end:]
+
+          old_f="if(s===null){scoreNode.textContent=formatScore(DEMO_SCORE);scoreNode.dataset.hydrated='true';scoreNode.dataset.demo='true';applyPalette(DEMO_SCORE);scoreDescription.textContent='Preview score '+formatScore(DEMO_SCORE)+' of 100. A live MAXESS result will replace this demo value automatically.';liveNode.textContent='Preview score '+formatScore(DEMO_SCORE)+' of 100. A live MAXESS result will replace this demo value automatically.';unavailableNode.dataset.visible='false';return}"
+          new_f="if(s===null){scoreNode.textContent='—';scoreNode.dataset.hydrated='false';scoreNode.dataset.demo='false';unavailableNode.dataset.visible='true';scoreDescription.textContent='MAXESS is waiting for your real assessment result.';liveNode.textContent='MAXESS is waiting for your real assessment result.';return}"
+          if old_f not in s: fail('E01 demo fallback block not found; refusing edit')
+          s=s.replace(old_f,new_f,1)
+          p.write_text(s,encoding='utf-8')
+
+          # ================================================================
+          # E02 — preserve all presentation; correct only data names + result reader.
+          # ================================================================
+          p=Path('E02'); s=p.read_text(encoding='utf-8')
+          old='const dimensions = ["DIRECTION", "COMMUNICATION", "EVALUATION", "ITERATION", "SYSTEMS THINKING"];'
+          new='const dimensions = ["DIRECTION", "CONTEXT", "COLLABORATION", "EVALUATION", "ITERATION"];'
+          if old not in s: fail('E02 dimension list target not found; refusing edit')
+          s=s.replace(old,new,1)
+          start=s.index('function readResult(){')
+          end=s.index('\n  function readDimensionScore',start)
+          new_get="""function readResult(){\n    const sources=[];\n    try{sources.push(window.MAXESS_RESULT)}catch(e){}\n    try{if(window.parent&&window.parent!==window)sources.push(window.parent.MAXESS_RESULT)}catch(e){}\n    try{if(window.top&&window.top!==window)sources.push(window.top.MAXESS_RESULT)}catch(e){}\n    for(const result of sources){if(result&&typeof result==='object'&&result.contractVersion==='MAXESS_RESULT_V1'&&Array.isArray(result.dimensions)&&result.dimensions.length===5)return result;}\n    for(const key of ['MAXESS_RESULT_V1']){for(const storage of [sessionStorage,localStorage]){try{const result=JSON.parse(storage.getItem(key)||'null');if(result&&result.contractVersion==='MAXESS_RESULT_V1'&&Array.isArray(result.dimensions)&&result.dimensions.length===5)return result}catch(e){}}}\n    try{const encoded=new URLSearchParams(location.hash.replace(/^#/,'')).get('maxess-result');if(encoded){const b64=encoded.replace(/-/g,'+').replace(/_/g,'/');const bin=atob(b64.padEnd(b64.length+((4-b64.length%4)%4),'='));const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));const result=JSON.parse(new TextDecoder().decode(bytes));if(result&&result.contractVersion==='MAXESS_RESULT_V1'&&Array.isArray(result.dimensions)&&result.dimensions.length===5)return result}}catch(e){}\n    return null;\n  }\n\n"""
+          s=s[:start]+new_get+s[end+1:]
+          p.write_text(s,encoding='utf-8')
+
+          # ================================================================
+          # E03 — preserve report design/narrative; only broaden result recovery.
+          # ================================================================
+          p=Path('E03'); s=p.read_text(encoding='utf-8')
+          start=s.index('  function getResult(){')
+          end=s.index('\n  function render(',start)
+          new_get="""  function getResult(){\n    const sources=[];\n    try{sources.push(window.MAXESS_RESULT)}catch(e){}\n    try{if(window.parent&&window.parent!==window)sources.push(window.parent.MAXESS_RESULT)}catch(e){}\n    try{if(window.top&&window.top!==window)sources.push(window.top.MAXESS_RESULT)}catch(e){}\n    for(const result of sources){if(result&&typeof result==='object'&&result.contractVersion==='MAXESS_RESULT_V1')return result;}\n    for(const storage of [sessionStorage,localStorage]){try{const result=JSON.parse(storage.getItem('MAXESS_RESULT_V1')||'null');if(result&&result.contractVersion==='MAXESS_RESULT_V1')return result}catch(e){}}\n    try{const encoded=new URLSearchParams(location.hash.replace(/^#/,'')).get('maxess-result');if(encoded){const b64=encoded.replace(/-/g,'+').replace(/_/g,'/');const bin=atob(b64.padEnd(b64.length+((4-b64.length%4)%4),'='));const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));const result=JSON.parse(new TextDecoder().decode(bytes));if(result&&result.contractVersion==='MAXESS_RESULT_V1')return result}}catch(e){}\n    return null;\n  }\n"""
+          s=s[:start]+new_get+s[end:]
+          p.write_text(s,encoding='utf-8')
+
+          # ================================================================
+          # E04 — preserve spectrum/design; only recover the real Direction score.
+          # ================================================================
+          p=Path('E04'); s=p.read_text(encoding='utf-8')
+          start=s.index('function readResult(){')
+          end=s.index('\nfunction readDirectionScore',start)
+          new_get="""function readResult(){\n  var sources=[];\n  try{sources.push(window.MAXESS_RESULT)}catch(e){}\n  try{if(window.parent&&window.parent!==window)sources.push(window.parent.MAXESS_RESULT)}catch(e){}\n  try{if(window.top&&window.top!==window)sources.push(window.top.MAXESS_RESULT)}catch(e){}\n  for(var i=0;i<sources.length;i++){var result=sources[i];if(result&&typeof result==='object'&&result.contractVersion==='MAXESS_RESULT_V1')return result;}\n  for(var k=0;k<2;k++){try{var storage=k===0?sessionStorage:localStorage;var result=JSON.parse(storage.getItem('MAXESS_RESULT_V1')||'null');if(result&&result.contractVersion==='MAXESS_RESULT_V1')return result}catch(e){}}\n  try{var encoded=new URLSearchParams(location.hash.replace(/^#/,'')).get('maxess-result');if(encoded){var b64=encoded.replace(/-/g,'+').replace(/_/g,'/');var bin=atob(b64.padEnd(b64.length+((4-b64.length%4)%4),'='));var bytes=Uint8Array.from(bin,function(c){return c.charCodeAt(0)});var result=JSON.parse(new TextDecoder().decode(bytes));if(result&&result.contractVersion==='MAXESS_RESULT_V1')return result}}catch(e){}\n  return null;\n}\n"""
+          s=s[:start]+new_get+s[end:]
+          start=s.index('function readDirectionScore(result){')
+          end=s.index('\nfunction render(',start)
+          new_dir="""function readDirectionScore(result){\n  if(!result)return null;\n  if(result.directionScore!==undefined&&isFinite(Number(result.directionScore)))return Number(result.directionScore);\n  if(Array.isArray(result.dimensions)){\n    for(var i=0;i<result.dimensions.length;i++){var d=result.dimensions[i];if(!d)continue;var id=String(d.id||d.dimensionId||d.name||d.label||'').toLowerCase();if(id==='direction'){var v=d.score!==undefined?d.score:d.value!==undefined?d.value:d.overallScore;return v!==undefined&&isFinite(Number(v))?Number(v):null;}}\n  }\n  return null;\n}\n"""
+          s=s[:start]+new_dir+s[end:]
+          p.write_text(s,encoding='utf-8')
+
+          # Post-edit size guards: surgical changes cannot collapse the protected artifacts.
+          minimums={'IASCORE.NAYANET.APP':110,'E01':50,'E02':700,'E03':240,'E04':145}
+          for name,minimum in minimums.items():
+              lines=len(Path(name).read_text(encoding='utf-8').splitlines())
+              if lines < minimum: fail(f'SURGICAL GUARD FAILED: {name} collapsed to {lines} lines')
+
+      - name: Verify surgical scope and syntax
+        shell: bash
+        run: |
+          set -e
+          git diff --check
+          grep -q 'Naya%20Profile%206.jpg' IASCORE.NAYANET.APP
+          grep -q 'if(state.index===14){publish();return}' IASCORE.NAYANET.APP
+          grep -q 'MAXESS_RESULT_V1' IASCORE.NAYANET.APP
+          ! grep -q 'state.index===14){showInterestSelection' IASCORE.NAYANET.APP
+          grep -q 'const dimensions = ["DIRECTION", "CONTEXT", "COLLABORATION", "EVALUATION", "ITERATION"]' E02
+          grep -q 'MAXESS_RESULT_V1' E01
+          grep -q 'MAXESS_RESULT_V1' E02
+          grep -q 'MAXESS_RESULT_V1' E03
+          grep -q 'MAXESS_RESULT_V1' E04
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          for name in ['IASCORE.NAYANET.APP','E01','E02','E03','E04']:
+              s=Path(name).read_text(encoding='utf-8')
+              scripts=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S|re.I)
+              Path('/tmp/'+name.replace('/','_')+'.js').write_text('\n'.join(scripts),encoding='utf-8')
+              print(name, 'lines=',len(s.splitlines()), 'bytes=',len(s.encode()), 'scripts=',len(scripts))
+          PY
+          for f in /tmp/IASCORE.NAYANET.APP.js /tmp/E01.js /tmp/E02.js /tmp/E03.js /tmp/E04.js; do node --check "$f"; done
+
+      - name: Commit surgical edits and remove runner
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- IASCORE.NAYANET.APP E01 E02 E03 E04
+          git rm -- .github/workflows/maxess-surgical-20260821.yml
+          git commit -m 'fix: surgical MAXESS image flow and result hydration'
+          git push
