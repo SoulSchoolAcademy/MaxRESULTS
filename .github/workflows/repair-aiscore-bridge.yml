@@ -1,4 +1,4 @@
-name: Repair AIScore app Results bridge
+name: MAXESS Q15 direct-results surgical repair
 on:
   push:
     paths:
@@ -10,123 +10,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Rebuild AIScore from known-good baseline
+      - name: Apply minimal behavioral patch only
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-          import subprocess
-          p = Path('AIScoreMAXESS code')
-          baseline = subprocess.check_output(['git','show','f0b4bf5b8bdc895c9895e235791f97b5b041b00f:AIScoreMAXESS code'], text=True)
-          old = '''function finishInterestSelection(){
-
-  DOM.interestsView.classList.remove(
-    "visible"
-  );
-
-  renderResults();
-
-}'''
-          new = '''function finishInterestSelection(){
-
-  publishMAXESSResultToApp();
-
-}'''
-          if old not in baseline:
-              raise SystemExit('Known-good finishInterestSelection block not found.')
-          bridge = r'''
-
-/* =========================================================
-   MAXESS_RESULT_V1 — APP RESULTS BRIDGE
-========================================================= */
-
-function publishMAXESSResultToApp(){
-
-  const results = calculateResults();
-
-  if(!results || !Array.isArray(results.dimensions) || results.dimensions.length !== 5){
-    console.error('MAXESS: unable to build Results payload.');
-    return;
-  }
-
-  if(!Array.isArray(state.responses) || state.responses.length !== 15){
-    console.error('MAXESS: refusing to publish an incomplete assessment.');
-    return;
-  }
-
-  state.results = results;
-  state.status = "completed";
-  state.completedAt = new Date().toISOString();
-
-  const contract = {
-    contractVersion: "MAXESS_RESULT_V1",
-    assessmentId: MAXESS_ASSESSMENT.id,
-    assessmentVersion: MAXESS_ASSESSMENT.version,
-    completedAt: state.completedAt,
-    overallScore: Math.round(Number(results.overall) * 10) / 10,
-    masteryStage: results.band && results.band.label ? results.band.label : "",
-    masteryBand: results.band || null,
-    fiveDimensions: results.dimensions,
-    dimensions: results.dimensions,
-    responses: state.responses.slice(),
-    selectedInterests: Array.from(state.selectedInterests || []),
-    naya: {
-      name: "Naya",
-      image: "https://i.postimg.cc/bw4fyKF8/Naya-Profile-black-face-zoom.jpg"
-    }
-  };
-
-  if(!Number.isFinite(contract.overallScore) ||
-     contract.overallScore < 0 ||
-     contract.overallScore > 100 ||
-     contract.responses.length !== 15){
-    console.error('MAXESS: invalid Results payload.');
-    return;
-  }
-
-  const json = JSON.stringify(contract);
-  const bytes = new TextEncoder().encode(json);
-  let binary = "";
-  bytes.forEach(byte => binary += String.fromCharCode(byte));
-  const encoded = btoa(binary)
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/g, "");
-
-  try{ sessionStorage.setItem("MAXESS_RESULT_V1", json); }catch(e){}
-  try{ localStorage.setItem("MAXESS_RESULT_V1", json); }catch(e){}
-
-  window.MAXESS_RESULT = contract;
-  window.dispatchEvent(new CustomEvent("MAXESS_RESULT_READY", {detail:contract}));
-  window.dispatchEvent(new CustomEvent("maxess:result-updated", {detail:contract}));
-
-  window.location.assign(
-    "https://results.nayanet.app/#maxess-result=" + encoded
-  );
-}
-
-'''
-          marker = '\n</script>'
-          if marker not in baseline:
-              raise SystemExit('AIScore closing script marker not found.')
-          built = baseline.replace(old, new, 1).replace(marker, bridge + marker, 1)
-          p.write_text(built, encoding='utf-8')
+          p=Path('IASCORE.NAYANET.APP')
+          s=p.read_text(encoding='utf-8')
+          old="function continueAssessment(){if(!state.selected)return;saveResponse();stopNaya();if(state.index===14){showInterestSelection();return}state.index++;renderQuestion();setTimeout(openNaya,140)}"
+          new="function continueAssessment(){if(!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.completed=true;try{publish()}catch(e){console.error('MAXESS report publish failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"
+          if s.count(old)!=1:
+              raise SystemExit(f'REFUSING: expected exactly one Q15 transition, found {s.count(old)}')
+          s=s.replace(old,new,1)
+          old2='selectedInterests:Array.from(state.interests)'
+          new2='selectedInterests:[]'
+          if s.count(old2)!=1:
+              raise SystemExit(f'REFUSING: expected exactly one interest payload, found {s.count(old2)}')
+          s=s.replace(old2,new2,1)
+          p.write_text(s,encoding='utf-8')
           PY
-      - name: Verify generated source
+      - name: Static safety checks
         shell: bash
         run: |
-          grep -q 'https://results.nayanet.app/#maxess-result=' 'AIScoreMAXESS code'
-          grep -q 'contractVersion: "MAXESS_RESULT_V1"' 'AIScoreMAXESS code'
-          grep -q 'state.responses.length !== 15' 'AIScoreMAXESS code'
-          grep -q 'publishMAXESSResultToApp' 'AIScoreMAXESS code'
-          if grep -q 'results.nayanet.xyz' 'AIScoreMAXESS code'; then exit 1; fi
-          if grep -q 'oldResults.style.display' 'AIScoreMAXESS code'; then exit 1; fi
-      - name: Commit generated source
+          grep -q "if(state.index===14){state.completed=true;try{publish()}catch(e){console.error('MAXESS report publish failed',e)}return}" IASCORE.NAYANET.APP
+          grep -q 'selectedInterests:\[\]' IASCORE.NAYANET.APP
+          grep -q 'NAYA_IMAGE_SURGICAL_V1' IASCORE.NAYANET.APP
+          grep -q 'Naya%20Profile%206.jpg' IASCORE.NAYANET.APP
+          if grep -q 'if(state.index===14){showInterestSelection();return}' IASCORE.NAYANET.APP; then exit 1; fi
+          git diff --check
+      - name: Commit target and remove executor
         shell: bash
         run: |
           git config user.name 'SoulSchoolAcademy'
           git config user.email '221210320+SoulSchoolAcademy@users.noreply.github.com'
-          git add 'AIScoreMAXESS code'
-          git diff --cached --quiet && exit 0
-          git commit -m 'Build AIScore Results app bridge from known-good baseline'
+          git add IASCORE.NAYANET.APP
+          git rm .github/workflows/repair-aiscore-bridge.yml
+          git commit -m 'MAXESS: Q15 goes directly to real Results'
           git push
