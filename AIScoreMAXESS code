@@ -5480,13 +5480,9 @@ try{
   window.MAXESS_RESULT_BRIDGE = {buildContract, validateContract, publish, ensureNayaFields};
   ensureNayaFields();
 
-  // Retire the old Results presentation. The new Results product is the sole renderer.
+  // Retire the old Results renderer by replacing its completion action.
+  // Do not hide the DOM at assessment load; the assessment UI must remain untouched.
   window.finishInterestSelection = function(){ publish(); };
-  const oldResults = document.getElementById('resultsView');
-  if(oldResults){
-    oldResults.setAttribute('data-retired-renderer','true');
-    oldResults.style.display = 'none';
-  }
 
   // Naya appears in the teaching popup only — not on every question slide.
   const interstitial = document.getElementById('teachingInterstitial');
