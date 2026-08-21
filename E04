@@ -129,7 +129,19 @@ function readResult(){
 function readDirectionScore(result){
   if(!result)return null;
   var candidate=result.directionScore;
-  if(candidate===undefined&&result.dimensions){
+  function findDimension(list){
+    if(!Array.isArray(list))return undefined;
+    var d=list.find(function(item){
+      if(!item||typeof item!=='object')return false;
+      var id=String(item.id||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+      var name=String(item.name||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+      return id==='direction'||name==='direction';
+    });
+    return d&&d.score!==undefined?d.score:undefined;
+  }
+  if(candidate===undefined)candidate=findDimension(result.dimensions);
+  if(candidate===undefined)candidate=findDimension(result.fiveDimensions);
+  if(candidate===undefined&&result.dimensions&&typeof result.dimensions==='object'&&!Array.isArray(result.dimensions)){
     var d=result.dimensions.direction||result.dimensions.DIRECTION;
     if(typeof d==='number')candidate=d;
     else if(d&&typeof d.score==='number')candidate=d.score;
