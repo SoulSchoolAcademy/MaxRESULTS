@@ -27,25 +27,25 @@ jobs:
           path = Path('IASCORE.NAYANET.APP')
           text = path.read_text(encoding='utf-8')
 
-          # Preserve the entire artifact. Change only the Q15 transition that
-          # incorrectly routes through the interest-selection stage.
           patterns = [
-              re.compile(r'if\\(state\\.currentQuestionIndex===14\\)\\{showInterestSelection\\(\\);return\\}'),
-              re.compile(r'if\\s*\\(\\s*state\\.currentQuestionIndex\\s*===\\s*14\\s*\\)\\s*\\{\\s*showInterestSelection\\(\\)\\s*;\\s*return\\s*;?\\s*\\}')
+              re.compile(r'if\(state\.currentQuestionIndex===14\)\{showInterestSelection\(\);return\}'),
+              re.compile(r'if\s*\(\s*state\.currentQuestionIndex\s*===\s*14\s*\)\s*\{\s*showInterestSelection\(\)\s*;\s*return\s*;?\s*\}')
           ]
 
-          replacement = 'if(state.currentQuestionIndex===14){publish();return}'
           matches = []
+          selected = None
           for pattern in patterns:
               found = list(pattern.finditer(text))
               if found:
-                  matches.extend(found)
+                  matches = found
+                  selected = pattern
                   break
 
           if len(matches) != 1:
               raise SystemExit(f'ABORT: expected exactly one Q15 interest transition; found {len(matches)}')
 
-          new_text = patterns[[bool(p.search(text)) for p in patterns].index(True)].sub(replacement, text, count=1)
+          replacement = 'if(state.currentQuestionIndex===14){publish();return}'
+          new_text = selected.sub(replacement, text, count=1)
           if new_text == text:
               raise SystemExit('ABORT: no source change produced')
 
