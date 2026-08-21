@@ -10,6 +10,7 @@ on:
       - 'MAXESS-RESULT-CONSUMER-V1.html'
       - 'E01-SECTION-01-WORKING.html'
       - 'E02-SECTION-02-WORKING.html'
+      - 'IASCORE.NAYANET.APP'
   workflow_dispatch:
 
 permissions:
@@ -50,7 +51,7 @@ jobs:
           if 'decodeResultPayload' in e02 or 'hydrateFromHash' in e02 or 'hydrateFromStorage' in e02: raise SystemExit('E02 competing transport remains')
           if 'DEMO_SCORE=82' in e01 or 'Preview score 82' in e01: raise SystemExit('Hard-coded demo score remains')
           for path,text in [('MAXESS-RESULT-CONSUMER-V1.html',consumer),('E01-SECTION-01-WORKING.html',e01),('E02-SECTION-02-WORKING.html',e02)]:
-              if re.search(r'(^|\\n)(<<<<<<<|=======|>>>>>>>)( |\\n|$)',text): raise SystemExit(f'Conflict marker in {path}')
+              if re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)',text): raise SystemExit(f'Conflict marker in {path}')
           print('RESULT TRANSPORT STATIC QA: PASS')
           print('consumer bytes:',len(consumer.encode()))
           print('E01 bytes:',len(e01.encode()))
@@ -66,9 +67,9 @@ jobs:
           scripts=[]
           for path in paths:
               s=Path(path).read_text(encoding='utf-8')
-              blocks=re.findall(r'<script(?:\\s[^>]*)?>(.*?)</script>',s,re.S|re.I)
+              blocks=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>',s,re.S|re.I)
               scripts.extend(blocks)
-          Path('/tmp/maxess-transport-scripts.js').write_text('\\n'.join(scripts),encoding='utf-8')
+          Path('/tmp/maxess-transport-scripts.js').write_text('\n'.join(scripts),encoding='utf-8')
           print('script blocks:',len(scripts))
           PY
           node --check /tmp/maxess-transport-scripts.js
@@ -78,13 +79,13 @@ jobs:
           git diff --check
           git status --short
           git diff --stat
-          git diff -- MAXESS-RESULT-CONSUMER-V1.html E01-SECTION-01-WORKING.html E02-SECTION-02-WORKING.html tools/execute_maxess_result_consumer.py .github/workflows/apply-maxess-result-consumer.yml
+          git diff -- MAXESS-RESULT-CONSUMER-V1.html E01-SECTION-01-WORKING.html E02-SECTION-02-WORKING.html tools/execute_maxess_result_consumer.py .github/workflows/apply-maxess-result-consumer.yml IASCORE.NAYANET.APP
 
       - name: Commit only when cleanup changed tracked source
         run: |
           git config user.name 'Naya Master'
           git config user.email 'naya-master@users.noreply.github.com'
-          git add MAXESS-RESULT-CONSUMER-V1.html E01-SECTION-01-WORKING.html E02-SECTION-02-WORKING.html tools/execute_maxess_result_consumer.py .github/workflows/apply-maxess-result-consumer.yml
+          git add MAXESS-RESULT-CONSUMER-V1.html E01-SECTION-01-WORKING.html E02-SECTION-02-WORKING.html tools/execute_maxess_result_consumer.py .github/workflows/apply-maxess-result-consumer.yml IASCORE.NAYANET.APP
           git diff --cached --check
           if git diff --cached --quiet; then echo 'TRANSPORT CLEANUP ALREADY APPLIED'; exit 0; fi
           git commit -m 'MAXESS Results — enforce single standalone result consumer'
