@@ -6,7 +6,8 @@ Input: #maxess-result=<URL-safe-base64(JSON)>
 Output: window.MAXESS_RESULT + MAXESS_RESULT_READY + maxess:result-updated.
 Design law: no demo/fallback scores; never invent a result; prefer the current URL payload.
 V2 hardening: supports late hash availability, late-loaded result sections, repeated safe hydration,
-manual consume(), and deterministic session persistence without creating a second result contract.
+manual consume(), deterministic session persistence, and result-driven E02 dimension labels
+without creating a second result contract.
 -->
 <script>
 (function () {
@@ -75,6 +76,20 @@ manual consume(), and deterministic session persistence without creating a secon
     }
   }
 
+  function syncDimensionLabels(result) {
+    if (!result || !Array.isArray(result.dimensions) || result.dimensions.length !== 5) return;
+
+    var roots = document.querySelectorAll('#maxess-e02-v2, #maxess-e02-v3');
+    roots.forEach(function (root) {
+      var names = root.querySelectorAll('.e02-name');
+      result.dimensions.forEach(function (dimension, index) {
+        if (names[index] && dimension && dimension.name) {
+          names[index].textContent = String(dimension.name).toUpperCase();
+        }
+      });
+    });
+  }
+
   function publish(result, source) {
     if (!isValidResult(result)) return false;
 
@@ -85,6 +100,8 @@ manual consume(), and deterministic session persistence without creating a secon
     try {
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(result));
     } catch (_) {}
+
+    syncDimensionLabels(result);
 
     if (changed) {
       lastSignature = nextSignature;
