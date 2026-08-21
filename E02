@@ -38,7 +38,6 @@ const cards=Array.from(root.querySelectorAll(".e02-dimension"));
 const scoreNodes=cards.map(card=>card.querySelector(".e02-score"));
 const nameNodes=cards.map(card=>card.querySelector(".e02-name"));
 function clampScore(value){if(value===null||value===undefined||value==="")return null;const n=Number(value);return Number.isFinite(n)?Math.max(0,Math.min(100,n)):null}
-function normalize(value){return String(value||"").toLowerCase().replace(/[^a-z0-9]/g,"")}
 function parseCandidate(value){if(!value)return null;if(typeof value==="object")return value;try{return JSON.parse(value)}catch(e){}try{return JSON.parse(decodeURIComponent(value))}catch(e){}return null}
 function readResult(){
 const sources=[];
@@ -47,7 +46,7 @@ try{if(window.parent&&window.parent!==window)sources.push(window.parent.MAXESS_R
 try{if(window.top&&window.top!==window&&window.top!==window.parent)sources.push(window.top.MAXESS_RESULT)}catch(e){}
 try{sources.push(parseCandidate(sessionStorage.getItem("MAXESS_RESULT")))}catch(e){}
 try{sources.push(parseCandidate(localStorage.getItem("MAXESS_RESULT")))}catch(e){}
-try{const params=new URLSearchParams(window.location.search);["result","MAXESS_RESULT","maxess_result","data"].forEach(k=>sources.push(parseCandidate(params.get(k)))}catch(e){}
+try{const params=new URLSearchParams(window.location.search);["result","MAXESS_RESULT","maxess_result","data"].forEach(k=>sources.push(parseCandidate(params.get(k))));}catch(e){}
 for(const result of sources){if(result&&typeof result==="object"&&result.contractVersion==="MAXESS_RESULT_V1"&&Array.isArray(result.dimensions)&&result.dimensions.length===5)return result}
 return null;
 }
