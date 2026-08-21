@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.github/workflows/restore-aiscore-working.yml'
+      - 'AIScoreMAXESS code'
 
 permissions:
   contents: write
