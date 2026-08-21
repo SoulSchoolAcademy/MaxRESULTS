@@ -67,6 +67,7 @@ The filename is a locator, not the authority.
 | Topic | Primary category | Useful retrieval terms | Note |
 |---|---|---|---|
 | Naya Power High-Performance Memory System | INSIGHT | Naya Power, Smart Notes, Naya Notes, memory, project brain, timestamps, recall, searchability, learning loop, daily review | `2026-08-20-naya-power-high-performance-memory-system.md` |
+| AIScore Execution Branch Guardrail | LEARNING | AIScore, GitHub, branch safety, active branch, main branch, feature branch, execution guardrail, source of truth, Naya Law, PR #8 | `2026-08-20-aiscore-execution-branch-guardrail-learning.md` |
 | Naya Power Digital Codex Product Vision, Modes, and Sales Page | KNOWLEDGE / DECISION / GOAL | Naya Power, AI Supercharger, Digital Codex, Naya Modes, Lead Mode, Naya Hub, sales page, Naya Supercharger, product education, GrooveBlog, MAXESS | `2026-08-20-naya-power-digital-codex-sales-page-and-modes.md` |
 | User Effort Minimization + Complete Delivery Law | SOLUTION / LEARNING | user effort, 10-star service, complete delivery, minimize friction, cognitive load, take the lead, full code, integrated work, Naya Law, user experience, AAA | `2026-08-20-user-effort-and-complete-delivery-law.md` |
 | Versioned Backup + Safe Editing Law | SOLUTION | backups, timestamped backups, versioning, safe editing, preservation, recovery point, rollback, destructive change, source of truth, MAXESS, Naya Law | `2026-08-20-versioned-backup-and-safe-editing-law.md` |
