@@ -1,0 +1,1 @@
+Temporary trigger for the exact AIScore Naya AAA patch. The workflow removes this file after successful validation.
