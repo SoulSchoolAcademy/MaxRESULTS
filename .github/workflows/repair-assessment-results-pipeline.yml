@@ -9,7 +9,6 @@ permissions:
 
 jobs:
   repair:
-    if: contains(github.event.head_commit.message, 'stage MAXESS assessment/results pipeline repair')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout active engineering branch
