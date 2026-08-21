@@ -30,7 +30,6 @@ jobs:
           test -f docs/SMART-NOTES.md
           test -f docs/smart-notes/INDEX.md
           test -d docs/smart-notes
-          test -f docs/NAYA-NITRO-MODE.md
           test -f docs/MAXESS-RESULTS-PRODUCT-SPEC.md
           test -f docs/DEPLOYMENT-CONTRACT.md
           test -f docs/RELEASE-CHECKLIST.md
