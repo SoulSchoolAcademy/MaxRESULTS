@@ -24,18 +24,6 @@ Search in this order:
 6. related document/path;
 7. note content/evidence.
 
-Example:
-
-A request such as **“What did we learn about making Naya remember things?”** should search concepts including:
-
-`Naya Note · Smart Note · memory · durable memory · project brain · recall · context restoration · learning · notes`
-
-A request such as **“What does AAA mean here?”** should search concepts including:
-
-`AAA · 10/10 · quality · language dictionary · scorecard · MaxIS · Why is this not a 10 · excellence`
-
-Do not require the user or AI to know the exact phrase **“Smart Notes System.”**
-
 ## Directory convention
 
 Notes are stored by creation year/month:
@@ -66,6 +54,7 @@ The filename is a locator, not the authority.
 
 | Topic | Primary category | Useful retrieval terms | Note |
 |---|---|---|---|
+| MAXESS AIScore V1 North Star, Visual DNA, and Naya Supercharger Operating Direction | DECISION | AIScore, MAXESS, visual DNA, Naya, Naya Supercharger, Naya Power, Lead Mode, buttons, orb, assessment, three-minute experience, AAA, GitHub memory | `2026-08-20-aiscore-maxess-v1-north-star-and-visual-laws.md` |
 | Naya Power Digital Codex Product Vision, Modes, and Sales Page | KNOWLEDGE / DECISION / GOAL | Naya Power, AI Supercharger, Digital Codex, Naya Modes, Lead Mode, Naya Hub, sales page, Naya Supercharger, product education, GrooveBlog, MAXESS | `2026-08-20-naya-power-digital-codex-sales-page-and-modes.md` |
 | User Effort Minimization + Complete Delivery Law | SOLUTION / LEARNING | user effort, 10-star service, complete delivery, minimize friction, cognitive load, take the lead, full code, integrated work, Naya Law, user experience, AAA | `2026-08-20-user-effort-and-complete-delivery-law.md` |
 | Versioned Backup + Safe Editing Law | SOLUTION | backups, timestamped backups, versioning, safe editing, preservation, recovery point, rollback, destructive change, source of truth, MAXESS, Naya Law | `2026-08-20-versioned-backup-and-safe-editing-law.md` |
@@ -91,6 +80,7 @@ The filename is a locator, not the authority.
 
 | If the user asks about… | Start with… | Then inspect… |
 |---|---|---|
+| MAXESS AIScore V1 / clean assessment / visual DNA / premium buttons / Naya orb | `2026-08-20-aiscore-maxess-v1-north-star-and-visual-laws.md` | `docs/MAXESS-AISCORE-CLEAN-V1-MASTER-EXECUTION-PROMPT.md`, current AIScore source, Results consumer |
 | Naya Power / Digital Codex / Naya Modes | `2026-08-20-naya-power-digital-codex-sales-page-and-modes.md` | `docs/NAYA-LEAD-SERVICE-STANDARD.md`, Naya Power product/page plans |
 | Naya's overall operating philosophy | `NAYA-OS.md` | Executive Plan, Blueprint, relevant notes |
 | What Naya Nitro is | `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` | Executive Plan, relevant notes |
@@ -98,7 +88,7 @@ The filename is a locator, not the authority.
 | Project language / what AAA or 10 means | `docs/NAYA-LANGUAGE-DICTIONARY.md` | `docs/NAYA-SCORECARDING-SYSTEM.md`, relevant notes |
 | Scorecard / “scorecard this” | `docs/NAYA-SCORECARDING-SYSTEM.md` | task-specific rubric, relevant notes |
 | How to execute work | `docs/NAYA-NITRO-MODE.md` | Execution Prompt Template, learning log |
-| Reusable execution prompt | `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` | current task-specific notes |
+| Reusable execution prompt | `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` | `docs/MAXESS-AISCORE-CLEAN-V1-MASTER-EXECUTION-PROMPT.md` |
 | Naya Note / Smart Note / memory | `docs/NAYA-SMART-NOTES-SYSTEM.md` | this index, relevant notes |
 | What was learned | relevant dated Smart Notes | Learning Log |
 | What changed / was decided | DECISION notes by date/topic | Executive Plan / product spec if promoted |
