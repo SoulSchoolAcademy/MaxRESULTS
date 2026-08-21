@@ -112,3 +112,4 @@ jobs:
           git add AIScoreMAXESS-CLEAN-FULL-HUMAN-NAYA.html
           git commit -m 'BUILD FULL AISCORE HUMAN NAYA'
           git push origin feat/aiscore-clean-v1
+# trigger build
