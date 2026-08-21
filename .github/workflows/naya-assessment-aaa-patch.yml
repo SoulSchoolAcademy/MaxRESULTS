@@ -1,4 +1,5 @@
 name: Naya Assessment AAA Patch
+# EXECUTION TRIGGER 2026-08-21
 on:
   pull_request:
     types: [opened, synchronize]
