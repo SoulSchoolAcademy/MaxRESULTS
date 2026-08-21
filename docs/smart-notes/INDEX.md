@@ -66,6 +66,7 @@ The filename is a locator, not the authority.
 
 | Topic | Primary category | Useful retrieval terms | Note |
 |---|---|---|---|
+| Intelligence as Extraordinary Service — Best-Interest Execution Standard | INSIGHT | intelligence, extraordinary service, best interest, customer service, excellence, truth, usefulness, helpfulness, take the lead, problem solving, ten-star service, Naya | `2026-08-21-intelligence-as-extraordinary-service.md` |
 | Canonical MAXESS Results Domain — `.app` Official | DECISION / SOLUTION | MAXESS, Results, canonical domain, results.nayanet.app, app domain, .app, .xyz, deployment, Groove, Naya | `2026-08-21-canonical-results-app-domain.md` |
 
 ### 2026-08-20
@@ -102,6 +103,7 @@ The filename is a locator, not the authority.
 
 | If the user asks about… | Start with… | Then inspect… |
 |---|---|---|
+| Intelligence / extraordinary service / best-interest behavior / solving problems for the user | `2026-08-21-intelligence-as-extraordinary-service.md` | `NAYA-OS.md`, `docs/NAYA-LEAD-SERVICE-STANDARD.md`, relevant execution notes |
 | MAXESS Results public domain / `.app` vs `.xyz` | `2026-08-21-canonical-results-app-domain.md` | `docs/REPOSITORY-MAP.md`, `docs/DEPLOYMENT-CONTRACT.md`, current Results artifact/navigation |
 | Naya Power / Smart Notes / durable memory / project brain | `2026-08-20-naya-power-high-performance-memory-system.md` | `docs/NAYA-SMART-NOTES-SYSTEM.md`, this index, relevant dated notes |
 | AIScore first-load / Naya onboarding | `2026-08-20-aiscore-first-load-naya-welcome-learning.md` | AIScore artifact, PR #8, relevant MAXESS execution prompt |
@@ -116,7 +118,7 @@ The filename is a locator, not the authority.
 | Scorecard / “scorecard this” | `docs/NAYA-SCORECARDING-SYSTEM.md` | task-specific rubric, relevant notes |
 | How to execute work | `docs/NAYA-NITRO-MODE.md` | Execution Prompt Template, learning log |
 | Reusable execution prompt | `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` | current task-specific notes |
-| Naya Note / Smart Note / memory | `docs/NAYA-SMART-NOTES-SYSTEM.md` | this index, relevant notes |
+| Naya Note / Smart Note / memory | `docs/NAYA-SMART-NOTES-SYSTEM.md` | this index, relevant dated notes |
 | What was learned | relevant dated Smart Notes | Learning Log |
 | What changed / was decided | DECISION notes by date/topic | Executive Plan / product spec if promoted |
 | Cold-start / branch governance | `2026-08-18-cold-start-governance-repair.md` | `main:START-HERE.md`, active branch START-HERE |
