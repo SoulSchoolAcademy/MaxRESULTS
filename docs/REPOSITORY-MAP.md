@@ -11,6 +11,15 @@ This is the execution map for AI and humans. Read this after `START-HERE.md` and
 
 **Important:** `main` is authoritative for governance and repository operating rules. The active Results branch is the working engineering state. Neither branch is automatically a human-approved product baseline merely because it exists.
 
+## Canonical MAXESS Results domain
+**OFFICIAL PRODUCTION/PUBLIC RESULTS TARGET:** `https://results.nayanet.app/`
+
+`.xyz` is obsolete for the MAXESS Results production target. Every AI, agent, developer, prompt, governance document, deployment instruction, Results navigation reference, redirect, or embed identifying the MAXESS Results public target MUST use `results.nayanet.app`.
+
+Do not perform a blanket replacement of unrelated `.xyz` domains. This rule applies specifically to the MAXESS Results target.
+
+The durable decision is recorded in `docs/smart-notes/2026/08/2026-08-21-canonical-results-app-domain.md` and the deployment boundary is governed by `docs/DEPLOYMENT-CONTRACT.md`.
+
 ## Canonical cold-start read order
 1. `START-HERE.md` — entry law and activation.
 2. `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md` — mandatory execution-integrity protocol and Pre-Action Gate.
@@ -99,7 +108,7 @@ A working branch, commit, or newer file is **not** automatically an approved bas
 ## Current state
 - Governance/reference branch: `main`.
 - Active Results engineering branch: `maxess-results-v21-working` exists and is the current working branch for Results engineering.
-- Current public verification target: `https://results.nayanet.xyz/`.
+- **Current public verification target: `https://results.nayanet.app/`.**
 - Production/public parity is a separate verification state from GitHub.
 - Human-approved AAA baseline: **NOT YET ESTABLISHED for the fresh Section 01 build**.
 
@@ -118,7 +127,7 @@ Do not call any artifact “authoritative production” merely because it is lar
 - Every material failure should produce a root cause and, where practical, a durable guardrail.
 - Durable learning should be captured as a Naya Note / Smart Note using the documented structure.
 - A Naya Note is not automatically product law; promote durable rules deliberately into governance documents.
-- Every consequential execution should end with the next likely action and a copy-paste-ready execution prompt.
+- Every consequential execution should end with the next likely action and a copy-and-paste-ready execution prompt.
 - Final status must distinguish `IMPLEMENTED`, `VERIFIED`, `LIVE VERIFIED`, `HUMAN REVIEW REQUIRED`, `BLOCKED`, and `UNKNOWN`.
 
 ## Product north star
