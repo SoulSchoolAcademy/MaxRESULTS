@@ -89,7 +89,8 @@ jobs:
               if not p.exists(): raise SystemExit(f'AUTHORITATIVE SOURCE MISSING: {sid} -> {p}')
 
           def element_by_id(text,sid):
-              m=re.search(r"<([A-Za-z][\w:-]*)\b[^>]*\bid=['\"]"+re.escape(sid)+r"['\"][^>]*>",text,re.I)
+              pattern = r'''<([A-Za-z][\w:-]*)\b[^>]*\bid=["']''' + re.escape(sid) + r'''["'][^>]*>'''
+              m=re.search(pattern,text,re.I)
               if not m:return None
               tag=m.group(1); start=m.start(); pos=m.end(); depth=1
               tok=re.compile(r'</?'+re.escape(tag)+r'\b[^>]*>',re.I)
