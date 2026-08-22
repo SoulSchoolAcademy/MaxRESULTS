@@ -55,8 +55,27 @@ Do not add demo/fallback scores here.
   function publish(result, source) {
     window.MAXESS_RESULT = result;
     try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(result)); } catch (_) {}
-    dispatch(READY, { result: result, source: source || 'hash' });
-    dispatch(UPDATED, { result: result, source: source || 'hash' });
+
+    /*
+      Compatibility law:
+      - New sections consume event.detail directly.
+      - Older E01-style consumers may read event.detail.result.
+      Make result.result point back to the same authoritative object without
+      making it enumerable, so JSON/storage remain unchanged and there is no
+      circular serialization problem.
+    */
+    try {
+      if (!Object.prototype.hasOwnProperty.call(result, 'result')) {
+        Object.defineProperty(result, 'result', {
+          value: result,
+          enumerable: false,
+          configurable: true
+        });
+      }
+    } catch (_) {}
+
+    dispatch(READY, result);
+    dispatch(UPDATED, result);
   }
 
   function consume() {
