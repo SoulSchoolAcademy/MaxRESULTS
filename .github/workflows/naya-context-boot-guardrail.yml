@@ -1,0 +1,49 @@
+name: Naya Context Boot — Governance Guardrail
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md'
+      - '.naya/naya-context-manifest.json'
+      - '.naya/NAYA-LAW-SYSTEM-PROTOCOL.md'
+      - 'START-HERE.md'
+      - 'NAYA-OS.md'
+      - 'docs/REPOSITORY-MAP.md'
+      - 'docs/NAYA-*-MASTER-ACTIVATION-SPECIFICATION.md'
+      - 'docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md'
+      - 'docs/NAYA-LANGUAGE-DICTIONARY.md'
+      - 'docs/NAYA-SCORECARDING-SYSTEM.md'
+      - 'docs/NAYA-GOVERNANCE-REGISTRY.md'
+      - 'tools/qa_naya_context_boot.py'
+  pull_request:
+    paths:
+      - '.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md'
+      - '.naya/naya-context-manifest.json'
+      - '.naya/NAYA-LAW-SYSTEM-PROTOCOL.md'
+      - 'START-HERE.md'
+      - 'NAYA-OS.md'
+      - 'docs/REPOSITORY-MAP.md'
+      - 'docs/NAYA-*-MASTER-ACTIVATION-SPECIFICATION.md'
+      - 'docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md'
+      - 'docs/NAYA-LANGUAGE-DICTIONARY.md'
+      - 'docs/NAYA-SCORECARDING-SYSTEM.md'
+      - 'docs/NAYA-GOVERNANCE-REGISTRY.md'
+      - 'tools/qa_naya_context_boot.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-context-boot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical governance state
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Validate Naya Context Boot
+        run: python3 tools/qa_naya_context_boot.py
