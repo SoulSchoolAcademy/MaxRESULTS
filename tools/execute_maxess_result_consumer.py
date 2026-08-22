@@ -9,7 +9,7 @@ CONSUMER = Path('MAXESS-RESULT-CONSUMER-V1.html')
 MARKER = 'MAXESS_RESULT_CONSUMER_V1'
 
 # NAYA TRANSPORT REPAIR TRIGGER: execute the canonical cleanup against the current branch source.
-# NORTH STAR GUARDRAIL V3: one authoritative result transport across the host page and
+# NORTH STAR GUARDRAIL V4: one authoritative result transport across the host page and
 # Groove iframe embeds. Sections never score or invent results; they only consume the
 # authoritative MAXESS_RESULT contract/events/message relay.
 
