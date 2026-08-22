@@ -59,9 +59,11 @@ BRIDGE = r'''
 
     const dimensions = (MAXESS_ASSESSMENT.dimensions || []).map(dimension => {
       const relevant = responses.filter(r => r.dimensionId === dimension.id);
-      if(!relevant.length) return null;
-      const raw = relevant.reduce((sum,r)=>sum + Number(r.score || 0),0) / relevant.length;
-      const score = Math.round(raw * 10) / 10;
+      if(relevant.length !== 3) return null;
+      const raw = relevant.reduce((sum,r)=>sum + Number(r.score || 0),0);
+      // Authoritative MAXESS response scores are 0–4. Normalize each
+      // three-question dimension to the canonical 0–100 scale.
+      const score = Math.round((raw / 12) * 100 * 10) / 10;
       return { id:dimension.id, name:dimension.name, color:dimension.color, weight:dimension.weight, score, level:dimensionLevel(score) };
     }).filter(Boolean);
     if(dimensions.length !== 5) return null;
@@ -96,6 +98,7 @@ BRIDGE = r'''
     if(clampScore(contract.overallScore) === null) return false;
     if(!Array.isArray(contract.dimensions) || contract.dimensions.length !== 5) return false;
     if(!Array.isArray(contract.responses) || contract.responses.length !== 15) return false;
+    if(contract.dimensions.some(d => clampScore(d.score) === null)) return false;
     return true;
   }
 
