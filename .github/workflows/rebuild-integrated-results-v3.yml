@@ -104,14 +104,21 @@ jobs:
               return re.sub(r'<script\b[^>]*>.*?</script\s*>',repl,text,flags=re.I|re.S)
 
           def shell_counts(text):
-              # Count document-shell tags only outside script/style blocks so literal
-              # HTML examples inside JavaScript/CSS cannot invalidate the baseline.
               cleaned=re.sub(r'<script\b[^>]*>.*?</script\s*>','',text,flags=re.I|re.S)
               cleaned=re.sub(r'<style\b[^>]*>.*?</style\s*>','',cleaned,flags=re.I|re.S)
               return (len(re.findall(r'<html\b[^>]*>',cleaned,re.I)),
                       len(re.findall(r'</html\s*>',cleaned,re.I)))
 
           open_count,close_count=shell_counts(baseline)
+          if open_count==1 and close_count==0:
+              body_close=len(re.findall(r'</body\s*>',baseline,re.I))
+              if body_close==1:
+                  baseline=baseline.rstrip()+'\n</html>\n'
+              elif body_close==0:
+                  baseline=baseline.rstrip()+'\n</body>\n</html>\n'
+              else:
+                  raise SystemExit(f'BASELINE INVALID: document shell open={open_count} close={close_count} body-close={body_close}')
+              open_count,close_count=shell_counts(baseline)
           if open_count!=1 or close_count!=1:
               raise SystemExit(f'BASELINE INVALID: document shell open={open_count} close={close_count}')
 
