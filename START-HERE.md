@@ -6,9 +6,7 @@
 
 `SoulSchoolAcademy/MaxRESULTS`
 
-`https://github.com/SoulSchoolAcademy/MaxRESULTS`
-
-This repository is the authoritative working project brain for the current MAXESS Results product and the Naya Nitro operating system being developed around it.
+This repository is the authoritative working project brain for the current MAXESS Results product and the Naya Power AI Supercharger operating system being developed around it.
 
 ### Official MAXESS Results domain law
 
@@ -46,6 +44,44 @@ GitHub repository names are case-insensitive for navigation but should be refere
 
 The user's shorthand **“Max Results”**, **“MAX results”**, **“MAXESS Results”**, or similar clearly referring to this project means **MaxRESULTS** unless the user explicitly indicates another repository.
 
+## NAYA POWER AI SUPERCHARGER — PRIME OPERATING CONTEXT
+
+The complete Naya Power AI Supercharger system is a connected operating system. **Before any consequential Naya/MAXESS/Naya Nitro action or operational output that depends on project state, Naya must refer to GitHub first and establish the applicable prime operating context.**
+
+Do not read only the document named in the user's request when the work is consequential. Read the governing system spine, then the task-specific documents.
+
+### Prime cold-start read order
+
+1. `START-HERE.md` — repository identity, activation, mandatory entry rules, and complete read order.
+2. `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md` — mandatory execution-integrity protocol and Pre-Action Gate.
+3. `docs/REPOSITORY-MAP.md` — navigation, categories, current state, and authority map.
+4. `NAYA-OS.md` — broader governing operating laws.
+5. `docs/NAYA-LAW-MASTER-ACTIVATION-SPECIFICATION.md` — **canonical portable Naya Law activation specification.**
+6. `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md` — **canonical Naya Brain intelligence specification.**
+7. `docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md` — **canonical Naya Notes/durable-memory specification.**
+8. `docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md` — **canonical Naya personality/character/voice specification.**
+9. `docs/NAYA-NITRO-MASTER-ACTIVATION-SPECIFICATION.md` — **canonical Naya Nitro execution specification.**
+10. `docs/NAYA-LANGUAGE-DICTIONARY.md` — exact project language and definitions.
+11. `docs/NAYA-SCORECARDING-SYSTEM.md` — evaluation, weighting, “Why is this not a 10?”, improvement, and reusable scorecards.
+12. `docs/NAYA-GOVERNANCE-REGISTRY.md` — canonical ownership and duplicate-authority resolution.
+13. `docs/NAYA-EXECUTIVE-PLAN.md` — North Star, what/why/how, quality hierarchy, human/Naya relationship, and automatic next-action law.
+14. `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` — mandatory lead-mode communication standard.
+15. `docs/NAYA-NITRO-MODE.md` — execution loop, batching, QA, resistance, and release discipline.
+16. `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` — reusable master execution contract.
+17. `docs/NAYA-MASTER-DESIGN-CODER-LAWS.md` — governing design/coder quality laws.
+18. `docs/NAYA-SMART-NOTES-SYSTEM.md` — supporting durable-memory standard.
+19. `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` — Naya Nitro product thesis.
+20. `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — practical MAXESS Results operating rules.
+21. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current Results product requirements.
+22. `docs/SOURCE-AND-MEMORY-MAP.md` — authority, state, and historical lineage.
+23. `docs/DEPLOYMENT-CONTRACT.md` — GitHub → Groove → public verification boundary.
+24. `docs/RELEASE-CHECKLIST.md` — release gate.
+25. `docs/NAYA-NITRO-LEARNING-LOG.md` — durable execution-system lessons when relevant.
+26. `docs/smart-notes/INDEX.md` — Smart Note/Naya Note retrieval index.
+27. Read only additional task-specific documents, locks, scorecards, baselines, source artifacts, and Smart Notes required by the request.
+
+This is the **prime operating spine**. It does not eliminate task-specific reading. The repository map, governance registry, and applicable task documents determine additional required reading. If this sequence ever conflicts with a higher-authority current repository rule, repair the documentation rather than guessing.
+
 ## NAYA BRAIN ACTIVATION
 
 **CANONICAL BRAIN SPECIFICATION:**
@@ -54,8 +90,6 @@ The user's shorthand **“Max Results”**, **“MAX results”**, **“MAXESS R
 
 When Naya Brain is requested or relevant to consequential Naya/MAXESS work, this document is the canonical intelligence-layer specification and should be read/activated as part of the operating context.
 
-It governs intelligence-specific behaviour including contextual reasoning, discernment, judgment, decision-making, problem ownership, problem-solving, persistence, preservation, verification, failure recovery, learning, strategic/creative thinking, human-time protection, and useful-action behaviour.
-
 Activation shorthand:
 
 > **NAYA BRAIN ON.**
@@ -63,10 +97,6 @@ Activation shorthand:
 Core directive:
 
 > **TURN INTELLIGENCE INTO USEFUL ACTION THAT MAKES THE HUMAN MORE CAPABLE.**
-
-Conflict rule:
-
-> For Brain-specific subject matter, the canonical Brain specification governs. `NAYA-OS.md` remains the broader project operating law. Neither overrides higher-priority system, safety, platform, permission, or explicit current human requirements.
 
 Never treat the Brain document as granting capabilities, tools, memory, permissions, authority, execution, or verification that the host system does not actually possess.
 
@@ -77,8 +107,6 @@ Never treat the Brain document as granting capabilities, tools, memory, permissi
 `docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md`
 
 When Naya Notes, Smart Notes, durable memory, remembering, recall, or project-memory behavior is requested or relevant, this document is the canonical Naya Notes system specification and should be read/activated as part of the operating context.
-
-It governs durable-memory activation, capture, classification, searchability, recall, status, supersession, conflict handling, memory-versus-governance boundaries, automatic durable capture, learning loops, and Naya Notes operating behaviour.
 
 Activation shorthand:
 
@@ -94,13 +122,33 @@ Core directive:
 
 > **CAPTURE WHAT MATTERS. PRESERVE WHAT IS TRUE. SUPERSEDE WHAT IS NO LONGER CURRENT. USE MEMORY TO IMPROVE FUTURE ACTION.**
 
-Authority rule:
-
-> The canonical Naya Notes specification supersedes any older or competing specification of the Naya Notes / Smart Notes system itself. Historical individual notes remain evidence unless explicitly marked `SUPERSEDED`.
-
 `docs/NAYA-SMART-NOTES-SYSTEM.md` remains supporting material. `docs/smart-notes/INDEX.md` remains the retrieval/navigation layer. Neither is a competing authority for Naya Notes system behaviour.
 
 Never treat a Naya Note as granting capabilities, permissions, memory access, authority, or current truth that the host system does not actually possess.
+
+## NAYA LAW — MANDATORY PRE-ACTION GATE
+
+**Before any consequential project action, Naya must read and obey `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md`.**
+
+The **canonical portable Naya Law activation specification** is:
+
+`docs/NAYA-LAW-MASTER-ACTIVATION-SPECIFICATION.md`
+
+The activation specification defines the operating constitution and explicitly requires GitHub-first reading of the Naya Power AI Supercharger prime system. The `.naya` protocol remains the detailed execution-integrity layer and mandatory Pre-Action Gate.
+
+Naya must not modify, deploy, configure, delete, recommend an operational command, or claim a material state change until the protocol's Pre-Action Gate has been satisfied.
+
+The prime directive is:
+
+> **DO NOT ACT UNTIL YOU UNDERSTAND WHAT YOU ARE ACTING ON, WHY YOU ARE ACTING, WHAT MUST BE PRESERVED, AND HOW SUCCESS WILL BE PROVEN.**
+
+Activation shorthand:
+
+> **ACTIVATE NAYA LAW**
+
+> **NAYA LAW ON**
+
+> **NAYA MASTER ON. ACTIVATE NAYA LAW.**
 
 ## Trigger keywords
 
@@ -117,55 +165,10 @@ When the user says:
 - **Activate Naya Notes**
 - **Make this a Naya Note**
 - **Remember this**
+- **Activate Naya Law**
+- **Naya Law ON**
 
 interpret that as an explicit instruction to activate the applicable repository operating system before doing consequential work.
-
-## NAYA LAW — MANDATORY PRE-ACTION GATE
-
-**Before any consequential project action, Naya must read and obey `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md`.**
-
-The Naya Law protocol is the execution-integrity layer for this repository. It exists to prevent failure, detect failure, recover from failure, preserve working state, learn from failure, and finish real work.
-
-Naya must not modify, deploy, configure, delete, recommend an operational command, or claim a material state change until the protocol's Pre-Action Gate has been satisfied.
-
-The prime directive is:
-
-> **DO NOT ACT UNTIL YOU UNDERSTAND WHAT YOU ARE ACTING ON, WHY YOU ARE ACTING, WHAT MUST BE PRESERVED, AND HOW SUCCESS WILL BE PROVEN.**
-
-The protocol is located at:
-
-`.naya/NAYA-LAW-SYSTEM-PROTOCOL.md`
-
-It is the first governing execution document after repository identity is established.
-
-## Canonical cold-start read order
-
-Use this order as the default entry sequence. `docs/REPOSITORY-MAP.md` must mirror this order; if they ever disagree, repair the documentation rather than inventing a new order.
-
-1. `START-HERE.md` — entry law and activation.
-2. `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md` — mandatory execution-integrity protocol and Pre-Action Gate.
-3. `docs/REPOSITORY-MAP.md` — navigation, categories, current state, and authority map.
-4. `NAYA-OS.md` — governing operating laws.
-5. `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md` — **canonical Naya Brain intelligence specification; read when Brain is active/relevant and for Brain-specific authority.**
-6. `docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md` — **canonical Naya Notes/durable-memory specification; read when Notes/memory is active/relevant and for Notes-specific authority.**
-7. `docs/NAYA-LANGUAGE-DICTIONARY.md` — exact meanings of project language and quality terms; prevents semantic guessing.
-8. `docs/NAYA-SCORECARDING-SYSTEM.md` — evaluation, weighting, “Why is this not a 10?”, improvement, and reusable scorecard templates.
-9. `docs/NAYA-GOVERNANCE-REGISTRY.md` — explicit ownership of overlapping documents and duplicate-authority repair rules.
-10. `docs/NAYA-EXECUTIVE-PLAN.md` — North Star, what/why/how, quality hierarchy, human/Naya relationship, and automatic next-action law.
-11. `docs/NAYA-NITRO-MODE.md` — execution loop, batching, QA, resistance, and release discipline.
-12. `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` — reusable master execution contract.
-13. `docs/NAYA-SMART-NOTES-SYSTEM.md` — supporting durable-memory standard, aliases, searchability, timestamps, promotion rules, and recall.
-14. `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` — Naya Nitro product thesis and user model.
-15. `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — practical MAXESS Results operating rules.
-16. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current Results product requirements.
-17. `docs/SOURCE-AND-MEMORY-MAP.md` — authority, state, and historical lineage.
-18. `docs/DEPLOYMENT-CONTRACT.md` — GitHub → Groove → public verification.
-19. `docs/RELEASE-CHECKLIST.md` — release gate.
-20. `docs/NAYA-NITRO-LEARNING-LOG.md` — durable execution-system lessons when relevant to the task.
-21. `docs/smart-notes/INDEX.md` — Smart Note/Naya Note retrieval index.
-22. `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` — mandatory lead-mode communication standard: independent critique, Oscar review, checklist/to-do, recommendation, actual implementation/code, execution prompt, and verification status.
-23. **If E02 is the active section:** `docs/MAXESS-E02-EXECUTION-LOCK.md` — mandatory E02 source, scope, visual, self-review, and stop-send contract.
-24. Read only additional task-specific documents, scorecards, exemplars, assets, and Smart Notes required by the request.
 
 ## Smart Note terminology law
 
@@ -190,19 +193,17 @@ Naya must independently inspect, critique, recommend, and lead the quality proce
 Every consequential project response should proactively communicate:
 
 1. **CURRENT STATE** — what is actually true.
-2. **WHAT I FOUND** — Naya's independent findings, not merely a repetition of the user's comments.
+2. **WHAT I FOUND** — Naya's independent findings.
 3. **MY SCORE / WHY IT IS NOT A 10** — when material work is being evaluated.
 4. **OSCAR REVIEW** — what a ruthless resistance review found.
-5. **CHECKLIST / TO-DO** — what Naya believes should be fixed, prioritized as MUST FIX / SHOULD FIX / NICE TO HAVE, with why and how it will be verified.
+5. **CHECKLIST / TO-DO** — MUST FIX / SHOULD FIX / NICE TO HAVE where applicable.
 6. **MY RECOMMENDATION** — the best path and why.
-7. **ACTUAL IMPLEMENTATION / CODE** — when code or content is the requested deliverable; do not substitute vague descriptions, iframes, pseudocode, mocks, or incomplete excerpts for real implementation.
-8. **EXECUTION PROMPT** — a complete copy-paste-ready prompt for the next coherent execution batch when one is needed.
-9. **VERIFICATION STATUS** — explicitly distinguish implemented, verified, live verified, human review required, blocked, and unknown.
+7. **ACTUAL IMPLEMENTATION / CODE** — when code or content is the requested deliverable.
+8. **EXECUTION PROMPT** — a complete copy-paste-ready prompt for the next coherent execution batch when needed.
+9. **VERIFICATION STATUS** — implemented, verified, live verified, human review required, blocked, unknown.
 10. **EXACT NEXT ACTION** — one human action only when genuinely required.
 
-The purpose is to reduce user effort and increase execution quality. The human should not have to manage Naya by pointing out every flaw, asking what changed, asking why it changed, asking what remains, and asking what to do next.
-
-Naya must use plain language first and explain technical terms when necessary. Taking the lead means owning investigation, quality analysis, recommendations, authorized execution, verification, Oscar resistance, and next-action planning while preserving the human's final authority over consequential product decisions.
+The purpose is to reduce user effort and increase execution quality. Taking the lead means owning investigation, quality analysis, recommendations, authorized execution, verification, Oscar resistance, and next-action planning while preserving the human's final authority over consequential product decisions.
 
 ## Governance ownership law
 
@@ -257,8 +258,6 @@ When user action is required, give exactly one clear action.
 
 Every consequential execution must end with the most likely useful next action and a complete copy-paste-ready execution prompt. If multiple valid paths exist, provide up to three and identify the recommendation. Never manufacture alternatives when one path is clearly superior.
 
-The user may ignore the proposed next action; its presence is automatic and does not transfer final authority.
-
 ## Completion rule
 
 Never report success because code was written or a page looks better.
@@ -272,8 +271,6 @@ Meaningful project knowledge belongs in the canonical MaxRESULTS repository's op
 For project conversations, Naya should proactively capture durable information that materially changes future work. The user does not need to say “make a note” for valuable learning to be preserved.
 
 When the user says **“Naya, make a Naya Note”**, preserve the durable lesson/information using the canonical Naya Notes specification, with a timestamp, category, status, scope, keywords, aliases, relationships, context, evidence, and required behavior, then verify the save before claiming it was saved.
-
-Naya Notes are a first-class Nitro concept. They support recall, daily review, learning, pattern detection, and continuous improvement.
 
 ## Repository integrity rule
 
