@@ -1,0 +1,43 @@
+name: Naya surgical 447 label consistency repair
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/_naya_patch_447_labels.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Patch labels and QA
+        shell: python
+        run: |
+          from pathlib import Path
+          import subprocess
+          p=Path('AISCORE.NAYANET.APP 2026 08 21 447')
+          s=p.read_text(encoding='utf-8')
+          for old,new in [("label:'CONTEXT'","label:'COMMUNICATION'"),("label:'COLLABORATION'","label:'SYSTEMS THINKING'")]:
+              if old not in s:
+                  raise SystemExit(f'Expected label not found: {old}')
+              s=s.replace(old,new)
+          if "label:'CONTEXT'" in s or "label:'COLLABORATION'" in s:
+              raise SystemExit('Legacy labels remain.')
+          p.write_text(s,encoding='utf-8')
+          Path('.github/workflows/_naya_patch_447_labels.yml').unlink()
+          subprocess.run(['git','config','user.name','Naya Master'],check=True)
+          subprocess.run(['git','config','user.email','naya-master@users.noreply.github.com'],check=True)
+          subprocess.run(['git','add',str(p),'.github/workflows/_naya_patch_447_labels.yml'],check=True)
+          subprocess.run(['git','diff','--cached','--check'],check=True)
+          subprocess.run(['git','commit','-m','Align 447 question labels with canonical result dimensions'],check=True)
+          subprocess.run(['git','push','origin','HEAD:main'],check=True)
+      - name: Final QA
+        run: |
+          test ! -f '.github/workflows/_naya_patch_447_labels.yml'
+          grep -Fq "label:'COMMUNICATION'" 'AISCORE.NAYANET.APP 2026 08 21 447'
+          grep -Fq "label:'SYSTEMS THINKING'" 'AISCORE.NAYANET.APP 2026 08 21 447'
+          echo '447 LABEL QA: PASS'
