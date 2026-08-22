@@ -10,6 +10,8 @@ on:
       - 'MAXESS-RESULT-CONSUMER-V1.html'
       - 'E01-SECTION-01-WORKING.html'
       - 'E02-SECTION-02-WORKING.html'
+      - 'E03-SECTION-03-WORKING.html'
+      - 'E04-SECTION-04-WORKING.html'
       - 'IASCORE.NAYANET.APP'
   workflow_dispatch:
 
@@ -39,23 +41,24 @@ jobs:
           from pathlib import Path
           import re
           consumer=Path('MAXESS-RESULT-CONSUMER-V1.html').read_text(encoding='utf-8')
-          e01=Path('E01-SECTION-01-WORKING.html').read_text(encoding='utf-8')
-          e02=Path('E02-SECTION-02-WORKING.html').read_text(encoding='utf-8')
-          required=['MAXESS_RESULT_CONSUMER_V1','MAXESS_RESULT_V1','window.MAXESS_RESULT','MAXESS_RESULT_READY','maxess:result-updated']
+          sections={name:Path(name).read_text(encoding='utf-8') for name in [
+              'E01-SECTION-01-WORKING.html','E02-SECTION-02-WORKING.html',
+              'E03-SECTION-03-WORKING.html','E04-SECTION-04-WORKING.html']}
+          required=['MAXESS_RESULT_CONSUMER_V1','MAXESS_RESULT_V1','window.MAXESS_RESULT','MAXESS_RESULT_READY','maxess:result-updated','postMessage']
           missing=[x for x in required if x not in consumer]
           if missing: raise SystemExit('Missing standalone consumer evidence: '+', '.join(missing))
-          if MARKER_COUNT := consumer.count('MAXESS_RESULT_CONSUMER_V1') != 2: raise SystemExit('Standalone consumer marker count failed')
-          if 'MAXESS_RESULT_CONSUMER_V1' in e01: raise SystemExit('Embedded E01 consumer remains')
-          if 'MAXESS_RESULT_CONSUMER_V1' in e02: raise SystemExit('Embedded E02 consumer remains')
-          if 'location.hash' in e01 or 'location.hash' in e02: raise SystemExit('Section-level hash transport remains')
-          if 'decodeResultPayload' in e02 or 'hydrateFromHash' in e02 or 'hydrateFromStorage' in e02: raise SystemExit('E02 competing transport remains')
-          if 'DEMO_SCORE=82' in e01 or 'Preview score 82' in e01: raise SystemExit('Hard-coded demo score remains')
-          for path,text in [('MAXESS-RESULT-CONSUMER-V1.html',consumer),('E01-SECTION-01-WORKING.html',e01),('E02-SECTION-02-WORKING.html',e02)]:
+          if consumer.count('MAXESS_RESULT_CONSUMER_V1') != 2: raise SystemExit('Standalone consumer marker count failed')
+          for path,text in sections.items():
+              if path.startswith('E01') and 'MAXESS_RESULT_CONSUMER_V1' in text: raise SystemExit('Embedded E01 consumer remains')
+              if 'MAXESS_RESULT_IFRAME_RELAY_V1' not in text: raise SystemExit(f'Iframe relay missing from {path}')
               if re.search(r'(^|\n)(<<<<<<<|=======|>>>>>>>)( |\n|$)',text): raise SystemExit(f'Conflict marker in {path}')
+          if 'decodeResultPayload' in sections['E02-SECTION-02-WORKING.html'] or 'hydrateFromHash' in sections['E02-SECTION-02-WORKING.html'] or 'hydrateFromStorage' in sections['E02-SECTION-02-WORKING.html']:
+              raise SystemExit('E02 competing transport remains')
+          if 'DEMO_SCORE=82' in sections['E01-SECTION-01-WORKING.html'] or 'Preview score 82' in sections['E01-SECTION-01-WORKING.html']:
+              raise SystemExit('Hard-coded demo score remains')
           print('RESULT TRANSPORT STATIC QA: PASS')
-          print('consumer bytes:',len(consumer.encode()))
-          print('E01 bytes:',len(e01.encode()))
-          print('E02 bytes:',len(e02.encode()))
+          for path,text in [('MAXESS-RESULT-CONSUMER-V1.html',consumer),*sections.items()]:
+              print(path,'bytes:',len(text.encode()))
           PY
 
       - name: JavaScript syntax QA
@@ -63,7 +66,7 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import re
-          paths=['MAXESS-RESULT-CONSUMER-V1.html','E01-SECTION-01-WORKING.html','E02-SECTION-02-WORKING.html']
+          paths=['MAXESS-RESULT-CONSUMER-V1.html','E01-SECTION-01-WORKING.html','E02-SECTION-02-WORKING.html','E03-SECTION-03-WORKING.html','E04-SECTION-04-WORKING.html']
           scripts=[]
           for path in paths:
               s=Path(path).read_text(encoding='utf-8')
@@ -79,14 +82,14 @@ jobs:
           git diff --check
           git status --short
           git diff --stat
-          git diff -- MAXESS-RESULT-CONSUMER-V1.html E01-SECTION-01-WORKING.html E02-SECTION-02-WORKING.html tools/execute_maxess_result_consumer.py .github/workflows/apply-maxess-result-consumer.yml IASCORE.NAYANET.APP
+          git diff -- MAXESS-RESULT-CONSUMER-V1.html E01-SECTION-01-WORKING.html E02-SECTION-02-WORKING.html E03-SECTION-03-WORKING.html E04-SECTION-04-WORKING.html tools/execute_maxess_result_consumer.py .github/workflows/apply-maxess-result-consumer.yml IASCORE.NAYANET.APP
 
       - name: Commit only when cleanup changed tracked source
         run: |
           git config user.name 'Naya Master'
           git config user.email 'naya-master@users.noreply.github.com'
-          git add MAXESS-RESULT-CONSUMER-V1.html E01-SECTION-01-WORKING.html E02-SECTION-02-WORKING.html tools/execute_maxess_result_consumer.py .github/workflows/apply-maxess-result-consumer.yml IASCORE.NAYANET.APP
+          git add MAXESS-RESULT-CONSUMER-V1.html E01-SECTION-01-WORKING.html E02-SECTION-02-WORKING.html E03-SECTION-03-WORKING.html E04-SECTION-04-WORKING.html tools/execute_maxess_result_consumer.py .github/workflows/apply-maxess-result-consumer.yml IASCORE.NAYANET.APP
           git diff --cached --check
           if git diff --cached --quiet; then echo 'TRANSPORT CLEANUP ALREADY APPLIED'; exit 0; fi
-          git commit -m 'MAXESS Results — enforce single standalone result consumer'
+          git commit -m 'MAXESS Results — relay authoritative result across E01-E04 embeds'
           git push origin maxess-results-v21-working
