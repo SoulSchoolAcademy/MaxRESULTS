@@ -59,3 +59,4 @@ jobs:
           grep -Fq "score:result.overallScore" 'AISCORE.NAYANET.APP 2026 08 21 447'
           grep -Fq "highestLeverageOpportunity" 'AISCORE.NAYANET.APP 2026 08 21 447'
           echo '447 SURGICAL BRIDGE QA: PASS'
+          # SURGICAL EXECUTION TRIGGER — no product code change; forces this one-shot patch to run.
