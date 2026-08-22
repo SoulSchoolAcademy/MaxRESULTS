@@ -21,4 +21,94 @@
 (function(){'use strict';var scoreEl=document.getElementById('e04-score'),markerEl=document.getElementById('e04-marker'),stageEl=document.getElementById('e04-stage'),copyEl=document.getElementById('e04-copy'),waitingEl=document.getElementById('e04-waiting');var texts={FOUNDATION:'Your Direction capability is currently in the Foundation stage. This means you may sometimes know what you want AI to help you accomplish, but the instruction you give it may not yet consistently provide enough clarity, context, or desired outcome for AI to produce its best work. The opportunity here isn’t to write longer prompts. It’s to become clearer about what you’re actually asking AI to accomplish.',DEVELOPING:'Your Direction capability is currently Developing. You already understand that better instructions create better results, and you’re beginning to give AI more useful context and intention. Your next opportunity is consistency — learning to establish the destination clearly before asking AI to start moving.',ADVANCING:'Your Direction capability is Advancing. You already know how to establish useful context, intention, and outcomes for AI. Your next level is precision — knowing which details matter most and giving AI exactly what it needs without unnecessary complexity.',MASTERY:'Your Direction capability is at the Mastery stage. You have developed a strong instinct for translating intention into direction AI can act on. You understand that the quality of the destination you define has enormous influence on the quality of the journey. Your opportunity now is to turn that instinct into a repeatable system you can apply across increasingly complex work.'};function norm(v){return String(v==null?'':v).toLowerCase().replace(/[^a-z0-9]/g,'')}function valid(r){return !!(r&&typeof r==='object'&&r.contractVersion==='MAXESS_RESULT_V1'&&Number.isFinite(Number(r.overallScore))&&Array.isArray(r.dimensions)&&r.dimensions.length===5&&Array.isArray(r.responses)&&r.responses.length===15)}function read(){var a=[];try{if(valid(window.MAXESS_RESULT))a.push(window.MAXESS_RESULT)}catch(e){}try{if(window.parent&&window.parent!==window&&valid(window.parent.MAXESS_RESULT))a.push(window.parent.MAXESS_RESULT)}catch(e){}try{if(window.top&&window.top!==window&&window.top!==window.parent&&valid(window.top.MAXESS_RESULT))a.push(window.top.MAXESS_RESULT)}catch(e){}return a[0]||null}function direction(r){if(!r)return null;var c=r.directionScore;if(c===undefined&&Array.isArray(r.dimensions))for(var i=0;i<r.dimensions.length;i++){var d=r.dimensions[i]||{};if(norm(d.id||d.dimensionId||d.name||d.label||d.title)==='direction'){c=d.score!==undefined?d.score:d.value!==undefined?d.value:d.overallScore;break}}if(c===undefined&&r.dimensions&&!Array.isArray(r.dimensions)){var x=r.dimensions.direction||r.dimensions.DIRECTION;c=typeof x==='number'?x:(x&&typeof x==='object'?(x.score!==undefined?x.score:x.value!==undefined?x.value:x.overallScore):undefined)}return c!==undefined&&Number.isFinite(Number(c))?Math.max(0,Math.min(100,Number(c))):null}function render(r){r=r||read();var s=direction(r);if(s===null){scoreEl.textContent='—';markerEl.textContent='—';markerEl.style.left='0%';stageEl.textContent='RESULT PENDING';copyEl.innerHTML='<strong>Your Direction result is awaiting the MAXESS result contract.</strong> This section will populate from your real result as soon as it arrives.';waitingEl.hidden=false;return}var st=s<50?'FOUNDATION':s<75?'DEVELOPING':s<90?'ADVANCING':'MASTERY',range=st==='FOUNDATION'?'0–49':st==='DEVELOPING'?'50–74':st==='ADVANCING'?'75–89':'90–100',name={FOUNDATION:'Foundation',DEVELOPING:'Developing',ADVANCING:'Advancing',MASTERY:'Mastery'}[st],t=texts[st],p=t.indexOf('.');scoreEl.textContent=Math.round(s);markerEl.textContent=Math.round(s);markerEl.style.left=s+'%';markerEl.setAttribute('aria-label','Direction score '+Math.round(s)+' out of 100');stageEl.innerHTML=name+' <span>· '+range+'</span>';copyEl.innerHTML='<strong>'+t.slice(0,p+1)+'</strong>'+t.slice(p+1);waitingEl.hidden=true}function accept(r){if(valid(r)){window.MAXESS_RESULT=r;try{sessionStorage.setItem('MAXESS_RESULT_V1',JSON.stringify(r))}catch(e){}render(r);return true}return false}function eventResult(e){try{var d=e&&e.detail;return d&&d.result&&typeof d.result==='object'?d.result:(d&&d.contractVersion?d:null)}catch(x){return null}}function hydrate(){if(accept(read()))return;try{var s=JSON.parse(sessionStorage.getItem('MAXESS_RESULT_V1')||'null');if(accept(s))return}catch(e){}var h=location.hash.match(/(?:^#|&)maxess-result=([^&]+)/i);if(h)try{var raw=decodeURIComponent(h[1]),r;try{r=JSON.parse(raw)}catch(e){var b=raw.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';var bin=atob(b),q='';for(var i=0;i<bin.length;i++)q+='%'+('00'+bin.charCodeAt(i).toString(16)).slice(-2);r=JSON.parse(decodeURIComponent(q))}accept(r)}catch(e){}}render();hydrate();window.addEventListener('MAXESS_RESULT_READY',function(e){render(eventResult(e)||read())});window.addEventListener('maxess:result-updated',function(e){render(eventResult(e)||read())});window.addEventListener('storage',hydrate);window.addEventListener('hashchange',hydrate);window.addEventListener('pageshow',hydrate);window.addEventListener('message',function(e){try{var d=e.data||{},r=d.result||d.MAXESS_RESULT||(d.contractVersion?d:null);if(r&&r.contractVersion==='MAXESS_RESULT_V1')accept(r)}catch(x){}});var n=0;(function poll(){hydrate();if(++n<100)setTimeout(poll,250)})();
 })();
 </script>
+<script data-maxess-result-consumer="v3">
+(function(){
+  'use strict';
+  if(window.__MAXESS_RESULT_CONSUMER_V3__) return;
+  window.__MAXESS_RESULT_CONSUMER_V3__ = true;
+
+  var CONTRACT='MAXESS_RESULT_V1';
+  var READY='MAXESS_RESULT_READY';
+  var UPDATED='maxess:result-updated';
+  var STORAGE_KEY='MAXESS_RESULT_V1';
+  var lastSignature='';
+  var timer=null;
+  var attempts=0;
+
+  function emit(name, detail){
+    try{ window.dispatchEvent(new CustomEvent(name,{detail:detail||null})); }
+    catch(e){ try{ window.dispatchEvent(new Event(name)); }catch(_){} }
+  }
+
+  function decode(value){
+    var s=String(value||'').replace(/-/g,'+').replace(/_/g,'/');
+    while(s.length%4) s+='=';
+    var binary=atob(s), bytes='';
+    for(var i=0;i<binary.length;i++) bytes+='%'+('00'+binary.charCodeAt(i).toString(16)).slice(-2);
+    return decodeURIComponent(bytes);
+  }
+
+  function payload(){
+    var hash=window.location.hash||'';
+    var m=hash.match(/(?:^#|&)maxess-result=([^&]+)/i);
+    if(!m) return null;
+    try{return decodeURIComponent(m[1]);}catch(e){return m[1];}
+  }
+
+  function valid(r){
+    if(!r||typeof r!=='object'||r.contractVersion!==CONTRACT) return false;
+    var overall=Number(r.overallScore);
+    if(!Number.isFinite(overall)||overall<0||overall>100) return false;
+    if(!Array.isArray(r.dimensions)||r.dimensions.length!==5) return false;
+    if(!Array.isArray(r.responses)||r.responses.length!==15) return false;
+    for(var i=0;i<5;i++){
+      var d=r.dimensions[i];
+      if(!d||typeof d.name!=='string'||!d.name.trim()) return false;
+      var score=Number(d.score);
+      if(!Number.isFinite(score)||score<0||score>100) return false;
+    }
+    return true;
+  }
+
+  function sig(r){
+    try{return [r.contractVersion,Number(r.overallScore),r.masteryBand||'',r.dimensions.map(function(d){return String(d.name)+':'+Number(d.score);}).join('|'),r.responses.length].join('::');}
+    catch(e){return '';}
+  }
+
+  function publish(r,source,force){
+    if(!valid(r)) return false;
+    var s=sig(r), changed=s!==lastSignature;
+    window.MAXESS_RESULT=r;
+    try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(r));}catch(e){}
+    if(changed||force){
+      lastSignature=s;
+      emit(READY,{result:r,source:source||'hash'});
+      emit(UPDATED,{result:r,source:source||'hash'});
+    }
+    return true;
+  }
+
+  function consume(){
+    var raw=payload();
+    if(raw){
+      try{var r=JSON.parse(raw);if(publish(r,'hash',false)) return true;}catch(e){}
+    }
+    try{var stored=JSON.parse(sessionStorage.getItem(STORAGE_KEY)||'null');if(publish(stored,'session',false)) return true;}catch(e){}
+    return false;
+  }
+
+  function run(){
+    var ok=consume();
+    if(ok) emit(UPDATED,{result:window.MAXESS_RESULT,source:'hydration'});
+    attempts++;
+    if(attempts<80) timer=window.setTimeout(run,250);
+  }
+
+  window.MAXESS_RESULT_CONSUMER_V3={consume:consume,get:function(){return window.MAXESS_RESULT||null;},contractVersion:CONTRACT,version:'V3'};
+  window.addEventListener('hashchange',function(){attempts=0;lastSignature='';if(timer)clearTimeout(timer);run();});
+  window.addEventListener('pageshow',function(){attempts=0;run();});
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){attempts=0;run();},{once:true});
+  else run();
+})();
+</script>
 </body></html>
