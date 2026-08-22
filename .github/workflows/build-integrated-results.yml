@@ -32,18 +32,13 @@ jobs:
           page = source.read_text(encoding='utf-8')
           consumer = bridge.read_text(encoding='utf-8').strip()
 
-          # Replace the legacy bootstrap at the very start of <head> with the
-          # single authoritative hash-based V2 consumer. Preserve all existing
-          # Results-page markup, styles, sections, imagery, and interactions.
           pattern = re.compile(r'(<html[^>]*>\s*<head>\s*)<!-- MAXESS_RESULT_10_10_BOOTSTRAP -->.*?</script>\s*', re.I | re.S)
           replacement = r'\1' + consumer + '\n'
           updated, count = pattern.subn(replacement, page, count=1)
           if count != 1:
               raise SystemExit('Legacy Results bootstrap was not found exactly once; refusing to modify the page.')
 
-          # Guardrails: the integrated artifact must remain a complete HTML
-          # document and must contain the authoritative consumer.
-          required = ['<html', '<head>', '<body', '</html>', "MAXESS_RESULT_V1", "MAXESS_RESULT_READY", "maxess:result-updated"]
+          required = ['<html', '<head>', '<body', '</html>', 'MAXESS_RESULT_V1', 'MAXESS_RESULT_READY', 'maxess:result-updated']
           missing = [x for x in required if x.lower() not in updated.lower()]
           if missing:
               raise SystemExit(f'Integrated artifact missing required markers: {missing}')
@@ -59,3 +54,5 @@ jobs:
           git add 'MAXESS-RESULTS-INTEGRATED-V1.html'
           git diff --cached --quiet || git commit -m 'Build complete MAXESS Results page with V2 score bridge'
           git push
+
+# Triggered verification refresh after direct execution path was confirmed.
