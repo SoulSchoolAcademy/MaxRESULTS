@@ -1,151 +1,92 @@
-name: Rebuild Complete MAXESS Results Artifact
+name: MAXESS 447 — Surgical Q15 Results Handoff
 
 on:
   push:
     branches: [main]
     paths:
       - '.github/workflows/rebuild-integrated-results.yml'
-      - 'MAXESS-RESULTS-INTEGRATED-V1.html'
-      - 'AISCORE.NAYANET.APP 2026 08 21 447'
-      - 'docs/smart-notes/**'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  rebuild:
+  repair-447:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout governance branch
+      - name: Checkout 447 source
         uses: actions/checkout@v4
         with:
           ref: main
-          fetch-depth: 0
-
-      - name: Checkout active Results sections
-        uses: actions/checkout@v4
-        with:
-          ref: maxess-results-v21-working
-          path: active-results
           fetch-depth: 1
 
-      - name: Apply surgical MAXESS 448 final-submit guard
+      - name: Apply only the Q15 handoff repair to 447
         shell: python
         run: |
           from pathlib import Path
-          p=Path('AISCORE.NAYANET.APP 2026 08 21 447')
-          text=p.read_text(encoding='utf-8')
-          old="""const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false};"""
-          new="""const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false,finalizing:false};"""
-          if old not in text: raise SystemExit('448 PATCH FAILED: state anchor not found')
-          text=text.replace(old,new,1)
-          old_fn="""function continueAssessment(){if(!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.completed=true;try{publish()}catch(e){console.error('MAXESS report publish failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"""
-          new_fn="""function continueAssessment(event){if(event){event.preventDefault();event.stopPropagation()}if(state.finalizing||!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.finalizing=true;state.completed=true;const button=$('continueButton');button.disabled=true;button.setAttribute('aria-disabled','true');$('continueText').textContent='Loading Results…';try{const c=buildContract();if(!validateContract(c))throw new Error('MAXESS_RESULT_V1 validation failed before final navigation.');broadcastResult(c);const payload=encode(c);const resultUrl='https://results.nayanet.app/#maxess-result='+payload;try{if(window.top&&window.top!==window)window.top.location.href=resultUrl;else window.location.href=resultUrl}catch(navError){window.location.assign(resultUrl)}}catch(e){state.finalizing=false;button.disabled=false;button.setAttribute('aria-disabled','false');$('continueText').textContent='Continue';console.error('MAXESS final Results handoff failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"""
-          if old_fn not in text: raise SystemExit('448 PATCH FAILED: continue function anchor not found')
-          text=text.replace(old_fn,new_fn,1)
-          marker="window.MAXESS_RESULT_BRIDGE_V2=true;"
-          if marker not in text: raise SystemExit('448 PATCH FAILED: release marker anchor not found')
-          text=text.replace(marker,marker+"window.MAXESS_Q15_HANDOFF_V448=true;",1)
-          p.write_text(text,encoding='utf-8')
-          print('448 final-submit guard applied')
+          p = Path('AISCORE.NAYANET.APP 2026 08 21 447')
+          text = p.read_text(encoding='utf-8')
 
-      - name: Build complete E01-E09 Results artifact without redesigning sections
+          old_state = "const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false};"
+          new_state = "const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false,finalizing:false};"
+          if old_state not in text and 'finalizing:false' not in text:
+              raise SystemExit('447 REPAIR FAILED: state anchor not found')
+          if old_state in text:
+              text = text.replace(old_state, new_state, 1)
+
+          old_fn = "function continueAssessment(){if(!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.completed=true;try{publish()}catch(e){console.error('MAXESS report publish failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"
+          new_fn = "function continueAssessment(event){if(event){event.preventDefault();event.stopPropagation()}if(state.finalizing||!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.finalizing=true;state.completed=true;const button=$('continueButton');button.disabled=true;button.setAttribute('aria-disabled','true');$('continueText').textContent='Loading Results…';try{const c=buildContract();if(!validateContract(c))throw new Error('MAXESS_RESULT_V1 validation failed before final navigation.');broadcastResult(c);const payload=encode(c);const resultUrl='https://results.nayanet.app/#maxess-result='+payload;if(window.top&&window.top!==window){window.top.location.href=resultUrl}else{window.location.href=resultUrl}}catch(e){state.finalizing=false;button.disabled=false;button.setAttribute('aria-disabled','false');$('continueText').textContent='Continue';console.error('MAXESS final Results handoff failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"
+          if old_fn not in text:
+              if 'function continueAssessment(event)' not in text:
+                  raise SystemExit('447 REPAIR FAILED: continue function anchor not found')
+          else:
+              text = text.replace(old_fn, new_fn, 1)
+
+          marker = "window.MAXESS_RESULT_BRIDGE_V2=true;"
+          if marker in text and 'MAXESS_Q15_HANDOFF_V447' not in text:
+              text = text.replace(marker, marker+"window.MAXESS_Q15_HANDOFF_V447=true;", 1)
+
+          p.write_text(text, encoding='utf-8')
+          print('447 surgical Q15 handoff repair applied')
+
+      - name: Verify only the intended 447 changes exist
         shell: python
         run: |
           from pathlib import Path
-          import re, hashlib
-
-          active=Path('active-results')
-          dynamic=[
-            ('E01-SECTION-01-WORKING.html','e01'),
-            ('E02-SECTION-02-WORKING.html','maxess-e02-v3'),
-            ('E03-SECTION-03-WORKING.html','e03'),
-            ('E04-SECTION-04-WORKING.html','e04'),
+          import re
+          text = Path('AISCORE.NAYANET.APP 2026 08 21 447').read_text(encoding='utf-8')
+          required = [
+              'finalizing:false',
+              'function continueAssessment(event)',
+              "event.preventDefault()",
+              "event.stopPropagation()",
+              "state.finalizing||!state.selected",
+              "const c=buildContract()",
+              "validateContract(c)",
+              "const payload=encode(c)",
+              "https://results.nayanet.app/#maxess-result=",
+              "window.top.location.href=resultUrl",
+              'MAXESS_Q15_HANDOFF_V447=true'
           ]
-          static=[
-            ('E05-SECTION-05-WORKING.html','e05'),
-            ('E06-SECTION-06-WORKING.html','e06'),
-            ('E08-SECTION-08-WORKING.html','e08'),
-            ('E09-SECTION-09-WORKING.html','e09'),
-          ]
-          for name,_ in dynamic+static:
-              if not (active/name).exists(): raise SystemExit(f'MISSING SOURCE: active-results/{name}')
-          baseline=Path('BASELINE-WORKING.html')
-          if not baseline.exists(): raise SystemExit('MISSING SOURCE: BASELINE-WORKING.html')
+          missing=[x for x in required if x not in text]
+          if missing: raise SystemExit('447 STATIC QA FAILED: '+', '.join(missing))
+          if text.count('function continueAssessment(event)') != 1: raise SystemExit('447 STATIC QA FAILED: duplicate final handler')
+          if text.count('window.MAXESS_Q15_HANDOFF_V447=true;') != 1: raise SystemExit('447 STATIC QA FAILED: release marker')
+          if 'MAXESS_Q15_HANDOFF_V448' in text: raise SystemExit('447 STATIC QA FAILED: forbidden 448 marker')
+          if '<!doctype html>' not in text.lower() or '</html>' not in text.lower(): raise SystemExit('447 STATIC QA FAILED: HTML shell')
+          print('447 surgical handoff QA PASS')
 
-          def body_inner(text):
-              m=re.search(r'<body\b[^>]*>(.*?)</body>',text,re.I|re.S)
-              return m.group(1) if m else None
-          def head_tags(text,tag):
-              return re.findall(r'<'+tag+r'\b[^>]*>.*?</'+tag+r'>',text,re.I|re.S)
-          def find_id_element(text, id_fragment):
-              pat=re.compile(r'<([A-Za-z][\w:-]*)\b[^>]*\bid=["\']([^"\']*'+re.escape(id_fragment)+r'[^"\']*)["\'][^>]*>',re.I)
-              m=pat.search(text)
-              if not m: return None
-              tag=m.group(1); start=m.start(); pos=m.end(); depth=1
-              tok=re.compile(r'</?'+re.escape(tag)+r'\b[^>]*>',re.I)
-              for t in tok.finditer(text,pos):
-                  raw=t.group(0)
-                  if raw.startswith('</'): depth-=1
-                  elif not raw.rstrip().endswith('/>'): depth+=1
-                  if depth==0: return text[start:t.end()]
-              return None
-
-          base_text=baseline.read_text(encoding='utf-8')
-          source_texts={name:(active/name).read_text(encoding='utf-8') for name,_ in dynamic+static}
-          e07=find_id_element(base_text,'e07')
-          if not e07: raise SystemExit('STATIC SOURCE MISSING: baseline E07 section')
-
-          parts=['<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#05030a"><meta name="color-scheme" content="dark"><title>MAXESS — Complete Results</title>']
-          # Baseline visual foundation first; current section sources override it where they overlap.
-          parts.extend(head_tags(base_text,'style'))
-          for name,_ in dynamic+static:
-              parts.extend(head_tags(source_texts[name],'style'))
-          # Preserve every source's head script. This is critical for E01's canonical MAXESS_RESULT consumer.
-          for name,_ in dynamic+static:
-              parts.extend(head_tags(source_texts[name],'script'))
-          parts.append('</head><body>')
-
-          for name,_ in dynamic:
-              body=body_inner(source_texts[name])
-              if body is None: raise SystemExit(f'NO BODY: {name}')
-              parts.append(f'<!-- MAXESS DYNAMIC SOURCE: {name} -->')
-              parts.append(body)
-          for name,_ in static:
-              body=body_inner(source_texts[name])
-              if body is None: raise SystemExit(f'NO BODY: {name}')
-              parts.append(f'<!-- MAXESS STATIC SOURCE: {name} -->')
-              parts.append(body)
-          parts.append('<!-- MAXESS STATIC SOURCE: E07 preserved from BASELINE-WORKING.html -->')
-          parts.append(e07)
-          parts.append('<script>window.MAXESS_COMPLETE_RESULTS_ORDER=["e01","e02","e03","e04","e05","e06","e07","e08","e09"];window.MAXESS_Q15_HANDOFF_V448=true;</script>')
-          parts.append('</body></html>')
-          text='\n'.join(parts)+'\n'
-
-          required_sources=['E01-SECTION-01-WORKING.html','E02-SECTION-02-WORKING.html','E03-SECTION-03-WORKING.html','E04-SECTION-04-WORKING.html','E05-SECTION-05-WORKING.html','E06-SECTION-06-WORKING.html','E07','E08-SECTION-08-WORKING.html','E09-SECTION-09-WORKING.html']
-          missing=[x for x in required_sources if x not in text]
-          if missing: raise SystemExit('INTEGRATED QA FAILED: '+', '.join(missing))
-          if text.count('MAXESS DYNAMIC SOURCE:')!=4: raise SystemExit('INTEGRATED QA FAILED: dynamic source count')
-          if text.count('MAXESS STATIC SOURCE:')!=5: raise SystemExit('INTEGRATED QA FAILED: static source count')
-          if '<<<<<<<' in text or '>>>>>>>' in text: raise SystemExit('INTEGRATED QA FAILED: conflict marker')
-          if text.count('<html')!=1 or text.count('</html>')!=1: raise SystemExit('INTEGRATED QA FAILED: document shell count')
-          Path('MAXESS-RESULTS-INTEGRATED-V1.html').write_text(text,encoding='utf-8')
-          sha=hashlib.sha256(text.encode()).hexdigest()
-          report=f'''# MAXESS Complete E01-E09 Integrated Results Build\n\n- Dynamic sources: E01, E02, E03, E04 from `maxess-results-v21-working`\n- Static sources: E05, E06, E08, E09 from `maxess-results-v21-working`; E07 preserved from `BASELINE-WORKING.html`\n- Runtime authority: `window.MAXESS_RESULT`\n- Existing E01-E04 result consumers preserved; no competing result renderer added\n- SHA-256: `{sha}`\n- Bytes: {len(text.encode())}\n- Lines: {len(text.splitlines())}\n- Static integration QA: PASS\n'''
-          Path('MAXESS-COMPLETE-INTEGRATED-BUILD.md').write_text(report,encoding='utf-8')
-          print(report)
-
-      - name: Commit complete artifact and evidence
+      - name: Commit only 447
         run: |
           git config user.name 'Naya Master'
           git config user.email 'naya-master@users.noreply.github.com'
-          git add 'AISCORE.NAYANET.APP 2026 08 21 447' MAXESS-RESULTS-INTEGRATED-V1.html MAXESS-COMPLETE-INTEGRATED-BUILD.md
+          git add 'AISCORE.NAYANET.APP 2026 08 21 447'
           git diff --cached --check
           git diff --cached --quiet && exit 0
-          git commit -m 'MAXESS 448: restore complete E01-E09 Results composition'
+          git commit -m 'MAXESS 447: repair one-click Q15 Results handoff'
           git push origin main
 
-# Guardrail: E01-E04 are the only dynamic result sections for this handoff.
-# E05-E09 remain present; E07 is preserved from the existing complete baseline because no standalone E07 working artifact exists.
-# Guardrail: never replace the complete Results page with a tiny renderer, loader, mock, excerpt, or code-only tester artifact.
+# Guardrail: this workflow edits ONLY the existing 447 assessment artifact.
+# It does NOT rebuild, compose, redesign, replace, or regenerate the Results page.
+# E01-E04/E05-E09 Results artifacts are outside this repair scope.
+# 447 remains the assessment source; results.nayanet.app remains the existing Results destination.
