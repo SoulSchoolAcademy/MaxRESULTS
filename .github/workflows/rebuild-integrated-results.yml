@@ -95,7 +95,7 @@ jobs:
           if '<<<<<<<' in text or '>>>>>>>' in text: raise SystemExit('INTEGRATED QA FAILED: conflict marker')
           Path('MAXESS-RESULTS-INTEGRATED-V1.html').write_text(text,encoding='utf-8')
           sha=hashlib.sha256(text.encode()).hexdigest()
-          report='''# MAXESS Complete Integrated Results Build\n\n- Sources: preserved E01/E02/E03/E04 working artifacts from `maxess-results-v21-working`\n- Sections present: E01, E02, E03, E04\n- Runtime authority: `window.MAXESS_RESULT`\n- Result transport: `MAXESS_RESULT_V1` + hash/storage/parent/message hydration\n- SHA-256: `'''+sha+'''`\n- Bytes: '''+str(len(text.encode()))+'''\n- Lines: '''+str(len(text.splitlines()))+'''\n- Static integration QA: PASS\n'''
+          report='''# MAXESS Complete Integrated Results Build\n\n- Sources: preserved E01/E02/E03/E04 working artifacts from `maxess-results-v21-working`\n- Sections present: E01, E02, E03, E04\n- Runtime authority: `window.MAXESS_RESULT`\n- Result transport: `MAXESS_RESULT_V1` + hash/storage/parent/message hydration\n- SHA-256: `'''+sha+'''\n- Bytes: '''+str(len(text.encode()))+'''\n- Lines: '''+str(len(text.splitlines()))+'''\n- Static integration QA: PASS\n'''
           Path('MAXESS-COMPLETE-INTEGRATED-BUILD.md').write_text(report,encoding='utf-8')
           print(report)
 
@@ -108,3 +108,7 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -m 'MAXESS Results — rebuild complete E01-E04 integrated artifact with proof'
           git push origin main
+
+# Guardrail: never rebuild the complete Results page from a missing/unknown source.
+# Preserve the existing complete artifact and apply only additive bridge repairs.
+# EXECUTION_TRIGGER: 2026-08-22 MAXESS E01-E04 hydration repair
