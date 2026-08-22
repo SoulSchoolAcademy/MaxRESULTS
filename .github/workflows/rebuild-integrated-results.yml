@@ -38,17 +38,14 @@ jobs:
           text=p.read_text(encoding='utf-8')
           old="""const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false};"""
           new="""const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false,finalizing:false};"""
-          if old not in text:
-              raise SystemExit('448 PATCH FAILED: state anchor not found')
+          if old not in text: raise SystemExit('448 PATCH FAILED: state anchor not found')
           text=text.replace(old,new,1)
           old_fn="""function continueAssessment(){if(!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.completed=true;try{publish()}catch(e){console.error('MAXESS report publish failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"""
           new_fn="""function continueAssessment(event){if(event){event.preventDefault();event.stopPropagation()}if(state.finalizing||!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.finalizing=true;state.completed=true;const button=$('continueButton');button.disabled=true;button.setAttribute('aria-disabled','true');$('continueText').textContent='Loading Results…';try{const c=buildContract();if(!validateContract(c))throw new Error('MAXESS_RESULT_V1 validation failed before final navigation.');broadcastResult(c);const payload=encode(c);const resultUrl='https://results.nayanet.app/#maxess-result='+payload;try{if(window.top&&window.top!==window)window.top.location.href=resultUrl;else window.location.href=resultUrl}catch(navError){window.location.assign(resultUrl)}}catch(e){state.finalizing=false;button.disabled=false;button.setAttribute('aria-disabled','false');$('continueText').textContent='Continue';console.error('MAXESS final Results handoff failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"""
-          if old_fn not in text:
-              raise SystemExit('448 PATCH FAILED: continue function anchor not found')
+          if old_fn not in text: raise SystemExit('448 PATCH FAILED: continue function anchor not found')
           text=text.replace(old_fn,new_fn,1)
           marker="window.MAXESS_RESULT_BRIDGE_V2=true;"
-          if marker not in text:
-              raise SystemExit('448 PATCH FAILED: release marker anchor not found')
+          if marker not in text: raise SystemExit('448 PATCH FAILED: release marker anchor not found')
           text=text.replace(marker,marker+"window.MAXESS_Q15_HANDOFF_V448=true;",1)
           p.write_text(text,encoding='utf-8')
           print('448 final-submit guard applied')
@@ -73,11 +70,9 @@ jobs:
             ('E09-SECTION-09-WORKING.html','e09'),
           ]
           for name,_ in dynamic+static:
-              if not (active/name).exists():
-                  raise SystemExit(f'MISSING SOURCE: active-results/{name}')
+              if not (active/name).exists(): raise SystemExit(f'MISSING SOURCE: active-results/{name}')
           baseline=Path('BASELINE-WORKING.html')
-          if not baseline.exists():
-              raise SystemExit('MISSING SOURCE: BASELINE-WORKING.html')
+          if not baseline.exists(): raise SystemExit('MISSING SOURCE: BASELINE-WORKING.html')
 
           def body_inner(text):
               m=re.search(r'<body\b[^>]*>(.*?)</body>',text,re.I|re.S)
@@ -97,36 +92,27 @@ jobs:
                   if depth==0: return text[start:t.end()]
               return None
 
-          def load(path):
-              return path.read_text(encoding='utf-8')
+          base_text=baseline.read_text(encoding='utf-8')
+          source_texts={name:(active/name).read_text(encoding='utf-8') for name,_ in dynamic+static}
+          e07=find_id_element(base_text,'e07')
+          if not e07: raise SystemExit('STATIC SOURCE MISSING: baseline E07 section')
 
           parts=['<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#05030a"><meta name="color-scheme" content="dark"><title>MAXESS — Complete Results</title>']
-          # Keep the frozen baseline's global visual foundation. Current E01-E04 styles/scripts are then added from their actual working sources.
-          base_text=load(baseline)
-          for tag in head_tags(base_text,'style'):
-              parts.append(tag)
-
-          source_texts={}
+          # Baseline visual foundation first; current section sources override it where they overlap.
+          parts.extend(head_tags(base_text,'style'))
           for name,_ in dynamic+static:
-              source_texts[name]=load(active/name)
-              for tag in head_tags(source_texts[name],'style'):
-                  parts.append(tag)
-          # E07 is static and not maintained as a standalone working file. Preserve it from the complete baseline only.
-          e07=find_id_element(base_text,'e07')
-          if not e07:
-              raise SystemExit('STATIC SOURCE MISSING: baseline E07 section')
-          for tag in head_tags(base_text,'style'):
-              if re.search(r'e07',tag,re.I) and tag not in parts:
-                  parts.append(tag)
+              parts.extend(head_tags(source_texts[name],'style'))
+          # Preserve every source's head script. This is critical for E01's canonical MAXESS_RESULT consumer.
+          for name,_ in dynamic+static:
+              parts.extend(head_tags(source_texts[name],'script'))
           parts.append('</head><body>')
 
-          # The exact body/section markup comes from the authoritative working files; no reconstruction or simplification.
-          for name,sid in dynamic:
+          for name,_ in dynamic:
               body=body_inner(source_texts[name])
               if body is None: raise SystemExit(f'NO BODY: {name}')
               parts.append(f'<!-- MAXESS DYNAMIC SOURCE: {name} -->')
               parts.append(body)
-          for name,sid in static:
+          for name,_ in static:
               body=body_inner(source_texts[name])
               if body is None: raise SystemExit(f'NO BODY: {name}')
               parts.append(f'<!-- MAXESS STATIC SOURCE: {name} -->')
@@ -144,7 +130,6 @@ jobs:
           if text.count('MAXESS STATIC SOURCE:')!=5: raise SystemExit('INTEGRATED QA FAILED: static source count')
           if '<<<<<<<' in text or '>>>>>>>' in text: raise SystemExit('INTEGRATED QA FAILED: conflict marker')
           if text.count('<html')!=1 or text.count('</html>')!=1: raise SystemExit('INTEGRATED QA FAILED: document shell count')
-
           Path('MAXESS-RESULTS-INTEGRATED-V1.html').write_text(text,encoding='utf-8')
           sha=hashlib.sha256(text.encode()).hexdigest()
           report=f'''# MAXESS Complete E01-E09 Integrated Results Build\n\n- Dynamic sources: E01, E02, E03, E04 from `maxess-results-v21-working`\n- Static sources: E05, E06, E08, E09 from `maxess-results-v21-working`; E07 preserved from `BASELINE-WORKING.html`\n- Runtime authority: `window.MAXESS_RESULT`\n- Existing E01-E04 result consumers preserved; no competing result renderer added\n- SHA-256: `{sha}`\n- Bytes: {len(text.encode())}\n- Lines: {len(text.splitlines())}\n- Static integration QA: PASS\n'''
