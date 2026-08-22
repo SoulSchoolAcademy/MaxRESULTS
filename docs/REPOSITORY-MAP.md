@@ -1,7 +1,7 @@
 # MAXESS / NAYA — REPOSITORY MAP
 
 ## Purpose
-This is the execution map for AI and humans. Read this after `START-HERE.md` and before consequential work. It prevents source confusion, stale-file selection, duplicated systems, missed QA, semantic guessing, and fragmented memory.
+This is the execution map for AI and humans. Read this after `START-HERE.md` and before consequential work. It prevents source confusion, stale-file selection, duplicated systems, missed QA, semantic guessing, fragmented memory, and competing governance.
 
 ## Canonical identity
 - Repository: `SoulSchoolAcademy/MaxRESULTS`
@@ -32,30 +32,45 @@ Activation shorthand:
 
 For Brain-specific conflicts, use the Brain specification as the subject authority, while still obeying higher-priority system, safety, platform, permission, and explicit current human requirements. `NAYA-OS.md` remains the broader project operating law and is not a competing Brain specification.
 
+## Canonical Naya Notes authority
+
+**`docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md`** is the canonical owner for Naya Notes / Smart Notes / durable-memory system behaviour.
+
+It governs activation, durable capture, classification, searchability, recall, status, supersession, conflict handling, memory-versus-governance boundaries, automatic capture, learning loops, and use of durable memory.
+
+Activation shorthand:
+
+> **NAYA NOTES ON.**
+
+> **ACTIVATE NAYA NOTES.**
+
+For Naya Notes-specific conflicts, use the canonical Naya Notes specification. `docs/NAYA-SMART-NOTES-SYSTEM.md` remains supporting material; `docs/smart-notes/INDEX.md` remains navigation/retrieval only. Older individual notes remain historical evidence unless explicitly marked `SUPERSEDED`.
+
 ## Canonical cold-start read order
 1. `START-HERE.md` — entry law and activation.
 2. `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md` — mandatory execution-integrity protocol and Pre-Action Gate.
 3. `docs/REPOSITORY-MAP.md` — this navigation, category, current state, and authority map.
 4. `NAYA-OS.md` — governing operating laws.
 5. `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md` — **canonical intelligence-layer specification.**
-6. `docs/NAYA-LANGUAGE-DICTIONARY.md` — exact project language definitions.
-7. `docs/NAYA-SCORECARDING-SYSTEM.md` — general scorecard method and artifact templates.
-8. `docs/NAYA-GOVERNANCE-REGISTRY.md` — ownership of recurring governance subjects and duplicate-authority repair.
-9. `docs/NAYA-EXECUTIVE-PLAN.md` — North Star, what/why/how, quality hierarchy, human/Naya relationship, and automatic next-action law.
-10. `docs/NAYA-NITRO-MODE.md` — execution loop, batching, QA, resistance, and release discipline.
-11. `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` — reusable master execution contract.
-12. `docs/NAYA-SMART-NOTES-SYSTEM.md` — durable memory, aliases, searchability, timestamps, promotion rules, and recall.
-13. `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` — Naya Nitro product thesis and user model.
-14. `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — practical MAXESS Results operating rules.
-15. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current Results product requirements.
-16. `docs/SOURCE-AND-MEMORY-MAP.md` — authority, state, and historical lineage.
-17. `docs/DEPLOYMENT-CONTRACT.md` — GitHub → Groove → public verification.
-18. `docs/RELEASE-CHECKLIST.md` — release gate.
-19. `docs/NAYA-NITRO-LEARNING-LOG.md` — durable execution-system lessons when relevant.
-20. `docs/smart-notes/INDEX.md` — Smart Note/Naya Note retrieval index.
-21. `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` — mandatory lead-mode communication standard.
-22. **If E02 is active:** `docs/MAXESS-E02-EXECUTION-LOCK.md` — mandatory E02 source, scope, visual, self-review, and stop-send contract.
-23. Read only additional task-specific documents, scorecards, exemplars, assets, and Smart Notes required by the request.
+6. `docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md` — **canonical durable-memory specification.**
+7. `docs/NAYA-LANGUAGE-DICTIONARY.md` — exact project language definitions.
+8. `docs/NAYA-SCORECARDING-SYSTEM.md` — general scorecard method and artifact templates.
+9. `docs/NAYA-GOVERNANCE-REGISTRY.md` — ownership of recurring governance subjects and duplicate-authority repair.
+10. `docs/NAYA-EXECUTIVE-PLAN.md` — North Star, what/why/how, quality hierarchy, human/Naya relationship, and automatic next-action law.
+11. `docs/NAYA-NITRO-MODE.md` — execution loop, batching, QA, resistance, and release discipline.
+12. `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` — reusable master execution contract.
+13. `docs/NAYA-SMART-NOTES-SYSTEM.md` — supporting durable-memory standard.
+14. `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` — Naya Nitro product thesis and user model.
+15. `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — practical MAXESS Results operating rules.
+16. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current Results product requirements.
+17. `docs/SOURCE-AND-MEMORY-MAP.md` — authority, state, and historical lineage.
+18. `docs/DEPLOYMENT-CONTRACT.md` — GitHub → Groove → public verification.
+19. `docs/RELEASE-CHECKLIST.md` — release gate.
+20. `docs/NAYA-NITRO-LEARNING-LOG.md` — durable execution-system lessons when relevant.
+21. `docs/smart-notes/INDEX.md` — Smart Note/Naya Note retrieval index.
+22. `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` — mandatory lead-mode communication standard.
+23. **If E02 is active:** `docs/MAXESS-E02-EXECUTION-LOCK.md` — mandatory E02 source, scope, visual, self-review, and stop-send contract.
+24. Read only additional task-specific documents, scorecards, exemplars, assets, and Smart Notes required by the request.
 
 This read order is intentionally identical to `START-HERE.md`. If the two documents disagree, repair the documentation rather than inventing a third authority.
 
@@ -75,13 +90,14 @@ Core rule:
 - **10/10 → exceptional fitness for purpose with no known material weakness within evaluated scope/evidence.**
 - **Scorecard → explicit, weighted, evidence-based evaluation and improvement process.**
 - **Naya Brain → canonical intelligence/reasoning layer governed by `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md`.**
+- **Naya Notes → canonical durable-memory layer governed by `docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md`.**
 
 ## Categories
 ### GOVERNANCE / EXECUTION
-`.naya/NAYA-LAW-SYSTEM-PROTOCOL.md` · `NAYA-OS.md` · `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md` · `docs/NAYA-LANGUAGE-DICTIONARY.md` · `docs/NAYA-SCORECARDING-SYSTEM.md` · `docs/NAYA-GOVERNANCE-REGISTRY.md` · `docs/NAYA-EXECUTIVE-PLAN.md` · `docs/NAYA-NITRO-MODE.md` · `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` · `docs/MAXESS-SECTION-BUILD-LAW.md` · `docs/MAXESS-SECTION-INTEGRITY-GATE.md` · task-specific execution locks.
+`.naya/NAYA-LAW-SYSTEM-PROTOCOL.md` · `NAYA-OS.md` · `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md` · `docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md` · `docs/NAYA-LANGUAGE-DICTIONARY.md` · `docs/NAYA-SCORECARDING-SYSTEM.md` · `docs/NAYA-GOVERNANCE-REGISTRY.md` · `docs/NAYA-EXECUTIVE-PLAN.md` · `docs/NAYA-NITRO-MODE.md` · `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` · `docs/MAXESS-SECTION-BUILD-LAW.md` · `docs/MAXESS-SECTION-INTEGRITY-GATE.md` · task-specific execution locks.
 
 ### MEMORY / LEARNING
-`docs/NAYA-SMART-NOTES-SYSTEM.md` · `docs/NAYA-NITRO-LEARNING-LOG.md` · `docs/smart-notes/` — durable Naya Notes / Smart Notes. These preserve learning and context but do not automatically become product law.
+`docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md` · `docs/NAYA-SMART-NOTES-SYSTEM.md` · `docs/NAYA-NITRO-LEARNING-LOG.md` · `docs/smart-notes/` — durable Naya Notes / Smart Notes. The canonical activation specification owns memory-system behaviour; individual notes preserve evidence and context but do not automatically become product law.
 
 ### QUALITY / REFERENCES
 `docs/NAYA-SCORECARDING-SYSTEM.md` owns general evaluation method. HMC knowledge, approved logos, QMAX/operating-system material, Naya assistant assets, and other designated reference assets are exemplars when explicitly identified; an exemplar informs quality but does not automatically become authority for unrelated artifacts.
@@ -111,10 +127,11 @@ Use this hierarchy to resolve competing information:
 2. Explicit current human requirements.
 3. `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md` and `NAYA-OS.md` governing Nitro rules.
 4. **For Brain-specific subject matter: `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md`.**
-5. Current product specification / explicit design directive for the task.
-6. Human-approved baseline/candidate state, when one is explicitly identified.
-7. Historical notes, learning records, old repositories, and prior implementations.
-8. Engineering convenience.
+5. **For Naya Notes / Smart Notes system behaviour: `docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md`.**
+6. Current product specification / explicit design directive for the task.
+7. Human-approved baseline/candidate state, when one is explicitly identified.
+8. Historical notes, learning records, old repositories, and prior implementations.
+9. Engineering convenience.
 
 A Smart Note records durable knowledge; it is **not** automatically governance. Promote a lesson deliberately when it becomes a system law.
 
@@ -137,10 +154,9 @@ Do not call any artifact “authoritative production” merely because it is lar
 - Never act consequentially before the mandatory Naya Law Pre-Action Gate is satisfied.
 - Never use conversation memory when repository evidence exists.
 - Never create competing renderers or result sources.
-- Never replace a complete working artifact with a tiny test renderer.
 - Never call GitHub state live; Groove requires separate public verification.
 - Every material failure should produce a root cause and, where practical, a durable guardrail.
-- Durable learning should be captured as a Naya Note / Smart Note using the documented structure.
+- Durable learning should be captured as a Naya Note / Smart Note using the canonical Naya Notes specification.
 - A Naya Note is not automatically product law; promote durable rules deliberately into governance documents.
 - Every consequential execution should end with the next likely action and a copy-and-paste-ready execution prompt.
 - Final status must distinguish `IMPLEMENTED`, `VERIFIED`, `LIVE VERIFIED`, `HUMAN REVIEW REQUIRED`, `BLOCKED`, and `UNKNOWN`.
