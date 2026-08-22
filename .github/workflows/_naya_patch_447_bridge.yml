@@ -1,0 +1,61 @@
+name: Naya surgical 447 bridge repair
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/_naya_patch_447_bridge.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Surgical patch and QA
+        shell: python
+        run: |
+          from pathlib import Path
+          import re, subprocess
+          p = Path('AISCORE.NAYANET.APP 2026 08 21 447')
+          s = p.read_text(encoding='utf-8')
+          old = "location.assign('https://results.nayanet.app/#maxess-result='+payload);"
+          new = "location.assign('https://results.nayanet.app/?result='+payload);"
+          if old not in s:
+              raise SystemExit('Expected 447 publish redirect not found; refusing mutation.')
+          s = s.replace(old, new, 1)
+          # Preserve the existing contract and add compatibility aliases used by the Results renderer.
+          needle = "overallScore:result.overallScore,masteryBand:result.masteryBand,"
+          repl = "overallScore:result.overallScore,score:result.overallScore,band:result.masteryBand,masteryStage:result.masteryBand.toUpperCase(),masteryBand:result.masteryBand,"
+          if needle not in s:
+              raise SystemExit('Expected 447 contract score fields not found; refusing mutation.')
+          s = s.replace(needle, repl, 1)
+          needle2 = "strongestCapability:so.strongest.name,opportunityCapability:so.opportunity.name,"
+          repl2 = "strongestCapability:{id:so.strongest.id,name:so.strongest.name,score:so.strongest.score},highestLeverageOpportunity:{id:so.opportunity.id,name:so.opportunity.name,score:so.opportunity.score},overallPattern:result.dimensions.map(d=>({id:d.id,name:d.name,score:d.score,level:BAND(d.score).toUpperCase()})),strongestCapabilityName:so.strongest.name,opportunityCapability:so.opportunity.name,"
+          if needle2 not in s:
+              raise SystemExit('Expected 447 capability fields not found; refusing mutation.')
+          s = s.replace(needle2, repl2, 1)
+          if s.count("?result='+payload") != 1:
+              raise SystemExit('Redirect QA failed.')
+          if '#maxess-result='+payload in s:
+              raise SystemExit('Legacy hash redirect remains.')
+          if s.count("contractVersion:'MAXESS_RESULT_V1'") != 1:
+              raise SystemExit('Contract marker QA failed.')
+          p.write_text(s, encoding='utf-8')
+          # Remove this one-shot workflow so it cannot become a competing automation layer.
+          Path('.github/workflows/_naya_patch_447_bridge.yml').unlink()
+          subprocess.run(['git','config','user.name','Naya Master'],check=True)
+          subprocess.run(['git','config','user.email','naya-master@users.noreply.github.com'],check=True)
+          subprocess.run(['git','add',str(p),'.github/workflows/_naya_patch_447_bridge.yml'],check=True)
+          subprocess.run(['git','diff','--cached','--check'],check=True)
+          subprocess.run(['git','commit','-m','Fix MAXESS 447 result transport and renderer contract compatibility'],check=True)
+          subprocess.run(['git','push','origin','HEAD:main'],check=True)
+      - name: Final source QA
+        run: |
+          test ! -f '.github/workflows/_naya_patch_447_bridge.yml'
+          grep -Fq "location.assign('https://results.nayanet.app/?result='+payload);" 'AISCORE.NAYANET.APP 2026 08 21 447'
+          grep -Fq "score:result.overallScore" 'AISCORE.NAYANET.APP 2026 08 21 447'
+          grep -Fq "highestLeverageOpportunity" 'AISCORE.NAYANET.APP 2026 08 21 447'
+          echo '447 SURGICAL BRIDGE QA: PASS'
