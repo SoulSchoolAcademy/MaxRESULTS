@@ -18,3 +18,7 @@
 ## Required outcome
 
 Run the existing workflow without redesigning Results. Verify the generated artifact and then perform the strongest available runtime/live verification. Do not claim success from source inspection alone.
+
+## 2026-08-22 execution retry
+
+The canonical workflow is being re-triggered through its existing `main` push trigger because the available GitHub connector does not expose a workflow-dispatch operation. No replacement workflow is being created and no Results renderer is being redesigned.
