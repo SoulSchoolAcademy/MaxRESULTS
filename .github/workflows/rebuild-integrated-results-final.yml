@@ -99,7 +99,6 @@ jobs:
               raise SystemExit(f'SECTION END MISSING: {element_id}')
 
           def source_section(text, sid):
-              # E01 is a complete HTML document; E02-E04 are section artifacts.
               found = extract_element(text, sid)
               if found:
                   return found
@@ -116,9 +115,31 @@ jobs:
               for m in re.finditer(r'<script\b[^>]*>.*?</script\s*>', text, re.I | re.S):
                   out.append(text[cursor:m.start()])
                   block=m.group(0).lower()
-                  if ('__maxess_result_consumer_v2__' in block or '__maxess_result_consumer_v3__' in block or '__maxess_result_consumer_v4__' in block or 'data-maxess-result-consumer=' in block):
-                      pass
-                  else:
+                  removable = (
+                      '__maxess_result_consumer_v2__' in block or
+                      '__maxess_result_consumer_v3__' in block or
+                      '__maxess_result_consumer_v4__' in block or
+                      'data-maxess-result-consumer=' in block
+                  )
+                  if not removable:
+                      out.append(m.group(0))
+                  cursor=m.end()
+              out.append(text[cursor:])
+              return ''.join(out)
+
+          def strip_legacy_baseline_bootstrap(text):
+              out=[]; cursor=0
+              for m in re.finditer(r'<script\b[^>]*>.*?</script\s*>', text, re.I | re.S):
+                  out.append(text[cursor:m.start()])
+                  block=m.group(0).lower()
+                  removable = (
+                      'maxess_result_10_10_bootstrap' in block or
+                      '__maxess_result_consumer_v2__' in block or
+                      '__maxess_result_consumer_v3__' in block or
+                      '__maxess_result_consumer_v4__' in block or
+                      'data-maxess-result-consumer=' in block
+                  )
+                  if not removable:
                       out.append(m.group(0))
                   cursor=m.end()
               out.append(text[cursor:])
@@ -130,14 +151,10 @@ jobs:
           if baseline.lower().count('<!doctype html>') > 1:
               raise SystemExit('BASELINE INVALID: multiple doctypes')
 
-          # E05-E09 are protected static sections and must already exist in the complete baseline.
-          static_ids = ['e05','e06','e07','e08','e09']
-          for sid in static_ids:
+          for sid in ['e05','e06','e07','e08','e09']:
               if not extract_element(baseline, sid):
                   raise SystemExit(f'PROTECTED STATIC SECTION MISSING FROM BASELINE: {sid}')
 
-          # If canonical E01-E04 are already present, remove only those exact canonical sections.
-          # Otherwise leave the baseline untouched and insert the current dynamic sources before E05.
           for sid in source_files:
               existing = extract_element(baseline, sid)
               if existing:
@@ -146,16 +163,15 @@ jobs:
           dynamic_sections = []
           for sid, path in source_files.items():
               src = path.read_text(encoding='utf-8')
-              section = source_section(src, sid)
-              dynamic_sections.append(strip_result_consumers(section))
+              dynamic_sections.append(strip_result_consumers(source_section(src, sid)))
 
+          baseline = strip_legacy_baseline_bootstrap(baseline)
           e05 = extract_element(baseline, 'e05')
-          insert_at = baseline.find(e05)
-          if insert_at < 0:
+          if not e05:
               raise SystemExit('PROTECTED E05 INSERTION POINT MISSING')
+          insert_at = baseline.find(e05)
           baseline = baseline[:insert_at] + '\n'.join(dynamic_sections) + '\n' + baseline[insert_at:]
 
-          # E01 has document-level styles; E02-E04 may carry section-local styles.
           style_blocks=[]
           for path in source_files.values():
               src=path.read_text(encoding='utf-8')
@@ -167,7 +183,9 @@ jobs:
           bridge = '''<script id="maxess-complete-results-bridge-v5">\n(function(){'use strict';if(window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__)return;window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__=true;var CONTRACT='MAXESS_RESULT_V1';function emit(n,r){try{window.dispatchEvent(new CustomEvent(n,{detail:r}));}catch(e){}}function decode(v){try{var s=decodeURIComponent(String(v||'')).replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new TextDecoder().decode(u);}catch(e){return null;}}function consume(){var h=window.location.hash||'',m=h.match(/(?:^#|&)maxess-result=([^&]*)/i);if(!m)return false;var json=decode(m[1]);if(!json)return false;var r;try{r=JSON.parse(json);}catch(e){return false;}if(!r||typeof r!=='object'||r.contractVersion!==CONTRACT)return false;var score=Number(r.overallScore);if(!Number.isFinite(score)||score<0||score>100)return false;if(!Array.isArray(r.dimensions)||r.dimensions.length!==5)return false;if(!Array.isArray(r.responses)||r.responses.length!==15)return false;for(var i=0;i<5;i++){var d=r.dimensions[i];if(!d||typeof d.name!=='string'||!Number.isFinite(Number(d.score)))return false;}window.MAXESS_RESULT=r;emit('MAXESS_RESULT_READY',r);emit('maxess:result-updated',r);return true;}window.MAXESS_RESULT_CONSUMER_V5={consume:consume,get:function(){return window.MAXESS_RESULT||null},contractVersion:CONTRACT};function boot(){if(!consume()&&!window.MAXESS_RESULT){document.documentElement.setAttribute('data-maxess-result-state','missing-or-invalid');}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();window.addEventListener('hashchange',consume);window.addEventListener('pageshow',consume);})();\n</script>'''
           baseline = baseline[:head_pos] + '\n' + '\n'.join(style_blocks) + '\n' + bridge + '\n' + baseline[head_pos:]
 
-          # Structural release gates.
+          if not re.match(r'^\s*<!doctype html\s*>', baseline, re.I):
+              baseline = '<!doctype html>\n' + baseline.lstrip()
+
           required_ids = ['e01','maxess-e02-v3','e03','e04','e05','e06','e07','e08','e09']
           for sid in required_ids:
               count = len(re.findall(r'<[^>]+\bid=["\']' + re.escape(sid) + r'["\']', baseline, re.I))
@@ -175,11 +193,15 @@ jobs:
                   raise SystemExit(f'INTEGRATED QA FAILED: {sid} count={count}')
           if baseline.lower().count('<!doctype html>') != 1 or baseline.lower().count('<html') != 1 or baseline.lower().count('</html>') != 1:
               raise SystemExit('INTEGRATED QA FAILED: document shell')
-          if baseline.count('maxess-complete-results-bridge-v5') != 1:
-              raise SystemExit('INTEGRATED QA FAILED: Results bridge count')
           if '<!doctype html>' in baseline[baseline.lower().find('<body'):].lower():
               raise SystemExit('INTEGRATED QA FAILED: nested document shell')
-          for bad in ('name: MAXESS Results', 'shell: python', 'from pathlib import', 'workflow_dispatch:', 'jobs:', '<<<<<<<', '>>>>>>>'):
+          if baseline.count('maxess-complete-results-bridge-v5') != 1:
+              raise SystemExit('INTEGRATED QA FAILED: Results bridge count')
+          if 'MAXESS_RESULT_10_10_BOOTSTRAP' in baseline or '__MAXESS_RESULT_CONSUMER_V2__' in baseline or '__MAXESS_RESULT_CONSUMER_V3__' in baseline or '__MAXESS_RESULT_CONSUMER_V4__' in baseline:
+              raise SystemExit('INTEGRATED QA FAILED: legacy result consumer remains')
+          if 'window.MAXESS_RESULT = result' in baseline or 'fixtureMode' in baseline:
+              raise SystemExit('INTEGRATED QA FAILED: baseline fallback result authority remains')
+          for bad in ('name: MAXESS Results', 'shell: python', 'from pathlib import', 'workflow_dispatch:', 'jobs:', '<<<<<<<', '>>>>>>>', '```'):
               if bad.lower() in baseline.lower():
                   raise SystemExit('INTEGRATED QA FAILED: raw build source ' + bad)
 
@@ -210,11 +232,12 @@ jobs:
           grep -F 'state.finalizing=true' 'AISCORE.NAYANET.APP 2026 08 21 447' >/dev/null
           grep -F 'window.MAXESS_Q15_HANDOFF_V447=true;' 'AISCORE.NAYANET.APP 2026 08 21 447' >/dev/null
           grep -F 'results.nayanet.app/#maxess-result=' 'AISCORE.NAYANET.APP 2026 08 21 447' >/dev/null
+          grep -F 'saveResponse();stopNaya();if(state.index===14)' 'AISCORE.NAYANET.APP 2026 08 21 447' >/dev/null
           python - <<'PY'
           import re, subprocess, tempfile
           for filename in ['AISCORE.NAYANET.APP 2026 08 21 447','MAXESS-RESULTS-INTEGRATED-V1.html']:
               s=open(filename,encoding='utf-8').read()
-              for i,js in enumerate(re.findall(r'<script\b[^>]*>(.*?)</script\s*>',s,re.I|re.S)):
+              for js in re.findall(r'<script\b[^>]*>(.*?)</script\s*>',s,re.I|re.S):
                   with tempfile.NamedTemporaryFile('w',suffix='.js',delete=False,encoding='utf-8') as f:
                       f.write(js); name=f.name
                   subprocess.run(['node','--check',name],check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
@@ -236,7 +259,7 @@ jobs:
           git add 'AISCORE.NAYANET.APP 2026 08 21 447' 'MAXESS-RESULTS-INTEGRATED-V1.html' 'MAXESS-COMPLETE-INTEGRATED-BUILD.md'
           git diff --cached --check
           git diff --cached --quiet && exit 0
-          git commit -m 'MAXESS: repair authoritative E01-E04 integration and preserve E05-E09'
+          git commit -m 'MAXESS: harden final Results build and bridge validation'
           git push origin main
 
 # Scope lock: E01-E04 dynamic only; E05-E09 preserved. No redesign. No new Results renderer.
