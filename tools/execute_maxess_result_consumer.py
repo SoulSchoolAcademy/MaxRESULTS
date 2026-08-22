@@ -7,6 +7,7 @@ CONSUMER = Path('MAXESS-RESULT-CONSUMER-V1.html')
 MARKER = 'MAXESS_RESULT_CONSUMER_V1'
 
 # NAYA TRANSPORT REPAIR TRIGGER: execute the canonical cleanup against the current branch source.
+# NORTH STAR GUARDRAIL V2: one authoritative result transport; E01/E02 must never own competing hash transport.
 
 
 def strip_e01_consumer(s):
