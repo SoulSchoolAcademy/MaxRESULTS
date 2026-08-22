@@ -85,3 +85,4 @@ jobs:
           git push origin maxess-results-v21-working
 
 # NAYA EXECUTION GUARDRAIL: completion must include exact changed-artifact link, commit evidence, and verification status.
+# NAYA FORCE-RUN: intentional no-op workflow touch to execute the complete E01-E04 build now.
