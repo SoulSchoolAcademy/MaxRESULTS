@@ -65,7 +65,7 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
-          import hashlib,re
+          import hashlib,re,json
 
           active=Path('active-results')
           baseline_path=active/'BASELINE-WORKING.html'
@@ -108,6 +108,9 @@ jobs:
               if not a or not b or b.start()<=a.end(): return text
               return text[a.end():b.start()]
 
+          def strip_style_tags(text):
+              return re.sub(r'<style\b[^>]*>.*?</style\s*>','',text,flags=re.I|re.S)
+
           def strip_legacy_scripts(text):
               def repl(m):
                   block=m.group(0).lower()
@@ -132,10 +135,23 @@ jobs:
           baseline=strip_legacy_scripts(baseline)
 
           def source_section(sid,path):
-              src=path.read_text(encoding='utf-8')
+              raw=path.read_text(encoding='utf-8')
+              try:
+                  obj=json.loads(raw)
+                  src=obj.get('content') if isinstance(obj,dict) else None
+                  if not isinstance(src,str): src=raw
+              except (json.JSONDecodeError,TypeError):
+                  src=raw
+
               sec=element_by_id(src,sid) or element_by_id(body(src),sid)
-              if not sec: raise SystemExit(f'AUTHORITATIVE SECTION MISSING: {sid} in {path}')
-              return strip_legacy_scripts(sec),src
+              if sec:
+                  return strip_legacy_scripts(sec),src
+
+              content=strip_style_tags(body(src)).strip()
+              if not content:
+                  raise SystemExit(f'AUTHORITATIVE SECTION EMPTY: {sid} in {path}')
+              wrapped=f'<section id="{sid}" data-maxess-source="{sid}">\n{strip_legacy_scripts(content)}\n</section>'
+              return wrapped,src
 
           authoritative={}
           all_styles=[]
@@ -169,7 +185,9 @@ jobs:
               if style not in existing_style_text: styles_to_add.append(style)
           if styles_to_add: baseline=baseline[:head]+'\n'+'\n'.join(styles_to_add)+'\n'+baseline[head:]
 
-          bridge='''<script id="maxess-complete-results-bridge-v5">\n(function(){'use strict';if(window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__)return;window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__=true;var CONTRACT='MAXESS_RESULT_V1';function decode(v){try{var s=decodeURIComponent(String(v||'')).replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new TextDecoder().decode(u);}catch(e){return null;}}function consume(){var h=window.location.hash||'',m=h.match(/(?:^#|&)maxess-result=([^&]*)/i);if(!m)return false;var j=decode(m[1]);if(!j)return false;var r;try{r=JSON.parse(j);}catch(e){return false;}if(!r||typeof r!=='object'||r.contractVersion!==CONTRACT)return false;var score=Number(r.overallScore);if(!Number.isFinite(score)||score<0||score>100)return false;if(!Array.isArray(r.dimensions)||r.dimensions.length!==5)return false;if(!Array.isArray(r.responses)||r.responses.length!==15)return false;window.MAXESS_RESULT=r;try{window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:r}));window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:r}));}catch(e){}return true;}window.MAXESS_RESULT_CONSUMER_V5={consume:consume,get:function(){return window.MAXESS_RESULT||null;},contractVersion:CONTRACT};function boot(){if(!consume())document.documentElement.setAttribute('data-maxess-result-state','missing-or-invalid');}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();window.addEventListener('hashchange',consume);window.addEventListener('pageshow',consume);})();\n</script>'''
+          bridge='''<script id="maxess-complete-results-bridge-v5">
+(function(){'use strict';if(window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__)return;window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__=true;var CONTRACT='MAXESS_RESULT_V1';function decode(v){try{var s=decodeURIComponent(String(v||'')).replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new TextDecoder().decode(u);}catch(e){return null;}}function consume(){var h=window.location.hash||'',m=h.match(/(?:^#|&)maxess-result=([^&]*)/i);if(!m)return false;var j=decode(m[1]);if(!j)return false;var r;try{r=JSON.parse(j);}catch(e){return false;}if(!r||typeof r!=='object'||r.contractVersion!==CONTRACT)return false;var score=Number(r.overallScore);if(!Number.isFinite(score)||score<0||score>100)return false;if(!Array.isArray(r.dimensions)||r.dimensions.length!==5)return false;if(!Array.isArray(r.responses)||r.responses.length!==15)return false;window.MAXESS_RESULT=r;try{window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:r}));window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:r}));}catch(e){}return true;}window.MAXESS_RESULT_CONSUMER_V5={consume:consume,get:function(){return window.MAXESS_RESULT||null;},contractVersion:CONTRACT};function boot(){if(!consume())document.documentElement.setAttribute('data-maxess-result-state','missing-or-invalid');}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();window.addEventListener('hashchange',consume);window.addEventListener('pageshow',consume);})();
+</script>'''
           if 'maxess-complete-results-bridge-v5' in baseline:
               raise SystemExit('INTEGRATED QA FAILED: duplicate/pre-existing V5 bridge')
           baseline=baseline[:head]+'\n'+bridge+'\n'+baseline[head:]
