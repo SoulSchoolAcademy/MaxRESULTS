@@ -1,23 +1,187 @@
 <script>
-(function(){
-'use strict';
-if(window.__MAXESS_RESULT_CONSUMER_V2__)return;
-window.__MAXESS_RESULT_CONSUMER_V2__=true;
-var CONTRACT='MAXESS_RESULT_V1',READY='MAXESS_RESULT_READY',UPDATED='maxess:result-updated',STORAGE_KEY='MAXESS_RESULT_V1',POLL_MS=250,MAX_POLLS=40,pollCount=0,lastSignature='',lastResult=null;
-function dispatch(name,detail){try{window.dispatchEvent(new CustomEvent(name,{detail:detail||null}));}catch(e){try{window.dispatchEvent(new Event(name));}catch(_) {}}}
-function decodeBase64Url(value){var normalized=String(value||'').replace(/-/g,'+').replace(/_/g,'/');while(normalized.length%4)normalized+='=';var binary=atob(normalized),encoded='';for(var i=0;i<binary.length;i++)encoded+='%'+('00'+binary.charCodeAt(i).toString(16)).slice(-2);return decodeURIComponent(encoded)}
-function getPayload(){var hash=window.location.hash||'',match=hash.match(/(?:^|#|&)maxess-result=([^&]+)/i);return match?decodeURIComponent(match[1]):null}
-function isValidResult(result){if(!result||typeof result!=='object')return false;if(result.contractVersion!==CONTRACT)return false;if(!Number.isFinite(Number(result.overallScore)))return false;if(Number(result.overallScore)<0||Number(result.overallScore)>100)return false;if(!Array.isArray(result.dimensions)||result.dimensions.length!==5)return false;if(!Array.isArray(result.responses)||result.responses.length!==15)return false;return result.dimensions.every(function(d){return d&&typeof d==='object'&&typeof d.name==='string'&&d.name.trim()&&Number.isFinite(Number(d.score))&&Number(d.score)>=0&&Number(d.score)<=100})}
-function signature(result){try{return[result.contractVersion,Number(result.overallScore),result.dimensions.map(function(d){return String(d.name)+':'+Number(d.score)}).join('|'),result.responses.length].join('::')}catch(_){return''}}
-function syncDimensionLabels(result){if(!result||!Array.isArray(result.dimensions)||result.dimensions.length!==5)return;var roots=document.querySelectorAll('#maxess-e02-v2,#maxess-e02-v3');roots.forEach(function(root){var names=root.querySelectorAll('.e02-name'),scores=root.querySelectorAll('.e02-score');result.dimensions.forEach(function(dimension,index){if(names[index]&&dimension&&dimension.name)names[index].textContent=String(dimension.name).toUpperCase();if(scores[index]&&dimension&&Number.isFinite(Number(dimension.score))){var score=Number(dimension.score);scores[index].textContent=Number.isInteger(score)?String(score):String(Math.round(score*10)/10);scores[index].dataset.score=String(score);scores[index].dataset.demo='false'}})})}
-function syncE01(result){if(!result||!Number.isFinite(Number(result.overallScore)))return;var nodes=document.querySelectorAll('#e01 #score-number');nodes.forEach(function(node){var score=Number(result.overallScore);node.textContent=Number.isInteger(score)?String(score):String(Math.round(score*10)/10);node.dataset.hydrated='true';node.dataset.demo='false';node.setAttribute('aria-hidden','true')})}
-function publish(result,source,forceEvent){if(!isValidResult(result))return false;var nextSignature=signature(result),changed=nextSignature!==lastSignature;window.MAXESS_RESULT=result;lastResult=result;try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(result))}catch(_){}syncDimensionLabels(result);syncE01(result);if(changed||forceEvent){lastSignature=nextSignature;dispatch(READY,{result:result,source:source||'hash'});dispatch(UPDATED,{result:result,source:source||'hash'})}return true}
-function consume(source){var encoded=getPayload();if(encoded){try{var result=JSON.parse(decodeBase64Url(encoded));if(publish(result,source||'hash',false))return true}catch(_) {}}try{var stored=JSON.parse(sessionStorage.getItem(STORAGE_KEY)||'null');if(publish(stored,source||'session',false))return true}catch(_) {}return false}
-function hydrate(){var ready=consume('hash');if(ready&&lastResult)publish(lastResult,'hydration',true);pollCount+=1;if(pollCount<MAX_POLLS)window.setTimeout(hydrate,POLL_MS)}
-window.MAXESS_RESULT_CONSUMER_V1={consume:consume,get:function(){return window.MAXESS_RESULT||null},contractVersion:CONTRACT,version:'V2'};
-window.MAXESS_RESULT_CONSUMER_V2=window.MAXESS_RESULT_CONSUMER_V1;
-window.addEventListener('hashchange',function(){pollCount=0;lastSignature='';lastResult=null;hydrate()});
-window.addEventListener('pageshow',function(){pollCount=0;hydrate()});
-if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){pollCount=0;hydrate()},{once:true})}else hydrate();
+(function () {
+  'use strict';
+
+  if (window.__MAXESS_RESULT_CONSUMER_V2__) return;
+  window.__MAXESS_RESULT_CONSUMER_V2__ = true;
+
+  var CONTRACT = 'MAXESS_RESULT_V1';
+  var READY = 'MAXESS_RESULT_READY';
+  var UPDATED = 'maxess:result-updated';
+  var STORAGE_KEY = 'MAXESS_RESULT_V1';
+  var POLL_MS = 250;
+  var MAX_POLLS = 40;
+  var pollCount = 0;
+  var lastSignature = '';
+  var lastResult = null;
+
+  function dispatch(name, detail) {
+    try {
+      window.dispatchEvent(new CustomEvent(name, { detail: detail || null }));
+    } catch (e) {
+      try { window.dispatchEvent(new Event(name)); } catch (_) {}
+    }
+  }
+
+  function decodeBase64Url(value) {
+    var normalized = String(value || '').replace(/-/g, '+').replace(/_/g, '/');
+    while (normalized.length % 4) normalized += '=';
+    var binary = atob(normalized);
+    var encoded = '';
+    for (var i = 0; i < binary.length; i++) {
+      encoded += '%' + ('00' + binary.charCodeAt(i).toString(16)).slice(-2);
+    }
+    return decodeURIComponent(encoded);
+  }
+
+  function getPayload() {
+    var hash = window.location.hash || '';
+    var match = hash.match(/(?:^|#|&)maxess-result=([^&]+)/i);
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
+  function isValidResult(result) {
+    if (!result || typeof result !== 'object') return false;
+    if (result.contractVersion !== CONTRACT) return false;
+    if (!Number.isFinite(Number(result.overallScore))) return false;
+    if (Number(result.overallScore) < 0 || Number(result.overallScore) > 100) return false;
+    if (!Array.isArray(result.dimensions) || result.dimensions.length !== 5) return false;
+    if (!Array.isArray(result.responses) || result.responses.length !== 15) return false;
+    return result.dimensions.every(function (d) {
+      return d && typeof d === 'object' && typeof d.name === 'string' && d.name.trim() &&
+        Number.isFinite(Number(d.score)) && Number(d.score) >= 0 && Number(d.score) <= 100;
+    });
+  }
+
+  function signature(result) {
+    try {
+      return [
+        result.contractVersion,
+        Number(result.overallScore),
+        result.dimensions.map(function (d) { return String(d.name) + ':' + Number(d.score); }).join('|'),
+        result.responses.length
+      ].join('::');
+    } catch (_) {
+      return '';
+    }
+  }
+
+  function syncDimensionLabels(result) {
+    if (!result || !Array.isArray(result.dimensions) || result.dimensions.length !== 5) return;
+
+    var roots = document.querySelectorAll('#maxess-e02-v2, #maxess-e02-v3');
+    roots.forEach(function (root) {
+      var names = root.querySelectorAll('.e02-name');
+      var scores = root.querySelectorAll('.e02-score');
+      result.dimensions.forEach(function (dimension, index) {
+        if (names[index] && dimension && dimension.name) {
+          names[index].textContent = String(dimension.name).toUpperCase();
+        }
+        if (scores[index] && dimension && Number.isFinite(Number(dimension.score))) {
+          var score = Number(dimension.score);
+          scores[index].textContent = Number.isInteger(score) ? String(score) : String(Math.round(score * 10) / 10);
+          scores[index].dataset.score = String(score);
+          scores[index].dataset.demo = 'false';
+        }
+      });
+    });
+  }
+
+  function syncE01(result) {
+    if (!result || !Number.isFinite(Number(result.overallScore))) return;
+    var nodes = document.querySelectorAll('#e01 #score-number');
+    nodes.forEach(function (node) {
+      var score = Number(result.overallScore);
+      node.textContent = Number.isInteger(score) ? String(score) : String(Math.round(score * 10) / 10);
+      node.dataset.hydrated = 'true';
+      node.dataset.demo = 'false';
+      node.setAttribute('aria-hidden', 'true');
+    });
+  }
+
+  function publish(result, source, forceEvent) {
+    if (!isValidResult(result)) return false;
+
+    var nextSignature = signature(result);
+    var changed = nextSignature !== lastSignature;
+    window.MAXESS_RESULT = result;
+    lastResult = result;
+
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(result));
+    } catch (_) {}
+
+    syncDimensionLabels(result);
+    syncE01(result);
+
+    if (changed || forceEvent) {
+      lastSignature = nextSignature;
+      dispatch(READY, { result: result, source: source || 'hash' });
+      dispatch(UPDATED, { result: result, source: source || 'hash' });
+    }
+
+    return true;
+  }
+
+  function consume(source) {
+    var encoded = getPayload();
+
+    if (encoded) {
+      try {
+        var result = JSON.parse(decodeBase64Url(encoded));
+        if (publish(result, source || 'hash', false)) return true;
+      } catch (_) {}
+    }
+
+    try {
+      var stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || 'null');
+      if (publish(stored, source || 'session', false)) return true;
+    } catch (_) {}
+
+    return false;
+  }
+
+  function hydrate() {
+    var ready = consume('hash');
+
+    if (ready && lastResult) {
+      publish(lastResult, 'hydration', true);
+    }
+
+    pollCount += 1;
+    if (pollCount < MAX_POLLS) {
+      window.setTimeout(hydrate, POLL_MS);
+    }
+  }
+
+  window.MAXESS_RESULT_CONSUMER_V1 = {
+    consume: consume,
+    get: function () { return window.MAXESS_RESULT || null; },
+    contractVersion: CONTRACT,
+    version: 'V2'
+  };
+
+  window.MAXESS_RESULT_CONSUMER_V2 = window.MAXESS_RESULT_CONSUMER_V1;
+
+  window.addEventListener('hashchange', function () {
+    pollCount = 0;
+    lastSignature = '';
+    lastResult = null;
+    hydrate();
+  });
+
+  window.addEventListener('pageshow', function () {
+    pollCount = 0;
+    hydrate();
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      pollCount = 0;
+      hydrate();
+    }, { once: true });
+  } else {
+    hydrate();
+  }
 })();
 </script>
