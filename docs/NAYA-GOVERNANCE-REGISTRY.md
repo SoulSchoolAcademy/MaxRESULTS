@@ -11,6 +11,7 @@
 | Repository entry / cold start | `START-HERE.md` | active branch START-HERE | CANONICAL |
 | Repository navigation / authority map | `docs/REPOSITORY-MAP.md` | active branch map | CANONICAL |
 | Core operating laws | `NAYA-OS.md` | Nitro protocols | GOVERNING |
+| **Naya intelligence / reasoning / judgment / problem-solving / verification / learning / useful-action behaviour** | **`docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md`** | Naya OS, Nitro protocols, Smart Notes, specialist role documents | **CANONICAL BRAIN SPECIFICATION — OFFICIAL 22 AUGUST 2026** |
 | **Naya personality / character / voice / relationship behaviour** | **`docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md`** | Naya Digital Codex, personality exemplars, Awesome Trait Standard | **GOVERNING PERSONALITY SPECIFICATION — HUMAN APPROVED 21 AUGUST 2026** |
 | Lead execution / excellence / communication | `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` | `NAYA-OS.md`, Naya Law, Nitro protocols | GOVERNING LAW |
 | Project language / definitions | `docs/NAYA-LANGUAGE-DICTIONARY.md` | branch-local language docs | GOVERNING |
@@ -31,23 +32,21 @@
 | Durable learning log | `docs/NAYA-NITRO-LEARNING-LOG.md` | Smart Notes | LEARNING RECORD |
 | Smart Note retrieval | `docs/smart-notes/INDEX.md` | individual notes | RETRIEVAL INDEX |
 
+## Brain authority law
+
+`docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md` is the **canonical owner for Naya Brain**: intelligence, contextual reasoning, discernment, judgment, decision-making, problem ownership, problem-solving, persistence, preservation, verification, failure recovery, learning, strategic/creative/leveraged thinking, human-time protection, and useful-action behaviour.
+
+When another document contains Brain-related rules, it is supporting material unless this registry explicitly assigns it authority for a different subject. If Brain-related rules conflict, the Brain specification governs the Brain subject after accounting for higher-priority system, safety, platform, permission, and explicit current human requirements.
+
+`NAYA-OS.md` remains the broader project operating law. It governs the overall operating system and execution environment; it is **not a competing Brain specification**. Where Brain-specific detail is needed, use the canonical Brain document.
+
 ## Supporting-document rule
 
 Documents not listed as canonical owners above may still be used when directly relevant, but they do not override the canonical owner for the subject they discuss.
 
-Examples include older:
+Examples include older AI language documents, AI definition-of-10 documents, fast-edit scorecards, execution prompt templates, design directives, build protocols, Nitro operating variants, branch-local contracts, and historical change reports.
 
-- AI language documents;
-- AI definition-of-10 documents;
-- fast-edit scorecards;
-- execution prompt templates;
-- design directives;
-- build protocols;
-- Nitro operating variants;
-- branch-local contracts;
-- historical change reports.
-
-When a supporting document contains a rule that appears useful enough to become permanent, do not silently promote it. Extract the rule, compare it against the canonical owner, consolidate it there if appropriate, and preserve the supporting document as historical/reference material unless it is proven obsolete and safe to remove.
+When a supporting document contains a rule useful enough to become permanent, do not silently promote it. Extract the rule, compare it against the canonical owner, consolidate it there if appropriate, and preserve the supporting document as historical/reference material unless it is proven obsolete and safe to remove.
 
 ## Duplicate-authority repair law
 
@@ -72,7 +71,7 @@ The active branch may contain implementation-specific documents and older direct
 
 ## Approval authority
 
-Human approval for the Naya Personality Manuscript was explicitly granted by the project owner on 21 August 2026. The registry records that approval for the personality subject only; it does not override higher-priority system, safety, platform, or repository laws.
+The Naya Personality Manuscript was explicitly approved by the project owner on 21 August 2026. The Naya Brain Master Activation Specification was established as the canonical Brain/intelligence authority on 22 August 2026. These approvals govern their respective subjects only and do not override higher-priority system, safety, platform, permission, or repository laws.
 
 ## Promotion rule
 
@@ -80,4 +79,4 @@ A rule moves through this path:
 
 **OBSERVATION → LEARNING → CANDIDATE RULE → GOVERNANCE REVIEW → CANONICAL OWNER → VERIFIED USE**
 
-The Naya Personality Manuscript has completed the governance-review and human-approval step. Runtime behavioural activation remains subject to platform capability and verification.
+The Naya Personality Manuscript has completed governance review and human approval. The Naya Brain specification is now the canonical Brain authority; runtime behavioural activation remains subject to platform capability and verification.
