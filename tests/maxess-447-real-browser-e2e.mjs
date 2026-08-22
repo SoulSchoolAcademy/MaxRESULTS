@@ -38,6 +38,7 @@ async function completeAssessment(page, answerIndexes, label) {
 
   for (let i = 0; i < 15; i += 1) {
     await page.locator('#questionTitle').waitFor({ state: 'visible', timeout: 10000 });
+    await page.waitForTimeout(220);
     await dismissNaya(page);
 
     const answerCount = await page.locator('#answers .answer').count();
@@ -45,13 +46,7 @@ async function completeAssessment(page, answerIndexes, label) {
 
     await page.locator('#answers .answer').nth(answerIndexes[i]).click();
     if (await page.locator('#continueButton').isDisabled()) throw new Error(`${label}: Continue remained disabled on question ${i + 1}`);
-
     await page.locator('#continueButton').click();
-
-    if (i < 14) {
-      await page.waitForFunction(() => Number(document.querySelector('#progressLabel')?.textContent?.match(/QUESTION (\d+)/)?.[1] || 0) === window.__expectedNextQuestion, undefined, { timeout: 5000 }).catch(() => {});
-      await page.waitForTimeout(180);
-    }
   }
 
   await page.waitForURL((url) => url.toString().startsWith(resultsUrl), { timeout: 30000, waitUntil: 'domcontentloaded' });
