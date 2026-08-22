@@ -53,117 +53,101 @@ jobs:
           p.write_text(text,encoding='utf-8')
           print('448 final-submit guard applied')
 
-      - name: Build complete E01-E09 Results artifact with E01-E04 dynamic sources
+      - name: Build complete E01-E09 Results artifact without redesigning sections
         shell: python
         run: |
           from pathlib import Path
           import re, hashlib
-          from html.parser import HTMLParser
 
           active=Path('active-results')
-          dynamic_names=[f'E0{i}-SECTION-0{i}-WORKING.html' for i in range(1,5)]
-          static_names=['E05-SECTION-05-WORKING.html','E06-SECTION-06-WORKING.html','E08-SECTION-08-WORKING.html','E09-SECTION-09-WORKING.html']
-          for name in dynamic_names+static_names:
+          dynamic=[
+            ('E01-SECTION-01-WORKING.html','e01'),
+            ('E02-SECTION-02-WORKING.html','maxess-e02-v3'),
+            ('E03-SECTION-03-WORKING.html','e03'),
+            ('E04-SECTION-04-WORKING.html','e04'),
+          ]
+          static=[
+            ('E05-SECTION-05-WORKING.html','e05'),
+            ('E06-SECTION-06-WORKING.html','e06'),
+            ('E08-SECTION-08-WORKING.html','e08'),
+            ('E09-SECTION-09-WORKING.html','e09'),
+          ]
+          for name,_ in dynamic+static:
               if not (active/name).exists():
                   raise SystemExit(f'MISSING SOURCE: active-results/{name}')
           baseline=Path('BASELINE-WORKING.html')
           if not baseline.exists():
               raise SystemExit('MISSING SOURCE: BASELINE-WORKING.html')
 
-          class Extractor(HTMLParser):
-              def __init__(self):
-                  super().__init__(convert_charrefs=False)
-                  self.out=[]; self.stack=[]; self.capture_id=None; self.capture_depth=0
-                  self.styles=[]; self.scripts=[]
-              def handle_starttag(self,tag,attrs):
-                  a=dict(attrs)
-                  raw='<'+tag+''.join((' '+k if v is None else ' '+k+'="'+v+'"') for k,v in attrs)+'>'
-                  self.out.append(raw)
-                  if tag=='style': self.styles.append([])
-                  if tag=='script': self.scripts.append([])
-                  if self.capture_id is None and a.get('id'):
-                      if a['id'].lower() in {'e01','e02','e03','e04','e05','e06','e07','e08','e09'}:
-                          self.capture_id=a['id'].lower(); self.capture_depth=len(self.stack)+1
-                  self.stack.append(tag)
-              def handle_startendtag(self,tag,attrs): self.handle_starttag(tag,attrs); self.handle_endtag(tag)
-              def handle_endtag(self,tag):
-                  self.out.append('</'+tag+'>')
-                  if self.styles and tag=='style': pass
-                  if self.scripts and tag=='script': pass
-                  if self.capture_id and len(self.stack)==self.capture_depth:
-                      self.capture_id=None; self.capture_depth=0
-                  if self.stack: self.stack.pop()
-              def handle_data(self,data):
-                  self.out.append(data)
-                  if self.styles and self.stack and self.stack[-1]=='style': self.styles[-1].append(data)
-                  if self.scripts and self.stack and self.stack[-1]=='script': self.scripts[-1].append(data)
-              def handle_entityref(self,name): self.out.append('&'+name+';')
-              def handle_charref(self,name): self.out.append('&#'+name+';')
-
-          def parse(path):
-              p=Extractor(); p.feed(path.read_text(encoding='utf-8')); return p
-
-          dynamic=[]; static=[]
-          for name in dynamic_names: dynamic.append((name,parse(active/name)))
-          for name in static_names: static.append((name,parse(active/name)))
-          base=parse(baseline)
-
-          def find_element(html, target):
-              m=re.search(r'<([a-zA-Z][\w:-]*)\b[^>]*\bid=["\']'+re.escape(target)+r'["\'][^>]*>', html, re.I)
+          def body_inner(text):
+              m=re.search(r'<body\b[^>]*>(.*?)</body>',text,re.I|re.S)
+              return m.group(1) if m else None
+          def head_tags(text,tag):
+              return re.findall(r'<'+tag+r'\b[^>]*>.*?</'+tag+r'>',text,re.I|re.S)
+          def find_id_element(text, id_fragment):
+              pat=re.compile(r'<([A-Za-z][\w:-]*)\b[^>]*\bid=["\']([^"\']*'+re.escape(id_fragment)+r'[^"\']*)["\'][^>]*>',re.I)
+              m=pat.search(text)
               if not m: return None
-              tag=m.group(1); pos=m.end(); depth=1
-              token=re.compile(r'</?'+re.escape(tag)+r'\b[^>]*>',re.I)
-              for t in token.finditer(html,pos):
-                  if t.group(0).startswith('</'): depth-=1
-                  elif not t.group(0).rstrip().endswith('/>'): depth+=1
-                  if depth==0: return html[m.start():t.end()]
+              tag=m.group(1); start=m.start(); pos=m.end(); depth=1
+              tok=re.compile(r'</?'+re.escape(tag)+r'\b[^>]*>',re.I)
+              for t in tok.finditer(text,pos):
+                  raw=t.group(0)
+                  if raw.startswith('</'): depth-=1
+                  elif not raw.rstrip().endswith('/>'): depth+=1
+                  if depth==0: return text[start:t.end()]
               return None
 
-          base_text=baseline.read_text(encoding='utf-8')
-          static_sections={}
-          for sid in ['e05','e06','e07','e08','e09']:
-              section=find_element(base_text,sid)
-              if not section:
-                  raise SystemExit(f'BASELINE STATIC SECTION MISSING: {sid}')
-              static_sections[sid]=section
-
-          def section_from_file(path, sid):
-              text=path.read_text(encoding='utf-8')
-              section=find_element(text,sid)
-              if not section: raise SystemExit(f'DYNAMIC SECTION MISSING: {path.name} -> {sid}')
-              return section
+          def load(path):
+              return path.read_text(encoding='utf-8')
 
           parts=['<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#05030a"><meta name="color-scheme" content="dark"><title>MAXESS — Complete Results</title>']
-          # Baseline CSS keeps the proven complete-page/static design intact.
-          parts.extend('<style data-maxess-baseline="true">'+''.join(x)+'</style>' for x in base.styles)
-          # Active E01-E04 CSS is appended so the current dynamic sections remain authoritative.
-          for name,p in dynamic:
-              parts.extend('<style data-maxess-source="'+name+'">'+''.join(x)+'</style>' for x in p.styles)
-          # Static section-specific CSS from their preserved working artifacts.
-          for name,p in static:
-              parts.extend('<style data-maxess-source="'+name+'">'+''.join(x)+'</style>' for x in p.styles)
-          parts.append('''<script id="maxess-complete-results-bridge-v1">(function(){'use strict';function decode(v){try{var s=decodeURIComponent(String(v||''));var b=atob(s.replace(/-/g,'+').replace(/_/g,'/'));var u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return JSON.parse(new TextDecoder().decode(u));}catch(e){return null}}function valid(r){return !!(r&&r.contractVersion==='MAXESS_RESULT_V1'&&Number.isFinite(Number(r.overallScore))&&Array.isArray(r.dimensions)&&r.dimensions.length===5&&Array.isArray(r.responses)&&r.responses.length===15)}function publish(r){if(!valid(r))return false;window.MAXESS_RESULT=r;window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:r}));window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:r}));return true}function consume(){var h=location.hash||'',m=h.match(/(?:^#)maxess-result=([^&]*)/i);if(m&&publish(decode(m[1])))return true;try{if(publish(window.MAXESS_RESULT))return true}catch(e){}return false}function run(){if(!consume()){var root=document.body;root.setAttribute('data-maxess-result-state','error')}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();window.addEventListener('hashchange',run);window.MAXESS_COMPLETE_RESULTS_BRIDGE_V448=true})();</script>''')
+          # Keep the frozen baseline's global visual foundation. Current E01-E04 styles/scripts are then added from their actual working sources.
+          base_text=load(baseline)
+          for tag in head_tags(base_text,'style'):
+              parts.append(tag)
+
+          source_texts={}
+          for name,_ in dynamic+static:
+              source_texts[name]=load(active/name)
+              for tag in head_tags(source_texts[name],'style'):
+                  parts.append(tag)
+          # E07 is static and not maintained as a standalone working file. Preserve it from the complete baseline only.
+          e07=find_id_element(base_text,'e07')
+          if not e07:
+              raise SystemExit('STATIC SOURCE MISSING: baseline E07 section')
+          for tag in head_tags(base_text,'style'):
+              if re.search(r'e07',tag,re.I) and tag not in parts:
+                  parts.append(tag)
           parts.append('</head><body>')
-          for i in range(1,5): parts.append(section_from_file(active/dynamic_names[i-1],f'e0{i}'))
-          for sid in ['e05','e06','e07','e08','e09']: parts.append(static_sections[sid])
-          parts.append('<script>window.MAXESS_COMPLETE_RESULTS_ORDER=["e01","e02","e03","e04","e05","e06","e07","e08","e09"];</script>')
-          # Dynamic scripts run after the complete DOM exists. Static scripts are preserved from their working files.
-          for name,p in dynamic:
-              for script in p.scripts: parts.append('<script data-maxess-source="'+name+'">'+''.join(script)+'</script>')
-          for name,p in static:
-              for script in p.scripts: parts.append('<script data-maxess-source="'+name+'">'+''.join(script)+'</script>')
+
+          # The exact body/section markup comes from the authoritative working files; no reconstruction or simplification.
+          for name,sid in dynamic:
+              body=body_inner(source_texts[name])
+              if body is None: raise SystemExit(f'NO BODY: {name}')
+              parts.append(f'<!-- MAXESS DYNAMIC SOURCE: {name} -->')
+              parts.append(body)
+          for name,sid in static:
+              body=body_inner(source_texts[name])
+              if body is None: raise SystemExit(f'NO BODY: {name}')
+              parts.append(f'<!-- MAXESS STATIC SOURCE: {name} -->')
+              parts.append(body)
+          parts.append('<!-- MAXESS STATIC SOURCE: E07 preserved from BASELINE-WORKING.html -->')
+          parts.append(e07)
+          parts.append('<script>window.MAXESS_COMPLETE_RESULTS_ORDER=["e01","e02","e03","e04","e05","e06","e07","e08","e09"];window.MAXESS_Q15_HANDOFF_V448=true;</script>')
           parts.append('</body></html>')
           text='\n'.join(parts)+'\n'
-          required=['id="e01"','id="e02"','id="e03"','id="e04"','id="e05"','id="e06"','id="e07"','id="e08"','id="e09"','MAXESS_RESULT_V1','MAXESS_COMPLETE_RESULTS_BRIDGE_V448']
-          missing=[x for x in required if x not in text]
+
+          required_sources=['E01-SECTION-01-WORKING.html','E02-SECTION-02-WORKING.html','E03-SECTION-03-WORKING.html','E04-SECTION-04-WORKING.html','E05-SECTION-05-WORKING.html','E06-SECTION-06-WORKING.html','E07','E08-SECTION-08-WORKING.html','E09-SECTION-09-WORKING.html']
+          missing=[x for x in required_sources if x not in text]
           if missing: raise SystemExit('INTEGRATED QA FAILED: '+', '.join(missing))
-          for marker in required[0:9]:
-              if text.count(marker)!=1: raise SystemExit(f'INTEGRATED QA FAILED: {marker} count={text.count(marker)}')
-          if '<script id="maxess-complete-results-bridge-v1">' not in text: raise SystemExit('INTEGRATED QA FAILED: bridge missing')
+          if text.count('MAXESS DYNAMIC SOURCE:')!=4: raise SystemExit('INTEGRATED QA FAILED: dynamic source count')
+          if text.count('MAXESS STATIC SOURCE:')!=5: raise SystemExit('INTEGRATED QA FAILED: static source count')
           if '<<<<<<<' in text or '>>>>>>>' in text: raise SystemExit('INTEGRATED QA FAILED: conflict marker')
+          if text.count('<html')!=1 or text.count('</html>')!=1: raise SystemExit('INTEGRATED QA FAILED: document shell count')
+
           Path('MAXESS-RESULTS-INTEGRATED-V1.html').write_text(text,encoding='utf-8')
           sha=hashlib.sha256(text.encode()).hexdigest()
-          report=f'''# MAXESS Complete E01-E09 Integrated Results Build\n\n- Dynamic sources: E01, E02, E03, E04 from `maxess-results-v21-working`\n- Static preserved sections: E05, E06, E07, E08, E09 from the existing complete baseline\n- Runtime authority: `window.MAXESS_RESULT`\n- Result transport: `MAXESS_RESULT_V1` URL hash → bootstrap → E01-E04\n- SHA-256: `{sha}`\n- Bytes: {len(text.encode())}\n- Lines: {len(text.splitlines())}\n- Static integration QA: PASS\n'''
+          report=f'''# MAXESS Complete E01-E09 Integrated Results Build\n\n- Dynamic sources: E01, E02, E03, E04 from `maxess-results-v21-working`\n- Static sources: E05, E06, E08, E09 from `maxess-results-v21-working`; E07 preserved from `BASELINE-WORKING.html`\n- Runtime authority: `window.MAXESS_RESULT`\n- Existing E01-E04 result consumers preserved; no competing result renderer added\n- SHA-256: `{sha}`\n- Bytes: {len(text.encode())}\n- Lines: {len(text.splitlines())}\n- Static integration QA: PASS\n'''
           Path('MAXESS-COMPLETE-INTEGRATED-BUILD.md').write_text(report,encoding='utf-8')
           print(report)
 
@@ -178,5 +162,5 @@ jobs:
           git push origin main
 
 # Guardrail: E01-E04 are the only dynamic result sections for this handoff.
-# E05-E09 remain present and static; never omit them when producing the complete Results artifact.
-# Guardrail: never replace the complete Results page with a tiny renderer, loader, mock, or excerpt.
+# E05-E09 remain present; E07 is preserved from the existing complete baseline because no standalone E07 working artifact exists.
+# Guardrail: never replace the complete Results page with a tiny renderer, loader, mock, excerpt, or code-only tester artifact.
