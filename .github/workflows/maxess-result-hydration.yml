@@ -154,3 +154,6 @@ jobs:
           git add E01-SECTION-01-WORKING.html E02 E03 E04
           git commit -m 'MAXESS: install authoritative result hydration in E01-E04'
           git push
+
+# NORTH STAR TRIGGER V2: force this governed hydration path to run again so E01-E04
+# receive the single authoritative MAXESS_RESULT_V1 consumer without redesigning sections.
