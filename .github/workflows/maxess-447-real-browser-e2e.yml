@@ -1,0 +1,49 @@
+name: MAXESS 447 Real Browser E2E
+
+on:
+  push:
+    branches:
+      - maxess-results-v21-working
+    paths:
+      - 'tests/maxess-447-real-browser-e2e.mjs'
+      - '.github/workflows/maxess-447-real-browser-e2e.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maxess-447-real-browser-e2e
+  cancel-in-progress: true
+
+jobs:
+  browser-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Results engineering branch
+        uses: actions/checkout@v4
+        with:
+          ref: maxess-results-v21-working
+          fetch-depth: 1
+
+      - name: Fetch authoritative assessment checkpoint 447 from main
+        run: |
+          git fetch origin main --depth=1
+          git show origin/main:'AISCORE.NAYANET.APP 2026 08 21 447' > AISCORE-447-e2e.html
+          test -s AISCORE-447-e2e.html
+          echo "Assessment bytes: $(wc -c < AISCORE-447-e2e.html)"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run authoritative 15-question live Results E2E
+        run: node tests/maxess-447-real-browser-e2e.mjs
