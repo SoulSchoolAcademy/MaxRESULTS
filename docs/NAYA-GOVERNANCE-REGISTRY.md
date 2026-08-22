@@ -13,12 +13,12 @@
 | Core operating laws | `NAYA-OS.md` | Nitro protocols | GOVERNING |
 | **Naya intelligence / reasoning / judgment / problem-solving / verification / learning / useful-action behaviour** | **`docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md`** | Naya OS, Nitro protocols, Smart Notes, specialist role documents | **CANONICAL BRAIN SPECIFICATION — OFFICIAL 22 AUGUST 2026** |
 | **Naya Notes / Smart Notes / durable memory system behaviour** | **`docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md`** | `docs/NAYA-SMART-NOTES-SYSTEM.md`, `docs/smart-notes/`, Learning Log | **CANONICAL NAYA NOTES SPECIFICATION — OFFICIAL 22 AUGUST 2026** |
+| **Naya Nitro execution / action / performance behaviour** | **`docs/NAYA-NITRO-MASTER-ACTIVATION-SPECIFICATION.md`** | `docs/NAYA-NITRO-MODE.md`, `docs/NAYA-NITRO-MASTER-BLUEPRINT.md`, older Nitro protocols | **CANONICAL NAYA NITRO SPECIFICATION — OFFICIAL 22 AUGUST 2026** |
 | **Naya personality / character / voice / relationship behaviour** | **`docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md`** | Naya Digital Codex, personality exemplars, Awesome Trait Standard | **GOVERNING PERSONALITY SPECIFICATION — HUMAN APPROVED 21 AUGUST 2026** |
 | Lead execution / excellence / communication | `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` | `NAYA-OS.md`, Naya Law, Nitro protocols | GOVERNING LAW |
 | Project language / definitions | `docs/NAYA-LANGUAGE-DICTIONARY.md` | branch-local language docs | GOVERNING |
 | General scorecarding method | `docs/NAYA-SCORECARDING-SYSTEM.md` | artifact-specific scorecards | GOVERNING |
 | Executive North Star / what-why-how | `docs/NAYA-EXECUTIVE-PLAN.md` | Blueprint / Smart Notes | GOVERNING |
-| Nitro execution behavior | `docs/NAYA-NITRO-MODE.md` | root/branch Nitro protocols | GOVERNING |
 | Reusable execution prompt | `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` | older prompt templates | CANONICAL |
 | Naya Nitro product thesis | `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` | related product docs | PRODUCT REFERENCE |
 | MAXESS Results operating rules | `docs/NAYA-MAXESS-OPERATING-MANUAL.md` | task-specific docs | PRODUCT OPERATING |
@@ -49,6 +49,16 @@ This specification **supersedes any older or competing document that claims to d
 `docs/NAYA-SMART-NOTES-SYSTEM.md` remains valuable supporting material and historical system documentation. It does not compete with the canonical Naya Notes activation specification. Where the two conflict on Naya Notes system behaviour, the canonical activation specification governs.
 
 `docs/smart-notes/INDEX.md` is the retrieval/navigation layer, not an authority layer. Individual dated notes preserve evidence, decisions, discoveries, and historical context; they do not override the canonical system specification or higher-priority governing rules merely because they are newer.
+
+## Naya Nitro authority law
+
+`docs/NAYA-NITRO-MASTER-ACTIVATION-SPECIFICATION.md` is the **canonical owner for Naya Nitro / Nitro execution behaviour**: activation, intelligent speed, execution discipline, action filtering, authority boundaries, batching and sequencing, preservation, scope discipline, completeness, verification, failure recovery, persistence, efficiency, effectiveness, momentum, tool use, truthful status reporting, quality gates, Oscar challenge, and execution learning.
+
+This specification **supersedes any older or competing document that claims to define Naya Nitro execution behaviour itself**. Older Nitro documents remain historical/supporting material unless explicitly removed. They do not override the canonical Nitro activation specification when the subject is Nitro execution behaviour.
+
+`docs/NAYA-NITRO-MODE.md` remains the effective historical/supporting execution operating system and may contain implementation detail that remains useful. `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` remains product-thesis/reference material. `docs/NAYA-NITRO-LEARNING-LOG.md` remains a learning record. None competes with the canonical activation specification for Nitro subject authority.
+
+Runtime behavioural activation remains subject to actual platform/tool capability and must be verified rather than merely claimed.
 
 ## Supporting-document rule
 
@@ -81,7 +91,7 @@ The active branch may contain implementation-specific documents and older direct
 
 ## Approval authority
 
-The Naya Personality Manuscript was explicitly approved by the project owner on 21 August 2026. The Naya Brain Master Activation Specification was established as the canonical Brain/intelligence authority on 22 August 2026. The Naya Notes Master Activation Specification was established as the canonical Naya Notes/durable-memory authority on 22 August 2026. These approvals govern their respective subjects only and do not override higher-priority system, safety, platform, permission, or repository laws.
+The Naya Personality Manuscript was explicitly approved by the project owner on 21 August 2026. The Naya Brain Master Activation Specification was established as the canonical Brain/intelligence authority on 22 August 2026. The Naya Notes Master Activation Specification was established as the canonical Naya Notes/durable-memory authority on 22 August 2026. The **Naya Nitro Master Activation Specification was established as the canonical Naya Nitro/execution authority on 22 August 2026**. These approvals govern their respective subjects only and do not override higher-priority system, safety, platform, permission, or repository laws.
 
 ## Promotion rule
 
@@ -89,4 +99,4 @@ A rule moves through this path:
 
 **OBSERVATION → LEARNING → CANDIDATE RULE → GOVERNANCE REVIEW → CANONICAL OWNER → VERIFIED USE**
 
-The Naya Personality Manuscript has completed governance review and human approval. The Naya Brain specification is the canonical Brain authority. The Naya Notes specification is the canonical durable-memory-system authority. Runtime behavioural activation remains subject to platform capability and verification.
+The Naya Personality Manuscript has completed governance review and human approval. The Naya Brain specification is the canonical Brain authority. The Naya Notes specification is the canonical durable-memory-system authority. The Naya Nitro specification is the canonical Nitro execution authority. Runtime behavioural activation remains subject to platform capability and verification.
