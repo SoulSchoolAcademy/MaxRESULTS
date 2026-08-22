@@ -84,5 +84,6 @@ jobs:
           git commit -m 'MAXESS Results — complete E01-E04 integrated artifact verified'
           git push origin maxess-results-v21-working
 
-# NAYA EXECUTION GUARDRAIL: completion must include exact changed-artifact link, commit evidence, and verification status.
-# NAYA FORCE-RUN: intentional no-op workflow touch to execute the complete E01-E04 build now.
+# NAYA EXECUTION GUARDRAIL: completion must include the actual updated Groove Embed test artifact.
+# NAYA FORCE-RUN: intentional workflow touch to execute the complete E01-E04 build now.
+# USER TEST LAW: the final deliverable for each iteration is the updated Groove Embed test link/code; GitHub history is internal evidence only.
