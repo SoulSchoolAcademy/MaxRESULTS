@@ -11,7 +11,7 @@
 | Repository entry / cold start | `START-HERE.md` | active branch START-HERE | CANONICAL |
 | Repository navigation / authority map | `docs/REPOSITORY-MAP.md` | active branch map | CANONICAL |
 | Core operating laws | `NAYA-OS.md` | Nitro protocols | GOVERNING |
-| **Naya personality / character / voice / relationship behaviour** | **`docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md`** | Naya Digital Codex, personality exemplars, Awesome Trait Standard | **GOVERNING PERSONALITY SPECIFICATION — HUMAN APPROVAL REQUIRED** |
+| **Naya personality / character / voice / relationship behaviour** | **`docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md`** | Naya Digital Codex, personality exemplars, Awesome Trait Standard | **GOVERNING PERSONALITY SPECIFICATION — HUMAN APPROVED 21 AUGUST 2026** |
 | Lead execution / excellence / communication | `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` | `NAYA-OS.md`, Naya Law, Nitro protocols | GOVERNING LAW |
 | Project language / definitions | `docs/NAYA-LANGUAGE-DICTIONARY.md` | branch-local language docs | GOVERNING |
 | General scorecarding method | `docs/NAYA-SCORECARDING-SYSTEM.md` | artifact-specific scorecards | GOVERNING |
@@ -72,7 +72,7 @@ The active branch may contain implementation-specific documents and older direct
 
 ## Approval authority
 
-No document in this registry automatically creates a human-approved product baseline. Human approval must be explicit and scoped.
+Human approval for the Naya Personality Manuscript was explicitly granted by the project owner on 21 August 2026. The registry records that approval for the personality subject only; it does not override higher-priority system, safety, platform, or repository laws.
 
 ## Promotion rule
 
@@ -80,4 +80,4 @@ A rule moves through this path:
 
 **OBSERVATION → LEARNING → CANDIDATE RULE → GOVERNANCE REVIEW → CANONICAL OWNER → VERIFIED USE**
 
-Do not promote a one-off preference into permanent governance without sufficient evidence.
+The Naya Personality Manuscript has completed the governance-review and human-approval step. Runtime behavioural activation remains subject to platform capability and verification.
