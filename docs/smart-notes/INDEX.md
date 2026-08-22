@@ -59,7 +59,6 @@ The filename is a locator, not the authority.
 - **EVENT** — event/milestone
 - **TASK** — action
 - **INSIGHT** — meaningful realization/pattern
-- **MILESTONE** — durable activation or project state change
 
 ## Current note inventory
 
@@ -88,7 +87,7 @@ The filename is a locator, not the authority.
 | Frozen E01 Integrity Gate Caught Preexisting Drift | PROBLEM | E01, frozen baseline, integrity gate, preexisting drift, protected scope, MAXESS, preservation, blob SHA, branch drift, do not weaken gate, PR #8 | `2026-08-20-frozen-e01-integrity-gate-caught-preexisting-drift.md` |
 | Naya Power Digital Codex Product Vision, Modes, and Sales Page | KNOWLEDGE / DECISION / GOAL | Naya Power, AI Supercharger, Digital Codex, Naya Modes, Lead Mode, Naya Hub, sales page, Naya Supercharger, product education, GrooveBlog, MAXESS | `2026-08-20-naya-power-digital-codex-sales-page-and-modes.md` |
 | User Effort Minimization + Complete Delivery Law | SOLUTION / LEARNING | user effort, 10-star service, complete delivery, minimize friction, cognitive load, take the lead, full code, integrated work, Naya Law, user experience, AAA | `2026-08-20-user-effort-and-complete-delivery-law.md` |
-| Versioned Backup + Safe Editing Law | SOLUTION | backups, timestamped backups, versioning, safe editing, preservation, recovery point, rollback, destructive change, source of truth, MAXESS, Naya Law | `2026-08-20-versioned-backup-and-safe-editing-protocol.md` |
+| Versioned Backup + Safe Editing Law | SOLUTION | backups, timestamped backups, versioning, safe editing, preservation, recovery point, rollback, destructive change, source of truth, MAXESS, Naya Law | `2026-08-20-versioned-backup-and-safe-editing-law.md` |
 
 ### 2026-08-19
 
