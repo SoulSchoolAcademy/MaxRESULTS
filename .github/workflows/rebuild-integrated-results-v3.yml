@@ -8,6 +8,11 @@ on:
       - '.github/workflows/rebuild-integrated-results-v3.yml'
       - 'AISCORE.NAYANET.APP 2026 08 21 447'
       - 'MAXESS-RESULTS-INTEGRATED-V1.html'
+      - 'E05'
+      - 'E06'
+      - 'E07'
+      - 'E08'
+      - 'E09'
       - 'docs/smart-notes/**'
 
 permissions:
@@ -56,7 +61,7 @@ jobs:
               s=s.replace(marker,marker+'window.MAXESS_Q15_HANDOFF_V447=true;',1)
           p.write_text(s,encoding='utf-8')
 
-      - name: Assemble complete Results from authoritative baseline
+      - name: Assemble complete Results from authoritative section sources
         shell: python
         run: |
           from pathlib import Path
@@ -67,14 +72,21 @@ jobs:
           if not baseline_path.exists(): raise SystemExit('AUTHORITATIVE BASELINE MISSING')
           baseline=baseline_path.read_text(encoding='utf-8')
 
-          sources={
+          dynamic_sources={
             'e01':active/'E01-SECTION-01-WORKING.html',
             'maxess-e02-v3':active/'E02-SECTION-02-WORKING.html',
             'e03':active/'E03-SECTION-03-WORKING.html',
             'e04':active/'E04-SECTION-04-WORKING.html',
           }
-          for sid,p in sources.items():
-              if not p.exists(): raise SystemExit(f'DYNAMIC SOURCE MISSING: {p}')
+          static_sources={
+            'e05':Path('E05'),
+            'e06':Path('E06'),
+            'e07':Path('E07'),
+            'e08':Path('E08'),
+            'e09':Path('E09'),
+          }
+          for sid,p in {**dynamic_sources,**static_sources}.items():
+              if not p.exists(): raise SystemExit(f'AUTHORITATIVE SOURCE MISSING: {sid} -> {p}')
 
           def element_by_id(text,sid):
               m=re.search(r"<([A-Za-z][\w:-]*)\b[^>]*\bid=['\"]"+re.escape(sid)+r"['\"][^>]*>",text,re.I)
@@ -106,63 +118,73 @@ jobs:
           def shell_counts(text):
               cleaned=re.sub(r'<script\b[^>]*>.*?</script\s*>','',text,flags=re.I|re.S)
               cleaned=re.sub(r'<style\b[^>]*>.*?</style\s*>','',cleaned,flags=re.I|re.S)
-              return (len(re.findall(r'<html\b[^>]*>',cleaned,re.I)),
-                      len(re.findall(r'</html\s*>',cleaned,re.I)))
+              return (len(re.findall(r'<html\b[^>]*>',cleaned,re.I)),len(re.findall(r'</html\s*>',cleaned,re.I)))
 
           open_count,close_count=shell_counts(baseline)
           if open_count==1 and close_count==0:
               body_close=len(re.findall(r'</body\s*>',baseline,re.I))
-              if body_close==1:
-                  baseline=baseline.rstrip()+'\n</html>\n'
-              elif body_close==0:
-                  baseline=baseline.rstrip()+'\n</body>\n</html>\n'
-              else:
-                  raise SystemExit(f'BASELINE INVALID: document shell open={open_count} close={close_count} body-close={body_close}')
+              if body_close==1: baseline=baseline.rstrip()+'\n</html>\n'
+              elif body_close==0: baseline=baseline.rstrip()+'\n</body>\n</html>\n'
+              else: raise SystemExit(f'BASELINE INVALID: document shell open={open_count} close={close_count} body-close={body_close}')
               open_count,close_count=shell_counts(baseline)
-          if open_count!=1 or close_count!=1:
-              raise SystemExit(f'BASELINE INVALID: document shell open={open_count} close={close_count}')
-
-          for sid in ['e05','e06','e07','e08','e09']:
-              if not element_by_id(baseline,sid): raise SystemExit(f'PROTECTED STATIC SECTION MISSING: {sid}')
+          if open_count!=1 or close_count!=1: raise SystemExit(f'BASELINE INVALID: document shell open={open_count} close={close_count}')
 
           baseline=strip_legacy_scripts(baseline)
 
-          for sid in sources:
-              stale=element_by_id(baseline,sid)
-              if stale: baseline=baseline.replace(stale,'',1)
+          def source_section(sid,path):
+              src=path.read_text(encoding='utf-8')
+              sec=element_by_id(src,sid) or element_by_id(body(src),sid)
+              if not sec: raise SystemExit(f'AUTHORITATIVE SECTION MISSING: {sid} in {path}')
+              return strip_legacy_scripts(sec),src
 
-          dynamic=[]
-          styles=[]
-          for sid,p in sources.items():
-              src=p.read_text(encoding='utf-8')
-              sec=element_by_id(src,sid)
-              if not sec:
-                  sec=element_by_id(body(src),sid)
-              if not sec: raise SystemExit(f'DYNAMIC SOURCE SECTION MISSING: {sid}')
-              dynamic.append(strip_legacy_scripts(sec))
-              styles.extend(re.findall(r'<style\b[^>]*>.*?</style\s*>',src,flags=re.I|re.S))
+          authoritative={}
+          all_styles=[]
+          for sid,path in {**dynamic_sources,**static_sources}.items():
+              sec,src=source_section(sid,path)
+              authoritative[sid]=sec
+              all_styles.extend(re.findall(r'<style\b[^>]*>.*?</style\s*>',src,flags=re.I|re.S))
 
-          e05=element_by_id(baseline,'e05')
-          if not e05: raise SystemExit('E05 INSERTION POINT MISSING')
-          pos=baseline.find(e05)
-          baseline=baseline[:pos]+'\n'.join(dynamic)+'\n'+baseline[pos:]
+          for sid in ['e01','maxess-e02-v3','e03','e04','e05','e06','e07','e08','e09']:
+              existing=element_by_id(baseline,sid)
+              if existing:
+                  baseline=baseline.replace(existing,authoritative[sid],1)
 
-          bridge='''<script id="maxess-complete-results-bridge-v5">\n(function(){'use strict';if(window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__)return;window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__=true;var CONTRACT='MAXESS_RESULT_V1';function decode(v){try{var s=decodeURIComponent(String(v||'')).replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new TextDecoder().decode(u);}catch(e){return null;}}function consume(){var h=window.location.hash||'',m=h.match(/(?:^#|&)maxess-result=([^&]*)/i);if(!m)return false;var j=decode(m[1]);if(!j)return false;var r;try{r=JSON.parse(j);}catch(e){return false;}if(!r||typeof r!=='object'||r.contractVersion!==CONTRACT)return false;var score=Number(r.overallScore);if(!Number.isFinite(score)||score<0||score>100)return false;if(!Array.isArray(r.dimensions)||r.dimensions.length!==5)return false;if(!Array.isArray(r.responses)||r.responses.length!==15)return false;window.MAXESS_RESULT=r;try{window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:r}));window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:r}));}catch(e){}return true;}window.MAXESS_RESULT_CONSUMER_V5={consume:consume,get:function(){return window.MAXESS_RESULT||null;},contractVersion:CONTRACT};function boot(){if(!consume())document.documentElement.setAttribute('data-maxess-result-state','missing-or-invalid');}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();window.addEventListener('hashchange',consume);window.addEventListener('pageshow',consume);})();\n</script>'''
+          missing=[sid for sid in ['e01','maxess-e02-v3','e03','e04','e05','e06','e07','e08','e09'] if not element_by_id(baseline,sid)]
+          if missing:
+              ordered='\n'.join(authoritative[sid] for sid in ['e01','maxess-e02-v3','e03','e04','e05','e06','e07','e08','e09'] if sid in missing)
+              e04_existing=element_by_id(baseline,'e04')
+              if e04_existing:
+                  pos=baseline.find(e04_existing)+len(e04_existing)
+                  baseline=baseline[:pos]+'\n'+ordered+'\n'+baseline[pos:]
+              else:
+                  close=re.search(r'</body\s*>',baseline,re.I)
+                  if not close: raise SystemExit('RESULTS BODY CLOSE MISSING')
+                  baseline=baseline[:close.start()]+'\n'+ordered+'\n'+baseline[close.start():]
 
           head=baseline.lower().find('</head>')
           if head<0: raise SystemExit('RESULTS HEAD MISSING')
-          baseline=baseline[:head]+'\n'+'\n'.join(styles)+'\n'+bridge+'\n'+baseline[head:]
+          existing_style_text=baseline[:head]
+          styles_to_add=[]
+          for style in all_styles:
+              if style not in existing_style_text: styles_to_add.append(style)
+          if styles_to_add: baseline=baseline[:head]+'\n'+'\n'.join(styles_to_add)+'\n'+baseline[head:]
+
+          bridge='''<script id="maxess-complete-results-bridge-v5">\n(function(){'use strict';if(window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__)return;window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__=true;var CONTRACT='MAXESS_RESULT_V1';function decode(v){try{var s=decodeURIComponent(String(v||'')).replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new TextDecoder().decode(u);}catch(e){return null;}}function consume(){var h=window.location.hash||'',m=h.match(/(?:^#|&)maxess-result=([^&]*)/i);if(!m)return false;var j=decode(m[1]);if(!j)return false;var r;try{r=JSON.parse(j);}catch(e){return false;}if(!r||typeof r!=='object'||r.contractVersion!==CONTRACT)return false;var score=Number(r.overallScore);if(!Number.isFinite(score)||score<0||score>100)return false;if(!Array.isArray(r.dimensions)||r.dimensions.length!==5)return false;if(!Array.isArray(r.responses)||r.responses.length!==15)return false;window.MAXESS_RESULT=r;try{window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:r}));window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:r}));}catch(e){}return true;}window.MAXESS_RESULT_CONSUMER_V5={consume:consume,get:function(){return window.MAXESS_RESULT||null;},contractVersion:CONTRACT};function boot(){if(!consume())document.documentElement.setAttribute('data-maxess-result-state','missing-or-invalid');}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();window.addEventListener('hashchange',consume);window.addEventListener('pageshow',consume);})();\n</script>'''
+          if 'maxess-complete-results-bridge-v5' in baseline:
+              raise SystemExit('INTEGRATED QA FAILED: duplicate/pre-existing V5 bridge')
+          baseline=baseline[:head]+'\n'+bridge+'\n'+baseline[head:]
 
           required=['e01','maxess-e02-v3','e03','e04','e05','e06','e07','e08','e09']
           for sid in required:
               count=len(re.findall(r"<[^>]+\bid=['\"]"+re.escape(sid)+r"['\"]",baseline,re.I))
               if count!=1: raise SystemExit(f'INTEGRATED QA FAILED: {sid} count={count}')
           if baseline.count('maxess-complete-results-bridge-v5')!=1: raise SystemExit('INTEGRATED QA FAILED: V5 bridge count')
-          if any(x in baseline for x in ['MAXESS_RESULT_10_10_BOOTSTRAP','__MAXESS_RESULT_CONSUMER_V2__','__MAXESS_RESULT_CONSUMER_V3__','__MAXESS_RESULT_CONSUMER_V4__','fixtureMode']):
+          lower=baseline.lower()
+          if any(x.lower() in lower for x in ['maxess_result_10_10_bootstrap','__maxess_result_consumer_v2__','__maxess_result_consumer_v3__','__maxess_result_consumer_v4__','fixturemode']):
               raise SystemExit('INTEGRATED QA FAILED: legacy/fallback result authority remains')
           final_open,final_close=shell_counts(baseline)
           if final_open!=1 or final_close!=1: raise SystemExit(f'INTEGRATED QA FAILED: document shell open={final_open} close={final_close}')
-          if '<!doctype html>' in baseline.lower()[baseline.lower().find('<body'):]: raise SystemExit('INTEGRATED QA FAILED: nested document shell')
+          if baseline.lower().count('<!doctype html>')>1: raise SystemExit('INTEGRATED QA FAILED: nested document shell')
           if '<<<<<<<' in baseline or '>>>>>>>' in baseline: raise SystemExit('INTEGRATED QA FAILED: conflict marker')
 
           out=Path('MAXESS-RESULTS-INTEGRATED-V1.html')
@@ -170,7 +192,7 @@ jobs:
           digest=hashlib.sha256(baseline.encode()).hexdigest()
           Path('MAXESS-COMPLETE-INTEGRATED-BUILD.md').write_text('\n'.join([
             '# MAXESS Complete E01-E09 Results Build','',
-            '- Assessment authority: 447','- Dynamic: E01, E02 v3, E03, E04','- Static preserved: E05-E09','- Runtime authority: window.MAXESS_RESULT','- Result contract: MAXESS_RESULT_V1','- Results bridge: V5','- Structural QA: PASS',f'- SHA-256: {digest}',f'- Bytes: {len(baseline.encode())}',f'- Lines: {len(baseline.splitlines())}',''
+            '- Assessment authority: 447','- Dynamic authority: E01, E02 V3, E03, E04','- Current main authority: E05, E06, E07, E08, E09','- Runtime authority: window.MAXESS_RESULT','- Result contract: MAXESS_RESULT_V1','- Results bridge: V5','- Structural QA: PASS',f'- SHA-256: {digest}',f'- Bytes: {len(baseline.encode())}',f'- Lines: {len(baseline.splitlines())}',''
           ]),encoding='utf-8')
           print('BUILD PASS')
           print('SHA-256:',digest)
