@@ -1,0 +1,199 @@
+name: MAXESS Results — FINAL Surgical Q15 Handoff + Complete E01-E09
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/rebuild-integrated-results-final.yml'
+      - 'AISCORE.NAYANET.APP 2026 08 21 447'
+      - 'docs/smart-notes/**'
+      - 'MAXESS-RESULTS-INTEGRATED-V1.html'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout assessment authority
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Checkout Results authority
+        uses: actions/checkout@v4
+        with:
+          ref: maxess-results-v21-working
+          path: active-results
+          fetch-depth: 1
+
+      - name: Apply surgical 447 Q15 guard
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('AISCORE.NAYANET.APP 2026 08 21 447')
+          s = p.read_text(encoding='utf-8')
+          state_old = "const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false};"
+          state_new = "const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false,finalizing:false};"
+          if state_old in s:
+              s = s.replace(state_old, state_new, 1)
+          old = "function continueAssessment(){if(!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.completed=true;try{publish()}catch(e){console.error('MAXESS report publish failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"
+          new = "function continueAssessment(event){if(event){event.preventDefault();event.stopPropagation();if(event.stopImmediatePropagation)event.stopImmediatePropagation()}if(state.finalizing||!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.finalizing=true;state.completed=true;const button=$('continueButton');button.disabled=true;button.setAttribute('aria-disabled','true');$('continueText').textContent='Loading Results…';try{if(!publish())throw new Error('MAXESS final Results publish returned false.')}catch(e){state.finalizing=false;button.disabled=false;button.setAttribute('aria-disabled','false');$('continueText').textContent='Continue';console.error('MAXESS final Results handoff failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"
+          if old in s:
+              s = s.replace(old, new, 1)
+          elif 'function continueAssessment(event)' not in s:
+              raise SystemExit('Q15 handler missing')
+          listener_old = "$('continueButton').addEventListener('click',continueAssessment);"
+          listener_new = "$('continueButton').addEventListener('click',continueAssessment,true);"
+          if listener_old in s:
+              s = s.replace(listener_old, listener_new, 1)
+          if 'window.MAXESS_Q15_HANDOFF_V447=true;' not in s:
+              marker = "window.MAXESS_CLEAN_V1_REPAIR_APPLIED=true;window.NAYA_WELCOME_V1=true;window.MAXESS_RESULT_BRIDGE_V2=true;"
+              if marker not in s:
+                  raise SystemExit('Q15 marker anchor missing')
+              s = s.replace(marker, marker + 'window.MAXESS_Q15_HANDOFF_V447=true;', 1)
+          p.write_text(s, encoding='utf-8')
+
+      - name: Build complete Results using authoritative baseline
+        shell: python
+        run: |
+          from pathlib import Path
+          import hashlib
+          import re
+
+          active = Path('active-results')
+          baseline = (active / 'BASELINE-WORKING.html').read_text(encoding='utf-8')
+          sources = {
+              'e01': active / 'E01-SECTION-01-WORKING.html',
+              'maxess-e02-v3': active / 'E02-SECTION-02-WORKING.html',
+              'e03': active / 'E03-SECTION-03-WORKING.html',
+              'e04': active / 'E04-SECTION-04-WORKING.html',
+          }
+
+          def section_by_id(text, sid):
+              marker = 'id="' + sid + '"'
+              at = text.find(marker)
+              if at < 0:
+                  marker = "id='" + sid + "'"
+                  at = text.find(marker)
+              if at < 0:
+                  raise SystemExit('SECTION MISSING: ' + sid)
+              start = text.rfind('<section', 0, at)
+              if start < 0:
+                  raise SystemExit('SECTION START MISSING: ' + sid)
+              tokens = list(re.finditer(r'</?section\b[^>]*>', text[start:], re.I))
+              depth = 0
+              for token in tokens:
+                  raw = token.group(0)
+                  if raw.lower().startswith('</section'):
+                      depth -= 1
+                      if depth == 0:
+                          return text[start:start + token.end()]
+                  elif not raw.rstrip().endswith('/>'):
+                      depth += 1
+              raise SystemExit('SECTION END MISSING: ' + sid)
+
+          def body(text):
+              a = text.lower().find('<body')
+              if a < 0: raise SystemExit('BODY MISSING')
+              a = text.find('>', a)
+              b = text.lower().rfind('</body>')
+              if a < 0 or b < 0: raise SystemExit('BODY BOUNDARY INVALID')
+              return text[a + 1:b]
+
+          # Remove only the four dynamic sections from the complete baseline.
+          for sid in sources:
+              base_section = section_by_id(baseline, sid)
+              baseline = baseline.replace(base_section, '', 1)
+
+          e05_at = baseline.find('id="e05"')
+          if e05_at < 0:
+              raise SystemExit('PRESERVED E05 MISSING')
+          insert_at = baseline.rfind('<section', 0, e05_at)
+          dynamic_bodies = [body(path.read_text(encoding='utf-8')) for path in sources.values()]
+          baseline = baseline[:insert_at] + '\n'.join(dynamic_bodies) + '\n' + baseline[insert_at:]
+
+          # Current E01-E04 styles are added; their runtime scripts remain inside their sections.
+          head = baseline.lower().find('</head>')
+          if head < 0: raise SystemExit('HEAD MISSING')
+          styles = []
+          for path in sources.values():
+              styles.extend(re.findall(r'<style\b[^>]*>.*?</style>', path.read_text(encoding='utf-8'), re.I | re.S))
+
+          bridge = '''<script id="maxess-complete-results-bridge-v4">\n(function(){'use strict';if(window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V4__)return;window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V4__=true;var C='MAXESS_RESULT_V1';function emit(n,r){try{window.dispatchEvent(new CustomEvent(n,{detail:r}))}catch(e){}}function decode(v){try{var s=decodeURIComponent(String(v||'')).replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new TextDecoder().decode(u)}catch(e){return null}}function boot(){var h=location.hash||'',m=h.match(/(?:^#|&)maxess-result=([^&]*)/i);if(!m)return false;var j=decode(m[1]);if(!j)return false;var r;try{r=JSON.parse(j)}catch(e){return false}if(!r||typeof r!=='object'||r.contractVersion!==C||!Number.isFinite(Number(r.overallScore))||Number(r.overallScore)<0||Number(r.overallScore)>100||!Array.isArray(r.dimensions)||r.dimensions.length!==5||!Array.isArray(r.responses)||r.responses.length!==15)return false;window.MAXESS_RESULT=r;emit('MAXESS_RESULT_READY',r);emit('maxess:result-updated',r);return true}window.MAXESS_RESULT_CONSUMER_V4={consume:boot,get:function(){return window.MAXESS_RESULT||null},contractVersion:C};if(!boot()&&document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else if(!window.MAXESS_RESULT)window.setTimeout(boot,0);window.addEventListener('hashchange',boot);window.addEventListener('pageshow',boot)})();\n</script>'''
+          baseline = baseline[:head] + '\n' + '\n'.join(styles) + '\n' + bridge + '\n' + baseline[head:]
+
+          ids = ['e01','maxess-e02-v3','e03','e04','e05','e06','e07','e08','e09']
+          for sid in ids:
+              n = len(re.findall(r'<[^>]+\bid=["\']' + re.escape(sid) + r'["\']', baseline, re.I))
+              if n != 1:
+                  raise SystemExit(f'ID COUNT FAILED {sid}: {n}')
+          if baseline.lower().count('<html') != 1 or baseline.lower().count('</html>') != 1:
+              raise SystemExit('DOCUMENT SHELL FAILED')
+          if baseline.lower().count('<!doctype html>') != 1:
+              raise SystemExit('DOCTYPE FAILED')
+          if baseline.count('maxess-complete-results-bridge-v4') != 1:
+              raise SystemExit('BRIDGE COUNT FAILED')
+          for bad in ('name: MAXESS Results', 'shell: python', 'from pathlib import', 'workflow_dispatch:', 'jobs:', '<<<<<<<', '>>>>>>>'):
+              if bad in baseline:
+                  raise SystemExit('RAW SOURCE CONTAMINATION: ' + bad)
+
+          out = Path('MAXESS-RESULTS-INTEGRATED-V1.html')
+          out.write_text(baseline, encoding='utf-8')
+          digest = hashlib.sha256(baseline.encode('utf-8')).hexdigest()
+          Path('MAXESS-COMPLETE-INTEGRATED-BUILD.md').write_text(
+              '# MAXESS Complete Results Build\n\n'
+              '- Assessment authority: 447\n'
+              '- Dynamic: E01, E02, E03, E04\n'
+              '- Static/preserved: E05, E06, E07, E08, E09\n'
+              '- E02 source: maxess-e02-v3\n'
+              '- Runtime authority: window.MAXESS_RESULT\n'
+              '- Results bridge: V4, one global bridge\n'
+              f'- SHA-256: {digest}\n'
+              f'- Bytes: {len(baseline.encode("utf-8"))}\n'
+              f'- Lines: {len(baseline.splitlines())}\n',
+              encoding='utf-8')
+          print('COMPLETE RESULTS BUILD PASS')
+          print(digest)
+
+      - name: Verify JavaScript and Q15 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F 'function continueAssessment(event)' 'AISCORE.NAYANET.APP 2026 08 21 447' >/dev/null
+          grep -F 'window.MAXESS_Q15_HANDOFF_V447=true;' 'AISCORE.NAYANET.APP 2026 08 21 447' >/dev/null
+          grep -F "location.assign('https://results.nayanet.app/#maxess-result='+payload)" 'AISCORE.NAYANET.APP 2026 08 21 447' >/dev/null
+          python - <<'PY'
+          import re, subprocess, tempfile
+          for filename in ['AISCORE.NAYANET.APP 2026 08 21 447','MAXESS-RESULTS-INTEGRATED-V1.html']:
+              s=open(filename,encoding='utf-8').read()
+              scripts=re.findall(r'<script\b[^>]*>(.*?)</script>',s,re.I|re.S)
+              for i,js in enumerate(scripts):
+                  with tempfile.NamedTemporaryFile('w',suffix='.js',delete=False,encoding='utf-8') as f:
+                      f.write(js); name=f.name
+                  subprocess.run(['node','--check',name],check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+          print('NODE SYNTAX PASS')
+          PY
+
+      - name: Upload verified artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MAXESS-RESULTS-INTEGRATED-V1
+          path: |
+            MAXESS-RESULTS-INTEGRATED-V1.html
+            MAXESS-COMPLETE-INTEGRATED-BUILD.md
+
+      - name: Commit verified artifact
+        run: |
+          git config user.name 'Naya Master'
+          git config user.email 'naya-master@users.noreply.github.com'
+          git add 'AISCORE.NAYANET.APP 2026 08 21 447' 'MAXESS-RESULTS-INTEGRATED-V1.html' 'MAXESS-COMPLETE-INTEGRATED-BUILD.md'
+          git diff --cached --check
+          git diff --cached --quiet && exit 0
+          git commit -m 'MAXESS: final corrected Q15 handoff and E01-E09 Results build'
+          git push origin main
+
+# Scope lock: E01-E04 dynamic only; E05-E09 preserved. No redesign. No new Results renderer.
