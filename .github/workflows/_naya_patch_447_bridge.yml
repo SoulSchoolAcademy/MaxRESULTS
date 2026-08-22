@@ -1,4 +1,4 @@
-name: Naya surgical 447 bridge repair
+name: Naya surgical 447 dimension contract repair
 on:
   push:
     branches: [main]
@@ -14,47 +14,73 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-      - name: Surgical patch and QA
+      - name: Surgical patch 447 and deterministic QA
         shell: python
         run: |
           from pathlib import Path
           import subprocess
+
           p = Path('AISCORE.NAYANET.APP 2026 08 21 447')
           s = p.read_text(encoding='utf-8')
-          old = "location.assign('https://results.nayanet.app/#maxess-result='+payload);"
-          new = "location.assign('https://results.nayanet.app/?result='+payload);"
-          if old not in s:
-              raise SystemExit('Expected 447 publish redirect not found; refusing mutation.')
-          s = s.replace(old, new, 1)
-          needle = "overallScore:result.overallScore,masteryBand:result.masteryBand,"
-          repl = "overallScore:result.overallScore,score:result.overallScore,band:result.masteryBand,masteryStage:result.masteryBand.toUpperCase(),masteryBand:result.masteryBand,"
-          if needle not in s:
-              raise SystemExit('Expected 447 contract score fields not found; refusing mutation.')
-          s = s.replace(needle, repl, 1)
-          needle2 = "strongestCapability:so.strongest.name,opportunityCapability:so.opportunity.name,"
-          repl2 = "strongestCapability:{id:so.strongest.id,name:so.strongest.name,score:so.strongest.score},highestLeverageOpportunity:{id:so.opportunity.id,name:so.opportunity.name,score:so.opportunity.score},overallPattern:result.dimensions.map(d=>({id:d.id,name:d.name,score:d.score,level:BAND(d.score).toUpperCase()})),strongestCapabilityName:so.strongest.name,opportunityCapability:so.opportunity.name,"
-          if needle2 not in s:
-              raise SystemExit('Expected 447 capability fields not found; refusing mutation.')
-          s = s.replace(needle2, repl2, 1)
-          if s.count("?result='+payload") != 1:
-              raise SystemExit('Redirect QA failed.')
-          if '#maxess-result='+payload in s:
-              raise SystemExit('Legacy hash redirect remains.')
+          original_len = len(s)
+
+          replacements = [
+              ("{id:'context',name:'Context'}", "{id:'communication',name:'Communication'}"),
+              ("{id:'collaboration',name:'Collaboration'}", "{id:'systemsThinking',name:'Systems Thinking'}"),
+              ("dimensionId:'context'", "dimensionId:'communication'"),
+              ("dimensionId:'collaboration'", "dimensionId:'systemsThinking'"),
+          ]
+
+          for old, new in replacements:
+              if old not in s:
+                  raise SystemExit(f'Expected source token not found; refusing mutation: {old}')
+              s = s.replace(old, new)
+
+          old_contract = "fiveDimensions:result.dimensions.map(d=>({id:d.id,name:d.name,score:d.score,band:BAND(d.score)})),strongestDimension:"
+          new_contract = "fiveDimensions:result.dimensions.map(d=>({id:d.id,name:d.name,score:d.score,band:BAND(d.score)})),dimensionScores:Object.fromEntries(result.dimensions.map(d=>[d.id,d.score])),directionScore:result.dimensions.find(d=>d.id==='direction').score,communicationScore:result.dimensions.find(d=>d.id==='communication').score,evaluationScore:result.dimensions.find(d=>d.id==='evaluation').score,iterationScore:result.dimensions.find(d=>d.id==='iteration').score,systemsThinkingScore:result.dimensions.find(d=>d.id==='systemsThinking').score,strongestDimension:"
+          if old_contract not in s:
+              raise SystemExit('Expected buildContract dimension insertion point not found; refusing mutation.')
+          s = s.replace(old_contract, new_contract, 1)
+
+          old_validate = "if(!Array.isArray(c.dimensions)||c.dimensions.length!==5)return false;if(!Array.isArray(c.responses)||c.responses.length!==15)return false;"
+          new_validate = "if(!Array.isArray(c.dimensions)||c.dimensions.length!==5)return false;const expectedDimensionIds=['direction','communication','evaluation','iteration','systemsThinking'];if(c.dimensions.some((d,i)=>!d||d.id!==expectedDimensionIds[i]))return false;if(!Array.isArray(c.responses)||c.responses.length!==15)return false;"
+          if old_validate not in s:
+              raise SystemExit('Expected validateContract dimension gate not found; refusing mutation.')
+          s = s.replace(old_validate, new_validate, 1)
+
+          if "{id:'context',name:'Context'}" in s or "{id:'collaboration',name:'Collaboration'}" in s:
+              raise SystemExit('Legacy dimension definitions remain.')
+          if "dimensionId:'context'" in s or "dimensionId:'collaboration'" in s:
+              raise SystemExit('Legacy question dimension IDs remain.')
+          if "{id:'communication',name:'Communication'}" not in s or "{id:'systemsThinking',name:'Systems Thinking'}" not in s:
+              raise SystemExit('New canonical dimension definitions missing.')
+          for token in ['directionScore','communicationScore','evaluationScore','iterationScore','systemsThinkingScore']:
+              if token not in s:
+                  raise SystemExit(f'Missing explicit result alias: {token}')
+          if "location.assign('https://results.nayanet.app/#maxess-result='+payload);" not in s:
+              raise SystemExit('Canonical hash result transport was altered or missing; refusing mutation.')
           if s.count("contractVersion:'MAXESS_RESULT_V1'") != 1:
               raise SystemExit('Contract marker QA failed.')
+          if len(s) < original_len:
+              raise SystemExit('Unexpected destructive size reduction.')
+
           p.write_text(s, encoding='utf-8')
           Path('.github/workflows/_naya_patch_447_bridge.yml').unlink()
+
           subprocess.run(['git','config','user.name','Naya Master'],check=True)
           subprocess.run(['git','config','user.email','naya-master@users.noreply.github.com'],check=True)
           subprocess.run(['git','add',str(p),'.github/workflows/_naya_patch_447_bridge.yml'],check=True)
           subprocess.run(['git','diff','--cached','--check'],check=True)
-          subprocess.run(['git','commit','-m','Fix MAXESS 447 result transport and renderer contract compatibility'],check=True)
+          subprocess.run(['git','commit','-m','Fix 447 dimension contract for E01-E04 result hydration'],check=True)
           subprocess.run(['git','push','origin','HEAD:main'],check=True)
+
       - name: Final source QA
         run: |
           test ! -f '.github/workflows/_naya_patch_447_bridge.yml'
-          grep -Fq "location.assign('https://results.nayanet.app/?result='+payload);" 'AISCORE.NAYANET.APP 2026 08 21 447'
-          grep -Fq "score:result.overallScore" 'AISCORE.NAYANET.APP 2026 08 21 447'
-          grep -Fq "highestLeverageOpportunity" 'AISCORE.NAYANET.APP 2026 08 21 447'
-          echo '447 SURGICAL BRIDGE QA: PASS'
-          # PR-MERGE TRIGGER — force this one-shot workflow to execute from a merge event.
+          grep -Fq "{id:'communication',name:'Communication'}" 'AISCORE.NAYANET.APP 2026 08 21 447'
+          grep -Fq "{id:'systemsThinking',name:'Systems Thinking'}" 'AISCORE.NAYANET.APP 2026 08 21 447'
+          grep -Fq "directionScore" 'AISCORE.NAYANET.APP 2026 08 21 447'
+          grep -Fq "communicationScore" 'AISCORE.NAYANET.APP 2026 08 21 447'
+          grep -Fq "systemsThinkingScore" 'AISCORE.NAYANET.APP 2026 08 21 447'
+          grep -Fq "location.assign('https://results.nayanet.app/#maxess-result='+payload);" 'AISCORE.NAYANET.APP 2026 08 21 447'
+          echo '447 DIMENSION CONTRACT QA: PASS'
