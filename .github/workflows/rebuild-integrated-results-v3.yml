@@ -1,0 +1,202 @@
+name: MAXESS 447 Canonical Results Build — V3
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/rebuild-integrated-results-v3.yml'
+      - 'AISCORE.NAYANET.APP 2026 08 21 447'
+      - 'MAXESS-RESULTS-INTEGRATED-V1.html'
+      - 'docs/smart-notes/**'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout assessment authority
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Checkout Results authority
+        uses: actions/checkout@v6
+        with:
+          ref: maxess-results-v21-working
+          path: active-results
+          fetch-depth: 1
+
+      - name: Apply surgical 447 Q15 handoff guard
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('AISCORE.NAYANET.APP 2026 08 21 447')
+          s = p.read_text(encoding='utf-8')
+          old_state = "const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false};"
+          new_state = "const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false,finalizing:false};"
+          if old_state in s:
+              s=s.replace(old_state,new_state,1)
+          old_fn="function continueAssessment(){if(!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.completed=true;try{publish()}catch(e){console.error('MAXESS report publish failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"
+          new_fn="function continueAssessment(event){if(event){event.preventDefault();event.stopPropagation();if(event.stopImmediatePropagation)event.stopImmediatePropagation()}if(state.finalizing||!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.finalizing=true;state.completed=true;const button=$('continueButton');button.disabled=true;button.setAttribute('aria-disabled','true');$('continueText').textContent='Loading Results…';try{if(!publish())throw new Error('MAXESS final Results publish returned false.')}catch(e){state.finalizing=false;button.disabled=false;button.setAttribute('aria-disabled','false');$('continueText').textContent='Continue';console.error('MAXESS final Results handoff failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"
+          if old_fn in s:
+              s=s.replace(old_fn,new_fn,1)
+          elif 'function continueAssessment(event)' not in s:
+              raise SystemExit('Q15 handler anchor missing')
+          listener_old="$('continueButton').addEventListener('click',continueAssessment);"
+          listener_new="$('continueButton').addEventListener('click',continueAssessment,true);"
+          if listener_old in s:
+              s=s.replace(listener_old,listener_new,1)
+          marker="window.MAXESS_CLEAN_V1_REPAIR_APPLIED=true;window.NAYA_WELCOME_V1=true;window.MAXESS_RESULT_BRIDGE_V2=true;"
+          if 'window.MAXESS_Q15_HANDOFF_V447=true;' not in s:
+              if marker not in s: raise SystemExit('Q15 release marker missing')
+              s=s.replace(marker,marker+'window.MAXESS_Q15_HANDOFF_V447=true;',1)
+          p.write_text(s,encoding='utf-8')
+
+      - name: Assemble complete Results from authoritative baseline
+        shell: python
+        run: |
+          from pathlib import Path
+          import hashlib,re
+
+          active=Path('active-results')
+          baseline_path=active/'BASELINE-WORKING.html'
+          if not baseline_path.exists(): raise SystemExit('AUTHORITATIVE BASELINE MISSING')
+          baseline=baseline_path.read_text(encoding='utf-8')
+
+          sources={
+            'e01':active/'E01-SECTION-01-WORKING.html',
+            'maxess-e02-v3':active/'E02-SECTION-02-WORKING.html',
+            'e03':active/'E03-SECTION-03-WORKING.html',
+            'e04':active/'E04-SECTION-04-WORKING.html',
+          }
+          for sid,p in sources.items():
+              if not p.exists(): raise SystemExit(f'DYNAMIC SOURCE MISSING: {p}')
+
+          def element_by_id(text,sid):
+              m=re.search(r'<([A-Za-z][\\w:-]*)\\b[^>]*\\bid=["\\']'+re.escape(sid)+r'["\\'][^>]*>',text,re.I)
+              if not m:return None
+              tag=m.group(1); start=m.start(); pos=m.end(); depth=1
+              tok=re.compile(r'</?'+re.escape(tag)+r'\\b[^>]*>',re.I)
+              for t in tok.finditer(text,pos):
+                  raw=t.group(0)
+                  if raw.startswith('</'):
+                      depth-=1
+                      if depth==0:return text[start:t.end()]
+                  elif not raw.rstrip().endswith('/>'):
+                      depth+=1
+              raise SystemExit(f'SECTION END MISSING: {sid}')
+
+          def body(text):
+              a=re.search(r'<body\\b[^>]*>',text,re.I)
+              b=re.search(r'</body\\s*>',text,re.I)
+              if not a or not b or b.start()<=a.end(): return text
+              return text[a.end():b.start()]
+
+          def strip_legacy_scripts(text):
+              def repl(m):
+                  block=m.group(0).lower()
+                  bad=('maxess_result_10_10_bootstrap' in block or '__maxess_result_consumer_v2__' in block or '__maxess_result_consumer_v3__' in block or '__maxess_result_consumer_v4__' in block or 'data-maxess-result-consumer=' in block)
+                  return '' if bad else m.group(0)
+              return re.sub(r'<script\\b[^>]*>.*?</script\\s*>',repl,text,flags=re.I|re.S)
+
+          if baseline.lower().count('<html')!=1 or baseline.lower().count('</html>')!=1:
+              raise SystemExit('BASELINE INVALID: document shell')
+          for sid in ['e05','e06','e07','e08','e09']:
+              if not element_by_id(baseline,sid): raise SystemExit(f'PROTECTED STATIC SECTION MISSING: {sid}')
+
+          # Remove legacy result bootstrap/consumers from the baseline.
+          baseline=strip_legacy_scripts(baseline)
+
+          # Remove any stale dynamic copies if they exist; the authoritative sources below replace them.
+          for sid in sources:
+              stale=element_by_id(baseline,sid)
+              if stale: baseline=baseline.replace(stale,'',1)
+
+          dynamic=[]
+          styles=[]
+          for sid,p in sources.items():
+              src=p.read_text(encoding='utf-8')
+              sec=element_by_id(src,sid)
+              if not sec:
+                  sec=element_by_id(body(src),sid)
+              if not sec: raise SystemExit(f'DYNAMIC SOURCE SECTION MISSING: {sid}')
+              dynamic.append(strip_legacy_scripts(sec))
+              styles.extend(re.findall(r'<style\\b[^>]*>.*?</style\\s*>',src,flags=re.I|re.S))
+
+          e05=element_by_id(baseline,'e05')
+          if not e05: raise SystemExit('E05 INSERTION POINT MISSING')
+          pos=baseline.find(e05)
+          baseline=baseline[:pos]+'\\n'.join(dynamic)+'\\n'+baseline[pos:]
+
+          bridge='''<script id="maxess-complete-results-bridge-v5">\n(function(){'use strict';if(window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__)return;window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__=true;var CONTRACT='MAXESS_RESULT_V1';function decode(v){try{var s=decodeURIComponent(String(v||'')).replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new TextDecoder().decode(u);}catch(e){return null;}}function consume(){var h=window.location.hash||'',m=h.match(/(?:^#|&)maxess-result=([^&]*)/i);if(!m)return false;var j=decode(m[1]);if(!j)return false;var r;try{r=JSON.parse(j);}catch(e){return false;}if(!r||typeof r!=='object'||r.contractVersion!==CONTRACT)return false;var score=Number(r.overallScore);if(!Number.isFinite(score)||score<0||score>100)return false;if(!Array.isArray(r.dimensions)||r.dimensions.length!==5)return false;if(!Array.isArray(r.responses)||r.responses.length!==15)return false;window.MAXESS_RESULT=r;try{window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:r}));window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:r}));}catch(e){}return true;}window.MAXESS_RESULT_CONSUMER_V5={consume:consume,get:function(){return window.MAXESS_RESULT||null;},contractVersion:CONTRACT};function boot(){if(!consume())document.documentElement.setAttribute('data-maxess-result-state','missing-or-invalid');}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();window.addEventListener('hashchange',consume);window.addEventListener('pageshow',consume);})();\n</script>'''
+
+          head=baseline.lower().find('</head>')
+          if head<0: raise SystemExit('RESULTS HEAD MISSING')
+          baseline=baseline[:head]+'\\n'+'\\n'.join(styles)+'\\n'+bridge+'\\n'+baseline[head:]
+
+          required=['e01','maxess-e02-v3','e03','e04','e05','e06','e07','e08','e09']
+          for sid in required:
+              count=len(re.findall(r'<[^>]+\\bid=["\\']'+re.escape(sid)+r'["\\']',baseline,re.I))
+              if count!=1: raise SystemExit(f'INTEGRATED QA FAILED: {sid} count={count}')
+          if baseline.count('maxess-complete-results-bridge-v5')!=1: raise SystemExit('INTEGRATED QA FAILED: V5 bridge count')
+          if any(x in baseline for x in ['MAXESS_RESULT_10_10_BOOTSTRAP','__MAXESS_RESULT_CONSUMER_V2__','__MAXESS_RESULT_CONSUMER_V3__','__MAXESS_RESULT_CONSUMER_V4__','fixtureMode']):
+              raise SystemExit('INTEGRATED QA FAILED: legacy/fallback result authority remains')
+          if baseline.lower().count('<html')!=1 or baseline.lower().count('</html>')!=1: raise SystemExit('INTEGRATED QA FAILED: document shell')
+          if '<!doctype html>' in baseline.lower()[baseline.lower().find('<body'):]: raise SystemExit('INTEGRATED QA FAILED: nested document shell')
+          if '<<<<<<<' in baseline or '>>>>>>>' in baseline: raise SystemExit('INTEGRATED QA FAILED: conflict marker')
+
+          out=Path('MAXESS-RESULTS-INTEGRATED-V1.html')
+          out.write_text(baseline,encoding='utf-8')
+          digest=hashlib.sha256(baseline.encode()).hexdigest()
+          Path('MAXESS-COMPLETE-INTEGRATED-BUILD.md').write_text('\n'.join([
+            '# MAXESS Complete E01-E09 Results Build','',
+            '- Assessment authority: 447','- Dynamic: E01, E02 v3, E03, E04','- Static preserved: E05-E09','- Runtime authority: window.MAXESS_RESULT','- Result contract: MAXESS_RESULT_V1','- Results bridge: V5','- Structural QA: PASS',f'- SHA-256: {digest}',f'- Bytes: {len(baseline.encode())}',f'- Lines: {len(baseline.splitlines())}',''
+          ]),encoding='utf-8')
+          print('BUILD PASS')
+          print('SHA-256:',digest)
+          print('BYTES:',len(baseline.encode()))
+          print('LINES:',len(baseline.splitlines()))
+
+      - name: Validate 447 and generated JavaScript
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F 'function continueAssessment(event)' 'AISCORE.NAYANET.APP 2026 08 21 447'
+          grep -F 'window.MAXESS_Q15_HANDOFF_V447=true;' 'AISCORE.NAYANET.APP 2026 08 21 447'
+          grep -F 'results.nayanet.app/#maxess-result=' 'AISCORE.NAYANET.APP 2026 08 21 447'
+          grep -F 'maxess-complete-results-bridge-v5' MAXESS-RESULTS-INTEGRATED-V1.html
+          python - <<'PY'
+          import re,subprocess,tempfile
+          for fn in ['AISCORE.NAYANET.APP 2026 08 21 447','MAXESS-RESULTS-INTEGRATED-V1.html']:
+            s=open(fn,encoding='utf-8').read()
+            for js in re.findall(r'<script\\b[^>]*>(.*?)</script\\s*>',s,re.I|re.S):
+              with tempfile.NamedTemporaryFile('w',suffix='.js',delete=False,encoding='utf-8') as f:
+                f.write(js); name=f.name
+              subprocess.run(['node','--check',name],check=True)
+          print('NODE SYNTAX PASS')
+          PY
+
+      - name: Upload verified artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: MAXESS-RESULTS-INTEGRATED-V1
+          path: |
+            MAXESS-RESULTS-INTEGRATED-V1.html
+            MAXESS-COMPLETE-INTEGRATED-BUILD.md
+
+      - name: Commit verified build
+        shell: bash
+        run: |
+          git config user.name 'Naya Master'
+          git config user.email 'naya-master@users.noreply.github.com'
+          git add 'AISCORE.NAYANET.APP 2026 08 21 447' 'MAXESS-RESULTS-INTEGRATED-V1.html' 'MAXESS-COMPLETE-INTEGRATED-BUILD.md'
+          if git diff --cached --quiet; then
+            echo 'NO CHANGES TO COMMIT'
+          else
+            git commit -m 'Build verified MAXESS 447 Results artifact [skip ci]'
+            git push origin main
+          fi
