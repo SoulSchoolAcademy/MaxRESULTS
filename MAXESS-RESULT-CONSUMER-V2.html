@@ -24,6 +24,7 @@ without creating a second result contract.
   var MAX_POLLS = 40;
   var pollCount = 0;
   var lastSignature = '';
+  var lastResult = null;
 
   function dispatch(name, detail) {
     try {
@@ -82,28 +83,49 @@ without creating a second result contract.
     var roots = document.querySelectorAll('#maxess-e02-v2, #maxess-e02-v3');
     roots.forEach(function (root) {
       var names = root.querySelectorAll('.e02-name');
+      var scores = root.querySelectorAll('.e02-score');
       result.dimensions.forEach(function (dimension, index) {
         if (names[index] && dimension && dimension.name) {
           names[index].textContent = String(dimension.name).toUpperCase();
+        }
+        if (scores[index] && dimension && Number.isFinite(Number(dimension.score))) {
+          var score = Number(dimension.score);
+          scores[index].textContent = Number.isInteger(score) ? String(score) : String(Math.round(score * 10) / 10);
+          scores[index].dataset.score = String(score);
+          scores[index].dataset.demo = 'false';
         }
       });
     });
   }
 
-  function publish(result, source) {
+  function syncE01(result) {
+    if (!result || !Number.isFinite(Number(result.overallScore))) return;
+    var nodes = document.querySelectorAll('#e01 #score-number');
+    nodes.forEach(function (node) {
+      var score = Number(result.overallScore);
+      node.textContent = Number.isInteger(score) ? String(score) : String(Math.round(score * 10) / 10);
+      node.dataset.hydrated = 'true';
+      node.dataset.demo = 'false';
+      node.setAttribute('aria-hidden', 'true');
+    });
+  }
+
+  function publish(result, source, forceEvent) {
     if (!isValidResult(result)) return false;
 
     var nextSignature = signature(result);
     var changed = nextSignature !== lastSignature;
     window.MAXESS_RESULT = result;
+    lastResult = result;
 
     try {
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(result));
     } catch (_) {}
 
     syncDimensionLabels(result);
+    syncE01(result);
 
-    if (changed) {
+    if (changed || forceEvent) {
       lastSignature = nextSignature;
       dispatch(READY, { result: result, source: source || 'hash' });
       dispatch(UPDATED, { result: result, source: source || 'hash' });
@@ -112,29 +134,35 @@ without creating a second result contract.
     return true;
   }
 
-  function consume() {
+  function consume(source) {
     var encoded = getPayload();
 
     if (encoded) {
       try {
         var result = JSON.parse(decodeBase64Url(encoded));
-        if (publish(result, 'hash')) return true;
+        if (publish(result, source || 'hash', false)) return true;
       } catch (_) {}
     }
 
     try {
       var stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || 'null');
-      if (publish(stored, 'session')) return true;
+      if (publish(stored, source || 'session', false)) return true;
     } catch (_) {}
 
     return false;
   }
 
   function hydrate() {
-    var ready = consume();
-    if (ready) {
-      pollCount = MAX_POLLS;
-      return;
+    var ready = consume('hash');
+
+    if (ready && lastResult) {
+      /*
+       * Groove can mount E01-E04 after the first result event. Re-emit the
+       * same authoritative result during the bounded hydration window so
+       * late-mounted sections receive the exact same contract without any
+       * fallback score or competing data source.
+       */
+      publish(lastResult, 'hydration', true);
     }
 
     pollCount += 1;
@@ -154,6 +182,8 @@ without creating a second result contract.
 
   window.addEventListener('hashchange', function () {
     pollCount = 0;
+    lastSignature = '';
+    lastResult = null;
     hydrate();
   });
 
