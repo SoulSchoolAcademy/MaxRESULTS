@@ -5,18 +5,25 @@ Placement: Add this as a standalone HTML embed on results.nayanet.app.
 The assessment supplies #maxess-result=<URL-safe-base64(JSON)>.
 This bridge validates that payload and exposes it as window.MAXESS_RESULT for E01-E06.
 Do not add demo/fallback scores here.
+
+SURGICAL PATCH V2:
+- Preserves the existing contract and public API.
+- Accepts both direct event.detail results and legacy {result} wrappers.
+- Re-publishes the authoritative result after late-loaded Groove sections mount.
+- Never manufactures or substitutes a score.
 -->
 <script>
 (function () {
   'use strict';
 
-  if (window.__MAXESS_RESULT_CONSUMER_V1__) return;
-  window.__MAXESS_RESULT_CONSUMER_V1__ = true;
+  if (window.__MAXESS_RESULT_CONSUMER_V2__) return;
+  window.__MAXESS_RESULT_CONSUMER_V2__ = true;
 
   var CONTRACT = 'MAXESS_RESULT_V1';
   var READY = 'MAXESS_RESULT_READY';
   var UPDATED = 'maxess:result-updated';
   var STORAGE_KEY = 'MAXESS_RESULT_V1';
+  var REPLAY = 'MAXESS_RESULT_REPLAY';
 
   function dispatch(name, detail) {
     try {
@@ -52,18 +59,20 @@ Do not add demo/fallback scores here.
     });
   }
 
+  function normalize(detail) {
+    if (isValidResult(detail)) return detail;
+    if (detail && isValidResult(detail.result)) return detail.result;
+    return null;
+  }
+
   function publish(result, source) {
+    if (!isValidResult(result)) return false;
     window.MAXESS_RESULT = result;
+
     try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(result)); } catch (_) {}
 
-    /*
-      Compatibility law:
-      - New sections consume event.detail directly.
-      - Older E01-style consumers may read event.detail.result.
-      Make result.result point back to the same authoritative object without
-      making it enumerable, so JSON/storage remain unchanged and there is no
-      circular serialization problem.
-    */
+    /* Compatibility law: direct result is authoritative; legacy consumers
+       may still read event.detail.result. The property is non-enumerable. */
     try {
       if (!Object.prototype.hasOwnProperty.call(result, 'result')) {
         Object.defineProperty(result, 'result', {
@@ -76,6 +85,7 @@ Do not add demo/fallback scores here.
 
     dispatch(READY, result);
     dispatch(UPDATED, result);
+    return true;
   }
 
   function consume() {
@@ -85,27 +95,61 @@ Do not add demo/fallback scores here.
     try {
       var result = JSON.parse(decodeBase64Url(encoded));
       if (!isValidResult(result)) return false;
-      publish(result, 'hash');
-      return true;
+      return publish(result, 'hash');
     } catch (e) {
       return false;
     }
   }
 
-  // Prefer the current URL payload. Never manufacture a result.
-  if (!consume()) {
+  function restore() {
     try {
       var stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || 'null');
-      if (isValidResult(stored)) publish(stored, 'session');
-    } catch (_) {}
+      return publish(stored, 'session');
+    } catch (_) {
+      return false;
+    }
   }
+
+  function boot() {
+    if (!consume()) restore();
+  }
+
+  // Prefer the current URL payload. Never manufacture a result.
+  boot();
 
   window.MAXESS_RESULT_CONSUMER_V1 = {
     consume: consume,
     get: function () { return window.MAXESS_RESULT || null; },
+    replay: function () {
+      var result = window.MAXESS_RESULT;
+      if (!isValidResult(result)) return false;
+      dispatch(REPLAY, result);
+      dispatch(READY, result);
+      dispatch(UPDATED, result);
+      return true;
+    },
     contractVersion: CONTRACT
   };
 
-  window.addEventListener('hashchange', consume);
+  window.addEventListener('hashchange', boot);
+
+  // Groove can mount later sections asynchronously. Replay the same
+  // authoritative result after those embeds have had a chance to mount.
+  [0, 50, 250, 750, 1500].forEach(function (delay) {
+    window.setTimeout(function () {
+      if (window.MAXESS_RESULT_CONSUMER_V1) {
+        window.MAXESS_RESULT_CONSUMER_V1.replay();
+      }
+    }, delay);
+  });
+
+  // Also provide a browser-native lifecycle replay for bfcache/navigation.
+  window.addEventListener('pageshow', function () {
+    window.setTimeout(function () {
+      if (window.MAXESS_RESULT_CONSUMER_V1) {
+        window.MAXESS_RESULT_CONSUMER_V1.replay();
+      }
+    }, 0);
+  });
 })();
 </script>
