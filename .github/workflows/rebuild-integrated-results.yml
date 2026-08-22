@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/rebuild-integrated-results.yml'
       - 'MAXESS-RESULTS-INTEGRATED-V1.html'
+      - 'AISCORE.NAYANET.APP 2026 08 21 447'
       - 'docs/smart-notes/**'
   workflow_dispatch:
 
@@ -28,6 +29,30 @@ jobs:
           ref: maxess-results-v21-working
           path: active-results
           fetch-depth: 1
+
+      - name: Apply surgical MAXESS 448 final-submit guard
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('AISCORE.NAYANET.APP 2026 08 21 447')
+          text=p.read_text(encoding='utf-8')
+          old="""const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false};"""
+          new="""const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false,finalizing:false};"""
+          if old not in text:
+              raise SystemExit('448 PATCH FAILED: state anchor not found')
+          text=text.replace(old,new,1)
+          old_fn="""function continueAssessment(){if(!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.completed=true;try{publish()}catch(e){console.error('MAXESS report publish failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"""
+          new_fn="""function continueAssessment(event){if(event){event.preventDefault();event.stopPropagation()}if(state.finalizing||!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.finalizing=true;state.completed=true;const button=$('continueButton');button.disabled=true;button.setAttribute('aria-disabled','true');$('continueText').textContent='Loading Results…';try{const c=buildContract();if(!validateContract(c))throw new Error('MAXESS_RESULT_V1 validation failed before final navigation.');broadcastResult(c);const payload=encode(c);const resultUrl='https://results.nayanet.app/#maxess-result='+payload;try{if(window.top&&window.top!==window)window.top.location.href=resultUrl;else window.location.href=resultUrl}catch(navError){window.location.assign(resultUrl)}}catch(e){state.finalizing=false;button.disabled=false;button.setAttribute('aria-disabled','false');$('continueText').textContent='Continue';console.error('MAXESS final Results handoff failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"""
+          if old_fn not in text:
+              raise SystemExit('448 PATCH FAILED: continue function anchor not found')
+          text=text.replace(old_fn,new_fn,1)
+          text=text.replace("$('continueButton').addEventListener('click',continueAssessment);","$('continueButton').addEventListener('click',continueAssessment);",1)
+          marker="window.MAXESS_RESULT_BRIDGE_V2=true;"
+          if marker not in text:
+              raise SystemExit('448 PATCH FAILED: release marker anchor not found')
+          text=text.replace(marker,marker+"window.MAXESS_Q15_HANDOFF_V448=true;",1)
+          p.write_text(text,encoding='utf-8')
+          print('448 final-submit guard applied')
 
       - name: Build complete integrated artifact from preserved E01-E04 sources
         shell: python
@@ -103,10 +128,10 @@ jobs:
         run: |
           git config user.name 'Naya Master'
           git config user.email 'naya-master@users.noreply.github.com'
-          git add MAXESS-RESULTS-INTEGRATED-V1.html MAXESS-COMPLETE-INTEGRATED-BUILD.md
+          git add 'AISCORE.NAYANET.APP 2026 08 21 447' MAXESS-RESULTS-INTEGRATED-V1.html MAXESS-COMPLETE-INTEGRATED-BUILD.md
           git diff --cached --check
           git diff --cached --quiet && exit 0
-          git commit -m 'MAXESS Results — rebuild complete E01-E04 integrated artifact with proof'
+          git commit -m 'MAXESS 448: repair one-click Q15 Results handoff and rebuild integrated Results'
           git push origin main
 
 # Guardrail: never rebuild the complete Results page from a missing/unknown source.
