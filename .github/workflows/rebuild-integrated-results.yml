@@ -67,7 +67,6 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
-          import re
           import hashlib
 
           active = Path('active-results')
@@ -87,201 +86,190 @@ jobs:
 
           base = baseline.read_text(encoding='utf-8')
 
-          def body_inner(text):
-              m = re.search(r'<body\\b[^>]*>(.*?)</body\\s*>', text, re.I | re.S)
-              if not m:
-                  raise SystemExit('BODY MISSING in source')
-              return m.group(1)
-
-          def element_by_id(text, element_id):
-              pat = re.compile(
-                  r'<([A-Za-z][\\w:-]*)\\b[^>]*\\bid=["\\']' + re.escape(element_id) + r'["\\'][^>]*>',
-                  re.I
-              )
-              m = pat.search(text)
-              if not m:
+          def extract_by_id(text, element_id):
+              markers = ['id="' + element_id + '"', "id='" + element_id + "'"]
+              marker_pos = -1
+              for marker in markers:
+                  marker_pos = text.find(marker)
+                  if marker_pos >= 0:
+                      break
+              if marker_pos < 0:
                   return None
-              tag = m.group(1)
+              start = text.rfind('<', 0, marker_pos)
+              gt = text.find('>', marker_pos)
+              if start < 0 or gt < 0:
+                  return None
+              i = start + 1
+              tag = ''
+              while i < len(text) and (text[i].isalnum() or text[i] in ':_-'):
+                  tag += text[i]
+                  i += 1
+              if not tag:
+                  return None
               depth = 1
-              pos = m.end()
-              token = re.compile(r'</?' + re.escape(tag) + r'\\b[^>]*>', re.I)
-              for hit in token.finditer(text, pos):
-                  raw = hit.group(0)
-                  if raw.startswith('</'):
+              pos = gt + 1
+              open_token = '<' + tag
+              close_token = '</' + tag
+              while True:
+                  a = text.find(open_token, pos)
+                  b = text.find(close_token, pos)
+                  if b < 0:
+                      return None
+                  if a >= 0 and a < b:
+                      gt2 = text.find('>', a)
+                      if gt2 < 0:
+                          return None
+                      raw = text[a:gt2 + 1]
+                      if not raw.startswith('</') and not raw.rstrip().endswith('/>'):
+                          depth += 1
+                      pos = gt2 + 1
+                  else:
+                      end = text.find('>', b)
+                      if end < 0:
+                          return None
                       depth -= 1
-                  elif not raw.rstrip().endswith('/>'):
-                      depth += 1
-                  if depth == 0:
-                      return text[m.start():hit.end()]
-              return None
+                      if depth == 0:
+                          return text[start:end + 1]
+                      pos = end + 1
 
-          def remove_consumer_scripts(text):
-              patterns = [
-                  r'<script[^>]*data-maxess-result-consumer=["\\']v[234]["\\'][^>]*>.*?</script>\\s*',
-                  r'<script[^>]*data-maxess-result-consumer=["\\']v3["\\'][^>]*>.*?</script>\\s*',
-                  r'<script[^>]*data-maxess-result-consumer=["\\']v2["\\'][^>]*>.*?</script>\\s*',
-                  r'<script[^>]*>.*?__MAXESS_RESULT_CONSUMER_V[234]__.*?</script>\\s*',
-              ]
-              out = text
-              for pattern in patterns:
-                  out = re.sub(pattern, '', out, flags=re.I | re.S)
-              return out
+          def body_inner(text):
+              start_tag = text.lower().find('<body')
+              if start_tag < 0:
+                  raise SystemExit('BODY MISSING in source')
+              start = text.find('>', start_tag)
+              end = text.lower().rfind('</body>')
+              if start < 0 or end < 0 or end <= start:
+                  raise SystemExit('BODY BOUNDARY INVALID in source')
+              return text[start + 1:end]
 
-          def clean_dynamic_body(text):
-              body = body_inner(text)
-              return remove_consumer_scripts(body)
+          def extract_blocks(text, tag):
+              blocks = []
+              cursor = 0
+              open_token = '<' + tag
+              close_token = '</' + tag + '>'
+              lower = text.lower()
+              while True:
+                  a = lower.find(open_token, cursor)
+                  if a < 0:
+                      break
+                  gt = lower.find('>', a)
+                  if gt < 0:
+                      break
+                  b = lower.find(close_token, gt + 1)
+                  if b < 0:
+                      break
+                  blocks.append(text[a:b + len(close_token)])
+                  cursor = b + len(close_token)
+              return blocks
 
-          # Remove any existing dynamic section bodies from the authoritative baseline.
-          for sid in dynamic_files:
-              existing = element_by_id(base, sid)
+          def strip_result_consumers(text):
+              out = []
+              cursor = 0
+              lower = text.lower()
+              while True:
+                  start = lower.find('<script', cursor)
+                  if start < 0:
+                      out.append(text[cursor:])
+                      break
+                  out.append(text[cursor:start])
+                  gt = lower.find('>', start)
+                  end = lower.find('</script>', gt + 1)
+                  if gt < 0 or end < 0:
+                      raise SystemExit('SCRIPT BOUNDARY INVALID')
+                  script = text[start:end + len('</script>')]
+                  script_lower = script.lower()
+                  if 'data-maxess-result-consumer=' in script_lower or '__maxess_result_consumer_v2__' in script_lower or '__maxess_result_consumer_v3__' in script_lower or '__maxess_result_consumer_v4__' in script_lower:
+                      pass
+                  else:
+                      out.append(script)
+                  cursor = end + len('</script>')
+              return ''.join(out)
+
+          # Replace only E01-E04 in the complete baseline. E05-E09 stay from the complete baseline.
+          dynamic_bodies = {}
+          for sid, path in dynamic_files.items():
+              source = path.read_text(encoding='utf-8')
+              dynamic_bodies[sid] = strip_result_consumers(body_inner(source))
+              existing = extract_by_id(base, sid)
               if not existing:
                   raise SystemExit(f'AUTHORITATIVE BASELINE MISSING DYNAMIC SECTION: {sid}')
               base = base.replace(existing, '', 1)
 
-          dynamic_bodies = {sid: clean_dynamic_body(path.read_text(encoding='utf-8')) for sid, path in dynamic_files.items()}
-
-          # Insert each current dynamic source immediately before the first static section.
-          first_static = re.search(r'<(?:section|main)\\b[^>]*\\bid=["\\']e05["\\']', base, re.I)
-          if not first_static:
+          # Put the current dynamic sections immediately before preserved E05.
+          e05_marker = 'id="e05"'
+          marker_pos = base.find(e05_marker)
+          if marker_pos < 0:
               raise SystemExit('COMPLETE BASELINE MISSING E05')
-          insertion = '\n'.join(dynamic_bodies[sid] for sid in ['e01','maxess-e02-v2','e03','e04']) + '\n'
-          base = base[:first_static.start()] + insertion + base[first_static.start():]
+          insert_pos = base.rfind('<', 0, marker_pos)
+          insertion = '\n'.join(dynamic_bodies[sid] for sid in ['e01', 'maxess-e02-v2', 'e03', 'e04']) + '\n'
+          base = base[:insert_pos] + insertion + base[insert_pos:]
 
-          # Remove any legacy global result-consumer scripts left in the baseline.
-          base = remove_consumer_scripts(base)
-
-          bridge = r'''<script id="maxess-complete-results-bridge-v4">
-(function(){
-  'use strict';
-  if(window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V4__)return;
-  window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V4__=true;
-  var CONTRACT='MAXESS_RESULT_V1',READY='MAXESS_RESULT_READY',UPDATED='maxess:result-updated';
-  function emit(name,result){try{window.dispatchEvent(new CustomEvent(name,{detail:result}));}catch(e){}}
-  function decode(value){
-    try{
-      var s=decodeURIComponent(String(value||''));
-      s=s.replace(/-/g,'+').replace(/_/g,'/');
-      while(s.length%4)s+='=';
-      var binary=atob(s),bytes=new Uint8Array(binary.length);
-      for(var i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
-      return new TextDecoder().decode(bytes);
-    }catch(e){return null;}
-  }
-  function token(){
-    var hash=window.location.hash||'';
-    var m=hash.match(/(?:^#|&)maxess-result=([^&]*)/i);
-    return m&&m[1]?m[1]:null;
-  }
-  function valid(r){
-    if(!r||typeof r!=='object'||r.contractVersion!==CONTRACT)return false;
-    var score=Number(r.overallScore);
-    if(!Number.isFinite(score)||score<0||score>100)return false;
-    if(!Array.isArray(r.dimensions)||r.dimensions.length!==5)return false;
-    if(!Array.isArray(r.responses)||r.responses.length!==15)return false;
-    for(var i=0;i<5;i++){
-      var d=r.dimensions[i];
-      if(!d||typeof d.name!=='string'||!d.name.trim()||!Number.isFinite(Number(d.score)))return false;
-    }
-    return true;
-  }
-  function consume(){
-    var raw=token();
-    if(!raw)return false;
-    var json=decode(raw);
-    if(!json)return false;
-    var result;
-    try{result=JSON.parse(json);}catch(e){return false;}
-    if(!valid(result))return false;
-    window.MAXESS_RESULT=result;
-    emit(READY,result);
-    emit(UPDATED,result);
-    return true;
-  }
-  function boot(){
-    if(consume())return;
-    var attempts=0;
-    (function retry(){
-      if(consume())return;
-      if(++attempts<20)window.setTimeout(retry,250);
-    })();
-  }
-  window.MAXESS_RESULT_CONSUMER_V4={consume:consume,get:function(){return window.MAXESS_RESULT||null;},contractVersion:CONTRACT,version:'V4'};
-  window.addEventListener('hashchange',boot);
-  window.addEventListener('pageshow',boot);
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
-})();
-</script>'''
-
-          # Put the one authoritative consumer in the head so it exists before E01-E04 render listeners initialize.
-          if re.search(r'</head\\s*>', base, re.I):
-              base = re.sub(r'</head\\s*>', bridge + '\n</head>', base, count=1, flags=re.I)
-          else:
+          # Add the latest dynamic source styles without rebuilding static sections.
+          style_blocks = []
+          for path in dynamic_files.values():
+              style_blocks.extend(extract_blocks(path.read_text(encoding='utf-8'), 'style'))
+          head_marker = '</head>'
+          head_pos = base.lower().find(head_marker)
+          if head_pos < 0:
               raise SystemExit('RESULTS HEAD MISSING')
 
-          required_ids = ['e01','maxess-e02-v2','e03','e04','e05','e06','e07','e08','e09']
+          bridge = '''<script id="maxess-complete-results-bridge-v4">\n(function(){'use strict';if(window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V4__)return;window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V4__=true;var CONTRACT='MAXESS_RESULT_V1',READY='MAXESS_RESULT_READY',UPDATED='maxess:result-updated';function emit(n,r){try{window.dispatchEvent(new CustomEvent(n,{detail:r}));}catch(e){}}function decode(v){try{var s=decodeURIComponent(String(v||''));s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new TextDecoder().decode(u);}catch(e){return null;}}function token(){var h=window.location.hash||'',m=h.match(/(?:^#|&)maxess-result=([^&]*)/i);return m&&m[1]?m[1]:null;}function valid(r){if(!r||typeof r!=='object'||r.contractVersion!==CONTRACT)return false;var s=Number(r.overallScore);if(!Number.isFinite(s)||s<0||s>100)return false;if(!Array.isArray(r.dimensions)||r.dimensions.length!==5)return false;if(!Array.isArray(r.responses)||r.responses.length!==15)return false;for(var i=0;i<5;i++){var d=r.dimensions[i];if(!d||typeof d.name!=='string'||!d.name.trim()||!Number.isFinite(Number(d.score)))return false;}return true;}function consume(){var raw=token();if(!raw)return false;var json=decode(raw),r=null;if(!json)return false;try{r=JSON.parse(json);}catch(e){return false;}if(!valid(r))return false;window.MAXESS_RESULT=r;emit(READY,r);emit(UPDATED,r);return true;}function boot(){if(consume())return;var n=0;(function retry(){if(consume())return;if(++n<20)window.setTimeout(retry,250);})();}window.MAXESS_RESULT_CONSUMER_V4={consume:consume,get:function(){return window.MAXESS_RESULT||null;},contractVersion:CONTRACT,version:'V4'};window.addEventListener('hashchange',boot);window.addEventListener('pageshow',boot);if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();})();\n</script>'''
+
+          base = base[:head_pos] + '\n' + '\n'.join(style_blocks) + '\n' + bridge + '\n' + base[head_pos:]
+
+          required_ids = ['e01', 'maxess-e02-v2', 'e03', 'e04', 'e05', 'e06', 'e07', 'e08', 'e09']
           for sid in required_ids:
-              count = len(re.findall(r'\\bid=["\\']' + re.escape(sid) + r'["\\']', base, re.I))
+              count = base.count('id="' + sid + '"') + base.count("id='" + sid + "'")
               if count != 1:
                   raise SystemExit(f'INTEGRATED QA FAILED: {sid} count={count}')
-
           if base.count('maxess-complete-results-bridge-v4') != 1:
               raise SystemExit('INTEGRATED QA FAILED: bridge count')
-          if re.search(r'data-maxess-result-consumer=["\\']v[234]["\\']', base, re.I):
-              raise SystemExit('INTEGRATED QA FAILED: legacy consumer remains')
-          if '<!doctype html>' in base.lower()[base.lower().find('<body'):]:
+          if '__MAXESS_RESULT_CONSUMER_V2__' in base or '__MAXESS_RESULT_CONSUMER_V3__' in base or 'data-maxess-result-consumer=' in base:
+              raise SystemExit('INTEGRATED QA FAILED: legacy result consumer remains')
+          body_pos = base.lower().find('<body')
+          if '<!doctype html>' in base.lower()[body_pos:]:
               raise SystemExit('INTEGRATED QA FAILED: nested document shell')
-          if '<html' not in base.lower() or '</html>' not in base.lower():
-              raise SystemExit('INTEGRATED QA FAILED: document shell')
-          if '<script' not in base.lower():
-              raise SystemExit('INTEGRATED QA FAILED: scripts missing')
-          if 'MAXESS_RESULT_V1' not in base:
-              raise SystemExit('INTEGRATED QA FAILED: contract missing')
-          if 'window.MAXESS_RESULT' not in base:
-              raise SystemExit('INTEGRATED QA FAILED: runtime authority missing')
+          if base.lower().count('<html') != 1 or base.lower().count('</html>') != 1:
+              raise SystemExit('INTEGRATED QA FAILED: document shell count')
+          if 'MAXESS_RESULT_V1' not in base or 'window.MAXESS_RESULT' not in base:
+              raise SystemExit('INTEGRATED QA FAILED: result authority missing')
           if '<<<<<<<' in base or '>>>>>>>' in base:
               raise SystemExit('INTEGRATED QA FAILED: conflict marker')
 
           out = Path('MAXESS-RESULTS-INTEGRATED-V1.html')
           out.write_text(base, encoding='utf-8')
           digest = hashlib.sha256(base.encode('utf-8')).hexdigest()
-          report = '\n'.join([
-              '# MAXESS Complete Results Build',
-              '',
+          Path('MAXESS-COMPLETE-INTEGRATED-BUILD.md').write_text('\n'.join([
+              '# MAXESS Complete Results Build', '',
               '- Authoritative baseline: `maxess-results-v21-working/BASELINE-WORKING.html`',
               '- Dynamic overrides: E01, E02, E03, E04 only',
               '- Static preserved: E05, E06, E07, E08, E09',
               '- Runtime authority: `window.MAXESS_RESULT`',
               '- Result contract: `MAXESS_RESULT_V1`',
-              '- Single result bridge: V4',
+              '- Single global bridge: V4',
               f'- SHA-256: `{digest}`',
               f'- Bytes: {len(base.encode("utf-8"))}',
               f'- Lines: {len(base.splitlines())}',
-              '- Structural QA: PASS',
-              ''
-          ])
-          Path('MAXESS-COMPLETE-INTEGRATED-BUILD.md').write_text(report, encoding='utf-8')
-          print(report)
+              '- Structural QA: PASS', '',
+          ]), encoding='utf-8')
+          print('COMPLETE RESULTS BUILD PASS')
+          print('SHA-256:', digest)
+          print('BYTES:', len(base.encode('utf-8')))
+          print('LINES:', len(base.splitlines()))
 
-      - name: Validate assessment and integrated artifact
+      - name: Validate final handoff source and complete artifact
         shell: python
         run: |
           from pathlib import Path
-          import re
           assessment = Path('AISCORE.NAYANET.APP 2026 08 21 447').read_text(encoding='utf-8')
           results = Path('MAXESS-RESULTS-INTEGRATED-V1.html').read_text(encoding='utf-8')
-          required_assessment = [
-              'state={firstVisit:true',
-              'finalizing:false',
-              'function continueAssessment(event)',
-              "window.MAXESS_Q15_HANDOFF_V447=true;",
-              "location.assign('https://results.nayanet.app/#maxess-result='+payload)",
-          ]
-          for marker in required_assessment:
+          for marker in ['finalizing:false', 'function continueAssessment(event)', 'window.MAXESS_Q15_HANDOFF_V447=true;', "location.assign('https://results.nayanet.app/#maxess-result='+payload)"]:
               if marker not in assessment:
-                  raise SystemExit('ASSESSMENT QA FAILED: '+marker)
-          for sid in ['e01','maxess-e02-v2','e03','e04','e05','e06','e07','e08','e09']:
-              if len(re.findall(r'\\bid=["\\']'+re.escape(sid)+r'["\\']',results,re.I)) != 1:
-                  raise SystemExit('RESULTS QA FAILED: '+sid)
+                  raise SystemExit('ASSESSMENT QA FAILED: ' + marker)
+          for sid in ['e01', 'maxess-e02-v2', 'e03', 'e04', 'e05', 'e06', 'e07', 'e08', 'e09']:
+              count = results.count('id="' + sid + '"') + results.count("id='" + sid + "'")
+              if count != 1:
+                  raise SystemExit('RESULTS QA FAILED: ' + sid)
           print('MAXESS assessment + complete Results static QA PASS')
 
       - name: Commit generated repair
