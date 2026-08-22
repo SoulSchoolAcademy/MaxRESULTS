@@ -77,10 +77,10 @@ jobs:
               if not p.exists(): raise SystemExit(f'DYNAMIC SOURCE MISSING: {p}')
 
           def element_by_id(text,sid):
-              m=re.search(r'<([A-Za-z][\\w:-]*)\\b[^>]*\\bid=["\\']'+re.escape(sid)+r'["\\'][^>]*>',text,re.I)
+              m=re.search(r"<([A-Za-z][\w:-]*)\b[^>]*\bid=['\"]"+re.escape(sid)+r"['\"][^>]*>",text,re.I)
               if not m:return None
               tag=m.group(1); start=m.start(); pos=m.end(); depth=1
-              tok=re.compile(r'</?'+re.escape(tag)+r'\\b[^>]*>',re.I)
+              tok=re.compile(r'</?'+re.escape(tag)+r'\b[^>]*>',re.I)
               for t in tok.finditer(text,pos):
                   raw=t.group(0)
                   if raw.startswith('</'):
@@ -91,8 +91,8 @@ jobs:
               raise SystemExit(f'SECTION END MISSING: {sid}')
 
           def body(text):
-              a=re.search(r'<body\\b[^>]*>',text,re.I)
-              b=re.search(r'</body\\s*>',text,re.I)
+              a=re.search(r'<body\b[^>]*>',text,re.I)
+              b=re.search(r'</body\s*>',text,re.I)
               if not a or not b or b.start()<=a.end(): return text
               return text[a.end():b.start()]
 
@@ -101,17 +101,15 @@ jobs:
                   block=m.group(0).lower()
                   bad=('maxess_result_10_10_bootstrap' in block or '__maxess_result_consumer_v2__' in block or '__maxess_result_consumer_v3__' in block or '__maxess_result_consumer_v4__' in block or 'data-maxess-result-consumer=' in block)
                   return '' if bad else m.group(0)
-              return re.sub(r'<script\\b[^>]*>.*?</script\\s*>',repl,text,flags=re.I|re.S)
+              return re.sub(r'<script\b[^>]*>.*?</script\s*>',repl,text,flags=re.I|re.S)
 
           if baseline.lower().count('<html')!=1 or baseline.lower().count('</html>')!=1:
               raise SystemExit('BASELINE INVALID: document shell')
           for sid in ['e05','e06','e07','e08','e09']:
               if not element_by_id(baseline,sid): raise SystemExit(f'PROTECTED STATIC SECTION MISSING: {sid}')
 
-          # Remove legacy result bootstrap/consumers from the baseline.
           baseline=strip_legacy_scripts(baseline)
 
-          # Remove any stale dynamic copies if they exist; the authoritative sources below replace them.
           for sid in sources:
               stale=element_by_id(baseline,sid)
               if stale: baseline=baseline.replace(stale,'',1)
@@ -125,22 +123,22 @@ jobs:
                   sec=element_by_id(body(src),sid)
               if not sec: raise SystemExit(f'DYNAMIC SOURCE SECTION MISSING: {sid}')
               dynamic.append(strip_legacy_scripts(sec))
-              styles.extend(re.findall(r'<style\\b[^>]*>.*?</style\\s*>',src,flags=re.I|re.S))
+              styles.extend(re.findall(r'<style\b[^>]*>.*?</style\s*>',src,flags=re.I|re.S))
 
           e05=element_by_id(baseline,'e05')
           if not e05: raise SystemExit('E05 INSERTION POINT MISSING')
           pos=baseline.find(e05)
-          baseline=baseline[:pos]+'\\n'.join(dynamic)+'\\n'+baseline[pos:]
+          baseline=baseline[:pos]+'\n'.join(dynamic)+'\n'+baseline[pos:]
 
           bridge='''<script id="maxess-complete-results-bridge-v5">\n(function(){'use strict';if(window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__)return;window.__MAXESS_COMPLETE_RESULTS_BRIDGE_V5__=true;var CONTRACT='MAXESS_RESULT_V1';function decode(v){try{var s=decodeURIComponent(String(v||'')).replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new TextDecoder().decode(u);}catch(e){return null;}}function consume(){var h=window.location.hash||'',m=h.match(/(?:^#|&)maxess-result=([^&]*)/i);if(!m)return false;var j=decode(m[1]);if(!j)return false;var r;try{r=JSON.parse(j);}catch(e){return false;}if(!r||typeof r!=='object'||r.contractVersion!==CONTRACT)return false;var score=Number(r.overallScore);if(!Number.isFinite(score)||score<0||score>100)return false;if(!Array.isArray(r.dimensions)||r.dimensions.length!==5)return false;if(!Array.isArray(r.responses)||r.responses.length!==15)return false;window.MAXESS_RESULT=r;try{window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:r}));window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:r}));}catch(e){}return true;}window.MAXESS_RESULT_CONSUMER_V5={consume:consume,get:function(){return window.MAXESS_RESULT||null;},contractVersion:CONTRACT};function boot(){if(!consume())document.documentElement.setAttribute('data-maxess-result-state','missing-or-invalid');}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();window.addEventListener('hashchange',consume);window.addEventListener('pageshow',consume);})();\n</script>'''
 
           head=baseline.lower().find('</head>')
           if head<0: raise SystemExit('RESULTS HEAD MISSING')
-          baseline=baseline[:head]+'\\n'+'\\n'.join(styles)+'\\n'+bridge+'\\n'+baseline[head:]
+          baseline=baseline[:head]+'\n'+'\n'.join(styles)+'\n'+bridge+'\n'+baseline[head:]
 
           required=['e01','maxess-e02-v3','e03','e04','e05','e06','e07','e08','e09']
           for sid in required:
-              count=len(re.findall(r'<[^>]+\\bid=["\\']'+re.escape(sid)+r'["\\']',baseline,re.I))
+              count=len(re.findall(r"<[^>]+\bid=['\"]"+re.escape(sid)+r"['\"]",baseline,re.I))
               if count!=1: raise SystemExit(f'INTEGRATED QA FAILED: {sid} count={count}')
           if baseline.count('maxess-complete-results-bridge-v5')!=1: raise SystemExit('INTEGRATED QA FAILED: V5 bridge count')
           if any(x in baseline for x in ['MAXESS_RESULT_10_10_BOOTSTRAP','__MAXESS_RESULT_CONSUMER_V2__','__MAXESS_RESULT_CONSUMER_V3__','__MAXESS_RESULT_CONSUMER_V4__','fixtureMode']):
@@ -173,7 +171,7 @@ jobs:
           import re,subprocess,tempfile
           for fn in ['AISCORE.NAYANET.APP 2026 08 21 447','MAXESS-RESULTS-INTEGRATED-V1.html']:
             s=open(fn,encoding='utf-8').read()
-            for js in re.findall(r'<script\\b[^>]*>(.*?)</script\\s*>',s,re.I|re.S):
+            for js in re.findall(r'<script\b[^>]*>(.*?)</script\s*>',s,re.I|re.S):
               with tempfile.NamedTemporaryFile('w',suffix='.js',delete=False,encoding='utf-8') as f:
                 f.write(js); name=f.name
               subprocess.run(['node','--check',name],check=True)
