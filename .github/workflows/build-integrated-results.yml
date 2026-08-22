@@ -1,0 +1,61 @@
+name: Build Integrated MAXESS Results
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '20260817 912am RESULTS PAGE CODE'
+      - 'MAXESS-RESULT-CONSUMER-V2.html'
+      - '.github/workflows/build-integrated-results.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build integrated Results page
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          source = Path('20260817 912am RESULTS PAGE CODE')
+          bridge = Path('MAXESS-RESULT-CONSUMER-V2.html')
+          output = Path('MAXESS-RESULTS-INTEGRATED-V1.html')
+
+          page = source.read_text(encoding='utf-8')
+          consumer = bridge.read_text(encoding='utf-8').strip()
+
+          # Replace the legacy bootstrap at the very start of <head> with the
+          # single authoritative hash-based V2 consumer. Preserve all existing
+          # Results-page markup, styles, sections, imagery, and interactions.
+          pattern = re.compile(r'(<html[^>]*>\s*<head>\s*)<!-- MAXESS_RESULT_10_10_BOOTSTRAP -->.*?</script>\s*', re.I | re.S)
+          replacement = r'\1' + consumer + '\n'
+          updated, count = pattern.subn(replacement, page, count=1)
+          if count != 1:
+              raise SystemExit('Legacy Results bootstrap was not found exactly once; refusing to modify the page.')
+
+          # Guardrails: the integrated artifact must remain a complete HTML
+          # document and must contain the authoritative consumer.
+          required = ['<html', '<head>', '<body', '</html>', "MAXESS_RESULT_V1", "MAXESS_RESULT_READY", "maxess:result-updated"]
+          missing = [x for x in required if x.lower() not in updated.lower()]
+          if missing:
+              raise SystemExit(f'Integrated artifact missing required markers: {missing}')
+
+          output.write_text(updated, encoding='utf-8')
+          print(f'Wrote {output} ({output.stat().st_size} bytes)')
+          PY
+
+      - name: Commit integrated artifact
+        run: |
+          git config user.name 'MAXESS Automation'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add 'MAXESS-RESULTS-INTEGRATED-V1.html'
+          git diff --cached --quiet || git commit -m 'Build complete MAXESS Results page with V2 score bridge'
+          git push
