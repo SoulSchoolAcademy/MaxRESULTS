@@ -66,6 +66,7 @@ The filename is a locator, not the authority.
 
 | Topic | Primary category | Useful retrieval terms | Note |
 |---|---|---|---|
+| Naya Brain — Canonical Activation | DECISION | Naya Brain, intelligence, activation, reasoning, judgment, problem solving, verification, learning, useful action, canonical | `2026-08-22-naya-brain-canonical-activation.md` |
 | Naya Email System — Communication Hub V1 | DECISION / GOAL / SOLUTION | Naya Email System, Communication Hub, email hub, Namecheap, SMTP, IMAP, Vercel, Supabase, GitHub, Groove, CSV, contacts, campaigns, replies, scheduling, AI Score, MAXESS | `2026-08-22-naya-email-system.md` |
 | Naya Digital Codex Activation — Official Project Record | DECISION / SOLUTION / MILESTONE | Naya Digital Codex, Digital Codex, Naya Power, AI Supercharger, activate Digital Codex, Codex activation, Naya Law, Lead Mode, Smart Notes, Naya Brain, Naya Notes, Naya Coder, Naya Design, Naya Modes | `2026-08-22-naya-digital-codex-activation.md` |
 | MAXESS Results Final Handoff + Dynamic Section North Star | DECISION / SOLUTION / LEARNING | MAXESS, Results, Question 15, final Continue, final handoff, MAXESS_RESULT, E01, E02, E03, E04, E05-E09, dynamic sections, static sections, hydration, results.nayanet.app, Groove, first click, infinite spinner, complete Results page | `2026-08-22-maxess-results-final-handoff-and-dynamic-section-north-star.md` |
@@ -96,7 +97,7 @@ The filename is a locator, not the authority.
 |---|---|---|---|
 | E06 Maxis Fidelity Learning | LEARNING / PROBLEM / SOLUTION | E06, Naya Supercharger, Maxis, MAXESS, component fidelity, actual components, icon system, board system, source audit, rendered verification, visual fidelity | `2026-08-19-e06-maxis-fidelity-learning.md` |
 | Leadership Continuity + Solution-Over-Constraint | LEARNING / SOLUTION | Naya Lead Mode, Take the Lead, leadership continuity, next action, execution prompt, technical constraint, solution-over-constraint, root cause, progress, section isolation | `2026-08-19-leadership-continuity-and-solution-over-constraint.md` |
-| Section Isolation + Nitro Execution Learning | LEARNING / SOLUTION | Section 01, Section 02, section freeze, same-file mutation, GitHub connector, large artifact, Nitro, raw Groove artifact, AAA | `2026-08-19-section-isolation-and-nitro-execution-learning.md` |
+| Section Isolation + Nitro Execution Learning | LEARNING / SOLUTION | Section 01, Section 02, section freeze, same-file mutation, GitHub connector, large artifact, Nitro, raw Groove artifact, Nitro, AAA | `2026-08-19-section-isolation-and-nitro-execution-learning.md` |
 | Section 01 Bead Geometry and Score Fidelity Learning | LEARNING | Section 01, Orb, Orbital Bead, bead radius, mobile geometry, score fidelity, 67.8, MAXESS_RESULT, responsive QA, visual verification | `2026-08-19-section-01-bead-score-verification-learning.md` |
 
 ### 2026-08-18
@@ -111,6 +112,7 @@ The filename is a locator, not the authority.
 
 | If the user asks about… | Start with… | Then inspect… |
 |---|---|---|
+| Naya Brain / intelligence / reasoning / judgment / problem solving / verification / learning | `2026-08-22-naya-brain-canonical-activation.md` | `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md`, `START-HERE.md`, `docs/NAYA-GOVERNANCE-REGISTRY.md`, `NAYA-OS.md` |
 | Naya Email System / Communication Hub / CSV contacts / sending / Namecheap / replies / scheduling | `2026-08-22-naya-email-system.md` | current implementation repository, Vercel/Supabase/Namecheap configuration, relevant deployment state |
 | Naya Digital Codex / Naya Power / activation / AI Supercharger / Codex operating guide | `docs/NAYA-DIGITAL-CODEX-MASTER-GUIDE.md` + `2026-08-22-naya-digital-codex-activation.md` | `NAYA-OS.md`, `START-HERE.md`, `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md`, relevant Codex modules |
 | MAXESS final Question 15 handoff / one-click Results / E01-E04 dynamic data / E05-E09 static page / infinite Results spinner | `2026-08-22-maxess-results-final-handoff-and-dynamic-section-north-star.md` | E01-E04 active sources, Results bootstrap, `window.MAXESS_RESULT`, deployment/Groove state |
