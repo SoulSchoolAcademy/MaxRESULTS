@@ -11,6 +11,7 @@
 | Repository entry / cold start | `START-HERE.md` | active branch START-HERE | CANONICAL |
 | Repository navigation / authority map | `docs/REPOSITORY-MAP.md` | active branch map | CANONICAL |
 | Core operating laws | `NAYA-OS.md` | Nitro protocols | GOVERNING |
+| **Portable Naya Law activation / operating constitution** | **`docs/NAYA-LAW-MASTER-ACTIVATION-SPECIFICATION.md`** | `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md`, `NAYA-OS.md`, Lead/Nitro protocols | **CANONICAL NAYA LAW ACTIVATION SPECIFICATION — OFFICIAL 22 AUGUST 2026** |
 | **Naya intelligence / reasoning / judgment / problem-solving / verification / learning / useful-action behaviour** | **`docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md`** | Naya OS, Nitro protocols, Smart Notes, specialist role documents | **CANONICAL BRAIN SPECIFICATION — OFFICIAL 22 AUGUST 2026** |
 | **Naya Notes / Smart Notes / durable memory system behaviour** | **`docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md`** | `docs/NAYA-SMART-NOTES-SYSTEM.md`, `docs/smart-notes/`, Learning Log | **CANONICAL NAYA NOTES SPECIFICATION — OFFICIAL 22 AUGUST 2026** |
 | **Naya Nitro execution / action / performance behaviour** | **`docs/NAYA-NITRO-MASTER-ACTIVATION-SPECIFICATION.md`** | `docs/NAYA-NITRO-MODE.md`, `docs/NAYA-NITRO-MASTER-BLUEPRINT.md`, older Nitro protocols | **CANONICAL NAYA NITRO SPECIFICATION — OFFICIAL 22 AUGUST 2026** |
@@ -31,6 +32,16 @@
 | Release gate | `docs/RELEASE-CHECKLIST.md` | QA tooling | RELEASE AUTHORITY |
 | Durable learning log | `docs/NAYA-NITRO-LEARNING-LOG.md` | Smart Notes | LEARNING RECORD |
 | Smart Note retrieval | `docs/smart-notes/INDEX.md` | individual notes | RETRIEVAL INDEX |
+
+## Naya Law authority law
+
+`docs/NAYA-LAW-MASTER-ACTIVATION-SPECIFICATION.md` is the **canonical portable activation specification for Naya Law**. It defines the Naya operating constitution, truth/no-guessing standard, best-interest law, preservation and scope law, execution and verification law, Oscar quality law, failure-to-learning loop, human authority, mode/master/Nitro relationship, capability honesty, and the mandatory GitHub-first / Naya Power AI Supercharger read-first principle.
+
+The repository's `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md` remains the **detailed execution-integrity protocol and mandatory Pre-Action Gate**. `NAYA-OS.md` remains the broader operating-law owner. These documents are complementary, not competing authorities.
+
+Before consequential action, Naya must establish the complete applicable operating context from the canonical GitHub repository and follow `START-HERE.md` and the repository cold-start read order. Naya must read the prime Naya Power AI Supercharger documents applicable to the task before acting or producing operational output that depends on project state.
+
+For Naya Law-specific activation and portable AI activation, the master activation specification governs the subject of Naya Law after accounting for higher-priority system, safety, platform, permission, legal, and explicit current human requirements.
 
 ## Brain authority law
 
@@ -91,7 +102,7 @@ The active branch may contain implementation-specific documents and older direct
 
 ## Approval authority
 
-The Naya Personality Manuscript was explicitly approved by the project owner on 21 August 2026. The Naya Brain Master Activation Specification was established as the canonical Brain/intelligence authority on 22 August 2026. The Naya Notes Master Activation Specification was established as the canonical Naya Notes/durable-memory authority on 22 August 2026. The **Naya Nitro Master Activation Specification was established as the canonical Naya Nitro/execution authority on 22 August 2026**. These approvals govern their respective subjects only and do not override higher-priority system, safety, platform, permission, or repository laws.
+The Naya Personality Manuscript was explicitly approved by the project owner on 21 August 2026. The Naya Brain Master Activation Specification was established as the canonical Brain/intelligence authority on 22 August 2026. The Naya Notes Master Activation Specification was established as the canonical Naya Notes/durable-memory authority on 22 August 2026. The **Naya Nitro Master Activation Specification was established as the canonical Naya Nitro/execution authority on 22 August 2026**. The **Naya Law Master Activation Specification is established as the canonical portable Naya Law activation authority on 22 August 2026**. These approvals govern their respective subjects only and do not override higher-priority system, safety, platform, permission, or repository laws.
 
 ## Promotion rule
 
@@ -99,4 +110,4 @@ A rule moves through this path:
 
 **OBSERVATION → LEARNING → CANDIDATE RULE → GOVERNANCE REVIEW → CANONICAL OWNER → VERIFIED USE**
 
-The Naya Personality Manuscript has completed governance review and human approval. The Naya Brain specification is the canonical Brain authority. The Naya Notes specification is the canonical durable-memory-system authority. The Naya Nitro specification is the canonical Nitro execution authority. Runtime behavioural activation remains subject to platform capability and verification.
+The Naya Personality Manuscript has completed governance review and human approval. The Naya Brain specification is the canonical Brain authority. The Naya Notes specification is the canonical durable-memory-system authority. The Naya Nitro specification is the canonical Nitro execution authority. The Naya Law Master Activation Specification is the canonical portable Naya Law activation authority. Runtime behavioural activation remains subject to platform capability and verification.
