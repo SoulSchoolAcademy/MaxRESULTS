@@ -59,6 +59,7 @@ The filename is a locator, not the authority.
 - **EVENT** — event/milestone
 - **TASK** — action
 - **INSIGHT** — meaningful realization/pattern
+- **MILESTONE** — durable activation or project state change
 
 ## Current note inventory
 
@@ -66,6 +67,7 @@ The filename is a locator, not the authority.
 
 | Topic | Primary category | Useful retrieval terms | Note |
 |---|---|---|---|
+| Naya Digital Codex Activation — Official Project Record | DECISION / SOLUTION / MILESTONE | Naya Digital Codex, Digital Codex, Naya Power, AI Supercharger, activate Digital Codex, Codex activation, Naya Law, Lead Mode, Smart Notes, Naya Brain, Naya Notes, Naya Coder, Naya Design, Naya Modes | `2026-08-22-naya-digital-codex-activation.md` |
 | MAXESS Results Final Handoff + Dynamic Section North Star | DECISION / SOLUTION / LEARNING | MAXESS, Results, Question 15, final Continue, final handoff, MAXESS_RESULT, E01, E02, E03, E04, E05-E09, dynamic sections, static sections, hydration, results.nayanet.app, Groove, first click, infinite spinner, complete Results page | `2026-08-22-maxess-results-final-handoff-and-dynamic-section-north-star.md` |
 
 ### 2026-08-21
@@ -86,7 +88,7 @@ The filename is a locator, not the authority.
 | Frozen E01 Integrity Gate Caught Preexisting Drift | PROBLEM | E01, frozen baseline, integrity gate, preexisting drift, protected scope, MAXESS, preservation, blob SHA, branch drift, do not weaken gate, PR #8 | `2026-08-20-frozen-e01-integrity-gate-caught-preexisting-drift.md` |
 | Naya Power Digital Codex Product Vision, Modes, and Sales Page | KNOWLEDGE / DECISION / GOAL | Naya Power, AI Supercharger, Digital Codex, Naya Modes, Lead Mode, Naya Hub, sales page, Naya Supercharger, product education, GrooveBlog, MAXESS | `2026-08-20-naya-power-digital-codex-sales-page-and-modes.md` |
 | User Effort Minimization + Complete Delivery Law | SOLUTION / LEARNING | user effort, 10-star service, complete delivery, minimize friction, cognitive load, take the lead, full code, integrated work, Naya Law, user experience, AAA | `2026-08-20-user-effort-and-complete-delivery-law.md` |
-| Versioned Backup + Safe Editing Law | SOLUTION | backups, timestamped backups, versioning, safe editing, preservation, recovery point, rollback, destructive change, source of truth, MAXESS, Naya Law | `2026-08-20-versioned-backup-and-safe-editing-law.md` |
+| Versioned Backup + Safe Editing Law | SOLUTION | backups, timestamped backups, versioning, safe editing, preservation, recovery point, rollback, destructive change, source of truth, MAXESS, Naya Law | `2026-08-20-versioned-backup-and-safe-editing-protocol.md` |
 
 ### 2026-08-19
 
@@ -109,6 +111,7 @@ The filename is a locator, not the authority.
 
 | If the user asks about… | Start with… | Then inspect… |
 |---|---|---|
+| Naya Digital Codex / Naya Power / activation / AI Supercharger / Codex operating guide | `docs/NAYA-DIGITAL-CODEX-MASTER-GUIDE.md` + `2026-08-22-naya-digital-codex-activation.md` | `NAYA-OS.md`, `START-HERE.md`, `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md`, relevant Codex modules |
 | MAXESS final Question 15 handoff / one-click Results / E01-E04 dynamic data / E05-E09 static page / infinite Results spinner | `2026-08-22-maxess-results-final-handoff-and-dynamic-section-north-star.md` | E01-E04 active sources, Results bootstrap, `window.MAXESS_RESULT`, deployment/Groove state |
 | Intelligence / extraordinary service / best-interest behavior / solving problems for the user | `2026-08-21-intelligence-as-extraordinary-service.md` | `NAYA-OS.md`, `docs/NAYA-LEAD-SERVICE-STANDARD.md`, relevant execution notes |
 | MAXESS Results public domain / `.app` vs `.xyz` | `2026-08-21-canonical-results-app-domain.md` | `docs/REPOSITORY-MAP.md`, `docs/DEPLOYMENT-CONTRACT.md`, current Results artifact/navigation |
