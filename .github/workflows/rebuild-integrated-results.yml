@@ -1,0 +1,110 @@
+name: Rebuild Complete MAXESS Results Artifact
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/rebuild-integrated-results.yml'
+      - 'MAXESS-RESULTS-INTEGRATED-V1.html'
+      - 'docs/smart-notes/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout governance branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Checkout active Results sections
+        uses: actions/checkout@v4
+        with:
+          ref: maxess-results-v21-working
+          path: active-results
+          fetch-depth: 1
+
+      - name: Build complete integrated artifact from preserved E01-E04 sources
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+          import hashlib
+
+          root=Path('active-results')
+          files=[root/n for n in [
+              'E01-SECTION-01-WORKING.html',
+              'E02-SECTION-02-WORKING.html',
+              'E03-SECTION-03-WORKING.html',
+              'E04-SECTION-04-WORKING.html',
+          ]]
+          for p in files:
+              if not p.exists():
+                  raise SystemExit(f'MISSING SOURCE: {p}')
+
+          sections=[]
+          for p in files:
+              s=p.read_text(encoding='utf-8')
+              body=re.search(r'<body[^>]*>(.*?)</body>',s,re.I|re.S)
+              if not body:
+                  raise SystemExit(f'NO BODY: {p.name}')
+              styles=re.findall(r'<style(?:\s[^>]*)?>(.*?)</style>',s,re.I|re.S)
+              scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>',s,re.I|re.S)
+              sections.append((p.name,styles,body.group(1),scripts))
+
+          bridge='''
+          <script id="maxess-complete-results-bridge-v1">
+          (function(){
+            'use strict';
+            var KEY='MAXESS_RESULT_V1',READY='MAXESS_RESULT_READY',UPDATED='maxess:result-updated';
+            function decode(v){try{var s=decodeURIComponent(String(v||''));s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return JSON.parse(new TextDecoder().decode(u));}catch(e){return null;}}
+            function valid(r){return !!(r&&r.contractVersion==='MAXESS_RESULT_V1'&&Number.isFinite(Number(r.overallScore))&&Array.isArray(r.dimensions)&&r.dimensions.length===5&&Array.isArray(r.responses)&&r.responses.length===15);}
+            function emit(r){if(!valid(r))return false;window.MAXESS_RESULT=r;try{sessionStorage.setItem(KEY,JSON.stringify(r))}catch(e){}try{localStorage.setItem(KEY,JSON.stringify(r))}catch(e){}window.dispatchEvent(new CustomEvent(READY,{detail:r}));window.dispatchEvent(new CustomEvent(UPDATED,{detail:r}));return true;}
+            function consume(){var h=location.hash||'',m=h.match(/(?:^|#|&)maxess-result=([^&]*)/i);if(m&&emit(decode(m[1])))return true;try{if(emit(JSON.parse(sessionStorage.getItem(KEY)||'null')))return true}catch(e){}try{if(emit(JSON.parse(localStorage.getItem(KEY)||'null')))return true}catch(e){}try{if(window.parent&&window.parent!==window&&emit(window.parent.MAXESS_RESULT))return true}catch(e){}return false;}
+            function run(){consume();}
+            window.addEventListener('hashchange',run);window.addEventListener('pageshow',run);window.addEventListener('message',function(e){var d=e&&e.data;if(d&&d.type==='MAXESS_RESULT_READY')emit(d.result);});
+            if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
+            window.MAXESS_COMPLETE_RESULTS_BRIDGE_V1=true;
+          })();
+          </script>'''
+
+          out=['<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#05030a"><meta name="color-scheme" content="dark"><title>MAXESS — Complete Results</title>']
+          out.append(bridge)
+          for name,styles,body,scripts in sections:
+              out.extend(f'<style data-maxess-source="{name}">{x}</style>' for x in styles)
+          out.append('</head><body>')
+          for name,styles,body,scripts in sections:
+              out.append(f'<!-- MAXESS COMPLETE SOURCE: {name} -->')
+              out.append(body)
+          for name,styles,body,scripts in sections:
+              for script in scripts:
+                  out.append(f'<script data-maxess-source="{name}">{script}</script>')
+          out.append('</body></html>')
+
+          text='\n'.join(out)+'\n'
+          required=['id="e03"','id="e04"','MAXESS_RESULT_V1','MAXESS_RESULT_READY','maxess:result-updated','MAXESS_COMPLETE_RESULTS_BRIDGE_V1']
+          missing=[x for x in required if x not in text]
+          if missing: raise SystemExit('INTEGRATED QA FAILED: '+', '.join(missing))
+          for marker in ['id="e01"','id="e02"','id="e03"','id="e04"']:
+              if text.count(marker)!=1: raise SystemExit(f'INTEGRATED QA FAILED: {marker} count={text.count(marker)}')
+          if '<<<<<<<' in text or '>>>>>>>' in text: raise SystemExit('INTEGRATED QA FAILED: conflict marker')
+          Path('MAXESS-RESULTS-INTEGRATED-V1.html').write_text(text,encoding='utf-8')
+          sha=hashlib.sha256(text.encode()).hexdigest()
+          report='''# MAXESS Complete Integrated Results Build\n\n- Sources: preserved E01/E02/E03/E04 working artifacts from `maxess-results-v21-working`\n- Sections present: E01, E02, E03, E04\n- Runtime authority: `window.MAXESS_RESULT`\n- Result transport: `MAXESS_RESULT_V1` + hash/storage/parent/message hydration\n- SHA-256: `'''+sha+'''`\n- Bytes: '''+str(len(text.encode()))+'''\n- Lines: '''+str(len(text.splitlines()))+'''\n- Static integration QA: PASS\n'''
+          Path('MAXESS-COMPLETE-INTEGRATED-BUILD.md').write_text(report,encoding='utf-8')
+          print(report)
+
+      - name: Commit complete artifact and evidence
+        run: |
+          git config user.name 'Naya Master'
+          git config user.email 'naya-master@users.noreply.github.com'
+          git add MAXESS-RESULTS-INTEGRATED-V1.html MAXESS-COMPLETE-INTEGRATED-BUILD.md
+          git diff --cached --check
+          git diff --cached --quiet && exit 0
+          git commit -m 'MAXESS Results — rebuild complete E01-E04 integrated artifact with proof'
+          git push origin main
