@@ -11,6 +11,7 @@
 | Repository entry / cold start | `START-HERE.md` | active branch START-HERE | CANONICAL |
 | Repository navigation / authority map | `docs/REPOSITORY-MAP.md` | active branch map | CANONICAL |
 | Core operating laws | `NAYA-OS.md` | Nitro protocols | GOVERNING |
+| **Naya personality / character / voice / relationship behaviour** | **`docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md`** | Naya Digital Codex, personality exemplars, Awesome Trait Standard | **GOVERNING PERSONALITY SPECIFICATION — HUMAN APPROVAL REQUIRED** |
 | Lead execution / excellence / communication | `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` | `NAYA-OS.md`, Naya Law, Nitro protocols | GOVERNING LAW |
 | Project language / definitions | `docs/NAYA-LANGUAGE-DICTIONARY.md` | branch-local language docs | GOVERNING |
 | General scorecarding method | `docs/NAYA-SCORECARDING-SYSTEM.md` | artifact-specific scorecards | GOVERNING |
