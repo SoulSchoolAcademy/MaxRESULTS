@@ -13,8 +13,22 @@ MARKER = 'MAXESS_RESULT_CONSUMER_V1'
 # Groove iframe embeds. Sections never score or invent results; they only consume the
 # authoritative MAXESS_RESULT contract/events/message relay.
 
-
-EMBED_MESSAGE = r'''\n/* MAXESS_RESULT_IFRAME_RELAY_V1 — receive the authoritative result from the host consumer. */\nwindow.addEventListener('message',function(event){\n  try{\n    var data=event&&event.data;\n    if(!data||data.type!=='MAXESS_RESULT_READY')return;\n    var result=data.result;\n    if(!result||result.contractVersion!=='MAXESS_RESULT_V1')return;\n    window.MAXESS_RESULT=result;\n    try{sessionStorage.setItem('MAXESS_RESULT_V1',JSON.stringify(result));}catch(e){}\n    try{localStorage.setItem('MAXESS_RESULT_V1',JSON.stringify(result));}catch(e){}\n    window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:result}));\n    window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:result}));\n  }catch(e){}\n});\n'''
+EMBED_MESSAGE = '''
+/* MAXESS_RESULT_IFRAME_RELAY_V1 — receive the authoritative result from the host consumer. */
+window.addEventListener('message',function(event){
+  try{
+    var data=event&&event.data;
+    if(!data||data.type!=='MAXESS_RESULT_READY')return;
+    var result=data.result;
+    if(!result||result.contractVersion!=='MAXESS_RESULT_V1')return;
+    window.MAXESS_RESULT=result;
+    try{sessionStorage.setItem('MAXESS_RESULT_V1',JSON.stringify(result));}catch(e){}
+    try{localStorage.setItem('MAXESS_RESULT_V1',JSON.stringify(result));}catch(e){}
+    window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:result}));
+    window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:result}));
+  }catch(e){}
+});
+'''
 
 
 def strip_e01_consumer(s):
