@@ -83,3 +83,5 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -m 'MAXESS Results — complete E01-E04 integrated artifact verified'
           git push origin maxess-results-v21-working
+
+# NAYA EXECUTION GUARDRAIL: completion must include exact changed-artifact link, commit evidence, and verification status.
