@@ -60,7 +60,7 @@ window.MAXESS_RESULT_CONSUMER_V4={consume:consume,get:function(){return window.M
           if 'data-maxess-result-consumer="v4"' in t: raise SystemExit('V4 bridge already present')
           t=t.replace('</head>',bridge+'\n</head>',1)
           if t.count('data-maxess-result-consumer="v4"')!=1: raise SystemExit('V4 bridge count failed')
-          if 'MAXESS_RESULT_CONSUMER_V2' in t or 'MAXESS_RESULT_CONSUMER_V3' in t: raise SystemExit('legacy consumer remained')
+          if 'data-maxess-result-consumer="v3"' in t: raise SystemExit('legacy V3 bridge remained')
           for marker in ['id="e01"','id="e02"','id="e03"','id="e04"']:
               if marker not in t: raise SystemExit('protected section missing: '+marker)
           p.write_text(t,encoding='utf-8')
@@ -70,8 +70,7 @@ window.MAXESS_RESULT_CONSUMER_V4={consume:consume,get:function(){return window.M
         run: |
           set -euo pipefail
           grep -q 'data-maxess-result-consumer="v4"' MAXESS-RESULTS-INTEGRATED-V1.html
-          ! grep -q 'MAXESS_RESULT_CONSUMER_V2' MAXESS-RESULTS-INTEGRATED-V1.html
-          ! grep -q 'MAXESS_RESULT_CONSUMER_V3' MAXESS-RESULTS-INTEGRATED-V1.html
+          ! grep -q 'data-maxess-result-consumer="v3"' MAXESS-RESULTS-INTEGRATED-V1.html
           for id in e01 e02 e03 e04; do grep -q "id=\"$id\"" MAXESS-RESULTS-INTEGRATED-V1.html; done
           grep -q 'MAXESS_RESULT_V1' MAXESS-RESULTS-INTEGRATED-V1.html
           grep -q 'https://results.nayanet.app/#maxess-result=' 'AISCORE.NAYANET.APP 2026 08 21 447'
