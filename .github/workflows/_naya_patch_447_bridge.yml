@@ -18,7 +18,7 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
-          import re, subprocess
+          import subprocess
           p = Path('AISCORE.NAYANET.APP 2026 08 21 447')
           s = p.read_text(encoding='utf-8')
           old = "location.assign('https://results.nayanet.app/#maxess-result='+payload);"
@@ -26,7 +26,6 @@ jobs:
           if old not in s:
               raise SystemExit('Expected 447 publish redirect not found; refusing mutation.')
           s = s.replace(old, new, 1)
-          # Preserve the existing contract and add compatibility aliases used by the Results renderer.
           needle = "overallScore:result.overallScore,masteryBand:result.masteryBand,"
           repl = "overallScore:result.overallScore,score:result.overallScore,band:result.masteryBand,masteryStage:result.masteryBand.toUpperCase(),masteryBand:result.masteryBand,"
           if needle not in s:
@@ -44,7 +43,6 @@ jobs:
           if s.count("contractVersion:'MAXESS_RESULT_V1'") != 1:
               raise SystemExit('Contract marker QA failed.')
           p.write_text(s, encoding='utf-8')
-          # Remove this one-shot workflow so it cannot become a competing automation layer.
           Path('.github/workflows/_naya_patch_447_bridge.yml').unlink()
           subprocess.run(['git','config','user.name','Naya Master'],check=True)
           subprocess.run(['git','config','user.email','naya-master@users.noreply.github.com'],check=True)
