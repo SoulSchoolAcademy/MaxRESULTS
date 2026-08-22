@@ -62,6 +62,12 @@ The filename is a locator, not the authority.
 
 ## Current note inventory
 
+### 2026-08-22
+
+| Topic | Primary category | Useful retrieval terms | Note |
+|---|---|---|---|
+| MAXESS Results Final Handoff + Dynamic Section North Star | DECISION / SOLUTION / LEARNING | MAXESS, Results, Question 15, final Continue, final handoff, MAXESS_RESULT, E01, E02, E03, E04, E05-E09, dynamic sections, static sections, hydration, results.nayanet.app, Groove, first click, infinite spinner, complete Results page | `2026-08-22-maxess-results-final-handoff-and-dynamic-section-north-star.md` |
+
 ### 2026-08-21
 
 | Topic | Primary category | Useful retrieval terms | Note |
@@ -103,6 +109,7 @@ The filename is a locator, not the authority.
 
 | If the user asks about… | Start with… | Then inspect… |
 |---|---|---|
+| MAXESS final Question 15 handoff / one-click Results / E01-E04 dynamic data / E05-E09 static page / infinite Results spinner | `2026-08-22-maxess-results-final-handoff-and-dynamic-section-north-star.md` | E01-E04 active sources, Results bootstrap, `window.MAXESS_RESULT`, deployment/Groove state |
 | Intelligence / extraordinary service / best-interest behavior / solving problems for the user | `2026-08-21-intelligence-as-extraordinary-service.md` | `NAYA-OS.md`, `docs/NAYA-LEAD-SERVICE-STANDARD.md`, relevant execution notes |
 | MAXESS Results public domain / `.app` vs `.xyz` | `2026-08-21-canonical-results-app-domain.md` | `docs/REPOSITORY-MAP.md`, `docs/DEPLOYMENT-CONTRACT.md`, current Results artifact/navigation |
 | Naya Power / Smart Notes / durable memory / project brain | `2026-08-20-naya-power-high-performance-memory-system.md` | `docs/NAYA-SMART-NOTES-SYSTEM.md`, this index, relevant dated notes |
