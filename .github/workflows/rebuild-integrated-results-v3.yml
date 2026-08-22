@@ -103,8 +103,18 @@ jobs:
                   return '' if bad else m.group(0)
               return re.sub(r'<script\b[^>]*>.*?</script\s*>',repl,text,flags=re.I|re.S)
 
-          if baseline.lower().count('<html')!=1 or baseline.lower().count('</html>')!=1:
-              raise SystemExit('BASELINE INVALID: document shell')
+          def shell_counts(text):
+              # Count document-shell tags only outside script/style blocks so literal
+              # HTML examples inside JavaScript/CSS cannot invalidate the baseline.
+              cleaned=re.sub(r'<script\b[^>]*>.*?</script\s*>','',text,flags=re.I|re.S)
+              cleaned=re.sub(r'<style\b[^>]*>.*?</style\s*>','',cleaned,flags=re.I|re.S)
+              return (len(re.findall(r'<html\b[^>]*>',cleaned,re.I)),
+                      len(re.findall(r'</html\s*>',cleaned,re.I)))
+
+          open_count,close_count=shell_counts(baseline)
+          if open_count!=1 or close_count!=1:
+              raise SystemExit(f'BASELINE INVALID: document shell open={open_count} close={close_count}')
+
           for sid in ['e05','e06','e07','e08','e09']:
               if not element_by_id(baseline,sid): raise SystemExit(f'PROTECTED STATIC SECTION MISSING: {sid}')
 
@@ -143,7 +153,8 @@ jobs:
           if baseline.count('maxess-complete-results-bridge-v5')!=1: raise SystemExit('INTEGRATED QA FAILED: V5 bridge count')
           if any(x in baseline for x in ['MAXESS_RESULT_10_10_BOOTSTRAP','__MAXESS_RESULT_CONSUMER_V2__','__MAXESS_RESULT_CONSUMER_V3__','__MAXESS_RESULT_CONSUMER_V4__','fixtureMode']):
               raise SystemExit('INTEGRATED QA FAILED: legacy/fallback result authority remains')
-          if baseline.lower().count('<html')!=1 or baseline.lower().count('</html>')!=1: raise SystemExit('INTEGRATED QA FAILED: document shell')
+          final_open,final_close=shell_counts(baseline)
+          if final_open!=1 or final_close!=1: raise SystemExit(f'INTEGRATED QA FAILED: document shell open={final_open} close={final_close}')
           if '<!doctype html>' in baseline.lower()[baseline.lower().find('<body'):]: raise SystemExit('INTEGRATED QA FAILED: nested document shell')
           if '<<<<<<<' in baseline or '>>>>>>>' in baseline: raise SystemExit('INTEGRATED QA FAILED: conflict marker')
 
