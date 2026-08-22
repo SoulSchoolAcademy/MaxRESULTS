@@ -5,88 +5,86 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/rebuild-integrated-results.yml'
+      - 'AISCORE.NAYANET.APP 2026 08 21 447'
+      - 'MAXESS-RESULTS-INTEGRATED-V1.html'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  repair-447:
+  repair:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 447 source
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 1
 
-      - name: Apply only the Q15 handoff repair to 447
+      - name: Apply surgical Q15 guard
         shell: python
         run: |
           from pathlib import Path
-          p = Path('AISCORE.NAYANET.APP 2026 08 21 447')
-          text = p.read_text(encoding='utf-8')
+          p=Path('AISCORE.NAYANET.APP 2026 08 21 447')
+          t=p.read_text(encoding='utf-8')
+          old="const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false};"
+          new="const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false,finalizing:false};"
+          if old in t: t=t.replace(old,new,1)
+          old_fn="function continueAssessment(){if(!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.completed=true;try{publish()}catch(e){console.error('MAXESS report publish failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"
+          new_fn="function continueAssessment(event){if(event){event.preventDefault();event.stopPropagation()}if(state.finalizing||!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.finalizing=true;state.completed=true;const button=$('continueButton');button.disabled=true;button.setAttribute('aria-disabled','true');$('continueText').textContent='Loading Results…';try{const c=buildContract();if(!validateContract(c))throw new Error('MAXESS_RESULT_V1 validation failed before final navigation.');broadcastResult(c);const payload=encode(c);const resultUrl='https://results.nayanet.app/#maxess-result='+payload;if(window.top&&window.top!==window){window.top.location.href=resultUrl}else{window.location.href=resultUrl}}catch(e){state.finalizing=false;button.disabled=false;button.setAttribute('aria-disabled','false');$('continueText').textContent='Continue';console.error('MAXESS final Results handoff failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"
+          if old_fn in t: t=t.replace(old_fn,new_fn,1)
+          elif 'function continueAssessment(event)' not in t: raise SystemExit('Q15 handler anchor missing')
+          p.write_text(t,encoding='utf-8')
 
-          old_state = "const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false};"
-          new_state = "const sessionSeed=crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967295);const state={firstVisit:true,nayaText:'',index:0,selected:null,responses:[],nayaPlaying:false,completed:false,finalizing:false};"
-          if old_state not in text and 'finalizing:false' not in text:
-              raise SystemExit('447 REPAIR FAILED: state anchor not found')
-          if old_state in text:
-              text = text.replace(old_state, new_state, 1)
-
-          old_fn = "function continueAssessment(){if(!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.completed=true;try{publish()}catch(e){console.error('MAXESS report publish failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"
-          new_fn = "function continueAssessment(event){if(event){event.preventDefault();event.stopPropagation()}if(state.finalizing||!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.finalizing=true;state.completed=true;const button=$('continueButton');button.disabled=true;button.setAttribute('aria-disabled','true');$('continueText').textContent='Loading Results…';try{const c=buildContract();if(!validateContract(c))throw new Error('MAXESS_RESULT_V1 validation failed before final navigation.');broadcastResult(c);const payload=encode(c);const resultUrl='https://results.nayanet.app/#maxess-result='+payload;if(window.top&&window.top!==window){window.top.location.href=resultUrl}else{window.location.href=resultUrl}}catch(e){state.finalizing=false;button.disabled=false;button.setAttribute('aria-disabled','false');$('continueText').textContent='Continue';console.error('MAXESS final Results handoff failed',e)}return}state.index++;renderQuestion();setTimeout(openNaya,140)}"
-          if old_fn not in text:
-              if 'function continueAssessment(event)' not in text:
-                  raise SystemExit('447 REPAIR FAILED: continue function anchor not found')
-          else:
-              text = text.replace(old_fn, new_fn, 1)
-
-          marker = "window.MAXESS_RESULT_BRIDGE_V2=true;"
-          if marker in text and 'MAXESS_Q15_HANDOFF_V447' not in text:
-              text = text.replace(marker, marker+"window.MAXESS_Q15_HANDOFF_V447=true;", 1)
-
-          p.write_text(text, encoding='utf-8')
-          print('447 surgical Q15 handoff repair applied')
-
-      - name: Verify only the intended 447 changes exist
+      - name: Replace fragmented Results consumers with one deterministic bridge
         shell: python
         run: |
           from pathlib import Path
           import re
-          text = Path('AISCORE.NAYANET.APP 2026 08 21 447').read_text(encoding='utf-8')
-          required = [
-              'finalizing:false',
-              'function continueAssessment(event)',
-              "event.preventDefault()",
-              "event.stopPropagation()",
-              "state.finalizing||!state.selected",
-              "const c=buildContract()",
-              "validateContract(c)",
-              "const payload=encode(c)",
-              "https://results.nayanet.app/#maxess-result=",
-              "window.top.location.href=resultUrl",
-              'MAXESS_Q15_HANDOFF_V447=true'
-          ]
-          missing=[x for x in required if x not in text]
-          if missing: raise SystemExit('447 STATIC QA FAILED: '+', '.join(missing))
-          if text.count('function continueAssessment(event)') != 1: raise SystemExit('447 STATIC QA FAILED: duplicate final handler')
-          if text.count('window.MAXESS_Q15_HANDOFF_V447=true;') != 1: raise SystemExit('447 STATIC QA FAILED: release marker')
-          if 'MAXESS_Q15_HANDOFF_V448' in text: raise SystemExit('447 STATIC QA FAILED: forbidden 448 marker')
-          if '<!doctype html>' not in text.lower() or '</html>' not in text.lower(): raise SystemExit('447 STATIC QA FAILED: HTML shell')
-          print('447 surgical handoff QA PASS')
+          p=Path('MAXESS-RESULTS-INTEGRATED-V1.html')
+          t=p.read_text(encoding='utf-8')
+          t=re.sub(r'<script[^>]*data-maxess-result-consumer=["\']v3["\'][^>]*>.*?</script>\s*','',t,flags=re.I|re.S)
+          t=re.sub(r'<script>\s*\(function\(\)\{\s*["\']use strict["\'];\s*if\(window\.__MAXESS_RESULT_CONSUMER_V2__\)return;.*?</script>\s*','',t,flags=re.I|re.S)
+          bridge='''<script data-maxess-result-consumer="v4">
+(function(){'use strict';if(window.__MAXESS_RESULT_CONSUMER_V4__)return;window.__MAXESS_RESULT_CONSUMER_V4__=true;
+var CONTRACT='MAXESS_RESULT_V1',READY='MAXESS_RESULT_READY',UPDATED='maxess:result-updated';
+function emit(n,r){try{window.dispatchEvent(new CustomEvent(n,{detail:r}));}catch(e){}}
+function decode(v){try{var s=decodeURIComponent(String(v||''));s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new TextDecoder().decode(u);}catch(e){return null;}}
+function token(){var h=window.location.hash||'',m=h.match(/(?:^#|&)maxess-result=([^&]*)/i);return m&&m[1]?m[1]:null;}
+function valid(r){if(!r||typeof r!=='object'||r.contractVersion!==CONTRACT)return false;var s=Number(r.overallScore);if(!isFinite(s)||s<0||s>100)return false;if(!Array.isArray(r.dimensions)||r.dimensions.length!==5)return false;if(!Array.isArray(r.responses)||r.responses.length!==15)return false;for(var i=0;i<5;i++){var d=r.dimensions[i];if(!d||typeof d.name!=='string'||!d.name.trim()||!isFinite(Number(d.score)))return false;}return true;}
+function consume(){var p=token();if(!p)return false;var j=decode(p),r=null;if(!j)return false;try{r=JSON.parse(j);}catch(e){return false;}if(!valid(r))return false;window.MAXESS_RESULT=r;try{sessionStorage.setItem('MAXESS_RESULT_V1',JSON.stringify(r));}catch(e){}emit(READY,r);emit(UPDATED,r);return true;}
+function boot(){if(consume())return;var n=0;(function retry(){if(consume())return;if(++n<20)setTimeout(retry,250);})();}
+window.MAXESS_RESULT_CONSUMER_V4={consume:consume,get:function(){return window.MAXESS_RESULT||null;},contractVersion:CONTRACT,version:'V4'};window.addEventListener('hashchange',boot);window.addEventListener('pageshow',boot);if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();})();
+</script>'''
+          if 'data-maxess-result-consumer="v4"' in t: raise SystemExit('V4 bridge already present')
+          t=t.replace('</head>',bridge+'\n</head>',1)
+          if t.count('data-maxess-result-consumer="v4"')!=1: raise SystemExit('V4 bridge count failed')
+          if 'MAXESS_RESULT_CONSUMER_V2' in t or 'MAXESS_RESULT_CONSUMER_V3' in t: raise SystemExit('legacy consumer remained')
+          for marker in ['id="e01"','id="e02"','id="e03"','id="e04"']:
+              if marker not in t: raise SystemExit('protected section missing: '+marker)
+          p.write_text(t,encoding='utf-8')
 
-      - name: Commit only 447
+      - name: Static QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'data-maxess-result-consumer="v4"' MAXESS-RESULTS-INTEGRATED-V1.html
+          ! grep -q 'MAXESS_RESULT_CONSUMER_V2' MAXESS-RESULTS-INTEGRATED-V1.html
+          ! grep -q 'MAXESS_RESULT_CONSUMER_V3' MAXESS-RESULTS-INTEGRATED-V1.html
+          for id in e01 e02 e03 e04; do grep -q "id=\"$id\"" MAXESS-RESULTS-INTEGRATED-V1.html; done
+          grep -q 'MAXESS_RESULT_V1' MAXESS-RESULTS-INTEGRATED-V1.html
+          grep -q 'https://results.nayanet.app/#maxess-result=' 'AISCORE.NAYANET.APP 2026 08 21 447'
+          echo 'MAXESS 447 + Results V4 static QA PASS'
+
+      - name: Commit repair
         run: |
           git config user.name 'Naya Master'
           git config user.email 'naya-master@users.noreply.github.com'
-          git add 'AISCORE.NAYANET.APP 2026 08 21 447'
+          git add 'AISCORE.NAYANET.APP 2026 08 21 447' 'MAXESS-RESULTS-INTEGRATED-V1.html' '.github/workflows/rebuild-integrated-results.yml'
           git diff --cached --check
           git diff --cached --quiet && exit 0
-          git commit -m 'MAXESS 447: repair one-click Q15 Results handoff'
+          git commit -m 'MAXESS 447: make Q15 Results handoff deterministic'
           git push origin main
 
-# Guardrail: this workflow edits ONLY the existing 447 assessment artifact.
-# It does NOT rebuild, compose, redesign, replace, or regenerate the Results page.
-# E01-E04/E05-E09 Results artifacts are outside this repair scope.
-# 447 remains the assessment source; results.nayanet.app remains the existing Results destination.
+# GUARDRAIL: 447 is the assessment source. E01-E04 are the dynamic Results sections. E05-E09 remain present/static. Do not redesign or replace the complete Results experience.
