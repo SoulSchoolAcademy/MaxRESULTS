@@ -21,6 +21,7 @@
 | General scorecarding method | `docs/NAYA-SCORECARDING-SYSTEM.md` | artifact-specific scorecards | GOVERNING |
 | Executive North Star / what-why-how | `docs/NAYA-EXECUTIVE-PLAN.md` | Blueprint / Smart Notes | GOVERNING |
 | Reusable execution prompt | `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` | older prompt templates | CANONICAL |
+| **Naya Power customer activation / onboarding / first-use behaviour** | **`docs/NAYA-POWER-CUSTOMER-ACTIVATION-PROTOCOL.md`** | `tests/NAYA-POWER-CUSTOMER-ACTIVATION-TEST.md`, Lead/Nitro/Law protocols | **CANONICAL CUSTOMER ACTIVATION SPECIFICATION** |
 | Naya Nitro product thesis | `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` | related product docs | PRODUCT REFERENCE |
 | MAXESS Results operating rules | `docs/NAYA-MAXESS-OPERATING-MANUAL.md` | task-specific docs | PRODUCT OPERATING |
 | MAXESS Results requirements | `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` | design directives | PRODUCT REQUIREMENTS |
@@ -70,6 +71,14 @@ This specification **supersedes any older or competing document that claims to d
 `docs/NAYA-NITRO-MODE.md` remains the effective historical/supporting execution operating system and may contain implementation detail that remains useful. `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` remains product-thesis/reference material. `docs/NAYA-NITRO-LEARNING-LOG.md` remains a learning record. None competes with the canonical activation specification for Nitro subject authority.
 
 Runtime behavioural activation remains subject to actual platform/tool capability and must be verified rather than merely claimed.
+
+## Customer activation authority law
+
+`docs/NAYA-POWER-CUSTOMER-ACTIVATION-PROTOCOL.md` is the **canonical owner for Naya Power customer activation, onboarding, first-use initialization, customer-facing lead behaviour, and the transition from completed setup to the first verified execution cycle**.
+
+The associated `tests/NAYA-POWER-CUSTOMER-ACTIVATION-TEST.md` is the acceptance-test companion for this subject. It does not become a competing authority; it verifies the behaviour required by the canonical customer activation protocol.
+
+The customer activation protocol does not replace Naya Law, Naya Brain, Naya Notes, Naya Nitro, Lead Execution, or higher-priority platform/safety/permission rules. It defines how those existing operating capabilities must be presented and activated for a customer so the customer is not left at a dead end when required context and authority are available.
 
 ## Supporting-document rule
 
