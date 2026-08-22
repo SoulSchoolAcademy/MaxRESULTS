@@ -6,18 +6,19 @@ The assessment supplies #maxess-result=<URL-safe-base64(JSON)>.
 This bridge validates that payload and exposes it as window.MAXESS_RESULT for E01-E06.
 Do not add demo/fallback scores here.
 
-SURGICAL PATCH V2:
+SURGICAL PATCH V3:
 - Preserves the existing contract and public API.
-- Accepts both direct event.detail results and legacy {result} wrappers.
+- Accepts the authoritative hash/session result only.
 - Re-publishes the authoritative result after late-loaded Groove sections mount.
+- Relays the same authoritative result into child iframe embeds.
 - Never manufactures or substitutes a score.
 -->
 <script>
 (function () {
   'use strict';
 
-  if (window.__MAXESS_RESULT_CONSUMER_V2__) return;
-  window.__MAXESS_RESULT_CONSUMER_V2__ = true;
+  if (window.__MAXESS_RESULT_CONSUMER_V3__) return;
+  window.__MAXESS_RESULT_CONSUMER_V3__ = true;
 
   var CONTRACT = 'MAXESS_RESULT_V1';
   var READY = 'MAXESS_RESULT_READY';
@@ -59,6 +60,19 @@ SURGICAL PATCH V2:
     });
   }
 
+  function relayToEmbeds(result) {
+    if (!isValidResult(result)) return;
+    var message = { type: READY, result: result };
+    try {
+      var frames = document.querySelectorAll('iframe');
+      for (var i = 0; i < frames.length; i += 1) {
+        try {
+          if (frames[i].contentWindow) frames[i].contentWindow.postMessage(message, '*');
+        } catch (_) {}
+      }
+    } catch (_) {}
+  }
+
   function normalize(detail) {
     if (isValidResult(detail)) return detail;
     if (detail && isValidResult(detail.result)) return detail.result;
@@ -71,8 +85,6 @@ SURGICAL PATCH V2:
 
     try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(result)); } catch (_) {}
 
-    /* Compatibility law: direct result is authoritative; legacy consumers
-       may still read event.detail.result. The property is non-enumerable. */
     try {
       if (!Object.prototype.hasOwnProperty.call(result, 'result')) {
         Object.defineProperty(result, 'result', {
@@ -85,6 +97,7 @@ SURGICAL PATCH V2:
 
     dispatch(READY, result);
     dispatch(UPDATED, result);
+    relayToEmbeds(result);
     return true;
   }
 
@@ -114,7 +127,6 @@ SURGICAL PATCH V2:
     if (!consume()) restore();
   }
 
-  // Prefer the current URL payload. Never manufacture a result.
   boot();
 
   window.MAXESS_RESULT_CONSUMER_V1 = {
@@ -126,6 +138,7 @@ SURGICAL PATCH V2:
       dispatch(REPLAY, result);
       dispatch(READY, result);
       dispatch(UPDATED, result);
+      relayToEmbeds(result);
       return true;
     },
     contractVersion: CONTRACT
@@ -133,9 +146,7 @@ SURGICAL PATCH V2:
 
   window.addEventListener('hashchange', boot);
 
-  // Groove can mount later sections asynchronously. Replay the same
-  // authoritative result after those embeds have had a chance to mount.
-  [0, 50, 250, 750, 1500].forEach(function (delay) {
+  [0, 50, 250, 750, 1500, 3000].forEach(function (delay) {
     window.setTimeout(function () {
       if (window.MAXESS_RESULT_CONSUMER_V1) {
         window.MAXESS_RESULT_CONSUMER_V1.replay();
@@ -143,7 +154,6 @@ SURGICAL PATCH V2:
     }, delay);
   });
 
-  // Also provide a browser-native lifecycle replay for bfcache/navigation.
   window.addEventListener('pageshow', function () {
     window.setTimeout(function () {
       if (window.MAXESS_RESULT_CONSUMER_V1) {
