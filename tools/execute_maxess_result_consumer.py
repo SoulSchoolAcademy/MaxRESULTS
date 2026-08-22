@@ -3,11 +3,18 @@ import re
 
 E01 = Path('E01-SECTION-01-WORKING.html')
 E02 = Path('E02-SECTION-02-WORKING.html')
+E03 = Path('E03-SECTION-03-WORKING.html')
+E04 = Path('E04-SECTION-04-WORKING.html')
 CONSUMER = Path('MAXESS-RESULT-CONSUMER-V1.html')
 MARKER = 'MAXESS_RESULT_CONSUMER_V1'
 
 # NAYA TRANSPORT REPAIR TRIGGER: execute the canonical cleanup against the current branch source.
-# NORTH STAR GUARDRAIL V2: one authoritative result transport; E01/E02 must never own competing hash transport.
+# NORTH STAR GUARDRAIL V3: one authoritative result transport across the host page and
+# Groove iframe embeds. Sections never score or invent results; they only consume the
+# authoritative MAXESS_RESULT contract/events/message relay.
+
+
+EMBED_MESSAGE = r'''\n/* MAXESS_RESULT_IFRAME_RELAY_V1 — receive the authoritative result from the host consumer. */\nwindow.addEventListener('message',function(event){\n  try{\n    var data=event&&event.data;\n    if(!data||data.type!=='MAXESS_RESULT_READY')return;\n    var result=data.result;\n    if(!result||result.contractVersion!=='MAXESS_RESULT_V1')return;\n    window.MAXESS_RESULT=result;\n    try{sessionStorage.setItem('MAXESS_RESULT_V1',JSON.stringify(result));}catch(e){}\n    try{localStorage.setItem('MAXESS_RESULT_V1',JSON.stringify(result));}catch(e){}\n    window.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:result}));\n    window.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:result}));\n  }catch(e){}\n});\n'''
 
 
 def strip_e01_consumer(s):
@@ -40,20 +47,44 @@ def strip_e02_transport(s):
     return s
 
 
+def add_iframe_relay(s, section_name):
+    marker = 'MAXESS_RESULT_IFRAME_RELAY_V1'
+    if marker in s:
+        return s
+    idx = s.rfind('</script>')
+    if idx < 0:
+        raise SystemExit(f'{section_name}: no closing script tag found')
+    return s[:idx] + EMBED_MESSAGE + s[idx:]
+
+
 def main():
     if not CONSUMER.exists():
         raise SystemExit('Standalone MAXESS_RESULT_CONSUMER_V1 artifact is missing')
     consumer = CONSUMER.read_text(encoding='utf-8')
     if consumer.count(MARKER) != 2:
         raise SystemExit('Standalone consumer identity check failed')
+
     e01 = strip_e01_consumer(E01.read_text(encoding='utf-8'))
     e01 = strip_e01_text_fallback(e01)
     e02 = strip_e02_transport(E02.read_text(encoding='utf-8'))
+    e03 = E03.read_text(encoding='utf-8')
+    e04 = E04.read_text(encoding='utf-8')
+
+    e01 = add_iframe_relay(e01, 'E01')
+    e02 = add_iframe_relay(e02, 'E02')
+    e03 = add_iframe_relay(e03, 'E03')
+    e04 = add_iframe_relay(e04, 'E04')
+
     E01.write_text(e01, encoding='utf-8')
     E02.write_text(e02, encoding='utf-8')
-    print('Canonical transport architecture applied: standalone consumer -> E01 -> E02 -> E03 -> E04')
+    E03.write_text(e03, encoding='utf-8')
+    E04.write_text(e04, encoding='utf-8')
+
+    print('Canonical transport architecture applied: standalone consumer -> host + E01 -> E02 -> E03 -> E04')
     print('E01 bytes:', len(e01.encode('utf-8')))
     print('E02 bytes:', len(e02.encode('utf-8')))
+    print('E03 bytes:', len(e03.encode('utf-8')))
+    print('E04 bytes:', len(e04.encode('utf-8')))
 
 
 if __name__ == '__main__':
