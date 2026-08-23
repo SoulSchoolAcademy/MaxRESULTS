@@ -26,17 +26,21 @@ The repository's own governing documents already require:
 
 The conversation response violated those requirements by handing the task decision back to the human.
 
-## Technical finding from E00
+## Technical finding
 
-The supplied `E00` artifact was verified as `MAXESS_E00_ISOLATED_V4` and correctly contains the assessment/scoring engine, `MAXESS_RESULT_V1` contract, storage, and result events. Its final completion path deliberately stopped after publishing the contract and did **not** navigate to Results.
+The authoritative `main/E00` source was re-inspected after the repair workflow was added. It remains `MAXESS_E00_ISOLATED_V4` and still has the original completion behavior: it validates and broadcasts `MAXESS_RESULT_V1`, then renders an in-place `ASSESSMENT COMPLETE` surface instead of navigating to Results.
 
-The immediate product failure is therefore a **handoff gap at the E00 → Results boundary**, not a scoring-engine defect.
+Therefore the **first current technical divergence is proven at the repository source state itself**: the repair automation exists, but its mutation has not yet been evidenced as having landed in `E00`.
 
-The current repair adds a deterministic one-click handoff adapter to E00:
+This is an **automation execution / delivery gap**, not a scoring-engine defect.
 
-`Q15 → save final response → validate MAXESS_RESULT_V1 → broadcast → encode → results.nayanet.app/#maxess-result=<payload>`
+## Intended repair
 
-The final Continue control is made idempotent so a second click cannot submit another result or re-enter the finalization path.
+The smallest correct E00 repair remains:
+
+`Q15 → save final response → finalizing guard → buildContract() → validateContract() → broadcastResult() → encode() → results.nayanet.app/#maxess-result=<payload>`
+
+The final Continue control must be idempotent, disabled during finalization, and use the top window when E00 is embedded. The E00 completion surface must not remain as the user-facing destination.
 
 ## Preservation
 
@@ -53,6 +57,22 @@ Preserve:
 
 Do not replace the scoring system or invent a second result authority to solve a handoff problem.
 
+## Repair automation
+
+The original workflow is:
+
+`.github/workflows/repair-e00-results-handoff.yml`
+
+A second deterministic repair/verification workflow was added after the source-state divergence was discovered:
+
+`.github/workflows/repair-e00-results-handoff-v2.yml`
+
+Commit:
+
+`efc4f2312e451de03d7f28172fbdc7caebe624cc`
+
+The V2 workflow is designed to be deterministic and idempotent, validate the E00 handoff contract, validate the Results consumer, run JavaScript syntax QA, reject `results.nayanet.xyz`, and commit only when E00 actually changes.
+
 ## Naya operating guardrail
 
 When Naya requests a source artifact during an active engineering mission, the reason for the request is already part of Naya's execution responsibility. After the artifact arrives, Naya must:
@@ -67,11 +87,25 @@ When Naya requests a source artifact during an active engineering mission, the r
 
 Naya must **not** ask the human to select among obvious engineering operations merely because several operations are possible.
 
+## New verification law
+
+**Workflow presence is not source repair.**
+
+A repair workflow is only **IMPLEMENTED** after the target artifact itself has been re-read and the required mutation is present. A workflow definition, intended mutation, or successful workflow creation commit is not evidence that the target source changed.
+
+The required chain is:
+
+**AUTOMATION COMMIT → WORKFLOW RUN → TARGET SOURCE COMMIT → TARGET SOURCE INSPECTION → STATIC QA → LIVE USER-JOURNEY VERIFICATION**
+
+Never collapse those states.
+
 ## Verification status
 
-- **IMPLEMENTED:** E00 handoff repair automation has been committed to `main`.
-- **VERIFIED:** source-level repair intent and required guardrails are defined in the workflow.
-- **LIVE VERIFIED:** NOT YET ESTABLISHED.
+- **IMPLEMENTED:** repair automation exists in GitHub.
+- **VERIFIED:** North Star, root cause, preservation boundary, and intended surgical repair are verified from repository source/docs.
+- **LIVE VERIFIED:** NOT ESTABLISHED.
+- **E00 SOURCE REPAIR:** NOT YET VERIFIED AS LANDED in `main/E00` at this note update.
+- **HUMAN REVIEW REQUIRED:** published Groove runtime must eventually be visually confirmed.
 
 ## Required future response shape
 
