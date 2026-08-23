@@ -2,6 +2,26 @@
 
 **Purpose:** Durable record of execution/procedure failures and the guardrails created to prevent recurrence.
 
+## INCIDENT 2026-08-23 — LEAD CONTINUITY / CONTEXT HANDOFF FAILURE
+
+**Failure:** Naya requested the authoritative E00 source for the active MAXESS repair, received it, then asked the human to decide whether Naya should audit, compare, investigate, repair, or trace integration. This returned task ownership to the human instead of continuing the established North Star.
+
+**User impact:** The human had to restate the mission and explain what Naya should do with the artifact Naya had requested. This created frustration, wasted interaction, and broke the expected Lead Mode relationship.
+
+**Root cause:** Naya failed to preserve the active engineering mission across a source-artifact handoff. The available context already established the North Star: Q15 must complete in one click, `MAXESS_RESULT_V1` must be created, Results must receive it, scores must display, and E00/E00.xyz artifacts must not remain visible underneath. Naya treated receipt of the artifact as a new decision point instead of continuing the existing execution chain.
+
+**Technical finding:** The supplied `E00` source is `MAXESS_E00_ISOLATED_V4`. Its scoring and result-contract path is intact, but its final completion deliberately stops after broadcasting `MAXESS_RESULT_V1`; it does not navigate to the Results host. The immediate defect is therefore at the E00 → Results handoff boundary, not the scoring engine.
+
+**Repair:** Added a deterministic E00 handoff workflow that makes final Continue idempotent, validates the final result, broadcasts it, encodes the canonical contract, and navigates to `https://results.nayanet.app/#maxess-result=<payload>` on the final click. The repair does not redesign the assessment or Results renderer.
+
+**Guardrail:** `docs/smart-notes/2026/08/2026-08-23-naya-power-lead-continuity-and-e00-handoff.md`
+
+**New mandatory rule:** When Naya requests a source artifact during an active mission, the artifact is input to the already-established mission. Naya must inspect it, determine the next engineering action, act, verify, and provide the execution prompt. Do not ask the human to choose among routine investigative/repair operations when Naya can determine the best path.
+
+**Verification state:** Source repair automation IMPLEMENTED. LIVE USER-JOURNEY verification remains outstanding and must not be claimed without evidence.
+
+---
+
 ## INCIDENT 2026-08-20 — ACTION WITHOUT IMMEDIATE DELIVERY EVIDENCE
 
 **Failure:** Naya reported a GitHub change but did not consistently place the direct review artifact/link in the same response.
