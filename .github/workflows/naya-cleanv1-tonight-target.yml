@@ -65,7 +65,7 @@ jobs:
           if grep -q 'id="presenceOrb"' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
           if grep -q 'id="completeStage"' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
           if grep -q 'id="continueToResults"' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
-          if grep -qF "$('continueToResults').addEventListener" 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
+          if grep -qF 'continueToResults' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
           python - <<'PY'
           import re
           from pathlib import Path
