@@ -64,6 +64,7 @@ jobs:
           from pathlib import Path
           import hashlib
           import re
+          from html.parser import HTMLParser
 
           active = Path('active-results')
           baseline_path = active / 'BASELINE-WORKING.html'
@@ -128,9 +129,41 @@ jobs:
               out.append(text[cursor:])
               return ''.join(out)
 
+          class ShellParser(HTMLParser):
+              def __init__(self):
+                  super().__init__(convert_charrefs=False)
+                  self.starts={'html':0,'head':0,'body':0}
+                  self.ends={'html':0,'head':0,'body':0}
+              def handle_starttag(self, tag, attrs):
+                  if tag.lower() in self.starts:
+                      self.starts[tag.lower()] += 1
+              def handle_startendtag(self, tag, attrs):
+                  pass
+              def handle_endtag(self, tag):
+                  if tag.lower() in self.ends:
+                      self.ends[tag.lower()] += 1
+
+          def normalize_document_shell(text):
+              parser=ShellParser()
+              parser.feed(text)
+              parser.close()
+              if parser.starts['html'] != 1:
+                  raise SystemExit(f'BASELINE INVALID: html opening tags={parser.starts["html"]}')
+              if parser.ends['html'] == 0 and parser.ends['body'] == 1:
+                  text = text.rstrip() + '\n</html>\n'
+                  parser=ShellParser()
+                  parser.feed(text)
+                  parser.close()
+              if parser.ends['html'] != 1:
+                  raise SystemExit(f'BASELINE INVALID: html closing tags={parser.ends["html"]}')
+              if parser.starts['head'] != 1 or parser.ends['head'] != 1:
+                  raise SystemExit('BASELINE INVALID: head shell count')
+              if parser.starts['body'] != 1 or parser.ends['body'] != 1:
+                  raise SystemExit('BASELINE INVALID: body shell count')
+              return text
+
           baseline = baseline_path.read_text(encoding='utf-8')
-          if baseline.lower().count('<html') != 1 or baseline.lower().count('</html>') != 1:
-              raise SystemExit('BASELINE INVALID: document shell count')
+          baseline = normalize_document_shell(baseline)
           if baseline.lower().count('<!doctype html>') > 1:
               raise SystemExit('BASELINE INVALID: multiple doctypes')
 
@@ -174,8 +207,13 @@ jobs:
               count = len(re.findall(r'<[^>]+\bid=["\']' + re.escape(sid) + r'["\']', baseline, re.I))
               if count != 1:
                   raise SystemExit(f'INTEGRATED QA FAILED: {sid} count={count}')
-          if baseline.lower().count('<!doctype html>') != 1 or baseline.lower().count('<html') != 1 or baseline.lower().count('</html>') != 1:
+          final_shell=ShellParser()
+          final_shell.feed(baseline)
+          final_shell.close()
+          if final_shell.starts['html'] != 1 or final_shell.ends['html'] != 1 or final_shell.starts['head'] != 1 or final_shell.ends['head'] != 1 or final_shell.starts['body'] != 1 or final_shell.ends['body'] != 1:
               raise SystemExit('INTEGRATED QA FAILED: document shell')
+          if baseline.lower().count('<!doctype html>') != 1:
+              raise SystemExit('INTEGRATED QA FAILED: doctype count')
           if re.search(r'<body[\s\S]*<!doctype\s+html', baseline, re.I):
               raise SystemExit('INTEGRATED QA FAILED: nested document shell')
           if baseline.count('maxess-complete-results-bridge-v5') != 1:
@@ -199,6 +237,7 @@ jobs:
               '- Runtime authority: window.MAXESS_RESULT\n'
               '- Results bridge: V5, single global bridge\n'
               '- Section extraction: depth-corrected root-element parser\n'
+              '- Baseline shell normalization: closes the existing document shell when the authoritative baseline contains one html/head/body shell but omits the final html close tag\n'
               f'- SHA-256: {digest}\n'
               f'- Bytes: {len(baseline.encode("utf-8"))}\n'
               f'- Lines: {len(baseline.splitlines())}\n'
