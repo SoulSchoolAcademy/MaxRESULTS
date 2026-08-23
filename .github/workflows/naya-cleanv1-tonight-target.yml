@@ -24,16 +24,21 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
+          import re
           p=Path('AIScoreMAXESS-CLEAN-V1.html')
           s=p.read_text(encoding='utf-8')
-          old1='<div class="naya-presence"><div class="naya-portrait" aria-hidden="true"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg" alt=""></div><div class="presence-orb" id="presenceOrb" aria-hidden="true"></div><div class="presence-copy"><strong>Naya</strong><span>Let me walk you through this.</span></div></div>'
-          old2='<div class="naya-presence"><div class="presence-orb" id="presenceOrb" aria-hidden="true"></div><div class="presence-copy"><strong>Naya</strong><span>Let me walk you through this.</span></div></div>'
-          new='<div class="naya-presence"><div class="naya-portrait" aria-hidden="true"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg" alt=""></div><div class="presence-copy"><strong>Naya</strong><span>Let me walk you through this.</span></div></div>'
-          if old1 in s: s=s.replace(old1,new,1)
-          elif old2 in s:
-              portrait='<div class="naya-portrait" aria-hidden="true"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg" alt=""></div>'
-              s=s.replace(old2,old2.replace('<div class="presence-orb" id="presenceOrb" aria-hidden="true"></div>',portrait),1)
-          else: raise SystemExit('Naya dialog structure not recognized.')
+          pattern=r'<div\s+class=["\']naya-presence["\'][^>]*>.*?</div>\s*</div>'
+          match=re.search(pattern,s,re.S|re.I)
+          if not match:
+              raise SystemExit('Naya dialog structure not recognized.')
+          block=match.group(0)
+          portrait='<div class="naya-portrait" aria-hidden="true"><img src="https://raw.githubusercontent.com/SoulSchoolAcademy/MaxRESULTS/main/Naya%20Profile%206.jpg" alt=""></div>'
+          if 'class="naya-portrait"' not in block and "class='naya-portrait'" not in block:
+              block=re.sub(r'<div\s+class=["\']presence-orb["\'][^>]*>\s*</div>\s*',portrait,block,count=1,flags=re.S|re.I)
+          block=re.sub(r'<div\s+class=["\']presence-orb["\'][^>]*>\s*</div>\s*','',block,count=1,flags=re.S|re.I)
+          if 'naya-portrait' not in block:
+              raise SystemExit('Naya portrait insertion failed.')
+          s=s[:match.start()]+block+s[match.end():]
           s=s.replace("$('presenceOrb').classList.toggle('playing',v);",'',1)
           old_finish='function finishInterests(){finishAssessment()}'
           if old_finish in s: s=s.replace(old_finish,"function finishInterests(){try{publish()}catch(e){console.error(e)}}",1)
