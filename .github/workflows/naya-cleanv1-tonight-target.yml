@@ -65,7 +65,7 @@ jobs:
           if grep -q 'id="presenceOrb"' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
           if grep -q 'id="completeStage"' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
           if grep -q 'id="continueToResults"' 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
-          if grep -q "$('continueToResults').addEventListener" 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
+          if grep -qF "$('continueToResults').addEventListener" 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
           python - <<'PY'
           import re
           from pathlib import Path
@@ -80,7 +80,7 @@ jobs:
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git config user.email '41898282+users.noreply.github.com'
           git add -- 'AIScoreMAXESS-CLEAN-V1.html'
           git rm -- 'NAYA_TONIGHT_REPAIR_TRIGGER_3.txt' || true
           git commit -m 'Repair CLEAN V1 Naya and Results transition'
