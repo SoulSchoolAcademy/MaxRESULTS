@@ -44,7 +44,7 @@
 <div class="answers" id="answers" role="group" aria-label="Answer choices"></div>
 </div>
 <section id="interestStage" class="interest-stage hidden" aria-labelledby="interestTitle"><div class="eyebrow">ONE LAST THING</div><h2 id="interestTitle">Where do you want AI to become more useful to you?</h2><p>Choose anything that interests you. There are no wrong answers. Your choices simply help MAXESS personalize what you explore next.</p><div class="interest-grid" id="interestGrid"></div><div class="interest-actions"><button id="interestContinue" type="button">Continue to My Report <span class="arrow">→</span></button><button id="interestSkip" class="secondary" type="button">Skip this step</button></div></section>
-<div id="completeStage" class="complete hidden" aria-live="polite"><div class="complete-orb" aria-hidden="true"></div><h2>Your personal report is ready.</h2><p>I'm sending your real assessment result to MAXESS Results now. Nothing is being invented or substituted.</p><button class="primary" id="continueToResults" type="button">Continue to My Report <span class="arrow">→</span></button></div>
+
 </div></section>
 <footer class="footer">MAXESS · AI Mastery Assessment · DATA → INSIGHT → UNDERSTANDING → ACTION → CAPABILITY</footer>
 </div></main>
@@ -122,7 +122,7 @@ function renderInterests(){const grid=$('interestGrid');grid.innerHTML='';INTERE
 function finishInterests(){try{publish()}catch(e){console.error(e)}}
 function finishAssessment(){state.completed=true}
 function renderAudioPreview(){const c=buildContract();return c.audio}
-$('continueButton').addEventListener('click',continueAssessment);$('nayaButton').addEventListener('click',openNaya);$('closeNaya').addEventListener('click',closeNaya);$('playNaya').addEventListener('click',()=>{playNaya();state.firstVisit=false;$('nayaDialog').classList.remove('open');$('nayaButton').focus()});$('continueToResults').addEventListener('click',()=>{try{publish()}catch(e){console.error(e)}});$('interestContinue').addEventListener('click',finishInterests);$('interestSkip').addEventListener('click',finishInterests);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('nayaDialog').classList.contains('open'))closeNaya()});
+$('continueButton').addEventListener('click',continueAssessment);$('nayaButton').addEventListener('click',openNaya);$('closeNaya').addEventListener('click',closeNaya);$('playNaya').addEventListener('click',()=>{playNaya();state.firstVisit=false;$('nayaDialog').classList.remove('open');$('nayaButton').focus()});$('interestContinue').addEventListener('click',finishInterests);$('interestSkip').addEventListener('click',finishInterests);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('nayaDialog').classList.contains('open'))closeNaya()});
 try{validateAssessment();renderQuestion();setTimeout(openNaya,180)}catch(e){console.error(e);$('questionLabel').textContent='ASSESSMENT ERROR';$('questionTitle').textContent='MAXESS is temporarily unavailable.';$('answers').innerHTML=''}
 window.MAXESS_AISCORE={questions:QUESTIONS,dimensions:DIMENSIONS,scoreValues:SCORE_VALUES,narratives:NARRATIVES,audio:NAYA_AUDIO_REPORTS,buildContract,validateContract,publish,renderAudioPreview};
 window.MAXESS_CLEAN_V1_REPAIR_APPLIED=true;window.NAYA_WELCOME_V1=true;window.MAXESS_CLEAN_V1_TONIGHT_REPAIR_V1=true;

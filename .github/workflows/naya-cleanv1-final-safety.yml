@@ -1,0 +1,60 @@
+name: Naya CLEAN V1 Final Safety Repair
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove invalid completion listener and verify direct Results transition
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('AIScoreMAXESS-CLEAN-V1.html')
+          s=p.read_text(encoding='utf-8')
+          old="$('continueToResults').addEventListener('click',()=>{try{publish()}catch(e){console.error(e)}});"
+          if old in s: s=s.replace(old,'',1)
+          old_finish_assessment="function finishAssessment(){$('assessmentStage').classList.add('hidden');$('completeStage').classList.remove('hidden');state.completed=true;$('continueToResults').focus()}"
+          if old_finish_assessment in s: s=s.replace(old_finish_assessment,"function finishAssessment(){state.completed=true}",1)
+          old_finish="function finishInterests(){finishAssessment()}"
+          if old_finish in s: s=s.replace(old_finish,"function finishInterests(){try{publish()}catch(e){console.error(e)}}",1)
+          old_url="location.assign('https://results.nayanet.app/#maxess-result='+payload);"
+          if old_url in s: s=s.replace(old_url,"location.assign('https://results.nayanet.xyz/#maxess-result='+payload);",1)
+          marker='window.MAXESS_CLEAN_V1_FINAL_SAFETY_V1=true;'
+          if marker not in s: s=s.replace("window.MAXESS_CLEAN_V1_TONIGHT_REPAIR_V1=true;","window.MAXESS_CLEAN_V1_TONIGHT_REPAIR_V1=true;"+marker,1)
+          p.write_text(s,encoding='utf-8')
+      - name: Verify
+        shell: bash
+        run: |
+          test -s 'AIScoreMAXESS-CLEAN-V1.html'
+          grep -q 'MAXESS_RESULT_V1' 'AIScoreMAXESS-CLEAN-V1.html'
+          grep -q 'https://results.nayanet.xyz/#maxess-result=' 'AIScoreMAXESS-CLEAN-V1.html'
+          grep -q 'function finishInterests(){try{publish()}' 'AIScoreMAXESS-CLEAN-V1.html'
+          grep -q 'MAXESS_CLEAN_V1_FINAL_SAFETY_V1' 'AIScoreMAXESS-CLEAN-V1.html'
+          if grep -q "$('continueToResults').addEventListener" 'AIScoreMAXESS-CLEAN-V1.html'; then exit 1; fi
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          s=Path('AIScoreMAXESS-CLEAN-V1.html').read_text(encoding='utf-8')
+          scripts=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S|re.I)
+          Path('/tmp/aiscore.js').write_text('\n'.join(scripts),encoding='utf-8')
+          print('bytes',len(s.encode()),'lines',len(s.splitlines()),'scripts',len(scripts))
+          PY
+          node --check /tmp/aiscore.js
+          git diff --check
+      - name: Commit and remove runner
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- 'AIScoreMAXESS-CLEAN-V1.html'
+          git rm -- '.github/workflows/naya-cleanv1-final-safety.yml'
+          git rm -- 'NAYA_MAIN_REPAIR_TRIGGER.txt' || true
+          git commit -m 'Finalize CLEAN V1 Results transition safety'
+          git push
