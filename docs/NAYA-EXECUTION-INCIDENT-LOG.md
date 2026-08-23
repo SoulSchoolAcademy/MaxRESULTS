@@ -22,6 +22,24 @@
 
 ---
 
+## INCIDENT 2026-08-23 — E00 REPAIR AUTOMATION EXECUTION GAP
+
+**Failure:** After the E00 handoff repair workflow was added, the authoritative `main/E00` source was re-inspected and remained the pre-repair `MAXESS_E00_ISOLATED_V4` implementation: no `MAXESS_E00_RESULTS_HANDOFF_V1`, no `state.finalizing`, no canonical Results navigation, and no one-click handoff. The workflow existed, but the source mutation was not evidenced as having executed.
+
+**First divergence:** Repository source state diverged from the documented repair state: the repair automation was present, but `E00` itself was not repaired.
+
+**Root cause classification:** **AUTOMATION EXECUTION / DELIVERY GAP**, not an assessment-scoring defect. The source-of-truth check caught that the expected mutation had not landed.
+
+**Action taken:** Added a second deterministic, idempotent repair workflow at `.github/workflows/repair-e00-results-handoff-v2.yml` with explicit source QA, consumer QA, JavaScript syntax checks, canonical `.app` target checks, `.xyz` rejection, and a final repository-state assertion. Commit: `efc4f2312e451de03d7f28172fbdc7caebe624cc`.
+
+**Current limitation:** The connected GitHub interface does not expose a workflow-dispatch action in the available toolset, and the workflow run has not yet produced evidence of an E00-mutating commit. Therefore the E00 source must still be treated as **NOT REPAIRED / UNKNOWN LIVE EXECUTION** until a fresh workflow execution or equivalent direct source mutation is observed.
+
+**Guardrail:** Never treat the presence of a repair workflow as proof that the repaired source exists. After every automation change, verify the target artifact itself and its resulting commit SHA before claiming IMPLEMENTED/VERIFIED.
+
+**Required verification:** `main/E00` must contain `MAXESS_E00_RESULTS_HANDOFF_V1`, `state.finalizing`, `Loading Results…`, `https://results.nayanet.app/#maxess-result=`, top-window navigation, and no `results.nayanet.xyz` before the source repair can be marked IMPLEMENTED.
+
+---
+
 ## INCIDENT 2026-08-20 — ACTION WITHOUT IMMEDIATE DELIVERY EVIDENCE
 
 **Failure:** Naya reported a GitHub change but did not consistently place the direct review artifact/link in the same response.
