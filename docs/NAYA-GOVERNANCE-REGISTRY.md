@@ -18,7 +18,7 @@
 | **Naya personality / character / voice / relationship behaviour** | **`docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md`** | Naya Digital Codex, personality exemplars, Awesome Trait Standard | **GOVERNING PERSONALITY SPECIFICATION — HUMAN APPROVED 21 AUGUST 2026** |
 | Lead execution / excellence / communication | `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` | `NAYA-OS.md`, Naya Law, Nitro protocols | GOVERNING LAW |
 | Project language / definitions | `docs/NAYA-LANGUAGE-DICTIONARY.md` | branch-local language docs | GOVERNING |
-| General scorecarding method | `docs/NAYA-SCORECARDING-SYSTEM.md` | artifact-specific scorecards | GOVERNING |
+| **General Naya Power scorecarding / excellence evaluation** | **`docs/NAYA-SCORECARDING-SYSTEM.md`** | artifact-specific scorecards and historical scorecard material | **CANONICAL SCORECARDING & EXCELLENCE CODEX** |
 | Executive North Star / what-why-how | `docs/NAYA-EXECUTIVE-PLAN.md` | Blueprint / Smart Notes | GOVERNING |
 | Reusable execution prompt | `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` | older prompt templates | CANONICAL |
 | **Naya Power customer activation / onboarding / first-use behaviour** | **`docs/NAYA-POWER-CUSTOMER-ACTIVATION-PROTOCOL.md`** | `tests/NAYA-POWER-CUSTOMER-ACTIVATION-TEST.md`, Lead/Nitro/Law protocols | **CANONICAL CUSTOMER ACTIVATION SPECIFICATION** |
@@ -72,6 +72,14 @@ This specification **supersedes any older or competing document that claims to d
 
 Runtime behavioural activation remains subject to actual platform/tool capability and must be verified rather than merely claimed.
 
+## Scorecarding authority law
+
+`docs/NAYA-SCORECARDING-SYSTEM.md` is the **canonical owner for the general Naya Power scorecarding and excellence method**. It defines scorecard construction, weighting, evidence-aware evaluation, 0–10 scoring, the 10-star standard, critical-failure handling, the **WHY IS THIS NOT A 10?** improvement loop, root-cause evaluation, standard and custom rubrics, scorecard output contracts, human-proof requirements, Oscar challenge, adversarial tests, machine-readable scorecard structure, continuity, learning, and SOMЕ application.
+
+Product-specific scorecards may impose stricter requirements for their own artifacts. They do not silently override this general methodology outside their assigned scope. Where a product-specific rubric is more specific and authoritative, use it for that artifact while preserving the general scorecard principles.
+
+The scorecard Codex does not itself authorize deployment, publication, destructive action, financial action, security exceptions, or other consequential operations. Those remain governed by applicable authority and authorization rules.
+
 ## Customer activation authority law
 
 `docs/NAYA-POWER-CUSTOMER-ACTIVATION-PROTOCOL.md` is the **canonical owner for Naya Power customer activation, onboarding, first-use initialization, customer-facing lead behaviour, and the transition from completed setup to the first verified execution cycle**.
@@ -119,4 +127,4 @@ A rule moves through this path:
 
 **OBSERVATION → LEARNING → CANDIDATE RULE → GOVERNANCE REVIEW → CANONICAL OWNER → VERIFIED USE**
 
-The Naya Personality Manuscript has completed governance review and human approval. The Naya Brain specification is the canonical Brain authority. The Naya Notes specification is the canonical durable-memory-system authority. The Naya Nitro specification is the canonical Nitro execution authority. The Naya Law Master Activation Specification is the canonical portable Naya Law activation authority. Runtime behavioural activation remains subject to platform capability and verification.
+The Naya Personality Manuscript has completed governance review and human approval. The Naya Brain specification is the canonical Brain authority. The Naya Notes specification is the canonical durable-memory-system authority. The Naya Nitro specification is the canonical Nitro execution authority. The Naya Law Master Activation Specification is the canonical portable Naya Law activation authority. The Naya Scorecarding & Excellence Codex is the canonical general scorecarding authority. Runtime behavioural activation remains subject to platform capability and verification.
