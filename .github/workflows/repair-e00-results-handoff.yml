@@ -1,0 +1,198 @@
+name: MAXESS E00 — One-Click Results Handoff
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'E00'
+      - '.github/workflows/repair-e00-results-handoff.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: maxess-e00-results-handoff
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Apply deterministic E00 handoff repair
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          p = Path('E00')
+          s = p.read_text(encoding='utf-8')
+
+          # Prevent duplicate final submissions while the Results navigation starts.
+          state_pattern = re.compile(
+              r"const state=\{\n  firstVisit:true,\n  nayaText:'',\n  index:0,\n  selected:null,\n  responses:\[\],\n  nayaPlaying:false,\n  completed:false\n\};"
+          )
+          state_replacement = "const state={\n  firstVisit:true,\n  nayaText:'',\n  index:0,\n  selected:null,\n  responses:[],\n  nayaPlaying:false,\n  completed:false,\n  finalizing:false\n};"
+          s, state_count = state_pattern.subn(state_replacement, s, count=1)
+          if state_count not in (0, 1):
+              raise SystemExit(f'Unexpected E00 state replacement count: {state_count}')
+
+          # Replace the final-click lifecycle with an idempotent, one-click path.
+          continue_pattern = re.compile(
+              r"function continueAssessment\(\)\{.*?\n\}\n\n/\* ========================================================\n   AUDIO PREVIEW",
+              re.S,
+          )
+          continue_replacement = '''function continueAssessment(event){
+
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+    if(event.stopImmediatePropagation) event.stopImmediatePropagation();
+  }
+
+  if(state.finalizing || !state.selected){
+    return;
+  }
+
+  saveResponse();
+  stopNaya();
+
+  if(state.index===14){
+
+    state.finalizing=true;
+    state.completed=true;
+
+    const button=$('maxessContinueButton');
+
+    button.disabled=true;
+    button.setAttribute('aria-disabled','true');
+    $('maxessContinueText').textContent='Loading Results…';
+
+    try{
+      completeAssessment();
+    }catch(e){
+      state.finalizing=false;
+      state.completed=false;
+      button.disabled=false;
+      button.setAttribute('aria-disabled','false');
+      $('maxessContinueText').textContent='Continue';
+      console.error(
+        'MAXESS final Results handoff failed:',
+        e
+      );
+    }
+
+    return;
+  }
+
+  state.index++;
+  renderQuestion();
+
+  setTimeout(
+    openNaya,
+    140
+  );
+
+}
+
+/* ========================================================
+   AUDIO PREVIEW'''
+          s, continue_count = continue_pattern.subn(continue_replacement, s, count=1)
+          if continue_count != 1:
+              raise SystemExit(f'Expected exactly one continueAssessment replacement, found {continue_count}')
+
+          # Keep E00 as the assessment/scoring owner, but make its final contract
+          # handoff deterministic. The Results renderer remains a separate system.
+          marker = "  broadcastResult(c);\n\n  state.completed=true;"
+          handoff = """  broadcastResult(c);
+
+  const encoded=encode(c);
+  if(!encoded){
+    throw new Error('MAXESS_RESULT_V1 encoding failed before Results handoff.');
+  }
+
+  const resultsUrl=
+    'https://results.nayanet.app/#maxess-result='+
+    encoded;
+
+  state.completed=true;
+
+  ROOT.dataset.completed='true';
+  ROOT.dataset.resultReady='true';
+  ROOT.dataset.contractVersion='MAXESS_RESULT_V1';
+
+  try{
+    if(window.top && window.top!==window){
+      window.top.location.assign(resultsUrl);
+    }else{
+      window.location.assign(resultsUrl);
+    }
+  }catch(e){
+    try{
+      window.location.assign(resultsUrl);
+    }catch(_){
+      throw new Error('MAXESS Results navigation failed: '+e.message);
+    }
+  }
+
+  return true;"""
+          if marker in s:
+              s = s.replace(marker, handoff, 1)
+          elif "const resultsUrl='https://results.nayanet.app/#maxess-result='" not in s:
+              raise SystemExit('E00 completeAssessment handoff anchor missing')
+
+          # Do not leave a visible E00 completion surface underneath the Results page.
+          # Navigation is now the final user-facing operation.
+          if 'MAXESS_E00_RESULTS_HANDOFF_V1=true' not in s:
+              version_marker = "window.MAXESS_E00_ISOLATED_V4=true;"
+              if version_marker not in s:
+                  raise SystemExit('E00 version marker missing')
+              s = s.replace(
+                  version_marker,
+                  version_marker + "\n\nwindow.MAXESS_E00_RESULTS_HANDOFF_V1=true;",
+                  1,
+              )
+
+          p.write_text(s, encoding='utf-8')
+          print('E00 handoff mutation applied.')
+
+      - name: Static E00 QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F "window.MAXESS_E00_RESULTS_HANDOFF_V1=true;" E00 >/dev/null
+          grep -F "https://results.nayanet.app/#maxess-result=" E00 >/dev/null
+          grep -F "state.finalizing=true;" E00 >/dev/null
+          grep -F "Loading Results…" E00 >/dev/null
+          grep -F "window.top.location.assign(resultsUrl)" E00 >/dev/null
+          grep -F "MAXESS_RESULT_V1" E00 >/dev/null
+          grep -F "responses.length!==15" E00 >/dev/null
+          if grep -Fq "results.nayanet.xyz" E00; then
+            echo 'OBSOLETE .XYZ RESULTS TARGET FOUND IN E00'
+            exit 1
+          fi
+          if grep -Fq "results.nayanet.app/#maxess-result=" E00; then
+            echo 'CANONICAL RESULTS TARGET: PASS'
+          fi
+          node --check <(sed -n '/<script>/,/<\/script>/p' E00 | sed '1d;$d')
+          echo 'E00 STATIC HANDOFF QA: PASS'
+
+      - name: Commit repaired E00
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'Naya Master'
+          git config user.email 'naya-master@users.noreply.github.com'
+          git add E00
+          if git diff --cached --quiet; then
+            echo 'E00 already repaired — no commit required.'
+          else
+            git commit -m 'fix(E00): enforce one-click Results handoff'
+            git push origin main
+          fi
