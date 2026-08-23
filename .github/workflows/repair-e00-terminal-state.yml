@@ -1,11 +1,13 @@
-name: MAXESS E00 — Terminal Results Repair
+name: MAXESS E00 — Canonical Terminal Results Repair
 
 on:
   push:
     branches: [main]
     paths:
+      - 'E00'
       - '.github/workflows/repair-e00-terminal-state.yml'
-      - 'AISCORE.NAYANET.APP 2026 08 21 447'
+      - 'START-HERE.md'
+      - 'docs/DEPLOYMENT-CONTRACT.md'
   workflow_dispatch:
 
 permissions:
@@ -15,67 +17,150 @@ jobs:
   repair:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
+      - name: Checkout canonical main
         uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 1
 
-      - name: Apply E00 terminal Results repair
+      - name: Patch canonical E00 only
         shell: python
         run: |
           from pathlib import Path
-          p=Path('AISCORE.NAYANET.APP 2026 08 21 447')
-          s=p.read_text(encoding='utf-8')
+          import re
 
-          if 'MAXESS_E00_TERMINAL_V2' in s:
-              print('E00 terminal repair already present')
-              raise SystemExit(0)
+          p = Path('E00')
+          s = p.read_text(encoding='utf-8')
+          original = s
 
-          marker='.hidden{display:none!important}'
-          css='''.hidden{display:none!important}\n/* MAXESS_E00_TERMINAL_V2 */\nhtml.maxess-assessment-lock,html.maxess-assessment-lock body{overflow:hidden!important;height:100%!important;max-height:100%!important}\nbody.maxess-assessment-lock{overscroll-behavior:none!important}\n#maxessTerminal{position:fixed;inset:0;z-index:2147483000;display:none;overflow:auto;background:radial-gradient(circle at 50% -8%,rgba(126,76,255,.22),transparent 36%),radial-gradient(circle at 100% 60%,rgba(88,42,180,.12),transparent 38%),#050509;color:#faf9ff;padding:max(22px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(28px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));}\n#maxessTerminal.open{display:block}\n#maxessTerminal .terminal-shell{width:min(1080px,100%);min-height:100%;margin:0 auto;display:flex;flex-direction:column;justify-content:center;padding:clamp(18px,4vw,48px) 0}\n#maxessTerminal .terminal-eyebrow{color:#c3a8ff;font-size:11px;font-weight:950;letter-spacing:.2em;text-transform:uppercase;text-align:center}\n#maxessTerminal .terminal-title{margin:10px 0 0;text-align:center;font-size:clamp(32px,6vw,68px);line-height:1;font-weight:950;letter-spacing:-.045em}\n#maxessTerminal .terminal-score{width:min(260px,70vw);aspect-ratio:1;margin:28px auto 24px;border:1px solid rgba(195,168,255,.55);border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,rgba(255,255,255,.22),rgba(149,104,255,.18) 28%,rgba(8,6,15,.98) 70%);box-shadow:0 0 70px rgba(149,104,255,.22),inset 0 0 50px rgba(149,104,255,.08)}\n#maxessTerminal .terminal-score strong{font-size:clamp(64px,12vw,104px);line-height:.9;font-weight:950}\n#maxessTerminal .terminal-score span{display:block;margin-top:8px;color:#b8b4c3;font-size:11px;font-weight:900;letter-spacing:.18em;text-align:center}\n#maxessTerminal .terminal-dimensions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:0 auto;width:min(100%,980px)}\n#maxessTerminal .terminal-dimension{padding:18px 12px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018));text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}\n#maxessTerminal .terminal-dimension-name{min-height:30px;color:#ddd9e5;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}\n#maxessTerminal .terminal-dimension-score{margin-top:9px;font-size:28px;font-weight:950;color:#fff}\n#maxessTerminal .terminal-dimension-band{margin-top:4px;color:#b895ff;font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}\n#maxessTerminal .terminal-actions{display:flex;justify-content:center;gap:11px;flex-wrap:wrap;margin-top:28px}\n#maxessTerminal .terminal-button{min-height:52px;padding:0 22px;border-radius:16px;border:1px solid rgba(195,168,255,.7);background:#09090d;color:#fff;font-weight:950;cursor:pointer}\n#maxessTerminal .terminal-button.secondary{border-color:rgba(255,255,255,.14);color:#b8b4c3}\n#maxessTerminal .terminal-status{margin-top:16px;text-align:center;color:#777383;font-size:11px;font-weight:700}\n@media(max-width:760px){#maxessTerminal .terminal-dimensions{grid-template-columns:repeat(2,minmax(0,1fr)}#maxessTerminal .terminal-dimension:last-child{grid-column:1/-1}}\n@media(max-width:420px){#maxessTerminal .terminal-dimensions{grid-template-columns:1fr}#maxessTerminal .terminal-dimension:last-child{grid-column:auto}}\n'''
-          if marker not in s: raise SystemExit('E00 CSS marker missing')
-          s=s.replace(marker,css,1)
+          REQUIRED = [
+              'id="maxess-ai-score"',
+              'MAXESS_RESULT_V1',
+              'function renderLocalResults(c)',
+              'function publish()',
+              "$('continueButton').addEventListener('click',next,true)",
+              "results.nayanet.app/#maxess-result=",
+          ]
+          for marker in REQUIRED:
+              if marker not in s:
+                  raise SystemExit(f'Canonical E00 marker missing: {marker}')
 
-          body='<div class="dialog" id="nayaDialog">'
-          terminal='''<section id="maxessTerminal" aria-live="polite" aria-label="MAXESS Results terminal"><div class="terminal-shell"><div class="terminal-eyebrow">MAXESS · RESULTS READY</div><h2 class="terminal-title">Your AI Mastery Result</h2><div class="terminal-score"><div><strong id="terminalOverallScore">—</strong><span>OVERALL SCORE</span></div></div><div class="terminal-dimensions" id="terminalDimensions"></div><div class="terminal-actions"><button class="terminal-button" id="terminalOpenResults" type="button">OPEN FULL RESULTS →</button><button class="terminal-button secondary" id="terminalStay" type="button">VIEW SCORE HERE</button></div><div class="terminal-status" id="terminalStatus">Your verified result has been saved.</div></div></section>\n'''
-          if 'id="maxessTerminal"' not in s:
-              if body not in s: raise SystemExit('E00 dialog marker missing')
-              s=s.replace(body,terminal+body,1)
+          if 'MAXESS_E00_TERMINAL_COMPOSITION_V3' not in s:
+              anchor = 'function lockHost(){'
+              if anchor not in s:
+                  raise SystemExit('lockHost anchor missing')
 
-          a=s.find('function continueAssessment('); b=s.find('function calculate()',a)
-          if a<0 or b<0: raise SystemExit('E00 Q15 anchors missing')
-          handler='''function continueAssessment(event){if(event){event.preventDefault();event.stopPropagation();if(event.stopImmediatePropagation)event.stopImmediatePropagation()}if(state.finalizing||!state.selected)return;saveResponse();stopNaya();if(state.index===14){state.finalizing=true;state.completed=true;const button=$(\'continueButton\');button.disabled=true;button.setAttribute(\'aria-disabled\',\'true\');$(\'continueText\').textContent=\'Calculating Results…\';try{const c=buildContract();if(!validateContract(c))throw Error(\'MAXESS_RESULT_V1 validation failed\');if(c.responses.length!==15)throw Error(\'Exactly 15 responses required\');if(c.dimensions.length!==5)throw Error(\'Exactly 5 dimensions required\');broadcastResult(c);const payload=encode(c);const resultUrl=\'https://results.nayanet.app/#maxess-result=\'+payload;window.MAXESS_RESULT_HANDOFF_URL=resultUrl;renderTerminalResult(c,resultUrl);try{window.parent.postMessage({type:\'MAXESS_E00_RESULTS_HANDOFF\',contractVersion:\'MAXESS_RESULT_V1\',result:c,url:resultUrl},\'*\')}catch(e){}try{window.top.postMessage({type:\'MAXESS_E00_RESULTS_HANDOFF\',contractVersion:\'MAXESS_RESULT_V1\',result:c,url:resultUrl},\'*\')}catch(e){}try{if(window.top&&window.top!==window){window.top.location.assign(resultUrl)}else{window.location.assign(resultUrl)}}catch(navError){console.warn(\'MAXESS top navigation blocked; local terminal Results retained.\',navError);try{window.open(resultUrl,\'_blank\',\'noopener,noreferrer\')}catch(e){}}return}state.index++;renderQuestion();setTimeout(openNaya,140)}\nfunction renderTerminalResult(c,resultUrl){document.documentElement.classList.add(\'maxess-assessment-lock\');document.body.classList.add(\'maxess-assessment-lock\');const stage=$(\'maxessTerminal\');if(!stage)return;$(\'terminalOverallScore\').textContent=String(c.overallScore);$(\'terminalDimensions\').innerHTML=c.dimensions.map(function(d){return \'<article class="terminal-dimension"><div class="terminal-dimension-name">\'+esc(d.name)+\'</div><div class="terminal-dimension-score">\'+String(d.score)+\'</div><div class="terminal-dimension-band">\'+esc(d.band)+\'</div></article>\'}).join(\'\');$(\'terminalStatus\').textContent=\'Verified: 15 responses · 5 dimensions · MAXESS_RESULT_V1\';stage.dataset.resultsUrl=resultUrl;stage.classList.add(\'open\');const open=$(\'terminalOpenResults\');if(open&&!open.dataset.bound){open.dataset.bound=\'1\';open.addEventListener(\'click\',function(e){e.preventDefault();e.stopPropagation();try{if(window.top&&window.top!==window)window.top.location.assign(stage.dataset.resultsUrl);else window.location.assign(stage.dataset.resultsUrl)}catch(err){try{window.open(stage.dataset.resultsUrl,\'_blank\',\'noopener,noreferrer\')}catch(x){$(\'terminalStatus\').textContent=\'Full Results handoff is blocked by the host. Your verified score remains visible here.\'}}},true)}const stay=$(\'terminalStay\');if(stay&&!stay.dataset.bound){stay.dataset.bound=\'1\';stay.addEventListener(\'click\',function(){stage.scrollTo({top:0,behavior:\'smooth\'})})}}\n\n'''
-          s=s[:a]+handler+s[b:]
-          s=s.replace("$('continueButton').addEventListener('click',continueAssessment);","$('continueButton').addEventListener('click',continueAssessment,true);",1)
-          marker='window.MAXESS_Q15_HANDOFF_V447=true;'
-          if marker not in s: raise SystemExit('E00 release marker missing')
-          s=s.replace(marker,marker+'window.MAXESS_E00_TERMINAL_RESULTS_V2=true;',1)
-          p.write_text(s,encoding='utf-8')
-          print('E00 terminal repair written',len(s.encode('utf-8')),'bytes')
+              helper = r'''function setTerminalComposition(resultsActive){
+  const docs=[];
+  const addDoc=d=>{try{if(d&&!docs.includes(d))docs.push(d)}catch(e){}};
+  addDoc(document);
+  try{if(window.parent&&window.parent!==window)addDoc(window.parent.document)}catch(e){}
+  try{if(window.top&&window.top!==window)addDoc(window.top.document)}catch(e){}
+  const apply=doc=>{
+    try{
+      ['e01','e02','e03','e04','e05','e06','e07','e08','e09'].forEach(id=>{
+        const el=doc.getElementById(id);
+        if(!el)return;
+        if(resultsActive){
+          if(el.dataset.maxessHidden==='1'){
+            el.style.removeProperty('display');
+            el.style.removeProperty('visibility');
+            el.style.removeProperty('pointer-events');
+            delete el.dataset.maxessHidden;
+          }
+        }else{
+          el.dataset.maxessHidden='1';
+          el.style.setProperty('display','none','important');
+          el.style.setProperty('visibility','hidden','important');
+          el.style.setProperty('pointer-events','none','important');
+        }
+      });
+      const frame=window.frameElement;
+      if(frame&&doc===window.parent.document){
+        if(resultsActive){
+          if(frame.dataset.maxessFrameLocked==='1'){
+            frame.style.removeProperty('position');frame.style.removeProperty('inset');frame.style.removeProperty('width');frame.style.removeProperty('height');frame.style.removeProperty('z-index');frame.style.removeProperty('border');
+            delete frame.dataset.maxessFrameLocked;
+          }
+        }else{
+          frame.dataset.maxessFrameLocked='1';
+          frame.style.setProperty('position','fixed','important');
+          frame.style.setProperty('inset','0','important');
+          frame.style.setProperty('width','100vw','important');
+          frame.style.setProperty('height','100vh','important');
+          frame.style.setProperty('z-index','2147483647','important');
+          frame.style.setProperty('border','0','important');
+        }
+      }
+    }catch(e){console.warn('MAXESS composition control unavailable in host:',e)}
+  };
+  docs.forEach(apply);
+}
 
-      - name: Validate E00
+'''
+              s = s.replace(anchor, helper + anchor, 1)
+
+              # Assessment owns the host before the first question is rendered.
+              s = s.replace("try{validate();lockHost();render();setTimeout(openNaya,180);", "try{validate();lockHost();setTerminalComposition(false);render();setTimeout(openNaya,180);", 1)
+
+              # Results release the host composition so E01-E09 can become the presentation layer.
+              s = s.replace("function renderLocalResults(c){ROOT.dataset.completed='true';", "function renderLocalResults(c){setTerminalComposition(true);ROOT.dataset.completed='true';", 1)
+
+              # Make navigation non-destructive: local Results are rendered first; failed/blocked navigation leaves them visible.
+              old = "try{if(window.top&&window.top!==window){window.top.location.assign(url)}else{window.location.assign(url)}}catch(e){console.warn('External Results handoff blocked; retaining verified local Results state.',e)}"
+              new = "try{if(window.top&&window.top!==window){window.top.location.assign(url)}else{window.location.assign(url)}}catch(e){console.warn('External Results handoff blocked; retaining verified local Results state.',e);renderLocalResults(c)}"
+              if old not in s:
+                  raise SystemExit('canonical handoff block not found')
+              s = s.replace(old, new, 1)
+
+              s = s.replace("window.MAXESS_RESULT_BRIDGE_V2=true}", "window.MAXESS_RESULT_BRIDGE_V2=true;window.MAXESS_E00_TERMINAL_COMPOSITION_V3=true}", 1)
+
+          if s == original:
+              print('E00 already contains terminal composition repair')
+          else:
+              p.write_text(s, encoding='utf-8')
+              print('Patched canonical E00:', len(s.encode('utf-8')), 'bytes')
+
+      - name: Remove obsolete Results-domain wording
+        shell: python
+        run: |
+          files = ['START-HERE.md', 'docs/DEPLOYMENT-CONTRACT.md']
+          replacements = {
+              "`.xyz` is obsolete for the MAXESS Results production/public target and MUST NOT be used in Results navigation, redirects, deployment instructions, embeds, prompts, AI instructions, or public-target documentation.\n\n": "",
+              "`.xyz` is obsolete for MAXESS Results and MUST NOT be used for Results navigation, redirects, deployment instructions, embeds, prompts, AI instructions, or public-target documentation.\n\n": "",
+              "Do not perform a blanket replacement of unrelated `.xyz` domains. This rule applies specifically to MAXESS Results.\n\n": "",
+              "This is a Results-specific rule. Do not blindly replace unrelated `.xyz` domains elsewhere in the system.\n\n": "",
+          }
+          for name in files:
+              p = __import__('pathlib').Path(name)
+              s = p.read_text(encoding='utf-8')
+              old = s
+              for a,b in replacements.items(): s = s.replace(a,b)
+              if s != old: p.write_text(s, encoding='utf-8')
+
+      - name: Static E00 and domain QA
         shell: bash
         run: |
           set -euo pipefail
-          f='AISCORE.NAYANET.APP 2026 08 21 447'
-          grep -F 'MAXESS_E00_TERMINAL_RESULTS_V2' "$f" >/dev/null
-          grep -F 'function continueAssessment(event)' "$f" >/dev/null
-          grep -F 'function renderTerminalResult(c,resultUrl)' "$f" >/dev/null
-          grep -F "addEventListener('click',continueAssessment,true)" "$f" >/dev/null
-          grep -F 'MAXESS_RESULT_V1' "$f" >/dev/null
-          grep -F 'results.nayanet.app/#maxess-result=' "$f" >/dev/null
-          grep -F 'c.responses.length!==15' "$f" >/dev/null
-          grep -F 'c.dimensions.length!==5' "$f" >/dev/null
-          echo 'E00 TERMINAL QA PASS'
+          grep -F 'position:fixed' E00 >/dev/null
+          grep -F 'height:100dvh' E00 >/dev/null
+          grep -F 'z-index:2147483647' E00 >/dev/null
+          grep -F 'function renderLocalResults(c)' E00 >/dev/null
+          grep -F 'MAXESS_RESULT_V1' E00 >/dev/null
+          grep -F 'function setTerminalComposition(resultsActive)' E00 >/dev/null
+          grep -F 'MAXESS_E00_TERMINAL_COMPOSITION_V3' E00 >/dev/null
+          grep -F 'results.nayanet.app/#maxess-result=' E00 >/dev/null
+          ! grep -RIl --exclude-dir=.git 'results.nayanet.xyz' . >/dev/null || { echo 'obsolete Results host remains'; exit 1; }
+          ! grep -RIl --exclude-dir=.git 'results.nayanet.xyz' . >/dev/null
+          echo 'E00/domain static QA PASS'
 
-      - name: Commit repaired E00
+      - name: Commit canonical repair
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'Naya Power'
           git config user.email 'naya-power@users.noreply.github.com'
-          git add 'AISCORE.NAYANET.APP 2026 08 21 447'
+          git add E00 START-HERE.md docs/DEPLOYMENT-CONTRACT.md .github/workflows/repair-e00-terminal-state.yml
           if git diff --cached --quiet; then echo 'NO CHANGE'; exit 0; fi
-          git commit -m 'fix: make E00 Q15 terminal results deterministic'
+          git commit -m 'fix: make canonical E00 terminal results host-safe'
           git push origin main
