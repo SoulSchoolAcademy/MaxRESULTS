@@ -88,6 +88,12 @@ The filename is a locator, not the authority.
 
 ## Current note inventory
 
+### 2026-08-23
+
+| Topic | Primary category | Useful retrieval terms | Note |
+|---|---|---|---|
+| **Operational Walk + No Dead Ends — Naya Must Carry the Work Forward** | **SOLUTION** | **Operational Walk, No Dead Ends, take the lead, best interest, next action, execution-first, complete delivery, user effort, anticipation, ready-to-go prompt, Naya Law, Naya Nitro** | `2026-08-23-operational-walk-and-no-dead-ends.md` |
+
 ### 2026-08-22
 
 | Topic | Primary category | Useful retrieval terms | Note |
@@ -140,6 +146,7 @@ The filename is a locator, not the authority.
 | If the user asks about… | Start with… | Then inspect… |
 |---|---|---|
 | **Naya Notes / Smart Notes / durable memory / activation / supersession** | **`docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md`** | `docs/NAYA-GOVERNANCE-REGISTRY.md`, `START-HERE.md`, `docs/NAYA-SMART-NOTES-SYSTEM.md`, `docs/smart-notes/INDEX.md` |
+| **Operational Walk / No Dead Ends / automatic next action / complete delivery / take the lead** | **`docs/NAYA-OPERATIONAL-WALK-AND-NO-DEAD-END-LAW.md`** + `2026-08-23-operational-walk-and-no-dead-ends.md` | `docs/NAYA-LAW-MASTER-ACTIVATION-SPECIFICATION.md`, `docs/NAYA-EXECUTIVE-PLAN.md`, `docs/NAYA-NITRO-LEARNING-LOG.md` |
 | Naya Brain / intelligence / reasoning / judgment / problem solving / verification / learning | `2026-08-22-naya-brain-canonical-activation.md` | `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md`, `START-HERE.md`, `docs/NAYA-GOVERNANCE-REGISTRY.md`, `NAYA-OS.md` |
 | Naya Email System / Communication Hub / CSV contacts / sending / Namecheap / replies / scheduling | `2026-08-22-naya-email-system.md` | current implementation repository, Vercel/Supabase/Namecheap configuration, relevant deployment state |
 | Naya Digital Codex / Naya Power / activation / AI Supercharger / Codex operating guide | `docs/NAYA-DIGITAL-CODEX-MASTER-GUIDE.md` + `2026-08-22-naya-digital-codex-activation.md` | `NAYA-OS.md`, `START-HERE.md`, `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md`, relevant Codex modules |
