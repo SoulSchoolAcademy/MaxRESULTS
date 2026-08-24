@@ -369,6 +369,7 @@ function updateContinue(){
 function save(){
  const q=Q[state.i];
  const idx=state.selected.charCodeAt(0)-97;
+ if(idx<0||idx>4||!Array.isArray(S[state.i+1])||S[state.i+1].length!==5){throw Error('Invalid answer score mapping');}
 
  const r={
   questionId:q[0],
@@ -387,6 +388,8 @@ function save(){
 
 function calculate(){
  if(state.responses.length!==15)throw Error('Exactly 15 responses required');
+ if(!Array.isArray(D)||D.length!==5)throw Error('Invalid dimension matrix');
+ if(!Array.isArray(S)||Object.keys(S).length!==15)throw Error('Invalid score matrix');
 
  const dimensions=D.map(d=>{
   const rs=state.responses.filter(r=>r.dimensionId===d[0]);
@@ -403,6 +406,7 @@ function calculate(){
  });
 
  const raw=state.responses.reduce((a,r)=>a+r.score,0);
+ if(raw<0||raw>60)throw Error('Overall score outside 0-60 matrix');
 
  return{
   overallScore:Math.round(raw/60*100),
@@ -601,6 +605,7 @@ function publish(){
  updateContinue();
 
  try{
+  console.info('MAXESS TERMINAL: Q15 saved; beginning authoritative score calculation');
   if(state.responses.length!==15){
    throw Error('Exactly 15 responses required');
   }
@@ -724,7 +729,7 @@ function closeNaya(){
  $('nayaButton').focus();
 }
 
-$('continueButton').onclick=next;
+$('continueButton').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();next();},{capture:true});
 $('nayaButton').onclick=openNaya;
 $('closeNaya').onclick=closeNaya;
 
