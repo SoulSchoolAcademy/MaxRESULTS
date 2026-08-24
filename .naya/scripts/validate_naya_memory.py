@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Deterministic validator for the Naya Power Memory Runtime.
 
-This validator intentionally checks structure and consistency, not semantic truth.
+This validator checks structure and consistency, not semantic truth.
 Truth remains an evidence/authority question governed by Naya Power protocols.
 """
 from __future__ import annotations
@@ -9,7 +9,6 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -111,8 +110,8 @@ def validate_note(path: Path, note: dict, taxonomy: dict, seen_ids: dict[str, Pa
     if not isinstance(evidence, list) or not evidence:
         err(errors, f"{path}: evidence must contain at least one record")
 
-    if note.get("status") == "SUPERSEDED" and not (note.get("superseded_by") or note.get("superseded_by") == []):
-        err(errors, f"{path}: SUPERSEDED note must identify superseded_by when known; use [] only when replacement is genuinely unknown")
+    if note.get("status") == "SUPERSEDED" and "superseded_by" not in note:
+        err(errors, f"{path}: SUPERSEDED note must declare superseded_by, even when the replacement is unknown")
 
     note_relations = note.get("relations", []) or []
     for relation in note_relations:
@@ -123,13 +122,13 @@ def validate_note(path: Path, note: dict, taxonomy: dict, seen_ids: dict[str, Pa
         err(errors, f"{path}: VERIFIED knowledge requires evidence")
 
 
-def validate_runtime(errors: list[str]) -> tuple[dict, dict]:
+def validate_runtime(errors: list[str]) -> dict:
     for path in (SCHEMA, TAXONOMY, INDEX, BOOTSTRAP):
         if not path.exists():
             err(errors, f"missing runtime contract: {path.relative_to(ROOT)}")
 
     if errors:
-        return {}, {}
+        return {}
 
     schema = load_yaml(SCHEMA)
     taxonomy = load_yaml(TAXONOMY)
@@ -154,14 +153,15 @@ def validate_runtime(errors: list[str]) -> tuple[dict, dict]:
     if not bootstrap.get("restored_state_contract", {}).get("required"):
         err(errors, "restore manifest lacks restored-state output contract")
 
-    return schema, taxonomy
+    return taxonomy
 
 
 def main() -> int:
+    global ROOT, MEMORY, NOTES, SCHEMA, TAXONOMY, INDEX, BOOTSTRAP
     parser = argparse.ArgumentParser(description="Validate Naya Power Memory Runtime")
     parser.add_argument("--root", default=str(ROOT), help="repository root")
     args = parser.parse_args()
-    global ROOT, MEMORY, NOTES, SCHEMA, TAXONOMY, INDEX, BOOTSTRAP
+
     ROOT = Path(args.root).resolve()
     MEMORY = ROOT / ".naya" / "memory"
     NOTES = MEMORY / "notes"
@@ -171,7 +171,7 @@ def main() -> int:
     BOOTSTRAP = MEMORY / "restore-context.json"
 
     errors: list[str] = []
-    _, taxonomy = validate_runtime(errors)
+    taxonomy = validate_runtime(errors)
 
     note_files = []
     if NOTES.exists():
@@ -184,7 +184,8 @@ def main() -> int:
             if not isinstance(note, dict):
                 err(errors, f"{path}: note must decode to an object")
                 continue
-            validate_note(path, note, taxonomy, seen_ids, errors)
+            if taxonomy:
+                validate_note(path, note, taxonomy, seen_ids, errors)
         except Exception as exc:  # noqa: BLE001
             err(errors, f"{path}: cannot parse note: {exc}")
 
