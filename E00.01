@@ -1,180 +1,211 @@
-<script id="MAXESS-E00-01-BRIDGE-V6">
+<script id="MAXESS-E00-01-BRIDGE-V7">
 (function () {
   'use strict';
 
-  if (window.__MAXESS_E00_01_BRIDGE_V6__) return;
-  window.__MAXESS_E00_01_BRIDGE_V6__ = true;
+  if (window.__MAXESS_E00_01_BRIDGE_V7__) return;
+  window.__MAXESS_E00_01_BRIDGE_V7__ = true;
 
-  const BRIDGE = 'MAXESS-E00-01-BRIDGE-V6';
+  const BRIDGE = 'MAXESS-E00-01-BRIDGE-V7';
   const CONTRACT = 'MAXESS_RESULT_V1';
+  const OFFICIAL_RESULT_EVENT = 'MAXESS_OFFICIAL_RESULT_READY';
+  const RESULT_READY_EVENTS = [
+    'MAXESS_RESULT_READY',
+    'MAXESS_RESULTS_RELEASE',
+    'maxess:result-updated'
+  ];
 
-  let released = false;
+  let officialResult = null;
+  let announced = false;
+  let recoveryTimer = null;
+  let recoveryAttempts = 0;
+  const MAX_RECOVERY_ATTEMPTS = 120;
+  const RECOVERY_INTERVAL_MS = 100;
 
-  function getResult() {
-    if (
-      window.MAXESS_RESULT &&
-      window.MAXESS_RESULT.contractVersion === CONTRACT
-    ) {
-      return window.MAXESS_RESULT;
-    }
-
+  function cloneResult(result) {
     try {
-      const stored = sessionStorage.getItem('MAXESS_RESULT_V1');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-
-        if (
-          parsed &&
-          parsed.contractVersion === CONTRACT
-        ) {
-          window.MAXESS_RESULT = parsed;
-          return parsed;
-        }
-      }
-    } catch (e) {}
-
-    return null;
+      return JSON.parse(JSON.stringify(result));
+    } catch (error) {
+      console.error('[MAXESS BRIDGE] Could not clone result.', error);
+      return null;
+    }
   }
 
   function validResult(result) {
-    if (!result) return false;
-
+    if (!result || typeof result !== 'object') return false;
     if (result.contractVersion !== CONTRACT) return false;
 
     if (
       !Number.isInteger(result.overallScore) ||
       result.overallScore < 0 ||
       result.overallScore > 100
-    ) {
-      return false;
-    }
+    ) return false;
 
     if (
-      !Array.isArray(result.dimensions) ||
-      result.dimensions.length !== 5
-    ) {
-      return false;
-    }
+      !['foundation', 'developing', 'advancing', 'mastery'].includes(result.masteryBand)
+    ) return false;
 
-    if (
-      !Array.isArray(result.responses) ||
-      result.responses.length !== 15
-    ) {
-      return false;
-    }
+    if (!Array.isArray(result.dimensions) || result.dimensions.length !== 5) return false;
+    if (!Array.isArray(result.responses) || result.responses.length !== 15) return false;
 
     return true;
   }
 
-  function showResults() {
-    if (released) return;
+  function readStoredResult() {
+    try {
+      const stored = sessionStorage.getItem(CONTRACT);
+      if (!stored) return null;
+      const parsed = JSON.parse(stored);
+      return validResult(parsed) ? parsed : null;
+    } catch (error) {
+      return null;
+    }
+  }
 
-    const result = getResult();
+  function getResult() {
+    if (validResult(officialResult)) return officialResult;
 
-    if (!validResult(result)) {
-      console.warn(
-        '[MAXESS BRIDGE] Result not ready yet.'
-      );
-      return;
+    if (validResult(window.MAXESS_RESULT)) {
+      return window.MAXESS_RESULT;
     }
 
-    released = true;
+    if (validResult(window.MAXESS_OFFICIAL_RESULT)) {
+      return window.MAXESS_OFFICIAL_RESULT;
+    }
 
-    window.MAXESS_RESULTS_RELEASED = true;
+    const stored = readStoredResult();
+    if (stored) return stored;
+
+    return null;
+  }
+
+  function announce(result) {
+    if (announced) return true;
+    if (!validResult(result)) return false;
+
+    const safeResult = cloneResult(result);
+    if (!safeResult) return false;
+
+    officialResult = safeResult;
+    announced = true;
+
+    /* E00.01 is the canonical DATA BRIDGE.
+       It does not release Results and does not change visibility. */
+    window.MAXESS_OFFICIAL_RESULT = officialResult;
+    window.MAXESS_RESULT = officialResult;
     window.MAXESS_RESULTS_BRIDGE = BRIDGE;
-    window.MAXESS_RESULTS_DATA = result;
+    window.MAXESS_RESULTS_DATA = officialResult;
 
-    /*
-     * Tell the isolation controller.
-     */
+    try {
+      sessionStorage.setItem(CONTRACT, JSON.stringify(officialResult));
+    } catch (error) {}
+
     try {
       window.dispatchEvent(
-        new CustomEvent('MAXESS_ISOLATION_RELEASE', {
+        new CustomEvent(OFFICIAL_RESULT_EVENT, {
+          detail: officialResult
+        })
+      );
+    } catch (error) {}
+
+    try {
+      window.dispatchEvent(
+        new CustomEvent('MAXESS_RESULT_BRIDGED', {
           detail: {
-            result: result,
+            result: officialResult,
             contractVersion: CONTRACT,
             bridge: BRIDGE
           }
         })
       );
-    } catch (e) {}
+    } catch (error) {}
 
-    /*
-     * Tell every result section.
-     */
-    try {
-      window.dispatchEvent(
-        new CustomEvent('MAXESS_RESULTS_READY', {
-          detail: result
-        })
-      );
-    } catch (e) {}
+    console.log('[MAXESS BRIDGE] OFFICIAL RESULT READY', {
+      overallScore: officialResult.overallScore,
+      masteryBand: officialResult.masteryBand
+    });
 
-    /*
-     * Reveal Results only after E00 has completed.
-     */
-    try {
-      document.documentElement.setAttribute(
-        'data-maxess-results-state',
-        'released'
-      );
-    } catch (e) {}
-
-    console.log(
-      '[MAXESS BRIDGE] RESULTS RELEASED',
-      result.overallScore
-    );
+    return true;
   }
 
-  function waitForResult() {
-    const result = getResult();
+  function clearRecovery() {
+    if (recoveryTimer !== null) {
+      clearTimeout(recoveryTimer);
+      recoveryTimer = null;
+    }
+  }
 
-    if (validResult(result)) {
-      showResults();
+  function recover() {
+    if (announced) {
+      clearRecovery();
       return;
     }
 
-    /*
-     * This is deliberately slow and bounded.
-     * No infinite rapid polling.
-     */
-    setTimeout(waitForResult, 150);
+    const result = getResult();
+    if (result) {
+      announce(result);
+      clearRecovery();
+      return;
+    }
+
+    recoveryAttempts += 1;
+    if (recoveryAttempts >= MAX_RECOVERY_ATTEMPTS) {
+      clearRecovery();
+      console.warn('[MAXESS BRIDGE] No valid MAXESS_RESULT_V1 was found during the bounded recovery window.');
+      return;
+    }
+
+    recoveryTimer = setTimeout(recover, RECOVERY_INTERVAL_MS);
   }
+
+  function receiveResult(result) {
+    if (validResult(result)) {
+      announce(result);
+    }
+  }
+
+  RESULT_READY_EVENTS.forEach(function (eventName) {
+    window.addEventListener(eventName, function (event) {
+      const result = event && event.detail;
+      if (result && typeof result === 'object' && result.result) {
+        receiveResult(result.result);
+      } else {
+        receiveResult(result);
+      }
+    });
+  });
+
+  window.addEventListener('message', function (event) {
+    const data = event && event.data;
+    if (!data || typeof data !== 'object') return;
+
+    if (
+      data.type === 'MAXESS_RESULT_READY' ||
+      data.type === 'MAXESS_OFFICIAL_RESULT_READY'
+    ) {
+      receiveResult(data.result || data.payload || data.detail);
+    }
+  });
 
   window.MAXESS_E00_01 = {
-    version: 6,
+    version: 7,
     contractVersion: CONTRACT,
     getResult: getResult,
-    release: showResults
+    isReady: function () {
+      return validResult(officialResult);
+    },
+    announce: function (result) {
+      return announce(result);
+    }
   };
 
-  window.addEventListener(
-    'MAXESS_RESULTS_RELEASE',
-    showResults
-  );
-
-  window.addEventListener(
-    'MAXESS_RESULT_READY',
-    showResults
-  );
-
-  window.addEventListener(
-    'maxess:result-updated',
-    showResults
-  );
-
-  /*
-   * Start waiting only after the page exists.
-   */
-  if (document.readyState === 'loading') {
-    document.addEventListener(
-      'DOMContentLoaded',
-      waitForResult,
-      { once: true }
-    );
-  } else {
-    waitForResult();
+  function initialize() {
+    recover();
   }
 
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize, { once: true });
+  } else {
+    initialize();
+  }
 })();
 </script>
