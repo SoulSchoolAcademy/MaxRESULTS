@@ -251,10 +251,14 @@ const band=s=>s<50?'foundation':s<75?'developing':s<90?'advancing':'mastery';
 
 function validate(){
  if(Q.length!==15||D.length!==5)throw Error('MAXESS structure invalid');
+ if(!S||typeof S!=='object'||Array.isArray(S)||Object.keys(S).length!==15)throw Error('Score matrix structure invalid');
+ Object.keys(S).forEach(k=>{
+  if(!/^([1-9]|1[0-5])$/.test(k)||!Array.isArray(S[k])||S[k].length!==5)throw Error('Score matrix row invalid');
+ });
  Q.forEach((q,i)=>{
   if(q[0]!=='q'+String(i+1).padStart(2,'0')||q[4]===undefined||q.length!==9)throw Error('Question structure invalid');
   if(q.slice(4).length!==5)throw Error('Five answers required');
-  if(S[i+1].length!==5)throw Error('Score map invalid');
+  if(!Array.isArray(S[i+1])||S[i+1].length!==5)throw Error('Score map invalid');
  });
  D.forEach(d=>{
   if(Q.filter(q=>q[1]===d[0]).length!==3)throw Error('Dimension structure invalid');
@@ -369,7 +373,6 @@ function updateContinue(){
 function save(){
  const q=Q[state.i];
  const idx=state.selected.charCodeAt(0)-97;
- if(idx<0||idx>4||!Array.isArray(S[state.i+1])||S[state.i+1].length!==5){throw Error('Invalid answer score mapping');}
 
  const r={
   questionId:q[0],
@@ -388,8 +391,6 @@ function save(){
 
 function calculate(){
  if(state.responses.length!==15)throw Error('Exactly 15 responses required');
- if(!Array.isArray(D)||D.length!==5)throw Error('Invalid dimension matrix');
- if(!Array.isArray(S)||Object.keys(S).length!==15)throw Error('Invalid score matrix');
 
  const dimensions=D.map(d=>{
   const rs=state.responses.filter(r=>r.dimensionId===d[0]);
@@ -406,7 +407,6 @@ function calculate(){
  });
 
  const raw=state.responses.reduce((a,r)=>a+r.score,0);
- if(raw<0||raw>60)throw Error('Overall score outside 0-60 matrix');
 
  return{
   overallScore:Math.round(raw/60*100),
@@ -605,7 +605,19 @@ function publish(){
  updateContinue();
 
  try{
-  console.info('MAXESS TERMINAL: Q15 saved; beginning authoritative score calculation');
+  /*
+   * AUTHORITATIVE TERMINAL SAVE BOUNDARY
+   *
+   * Q15 is saved inside the same try/catch that owns
+   * calculation, contract construction, validation,
+   * persistence, broadcast, local rendering, and handoff.
+   */
+  if(state.i!==14||!state.selected){
+   throw Error('Q15 terminal save requires the final selected answer');
+  }
+
+  save();
+
   if(state.responses.length!==15){
    throw Error('Exactly 15 responses required');
   }
@@ -672,16 +684,16 @@ function publish(){
 function next(){
  if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;
 
- /*
-  * Q15 answer is saved BEFORE any terminal calculation.
-  */
- save();
-
  if(state.i===14){
+  /*
+   * Q15 save is owned by publish(), so the entire
+   * terminal operation shares one authoritative error boundary.
+   */
   publish();
   return;
  }
 
+ save();
  state.i++;
  render();
 
@@ -729,7 +741,7 @@ function closeNaya(){
  $('nayaButton').focus();
 }
 
-$('continueButton').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();next();},{capture:true});
+$('continueButton').onclick=next;
 $('nayaButton').onclick=openNaya;
 $('closeNaya').onclick=closeNaya;
 
