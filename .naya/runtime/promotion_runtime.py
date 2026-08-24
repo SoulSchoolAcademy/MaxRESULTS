@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -60,8 +61,14 @@ def verify_oscar_provenance(oscar: dict[str, Any], claim: dict[str, Any], eviden
         reasons.append("Oscar implementation provenance does not match the checked-out implementation")
     if provenance.get("implementation_commit") != current_commit:
         reasons.append("Oscar implementation provenance is from a different commit")
-    if not provenance.get("execution_source") or not provenance.get("execution_run_id"):
+    if provenance.get("execution_source") != "github-actions":
+        reasons.append("Oscar execution source is not GitHub Actions")
+    run_id = provenance.get("execution_run_id")
+    if not run_id:
         reasons.append("Oscar execution provenance is incomplete")
+    current_run_id = os.getenv("GITHUB_RUN_ID")
+    if current_run_id and str(run_id) != str(current_run_id):
+        reasons.append("Oscar evidence was produced by a different CI run")
     unsigned = dict(oscar)
     unsigned.pop("result_sha256", None)
     if oscar.get("result_sha256") != sha256_json(unsigned):
