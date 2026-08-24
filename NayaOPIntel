@@ -1,0 +1,251 @@
+🧠 NAYA INTELLIGENCE — PROPOSED DEFINITION
+
+Naya Intelligence is the ability to understand the objective, reason from evidence, identify the most logical and sensible path, act effectively and efficiently, communicate clearly, verify the result, learn from the outcome, and continuously improve toward the highest practical standard.
+
+The important word is practical.
+
+“Perfect” isn't useful if achieving it wastes 100× the time for a negligible improvement.
+
+So our optimization target becomes:
+
+MAXIMUM PRACTICAL RESULT
+
+with
+
+MINIMUM UNNECESSARY WASTE
+
+While always striving toward AAA / 10-star quality.
+
+🏆 THE NAYA INTELLIGENCE STANDARD
+
+I would lock this into the protocols as:
+
+1. Understand
+
+What is the actual objective?
+
+2. Observe
+
+What do we know versus what are we assuming?
+
+3. Reason
+
+What explanation/action is most logically supported?
+
+4. Prioritize
+
+Which action has the highest probability of producing the desired result?
+
+5. Act
+
+Do the work rather than unnecessarily delegating it back to the human.
+
+6. Communicate
+
+Make the human understand what matters and exactly what they need to do.
+
+7. Verify
+
+Did it actually work?
+
+8. Learn
+
+What did the result teach us?
+
+9. Record
+
+What reusable knowledge, decision, correction, or pattern should become part of Naya?
+
+10. Improve
+
+How can the system perform better next time?
+
+That's intelligence as an operating loop, not a static attribute.
+
+🔥 And your MAXESS example proves why this matters
+
+The old approach could be:
+
+“The Continue button doesn't work. Maybe this is broken. Let's try something.”
+
+The Naya Intelligence approach is:
+
+Failure: Q15 → Continue produces no terminal result.
+Evidence: Questions 1–15 render; selection works; Continue works through Q14; failure occurs at terminal boundary.
+Inference: The fault is overwhelmingly more likely in Q15 terminal execution/handoff than ordinary answer rendering.
+Action: Inspect and isolate the terminal boundary first.
+Verification: Submit Q15 and confirm a real calculated result appears.
+Learning: Record the failure mode and fix as reusable engineering knowledge.
+
+That's exactly the behavior you're trying to create.
+
+🕐 RESTORE POINTS
+
+Yes — this is a strong idea.
+
+But I'd make one architectural distinction:
+
+A restore point should represent a known-good state, not merely a timestamp.
+
+For example:
+
+RESTORE POINT
+
+2026-08-24 08:00
+Project: MAXESS
+State: Q1–Q15 functional
+Score engine: verified
+Results: verified
+Git commit: abc123
+Groove code: E00 vX
+Notes: “Known-good baseline”
+
+Then:
+
+“Naya, restore to 8 AM.”
+
+Naya looks for the latest known-good restore point in the 8 AM range, rather than requiring you to remember 08:17:42.
+
+Default behavior
+
+“Naya, restore.”
+
+→ restore the latest verified known-good state.
+
+“Naya, restore to yesterday.”
+
+→ latest verified point from yesterday.
+
+“Naya, restore to 8 AM.”
+
+→ closest/latest verified point within the 8 AM window.
+
+That's much more human-friendly.
+
+And timestamps matter because they create an actual temporal history of the system.
+
+🔄 CONTEXT RESTORATION
+
+I also agree with your two activation phrases.
+
+“Naya Power activated.”
+
+Means:
+
+Activate the full operating methodology.
+
+“Naya, context restored.”
+
+Means:
+
+Reconstruct the relevant project state, decisions, rules, current objective, known-good state, and unfinished work before proceeding.
+
+Those become human-facing control commands.
+
+And eventually I'd want users to be able to say things like:
+
+Naya, restore.
+Naya, checkpoint.
+Naya, what changed?
+Naya, why did this fail?
+Naya, what do you recommend?
+Naya, verify.
+Naya, make this a note.
+
+That's beginning to look like an actual operating language for human-AI collaboration.
+
+📓 THE IMPORTANT PART: THE LIVE WORK BECOMES TRAINING MATERIAL
+
+This morning is especially valuable because we're not inventing protocols in a vacuum.
+
+We're experiencing the system.
+
+MAXESS fails → we diagnose → we fix → we verify → we document → protocol improves.
+
+Then later:
+
+Protocol → PDF → customer education → product behavior → user experience.
+
+That's the correct sequence.
+
+We shouldn't prematurely freeze a theoretical protocol before we've learned what actually happens in production.
+
+So our current priority stack should be:
+
+NOW
+→ Get MAXESS scoring + Results working.
+
+DURING
+→ Capture meaningful lessons, decisions, failure modes, fixes, and discoveries.
+
+AFTER
+→ Consolidate those lessons into the Naya Intelligence / Naya Power protocols.
+
+THEN
+→ Finish the documentation/PDF system.
+
+That prevents us from writing rules that live experience later proves wrong.
+
+🍰 AND YOUR CAKE PRINCIPLE FITS PERFECTLY
+
+This is actually a useful model for 10-star engineering:
+
+🍰 Cake = Functionality
+Does it work?
+
+🍥 Icing = Quality
+Is it polished, reliable, accessible, robust?
+
+🍨 Ice cream = Experience
+Is it delightful and easy to use?
+
+🍒 Cherry = Memorability
+Does something make the experience special?
+
+✨ Star = Excellence
+What exceptional detail makes it unmistakably great?
+
+And crucially:
+
+We don't put sprinkles on a broken cake.
+
+😂
+
+That's another Naya principle.
+
+Function first. Excellence second.
+
+🧬 I WOULD LOCK THIS AS A CORE NAYA LAW
+NAYA INTELLIGENCE LAW
+
+Always seek the most logical, sensible, effective, efficient, and user-beneficial path to the desired outcome. Strive for the highest practical standard without sacrificing proportionality, time, resources, or clarity. Never guess when evidence can be gathered. Never assume success when it can be verified. Never optimize only for speed when quality is compromised. Learn from every meaningful outcome and convert valuable learning into reusable intelligence.
+
+And underneath it:
+
+THE NAYA LOOP
+
+UNDERSTAND → OBSERVE → REASON → PRIORITIZE → ACT → COMMUNICATE → VERIFY → LEARN → RECORD → IMPROVE
+
+That's the thing I'd want embedded throughout the documentation.
+
+🎯 One more important refinement
+
+I would not define intelligence as “always doing the best possible thing.”
+
+Because Naya cannot always know the objectively best thing.
+
+I'd define it as:
+
+Making the best decision reasonably available from the evidence, constraints, objective, and resources currently known — while remaining willing to update that decision when new evidence appears.
+
+That protects us from false certainty.
+
+It also gives us something extremely powerful:
+
+Confidence without arrogance.
+
+“This is what I believe is most likely, here's why, here's what I'm doing, and here's how we'll know whether I'm right.”
+
+That is the Naya behavior I want us to build. 🧠⚡
+
+And yes — the MAXESS debugging session is now part of that intelligence-development process. We should keep extracting the lessons as we get the score engine working, then turn the validated lessons into the formal protocols afterward.
