@@ -1,34 +1,38 @@
 {
   "schema":"naya-power-memory-index/v1",
-  "generated_at":"2026-08-23T22:00:04-07:00",
+  "generated_at":"2026-08-23T19:12:30-07:00",
   "authority":"Naya Power canonical memory index",
-  "notes":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality"],
+  "notes":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution"],
   "categories":{
     "architecture":["SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history"],
-    "constitution":[],"decision":[],
-    "discovery":[],"failure":[],"handoff":[],
+    "constitution":[],"decision":[],"discovery":[],"failure":[],"handoff":[],
     "lesson":["SN-20260823-220003-smart-note-quality"],
-    "milestone":[],"preference":[],
-    "strategy":["SN-20260823-220000-north-star"]
+    "milestone":["SN-20260823-231200-restore-runtime-execution"],
+    "preference":[],"strategy":["SN-20260823-220000-north-star"]
   },
   "aliases":{
     "ordinary human test":["SN-20260823-220000-north-star"],
     "human supplies goal":["SN-20260823-220000-north-star"],
     "external brain":["SN-20260823-220001-memory-brain-principle"],
-    "context restore":["SN-20260823-220001-memory-brain-principle"],
+    "context restore":["SN-20260823-220001-memory-brain-principle","SN-20260823-231200-restore-runtime-execution"],
     "historical retrieval":["SN-20260823-220002-temporal-history"],
     "timestamped memory":["SN-20260823-220002-temporal-history"],
     "knowledge compounding":["SN-20260823-220003-smart-note-quality"],
-    "smart note validator":["SN-20260823-220003-smart-note-quality"]
+    "smart note validator":["SN-20260823-220003-smart-note-quality"],
+    "Restore Context verified":["SN-20260823-231200-restore-runtime-execution"],
+    "continuity runtime":["SN-20260823-231200-restore-runtime-execution"],
+    "checkpoint":["SN-20260823-231200-restore-runtime-execution"],
+    "handoff":["SN-20260823-231200-restore-runtime-execution"]
   },
   "relationships":{
     "SN-20260823-220000-north-star":["SN-20260823-220001-memory-brain-principle"],
-    "SN-20260823-220001-memory-brain-principle":["SN-20260823-220000-north-star","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality"],
-    "SN-20260823-220002-temporal-history":["SN-20260823-220001-memory-brain-principle","SN-20260823-220003-smart-note-quality"],
-    "SN-20260823-220003-smart-note-quality":["SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history"]
+    "SN-20260823-220001-memory-brain-principle":["SN-20260823-220000-north-star","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution"],
+    "SN-20260823-220002-temporal-history":["SN-20260823-220001-memory-brain-principle","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution"],
+    "SN-20260823-220003-smart-note-quality":["SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-231200-restore-runtime-execution"],
+    "SN-20260823-231200-restore-runtime-execution":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality"]
   },
   "temporal":{
-    "active":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality"],
+    "active":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution"],
     "historical":[],"superseded":[]
   }
 }
