@@ -1,34 +1,42 @@
 {
   "schema":"naya-power-memory-index/v1",
-  "generated_at":"2026-08-23T22:00:04-07:00",
+  "generated_at":"2026-08-24T02:00:00Z",
   "authority":"Naya Power canonical memory index",
-  "notes":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality"],
+  "notes":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution","SN-20260824-020000-claim-evidence-runtime"],
   "categories":{
-    "architecture":["SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history"],
-    "constitution":[],"decision":[],
-    "discovery":[],"failure":[],"handoff":[],
+    "architecture":["SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260824-020000-claim-evidence-runtime"],
+    "constitution":[],"decision":[],"discovery":[],"failure":[],"handoff":[],
     "lesson":["SN-20260823-220003-smart-note-quality"],
-    "milestone":[],"preference":[],
-    "strategy":["SN-20260823-220000-north-star"]
+    "milestone":["SN-20260823-231200-restore-runtime-execution"],
+    "preference":[],"strategy":["SN-20260823-220000-north-star"]
   },
   "aliases":{
     "ordinary human test":["SN-20260823-220000-north-star"],
     "human supplies goal":["SN-20260823-220000-north-star"],
     "external brain":["SN-20260823-220001-memory-brain-principle"],
-    "context restore":["SN-20260823-220001-memory-brain-principle"],
+    "context restore":["SN-20260823-220001-memory-brain-principle","SN-20260823-231200-restore-runtime-execution"],
     "historical retrieval":["SN-20260823-220002-temporal-history"],
     "timestamped memory":["SN-20260823-220002-temporal-history"],
     "knowledge compounding":["SN-20260823-220003-smart-note-quality"],
-    "smart note validator":["SN-20260823-220003-smart-note-quality"]
+    "smart note validator":["SN-20260823-220003-smart-note-quality"],
+    "Restore Context verified":["SN-20260823-231200-restore-runtime-execution"],
+    "continuity runtime":["SN-20260823-231200-restore-runtime-execution"],
+    "checkpoint":["SN-20260823-231200-restore-runtime-execution"],
+    "handoff":["SN-20260823-231200-restore-runtime-execution"],
+    "claim evidence runtime":["SN-20260824-020000-claim-evidence-runtime"],
+    "verification boundary":["SN-20260824-020000-claim-evidence-runtime"],
+    "proof layer":["SN-20260824-020000-claim-evidence-runtime"]
   },
   "relationships":{
     "SN-20260823-220000-north-star":["SN-20260823-220001-memory-brain-principle"],
-    "SN-20260823-220001-memory-brain-principle":["SN-20260823-220000-north-star","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality"],
-    "SN-20260823-220002-temporal-history":["SN-20260823-220001-memory-brain-principle","SN-20260823-220003-smart-note-quality"],
-    "SN-20260823-220003-smart-note-quality":["SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history"]
+    "SN-20260823-220001-memory-brain-principle":["SN-20260823-220000-north-star","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution","SN-20260824-020000-claim-evidence-runtime"],
+    "SN-20260823-220002-temporal-history":["SN-20260823-220001-memory-brain-principle","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution"],
+    "SN-20260823-220003-smart-note-quality":["SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-231200-restore-runtime-execution"],
+    "SN-20260823-231200-restore-runtime-execution":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality","SN-20260824-020000-claim-evidence-runtime"],
+    "SN-20260824-020000-claim-evidence-runtime":["SN-20260823-231200-restore-runtime-execution","SN-20260823-220001-memory-brain-principle"]
   },
   "temporal":{
-    "active":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality"],
+    "active":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution","SN-20260824-020000-claim-evidence-runtime"],
     "historical":[],"superseded":[]
   }
 }

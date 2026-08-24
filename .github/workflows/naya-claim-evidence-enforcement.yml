@@ -1,0 +1,67 @@
+name: Naya Power Claim Evidence Enforcement
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  claim-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run adversarial Claim/Evidence tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python .naya/runtime/test_evidence_runtime.py 2>&1 | tee /tmp/evidence-test-output.txt
+      - name: Generate current-commit evidence and verify claim
+        shell: python
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+          root = Path('.naya/evidence')
+          (root / 'claims').mkdir(parents=True, exist_ok=True)
+          (root / 'records').mkdir(parents=True, exist_ok=True)
+          output = Path('/tmp/evidence-test-output.txt').read_text(encoding='utf-8')
+          claim_id = f'CL-{os.environ["GITHUB_RUN_ID"]}-evidence-runtime'
+          evidence_id = f'EV-{os.environ["GITHUB_RUN_ID"]}-evidence-runtime'
+          now = datetime.now(timezone.utc).isoformat()
+          claim = {
+              'schema':'naya-power-claim/v1', 'claim_id':claim_id,
+              'statement':'The Claim/Evidence runtime adversarial test suite passes on the checked-out commit.',
+              'success_criteria':['test process exits successfully','all adversarial tests pass'],
+              'created_at':now, 'status':'VERIFIED', 'evidence_ids':[evidence_id],
+              'source':f'github-actions:{os.environ["GITHUB_RUN_ID"]}'
+          }
+          evidence = {
+              'schema':'naya-power-evidence/v1', 'evidence_id':evidence_id, 'claim_id':claim_id,
+              'observed_at':now, 'method':'ci_test',
+              'command':'python .naya/runtime/test_evidence_runtime.py',
+              'observed_output':output[-12000:], 'result':'PASS',
+              'commit_sha':os.environ['GITHUB_SHA'], 'environment':'github-actions',
+              'source':f'workflow-run:{os.environ["GITHUB_RUN_ID"]}'
+          }
+          (root/'claims'/f'{claim_id}.json').write_text(json.dumps(claim,indent=2)+'\n',encoding='utf-8')
+          (root/'records'/f'{evidence_id}.json').write_text(json.dumps(evidence,indent=2)+'\n',encoding='utf-8')
+      - name: Validate evidence store against exact commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python .naya/runtime/evidence_runtime.py validate --commit "$GITHUB_SHA"
+          claim_path=$(find .naya/evidence/claims -name '*.json' -print -quit)
+          claim_id=$(python -c 'import json,sys; print(json.load(open(sys.argv[1]))["claim_id"])' "$claim_path")
+          python .naya/runtime/evidence_runtime.py verify "$claim_id" --commit "$GITHUB_SHA"
+      - name: Publish machine-readable evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: naya-claim-evidence-${{ github.sha }}
+          path: .naya/evidence/
+          if-no-files-found: error
