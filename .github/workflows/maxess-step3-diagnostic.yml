@@ -23,23 +23,19 @@ jobs:
           s=Path('E00 118').read_text(encoding='utf-8')
           print('BYTES',len(s.encode()))
           print('LINES',len(s.splitlines()))
-          print('FUNCTION COUNTS')
-          for name in ['next','save','publish','calculate','buildResult','valid','persistResult','broadcast','releaseResultsSections','executeContinue']:
-              print(name, len(re.findall(r'function\\s+'+re.escape(name)+r'\\s*\\(',s)))
           print('KEY MARKERS')
-          markers=['Object.keys(S)','Array.isArray(S)','window.MAXESS_RESULT_V1','sessionStorage.setItem','MAXESS_RESULT_READY','MAXESS_OFFICIAL_RESULT_READY','addEventListener(\'click\'','addEventListener(\"click\"','closest(\'#continueButton\')','continueButton','continueText']
-          for m in markers:
+          for m in ['Object.keys(S)','Array.isArray(S)','window.MAXESS_RESULT_V1','sessionStorage.setItem','MAXESS_RESULT_READY','MAXESS_OFFICIAL_RESULT_READY','addEventListener(\'click\'','addEventListener(\"click\"','closest(\'#continueButton\')','continueButton','continueText']:
               print(m, s.find(m))
-          for label, pat in [('NEXT',r'function\\s+next\\s*\\('),('PUBLISH',r'function\\s+publish\\s*\\('),('CALCULATE',r'function\\s+calculate\\s*\\('),('BUILD',r'function\\s+buildResult\\s*\\('),('SAVE',r'function\\s+save\\s*\\('),('VALID',r'function\\s+valid\\s*\\(')]:
-              m=re.search(pat,s)
-              if m:
-                  a=max(0,m.start()-500); b=min(len(s),m.start()+3500)
-                  print('\\n===== '+label+' =====')
-                  print(s[a:b])
+          for name in ['next','save','publish','calculate','buildResult','valid','persistResult','broadcast','releaseResultsSections','executeContinue']:
+              needle='function '+name+'('
+              pos=s.find(needle)
+              print('FUNCTION',name,'POS',pos)
+              if pos>=0:
+                  print(s[max(0,pos-700):min(len(s),pos+4200)])
           scripts=re.findall(r'<script(?:\\s[^>]*)?>(.*?)</script>',s,re.I|re.S)
           print('SCRIPT_BLOCKS',len(scripts))
           for i,js in enumerate(scripts):
-              Path(f'/tmp/e00_118_script_{i}.js').write_text(js,encoding='utf-8')
+              p=Path(f'/tmp/e00_118_script_{i}.js'); p.write_text(js,encoding='utf-8')
               print('SCRIPT',i,'BYTES',len(js.encode()))
           PY
           for f in /tmp/e00_118_script_*.js; do [ -f "$f" ] || continue; echo "NODE CHECK $f"; node --check "$f"; done
