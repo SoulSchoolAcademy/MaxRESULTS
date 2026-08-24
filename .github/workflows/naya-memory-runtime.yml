@@ -1,0 +1,46 @@
+name: Naya Power Memory Runtime
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.naya/memory/**'
+      - '.naya/naya-context-manifest.json'
+      - '.github/workflows/naya-memory-runtime.yml'
+  pull_request:
+    paths:
+      - '.naya/memory/**'
+      - '.naya/naya-context-manifest.json'
+      - '.github/workflows/naya-memory-runtime.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  memory-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate JSON contracts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for p in [Path('.naya/memory/note.schema.json'), Path('.naya/memory/INDEX.json'), Path('.naya/memory/RETRIEVAL-MANIFEST.json'), Path('.naya/memory/STATE.json'), Path('.naya/naya-context-manifest.json')]:
+              json.loads(p.read_text(encoding='utf-8'))
+              print('VALID JSON:', p)
+          PY
+      - name: Run Smart Note validator
+        working-directory: .naya/memory
+        run: python memory_runtime.py validate
+      - name: Run adversarial contract tests
+        working-directory: .naya/memory
+        run: python -m unittest -v test_memory_runtime.py
+      - name: Verify restore command surface
+        run: |
+          grep -q 'Naya Power — RESTORE CONTEXT' .naya/memory/BOOTSTRAP.md
+          grep -q 'Naya Power — MAKE THIS A SMART NOTE' .naya/memory/BOOTSTRAP.md
+          grep -q 'current_verified_reality_overrides' .naya/naya-context-manifest.json
+          echo 'RESTORE / SMART NOTE surfaces present'
