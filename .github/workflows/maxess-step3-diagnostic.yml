@@ -91,10 +91,11 @@ jobs:
           import { chromium } from 'playwright';
           const browser=await chromium.launch({headless:true});
           const page=await browser.newPage({viewport:{width:1280,height:900}});
+          await page.route('**/*',async route=>{const r=route.request();if(['image','font','media'].includes(r.resourceType()))return route.abort();return route.continue();});
           const errors=[]; const consoleErrors=[];
           page.on('pageerror',e=>errors.push(String(e)));
           page.on('console',m=>{if(m.type()==='error')consoleErrors.push(m.text())});
-          await page.goto(`file://${process.cwd()}/maxess-integrated.html`);
+          await page.goto(`file://${process.cwd()}/maxess-integrated.html`,{waitUntil:'domcontentloaded',timeout:30000});
           await page.waitForTimeout(700);
           const close=page.locator('#closeNaya');
           if(await close.isVisible().catch(()=>false)) await close.click();
