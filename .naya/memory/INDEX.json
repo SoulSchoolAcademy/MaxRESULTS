@@ -1,0 +1,21 @@
+{
+  "schema": "naya-power-memory-index/v1",
+  "generated_at": "2026-08-23T22:00:00-07:00",
+  "authority": "Naya Power canonical memory index",
+  "notes": [],
+  "categories": {
+    "architecture": [],
+    "constitution": [],
+    "decision": [],
+    "discovery": [],
+    "failure": [],
+    "handoff": [],
+    "lesson": [],
+    "milestone": [],
+    "preference": [],
+    "strategy": []
+  },
+  "aliases": {},
+  "relationships": {},
+  "temporal": {"active":[],"historical":[],"superseded":[]}
+}
