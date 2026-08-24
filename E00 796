@@ -4,7 +4,6 @@
 #maxess-ai-score{--bg:#050509;--panel:#0b0b12;--text:#faf9ff;--muted:#b8b4c3;--purple:#9568ff;--purple2:#c3a8ff;--line:rgba(255,255,255,.12);--ease:cubic-bezier(.2,.8,.2,1);width:100%;max-width:none;min-width:0;margin:0;padding:0;display:block;position:relative;isolation:isolate;background:#050509;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:visible}
 #maxess-ai-score button{font:inherit}
 #maxess-ai-score button:focus-visible{outline:2px solid #fff;outline-offset:4px}
-#maxess-ai-score button:disabled{cursor:not-allowed}
 #maxess-ai-score .app{width:100%;min-width:0;min-height:100svh;min-height:100dvh;position:relative;background:radial-gradient(circle at 50% -8%,rgba(126,76,255,.18),transparent 34%),radial-gradient(circle at 100% 60%,rgba(88,42,180,.08),transparent 34%),#050509}
 #maxess-ai-score .app:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.025),transparent 20%);opacity:.8}
 #maxess-ai-score .shell{position:relative;z-index:1;width:100%;min-width:0;min-height:100svh;display:flex;flex-direction:column;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
@@ -21,7 +20,7 @@
 #maxess-ai-score .command{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:clamp(18px,2.5vw,30px)}
 #maxess-ai-score .naya-btn,#maxess-ai-score .continue{position:relative;min-height:55px;border-radius:18px;border:1px solid rgba(181,140,255,.72);color:#fff;cursor:pointer;background:linear-gradient(180deg,#17151d,#08080c);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 12px 30px rgba(0,0,0,.58),0 0 30px rgba(149,104,255,.12);transition:transform .22s var(--ease),box-shadow .22s ease,border-color .22s ease}
 #maxess-ai-score .naya-btn{display:flex;align-items:center;gap:10px;padding:6px 15px 6px 7px}
-#maxess-ai-score .naya-btn:hover,#maxess-ai-score .continue:hover:not(:disabled){transform:translateY(-2px);border-color:#c9b1ff;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 16px 38px rgba(0,0,0,.65),0 0 42px rgba(149,104,255,.28)}
+#maxess-ai-score .naya-btn:hover,#maxess-ai-score .continue:hover{transform:translateY(-2px);border-color:#c9b1ff;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 16px 38px rgba(0,0,0,.65),0 0 42px rgba(149,104,255,.28)}
 #maxess-ai-score .naya-orb{width:40px;height:40px;flex:0 0 40px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%,#fff,#d7c8ff 16%,#9568ff 42%,#3c197f 72%,#09050f);border:1px solid #e5dcff;box-shadow:inset 0 2px 4px rgba(255,255,255,.75),0 0 22px rgba(149,104,255,.38),0 7px 15px rgba(0,0,0,.62)}
 #maxess-ai-score .naya-orb:after{content:"";width:0;height:0;margin-left:3px;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:11px solid #fff;filter:drop-shadow(0 2px 3px #000)}
 #maxess-ai-score .naya-copy{display:flex;flex-direction:column;text-align:left;line-height:1.05}
@@ -29,7 +28,8 @@
 #maxess-ai-score .naya-copy span{margin-top:5px;color:#c9c4d4;font-size:10px;font-weight:700}
 #maxess-ai-score .continue{min-width:190px;padding:0 22px;font-size:14px;font-weight:950}
 #maxess-ai-score .continue:before{content:"";position:absolute;left:10%;right:10%;top:5px;height:1px;background:rgba(255,255,255,.42)}
-#maxess-ai-score .continue:disabled{opacity:.72;color:rgba(255,255,255,.42);border-color:rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 20px rgba(0,0,0,.3)}
+#maxess-ai-score .continue[aria-disabled="true"]{opacity:.72;color:rgba(255,255,255,.42);border-color:rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 20px rgba(0,0,0,.3);cursor:not-allowed}
+#maxess-ai-score .continue[aria-disabled="true"]:hover{transform:none;border-color:rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 20px rgba(0,0,0,.3)}
 #maxess-ai-score .arrow{display:inline-block;margin-left:8px;font-size:17px}
 #maxess-ai-score .question{width:min(960px,100%);min-width:0;margin:0 auto;text-align:center}
 #maxess-ai-score .eyebrow{display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;color:#c3a8ff;font-size:11px;font-weight:950;letter-spacing:.17em;text-transform:uppercase}
@@ -80,7 +80,7 @@
 @media(max-width:420px){#maxess-ai-score .naya-copy span{display:none}#maxess-ai-score .naya-btn{padding-right:7px}#maxess-ai-score .continue{padding:0 11px}#maxess-ai-score .answer-sub{font-size:12.4px}}
 @media(prefers-reduced-motion:reduce){#maxess-ai-score *,#maxess-ai-score *:before,#maxess-ai-score *:after{animation:none!important;transition:none!important}}
 </style>
-<div class="app"><div class="shell"><header class="top"><div class="brand">MAX<span>ESS</span></div><div class="progress" aria-live="polite"><span class="progress-label" id="progressLabel">QUESTION 1 OF 15</span><span class="progress-track"><span class="progress-fill" id="progressFill"></span></span><span class="progress-percent" id="progressPercent">7%</span></div><div></div></header><section class="board"><div class="content" id="content"><div id="assessmentStage"><div class="command"><button class="naya-btn" id="nayaButton" type="button"><span class="naya-orb"></span><span class="naya-copy"><strong>Naya</strong><span>Help me understand this</span></span></button><button class="continue" id="continueButton" type="button" disabled><span id="continueText">Continue</span><span class="arrow">→</span></button></div><div class="question"><div class="eyebrow" id="questionLabel"></div><h1 id="questionTitle"></h1><div class="rule"></div></div><div class="answers" id="answers"></div></div><div class="results-local" id="localResults" aria-live="polite"><div class="results-kicker">MAXESS · RESULTS VERIFIED</div><h1 class="results-title">Your AI Mastery Score</h1><div class="results-score"><div><strong id="localOverallScore">0</strong><span>OVERALL SCORE</span></div></div><div class="dimension-grid" id="localDimensions"></div><div class="results-status" id="localResultsStatus">Your verified MAXESS_RESULT_V1 has been calculated from all 15 responses.</div></div></div></section><footer class="footer">MAXESS · AI MASTERY ASSESSMENT</footer></div></div>
+<div class="app"><div class="shell"><header class="top"><div class="brand">MAX<span>ESS</span></div><div class="progress" aria-live="polite"><span class="progress-label" id="progressLabel">QUESTION 1 OF 15</span><span class="progress-track"><span class="progress-fill" id="progressFill"></span></span><span class="progress-percent" id="progressPercent">7%</span></div><div></div></header><section class="board"><div class="content" id="content"><div id="assessmentStage"><div class="command"><button class="naya-btn" id="nayaButton" type="button"><span class="naya-orb"></span><span class="naya-copy"><strong>Naya</strong><span>Help me understand this</span></span></button><button class="continue" id="continueButton" type="button" aria-disabled="true"><span id="continueText">Continue</span><span class="arrow">→</span></button></div><div class="question"><div class="eyebrow" id="questionLabel"></div><h1 id="questionTitle"></h1><div class="rule"></div></div><div class="answers" id="answers"></div></div><div class="results-local" id="localResults" aria-live="polite"><div class="results-kicker">MAXESS · RESULTS VERIFIED</div><h1 class="results-title">Your AI Mastery Score</h1><div class="results-score"><div><strong id="localOverallScore">0</strong><span>OVERALL SCORE</span></div></div><div class="dimension-grid" id="localDimensions"></div><div class="results-status" id="localResultsStatus">Your verified MAXESS_RESULT_V1 has been calculated from all 15 responses.</div></div></div></section><footer class="footer">MAXESS · AI MASTERY ASSESSMENT</footer></div></div>
 <div class="dialog" id="nayaDialog"><div class="dialog-card"><div class="naya-presence"><div class="presence-orb"></div><div class="presence-copy"><strong>Naya</strong><span>Let me walk you through this.</span></div></div><div class="dialog-kicker" id="dialogKicker"></div><h2 class="dialog-title" id="dialogTitle"></h2><div class="dialog-body" id="dialogBody"></div><div class="dialog-actions"><button class="dialog-btn" id="playNaya" type="button">PLAY NAYA ▶</button><button class="dialog-btn secondary" id="closeNaya" type="button">LET'S GO →</button></div></div></div>
 <script>
 'use strict';
@@ -96,7 +96,7 @@ function hideResultsSections(){const selectors=['#e01','#e02','#e03','#e04','#e0
 function releaseResultsSections(result){const selectors=['#e01','#e02','#e03','#e04','#e05','#e06','#e07','#e08','#e09'];const roots=[document];try{if(window.parent&&window.parent!==window)roots.push(window.parent.document);}catch(e){}roots.forEach(root=>{selectors.forEach(sel=>{try{root.querySelectorAll(sel).forEach(el=>{if(el!==$('maxess-ai-score')){el.removeAttribute('data-maxess-hidden');el.style.removeProperty('display');}});}catch(e){}});try{root.dispatchEvent(new CustomEvent('MAXESS_RESULT_READY',{detail:result}));root.dispatchEvent(new CustomEvent('maxess:result-updated',{detail:result}));}catch(e){}});}
 function render(){if(state.mode!=='ASSESSMENT')return;const q=Q[state.i],n=state.i+1;$('progressLabel').textContent=`QUESTION ${n} OF 15`;$('progressFill').style.width=(n/15*100)+'%';$('progressPercent').textContent=Math.round(n/15*100)+'%';$('questionLabel').textContent=q[2];$('questionTitle').textContent=q[3];$('answers').innerHTML='';q.slice(4).map((a,i)=>({id:String.fromCharCode(97+i),title:a[0],sub:a[1],score:S[n][i],accent:['#ffd45a','#35e39b','#3ca8ff','#765cff','#ed42c4'][i]})).sort(()=>Math.random()-.5).forEach(a=>{const b=document.createElement('button');b.type='button';b.className='answer';b.dataset.id=a.id;b.style.setProperty('--accent',a.accent);b.setAttribute('aria-pressed','false');b.innerHTML=`<span class="jewel"><span class="glyph">${['◆','✦','△','✧','✦'][a.id.charCodeAt(0)-97]}</span></span>`+`<span class="answer-copy"><span class="answer-title">${esc(a.title)}</span>`+`<span class="answer-sub">${esc(a.sub)}</span></span>`+`<span class="chevron">›</span>`;b.onclick=()=>select(a.id,b);$('answers').appendChild(b);});state.selected=null;updateContinue();}
 function select(id,b){if(state.finalizing||state.mode!=='ASSESSMENT')return;state.selected=id;$('answers').querySelectorAll('.answer').forEach(x=>{const yes=x===b;x.classList.toggle('selected',yes);x.setAttribute('aria-pressed',String(yes));});updateContinue();}
-function updateContinue(){const disabled=!state.selected||state.finalizing||state.mode!=='ASSESSMENT';$('continueButton').disabled=disabled;$('continueButton').setAttribute('aria-disabled',String(disabled));}
+function updateContinue(){const disabled=!state.selected||state.finalizing||state.mode!=='ASSESSMENT';$('continueButton').setAttribute('aria-disabled',String(disabled));}
 function save(){const q=Q[state.i];const idx=state.selected.charCodeAt(0)-97;if(idx<0||idx>4||!Array.isArray(S[state.i+1])||S[state.i+1].length!==5)throw Error('Invalid answer score mapping');const r={questionId:q[0],questionOrder:state.i+1,dimensionId:q[1],answerId:state.selected,score:S[state.i+1][idx]};const old=state.responses.findIndex(x=>x.questionId===q[0]);old>=0?state.responses[old]=r:state.responses.push(r);}
 function calculate(){if(state.responses.length!==15)throw Error('Exactly 15 responses required');if(!Array.isArray(D)||D.length!==5)throw Error('Invalid dimension matrix');const dimensions=D.map(d=>{const rs=state.responses.filter(r=>r.dimensionId===d[0]);if(rs.length!==3)throw Error('Invalid dimension response count');const raw=rs.reduce((a,r)=>a+r.score,0);return{id:d[0],name:d[1],score:Math.round(raw/12*100)};});const raw=state.responses.reduce((a,r)=>a+r.score,0);if(raw<0||raw>60)throw Error('Overall score outside 0-60 matrix');return{overallScore:Math.round(raw/60*100),dimensions};}
 function buildResult(){const x=calculate();const sorted=[...x.dimensions].sort((a,b)=>b.score-a.score);return{contractVersion:'MAXESS_RESULT_V1',assessmentId:'ai-mastery',assessmentVersion:'CLEAN-V2',completedAt:new Date().toISOString(),overallScore:x.overallScore,masteryBand:band(x.overallScore),dimensions:x.dimensions.map(d=>({...d,band:band(d.score)})),fiveDimensions:x.dimensions.map(d=>({...d,band:band(d.score)})),dimensionScores:Object.fromEntries(x.dimensions.map(d=>[d.id,d.score])),strongestDimension:{...sorted[0],band:band(sorted[0].score)},opportunityDimension:{...sorted[sorted.length-1],band:band(sorted[sorted.length-1].score)},strongestCapability:sorted[0].name,opportunityCapability:sorted[sorted.length-1].name,responses:state.responses.map(r=>({questionId:r.questionId,dimensionId:r.dimensionId,answerId:r.answerId,score:r.score})),selectedInterests:[],naya:{overallNarrativeId:band(x.overallScore)},audio:{overallReportId:band(x.overallScore),overallReportUrl:null}};}
@@ -125,30 +125,26 @@ function next(){
 }
 function openNaya(){if(state.mode!=='ASSESSMENT')return;const q=Q[state.i];$('dialogKicker').textContent=state.first?'MAXESS AI MASTERY ASSESSMENT':`${q[2]} · QUESTION ${state.i+1}`;$('dialogTitle').textContent=state.first?'Welcome to the MAXESS AI Mastery Assessment':"Here's what we're really looking at.";$('dialogBody').innerHTML=state.first?'<p>I’m going to walk you through this assessment.</p><p>It takes about three minutes.</p><p>Answer honestly based on what you actually do today.</p><p>Ready?</p>':`<p>${esc(q[3])}</p>`;$('playNaya').style.display=state.first?'none':'inline-block';$('closeNaya').textContent=state.first?"LET'S GO →":'Got it — let’s go →';$('nayaDialog').classList.add('open');state.first=false;}
 function closeNaya(){$('nayaDialog').classList.remove('open');$('nayaButton').focus();}
-let maxessContinueLast=0;
-function executeContinue(e){
- const btn=$('continueButton');
- if(!btn||e.target!==btn)return;
- if(btn.disabled||state.finalizing||state.mode!=='ASSESSMENT'||!state.selected)return;
- const now=Date.now();
- if(now-maxessContinueLast<300){e.preventDefault();e.stopImmediatePropagation();return;}
- maxessContinueLast=now;
+let maxessContinueExecuting=false;
+function executeContinueBoundary(e){
+ const target=e.target instanceof Element?e.target:null;
+ const btn=target?.closest('#continueButton');
+ if(!btn||!MAXESS_ROOT.contains(btn))return;
+ if(state.finalizing||state.mode!=='ASSESSMENT'||!state.selected)return;
+ if(maxessContinueExecuting)return;
+ maxessContinueExecuting=true;
  e.preventDefault();
- e.stopImmediatePropagation();
+ e.stopPropagation();
  try{next();}catch(err){
   console.error('MAXESS Continue boundary failure',err);
   state.finalizing=false;
   updateContinue();
   $('continueText').textContent='Continue';
+ }finally{
+  maxessContinueExecuting=false;
  }
 }
-window.addEventListener('click',executeContinue,true);
-window.addEventListener('pointerup',executeContinue,true);
-window.addEventListener('mouseup',executeContinue,true);
-window.addEventListener('touchend',executeContinue,true);
-$('continueButton').addEventListener('keydown',e=>{
- if(e.key==='Enter'||e.key===' '){executeContinue(e);}
-},true);
+document.addEventListener('click',executeContinueBoundary,true);
 $('nayaButton').onclick=openNaya;$('closeNaya').onclick=closeNaya;$('playNaya').onclick=()=>{if(state.mode!=='ASSESSMENT')return;const q=Q[state.i];if('speechSynthesis' in window){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(q[3]);u.rate=.94;u.pitch=1.02;speechSynthesis.speak(u);}$('nayaDialog').classList.remove('open');};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('nayaDialog').classList.contains('open'))closeNaya();});
 try{validate();hideResultsSections();render();setTimeout(openNaya,180);window.MAXESS_E00_RESULTS_HANDOFF_V1=true;window.MAXESS_RESULT_BRIDGE_V2=true;window.MAXESS_RESULT_MODE='ASSESSMENT';}catch(e){console.error(e);$('questionLabel').textContent='ASSESSMENT ERROR';$('questionTitle').textContent='MAXESS is temporarily unavailable.';}
