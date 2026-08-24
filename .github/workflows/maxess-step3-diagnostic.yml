@@ -2,8 +2,6 @@ name: MAXESS Step 3 Diagnostic
 
 on:
   push:
-    paths:
-      - '.github/workflows/maxess-step3-diagnostic.yml'
   workflow_dispatch:
 
 permissions:
@@ -20,13 +18,14 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           s=Path('E00 118').read_text(encoding='utf-8')
-          print('BYTES',len(s.encode()))
-          print('LINES',len(s.splitlines()))
-          for label,pos in [('SCORE-GUARD',s.find('Object.keys(S)')-700),('VALIDATE',s.find('function validate(')-500),('S-DEFINITION',s.find('const S=')),('D-DEFINITION',s.find('const D='))]:
-              print('\n===== '+label+' @ '+str(pos)+' =====')
-              if pos>=0: print(s[pos:pos+5000])
-          for m in ['if(!Array.isArray(S)||Object.keys(S).length!==15)','if(!S||typeof S!==\'object\'','window.MAXESS_RESULT_V1','sessionStorage.setItem','MAXESS_RESULT_READY','closest(\'#continueButton\')','addEventListener(\'click\'']:
-              print('MARKER',m,s.find(m))
+          for label,needle in [('NEXT','function next('),('SAVE','function save('),('PUBLISH','function publish('),('BUILD','function buildResult('),('VALIDATE','function validate(')]:
+              p=s.find(needle)
+              print(f'===== {label} @ {p} =====')
+              if p>=0: print(s[max(0,p-300):p+7000])
+          print('CONTINUE',s[s.find("$('continueButton').addEventListener")-200:s.find("$('continueButton').addEventListener")+700])
+          print('MARKERS')
+          for m in ['Object.keys(S)','window.MAXESS_RESULT_V1','sessionStorage.setItem','MAXESS_RESULT_READY','MAXESS_RESULT_OFFICIAL','MAXESS_AISCORE']:
+              print(m,s.find(m))
           PY
       - uses: actions/setup-node@v4
         with:
@@ -59,22 +58,11 @@ jobs:
             console.log(`Q${i}: selected=true continueDisabled=${disabled}`);
             if(disabled) throw new Error(`Q${i}: Continue remained disabled after answer selection`);
             await page.locator('#continueButton').click();
-            if(i<15){
-              await page.waitForTimeout(250);
-              if(await close.isVisible().catch(()=>false)) await close.click();
-            }
+            if(i<15){ await page.waitForTimeout(250); if(await close.isVisible().catch(()=>false)) await close.click(); }
           }
           await page.waitForTimeout(500);
-          const result=await page.evaluate(()=>({
-            result:window.MAXESS_RESULT||null,
-            localScore:document.querySelector('#localOverallScore')?.textContent||'',
-            localResultsActive:document.querySelector('#localResults')?.classList.contains('active')||false,
-            status:document.querySelector('#localResultsStatus')?.textContent||'',
-            dimensions:document.querySelectorAll('#localDimensions .dimension-card').length
-          }));
-          console.log('RESULT_JSON',JSON.stringify(result));
-          console.log('PAGE_ERRORS',JSON.stringify(errors));
-          console.log('CONSOLE_ERRORS',JSON.stringify(consoleErrors));
+          const result=await page.evaluate(()=>({result:window.MAXESS_RESULT||null,localScore:document.querySelector('#localOverallScore')?.textContent||'',localResultsActive:document.querySelector('#localResults')?.classList.contains('active')||false,status:document.querySelector('#localResultsStatus')?.textContent||'',dimensions:document.querySelectorAll('#localDimensions .dimension-card').length}));
+          console.log('RESULT_JSON',JSON.stringify(result)); console.log('PAGE_ERRORS',JSON.stringify(errors)); console.log('CONSOLE_ERRORS',JSON.stringify(consoleErrors));
           if(errors.length) throw new Error('Page errors: '+errors.join(' | '));
           if(!result.result || result.result.contractVersion!=='MAXESS_RESULT_V1') throw new Error('No valid window.MAXESS_RESULT');
           if(result.result.responses?.length!==15) throw new Error('Result responses != 15');
