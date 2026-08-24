@@ -1,0 +1,89 @@
+schema: naya-memory-index/v1
+status: CANONICAL
+effective: "2026-08-23"
+
+purpose: "Navigate durable memory by meaning, authority, freshness, relationships, and evidence."
+
+roots:
+  canonical_notes: docs/smart-notes
+  runtime_notes: .naya/memory/notes
+  legacy_index: docs/smart-notes/INDEX.md
+  system_memory_spec: docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md
+
+retrieval_pipeline:
+  - normalize_query
+  - expand_aliases
+  - expand_synonyms
+  - classify_intent
+  - filter_by_scope
+  - filter_by_status
+  - rank_by_authority
+  - rank_by_knowledge_state
+  - rank_by_relevance
+  - rank_by_freshness
+  - follow_relationships
+  - detect_conflicts
+  - return_minimum_sufficient_context
+
+query_expansion:
+  exact_terms: 1.00
+  title_match: 0.95
+  alias_match: 0.90
+  keyword_match: 0.80
+  semantic_summary_match: 0.75
+  related_concept_match: 0.65
+  body_match: 0.55
+
+ranking:
+  authority: 0.25
+  relevance: 0.30
+  knowledge_state: 0.15
+  freshness: 0.10
+  relationship_strength: 0.10
+  retrieval_quality: 0.10
+
+authority_order:
+  - current_verified_reality
+  - canonical_governance
+  - verified_note_evidence
+  - established_memory
+  - provisional_memory
+  - historical_memory
+  - inference
+
+freshness_policy:
+  active: "Prefer recent evidence when the subject is time-sensitive."
+  reference: "Use for context, not current truth, unless revalidated."
+  superseded: "Never rank as current truth; surface only when history or lineage matters."
+
+conflict_policy:
+  - "Never silently choose between conflicting authoritative sources."
+  - "Current verified reality wins over historical memory."
+  - "Canonical subject authority wins over supporting documents."
+  - "Explicit supersession preserves history and changes active retrieval."
+  - "Unresolved conflict must appear in restored state."
+
+retrieval_aliases:
+  smart_note: [smart note, smart notes, naya note, naya notes, durable memory, project memory]
+  restore_context: [restore context, restore memory, catch up, reload context, bring me up to date, rehydrate context, cold start]
+  memory_runtime: [memory runtime, memory system, knowledge brain, external brain, durable intelligence]
+  naya_power: [naya power, naya operating system, naya runtime, ai operating system]
+
+minimum_sufficient_context:
+  return:
+    - mission
+    - current_state
+    - protected_elements
+    - recent_changes
+    - unresolved_unknowns
+    - relevant_memory
+    - conflicts
+    - stale_assumptions
+    - next_best_action
+  rule: "Do not dump the entire repository when a smaller evidence-backed context set is sufficient."
+
+index_health:
+  required: [taxonomy, note_schema, restore_manifest, validator]
+  generated_at: "runtime"
+  last_validation: "runtime"
+  status: UNKNOWN

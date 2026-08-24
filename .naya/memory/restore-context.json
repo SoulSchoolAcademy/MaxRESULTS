@@ -1,0 +1,43 @@
+{
+  "schema": "naya-restore-context/v1",
+  "status": "CANONICAL",
+  "command": "Naya Power — RESTORE CONTEXT",
+  "principle": "When conversational context fades, Naya does not guess. Naya restores.",
+  "boot_sequence": [
+    {"step": 1, "read": "START-HERE.md", "purpose": "repository orientation"},
+    {"step": 2, "read": ".naya/NAYA-LAW-SYSTEM-PROTOCOL.md", "purpose": "execution integrity"},
+    {"step": 3, "read": ".naya/naya-context-manifest.json", "purpose": "canonical routing and authority"},
+    {"step": 4, "read": "docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md", "purpose": "memory rules"},
+    {"step": 5, "read": ".naya/memory/memory-index.yaml", "purpose": "retrieval strategy"},
+    {"step": 6, "read": ".naya/memory/taxonomy.yaml", "purpose": "classification vocabulary"},
+    {"step": 7, "read": ".naya/memory/note-schema.yaml", "purpose": "note contract"},
+    {"step": 8, "read": "docs/smart-notes/INDEX.md", "purpose": "existing memory navigation"},
+    {"step": 9, "read": ".naya/memory/notes/", "purpose": "runtime-validated canonical notes"},
+    {"step": 10, "inspect": "git status / recent commits / current branch", "purpose": "current repository reality"},
+    {"step": 11, "check": "conflicts and stale assumptions", "purpose": "prevent false continuity"},
+    {"step": 12, "produce": "RESTORED STATE", "purpose": "actionable handoff"}
+  ],
+  "restored_state_contract": {
+    "required": [
+      "what_we_know",
+      "what_changed",
+      "protected_elements",
+      "uncertain_or_unknown",
+      "unfinished_work",
+      "conflicts",
+      "stale_assumptions",
+      "evidence_level",
+      "next_best_action"
+    ],
+    "rule": "Never claim restored knowledge that was not found or verified."
+  },
+  "authority": {
+    "current_verified_reality_overrides": ["memory", "history", "inference", "assumption"],
+    "canonical_governance_overrides": ["supporting_memory", "historical_docs"],
+    "unresolved_conflicts": "surface explicitly"
+  },
+  "success": {
+    "definition": "A fresh AI can reconstruct enough verified state to continue the mission without asking the human to repeat context that is already durably recorded.",
+    "human_proof": "The next response identifies the mission and next best action without requiring the human to reconstruct the project manually."
+  }
+}

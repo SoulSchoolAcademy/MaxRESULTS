@@ -1,0 +1,68 @@
+schema: naya-smart-note/v1
+status: CANONICAL
+authority: docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md
+required:
+  - id
+  - title
+  - created_at
+  - category
+  - status
+  - scope
+  - keywords
+  - aliases
+  - summary
+  - source
+  - knowledge_state
+  - what_happened
+  - what_we_learned
+  - why_it_matters
+  - required_behavior
+  - evidence
+
+fields:
+  id: {type: string, pattern: "^SN-[0-9]{8}-[0-9]{3,}$"}
+  title: {type: string, min_length: 8, max_length: 140}
+  created_at: {type: timestamp, timezone_required: true}
+  updated_at: {type: timestamp, timezone_required: true, optional: true}
+  category: {enum: [IDEA, LEARNING, GOAL, DECISION, FACT, RESOURCE, KNOWLEDGE, PROBLEM, SOLUTION, PERSON, EVENT, TASK, INSIGHT]}
+  status: {enum: [ACTIVE, SUPERSEDED, RESOLVED, REFERENCE]}
+  scope: {enum: [SYSTEM, PROJECT, PRODUCT, FEATURE, TECHNICAL, STRATEGY, PERSONAL-PROJECT-CONTEXT]}
+  knowledge_state: {enum: [VERIFIED, ESTABLISHED, PROVISIONAL, UNKNOWN]}
+  keywords: {type: list, min_items: 5, max_items: 15, unique: true}
+  aliases: {type: list, min_items: 1, unique: true}
+  related: {type: list, optional: true}
+  relations: {type: list, optional: true}
+  summary: {type: string, min_length: 20}
+  source: {type: string, min_length: 5}
+  what_happened: {type: string, min_length: 10}
+  what_we_learned: {type: string, min_length: 10}
+  why_it_matters: {type: string, min_length: 10}
+  required_behavior: {type: string, min_length: 10}
+  evidence: {type: list, min_items: 1}
+  confidence: {enum: [high, medium, low], optional: true}
+  next_best_action: {type: string, optional: true}
+  supersedes: {type: list, optional: true}
+  superseded_by: {type: list, optional: true}
+  mission_context: {type: string, optional: true}
+
+quality_rules:
+  - id: Q1
+    rule: "Title must be specific enough to retrieve without the original conversation."
+  - id: Q2
+    rule: "Keywords must include natural-language concepts, not only exact project jargon."
+  - id: Q3
+    rule: "Aliases must include plausible alternate wording when terminology could vary."
+  - id: Q4
+    rule: "Source and evidence must identify where the memory came from."
+  - id: Q5
+    rule: "Knowledge state must distinguish verified knowledge from provisional inference."
+  - id: Q6
+    rule: "A superseded note must identify its replacement when known."
+  - id: Q7
+    rule: "A note must describe the behavior or decision future Naya should apply."
+  - id: Q8
+    rule: "Do not duplicate an existing note when an update, supersession, or relation is more accurate."
+  - id: Q9
+    rule: "Do not claim current reality solely from historical memory."
+  - id: Q10
+    rule: "A note is runtime-valid only when deterministic validation passes."

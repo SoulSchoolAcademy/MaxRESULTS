@@ -1,0 +1,49 @@
+id: SN-20260823-001
+title: Naya Power Memory Runtime Is the Durable Context Layer
+created_at: "2026-08-23T17:22:00-07:00"
+updated_at: "2026-08-23T17:22:00-07:00"
+category: KNOWLEDGE
+status: ACTIVE
+scope: SYSTEM
+knowledge_state: ESTABLISHED
+keywords:
+  - Naya Power
+  - memory runtime
+  - Smart Notes
+  - Restore Context
+  - durable memory
+  - external brain
+  - context restoration
+  - knowledge retrieval
+  - semantic search
+  - continuity
+aliases:
+  - Naya Power memory system
+  - Naya external brain
+  - Restore Context runtime
+  - Smart Notes runtime
+  - durable Naya memory
+summary: "Naya Power uses a structured GitHub-backed memory runtime so future AI sessions can restore relevant mission context without relying on fragile conversational memory."
+source: "Naya Power design work and canonical Naya Notes specification reviewed in SoulSchoolAcademy/MaxRESULTS on 2026-08-23."
+what_happened: "The project identified conversational context loss as a major operational failure and defined Restore Context plus Smart Notes as first-class runtime capabilities."
+what_we_learned: "Durable memory must be structured, timestamped, classified, semantically retrievable, linked to evidence, explicit about supersession, and separate from governing law."
+why_it_matters: "A fresh AI should be able to recover enough verified state to continue the mission without forcing the human to reconstruct prior work."
+required_behavior: "When the human says Naya Power — RESTORE CONTEXT, read the canonical bootstrap, authority, mission, handoff, relevant notes, current repository state, conflicts, and stale assumptions, then return restored state plus the next best action."
+evidence:
+  - type: repository
+    path: docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md
+  - type: repository
+    path: .naya/naya-context-manifest.json
+  - type: repository
+    path: .naya/NAYA-CONTEXT-BOOT-PROTOCOL.md
+  - type: design-session
+    path: "Naya Power memory-runtime design discussion, 2026-08-23"
+relations:
+  - type: implements
+    target: .naya/memory/restore-context.json
+  - type: implements
+    target: .naya/memory/memory-index.yaml
+  - type: implements
+    target: .naya/memory/note-schema.yaml
+mission_context: "Build Naya Power as a reliable, verifiable, recoverable, human-friendly AI operating system."
+next_best_action: "Validate the memory runtime, update the canonical context manifest, and integrate Restore Context and Smart Notes into customer-facing Naya Power protocols."
