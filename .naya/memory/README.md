@@ -45,3 +45,7 @@ GitHub is the durable external brain. This runtime makes durable memory **struct
 **What happened → What we learned → Why it matters → What changed → What to do next**
 
 The structure may be adapted to the knowledge type when a better retrieval/action structure exists.
+
+## Verification
+
+The runtime is validated automatically by `.github/workflows/naya-memory-runtime.yml` on relevant pushes and pull requests. A passing job establishes structural validity only; evidence and current reality remain governed by the broader Naya Power Evidence and Authority protocols.
