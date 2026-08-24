@@ -30,8 +30,10 @@ def evaluate(package: dict[str, Any], current_commit: str) -> dict[str, Any]:
         reasons.append("claim provenance is missing")
     if not evidence:
         reasons.append("qualifying evidence is missing")
-    passing = []
+    passing, failing = [], []
     for item in evidence:
+        if item.get("commit_sha") == current_commit and item.get("result") == "FAIL":
+            failing.append(item)
         if item.get("result") != "PASS":
             continue
         if item.get("method") in FORBIDDEN_METHODS:
@@ -43,8 +45,13 @@ def evaluate(package: dict[str, Any], current_commit: str) -> dict[str, Any]:
         if item.get("superseded_at") is not None or item.get("status") == "SUPERSEDED":
             continue
         passing.append(item)
+    if passing and failing:
+        reasons.append("conflicting current evidence contains both PASS and FAIL")
     if not passing:
         reasons.append("no current, qualifying, non-superseded PASS evidence with provenance")
+    evidence_criteria = set().union(*(set(e.get("criteria_covered") or []) for e in passing)) if passing else set()
+    if set(criteria or []) - evidence_criteria:
+        reasons.append("qualifying evidence does not cover every success criterion")
     if target in {"OSCAR_ACCEPTED", "CANONICAL_VERIFIED", "PRODUCTION_SAFE"}:
         if oscar.get("verdict") != "ACCEPT":
             reasons.append("Oscar verdict is not ACCEPT")
@@ -76,16 +83,7 @@ def evaluate(package: dict[str, Any], current_commit: str) -> dict[str, Any]:
         level = "CANONICAL_VERIFIED"
     if target == "PRODUCTION_SAFE":
         level = "PRODUCTION_SAFE"
-    return {
-        "eligible": True,
-        "level": level,
-        "claim_id": claim["claim_id"],
-        "current_commit": current_commit,
-        "target": target,
-        "passing_evidence": [e["evidence_id"] for e in passing],
-        "promotion_decision": package.get("promotion_decision"),
-        "reasons": [],
-    }
+    return {"eligible": True, "level": level, "claim_id": claim["claim_id"], "current_commit": current_commit, "target": target, "passing_evidence": [e["evidence_id"] for e in passing], "promotion_decision": package.get("promotion_decision"), "reasons": []}
 
 
 def main() -> int:
