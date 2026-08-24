@@ -1,16 +1,26 @@
-name: Naya Power Memory Runtime
+name: Naya Power Memory + Restore Runtime
 
 on:
   push:
     branches: [main]
     paths:
       - '.naya/memory/**'
+      - '.naya/runtime/**'
+      - '.naya/checkpoints/**'
+      - '.naya/handoffs/**'
       - '.naya/naya-context-manifest.json'
+      - '.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md'
+      - 'README.md'
       - '.github/workflows/naya-memory-runtime.yml'
   pull_request:
     paths:
       - '.naya/memory/**'
+      - '.naya/runtime/**'
+      - '.naya/checkpoints/**'
+      - '.naya/handoffs/**'
       - '.naya/naya-context-manifest.json'
+      - '.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md'
+      - 'README.md'
       - '.github/workflows/naya-memory-runtime.yml'
   workflow_dispatch:
 
@@ -18,29 +28,52 @@ permissions:
   contents: read
 
 jobs:
-  memory-contract:
+  runtime-contract:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Validate JSON contracts
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          for p in [Path('.naya/memory/note.schema.json'), Path('.naya/memory/INDEX.json'), Path('.naya/memory/RETRIEVAL-MANIFEST.json'), Path('.naya/memory/STATE.json'), Path('.naya/naya-context-manifest.json')]:
+          paths = [
+              Path('.naya/memory/note.schema.json'),
+              Path('.naya/memory/INDEX.json'),
+              Path('.naya/memory/RETRIEVAL-MANIFEST.json'),
+              Path('.naya/memory/STATE.json'),
+              Path('.naya/naya-context-manifest.json'),
+          ]
+          for p in paths:
               json.loads(p.read_text(encoding='utf-8'))
               print('VALID JSON:', p)
           PY
+
       - name: Run Smart Note validator
         working-directory: .naya/memory
         run: python memory_runtime.py validate
-      - name: Run adversarial contract tests
+
+      - name: Run Smart Note tests
         working-directory: .naya/memory
         run: python -m unittest -v test_memory_runtime.py
-      - name: Verify restore command surface
+
+      - name: Run Restore Context tests
+        working-directory: .naya/runtime
+        run: python -m unittest -v test_restore_context.py
+
+      - name: Execute current Restore Context
+        run: python .naya/runtime/restore_context.py restore --pretty
+
+      - name: Execute historical Restore Context
+        run: python .naya/runtime/restore_context.py restore --at "2026-08-23T23:59:59Z" --pretty
+
+      - name: Verify command surfaces
         run: |
           grep -q 'Naya Power — RESTORE CONTEXT' .naya/memory/BOOTSTRAP.md
           grep -q 'Naya Power — MAKE THIS A SMART NOTE' .naya/memory/BOOTSTRAP.md
           grep -q 'current_verified_reality_overrides' .naya/naya-context-manifest.json
-          echo 'RESTORE / SMART NOTE surfaces present'
+          grep -q 'historical_restore_is_reconstruction_not_current_truth' .naya/naya-context-manifest.json
+          grep -q 'SoulSchoolAcademy/NayaPOWER' README.md
+          echo 'RESTORE / SMART NOTE / CANONICAL REPOSITORY surfaces present'
