@@ -1,20 +1,77 @@
 #!/usr/bin/env python3
 """Deterministic promotion boundary for Claim -> Evidence -> Verification -> Oscar."""
 from __future__ import annotations
-import argparse, json, sys
+
+import argparse
+import hashlib
+import json
+import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 
 LEVELS = ["UNVERIFIED", "BUILDER_VERIFIED", "OSCAR_ACCEPTED", "CANONICAL_VERIFIED", "PRODUCTION_SAFE"]
 FORBIDDEN_METHODS = {"model_assertion", "memory_assertion", "user_assertion", "retrieved_content"}
+PROVENANCE_SCHEMA = "naya-power-oscar-provenance/v1"
+
+
+def canonical_json(value: Any) -> str:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+def sha256_json(value: Any) -> str:
+    return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
+
+
+def git_blob_sha(root: Path, relative_path: str) -> str | None:
+    try:
+        return subprocess.run(["git", "hash-object", relative_path], cwd=root, text=True, capture_output=True, check=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        return None
 
 
 def fail(reasons: list[str]) -> dict[str, Any]:
     return {"eligible": False, "level": "UNVERIFIED", "reasons": reasons}
 
 
-def evaluate(package: dict[str, Any], current_commit: str) -> dict[str, Any]:
+def verify_oscar_provenance(oscar: dict[str, Any], claim: dict[str, Any], evidence: list[dict[str, Any]], current_commit: str, root: Path) -> list[str]:
     reasons: list[str] = []
+    provenance = oscar.get("provenance")
+    if not isinstance(provenance, dict):
+        return ["Oscar provenance is missing"]
+    if provenance.get("schema") != PROVENANCE_SCHEMA:
+        reasons.append("Oscar provenance schema is invalid")
+    claim_sha = sha256_json(claim)
+    evidence_sha = sha256_json(sorted(evidence, key=lambda item: str(item.get("evidence_id", ""))))
+    input_sha = sha256_json({"claim_sha256": claim_sha, "evidence_sha256": evidence_sha, "expected_commit": current_commit})
+    if provenance.get("claim_sha256") != claim_sha:
+        reasons.append("Oscar provenance claim hash does not match the supplied claim")
+    if provenance.get("evidence_sha256") != evidence_sha:
+        reasons.append("Oscar provenance evidence hash does not match the supplied evidence")
+    if provenance.get("input_sha256") != input_sha:
+        reasons.append("Oscar provenance input fingerprint does not match current inputs")
+    if provenance.get("expected_commit") != current_commit:
+        reasons.append("Oscar provenance is bound to a different commit")
+    implementation_path = provenance.get("implementation_path")
+    if implementation_path != ".naya/runtime/oscar.py":
+        reasons.append("Oscar implementation path is not canonical")
+    actual_implementation_sha = git_blob_sha(root, implementation_path) if implementation_path else None
+    if not actual_implementation_sha or provenance.get("implementation_sha256") != actual_implementation_sha:
+        reasons.append("Oscar implementation provenance does not match the checked-out implementation")
+    if provenance.get("implementation_commit") != current_commit:
+        reasons.append("Oscar implementation provenance is from a different commit")
+    if not provenance.get("execution_source") or not provenance.get("execution_run_id"):
+        reasons.append("Oscar execution provenance is incomplete")
+    unsigned = dict(oscar)
+    unsigned.pop("result_sha256", None)
+    if oscar.get("result_sha256") != sha256_json(unsigned):
+        reasons.append("Oscar result integrity hash does not match the result contents")
+    return reasons
+
+
+def evaluate(package: dict[str, Any], current_commit: str, root: Path | None = None) -> dict[str, Any]:
+    reasons: list[str] = []
+    root = root or Path(__file__).resolve().parents[2]
     claim = package.get("claim") or {}
     evidence = package.get("evidence") or []
     oscar = package.get("oscar") or {}
@@ -66,6 +123,7 @@ def evaluate(package: dict[str, Any], current_commit: str) -> dict[str, Any]:
             reasons.append("Oscar does not cover every success criterion")
         if oscar.get("claim_id") != claim.get("claim_id"):
             reasons.append("Oscar claim_id does not match claim")
+        reasons.extend(verify_oscar_provenance(oscar, claim, evidence, current_commit, root))
     if target == "CANONICAL_VERIFIED" and package.get("promotion_decision") != "PROMOTE":
         reasons.append("canonical promotion requires an explicit PROMOTE decision")
     if target == "PRODUCTION_SAFE":
@@ -95,6 +153,7 @@ def main() -> int:
     result = evaluate(package, args.commit)
     print(json.dumps(result, indent=2))
     return 0 if result.get("eligible") else 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

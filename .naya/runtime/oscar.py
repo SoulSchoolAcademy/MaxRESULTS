@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -11,14 +13,30 @@ from pathlib import Path
 from typing import Any
 
 SCHEMA = "naya-power-oscar/v1"
+PROVENANCE_SCHEMA = "naya-power-oscar-provenance/v1"
 FORBIDDEN_METHODS = {"model_assertion", "memory_assertion", "user_assertion", "retrieved_content"}
 VALID_RESULTS = {"PASS", "FAIL", "PARTIAL", "UNKNOWN"}
+
+
+def canonical_json(value: Any) -> str:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+def sha256_json(value: Any) -> str:
+    return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
 
 
 def git_head(root: Path) -> str | None:
     try:
         return subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, text=True, capture_output=True, check=True).stdout.strip()
     except (OSError, subprocess.CalledProcessError):
+        return None
+
+
+def git_blob_sha(path: Path, root: Path) -> str | None:
+    try:
+        return subprocess.run(["git", "hash-object", str(path.relative_to(root))], cwd=root, text=True, capture_output=True, check=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError, ValueError):
         return None
 
 
@@ -29,6 +47,14 @@ def parse_time(value: str) -> bool:
         return dt.tzinfo is not None
     except Exception:
         return False
+
+
+def input_fingerprints(claim: dict[str, Any], evidence: list[dict[str, Any]], expected_commit: str | None) -> dict[str, str | None]:
+    evidence_sorted = sorted(evidence, key=lambda item: str(item.get("evidence_id", "")))
+    claim_sha = sha256_json(claim)
+    evidence_sha = sha256_json(evidence_sorted)
+    input_sha = sha256_json({"claim_sha256": claim_sha, "evidence_sha256": evidence_sha, "expected_commit": expected_commit})
+    return {"claim_sha256": claim_sha, "evidence_sha256": evidence_sha, "input_sha256": input_sha}
 
 
 def challenge(claim: dict[str, Any], evidence: list[dict[str, Any]], expected_commit: str | None = None, protected_baseline: str | None = None) -> dict[str, Any]:
@@ -100,19 +126,44 @@ def challenge(claim: dict[str, Any], evidence: list[dict[str, Any]], expected_co
     }
 
 
+def attach_provenance(result: dict[str, Any], claim: dict[str, Any], evidence: list[dict[str, Any]], expected_commit: str | None, root: Path, run_id: str | None = None) -> dict[str, Any]:
+    """Attach reproducible input/code provenance and a digest over the complete result."""
+    fingerprints = input_fingerprints(claim, evidence, expected_commit)
+    implementation_path = Path(__file__).resolve()
+    implementation_sha = git_blob_sha(implementation_path, root)
+    implementation_commit = git_head(root)
+    result = dict(result)
+    result["provenance"] = {
+        "schema": PROVENANCE_SCHEMA,
+        **fingerprints,
+        "expected_commit": expected_commit,
+        "implementation_path": str(implementation_path.relative_to(root)).replace("\\", "/"),
+        "implementation_sha256": implementation_sha,
+        "implementation_commit": implementation_commit,
+        "execution_source": "github-actions" if os.getenv("GITHUB_ACTIONS") == "true" else "local",
+        "execution_run_id": run_id or os.getenv("GITHUB_RUN_ID"),
+    }
+    unsigned = dict(result)
+    result["result_sha256"] = sha256_json(unsigned)
+    return result
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("claim")
     ap.add_argument("evidence")
     ap.add_argument("--commit", default=None)
     ap.add_argument("--baseline", default=None)
+    ap.add_argument("--run-id", default=None)
     args = ap.parse_args()
     claim = json.loads(Path(args.claim).read_text(encoding="utf-8"))
     evidence = json.loads(Path(args.evidence).read_text(encoding="utf-8"))
     if isinstance(evidence, dict):
         evidence = [evidence]
     root = Path(__file__).resolve().parents[2]
-    result = challenge(claim, evidence, args.commit or git_head(root), args.baseline)
+    expected_commit = args.commit or git_head(root)
+    result = challenge(claim, evidence, expected_commit, args.baseline)
+    result = attach_provenance(result, claim, evidence, expected_commit, root, args.run_id)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if result["verdict"] == "ACCEPT" else 1
 

@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 import copy
+import hashlib
+import json
+import subprocess
 import unittest
-from promotion_runtime import evaluate
+from pathlib import Path
+from promotion_runtime import evaluate, sha256_json
 
 COMMIT = "a" * 40
+ROOT = Path(__file__).resolve().parents[2]
 CLAIM = {
     "claim_id": "CL-1",
     "status": "VERIFIED",
@@ -21,18 +26,49 @@ EVIDENCE = {
     "observed_at": "2026-08-24T02:00:00Z",
     "criteria_covered": ["tests pass", "process exits successfully"],
 }
-OSCAR = {
-    "claim_id": "CL-1",
-    "verdict": "ACCEPT",
-    "independent": True,
-    "promotion_allowed": True,
-    "expected_commit": COMMIT,
-    "criteria_covered": ["tests pass", "process exits successfully"],
-}
+
+
+def implementation_sha():
+    return subprocess.run(["git", "hash-object", ".naya/runtime/oscar.py"], cwd=ROOT, text=True, capture_output=True, check=True).stdout.strip()
+
+
+def valid_oscar(claim=CLAIM, evidence=None, commit=COMMIT):
+    evidence = [copy.deepcopy(EVIDENCE)] if evidence is None else evidence
+    claim_sha = sha256_json(claim)
+    evidence_sha = sha256_json(sorted(evidence, key=lambda item: str(item.get("evidence_id", ""))))
+    input_sha = sha256_json({"claim_sha256": claim_sha, "evidence_sha256": evidence_sha, "expected_commit": commit})
+    result = {
+        "schema": "naya-power-oscar/v1",
+        "verdict": "ACCEPT",
+        "claim_id": claim["claim_id"],
+        "independent": True,
+        "reasons": [],
+        "warnings": [],
+        "evidence_count": len(evidence),
+        "passing_evidence": len(evidence),
+        "criteria_covered": list(claim["success_criteria"]),
+        "expected_commit": commit,
+        "promotion_allowed": True,
+        "provenance": {
+            "schema": "naya-power-oscar-provenance/v1",
+            "claim_sha256": claim_sha,
+            "evidence_sha256": evidence_sha,
+            "input_sha256": input_sha,
+            "expected_commit": commit,
+            "implementation_path": ".naya/runtime/oscar.py",
+            "implementation_sha256": implementation_sha(),
+            "implementation_commit": commit,
+            "execution_source": "github-actions",
+            "execution_run_id": "1",
+        },
+    }
+    result["result_sha256"] = sha256_json(result)
+    return result
 
 
 def package(target="CANONICAL_VERIFIED", decision="PROMOTE"):
-    return {"claim": copy.deepcopy(CLAIM), "evidence": [copy.deepcopy(EVIDENCE)], "oscar": copy.deepcopy(OSCAR), "target": target, "promotion_decision": decision}
+    evidence = [copy.deepcopy(EVIDENCE)]
+    return {"claim": copy.deepcopy(CLAIM), "evidence": evidence, "oscar": valid_oscar(CLAIM, evidence), "target": target, "promotion_decision": decision}
 
 
 class PromotionTests(unittest.TestCase):
@@ -53,7 +89,7 @@ class PromotionTests(unittest.TestCase):
         self.assertFalse(evaluate(p, COMMIT)["eligible"])
 
     def test_oscar_accepted_missing_provenance(self):
-        p = package("OSCAR_ACCEPTED"); del p["evidence"][0]["source"]
+        p = package("OSCAR_ACCEPTED"); del p["oscar"]["provenance"]
         self.assertFalse(evaluate(p, COMMIT)["eligible"])
 
     def test_conflicting_evidence(self):
@@ -87,5 +123,36 @@ class PromotionTests(unittest.TestCase):
         r = evaluate(package("CANONICAL_VERIFIED", decision="PROMOTE"), COMMIT)
         self.assertTrue(r["eligible"]); self.assertEqual(r["level"], "CANONICAL_VERIFIED")
 
+    def test_tampered_result_digest_is_rejected(self):
+        p = package("OSCAR_ACCEPTED")
+        p["oscar"]["promotion_allowed"] = False
+        self.assertFalse(evaluate(p, COMMIT)["eligible"])
 
-if __name__ == "__main__": unittest.main()
+    def test_tampered_claim_is_rejected_by_provenance(self):
+        p = package("OSCAR_ACCEPTED")
+        p["claim"]["source"] = "forged"
+        self.assertFalse(evaluate(p, COMMIT)["eligible"])
+
+    def test_tampered_evidence_is_rejected_by_provenance(self):
+        p = package("OSCAR_ACCEPTED")
+        p["evidence"][0]["observed_output"] = "forged"
+        self.assertFalse(evaluate(p, COMMIT)["eligible"])
+
+    def test_wrong_implementation_hash_is_rejected(self):
+        p = package("OSCAR_ACCEPTED")
+        p["oscar"]["provenance"]["implementation_sha256"] = "0" * 40
+        self.assertFalse(evaluate(p, COMMIT)["eligible"])
+
+    def test_wrong_implementation_commit_is_rejected(self):
+        p = package("OSCAR_ACCEPTED")
+        p["oscar"]["provenance"]["implementation_commit"] = "b" * 40
+        self.assertFalse(evaluate(p, COMMIT)["eligible"])
+
+    def test_missing_execution_provenance_is_rejected(self):
+        p = package("OSCAR_ACCEPTED")
+        del p["oscar"]["provenance"]["execution_run_id"]
+        self.assertFalse(evaluate(p, COMMIT)["eligible"])
+
+
+if __name__ == "__main__":
+    unittest.main()
