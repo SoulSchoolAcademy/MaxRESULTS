@@ -1,0 +1,180 @@
+<script id="MAXESS-E00-01-BRIDGE-V6">
+(function () {
+  'use strict';
+
+  if (window.__MAXESS_E00_01_BRIDGE_V6__) return;
+  window.__MAXESS_E00_01_BRIDGE_V6__ = true;
+
+  const BRIDGE = 'MAXESS-E00-01-BRIDGE-V6';
+  const CONTRACT = 'MAXESS_RESULT_V1';
+
+  let released = false;
+
+  function getResult() {
+    if (
+      window.MAXESS_RESULT &&
+      window.MAXESS_RESULT.contractVersion === CONTRACT
+    ) {
+      return window.MAXESS_RESULT;
+    }
+
+    try {
+      const stored = sessionStorage.getItem('MAXESS_RESULT_V1');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+
+        if (
+          parsed &&
+          parsed.contractVersion === CONTRACT
+        ) {
+          window.MAXESS_RESULT = parsed;
+          return parsed;
+        }
+      }
+    } catch (e) {}
+
+    return null;
+  }
+
+  function validResult(result) {
+    if (!result) return false;
+
+    if (result.contractVersion !== CONTRACT) return false;
+
+    if (
+      !Number.isInteger(result.overallScore) ||
+      result.overallScore < 0 ||
+      result.overallScore > 100
+    ) {
+      return false;
+    }
+
+    if (
+      !Array.isArray(result.dimensions) ||
+      result.dimensions.length !== 5
+    ) {
+      return false;
+    }
+
+    if (
+      !Array.isArray(result.responses) ||
+      result.responses.length !== 15
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  function showResults() {
+    if (released) return;
+
+    const result = getResult();
+
+    if (!validResult(result)) {
+      console.warn(
+        '[MAXESS BRIDGE] Result not ready yet.'
+      );
+      return;
+    }
+
+    released = true;
+
+    window.MAXESS_RESULTS_RELEASED = true;
+    window.MAXESS_RESULTS_BRIDGE = BRIDGE;
+    window.MAXESS_RESULTS_DATA = result;
+
+    /*
+     * Tell the isolation controller.
+     */
+    try {
+      window.dispatchEvent(
+        new CustomEvent('MAXESS_ISOLATION_RELEASE', {
+          detail: {
+            result: result,
+            contractVersion: CONTRACT,
+            bridge: BRIDGE
+          }
+        })
+      );
+    } catch (e) {}
+
+    /*
+     * Tell every result section.
+     */
+    try {
+      window.dispatchEvent(
+        new CustomEvent('MAXESS_RESULTS_READY', {
+          detail: result
+        })
+      );
+    } catch (e) {}
+
+    /*
+     * Reveal Results only after E00 has completed.
+     */
+    try {
+      document.documentElement.setAttribute(
+        'data-maxess-results-state',
+        'released'
+      );
+    } catch (e) {}
+
+    console.log(
+      '[MAXESS BRIDGE] RESULTS RELEASED',
+      result.overallScore
+    );
+  }
+
+  function waitForResult() {
+    const result = getResult();
+
+    if (validResult(result)) {
+      showResults();
+      return;
+    }
+
+    /*
+     * This is deliberately slow and bounded.
+     * No infinite rapid polling.
+     */
+    setTimeout(waitForResult, 150);
+  }
+
+  window.MAXESS_E00_01 = {
+    version: 6,
+    contractVersion: CONTRACT,
+    getResult: getResult,
+    release: showResults
+  };
+
+  window.addEventListener(
+    'MAXESS_RESULTS_RELEASE',
+    showResults
+  );
+
+  window.addEventListener(
+    'MAXESS_RESULT_READY',
+    showResults
+  );
+
+  window.addEventListener(
+    'maxess:result-updated',
+    showResults
+  );
+
+  /*
+   * Start waiting only after the page exists.
+   */
+  if (document.readyState === 'loading') {
+    document.addEventListener(
+      'DOMContentLoaded',
+      waitForResult,
+      { once: true }
+    );
+  } else {
+    waitForResult();
+  }
+
+})();
+</script>
