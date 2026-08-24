@@ -1,0 +1,86 @@
+name: Patch E00 796 Continue Boundary
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-e00-continue.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch E00 796
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('E00 796')
+          s=p.read_text()
+          old="$('continueButton').onclick=next;"
+          new="""function bindContinue(){
+ const btn=$('continueButton');
+ if(!btn)return;
+ const invoke=e=>{
+  if(e.target!==btn)return;
+  if(btn.disabled||state.finalizing||state.mode!=='ASSESSMENT'||!state.selected)return;
+  e.preventDefault();
+  e.stopPropagation();
+  next();
+ };
+ btn.onclick=invoke;
+ document.addEventListener('click',invoke,true);
+}
+
+bindContinue();"""
+          if old not in s:
+              raise SystemExit('Expected Continue binding not found; refusing blind mutation')
+          s=s.replace(old,new,1)
+          old2="""function next(){
+ if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;
+
+ /*
+  * Q15 answer is saved BEFORE any terminal calculation.
+  */
+ save();
+
+ if(state.i===14){
+  publish();
+  return;
+ }
+
+ state.i++;
+ render();
+
+ setTimeout(()=>openNaya(),120);
+}"""
+          new2="""function next(){
+ if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;
+ try{
+  save();
+  if(state.i===14){
+   publish();
+   return;
+  }
+  state.i++;
+  render();
+  setTimeout(()=>openNaya(),120);
+ }catch(e){
+  console.error('MAXESS Continue execution error',e);
+  state.finalizing=false;
+  updateContinue();
+  $('continueText').textContent='Continue';
+ }
+}"""
+          if old2 not in s:
+              raise SystemExit('Expected next() block not found; refusing partial mutation')
+          s=s.replace(old2,new2,1)
+          p.write_text(s)
+          PY
+      - name: Commit patch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add 'E00 796'
+          git diff --cached --quiet && exit 0
+          git commit -m 'fix E00 796 Continue event boundary'
+          git push
