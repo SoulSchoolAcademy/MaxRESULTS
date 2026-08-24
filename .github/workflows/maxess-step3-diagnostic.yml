@@ -24,7 +24,7 @@ jobs:
               if p>=0: print(s[max(0,p-300):p+7000])
           print('CONTINUE',s[s.find("$('continueButton').addEventListener")-200:s.find("$('continueButton').addEventListener")+700])
           print('MARKERS')
-          for m in ['Object.keys(S)','window.MAXESS_RESULT_V1','sessionStorage.setItem','MAXESS_RESULT_READY','MAXESS_RESULT_OFFICIAL','MAXESS_AISCORE']:
+          for m in ['Object.keys(S)','window.MAXESS_RESULT_V1','sessionStorage.setItem','MAXESS_RESULT_READY','MAXESS_AISCORE']:
               print(m,s.find(m))
           PY
       - uses: actions/setup-node@v4
@@ -74,3 +74,60 @@ jobs:
           await browser.close();
           JS
           node prove-maxess.mjs
+      - name: Execute integrated E00 to E04 handoff proof
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          def body(path):
+              s=Path(path).read_text(encoding='utf-8')
+              m=re.search(r'<body[^>]*>([\\s\\S]*?)</body>',s,re.I)
+              return m.group(1) if m else s
+          parts=[body('E00 118'),body('E01'),body('E02'),body('E03'),body('E04')]
+          Path('maxess-integrated.html').write_text('<!doctype html><html><head><meta charset="utf-8"><title>MAXESS integrated proof</title></head><body>'+''.join(parts)+'</body></html>',encoding='utf-8')
+          PY
+          cat > prove-integrated.mjs <<'JS'
+          import { chromium } from 'playwright';
+          const browser=await chromium.launch({headless:true});
+          const page=await browser.newPage({viewport:{width:1280,height:900}});
+          const errors=[]; const consoleErrors=[];
+          page.on('pageerror',e=>errors.push(String(e)));
+          page.on('console',m=>{if(m.type()==='error')consoleErrors.push(m.text())});
+          await page.goto(`file://${process.cwd()}/maxess-integrated.html`);
+          await page.waitForTimeout(700);
+          const close=page.locator('#closeNaya');
+          if(await close.isVisible().catch(()=>false)) await close.click();
+          for(let i=1;i<=15;i++){
+            await page.locator('#answers .answer').first().click();
+            if(await page.locator('#continueButton').isDisabled()) throw new Error(`Integrated Q${i}: Continue disabled`);
+            await page.locator('#continueButton').click();
+            if(i<15){await page.waitForTimeout(300);if(await close.isVisible().catch(()=>false))await close.click();}
+          }
+          await page.waitForTimeout(700);
+          const state=await page.evaluate(()=>({
+            result:window.MAXESS_RESULT||null,
+            e01:document.querySelector('#score-number')?.textContent||'',
+            e01Hydrated:document.querySelector('#score-number')?.dataset.hydrated||'',
+            e02:[...document.querySelectorAll('#maxess-e02-v2 .e02-score')].map(x=>x.textContent.trim()),
+            e03Stage:document.querySelector('#e03-stage-label')?.textContent||'',
+            e03Letter:document.querySelector('#e03-letter')?.textContent.trim()||'',
+            e04:document.querySelector('#e04-score')?.textContent||'',
+            e04Stage:document.querySelector('#e04-stage')?.textContent.trim()||''
+          }));
+          console.log('INTEGRATED_RESULT',JSON.stringify(state));
+          console.log('INTEGRATED_PAGE_ERRORS',JSON.stringify(errors));
+          console.log('INTEGRATED_CONSOLE_ERRORS',JSON.stringify(consoleErrors));
+          if(errors.length)throw new Error('Integrated page errors: '+errors.join(' | '));
+          const r=state.result;
+          if(!r||r.contractVersion!=='MAXESS_RESULT_V1'||r.responses?.length!==15||r.dimensions?.length!==5)throw new Error('Integrated result contract invalid');
+          if(state.e01Hydrated!=='true'||state.e01!==String(r.overallScore))throw new Error('E01 did not display real overall score');
+          const expected=r.dimensions.map(d=>String(d.score));
+          if(state.e02.length!==5||state.e02.some((v,i)=>v!==expected[i]))throw new Error('E02 did not display all five real dimension scores');
+          if(!state.e03Letter||/awaiting your maxess result/i.test(state.e03Letter))throw new Error('E03 did not render personalized report');
+          const direction=r.dimensions.find(d=>d.id==='direction');
+          if(!direction||state.e04!==String(direction.score))throw new Error('E04 did not display real Direction score');
+          console.log('INTEGRATED_ASSERTIONS=GREEN');
+          await browser.close();
+          JS
+          node prove-integrated.mjs
