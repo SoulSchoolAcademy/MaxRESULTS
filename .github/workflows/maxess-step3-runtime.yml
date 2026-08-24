@@ -28,17 +28,16 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           html=Path('E00 118').read_text(encoding='utf-8')
-          Path('/tmp/e00-118.html').write_text(html,encoding='utf-8')
+          Path('e00-118-runtime.html').write_text(html,encoding='utf-8')
           PY
-          cat > /tmp/prove.mjs <<'JS'
+          cat > prove-maxess.mjs <<'JS'
           import { chromium } from 'playwright';
-          import fs from 'fs';
           const browser = await chromium.launch({headless:true});
           const page = await browser.newPage();
           const errors=[]; const consoleErrors=[];
           page.on('pageerror', e=>errors.push(String(e)));
           page.on('console', m=>{ if(m.type()==='error') consoleErrors.push(m.text()); });
-          await page.goto('file:///tmp/e00-118.html');
+          await page.goto(`file://${process.cwd()}/e00-118-runtime.html`);
           await page.waitForTimeout(300);
           const close=page.locator('#closeNaya');
           if(await close.isVisible().catch(()=>false)) await close.click();
@@ -57,14 +56,11 @@ jobs:
           }
           await page.waitForTimeout(250);
           const result=await page.evaluate(()=>({
-            mode:window.MAXESS_AISCORE?.publish ? 'API_PRESENT' : 'API_MISSING',
             result:window.MAXESS_RESULT||null,
-            resultV1:window.MAXESS_RESULT_V1||null,
             localScore:document.querySelector('#localOverallScore')?.textContent||'',
             localResultsActive:document.querySelector('#localResults')?.classList.contains('active')||false,
             status:document.querySelector('#localResultsStatus')?.textContent||'',
-            dimensions:document.querySelectorAll('#localDimensions .dimension-card').length,
-            resultState:document.documentElement.getAttribute('data-maxess-results-state')||''
+            dimensions:document.querySelectorAll('#localDimensions .dimension-card').length
           }));
           console.log('RESULT_JSON',JSON.stringify(result));
           console.log('PAGE_ERRORS',JSON.stringify(errors));
@@ -79,4 +75,4 @@ jobs:
           if(result.dimensions!==5) throw new Error('Local dimensions != 5');
           await browser.close();
           JS
-          node /tmp/prove.mjs
+          node prove-maxess.mjs
