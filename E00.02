@@ -33,7 +33,7 @@ html[data-maxess-results-state="waiting"] #e00 .content {
 }
 
 html[data-maxess-results-state="waiting"] [id="e01"],
-html[data-maxess-results-state="waiting"] [id="maxess-e02-v3"],
+html[data-maxess-results-state="waiting"] [id="maxess-e02-v2"],
 html[data-maxess-results-state="waiting"] [id="e03"],
 html[data-maxess-results-state="waiting"] [id="e04"],
 html[data-maxess-results-state="waiting"] [id="e05"],
@@ -44,25 +44,16 @@ html[data-maxess-results-state="waiting"] [id="e09"] {
   display: none !important;
 }
 
-/*
- * Results are initially invisible.
- */
 html[data-maxess-results-state="waiting"] [data-maxess-result-section],
 html[data-maxess-results-state="waiting"] .maxess-result-section {
   display: none !important;
 }
 
-/*
- * Once released, Results become visible in normal document order.
- */
 html[data-maxess-results-state="released"] [data-maxess-result-section],
 html[data-maxess-results-state="released"] .maxess-result-section {
   display: block !important;
 }
 
-/*
- * Protect the E00 assessment from common width collisions.
- */
 html[data-maxess-results-state="waiting"] #e00,
 html[data-maxess-results-state="waiting"] #e00 * {
   box-sizing: border-box;
@@ -73,10 +64,6 @@ html[data-maxess-results-state="waiting"] #e00 {
   align-self: stretch !important;
 }
 
-/*
- * Never allow an accidental result section to create
- * horizontal compression of the assessment.
- */
 html[data-maxess-results-state="waiting"] body {
   width: 100% !important;
   max-width: 100% !important;
@@ -104,7 +91,7 @@ html[data-maxess-results-state="waiting"] body {
   function findSections() {
     return [
       document.getElementById('e01'),
-      document.getElementById('maxess-e02-v3'),
+      document.getElementById('maxess-e02-v2'),
       document.getElementById('e03'),
       document.getElementById('e04'),
       document.getElementById('e05'),
@@ -138,10 +125,6 @@ html[data-maxess-results-state="waiting"] body {
 
     markResultSections();
 
-    /*
-     * Make sure E00 is not accidentally constrained
-     * after Results are released.
-     */
     const e00 =
       document.getElementById('e00') ||
       document.querySelector('[data-maxess-e00]') ||
@@ -153,9 +136,6 @@ html[data-maxess-results-state="waiting"] body {
       e00.style.minWidth = '0';
     }
 
-    /*
-     * Scroll exactly once to the first Results section.
-     */
     const first = document.getElementById('e01');
 
     if (first) {
