@@ -32,3 +32,4 @@ jobs:
           git add 'E00 118'
           git commit -m 'MAXESS terminal handoff repair'
           git push
+      # Repair is intentionally executed by Actions so the full source is preserved byte-for-byte except for the terminal handoff.
