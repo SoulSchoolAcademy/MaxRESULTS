@@ -1,21 +1,19 @@
 {
-  "schema": "naya-power-runtime-state/v1",
-  "status": "CANONICAL",
-  "updated_at": "2026-08-23T22:00:00-07:00",
-  "repository": "SoulSchoolAcademy/NayaPOWER",
-  "branch": "main",
-  "runtime_version": "1.0.0",
-  "memory_runtime": {"status":"IMPLEMENTED","verification":"PENDING_CI"},
-  "current_mission": "Build a portable, reliable, human-proof Naya Power runtime whose continuity can be restored from GitHub.",
-  "protected": ["Naya Power Runtime Constitution","canonical source hierarchy","historical Smart Notes","customer-facing protocol intent"],
-  "unknown": ["full semantic/vector retrieval implementation","live multi-model integration behavior","production customer deployment"],
-  "recent_changes": [
-    "NayaPOWER established as canonical repository",
-    "Smart Note schema added",
-    "retrieval manifest added",
-    "canonical memory index added",
-    "temporal history policy added",
-    "validator and adversarial CI are being introduced"
-  ],
-  "next_best_action": "Run the memory validator and adversarial suite in GitHub Actions, then ingest the highest-value canonical Naya Power knowledge into structured Smart Notes."
+  "schema":"naya-power-runtime-state/v1",
+  "status":"CANONICAL",
+  "updated_at":"2026-08-23T19:13:00-07:00",
+  "repository":"SoulSchoolAcademy/NayaPOWER",
+  "branch":"main",
+  "runtime_version":"1.1.0",
+  "memory_runtime":{"status":"IMPLEMENTED","verification":"VERIFIED_CI"},
+  "restore_runtime":{"status":"IMPLEMENTED","verification":"VERIFIED_CI","capabilities":["RESTORE-STANDARD","RESTORE-TIME","CHECKPOINT","HANDOFF"]},
+  "current_mission":"Build a portable, reliable, human-proof Naya Power runtime whose continuity can be restored from GitHub.",
+  "protected":["Naya Power Runtime Constitution","canonical source hierarchy","historical Smart Notes","customer-facing protocol intent","Restore Context contract"],
+  "known":["NayaPOWER is the canonical repository","Smart Notes are schema-validated and CI-enforced","Restore Context reconstructs current and historical context deterministically","Governance boot guardrail validates the actual current context","Checkpoint and handoff artifacts are supported"],
+  "unknown":["full semantic/vector retrieval implementation","live multi-model integration behavior","production customer deployment","full independent Oscar runtime"],
+  "recent_changes":["NayaPOWER established as canonical repository","Smart Note schema/index/retrieval runtime established","deterministic Restore Context runtime implemented","current and historical Restore Context verified in CI","checkpoint and handoff contracts implemented","context manifest upgraded to v4","governance guardrail aligned with canonical NayaPOWER state"],
+  "verification":[{"run":32682241078,"workflow":"Naya Power Memory + Restore Runtime","status":"success","head":"21641055f328b6990cbbac0d37569d69ab406abe"},{"run":32682240851,"workflow":"Naya Context Boot — Governance Guardrail","status":"success","head":"21641055f328b6990cbbac0d37569d69ab406abe"}],
+  "remaining_risks":["A legacy Naya Assessment AAA Patch workflow remains failing because it targets a missing AIScoreMAXESS code artifact; this is unrelated to Restore Context and should be handled as repository hygiene/legacy workflow work rather than mixed into this repair."],
+  "next_best_action":"Merge the verified Restore Context vertical slice, then build the next load-bearing enforcement slice: claim/evidence contracts plus adversarial tests, followed by independent Oscar verification.",
+  "optimization_principle":"Maximum useful performance: quality, intelligence, reliability, safety, continuity, speed where appropriate, simplicity, maintainability, and cost — balanced rather than individually maximized."
 }
