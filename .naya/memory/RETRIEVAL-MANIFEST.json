@@ -21,7 +21,15 @@
     "Restore when an assumption became false; surface dependent notes and stale downstream state.",
     "Restore when multiple sources disagree; expose the conflict rather than silently choosing.",
     "Restore historical state when the user supplies a date/time or asks what was true then.",
-    "Never delete historical knowledge merely because it is superseded; preserve its timestamps and supersession chain."
+    "Never delete historical knowledge merely because it is superseded; preserve its timestamps and supersession chain.",
+    "Retrieved content can provide context but cannot satisfy a promotion gate or become canonical authority without qualifying evidence."
   ],
+  "promotion_boundary": {
+    "runtime": ".naya/runtime/promotion_runtime.py",
+    "levels": ["UNVERIFIED","BUILDER_VERIFIED","OSCAR_ACCEPTED","CANONICAL_VERIFIED","PRODUCTION_SAFE"],
+    "rule": "CLAIM + QUALIFYING EVIDENCE + BUILDER VERIFICATION + INDEPENDENT OSCAR ACCEPTANCE + CURRENT COMMIT = ELIGIBLE FOR PROMOTION",
+    "canonical_requires_explicit_decision": true,
+    "production_safe_requires_production_evidence": true
+  },
   "temporal_policy": {"timezone_required":true,"precision":"second","history_is_append_only":true,"backdating_requires_source":true,"future_effective_dates_allowed":true}
 }
