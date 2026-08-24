@@ -1,0 +1,40 @@
+name: Naya Memory Runtime
+
+on:
+  push:
+    branches: [main, 'naya/**']
+    paths:
+      - '.naya/memory/**'
+      - '.naya/scripts/validate_naya_memory.py'
+      - 'docs/smart-notes/**'
+      - 'docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md'
+      - '.github/workflows/naya-memory-runtime.yml'
+  pull_request:
+    paths:
+      - '.naya/memory/**'
+      - '.naya/scripts/validate_naya_memory.py'
+      - 'docs/smart-notes/**'
+      - 'docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md'
+      - '.github/workflows/naya-memory-runtime.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-memory:
+    name: Validate Naya Memory Runtime
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install validator dependency
+        run: python -m pip install --disable-pip-version-check pyyaml
+
+      - name: Validate runtime
+        run: python .naya/scripts/validate_naya_memory.py
