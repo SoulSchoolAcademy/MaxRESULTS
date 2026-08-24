@@ -1,0 +1,69 @@
+schema: naya-memory-taxonomy/v1
+status: CANONICAL
+effective: "2026-08-23"
+
+categories:
+  - IDEA
+  - LEARNING
+  - GOAL
+  - DECISION
+  - FACT
+  - RESOURCE
+  - KNOWLEDGE
+  - PROBLEM
+  - SOLUTION
+  - PERSON
+  - EVENT
+  - TASK
+  - INSIGHT
+
+statuses:
+  - ACTIVE
+  - SUPERSEDED
+  - RESOLVED
+  - REFERENCE
+
+scopes:
+  - SYSTEM
+  - PROJECT
+  - PRODUCT
+  - FEATURE
+  - TECHNICAL
+  - STRATEGY
+  - PERSONAL-PROJECT-CONTEXT
+
+knowledge_states:
+  - VERIFIED
+  - ESTABLISHED
+  - PROVISIONAL
+  - UNKNOWN
+
+relation_types:
+  - supports
+  - contradicts
+  - supersedes
+  - superseded_by
+  - related_to
+  - depends_on
+  - derived_from
+  - implements
+  - verifies
+  - blocks
+  - enables
+
+retrieval_fields:
+  exact: [id, title]
+  lexical: [keywords, aliases]
+  semantic: [summary, what_we_learned, why_it_matters, required_behavior]
+  structural: [category, status, scope, related, relations]
+  temporal: [created_at, updated_at]
+  authority: [source, evidence, knowledge_state]
+
+canonical_paths:
+  memory_root: .naya/memory
+  notes_root: docs/smart-notes
+  index: .naya/memory/memory-index.yaml
+  schema: .naya/memory/note-schema.yaml
+  bootstrap: .naya/memory/restore-context.json
+  taxonomy: .naya/memory/taxonomy.yaml
+  validator: .naya/scripts/validate_naya_memory.py
