@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import copy
-import hashlib
-import json
+import os
 import subprocess
 import unittest
 from pathlib import Path
@@ -32,8 +31,9 @@ def implementation_sha():
     return subprocess.run(["git", "hash-object", ".naya/runtime/oscar.py"], cwd=ROOT, text=True, capture_output=True, check=True).stdout.strip()
 
 
-def valid_oscar(claim=CLAIM, evidence=None, commit=COMMIT):
+def valid_oscar(claim=CLAIM, evidence=None, commit=COMMIT, run_id=None):
     evidence = [copy.deepcopy(EVIDENCE)] if evidence is None else evidence
+    run_id = str(run_id or os.getenv("GITHUB_RUN_ID") or "1")
     claim_sha = sha256_json(claim)
     evidence_sha = sha256_json(sorted(evidence, key=lambda item: str(item.get("evidence_id", ""))))
     input_sha = sha256_json({"claim_sha256": claim_sha, "evidence_sha256": evidence_sha, "expected_commit": commit})
@@ -59,16 +59,16 @@ def valid_oscar(claim=CLAIM, evidence=None, commit=COMMIT):
             "implementation_sha256": implementation_sha(),
             "implementation_commit": commit,
             "execution_source": "github-actions",
-            "execution_run_id": "1",
+            "execution_run_id": run_id,
         },
     }
     result["result_sha256"] = sha256_json(result)
     return result
 
 
-def package(target="CANONICAL_VERIFIED", decision="PROMOTE"):
+def package(target="CANONICAL_VERIFIED", decision="PROMOTE", run_id=None):
     evidence = [copy.deepcopy(EVIDENCE)]
-    return {"claim": copy.deepcopy(CLAIM), "evidence": evidence, "oscar": valid_oscar(CLAIM, evidence), "target": target, "promotion_decision": decision}
+    return {"claim": copy.deepcopy(CLAIM), "evidence": evidence, "oscar": valid_oscar(CLAIM, evidence, run_id=run_id), "target": target, "promotion_decision": decision}
 
 
 class PromotionTests(unittest.TestCase):
@@ -152,6 +152,30 @@ class PromotionTests(unittest.TestCase):
         p = package("OSCAR_ACCEPTED")
         del p["oscar"]["provenance"]["execution_run_id"]
         self.assertFalse(evaluate(p, COMMIT)["eligible"])
+
+    def test_wrong_ci_run_is_rejected(self):
+        p = package("OSCAR_ACCEPTED", run_id="old-run")
+        old = os.environ.get("GITHUB_RUN_ID")
+        os.environ["GITHUB_RUN_ID"] = "current-run"
+        try:
+            self.assertFalse(evaluate(p, COMMIT)["eligible"])
+        finally:
+            if old is None:
+                os.environ.pop("GITHUB_RUN_ID", None)
+            else:
+                os.environ["GITHUB_RUN_ID"] = old
+
+    def test_current_ci_run_is_accepted(self):
+        p = package("OSCAR_ACCEPTED", run_id="current-run")
+        old = os.environ.get("GITHUB_RUN_ID")
+        os.environ["GITHUB_RUN_ID"] = "current-run"
+        try:
+            self.assertTrue(evaluate(p, COMMIT)["eligible"])
+        finally:
+            if old is None:
+                os.environ.pop("GITHUB_RUN_ID", None)
+            else:
+                os.environ["GITHUB_RUN_ID"] = old
 
 
 if __name__ == "__main__":
