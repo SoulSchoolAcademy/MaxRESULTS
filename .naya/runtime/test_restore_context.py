@@ -1,4 +1,3 @@
-import json
 import unittest
 from datetime import datetime, timezone
 from pathlib import Path
@@ -52,9 +51,11 @@ class RestoreContextTests(unittest.TestCase):
             snap = rc.memory_snapshot("", None, 10)
         self.assertEqual(snap["selected"], [])
 
-    def test_checkpoint_contains_integrity_hash(self):
+    def test_checkpoint_contains_integrity_hash_without_writing_repo(self):
         result = rc.build_restore()
-        payload = rc.checkpoint(result)["checkpoint"]
+        fake_path = rc.CHECKPOINT_DIR / "test-checkpoint.json"
+        with patch.object(rc, "write_artifact", return_value=fake_path):
+            payload = rc.checkpoint(result)["checkpoint"]
         self.assertEqual(len(payload["integrity_sha256"]), 64)
 
 
