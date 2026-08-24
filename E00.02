@@ -1,104 +1,74 @@
-<style id="MAXESS-ISOLATION-V6-CSS">
+<style id="MAXESS-ISOLATION-V7-CSS">
 
-/*
- * ============================================================
- * MAXESS ISOLATION V6
- * ============================================================
- *
- * Purpose:
- * 1. Protect E00 assessment layout.
- * 2. Keep Results hidden until E00 completes.
- * 3. Prevent E01-E09 from occupying the visible viewport early.
- * 4. Restore full-width behavior for E00.
- * 5. Provide a clean Results release boundary.
- */
+/* MAXESS ISOLATION V7
+   E00.02 owns visibility only.
+   E00.03 owns the release decision. */
 
 html[data-maxess-results-state="waiting"] #e00,
 html[data-maxess-results-state="waiting"] .maxess-e00,
 html[data-maxess-results-state="waiting"] [data-maxess-e00] {
-  width: 100% !important;
-  max-width: none !important;
-  min-width: 0 !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  flex:0 0 100% !important;
+  align-self:stretch !important;
+  box-sizing:border-box !important;
 }
 
 html[data-maxess-results-state="waiting"] #e00 .app,
 html[data-maxess-results-state="waiting"] #e00 .shell,
 html[data-maxess-results-state="waiting"] #e00 .board,
 html[data-maxess-results-state="waiting"] #e00 .content {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
 }
 
-html[data-maxess-results-state="waiting"] [id="e01"],
-html[data-maxess-results-state="waiting"] [id="maxess-e02-v3"],
-html[data-maxess-results-state="waiting"] [id="e03"],
-html[data-maxess-results-state="waiting"] [id="e04"],
-html[data-maxess-results-state="waiting"] [id="e05"],
-html[data-maxess-results-state="waiting"] [id="e06"],
-html[data-maxess-results-state="waiting"] [id="e07"],
-html[data-maxess-results-state="waiting"] [id="e08"],
-html[data-maxess-results-state="waiting"] [id="e09"] {
-  display: none !important;
-}
-
-/*
- * Results are initially invisible.
- */
+html[data-maxess-results-state="waiting"] #e01,
+html[data-maxess-results-state="waiting"] #maxess-e02-v3,
+html[data-maxess-results-state="waiting"] #e03,
+html[data-maxess-results-state="waiting"] #e04,
+html[data-maxess-results-state="waiting"] #e05,
+html[data-maxess-results-state="waiting"] #e06,
+html[data-maxess-results-state="waiting"] #e07,
+html[data-maxess-results-state="waiting"] #e08,
+html[data-maxess-results-state="waiting"] #e09,
 html[data-maxess-results-state="waiting"] [data-maxess-result-section],
 html[data-maxess-results-state="waiting"] .maxess-result-section {
-  display: none !important;
+  display:none !important;
 }
 
-/*
- * Once released, Results become visible in normal document order.
- */
 html[data-maxess-results-state="released"] [data-maxess-result-section],
 html[data-maxess-results-state="released"] .maxess-result-section {
-  display: block !important;
+  display:block !important;
 }
 
-/*
- * Protect the E00 assessment from common width collisions.
- */
-html[data-maxess-results-state="waiting"] #e00,
-html[data-maxess-results-state="waiting"] #e00 * {
-  box-sizing: border-box;
-}
-
-html[data-maxess-results-state="waiting"] #e00 {
-  flex: 0 0 100% !important;
-  align-self: stretch !important;
-}
-
-/*
- * Never allow an accidental result section to create
- * horizontal compression of the assessment.
- */
 html[data-maxess-results-state="waiting"] body {
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: hidden !important;
+  width:100% !important;
+  max-width:100% !important;
+  overflow-x:hidden !important;
 }
 
 </style>
 
-<script id="MAXESS-ISOLATION-V6">
+<script id="MAXESS-ISOLATION-V7">
 (function () {
   'use strict';
 
-  if (window.__MAXESS_ISOLATION_V6__) return;
-  window.__MAXESS_ISOLATION_V6__ = true;
+  if (window.__MAXESS_ISOLATION_V7__) return;
+  window.__MAXESS_ISOLATION_V7__ = true;
 
   const ROOT_STATE = 'data-maxess-results-state';
+  let released = false;
+  let scrolled = false;
+  let observer = null;
 
   function markWaiting() {
-    document.documentElement.setAttribute(
-      ROOT_STATE,
-      'waiting'
-    );
+    if (!released) {
+      document.documentElement.setAttribute(ROOT_STATE, 'waiting');
+    }
   }
 
   function findSections() {
@@ -117,31 +87,41 @@ html[data-maxess-results-state="waiting"] body {
 
   function markResultSections() {
     findSections().forEach(function (section) {
-      section.setAttribute(
-        'data-maxess-result-section',
-        ''
-      );
-
-      section.classList.add(
-        'maxess-result-section'
-      );
+      section.setAttribute('data-maxess-result-section', '');
+      section.classList.add('maxess-result-section');
     });
   }
 
-  function release(result) {
-    if (!result) return;
-
-    document.documentElement.setAttribute(
-      ROOT_STATE,
-      'released'
+  function validResult(result) {
+    return !!(
+      result &&
+      result.contractVersion === 'MAXESS_RESULT_V1' &&
+      Number.isInteger(result.overallScore) &&
+      result.overallScore >= 0 &&
+      result.overallScore <= 100 &&
+      Array.isArray(result.dimensions) &&
+      result.dimensions.length === 5 &&
+      Array.isArray(result.responses) &&
+      result.responses.length === 15
     );
+  }
 
+  function stopObserver() {
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
+  }
+
+  function release(result) {
+    if (released || !validResult(result)) return false;
+
+    /* Mark sections before changing the root state so a newly injected
+       Groove section is already classified when the release becomes visible. */
     markResultSections();
+    released = true;
+    document.documentElement.setAttribute(ROOT_STATE, 'released');
 
-    /*
-     * Make sure E00 is not accidentally constrained
-     * after Results are released.
-     */
     const e00 =
       document.getElementById('e00') ||
       document.querySelector('[data-maxess-e00]') ||
@@ -153,48 +133,52 @@ html[data-maxess-results-state="waiting"] body {
       e00.style.minWidth = '0';
     }
 
-    /*
-     * Scroll exactly once to the first Results section.
-     */
-    const first = document.getElementById('e01');
-
-    if (first) {
-      setTimeout(function () {
-        first.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }, 80);
+    if (!scrolled) {
+      const first = document.getElementById('e01');
+      if (first) {
+        scrolled = true;
+        setTimeout(function () {
+          try {
+            first.scrollIntoView({ behavior:'smooth', block:'start' });
+          } catch (error) {
+            try { first.scrollIntoView(); } catch (ignored) {}
+          }
+        }, 80);
+      }
     }
 
-    console.log(
-      '[MAXESS ISOLATION] Results released:',
-      result.overallScore
-    );
+    stopObserver();
+    console.log('[MAXESS ISOLATION] Results released:', result.overallScore);
+    return true;
   }
 
-  markWaiting();
+  function initialize() {
+    markWaiting();
+    markResultSections();
+
+    /* Groove may inject result sections after initialization. Keep the
+       classifier live until the authoritative release arrives. */
+    if (window.MutationObserver) {
+      observer = new MutationObserver(function () {
+        if (!released) markResultSections();
+      });
+
+      observer.observe(document.body || document.documentElement, {
+        childList:true,
+        subtree:true
+      });
+    }
+  }
+
+  window.addEventListener('MAXESS_ISOLATION_RELEASE', function (event) {
+    const result = event && event.detail && event.detail.result;
+    release(result);
+  });
 
   if (document.readyState === 'loading') {
-    document.addEventListener(
-      'DOMContentLoaded',
-      markResultSections,
-      { once: true }
-    );
+    document.addEventListener('DOMContentLoaded', initialize, { once:true });
   } else {
-    markResultSections();
+    initialize();
   }
-
-  window.addEventListener(
-    'MAXESS_ISOLATION_RELEASE',
-    function (event) {
-      release(
-        event &&
-        event.detail &&
-        event.detail.result
-      );
-    }
-  );
-
 })();
 </script>
