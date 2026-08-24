@@ -67,7 +67,10 @@ jobs:
         run: python .naya/runtime/restore_context.py restore --pretty
 
       - name: Execute historical Restore Context
-        run: python .naya/runtime/restore_context.py restore --at "2026-08-23T23:59:59Z" --pretty
+        run: |
+          HISTORICAL_AT="$(git log -1 --format=%cI HEAD~5)"
+          echo "Historical restore timestamp: ${HISTORICAL_AT}"
+          python .naya/runtime/restore_context.py restore --at "${HISTORICAL_AT}" --pretty
 
       - name: Verify command surfaces
         run: |
