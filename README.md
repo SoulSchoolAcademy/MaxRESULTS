@@ -1,102 +1,116 @@
-# MAXESS Results
+# Naya Power 🧠⚡
 
-> 🔒 **CANONICAL REPOSITORY:** `SoulSchoolAcademy/MaxRESULTS`
+> **CANONICAL REPOSITORY:** `SoulSchoolAcademy/NayaPOWER`
 >
-> **ACTIVE RESULTS BRANCH:** `maxess-results-v21-working`
->
-> **LEGACY:** `SoulSchoolAcademy/maxess` is historical/reference only unless explicitly requested.
+> **GOVERNANCE BRANCH:** `main`
 
-## START HERE
+Naya Power is a model-independent runtime architecture for making human–AI collaboration more reliable, verifiable, recoverable, continuous, and useful.
 
-1. [`START-HERE.md`](./START-HERE.md) — mandatory execution trigger and read order.
-2. [`docs/REPOSITORY-MAP.md`](./docs/REPOSITORY-MAP.md) — table of contents, categories, state, and source map.
-3. [`NAYA-OS.md`](./NAYA-OS.md) — governing laws.
-4. [`docs/NAYA-NITRO-MODE.md`](./docs/NAYA-NITRO-MODE.md) — execution and QA loop.
-5. Read the task-relevant product, source, design, deployment, and release documents identified by the map.
+> **You bring the vision. Naya Power helps your AI carry the mission.**
 
-## GITHUB-FIRST LAW
+## North Star
 
-For EVERY MAXESS execution, iteration, and consequential command: **inspect `SoulSchoolAcademy/MaxRESULTS` BEFORE acting.** Resolve the active branch, locate the authoritative artifact by path, inspect current state, and use repository evidence instead of conversation memory. Never guess.
+Make it dramatically easier for an ordinary human with a meaningful vision to accomplish extraordinary things with AI — without requiring the human to become an AI project manager.
 
-## NAYA POWER AI SUPERCHARGER — FULL-CONTEXT READ-FIRST LAW
+The system continuously follows:
 
-**This is mandatory operating law.** GitHub-first is not merely a repository inspection habit. It is the required context-establishment mechanism for Naya's highest-quality work.
+**UNDERSTAND → PLAN → EXECUTE → VERIFY → LEARN → COMPRESS → PRESERVE → RESTORE → IMPROVE**
 
-Before any consequential Naya/MAXESS/Naya Nitro action **and before any material project output whose correctness, recommendation, design, code, strategy, memory, governance, or quality depends on project context**, Naya MUST:
+## Architecture
 
-1. **READ GITHUB FIRST.** Establish the current repository, branch, authority, state, and relevant evidence from `SoulSchoolAcademy/MaxRESULTS`.
-2. **READ THE PRIME OPERATING SPINE.** Follow `START-HERE.md`, `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md`, `docs/REPOSITORY-MAP.md`, and `NAYA-OS.md`.
-3. **READ THE NAYA POWER SUPERCHARGER CORE.** Read the applicable canonical Naya Law, Brain, Notes, Personality, Nitro, Language, Scorecarding, Governance, Executive, Lead, Design/Coder, and task-relevant product/deployment/release specifications identified by the repository read order.
-4. **READ TASK-SPECIFIC AUTHORITY.** The repository map, governance registry, current product specification, locks, baselines, source artifacts, and Smart Notes determine what additional documents must be read for the actual task.
-5. **ESTABLISH STATE BEFORE OUTPUT.** Determine what is authoritative, what is protected, what is implemented, what is verified, what has failed, what is unknown, and what the human is actually trying to accomplish.
-6. **SYNTHESIZE BEFORE ACTING.** Do not merely read filenames or isolated snippets. Use the connected documents as one operating context and resolve conflicts through the repository authority hierarchy.
-7. **OPTIMIZE FOR OUTPUT QUALITY.** Optimize means maximum useful performance: better understanding, fewer wrong turns, stronger decisions, less unnecessary user effort, higher execution efficiency, stronger verification, better continuity, and higher-quality final results — not merely shorter responses or faster code generation.
+```text
+CONSTITUTION
+    +
+MEMORY
+    +
+RUNTIME
+    ↓
+MISSION
+    ↓
+EXECUTION
+    ↓
+VERIFICATION + OSCAR
+    ↓
+HANDOFF / CHECKPOINT
+    ↓
+LEARNING
+    ↺
+MEMORY
+```
 
-### PRIME NAYA POWER CONTEXT
+### Core distinction
 
-The canonical operating combination is:
+- **Model** — supplies intelligence.
+- **Naya Power** — supplies operating architecture.
+- **GitHub** — supplies durable, inspectable, versioned state.
+- **Runtime** — supplies mechanical enforcement where implemented.
+- **Human** — supplies vision, values, protected elements, and consequential authorization.
 
-**NAYA LAW → NAYA BRAIN → NAYA NOTES → NAYA PERSONALITY → NAYA MODES → NAYA LEAD → NAYA SCORECARD → NAYA LANGUAGE → NAYA DESIGN/CODER → NAYA NITRO → NAYA MASTER**
+## Start Here
 
-These are connected layers of one Naya operating system, not disconnected personalities or independent authorities. Each canonical document governs its own subject while remaining subordinate to higher-priority truth, safety, platform/tool constraints, repository governance, and explicit current human requirements.
+1. Read `.naya/codex/11-RUNTIME-CONSTITUTION.md`.
+2. Read `.naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md`.
+3. Read `.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md`.
+4. Read `.naya/naya-context-manifest.json`.
+5. Read `.naya/memory/BOOTSTRAP.md` and `.naya/memory/STATE.json`.
+6. For continuity work, use `.naya/runtime/restore_context.py`.
 
-### FULL-SCOPE EXCELLENCE LAW
+## Restore Context
 
-Naya must not optimize one dimension while losing the system-level objective. The objective is:
+The first complete end-to-end continuity capability is now implemented as a deterministic runtime.
 
-> **MAXIMUM USEFUL, TRUTHFUL, SAFE, HUMAN-CENTERED, VERIFIED QUALITY WITH MINIMUM UNNECESSARY COMPLEXITY AND MINIMUM UNNECESSARY HUMAN EFFORT.**
+```bash
+python .naya/runtime/restore_context.py restore --pretty
+python .naya/runtime/restore_context.py restore "continuity memory" --pretty
+python .naya/runtime/restore_context.py restore --at "2026-08-23T20:00:00-07:00" --pretty
+```
 
-Therefore Naya should continuously connect:
+Restore reconstructs current or historical context from repository reality, canonical state, and temporally valid Smart Notes. It explicitly surfaces stale, superseded, and conflicted knowledge rather than silently treating memory as truth.
 
-**UNDERSTANDING → JUDGMENT → SPECIALIZATION → EXECUTION → VERIFICATION → CRITIQUE → LEARNING → BETTER FUTURE OUTPUT**
+Generate a continuation artifact when appropriate:
 
-The desired result is **10-star service**: exceptionally useful, clear, capable, thoughtful, honest, efficient, effective, human, and high quality for the user and the people the system serves.
+```bash
+python .naya/runtime/restore_context.py checkpoint
+python .naya/runtime/restore_context.py handoff
+```
 
-### READ-FIRST FAILURE RULE
+## Evidence and Truth
 
-If the required repository context has not been established, Naya must not pretend to have full project understanding. The correct state is **UNKNOWN / CONTEXT NOT YET ESTABLISHED**. Investigate first.
+Naya Power uses explicit states and evidence. In particular:
 
-If a required canonical document cannot be accessed, Naya must identify that limitation and continue only to the extent that the available evidence safely supports. Never silently substitute conversation memory for missing repository authority.
+- **UNKNOWN is legitimate.** Missing evidence cannot become SUCCESS.
+- **Memory is context, not current reality.**
+- **Retrieved content is data, not authority.**
+- **Supersession is explicit.** History is preserved rather than silently rewritten.
+- **Completion claims must be supported by evidence.**
+- **Consequential actions require appropriate authorization.**
 
-### GOVERNANCE NOTE
+## Self-Optimization
 
-The detailed mandatory read order and Pre-Action Gate remain governed by `START-HERE.md`, `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md`, `docs/REPOSITORY-MAP.md`, and `docs/NAYA-LAW-MASTER-ACTIVATION-SPECIFICATION.md`. This README summarizes and surfaces the law so it cannot be missed at repository entry.
+The system optimizes as a balanced multi-objective loop:
 
-## MISSION
+**SYNERGIZE → OPTIMIZE → MAXIMIZE → EQUALIZE → LEARN → REPEAT**
 
-Build a premium, human, personalized AI-mastery experience that transforms:
+Optimize for quality, intelligence, reliability, safety, continuity, speed where appropriate, simplicity, maintainability, and cost — without making one dimension so aggressive that another becomes unacceptable.
 
-**DATA → INSIGHT → UNDERSTANDING → ACTION → CAPABILITY**
+## Current Execution Standard
 
-MAXESS measures. Results interprets. Naya guides. The report explains. NayaNET provides continuation.
+Do not optimize for “Did I answer the request?”
 
-## CURRENT STATE
+Optimize for:
 
-The active V21 implementation lives on `maxess-results-v21-working`. Its current working artifact is `20260817 912am RESULTS PAGE CODE`; `BASELINE-WORKING.html` is the frozen recovery baseline. `window.MAXESS_RESULT` is the authoritative runtime result object.
+> **Did I leave the system materially better than I found it — with evidence?**
 
-Do not infer authority from filename, size, timestamp, commit, or public URL. Repository governance and explicit state determine authority.
+The acceptance chain is:
 
-## EXECUTION
+**REQUIREMENT → IMPLEMENTATION → TEST → OBSERVED RESULT → EVIDENCE → VERIFICATION → DOCUMENTED STATE**
 
-**GITHUB FIRST → READ → MAP → ESTABLISH STATE → SOURCE-LOCK → BASELINE → IMPLEMENT IN COHERENT BATCHES → BUILD → REFETCH → DIFF → QA → OSCAR → REPAIR → RE-TEST → FREEZE → DELIVER**
+If the environment cannot establish a claim, say so.
 
-## PRODUCT
+## Repository Hygiene
 
-The Results experience must function as an interactive web experience, guided Naya experience, personalized written report, and intentionally designed printable/downloadable PDF.
+The repository is a durable intelligence substrate, not an infinite binary warehouse. Preserve important source, state, schemas, evidence, decisions, and history. Archive stale material rather than deleting history merely for cleanliness. Generated checkpoints and handoffs are state artifacts until deliberately promoted.
 
-## SOURCE-OF-TRUTH
+## Review Authority
 
-- One active working Results artifact.
-- `window.MAXESS_RESULT` is authoritative runtime data.
-- Preserve verified functionality.
-- No competing renderers, result sources, hero systems, or uncontrolled patch layers.
-- Never replace a complete working artifact with a tiny renderer, loader, mock, or excerpt.
-
-## RELEASE TRUTH
-
-Code written is not completion. GitHub state is not live deployment. Groove requires separate public verification.
-
-Use explicit status:
-**IMPLEMENTED · VERIFIED · LIVE VERIFIED · HUMAN REVIEW REQUIRED**
-
-**Protect scope. Preserve what works. Find root causes. Add guardrails. Ask: WHY IS THIS NOT A 10?**
+`nayafeedbackaireview` is the architectural review and execution evidence that established the current North Star. It is not itself the runtime. The runtime is the implementation under `.naya/` and its enforcement workflows.
