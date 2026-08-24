@@ -31,8 +31,9 @@ def implementation_sha():
     return subprocess.run(["git", "hash-object", ".naya/runtime/oscar.py"], cwd=ROOT, text=True, capture_output=True, check=True).stdout.strip()
 
 
-def valid_oscar(claim=CLAIM, evidence=None, commit=COMMIT, run_id="1"):
+def valid_oscar(claim=CLAIM, evidence=None, commit=COMMIT, run_id=None):
     evidence = [copy.deepcopy(EVIDENCE)] if evidence is None else evidence
+    run_id = str(run_id or os.getenv("GITHUB_RUN_ID") or "1")
     claim_sha = sha256_json(claim)
     evidence_sha = sha256_json(sorted(evidence, key=lambda item: str(item.get("evidence_id", ""))))
     input_sha = sha256_json({"claim_sha256": claim_sha, "evidence_sha256": evidence_sha, "expected_commit": commit})
@@ -65,7 +66,7 @@ def valid_oscar(claim=CLAIM, evidence=None, commit=COMMIT, run_id="1"):
     return result
 
 
-def package(target="CANONICAL_VERIFIED", decision="PROMOTE", run_id="1"):
+def package(target="CANONICAL_VERIFIED", decision="PROMOTE", run_id=None):
     evidence = [copy.deepcopy(EVIDENCE)]
     return {"claim": copy.deepcopy(CLAIM), "evidence": evidence, "oscar": valid_oscar(CLAIM, evidence, run_id=run_id), "target": target, "promotion_decision": decision}
 
