@@ -1,65 +1,37 @@
 {
-  "schema": "naya-context-manifest/v1",
+  "schema": "naya-context-manifest/v2",
   "status": "CANONICAL",
-  "effective": "2026-08-22",
-  "repository": "SoulSchoolAcademy/MaxRESULTS",
+  "effective": "2026-08-23",
+  "repository": "SoulSchoolAcademy/NayaPOWER",
   "governance_branch": "main",
   "principle": "FULL SYSTEM AWARENESS + SELECTIVE DEEP LOADING",
   "optimization": "MAXIMUM USEFUL PERFORMANCE: efficiency, effectiveness, correctness, continuity, quality, verification, and reduced unnecessary human effort",
-  "boot_order": [
-    "START-HERE.md",
-    ".naya/NAYA-LAW-SYSTEM-PROTOCOL.md",
-    "docs/REPOSITORY-MAP.md",
-    "NAYA-OS.md",
-    "docs/NAYA-LAW-MASTER-ACTIVATION-SPECIFICATION.md",
-    "docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md",
-    "docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md",
-    "docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md",
-    "docs/NAYA-NITRO-MASTER-ACTIVATION-SPECIFICATION.md",
-    "docs/NAYA-LANGUAGE-DICTIONARY.md",
-    "docs/NAYA-SCORECARDING-SYSTEM.md",
-    "docs/NAYA-GOVERNANCE-REGISTRY.md"
-  ],
+  "boot_order": ["README.md", ".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md", ".naya/codex/11-RUNTIME-CONSTITUTION.md", ".naya/memory/BOOTSTRAP.md", ".naya/memory/INDEX.json", ".naya/memory/RETRIEVAL-MANIFEST.json", ".naya/memory/STATE.json"],
   "subjects": {
-    "law": {
-      "canonical": "docs/NAYA-LAW-MASTER-ACTIVATION-SPECIFICATION.md",
-      "execution_integrity": ".naya/NAYA-LAW-SYSTEM-PROTOCOL.md"
-    },
-    "brain": {"canonical": "docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md"},
-    "notes": {"canonical": "docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md"},
-    "personality": {"canonical": "docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md"},
-    "nitro": {"canonical": "docs/NAYA-NITRO-MASTER-ACTIVATION-SPECIFICATION.md"},
-    "language": {"canonical": "docs/NAYA-LANGUAGE-DICTIONARY.md"},
-    "scorecard": {"canonical": "docs/NAYA-SCORECARDING-SYSTEM.md"},
-    "governance": {"canonical": "docs/NAYA-GOVERNANCE-REGISTRY.md"},
-    "product": {"canonical": "docs/MAXESS-RESULTS-PRODUCT-SPEC.md"},
-    "deployment": {"canonical": "docs/DEPLOYMENT-CONTRACT.md"},
-    "release": {"canonical": "docs/RELEASE-CHECKLIST.md"}
+    "constitution": {"canonical": ".naya/codex/11-RUNTIME-CONSTITUTION.md"},
+    "context": {"canonical": ".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md"},
+    "memory": {"canonical": ".naya/memory/BOOTSTRAP.md"},
+    "memory_schema": {"canonical": ".naya/memory/note.schema.json"},
+    "memory_index": {"canonical": ".naya/memory/INDEX.json"},
+    "retrieval": {"canonical": ".naya/memory/RETRIEVAL-MANIFEST.json"},
+    "state": {"canonical": ".naya/memory/STATE.json"},
+    "notes_protocol": {"canonical": "docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md"}
   },
   "task_routes": {
-    "strategy": ["law", "brain", "language"],
-    "memory": ["law", "brain", "notes"],
-    "execution": ["law", "brain", "nitro", "scorecard"],
-    "design": ["law", "brain", "personality", "scorecard"],
-    "engineering": ["law", "brain", "nitro", "scorecard"],
-    "results": ["law", "brain", "nitro", "scorecard", "product", "deployment", "release"],
-    "evaluation": ["law", "scorecard", "brain"]
+    "strategy": ["constitution", "context", "memory"],
+    "memory": ["constitution", "context", "memory", "memory_index", "retrieval"],
+    "restore": ["constitution", "context", "memory", "memory_index", "retrieval", "state"],
+    "execution": ["constitution", "context", "memory"],
+    "engineering": ["constitution", "context", "memory"],
+    "evaluation": ["constitution", "memory", "retrieval"]
   },
-  "context_states": [
-    "DOCUMENTED",
-    "ACTIVATED",
-    "CONTEXT ESTABLISHED",
-    "IMPLEMENTED",
-    "VERIFIED",
-    "LIVE VERIFIED",
-    "HUMAN REVIEW REQUIRED",
-    "BLOCKED",
-    "UNKNOWN"
-  ],
+  "context_states": ["DOCUMENTED", "ACTIVATED", "CONTEXT ESTABLISHED", "IMPLEMENTED", "VERIFIED", "LIVE VERIFIED", "HUMAN REVIEW REQUIRED", "BLOCKED", "UNKNOWN", "STALE", "CONFLICTED", "SUPERSEDED"],
   "authority_rules": {
     "current_verified_reality_overrides": ["history", "memory", "inference", "assumption"],
     "current_human_requirements_override": ["supporting_docs", "history", "convenience"],
     "canonical_subject_owner_overrides": ["supporting_docs", "historical_docs"],
-    "stale_docs_are": "historical_evidence_unless_explicitly_repromoted_by_governance"
-  }
+    "stale_docs_are": "historical_evidence_unless_explicitly_repromoted_by_governance",
+    "memory_is_context_not_current_reality": true
+  },
+  "temporal_rules": {"timestamps_required": true, "timestamp_format": "ISO-8601 with timezone", "preserve_history": true, "supersession_is_explicit": true, "never_rewrite_history_silently": true}
 }
