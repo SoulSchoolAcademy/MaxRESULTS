@@ -14,25 +14,75 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Diagnose canonical E00 118
+      - name: Static boundary diagnostics
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import re
           s=Path('E00 118').read_text(encoding='utf-8')
           print('BYTES',len(s.encode()))
           print('LINES',len(s.splitlines()))
-          for label,pos in [('SCORE-GUARD',s.find('Object.keys(S)')-700),('VALIDATE',s.find('function validate(')-500),('S-DEFINITION',s.find('const S=')),('D-DEFINITION',s.find('const D=')),('CONTINUE',s.find("$('continueButton').addEventListener"))]:
+          for label,pos in [('SCORE-GUARD',s.find('Object.keys(S)')-700),('VALIDATE',s.find('function validate(')-500),('S-DEFINITION',s.find('const S=')),('D-DEFINITION',s.find('const D='))]:
               print('\n===== '+label+' @ '+str(pos)+' =====')
               if pos>=0: print(s[pos:pos+5000])
-          print('\n===== KEY MARKERS =====')
           for m in ['if(!Array.isArray(S)||Object.keys(S).length!==15)','if(!S||typeof S!==\'object\'','window.MAXESS_RESULT_V1','sessionStorage.setItem','MAXESS_RESULT_READY','closest(\'#continueButton\')','addEventListener(\'click\'']:
-              print(m,s.find(m))
-          scripts=re.findall(r'<script(?:\\s[^>]*)?>(.*?)</script>',s,re.I|re.S)
-          print('SCRIPT_BLOCKS',len(scripts))
-          for i,js in enumerate(scripts):
-              Path(f'/tmp/e00_118_script_{i}.js').write_text(js,encoding='utf-8')
-              print('SCRIPT',i,'BYTES',len(js.encode()))
+              print('MARKER',m,s.find(m))
           PY
-          for f in /tmp/e00_118_script_*.js; do [ -f "$f" ] || continue; echo "NODE CHECK $f"; node --check "$f"; done
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install Playwright
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install playwright@latest >/dev/null 2>&1
+          npx playwright install --with-deps chromium >/dev/null 2>&1
+      - name: Execute complete 15-question MAXESS assessment
+        shell: bash
+        run: |
+          cp 'E00 118' e00-118-runtime.html
+          cat > prove-maxess.mjs <<'JS'
+          import { chromium } from 'playwright';
+          const browser = await chromium.launch({headless:true});
+          const page = await browser.newPage();
+          const errors=[]; const consoleErrors=[];
+          page.on('pageerror', e=>errors.push(String(e)));
+          page.on('console', m=>{ if(m.type()==='error') consoleErrors.push(m.text()); });
+          await page.goto(`file://${process.cwd()}/e00-118-runtime.html`);
+          await page.waitForTimeout(500);
+          const close=page.locator('#closeNaya');
+          if(await close.isVisible().catch(()=>false)) await close.click();
+          for(let i=1;i<=15;i++){
+            const answer=page.locator('#answers .answer').first();
+            if(await answer.count()!==1) throw new Error(`Q${i}: answer button missing`);
+            await answer.click();
+            const disabled=await page.locator('#continueButton').isDisabled();
+            console.log(`Q${i}: selected=true continueDisabled=${disabled}`);
+            if(disabled) throw new Error(`Q${i}: Continue remained disabled after answer selection`);
+            await page.locator('#continueButton').click();
+            if(i<15){
+              await page.waitForTimeout(250);
+              if(await close.isVisible().catch(()=>false)) await close.click();
+            }
+          }
+          await page.waitForTimeout(500);
+          const result=await page.evaluate(()=>({
+            result:window.MAXESS_RESULT||null,
+            localScore:document.querySelector('#localOverallScore')?.textContent||'',
+            localResultsActive:document.querySelector('#localResults')?.classList.contains('active')||false,
+            status:document.querySelector('#localResultsStatus')?.textContent||'',
+            dimensions:document.querySelectorAll('#localDimensions .dimension-card').length
+          }));
+          console.log('RESULT_JSON',JSON.stringify(result));
+          console.log('PAGE_ERRORS',JSON.stringify(errors));
+          console.log('CONSOLE_ERRORS',JSON.stringify(consoleErrors));
+          if(errors.length) throw new Error('Page errors: '+errors.join(' | '));
+          if(!result.result || result.result.contractVersion!=='MAXESS_RESULT_V1') throw new Error('No valid window.MAXESS_RESULT');
+          if(result.result.responses?.length!==15) throw new Error('Result responses != 15');
+          if(result.result.dimensions?.length!==5) throw new Error('Result dimensions != 5');
+          if(!Number.isInteger(result.result.overallScore)) throw new Error('overallScore not integer');
+          if(!result.localResultsActive) throw new Error('Local Results not active');
+          if(result.localScore!==String(result.result.overallScore)) throw new Error('Local score mismatch');
+          if(result.dimensions!==5) throw new Error('Local dimensions != 5');
+          await browser.close();
+          JS
+          node prove-maxess.mjs
