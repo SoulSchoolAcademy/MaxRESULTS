@@ -23,19 +23,16 @@ jobs:
           s=Path('E00 118').read_text(encoding='utf-8')
           print('BYTES',len(s.encode()))
           print('LINES',len(s.splitlines()))
-          print('KEY MARKERS')
-          for m in ['Object.keys(S)','Array.isArray(S)','window.MAXESS_RESULT_V1','sessionStorage.setItem','MAXESS_RESULT_READY','MAXESS_OFFICIAL_RESULT_READY','addEventListener(\'click\'','addEventListener(\"click\"','closest(\'#continueButton\')','continueButton','continueText']:
-              print(m, s.find(m))
-          for name in ['next','save','publish','calculate','buildResult','valid','persistResult','broadcast','releaseResultsSections','executeContinue']:
-              needle='function '+name+'('
-              pos=s.find(needle)
-              print('FUNCTION',name,'POS',pos)
-              if pos>=0:
-                  print(s[max(0,pos-700):min(len(s),pos+4200)])
+          for label,pos in [('SCORE-GUARD',s.find('Object.keys(S)')-700),('VALIDATE',s.find('function validate(')-500),('S-DEFINITION',s.find('const S=')),('D-DEFINITION',s.find('const D=')),('CONTINUE',s.find("$('continueButton').addEventListener"))]:
+              print('\n===== '+label+' @ '+str(pos)+' =====')
+              if pos>=0: print(s[pos:pos+5000])
+          print('\n===== KEY MARKERS =====')
+          for m in ['if(!Array.isArray(S)||Object.keys(S).length!==15)','if(!S||typeof S!==\'object\'','window.MAXESS_RESULT_V1','sessionStorage.setItem','MAXESS_RESULT_READY','closest(\'#continueButton\')','addEventListener(\'click\'']:
+              print(m,s.find(m))
           scripts=re.findall(r'<script(?:\\s[^>]*)?>(.*?)</script>',s,re.I|re.S)
           print('SCRIPT_BLOCKS',len(scripts))
           for i,js in enumerate(scripts):
-              p=Path(f'/tmp/e00_118_script_{i}.js'); p.write_text(js,encoding='utf-8')
+              Path(f'/tmp/e00_118_script_{i}.js').write_text(js,encoding='utf-8')
               print('SCRIPT',i,'BYTES',len(js.encode()))
           PY
           for f in /tmp/e00_118_script_*.js; do [ -f "$f" ] || continue; echo "NODE CHECK $f"; node --check "$f"; done
