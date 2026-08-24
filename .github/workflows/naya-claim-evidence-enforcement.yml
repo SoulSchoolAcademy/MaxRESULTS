@@ -83,11 +83,13 @@ jobs:
           python .naya/runtime/evidence_runtime.py verify "$claim_id" --commit "$TARGET_SHA"
       - name: Independently challenge verification with Oscar
         shell: bash
+        env:
+          GITHUB_RUN_ID: ${{ github.run_id }}
         run: |
           set -euo pipefail
           claim_path=$(find .naya/evidence/claims -name '*.json' -print -quit)
           evidence_path=$(find .naya/evidence/records -name '*.json' -print -quit)
-          python .naya/runtime/oscar.py "$claim_path" "$evidence_path" --commit "$TARGET_SHA" | tee .naya/evidence/oscar-result.json
+          python .naya/runtime/oscar.py "$claim_path" "$evidence_path" --commit "$TARGET_SHA" --run-id "$GITHUB_RUN_ID" | tee .naya/evidence/oscar-result.json
       - name: Evaluate current evidence promotion boundary
         shell: python
         run: |
