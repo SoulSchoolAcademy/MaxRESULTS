@@ -34,10 +34,11 @@ jobs:
           claim_id = f'CL-{os.environ["GITHUB_RUN_ID"]}-evidence-runtime'
           evidence_id = f'EV-{os.environ["GITHUB_RUN_ID"]}-evidence-runtime'
           now = datetime.now(timezone.utc).isoformat()
+          criteria = ['test process exits successfully','all adversarial tests pass']
           claim = {
               'schema':'naya-power-claim/v1', 'claim_id':claim_id,
               'statement':'The Claim/Evidence runtime adversarial test suite passes on the checked-out commit.',
-              'success_criteria':['test process exits successfully','all adversarial tests pass'],
+              'success_criteria':criteria,
               'created_at':now, 'status':'VERIFIED', 'evidence_ids':[evidence_id],
               'source':f'github-actions:{os.environ["GITHUB_RUN_ID"]}'
           }
@@ -47,7 +48,8 @@ jobs:
               'command':'python .naya/runtime/test_evidence_runtime.py',
               'observed_output':output[-12000:], 'result':'PASS',
               'commit_sha':os.environ['GITHUB_SHA'], 'environment':'github-actions',
-              'source':f'workflow-run:{os.environ["GITHUB_RUN_ID"]}'
+              'source':f'workflow-run:{os.environ["GITHUB_RUN_ID"]}',
+              'criteria_covered':criteria
           }
           (root/'claims'/f'{claim_id}.json').write_text(json.dumps(claim,indent=2)+'\n',encoding='utf-8')
           (root/'records'/f'{evidence_id}.json').write_text(json.dumps(evidence,indent=2)+'\n',encoding='utf-8')
@@ -59,7 +61,14 @@ jobs:
           claim_path=$(find .naya/evidence/claims -name '*.json' -print -quit)
           claim_id=$(python -c 'import json,sys; print(json.load(open(sys.argv[1]))["claim_id"])' "$claim_path")
           python .naya/runtime/evidence_runtime.py verify "$claim_id" --commit "$GITHUB_SHA"
-      - name: Publish machine-readable evidence
+      - name: Independently challenge verification with Oscar
+        shell: bash
+        run: |
+          set -euo pipefail
+          claim_path=$(find .naya/evidence/claims -name '*.json' -print -quit)
+          evidence_path=$(find .naya/evidence/records -name '*.json' -print -quit)
+          python .naya/runtime/oscar.py "$claim_path" "$evidence_path" --commit "$GITHUB_SHA" | tee .naya/evidence/oscar-result.json
+      - name: Publish machine-readable evidence and Oscar result
         uses: actions/upload-artifact@v4
         with:
           name: naya-claim-evidence-${{ github.sha }}
