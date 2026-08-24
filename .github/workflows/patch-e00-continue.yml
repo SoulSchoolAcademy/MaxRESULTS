@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/patch-e00-continue.yml'
+      - 'PATCH_E00_TRIGGER'
 permissions:
   contents: write
 jobs:
