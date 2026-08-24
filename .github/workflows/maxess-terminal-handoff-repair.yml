@@ -6,7 +6,6 @@ permissions:
   contents: write
 jobs:
   patch:
-    if: ${{ !contains(github.event.head_commit.message, 'MAXESS terminal handoff repair') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,16 +19,21 @@ jobs:
           old='attemptResultsHandoff(result);'
           new="window.MAXESS_RESULT_HANDOFF_URL = null; // Same-page Results release is authoritative."
           if old not in s:
-              raise SystemExit('TARGET_NOT_FOUND')
+              print('TARGET_ALREADY_REPAIRED')
+              raise SystemExit(0)
           p.write_text(s.replace(old,new,1))
           print('PATCHED')
           PY
-      - name: Commit repair
+      - name: Commit repair when needed
         shell: bash
         run: |
+          if git diff --quiet -- 'E00 118'; then
+            echo 'NO_CHANGE_NEEDED'
+            exit 0
+          fi
           git config user.name 'Naya Power'
           git config user.email 'naya-power@users.noreply.github.com'
           git add 'E00 118'
           git commit -m 'MAXESS terminal handoff repair'
           git push
-      # Repair is intentionally executed by Actions so the full source is preserved byte-for-byte except for the terminal handoff.
+      # Idempotent repair: preserve E00 118 completely except for the terminal external-navigation call.
