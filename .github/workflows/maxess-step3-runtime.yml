@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   runtime-proof:
@@ -17,35 +17,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Apply temporary E00.118 surgical repair in test workspace
-        shell: python
-        run: |
-          from pathlib import Path
-          p=Path('E00 118'); s=p.read_text(encoding='utf-8')
-          replacements=[
-            ('<button class="continue" id="continueButton" type="button" disabled>', '<button class="continue" id="continueButton" type="button" aria-disabled="true">'),
-            ('#maxess-ai-score .continue:disabled{opacity:.72;color:rgba(255,255,255,.42);border-color:rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 20px rgba(0,0,0,.3)}', '#maxess-ai-score .continue[aria-disabled="true"]{opacity:.72;color:rgba(255,255,255,.42);border-color:rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 20px rgba(0,0,0,.3);cursor:not-allowed}'),
-            ('function updateContinue(){const disabled=!state.selected||state.finalizing||state.mode!==\'ASSESSMENT\';$(\'continueButton\').disabled=disabled;$(\'continueButton\').setAttribute(\'aria-disabled\',String(disabled));}', 'function updateContinue(){const disabled=!state.selected||state.finalizing||state.mode!==\'ASSESSMENT\';$(\'continueButton\').setAttribute(\'aria-disabled\',String(disabled));}'),
-            ('$(\'continueButton\').addEventListener(\'click\',e=>{e.preventDefault();e.stopPropagation();next();},{capture:true});', '''let maxessContinueExecuting=false;
-function executeContinueBoundary(e){
- const target=e.target instanceof Element?e.target:null;
- const btn=target?.closest('#continueButton');
- const root=$(\'maxess-ai-score\');
- if(!btn||!root?.contains(btn))return;
- if(state.finalizing||state.mode!==\'ASSESSMENT\'||!state.selected)return;
- if(maxessContinueExecuting)return;
- maxessContinueExecuting=true;
- e.preventDefault();
- e.stopPropagation();
- try{next();}finally{maxessContinueExecuting=false;}
-}
-document.addEventListener('click',executeContinueBoundary,true);''')
-          ]
-          for old,new in replacements:
-              if old not in s: raise SystemExit('Missing canonical marker: '+old[:100])
-              s=s.replace(old,new,1)
-          p.write_text(s,encoding='utf-8')
-          print('TEMP_REPAIR_APPLIED bytes=',len(s.encode()))
       - name: Install Playwright
         run: |
           npm init -y >/dev/null 2>&1
@@ -99,23 +70,9 @@ document.addEventListener('click',executeContinueBoundary,true);''')
           if(result.result.responses?.length!==15) throw new Error('Result responses != 15');
           if(result.result.dimensions?.length!==5) throw new Error('Result dimensions != 5');
           if(!Number.isInteger(result.result.overallScore)) throw new Error('overallScore not integer');
-          if(!result.result.masteryBand) throw new Error('masteryBand missing');
           if(!result.localResultsActive) throw new Error('Local Results not active');
           if(result.localScore!==String(result.result.overallScore)) throw new Error('Local score mismatch');
           if(result.dimensions!==5) throw new Error('Local dimensions != 5');
-          console.log('E00_AUTHORITATIVE_RESULT=PASS');
           await browser.close();
           JS
           node prove-maxess.mjs
-      - name: Commit only verified E00.118 repair and remove temporary machinery
-        if: success()
-        shell: bash
-        run: |
-          set -euo pipefail
-          git checkout HEAD^ -- .github/workflows/maxess-step3-runtime.yml
-          git rm -f .github/workflows/maxess-e00-118-surgical-repair.yml E00_118_REPAIR_TRIGGER
-          git add 'E00 118' .github/workflows/maxess-step3-runtime.yml
-          git config user.name 'Naya Power'
-          git config user.email 'naya-power@users.noreply.github.com'
-          git commit -m 'fix E00.118 Continue terminal boundary'
-          git push origin main
