@@ -22,8 +22,10 @@ jobs:
           fetch-depth: 1
 
       - name: Apply smallest deterministic E00 796 repair
-        shell: python
+        shell: bash
         run: |
+          set -euo pipefail
+          python3 - <<'PY'
           from pathlib import Path
 
           p=Path('E00 796')
@@ -43,7 +45,6 @@ jobs:
               if marker not in s:
                   raise SystemExit(f'Marker missing: {marker}')
 
-          # 1. Strict score-object contract. S is a keyed object, not an array.
           bad="if(!Array.isArray(S)||Object.keys(S).length!==15)"
           if bad in s:
               s=s.replace(
@@ -52,8 +53,6 @@ jobs:
                   1,
               )
 
-          # 2. Authoritative Continue boundary: capture click + pointer + keyboard,
-          # scoped to this MAXESS root, with duplicate-submit protection.
           old_listener="""document.addEventListener('click',e=>{
   const button=e.target.closest('#maxess-ai-score #continueButton');
   if(!button)return;
@@ -81,14 +80,11 @@ document.addEventListener('keydown',executeContinue,true);"""
           elif "function executeContinue(e)" not in s:
               raise SystemExit('Continue boundary anchor missing')
 
-          # 3. Harden the state transition so an exception cannot strand the UI.
           old_next="function next(){if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;if(state.i===14){publish();return;}save();state.i++;render();setTimeout(()=>openNaya(),120);}"
           new_next="function next(){if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;try{if(state.i===14){if(!publish())throw Error('Terminal publish failed');return;}save();state.i++;render();setTimeout(()=>openNaya(),120);}catch(e){console.error('MAXESS Continue execution error',e);state.finalizing=false;state.mode='ASSESSMENT';updateContinue();$('continueText').textContent='Continue';}}"
           if old_next in s:
               s=s.replace(old_next,new_next,1)
 
-          # 4. Terminal boundary: Q15 save -> calculate -> build -> validate ->
-          # store -> broadcast -> local verification -> Results handoff.
           old_tail="releaseResultsSections(result);window.MAXESS_RESULT_HANDOFF_URL = null; return true;"
           new_tail="releaseResultsSections(result);const handedOff=attemptResultsHandoff(result);if(!handedOff)console.warn('MAXESS Results handoff unavailable; verified local Results retained.');return true;"
           if old_tail in s:
@@ -104,6 +100,7 @@ document.addEventListener('keydown',executeContinue,true);"""
 
           p.write_text(s,encoding='utf-8')
           print('E00 796 patched:',len(original),'->',len(s),'bytes')
+          PY
 
       - name: Static QA
         shell: bash
@@ -124,7 +121,8 @@ document.addEventListener('keydown',executeContinue,true);"""
           grep -F "renderLocalResults(result);" 'E00 796' >/dev/null
           grep -F "attemptResultsHandoff(result);" 'E00 796' >/dev/null
           grep -F "https://results.nayanet.app/#maxess-result=" 'E00 796' >/dev/null
-          node --check <(sed -n '/<script>/,/<\/script>/p' 'E00 796' | sed '1d;$d')
+          sed -n '/<script>/,/<\/script>/p' 'E00 796' | sed '1d;$d' > /tmp/e00.js
+          node --check /tmp/e00.js
           echo 'E00 796 Continue + terminal Results static QA: PASS'
 
       - name: Commit repair
