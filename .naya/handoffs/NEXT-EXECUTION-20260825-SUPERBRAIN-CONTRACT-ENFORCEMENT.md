@@ -1,4 +1,4 @@
-# NEXT EXECUTION — Superbrain Contract Enforcement
+# NEXT EXECUTION — Superbrain Cold-Start Verification Boundary
 
 schema_version: 1
 status: READY
@@ -10,55 +10,69 @@ Naya Power Superbrain (`PRJ-NAYAPOWER-SUPERBRAIN`)
 Leave the Superbrain materially more capable, reliable, recoverable, intelligent, accountable, and useful while preserving everything already proven GREEN.
 
 ## Current state
-The constitutional 10-Star Service + Autonomous Project Execution Law is documented and the prior foundation was verified GREEN at commit `0f82325a82ed37b5b3a3d097599025369c03a1ed`. First-class Current Daily Project State now exists, and a machine-enforcement module for project binding, paired representations, learning, and Next Execution contracts has been added.
+The constitutional 10-Star Service + Autonomous Project Execution Law is documented and the prior foundation was verified GREEN at commit `0f82325a82ed37b5b3a3d097599025369c03a1ed`. The contract-enforcement layer is implemented. A strict fresh-checkout cold-start acceptance test exposed real stale canonical-note relationships and INDEX drift; those source-data defects were repaired. The repaired main state is PENDING authoritative Superbrain Gate verification.
 
 ## Completed work
 - Established `.naya/memory/projects/CURRENT-DAILY-PROJECT.json` as the active project context.
 - Added `.naya/runtime/project_execution_contract.py` as the machine-enforcement boundary.
-- Defined the Next Execution contract required for meaningful continuation.
-- Added positive contract primitives and deliberate-failure tests.
-- Preserved historical-event compatibility by applying the new contract only to meaningful post-policy executions.
+- Added strict Next Execution validation, including Markdown handoff parsing.
+- Added paired canonical-event representation enforcement and meaningful-learning enforcement.
+- Added idempotency, entity-resolution, supersession, outbox, health, and retrieval-baseline regression coverage.
+- Strengthened cold-start acceptance so `UNKNOWN` restoration fails instead of passing.
+- Proved the fresh-checkout test can expose real repository-state defects.
+- Repaired the two malformed Smart Brain hardening Smart Notes and synchronized `.naya/memory/INDEX.json`.
+- Corrected stale note relationships so they point only to existing canonical note IDs.
+- Updated STATE to preserve the honest PENDING boundary.
+- Merged PR #49 as a harmless GitHub-generated verification marker. No authoritative Actions run was emitted for the resulting merge head in this environment.
 
 ## Verified evidence
-The preceding authoritative Superbrain Gate run `32900378943` / job `97972578703` proved commit `0f82325a82ed37b5b3a3d097599025369c03a1ed` GREEN. This execution's new commits require a fresh authoritative gate before they can be called GREEN.
+- Protected GREEN boundary: run `32900378943`, brain-gate job `97972578703`, commit `0f82325a82ed37b5b3a3d097599025369c03a1ed`.
+- Failed authoritative gate exposing the defect: run `32902517626`, brain-gate job `97979302394`, commit `210f0cf0df8b1d06799a847ca24f9ddd8c3b46c6`.
+- In that failed gate, canonical memory, duplicate/entity audit, graph, regression, continuity, project/prompt, and intelligence-layer tests all passed; strict cold-start/CIS acceptance failed.
+- The failure explicitly reported two missing note relationships and INDEX mismatch.
+- Source repairs: `21c872e951e9715ef14a0d2e3faebc9fc5068931`.
+- State repair receipt: `d0436e3a35781144a13fe38fbd87b063b0220f4d`.
+- Gate workflow marker: `17834bcf6c5c8578406b6d181c5693567db1c4c9`.
+- PR #49 merge: `d8903ec83479f6ac6a99b259f4ffc2ae2ab3f172`.
+- Current limitation: no authoritative Actions run exists for the repaired head, so the repair is not promoted to GREEN.
 
 ## Unresolved issues
-- Wire the new validator into the canonical event creation path rather than validating only the stored corpus.
-- Add Prompt Architect schema validation and fixture coverage.
-- Ensure the latest meaningful event contains the new project context, paired canonical-event IDs, and Next Execution reference.
-- Integrate validator execution into CI and inspect the resulting authoritative logs.
-- Update STATE only after the new boundary is verified.
+- Obtain a genuinely authoritative Superbrain Gate run against the repaired main state.
+- If that run is RED, repair the smallest source root cause and repeat.
+- Do not promote strict cold-start acceptance from PENDING to VERIFIED until the real gate is observed.
+- Do not proceed to lower-priority intelligence expansion while this P0 verification boundary remains open.
 
 ## Constraints
-- Never weaken existing validators.
-- Never delete historical knowledge to satisfy the new contract.
+- Never weaken validators.
+- Never delete historical knowledge to satisfy the contract.
 - Never fabricate CI or runtime evidence.
-- Preserve the prior GREEN commit as the protected comparison boundary.
+- Preserve the protected GREEN comparison boundary.
+- `UNKNOWN` cold-start status is a failure.
+- A connector-created commit without an observed Actions run is not authoritative verification.
 
 ## Current objective
-Make the constitutional project/continuation/prompt contracts executable and gate-protected.
+Get a real authoritative `brain-gate` execution against the repaired main state and prove the repository-only fresh-checkout restoration path.
 
 ## Next action
-Update the latest meaningful canonical event with project binding and Next Execution metadata; add Prompt Architect contract validation; add the new validator to compilation, regression, and authoritative gate execution; then run and inspect the real CI result.
+From a GitHub Actions-capable execution context that can create a genuine workflow-triggering event, run `.github/workflows/superbrain-gate.yml` against current `main`. Inspect the actual `brain-gate` job and logs. If GREEN, promote STATE and receipts. If RED, preserve evidence, repair the smallest root cause, and rerun.
 
 ## Execution instructions
-1. Read current STATE and this handoff.
-2. Inspect the canonical event creation and continuity callers.
-3. Complete additive enforcement at the write boundary.
-4. Add Prompt Architect contract validation.
-5. Add positive and deliberate-failure tests.
-6. Update the Superbrain Gate.
-7. Push the resulting changes.
-8. Inspect the actual Actions run and logs.
-9. If GREEN, update STATE, Naya/Smart Notes, and this handoff with exact evidence.
-10. If RED, preserve the failure evidence, repair the smallest root cause, rerun, and do not weaken the validator.
+1. Restore current STATE and this handoff.
+2. Verify current main SHA.
+3. Verify repaired Smart Notes and INDEX.
+4. Trigger the authoritative Superbrain Gate.
+5. Inspect every substantive job step.
+6. Confirm fresh-checkout cold-start returns `VERIFIED`, not `UNKNOWN`.
+7. Confirm every previously GREEN step remains GREEN.
+8. If RED, repair source data/runtime only; never weaken the guardrail.
+9. If GREEN, write the exact run/job/commit receipt and promote STATE.
+10. Recalculate priorities and resume the next P1/P2 intelligence gap.
 
 ## Success criteria
-- New contract tests pass.
-- Existing Superbrain tests remain GREEN.
-- Authoritative brain-gate passes on the resulting commit.
-- Project, Next Execution, paired representation, and learning checks are machine-enforced.
+- Authoritative brain-gate passes on repaired main.
+- Fresh-checkout cold-start restoration is `VERIFIED`.
+- Canonical memory, duplicate/entity audit, graph, regression, continuity, project/prompt, intelligence, index, retrieval, health, and Daily CIS remain GREEN.
 - Evidence and receipts are durable and discoverable by the next Naya.
 
 ## Verification requirements
-Compile the new runtime; run positive and deliberate-failure tests; run all existing regression suites; run the authoritative Superbrain Gate; inspect job logs and resulting commit SHA.
+Use the real GitHub Actions `brain-gate` job. Record exact commit SHA, run ID, job ID, and substantive step results. Do not substitute code existence, local reasoning, or a connector commit for authoritative CI evidence.
