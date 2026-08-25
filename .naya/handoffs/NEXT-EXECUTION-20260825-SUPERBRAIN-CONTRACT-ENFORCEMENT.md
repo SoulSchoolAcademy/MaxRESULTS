@@ -10,27 +10,46 @@ Naya Power Superbrain (`PRJ-NAYAPOWER-SUPERBRAIN`)
 Make the personal Superbrain more canonical, continuous, recoverable, accountable, measurable, intelligent, and self-improving while preserving the protected GREEN boundary.
 
 ## Current state
-The first fresh authoritative GREEN Superbrain Gate was observed on commit `f2ae424c689430c1d4984776d48dab8e20abd246`, run `32904851697`, brain-gate job `97986546919`, with continuity artifact `9584395839`. Subsequent post-GREEN bookkeeping exposed and repaired two source-level defects: a cold-start fixture Git-maintenance cleanup race and an event-promotion schema mismatch. The latest authoritative run on `b8b0c20679ae6f36db2896dc78fb337606a89072` reached canonical memory GREEN but failed at this handoff contract because this document was not exposing the required machine-readable headings. That failure is preserved and is the current P0 blocker.
+The P0 foundation is authoritative GREEN on commit `8b82aebf08907731704c8bd843f16541f9e96cd1` via run `32907843383`, brain-gate job `97995686980`.
 
 ## Completed work
-- Repaired the cold-start fixture so ephemeral Git maintenance cannot race TemporaryDirectory cleanup.
-- Repaired the P0 event to preserve canonical ACTIVE event status while recording VERIFIED verification evidence and canonical_url.
-- Created the durable P0 authoritative receipt.
-- Added the P1 caller-adoption continuation handoff.
-- Proved fresh restoration, canonical memory, duplicate/entity audit, relationship graph, Superbrain regression, and continuity regression on the latest failed gate before the handoff contract stopped execution.
+- Repaired cold-start fixture Git-maintenance cleanup race.
+- Preserved canonical event schema while promoting verification evidence.
+- Made Next Execution handoff machine-parseable.
+- Aligned verified work to `continuity.execution_state=COMPLETED` and `verification.status=VERIFIED`.
+- Obtained authoritative Superbrain Gate GREEN run #119.
+- Generated and uploaded the continuity receipt artifact.
 
 ## Verified evidence
-- Prior authoritative GREEN: run `32904851697`, job `97986546919`, commit `f2ae424c689430c1d4984776d48dab8e20abd246`.
-- Prior receipt artifact: `superbrain-continuity-gate-receipt`, artifact ID `9584395839`, SHA256 `6a367140ace2cc04256fb592d4edc7fee161d96ee22115506a3d50f4fb9a5078`.
-- Latest failed authoritative run: run `32907741762`, job `97995379704`, commit `b8b0c20679ae6f36db2896dc78fb337606a89072`.
-- Latest run logs proved cold-start VERIFIED, canonical memory GREEN, duplicate/entity GREEN, relationship graph GREEN, Superbrain regression GREEN, and continuity positive/failure tests GREEN before the project/Next Execution contract failure.
+- Workflow: `.github/workflows/superbrain-gate.yml`
+- Run: `32907843383`
+- brain-gate job: `97995686980`
+- Commit: `8b82aebf08907731704c8bd843f16541f9e96cd1`
+- All 21 substantive brain-gate steps succeeded.
+- Fresh checkout restoration: `VERIFIED`.
+- Canonical memory: GREEN; 19 canonical events.
+- Duplicate/entity audit: GREEN; 0 exact duplicates.
+- Relationship graph: GREEN; 19 nodes / 32 edges.
+- Superbrain regression: GREEN.
+- Continuity positive + deliberate-failure tests: GREEN.
+- Project / Next Execution / paired representation / learning contracts: GREEN.
+- Prompt Architect: GREEN, including deliberate failure.
+- Intelligence layer: GREEN.
+- Derived index: GREEN.
+- Retrieval baseline: GREEN; expected token coverage 1.0 across four benchmark cases.
+- Health: GREEN; 19 events, 0 parse errors, 0 orphan relationships.
+- Daily CIS: GREEN.
+- Continuity validation: GREEN; 3 meaningful events, 0 errors.
+- Continuity receipt: `VERIFIED`.
+- Uploaded artifact: `superbrain-continuity-gate-receipt`, ID `9585448120`, SHA256 `ca588d25b198c9fc860ace8b5ac88da7c5f280be1c86b647828c69fb1d811192`.
 
 ## Unresolved issues
-- Obtain one authoritative GREEN run against the current handoff-contract fix.
-- Then complete P1 Universal Canonical Event-Write Adoption.
-- Universal production caller adoption is not yet proven.
-- Semantic/vector retrieval remains unimplemented.
-- Teaching-specific runtime enforcement remains pending.
+- This handoff update itself requires one fresh authoritative gate before the resulting head can be called GREEN.
+- Universal production adoption of canonical event creation is not yet proven.
+- Semantic/vector retrieval is not implemented.
+- Full contradiction detection and corpus-level entity-resolution persistence remain pending.
+- Fully automatic durable CIS persistence and outbox/retry integration remain pending.
+- Teaching-specific runtime enforcement and AI Operating Feed append integration remain pending.
 
 ## Constraints
 - Preserve protected GREEN boundary `0f82325a82ed37b5b3a3d097599025369c03a1ed`.
@@ -39,42 +58,36 @@ The first fresh authoritative GREEN Superbrain Gate was observed on commit `f2ae
 - Never treat a commit as CI verification.
 - Never claim universal adoption from a partial inventory.
 - Preserve existing green behavior.
-- Use the canonical event boundary; do not create a parallel memory architecture.
+- Use the canonical event boundary; never create a parallel memory architecture.
 
 ## Current objective
-Get the current post-GREEN repository head through the complete authoritative Superbrain Gate, then begin Universal Canonical Event-Write Adoption.
+Obtain authoritative GREEN on this final handoff update, then execute P1 Universal Canonical Event-Write Adoption.
 
 ## Next action
-1. Restore STATE and this handoff.
-2. Verify current main SHA.
-3. Run the authoritative `.github/workflows/superbrain-gate.yml` on the current head.
-4. Inspect `brain-gate` and every substantive step.
-5. If RED, repair the smallest true root cause and rerun.
-6. If GREEN, record exact run/job/artifact evidence and begin the P1 caller inventory.
+1. Verify current main SHA.
+2. Run `.github/workflows/superbrain-gate.yml` against the current head.
+3. Inspect the actual `brain-gate` job and substantive logs.
+4. If RED, preserve the failure, repair the smallest true root cause, and rerun.
+5. If GREEN, record exact run/job/artifact evidence and begin the caller inventory below.
+6. Inventory every real meaningful event-producing caller.
+7. Classify each caller A/B/C/D/E.
+8. Migrate safe callers through the canonical event boundary.
+9. Add positive and deliberate-failure tests.
+10. Run the authoritative gate again.
 
 ## Execution instructions
-- Trace before building.
-- Treat the repository as the source of truth.
-- After each successful repair, ask what other compatible P0/P1 work can safely be completed in the same execution.
-- For caller adoption, inventory every real meaningful event-producing caller and classify A/B/C/D/E before migration.
-- Migrate only safely compatible callers through `CALLER → CANONICAL EVENT → VALIDATION → PERSISTENCE → VERIFICATION → RECEIPT → DELIVERY → INDEX → HANDOFF`.
-- Add a positive test and deliberate-failure test for every migrated boundary.
-- Preserve the existing regression suite.
-- Run the authoritative gate after migration and inspect actual logs.
+Trace before building. Treat the repository as the source of truth. Locate the canonical event creation function, validation, persistence, verification, receipt, delivery, index, and handoff paths. Search every meaningful event-producing implementation path. For each caller record purpose, event type, current write path, canonical status, receipt, verification, delivery state, index behavior, handoff behavior, project binding, paired representations, learning status, and bypass risk. Classify A=already canonical, B=safe to migrate, C=adapter required, D=intentionally non-canonical, E=unresolved. Never force uncertain cases. For B callers, make the smallest compatible migration to the canonical boundary. Prove each migration with a positive and deliberate-failure test. Preserve existing regression tests. After each safe completion, ask what other compatible P1 work can be batched without compromising correctness.
 
 ## Success criteria
-- Current repository head obtains authoritative GREEN.
-- The gate proves cold-start, canonical memory, duplicate/entity, relationship graph, regression, continuity, PROJECT, Next Execution, paired representation, learning, Prompt Architect, intelligence, derived index, retrieval, health, Daily CIS, receipt generation, and receipt upload.
-- Universal caller adoption is claimed only after the complete caller inventory is reconciled and all safely supported meaningful callers are canonical.
+- Final post-handoff repository head obtains authoritative GREEN.
+- Caller inventory identifies every real meaningful event-producing caller discoverable in the repository.
+- Every safely supported caller is canonical or explicitly classified with evidence.
+- Migrated callers have positive and deliberate-failure tests.
+- Authoritative gate remains GREEN after migration.
+- No validator is weakened and no historical knowledge is deleted.
 
 ## Verification requirements
-- Exact current commit SHA.
-- Exact workflow run ID.
-- Exact brain-gate job ID.
-- Actual substantive step results.
-- Actual logs for any failure.
-- Receipt ID and uploaded artifact ID when GREEN.
-- No GREEN claim without authoritative evidence.
+Record exact current SHA, workflow run ID, brain-gate job ID, substantive step results, actual logs for failures, receipt ID, artifact ID, and artifact SHA256. Only authoritative Actions evidence can promote a head to GREEN.
 
 ## Weighted priorities
 P0 — authoritative GREEN on every resulting main head
@@ -92,7 +105,7 @@ P4 — polish
 Before ending, update STATE, receipt, Naya technical knowledge, Shawn/Smart representation, AI-to-AI handoff, Current Daily Project state where applicable, weighted priorities, and a ready-to-run NEXT EXECUTION. Claims must be evidence-supported.
 
 ## Next Execution generation law
-The next handoff must be generated from actual execution evidence and contain the current SHA, verified boundary, project, North Star, current state, completed work, verified evidence, unresolved issues, constraints, current objective, next action, execution instructions, success criteria, and verification requirements. The next Naya must be able to `RESTORE → READ → VERIFY → PRIORITIZE → EXECUTE` without reconstructing the previous conversation.
+Generate the next handoff from actual execution evidence. Include current SHA, verified boundary, project, North Star, current state, completed work, verified evidence, unresolved issues, constraints, current objective, next action, execution instructions, success criteria, and verification requirements. The next Naya must be able to `RESTORE → READ → VERIFY → PRIORITIZE → EXECUTE` without reconstructing the previous conversation.
 
 ## Absolute rule
 Do the job like a master preparing an apprentice for success: explain why, equip execution with exact steps, preserve what works, verify every substantive claim, batch compatible high-value work, and leave the next Naya stronger than you found her.
