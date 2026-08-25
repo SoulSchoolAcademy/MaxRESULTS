@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "policy_name": "Naya Power Execution Continuity Enforcement",
-  "effective_at": "2026-08-25T20:30:00-07:00",
+  "effective_at": "2026-08-25T20:31:00-07:00",
   "meaningful_event_types": [
     "execution-milestone",
     "master-system-update",
