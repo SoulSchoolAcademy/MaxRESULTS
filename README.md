@@ -18,11 +18,15 @@ Make it dramatically easier for an ordinary human with a meaningful vision to ac
 
 1. `.naya/codex/11-RUNTIME-CONSTITUTION.md`
 2. `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — canonical Smart Notes/CIS law
-3. `.naya/memory/BOOTSTRAP.md` — model/session continuity contract
-4. `.naya/memory/events/INDEX.json` — chronological Note Event index
-5. `.naya/memory/MIGRATION-2026-08-25-SMART-NOTES.json` — migration provenance
-6. `.naya/memory/smart_notes_v3.py` — event validation/retrieval/CIS runtime
-7. `.naya/memory/STATE.json` and `.naya/naya-context-manifest.json`
+3. `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md` — canonical Superbrain operating model
+4. `.naya/memory/BOOTSTRAP.md` — model/session continuity contract
+5. `SUPERBRAIN/AI-BOOT/START-HERE.md` — fast AI entry point
+6. `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md` — append-only change stream
+7. `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md` — 25-task optimization sequence
+8. `.naya/memory/events/INDEX.json` — chronological Note Event index
+9. `.naya/memory/STATE.json` — current Intelligence State
+10. `.naya/memory/smart_notes_v3.py` — event validation/retrieval/CIS runtime
+11. `.naya/memory/duplicate_entity_audit.py` — duplicate/entity resolution audit
 
 ## Smart Notes + CIS
 
@@ -59,6 +63,7 @@ python .naya/runtime/restore_context.py restore --at "2026-08-23T20:00:00-07:00"
 ```bash
 python .naya/memory/smart_notes_v3.py validate
 python .naya/memory/smart_notes_v3.py retrieve "MAXESS results terminal"
+python .naya/memory/duplicate_entity_audit.py
 python .naya/memory/smart_notes_v3.py daily-report 2026-08-25
 ```
 
@@ -75,9 +80,19 @@ The runtime treats the chronological event store as the system of record and the
 
 ## Current Quality Status
 
-The architecture is substantially stronger after the v3 migration, but it is **not yet a claimed 10/10 implementation**. Remaining gaps include automated execution of the v3 runtime in CI, semantic search beyond lexical/alias retrieval, automatic duplicate detection, actual product-feed posting, automated Daily/Weekly report generation and verification, and full end-to-end runtime enforcement across every AI entry point.
+The Superbrain architecture is now substantially hardened: chronological Note Events are canonical, paired Naya/Shawn representations are supported, AI boot/feed continuity is established, deterministic duplicate/entity auditing is enforced in CI, and the CI workflow is hardened for current Node 24-compatible Actions execution with concurrency and least-privilege job permissions.
+
+It is **still not honestly 10/10**. Remaining high-leverage gaps are: a genuinely observed green post-change CI run, true semantic/vector retrieval with precision/recall benchmarks, fully automated Daily/Weekly/higher-order CIS plus next-day Intelligence State, health/latency/quality metrics, full cold-start end-to-end acceptance, verified human feed delivery, and complete runtime enforcement across every AI entry point.
 
 That distinction is intentional: **design quality is not the same thing as verified implementation completeness.**
+
+## Seed-First Strategy
+
+The personal Superbrain is the seed of the future NayaNET network.
+
+> **MAXIMIZE THE PERSONAL SUPERBRAIN FIRST. THEN MULTIPLY IT.**
+
+Do not use federation to compensate for an incomplete personal brain. Prove the seed; then grow the network.
 
 ## Self-Optimization
 
