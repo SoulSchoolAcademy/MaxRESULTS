@@ -1,15 +1,16 @@
 {
   "schema":"naya-context-manifest/v4",
   "status":"CANONICAL",
-  "effective":"2026-08-24",
+  "effective":"2026-08-25",
   "repository":"SoulSchoolAcademy/NayaPOWER",
   "governance_branch":"main",
   "principle":"FULL SYSTEM AWARENESS + SELECTIVE DEEP LOADING",
   "optimization":"MAXIMUM USEFUL PERFORMANCE: quality, correctness, reliability, continuity, verification, safety, efficiency, and minimum unnecessary complexity",
-  "boot_order":["README.md",".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md",".naya/codex/11-RUNTIME-CONSTITUTION.md",".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md",".naya/memory/BOOTSTRAP.md",".naya/memory/STATE.json",".naya/memory/INDEX.json",".naya/memory/RETRIEVAL-MANIFEST.json",".naya/runtime/RESTORE-CONTEXT-RUNTIME.md",".naya/runtime/CLAIM-EVIDENCE-VERIFICATION.md"],
+  "boot_order":["README.md",".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md",".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md",".naya/codex/11-RUNTIME-CONSTITUTION.md",".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md",".naya/memory/BOOTSTRAP.md",".naya/memory/STATE.json",".naya/memory/INDEX.json",".naya/memory/RETRIEVAL-MANIFEST.json",".naya/runtime/RESTORE-CONTEXT-RUNTIME.md",".naya/runtime/CLAIM-EVIDENCE-VERIFICATION.md"],
   "subjects":{
     "constitution":{"canonical":".naya/codex/11-RUNTIME-CONSTITUTION.md","extensions":[".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md"]},
     "context":{"canonical":".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md"},
+    "execution_continuity":{"canonical":".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md","purpose":"Universal requirement for durable execution reports, AI-to-AI handoffs, receipts, learning, and restoreable continuity"},
     "memory":{"canonical":".naya/memory/BOOTSTRAP.md"},
     "memory_schema":{"canonical":".naya/memory/note.schema.json"},
     "memory_index":{"canonical":".naya/memory/INDEX.json"},
@@ -24,9 +25,9 @@
   "task_routes":{
     "strategy":["constitution","context","memory"],
     "memory":["constitution","context","memory","memory_index","retrieval"],
-    "restore":["constitution","context","memory","memory_index","retrieval","state","restore","checkpoints","handoffs"],
-    "execution":["constitution","context","memory","evidence"],
-    "engineering":["constitution","context","memory","restore","evidence"],
+    "restore":["constitution","context","execution_continuity","memory","memory_index","retrieval","state","restore","checkpoints","handoffs"],
+    "execution":["constitution","context","execution_continuity","memory","evidence"],
+    "engineering":["constitution","context","execution_continuity","memory","restore","evidence"],
     "evaluation":["constitution","memory","retrieval","restore","evidence"]
   },
   "context_states":["DOCUMENTED","ACTIVATED","CONTEXT ESTABLISHED","IMPLEMENTED","VERIFIED","LIVE VERIFIED","HUMAN REVIEW REQUIRED","BLOCKED","UNKNOWN","STALE","CONFLICTED","SUPERSEDED","FAILED","PARTIAL","ROLLBACK_REQUIRED","REJECTED","AUTHORIZED_DEVIATION"],
@@ -57,6 +58,11 @@
     "handoff_is_continuation_packet":true,
     "generated_artifacts_require_promotion_for_canonical_status":true,
     "restore_must_emit_next_best_action":true,
-    "evidence_artifacts_require_explicit_promotion_for_canonical_memory":true
+    "evidence_artifacts_require_explicit_promotion_for_canonical_memory":true,
+    "meaningful_execution_requires_durable_exit_report":true,
+    "exit_report_requires_ai_to_ai_handoff":true,
+    "exit_report_requires_learning_when_material_learning_exists":true,
+    "naya_and_human_notes_share_canonical_note_event_when_applicable":true,
+    "next_ai_restores_from_repository_not_session_memory":true
   }
 }
