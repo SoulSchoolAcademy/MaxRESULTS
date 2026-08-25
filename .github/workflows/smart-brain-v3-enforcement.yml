@@ -19,14 +19,17 @@ on:
   schedule:
     - cron: '15 7 * * *'
 
-permissions:
-  contents: write
+concurrency:
+  group: smart-brain-v3-main
+  cancel-in-progress: false
 
 jobs:
   brain-gate:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with: {fetch-depth: 0}
       - name: Validate Smart Brain
         run: python .naya/memory/smart_notes_v3.py validate
@@ -47,10 +50,12 @@ jobs:
 
   daily-intelligence:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     needs: brain-gate
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with: {fetch-depth: 0}
       - name: Emit verified Daily Intelligence Note Event
         run: |
