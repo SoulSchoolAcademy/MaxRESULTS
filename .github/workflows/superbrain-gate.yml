@@ -35,6 +35,10 @@ jobs:
       - name: Validate canonical memory
         run: python .naya/memory/smart_notes_v3.py validate
 
+      # Cold-start acceptance must observe a genuinely clean checkout. Artifact-producing audit steps intentionally run afterward.
+      - name: Run cold-start and CIS acceptance checks
+        run: python .naya/tests/test_cold_start_and_cis.py
+
       - name: Run duplicate/entity audit
         run: python .naya/memory/duplicate_entity_audit.py
 
@@ -52,9 +56,6 @@ jobs:
 
       - name: Run intelligence-layer regression suite
         run: python .naya/tests/test_intelligence_layer.py
-
-      - name: Run cold-start and CIS acceptance checks
-        run: python .naya/tests/test_cold_start_and_cis.py
 
       - name: Enforce execution continuity on meaningful events
         run: python .naya/runtime/continuity_enforcement.py validate
