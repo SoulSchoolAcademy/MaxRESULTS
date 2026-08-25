@@ -27,7 +27,6 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-          cache: pip
 
       - name: Compile Superbrain runtime
         run: python -m py_compile .naya/memory/smart_notes_v3.py .naya/memory/duplicate_entity_audit.py .naya/memory/relationship_graph.py .naya/tests/test_superbrain_gate.py
