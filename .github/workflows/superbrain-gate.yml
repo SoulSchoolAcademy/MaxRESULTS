@@ -1,6 +1,7 @@
 name: Superbrain Gate
 
 # Canonical authoritative gate. Every push to main is evidence-producing; a repository commit is never treated as CI verification.
+# P1 COVERAGE: canonical event-write inventory + deliberate-bypass enforcement are part of the authoritative contract.
 on:
   push:
     branches: [main]
