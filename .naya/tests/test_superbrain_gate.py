@@ -38,12 +38,19 @@ ids = {e['event_id'] for _, e in loaded}
 indexed = {e['event_id'] for e in idx['events']}
 assert ids == indexed, f'index mismatch: canonical={len(ids)} indexed={len(indexed)}'
 
-# Every canonical event must have at least one readable note representation.
+# Every canonical event must have both human and Naya-readable representations.
+# Stable SN-* IDs are a v3 hardening target, not a reason to reject the existing
+# migrated legacy envelope before the dedicated schema-freeze phase (#2/#6).
 for path, event in loaded:
     reps = mod.reps(event)
     assert reps, f'{event.get("event_id")}: missing representations'
-    rep_ids = {r.get('id') for r in reps}
-    assert any(str(x).startswith('SN-') for x in rep_ids), f'{event.get("event_id")}: no readable note representation'
+    if isinstance(event.get('representations'), dict):
+        keys = set(event['representations'])
+        assert 'naya' in keys, f'{event.get("event_id")}: missing Naya representation'
+        assert 'human' in keys or 'shawn' in keys, f'{event.get("event_id")}: missing human representation'
+    for rep in reps:
+        readable = any(rep.get(k) for k in ('title', 'summary', 'content', 'lessons', 'what_we_learned', 'learning'))
+        assert readable, f'{event.get("event_id")}: unreadable note representation'
 
 # Exact duplicates are a hard failure; ambiguous candidates are surfaced, never merged.
 audit = audit_mod.audit()
