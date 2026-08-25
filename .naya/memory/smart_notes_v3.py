@@ -2,12 +2,11 @@
 """Canonical Smart Notes v3 runtime.
 
 Event-centric, chronological, semantic, provenance-aware memory plus CIS
-report synthesis. This runtime treats Note Events as the system of record.
+report synthesis. Note Events are the system of record.
 """
 from __future__ import annotations
 import argparse, json, re
-from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -25,39 +24,37 @@ def parse_time(value):
 
 
 def event_files():
-    return sorted(p for p in EVENTS.glob('*/*/*/*/SE-*.json') if p.name != 'INDEX.json')
+    return sorted(EVENTS.glob('*/*/*/*/SE-*.json'))
 
 
 def load_events():
-    out=[]
-    for p in event_files():
-        data=json.loads(p.read_text(encoding='utf-8'))
-        out.append((p,data))
-    return out
+    return [(p, json.loads(p.read_text(encoding='utf-8'))) for p in event_files()]
 
 
 def validate():
-    errors=[]; ids=set(); paths=set()
-    for p,e in load_events():
+    errors=[]; ids=set()
+    events=load_events()
+    for p,e in events:
         eid=e.get('event_id')
         if not EVENT_RE.match(eid or ''): errors.append(f'{p}: invalid event_id')
         if eid in ids: errors.append(f'duplicate event_id: {eid}')
-        ids.add(eid); paths.add(str(p.relative_to(EVENTS)))
-        for k in ('created_at',):
-            try: parse_time(e[k])
-            except Exception as exc: errors.append(f'{p}: invalid {k}: {exc}')
-        if e.get('effective_at') is not None:
-            try: parse_time(e['effective_at'])
-            except Exception as exc: errors.append(f'{p}: invalid effective_at: {exc}')
+        ids.add(eid)
+        try: created=parse_time(e['created_at'])
+        except Exception as exc: errors.append(f'{p}: invalid created_at: {exc}'); created=None
+        try: effective=parse_time(e.get('effective_at')) if e.get('effective_at') else None
+        except Exception as exc: errors.append(f'{p}: invalid effective_at: {exc}'); effective=None
+        if created:
+            expected=f"{created.year:04d}/{created.month:02d}/{created.day:02d}/{created.hour:02d}/{eid}.json"
+            actual=str(p.relative_to(EVENTS))
+            if e.get('effective_at') is not None and effective:
+                expected=f"{effective.year:04d}/{effective.month:02d}/{effective.day:02d}/{effective.hour:02d}/{eid}.json"
+            if actual != expected and e.get('effective_at') is not None:
+                errors.append(f'{p}: time bucket mismatch; expected {expected}')
         if not e.get('representations'): errors.append(f'{p}: missing representations')
         if not e.get('source'): errors.append(f'{p}: missing source')
         if e.get('verification',{}).get('status') == 'VERIFIED' and not e.get('verification',{}).get('canonical_url'):
             errors.append(f'{p}: verified event missing canonical_url')
-        for rel in e.get('relationships',{}).get('related',[]):
-            if rel not in ids:
-                # Validate later after all IDs are known.
-                pass
-    for _,e in load_events():
+    for _,e in events:
         for rel in e.get('relationships',{}).get('related',[]):
             if rel not in ids: errors.append(f"{e['event_id']}: unresolved relationship {rel}")
     idx=json.loads(INDEX.read_text(encoding='utf-8'))
@@ -68,7 +65,7 @@ def validate():
 
 def retrieve(query, limit=10):
     q=set(re.findall(r'[a-z0-9]+',query.lower())); results=[]
-    for p,e in load_events():
+    for _,e in load_events():
         r=e.get('representations',{}); text=' '.join([
             e.get('subject',''),e.get('project',''),e.get('event_type',''),
             ' '.join(e.get('tags',[])),
@@ -82,29 +79,40 @@ def retrieve(query, limit=10):
     return results[:limit]
 
 
-def daily(day):
-    start=datetime.fromisoformat(day+'T00:00:00+00:00'); end=start+timedelta(days=1); selected=[]
+def fixed_offset(value):
+    sign=1 if value.startswith('+') else -1
+    hours,minutes=map(int,value[1:].split(':'))
+    return timezone(sign*timedelta(hours=hours,minutes=minutes))
+
+
+def daily(day, offset='-07:00'):
+    tz=fixed_offset(offset)
+    start=datetime.fromisoformat(day+'T00:00:00'+offset)
+    end=start+timedelta(days=1)
+    selected=[]
     for _,e in load_events():
-        t=e.get('effective_at') or e.get('created_at'); dt=parse_time(t).astimezone(start.tzinfo)
+        t=e.get('effective_at') or e.get('created_at')
+        dt=parse_time(t).astimezone(tz)
         if start <= dt < end: selected.append(e)
-    learning=[]; wins=[]; changes=[]; nexts=[]
+    learning=[]; wins=[]; nexts=[]
     for e in selected:
         learning += e.get('representations',{}).get('naya',{}).get('lessons',[])
         if e.get('event_type') in {'milestone','success'}: wins.append(e['event_id'])
         nexts += e.get('representations',{}).get('naya',{}).get('next_best_actions',[])
-    return {'report_type':'DAILY_INTELLIGENCE_REPORT','period':day,'event_count':len(selected),'source_event_ids':[e['event_id'] for e in selected],'learning':learning,'wins':wins,'next_best_actions':nexts,'verification_required':True,'feed_receipt_required_when_supported':True}
+    return {'report_type':'DAILY_INTELLIGENCE_REPORT','period':day,'timezone':offset,'event_count':len(selected),'source_event_ids':[e['event_id'] for e in selected],'learning':learning,'wins':wins,'next_best_actions':nexts,'verification_required':True,'feed_receipt_required_when_supported':True}
 
 
 def main():
     ap=argparse.ArgumentParser(); sub=ap.add_subparsers(dest='cmd',required=True)
-    sub.add_parser('validate'); r=sub.add_parser('retrieve'); r.add_argument('query'); r.add_argument('--limit',type=int,default=10)
-    d=sub.add_parser('daily-report'); d.add_argument('day')
+    sub.add_parser('validate')
+    r=sub.add_parser('retrieve'); r.add_argument('query'); r.add_argument('--limit',type=int,default=10)
+    d=sub.add_parser('daily-report'); d.add_argument('day'); d.add_argument('--offset',default='-07:00')
     args=ap.parse_args()
     if args.cmd=='validate':
         errors=validate(); print('PASS — Smart Notes v3 is structurally valid' if not errors else 'FAIL\n'+'\n'.join('- '+x for x in errors)); return 0 if not errors else 1
     if args.cmd=='retrieve':
         for score,e in retrieve(args.query,args.limit): print(f"{score:3} {e['event_id']} | {e['subject']} | {e['event_type']}")
         return 0
-    print(json.dumps(daily(args.day),indent=2,ensure_ascii=False)); return 0
+    print(json.dumps(daily(args.day,args.offset),indent=2,ensure_ascii=False)); return 0
 
 if __name__=='__main__': raise SystemExit(main())
