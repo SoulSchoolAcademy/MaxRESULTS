@@ -1,7 +1,7 @@
 # Naya Power Memory Runtime — Context Bootstrap
 
 **Status:** CANONICAL
-**Version:** 2.0.0
+**Version:** 2.1.0
 **Effective:** 2026-08-25
 
 ## RESTORE COMMAND
@@ -16,13 +16,15 @@ This is an operational procedure, not a promise of hidden memory. When supported
 2. Read `.naya/codex/11-RUNTIME-CONSTITUTION.md`.
 3. Read `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md`.
 4. Read `.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md`.
-5. Read `.naya/memory/STATE.json`.
-6. Read `.naya/memory/INDEX.json`.
-7. Read `.naya/memory/RETRIEVAL-MANIFEST.json`.
-8. Retrieve Smart Note Events relevant to the user's current mission.
-9. Check recent repository changes and current source-of-truth state.
-10. Detect stale assumptions, contradictions, supersession, and unfinished work.
-11. Return a compact **RESTORED STATE** before proceeding.
+5. Read `.naya/memory/BOOTSTRAP.md`.
+6. Read `.naya/memory/STATE.json`.
+7. Read `.naya/memory/INDEX.json`.
+8. Read `.naya/memory/RETRIEVAL-MANIFEST.json`.
+9. Use `.naya/memory/smart_notes_v2.py` for canonical Smart Note validation, chronological indexing, semantic retrieval, and Daily Intelligence Report synthesis where executable runtime access is available.
+10. Retrieve Smart Note Events relevant to the user's current mission.
+11. Check recent repository changes and current source-of-truth state.
+12. Detect stale assumptions, contradictions, supersession, and unfinished work.
+13. Return a compact **RESTORED STATE** before proceeding.
 
 ## RESTORED STATE OUTPUT
 
