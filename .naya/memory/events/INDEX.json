@@ -2,20 +2,20 @@
   "version": "3.0.0",
   "status": "CANONICAL",
   "organization": "YEAR/MONTH/DAY/HOUR/EVENT",
-  "generated_at": "2026-08-25T18:01:00-07:00",
-  "event_count": 12,
+  "event_count": 13,
   "events": [
-    {"event_id":"SE-20260824-065600-naya-operational-intelligence","path":"2026/08/24/06/SE-20260824-065600-naya-operational-intelligence.json","subject":"Naya operational intelligence","type":"operating-intelligence","tags":["Naya","diagnostics","verification","restore","learning"]},
-    {"event_id":"SE-20260824-071200-maxess-continue-scoring-terminal","path":"2026/08/24/07/SE-20260824-071200-maxess-continue-scoring-terminal.json","subject":"MAXESS Continue / scoring terminal","type":"failure-learning","tags":["MAXESS","Q15","Continue","scoring","terminal-boundary"]},
-    {"event_id":"SE-20260824-000001-maxess-execution-discipline","path":"2026/08/24/00/SE-20260824-000001-maxess-execution-discipline.json","subject":"MAXESS execution discipline","type":"execution-law","tags":["MAXESS","execution","anti-loop","verification"]},
+    {"event_id":"SE-20260824-000001-maxess-execution-discipline","path":"2026/08/24/00/SE-20260824-000001-maxess-execution-discipline.json","subject":"MAXESS execution discipline","type":"execution-law","tags":["MAXESS","execution","batching","anti-loop","verification","cause-and-effect"]},
     {"event_id":"SE-20260824-000002-dynamic-any-subject-assessment","path":"2026/08/24/00/SE-20260824-000002-dynamic-any-subject-assessment.json","subject":"Any-subject learning and assessment","type":"product-north-star","tags":["MAXESS","Naya Power","dynamic-assessment","learning-loop"]},
     {"event_id":"SE-20260824-000003-universal-maxis-human-vision","path":"2026/08/24/00/SE-20260824-000003-universal-maxis-human-vision.json","subject":"Universal MAXIS / Naya Power vision","type":"human-north-star","tags":["MAXIS","Naya Power","human-experience","learning"]},
+    {"event_id":"SE-20260824-065600-naya-operational-intelligence","path":"2026/08/24/06/SE-20260824-065600-naya-operational-intelligence.json","subject":"Naya operational intelligence","type":"operating-law","tags":["Naya","diagnostics","verification","restore","learning"]},
+    {"event_id":"SE-20260824-071200-maxess-continue-scoring-terminal","path":"2026/08/24/07/SE-20260824-071200-maxess-continue-scoring-terminal.json","subject":"MAXESS Continue / scoring terminal","type":"technical-discovery","tags":["MAXESS","Q15","Continue","scoring","terminal-boundary"]},
     {"event_id":"SE-20260825-000001-maxess-canonical-source-map","path":"2026/08/25/00/SE-20260825-000001-maxess-canonical-source-map.json","subject":"MAXESS","type":"source-map","tags":["MAXESS","source-of-truth","canonical-map"]},
     {"event_id":"SE-20260825-000002-maxess-execution-readiness","path":"2026/08/25/00/SE-20260825-000002-maxess-execution-readiness.json","subject":"MAXESS","type":"architecture-plan","tags":["MAXESS","execution","architecture","result-contract"]},
     {"event_id":"SE-20260825-000003-maxess-engine-execution-lock","path":"2026/08/25/00/SE-20260825-000003-maxess-engine-execution-lock.json","subject":"MAXESS","type":"execution-law","tags":["MAXESS","execution-law","verification","terminal-chain"]},
     {"event_id":"SE-20260825-000004-naya-power-operating-law-maxess-terminal","path":"2026/08/25/00/SE-20260825-000004-naya-power-operating-law-maxess-terminal.json","subject":"Naya Power operating method + MAXESS terminal flow","type":"operating-law","tags":["Naya Power","take-the-lead","MAXESS","same-page-results"]},
-    {"event_id":"SE-20260825-000005-cis-universal-learning-vision","path":"2026/08/25/00/SE-20260825-000005-cis-universal-learning-vision.json","subject":"Compounding Intelligence System","type":"cis-vision","tags":["CIS","daily-intelligence","learning","memory"]},
+    {"event_id":"SE-20260825-000005-cis-universal-learning-vision","path":"2026/08/25/00/SE-20260825-000005-cis-universal-learning-vision.json","subject":"Compounding Intelligence System","type":"vision","tags":["CIS","learning","assessment","daily-intelligence","growth","universal-learning"]},
     {"event_id":"SE-20260825-180000-daily-intelligence-smart-notes-migration","path":"2026/08/25/18/SE-20260825-180000-daily-intelligence-smart-notes-migration.json","subject":"Smart Notes architecture migration","type":"daily-intelligence-report","tags":["CIS","daily-intelligence","Smart Notes","migration","architecture"]},
-    {"event_id":"SE-20260825-180100-oscar-smart-notes-v3-review","path":"2026/08/25/18/SE-20260825-180100-oscar-smart-notes-v3-review.json","subject":"Smart Notes v3 architecture","type":"architecture-review","tags":["Oscar","architecture-review","Smart Notes","CIS","10-star","verification"]}
+    {"event_id":"SE-20260825-180100-oscar-smart-notes-v3-review","path":"2026/08/25/18/SE-20260825-180100-oscar-smart-notes-v3-review.json","subject":"Smart Notes v3 architecture","type":"architecture-review","tags":["Oscar","architecture-review","Smart Notes","CIS","10-star","verification"]},
+    {"event_id":"SE-20260825-200000-smart-brain-hardening-execution","path":"2026/08/25/20/SE-20260825-200000-smart-brain-hardening-execution.json","subject":"Smart Brain v3 hardening","type":"execution-milestone","tags":["Smart Brain","Smart Notes","CI","verification","retrieval","CIS","hardening","Naya Power"]}
   ]
 }
