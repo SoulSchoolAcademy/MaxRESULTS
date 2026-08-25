@@ -6,11 +6,12 @@
   "governance_branch":"main",
   "principle":"FULL SYSTEM AWARENESS + SELECTIVE DEEP LOADING",
   "optimization":"MAXIMUM USEFUL PERFORMANCE: quality, correctness, reliability, continuity, verification, safety, efficiency, and minimum unnecessary complexity",
-  "boot_order":["README.md",".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md",".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md",".naya/codex/11-RUNTIME-CONSTITUTION.md",".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md",".naya/memory/BOOTSTRAP.md",".naya/memory/STATE.json",".naya/memory/INDEX.json",".naya/memory/RETRIEVAL-MANIFEST.json",".naya/runtime/RESTORE-CONTEXT-RUNTIME.md",".naya/runtime/CLAIM-EVIDENCE-VERIFICATION.md"],
+  "boot_order":["README.md",".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md",".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md",".naya/codex/NAYA-OPTIMIZATION-AND-EXCELLENCE-LAW.md",".naya/codex/11-RUNTIME-CONSTITUTION.md",".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md",".naya/memory/BOOTSTRAP.md",".naya/memory/STATE.json",".naya/memory/INDEX.json",".naya/memory/RETRIEVAL-MANIFEST.json",".naya/runtime/RESTORE-CONTEXT-RUNTIME.md",".naya/runtime/CLAIM-EVIDENCE-VERIFICATION.md"],
   "subjects":{
     "constitution":{"canonical":".naya/codex/11-RUNTIME-CONSTITUTION.md","extensions":[".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md"]},
     "context":{"canonical":".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md"},
     "execution_continuity":{"canonical":".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md","purpose":"Universal requirement for durable execution reports, AI-to-AI handoffs, receipts, learning, and restoreable continuity"},
+    "optimization_excellence":{"canonical":".naya/codex/NAYA-OPTIMIZATION-AND-EXCELLENCE-LAW.md","purpose":"Universal requirement to maximize useful verified progress per execution while preserving working architecture and enforcing honest 10/10 challenge"},
     "memory":{"canonical":".naya/memory/BOOTSTRAP.md"},
     "memory_schema":{"canonical":".naya/memory/note.schema.json"},
     "memory_index":{"canonical":".naya/memory/INDEX.json"},
@@ -23,12 +24,12 @@
     "notes_protocol":{"canonical":"docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md"}
   },
   "task_routes":{
-    "strategy":["constitution","context","memory"],
-    "memory":["constitution","context","memory","memory_index","retrieval"],
-    "restore":["constitution","context","execution_continuity","memory","memory_index","retrieval","state","restore","checkpoints","handoffs"],
-    "execution":["constitution","context","execution_continuity","memory","evidence"],
-    "engineering":["constitution","context","execution_continuity","memory","restore","evidence"],
-    "evaluation":["constitution","memory","retrieval","restore","evidence"]
+    "strategy":["constitution","context","execution_continuity","optimization_excellence","memory"],
+    "memory":["constitution","context","execution_continuity","optimization_excellence","memory","memory_index","retrieval"],
+    "restore":["constitution","context","execution_continuity","optimization_excellence","memory","memory_index","retrieval","state","restore","checkpoints","handoffs"],
+    "execution":["constitution","context","execution_continuity","optimization_excellence","memory","evidence"],
+    "engineering":["constitution","context","execution_continuity","optimization_excellence","memory","restore","evidence"],
+    "evaluation":["constitution","memory","retrieval","restore","evidence","execution_continuity","optimization_excellence"]
   },
   "context_states":["DOCUMENTED","ACTIVATED","CONTEXT ESTABLISHED","IMPLEMENTED","VERIFIED","LIVE VERIFIED","HUMAN REVIEW REQUIRED","BLOCKED","UNKNOWN","STALE","CONFLICTED","SUPERSEDED","FAILED","PARTIAL","ROLLBACK_REQUIRED","REJECTED","AUTHORIZED_DEVIATION"],
   "authority_rules":{
@@ -63,6 +64,9 @@
     "exit_report_requires_ai_to_ai_handoff":true,
     "exit_report_requires_learning_when_material_learning_exists":true,
     "naya_and_human_notes_share_canonical_note_event_when_applicable":true,
-    "next_ai_restores_from_repository_not_session_memory":true
+    "next_ai_restores_from_repository_not_session_memory":true,
+    "maximum_useful_progress_per_execution":true,
+    "preserve_working_architecture_before_polish":true,
+    "honest_10_10_requires_evidence":true
   }
 }
