@@ -88,3 +88,10 @@ jobs:
 
       - name: Emit continuity gate receipt
         run: python .naya/runtime/continuity_enforcement.py receipt
+
+      - name: Upload continuity gate receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: superbrain-continuity-gate-receipt
+          path: .naya/memory/CONTINUITY-GATE-RECEIPT.json
+          if-no-files-found: error
