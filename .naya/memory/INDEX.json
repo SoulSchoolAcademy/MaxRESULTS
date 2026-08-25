@@ -1,1 +1,120 @@
-{"schema":"naya-power-memory-index/v1","generated_at":"2026-08-24T11:00:00-07:00","authority":"Naya Power canonical memory index","notes":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution","SN-20260824-020000-claim-evidence-runtime","SN-20260824-023800-evidence-promotion-boundary","SN-20260824-025400-oscar-provenance-hardening","SN-20260824-110000-maxis-north-star-priority"],"categories":{"architecture":["SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260824-020000-claim-evidence-runtime","SN-20260824-023800-evidence-promotion-boundary","SN-20260824-025400-oscar-provenance-hardening"],"constitution":[],"decision":["SN-20260824-110000-maxis-north-star-priority"],"discovery":[],"failure":["SN-20260824-025400-oscar-provenance-hardening"],"handoff":[],"lesson":["SN-20260823-220003-smart-note-quality","SN-20260824-025400-oscar-provenance-hardening"],"milestone":["SN-20260823-231200-restore-runtime-execution","SN-20260824-025400-oscar-provenance-hardening"],"preference":[],"strategy":["SN-20260823-220000-north-star","SN-20260824-110000-maxis-north-star-priority"]},"aliases":{"ordinary human test":["SN-20260823-220000-north-star"],"human supplies goal":["SN-20260823-220000-north-star"],"external brain":["SN-20260823-220001-memory-brain-principle"],"context restore":["SN-20260823-220001-memory-brain-principle","SN-20260823-231200-restore-runtime-execution"],"historical retrieval":["SN-20260823-220002-temporal-history"],"timestamped memory":["SN-20260823-220002-temporal-history"],"knowledge compounding":["SN-20260823-220003-smart-note-quality"],"smart note validator":["SN-20260823-220003-smart-note-quality"],"Restore Context verified":["SN-20260823-231200-restore-runtime-execution"],"continuity runtime":["SN-20260823-231200-restore-runtime-execution"],"checkpoint":["SN-20260823-231200-restore-runtime-execution"],"handoff":["SN-20260823-231200-restore-runtime-execution"],"claim evidence runtime":["SN-20260824-020000-claim-evidence-runtime"],"verification boundary":["SN-20260824-020000-claim-evidence-runtime"],"proof layer":["SN-20260824-020000-claim-evidence-runtime"],"evidence promotion":["SN-20260824-023800-evidence-promotion-boundary"],"promotion ladder":["SN-20260824-023800-evidence-promotion-boundary"],"canonical promotion boundary":["SN-20260824-023800-evidence-promotion-boundary"],"production safe gate":["SN-20260824-023800-evidence-promotion-boundary"],"Oscar provenance":["SN-20260824-025400-oscar-provenance-hardening"],"Oscar anti-forgery":["SN-20260824-025400-oscar-provenance-hardening"],"Oscar run binding":["SN-20260824-025400-oscar-provenance-hardening"],"artifact integrity":["SN-20260824-025400-oscar-provenance-hardening"],"MAXIS first":["SN-20260824-110000-maxis-north-star-priority"],"build MAXIS first":["SN-20260824-110000-maxis-north-star-priority"],"AI + LIFE":["SN-20260824-110000-maxis-north-star-priority"],"dynamic assessment":["SN-20260824-110000-maxis-north-star-priority"],"Naya Power build order":["SN-20260824-110000-maxis-north-star-priority"]},"relationships":{"SN-20260823-220000-north-star":["SN-20260823-220001-memory-brain-principle","SN-20260824-110000-maxis-north-star-priority"],"SN-20260823-220001-memory-brain-principle":["SN-20260823-220000-north-star","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution","SN-20260824-020000-claim-evidence-runtime","SN-20260824-023800-evidence-promotion-boundary"],"SN-20260823-220002-temporal-history":["SN-20260823-220001-memory-brain-principle","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution"],"SN-20260823-220003-smart-note-quality":["SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-231200-restore-runtime-execution"],"SN-20260823-231200-restore-runtime-execution":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260824-020000-claim-evidence-runtime"],"SN-20260824-020000-claim-evidence-runtime":["SN-20260823-231200-restore-runtime-execution","SN-20260823-220001-memory-brain-principle","SN-20260824-023800-evidence-promotion-boundary","SN-20260824-025400-oscar-provenance-hardening"],"SN-20260824-023800-evidence-promotion-boundary":["SN-20260824-020000-claim-evidence-runtime","SN-20260823-231200-restore-runtime-execution","SN-20260824-025400-oscar-provenance-hardening"],"SN-20260824-025400-oscar-provenance-hardening":["SN-20260824-020000-claim-evidence-runtime","SN-20260824-023800-evidence-promotion-boundary"],"SN-20260824-110000-maxis-north-star-priority":["SN-20260823-220000-north-star"]},"temporal":{"active":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution","SN-20260824-020000-claim-evidence-runtime","SN-20260824-023800-evidence-promotion-boundary","SN-20260824-025400-oscar-provenance-hardening","SN-20260824-110000-maxis-north-star-priority"],"historical":[],"superseded":[]}}
+{
+  "schema": "naya-power-memory-index/v1",
+  "generated_at": "2026-08-25T20:30:00-07:00",
+  "authority": "Naya Power canonical memory index",
+  "notes": [
+    "SN-20260823-220000-north-star",
+    "SN-20260823-220001-memory-brain-principle",
+    "SN-20260823-220002-temporal-history",
+    "SN-20260823-220003-smart-note-quality",
+    "SN-20260823-231200-restore-runtime-execution",
+    "SN-20260824-020000-claim-evidence-runtime",
+    "SN-20260824-023800-evidence-promotion-boundary",
+    "SN-20260824-025400-oscar-provenance-hardening",
+    "SN-20260824-110000-maxis-north-star-priority",
+    "SN-20260825-203000-smart-note-operating-model-naya",
+    "SN-20260825-203001-smart-note-operating-model-human"
+  ],
+  "categories": {
+    "architecture": [
+      "SN-20260823-220001-memory-brain-principle",
+      "SN-20260823-220002-temporal-history",
+      "SN-20260824-020000-claim-evidence-runtime",
+      "SN-20260824-023800-evidence-promotion-boundary",
+      "SN-20260824-025400-oscar-provenance-hardening",
+      "SN-20260825-203000-smart-note-operating-model-naya"
+    ],
+    "constitution": [],
+    "decision": ["SN-20260824-110000-maxis-north-star-priority"],
+    "discovery": [],
+    "failure": ["SN-20260824-025400-oscar-provenance-hardening"],
+    "handoff": [],
+    "lesson": [
+      "SN-20260823-220003-smart-note-quality",
+      "SN-20260824-025400-oscar-provenance-hardening",
+      "SN-20260825-203000-smart-note-operating-model-naya"
+    ],
+    "milestone": [
+      "SN-20260823-231200-restore-runtime-execution",
+      "SN-20260824-025400-oscar-provenance-hardening"
+    ],
+    "preference": [
+      "SN-20260825-203000-smart-note-operating-model-naya",
+      "SN-20260825-203001-smart-note-operating-model-human"
+    ],
+    "strategy": [
+      "SN-20260823-220000-north-star",
+      "SN-20260824-110000-maxis-north-star-priority",
+      "SN-20260825-203000-smart-note-operating-model-naya"
+    ]
+  },
+  "aliases": {
+    "ordinary human test": ["SN-20260823-220000-north-star"],
+    "human supplies goal": ["SN-20260823-220000-north-star"],
+    "external brain": ["SN-20260823-220001-memory-brain-principle", "SN-20260825-203000-smart-note-operating-model-naya"],
+    "context restore": ["SN-20260823-220001-memory-brain-principle", "SN-20260823-231200-restore-runtime-execution"],
+    "historical retrieval": ["SN-20260823-220002-temporal-history"],
+    "timestamped memory": ["SN-20260823-220002-temporal-history", "SN-20260825-203000-smart-note-operating-model-naya"],
+    "knowledge compounding": ["SN-20260823-220003-smart-note-quality", "SN-20260825-203000-smart-note-operating-model-naya"],
+    "smart note": ["SN-20260823-220003-smart-note-quality", "SN-20260825-203000-smart-note-operating-model-naya", "SN-20260825-203001-smart-note-operating-model-human"],
+    "Smart Notes": ["SN-20260825-203000-smart-note-operating-model-naya", "SN-20260825-203001-smart-note-operating-model-human"],
+    "Naya note": ["SN-20260825-203000-smart-note-operating-model-naya"],
+    "human note": ["SN-20260825-203001-smart-note-operating-model-human"],
+    "Shawn note": ["SN-20260825-203001-smart-note-operating-model-human"],
+    "user note": ["SN-20260825-203001-smart-note-operating-model-human"],
+    "daily intelligence briefing": ["SN-20260825-203000-smart-note-operating-model-naya", "SN-20260825-203001-smart-note-operating-model-human"],
+    "daily briefing": ["SN-20260825-203000-smart-note-operating-model-naya", "SN-20260825-203001-smart-note-operating-model-human"],
+    "CIS": ["SN-20260825-203000-smart-note-operating-model-naya", "SN-20260825-203001-smart-note-operating-model-human"],
+    "Compounding Intelligence System": ["SN-20260825-203000-smart-note-operating-model-naya", "SN-20260825-203001-smart-note-operating-model-human"],
+    "semantic retrieval": ["SN-20260825-203000-smart-note-operating-model-naya"],
+    "contextual retrieval": ["SN-20260825-203000-smart-note-operating-model-naya"],
+    "daily learning": ["SN-20260825-203000-smart-note-operating-model-naya", "SN-20260825-203001-smart-note-operating-model-human"],
+    "aha moment": ["SN-20260825-203000-smart-note-operating-model-naya", "SN-20260825-203001-smart-note-operating-model-human"],
+    "MAXIS first": ["SN-20260824-110000-maxis-north-star-priority"],
+    "build MAXIS first": ["SN-20260824-110000-maxis-north-star-priority"],
+    "AI + LIFE": ["SN-20260824-110000-maxis-north-star-priority"],
+    "dynamic assessment": ["SN-20260824-110000-maxis-north-star-priority"],
+    "Naya Power build order": ["SN-20260824-110000-maxis-north-star-priority"],
+    "claim evidence runtime": ["SN-20260824-020000-claim-evidence-runtime"],
+    "verification boundary": ["SN-20260824-020000-claim-evidence-runtime"],
+    "proof layer": ["SN-20260824-020000-claim-evidence-runtime"],
+    "evidence promotion": ["SN-20260824-023800-evidence-promotion-boundary"],
+    "promotion ladder": ["SN-20260824-023800-evidence-promotion-boundary"],
+    "canonical promotion boundary": ["SN-20260824-023800-evidence-promotion-boundary"],
+    "production safe gate": ["SN-20260824-023800-evidence-promotion-boundary"],
+    "Oscar provenance": ["SN-20260824-025400-oscar-provenance-hardening"],
+    "Oscar anti-forgery": ["SN-20260824-025400-oscar-provenance-hardening"],
+    "Oscar run binding": ["SN-20260824-025400-oscar-provenance-hardening"],
+    "artifact integrity": ["SN-20260824-025400-oscar-provenance-hardening"]
+  },
+  "relationships": {
+    "SN-20260823-220000-north-star": ["SN-20260823-220001-memory-brain-principle", "SN-20260824-110000-maxis-north-star-priority"],
+    "SN-20260823-220001-memory-brain-principle": ["SN-20260823-220000-north-star", "SN-20260823-220002-temporal-history", "SN-20260823-220003-smart-note-quality", "SN-20260823-231200-restore-runtime-execution", "SN-20260824-020000-claim-evidence-runtime", "SN-20260824-023800-evidence-promotion-boundary", "SN-20260825-203000-smart-note-operating-model-naya"],
+    "SN-20260823-220002-temporal-history": ["SN-20260823-220001-memory-brain-principle", "SN-20260823-220003-smart-note-quality", "SN-20260823-231200-restore-runtime-execution", "SN-20260825-203000-smart-note-operating-model-naya"],
+    "SN-20260823-220003-smart-note-quality": ["SN-20260823-220001-memory-brain-principle", "SN-20260823-220002-temporal-history", "SN-20260823-231200-restore-runtime-execution", "SN-20260825-203000-smart-note-operating-model-naya"],
+    "SN-20260823-231200-restore-runtime-execution": ["SN-20260823-220000-north-star", "SN-20260823-220001-memory-brain-principle", "SN-20260823-220002-temporal-history", "SN-20260824-020000-claim-evidence-runtime"],
+    "SN-20260824-020000-claim-evidence-runtime": ["SN-20260823-231200-restore-runtime-execution", "SN-20260823-220001-memory-brain-principle", "SN-20260824-023800-evidence-promotion-boundary", "SN-20260824-025400-oscar-provenance-hardening"],
+    "SN-20260824-023800-evidence-promotion-boundary": ["SN-20260824-020000-claim-evidence-runtime", "SN-20260823-231200-restore-runtime-execution", "SN-20260824-025400-oscar-provenance-hardening"],
+    "SN-20260824-025400-oscar-provenance-hardening": ["SN-20260824-020000-claim-evidence-runtime", "SN-20260824-023800-evidence-promotion-boundary"],
+    "SN-20260824-110000-maxis-north-star-priority": ["SN-20260823-220000-north-star"],
+    "SN-20260825-203000-smart-note-operating-model-naya": ["SN-20260825-203001-smart-note-operating-model-human", "SN-20260823-220001-memory-brain-principle", "SN-20260823-220002-temporal-history", "SN-20260823-220003-smart-note-quality"],
+    "SN-20260825-203001-smart-note-operating-model-human": ["SN-20260825-203000-smart-note-operating-model-naya"]
+  },
+  "temporal": {
+    "active": [
+      "SN-20260823-220000-north-star",
+      "SN-20260823-220001-memory-brain-principle",
+      "SN-20260823-220002-temporal-history",
+      "SN-20260823-220003-smart-note-quality",
+      "SN-20260823-231200-restore-runtime-execution",
+      "SN-20260824-020000-claim-evidence-runtime",
+      "SN-20260824-023800-evidence-promotion-boundary",
+      "SN-20260824-025400-oscar-provenance-hardening",
+      "SN-20260824-110000-maxis-north-star-priority",
+      "SN-20260825-203000-smart-note-operating-model-naya",
+      "SN-20260825-203001-smart-note-operating-model-human"
+    ],
+    "historical": [],
+    "superseded": []
+  }
+}
