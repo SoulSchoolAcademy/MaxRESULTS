@@ -10,24 +10,24 @@ Naya Power Superbrain (`PRJ-NAYAPOWER-SUPERBRAIN`)
 Make the personal Superbrain more canonical, continuous, recoverable, accountable, measurable, intelligent, and self-improving while preserving the protected GREEN boundary.
 
 ## Current state
-Main is currently at `5952e3eca2f8f97fc5003b2380acadcf9d7b6456`. The authoritative Superbrain Gate is GREEN on run `32909208608`, brain-gate job `97999739763`. The gate includes the machine-enforced canonical event-write coverage audit and checked out the exact main SHA.
+Main is currently at `9aefe57a71bd6425681bb435d70417ad33832198`. The authoritative Superbrain Gate is GREEN on run `32909426069`, brain-gate job `98000403862`. The gate checked out the exact main SHA and includes the machine-enforced canonical event-write coverage audit.
 
 ## Completed work
-- Added `.naya/runtime/canonical_write_inventory.py` as a conservative AST-based production event-write coverage audit.
-- Added `.naya/tests/test_canonical_write_inventory.py` with a positive canonical caller case and a deliberate direct-event-write bypass case.
-- Integrated the coverage audit into `.github/workflows/superbrain-gate.yml`.
-- Obtained a genuinely fresh authoritative GREEN execution on main.
-- The audit observed 7 relevant findings: A=1, B=0, C=0, D=6, E=0, blockers=0.
-- Identified `.naya/memory/emit_daily_intelligence.py` as a real canonical event caller using `create_or_replay`.
-- Identified six derived/audit producers that do not write canonical event JSON.
-- Created and synchronized a durable P1 receipt, Naya note, Shawn/Smart Note, Current Daily Project state, and this continuation handoff.
-- A follow-up authoritative run caught a human-readable handoff heading drift; restoring the canonical machine-recognized headings returned the gate to GREEN.
+- Added the conservative AST-based production event-write coverage audit.
+- Added positive and deliberate-failure coverage tests.
+- Integrated the audit into the authoritative Superbrain Gate.
+- Proved the current main GREEN with a fresh authoritative run.
+- Audit result: 7 findings, A=1, B=0, C=0, D=6, E=0, blockers=0.
+- Real canonical caller identified: `.naya/memory/emit_daily_intelligence.py` using `create_or_replay`.
+- Six derived/audit producers explicitly excluded from canonical event writing.
+- Synchronized receipt, Naya note, Shawn/Smart Note, STATE, Current Daily Project, and this handoff with the verified evidence.
+- Preserved the machine-recognized handoff headings after a deliberate parser-compatibility failure exposed that heading shape is part of the contract.
 
 ## Verified evidence
 - Workflow: `.github/workflows/superbrain-gate.yml`
-- Run: `32909208608`
-- brain-gate: `97999739763`
-- Verified commit: `5952e3eca2f8f97fc5003b2380acadcf9d7b6456`
+- Run: `32909426069`
+- brain-gate: `98000403862`
+- Verified commit: `9aefe57a71bd6425681bb435d70417ad33832198`
 - Fresh checkout restoration: VERIFIED
 - Canonical memory: GREEN; 19 canonical events
 - Duplicate/entity audit: GREEN; 0 exact duplicates
@@ -42,7 +42,7 @@ Main is currently at `5952e3eca2f8f97fc5003b2380acadcf9d7b6456`. The authoritati
 - Health: GREEN; 19 events, 0 parse errors, 0 orphan relationships
 - Daily CIS: GREEN
 - Continuity receipt: VERIFIED
-- Receipt artifact: ID `9585911363`; SHA256 `7aebeefc536fffffb493653fbe0ac132b9b282f11487c1821d13d626538ff09f`
+- Receipt artifact: ID `9585987013`; SHA256 `d0cfa58f9d179c30d3646d0e2a5a1ca5766eb8381c173cdcaf1aedbe45978b85`
 
 ## Unresolved issues
 - Universal semantic production adoption is not yet proven beyond the current static audit rules.
