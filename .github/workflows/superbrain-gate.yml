@@ -1,5 +1,6 @@
 name: Superbrain Gate
 
+# Canonical authoritative gate. Every push to main is evidence-producing; a repository commit is never treated as CI verification.
 on:
   push:
     branches: [main]
@@ -78,18 +79,7 @@ jobs:
         run: python .naya/memory/superbrain_health.py
 
       - name: Daily CIS smoke test
-        run: |
-          python .naya/memory/smart_notes_v3.py daily-report --day 2026-08-25 --timezone America/Vancouver
-          python .naya/memory/cis_state.py --day 2026-08-25 --timezone America/Vancouver
+        run: python .naya/memory/cis_state.py smoke-test
 
       - name: Emit continuity gate receipt
-        run: |
-          echo "SUPERBRAIN CONTINUITY CONTRACT: VERIFIED BY THIS JOB"
-          echo "PROJECT CONTRACT: CURRENT DAILY PROJECT + EVENT BINDING + NEXT EXECUTION"
-          echo "PROMPT CONTRACT: 21-field execution specification + AAA/10-Star quality"
-          echo "MEANINGFUL EXECUTION CHECKS: paired representations, verification state, durable receipt, delivery state, AI-to-AI handoff, learning, next action"
-          echo "INTELLIGENCE LAYER: idempotency, explicit resolution, supersession, outbox state machine, health metrics, retrieval baseline, cold-start restore, next-day CIS state"
-
-# Keep this workflow self-triggering on every main push so every new intelligence contract is independently re-proven.
-# Cold-start acceptance is intentionally strict: UNKNOWN restoration is a failure, not a passing approximation.
-# Verification branch marker: prove the repaired repository-only cold-start path through the same authoritative gate.
+        run: python .naya/runtime/continuity_enforcement.py receipt
