@@ -30,8 +30,8 @@ contains(law, 'AN AI DOES NOT LEAVE SILENTLY', 'continuity law')
 contains(law, 'AI-TO-AI MESSAGE', 'continuity law')
 contains(law, 'LEARNING / WISDOM', 'continuity law')
 contains(law, 'THE NEXT AI RESTORES FROM THE REPOSITORY', 'continuity law')
-contains(opt, 'DO AS MUCH AS POSSIBLE', 'optimization law')
-contains(opt, 'MAXIMUM USEFUL RESULT', 'optimization law')
+contains(opt, 'DO AS MUCH VERIFIED, SAFE, REVERSIBLE, HIGH-VALUE WORK', 'optimization law')
+contains(opt, 'MAXIMIZE WITHIN BOUNDS', 'optimization law')
 contains(opt, 'OSCAR CHALLENGE', 'optimization law')
 contains(opt, 'NO FALSE 10/10', 'optimization law')
 contains(ACTION.read_text(encoding='utf-8'), 'NO “NOW WHAT?”', 'action delivery law')
@@ -39,14 +39,19 @@ contains(RESTORE.read_text(encoding='utf-8'), 'next best action', 'restore runti
 
 assert manifest['subjects']['execution_continuity']['canonical'] == '.naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md'
 assert manifest['subjects']['execution_continuity']['purpose']
+assert manifest['subjects']['optimization_excellence']['canonical'] == '.naya/codex/NAYA-OPTIMIZATION-AND-EXCELLENCE-LAW.md'
 route_text = json.dumps(manifest['task_routes']['restore'])
 assert 'execution_continuity' in route_text, 'restore route does not load execution continuity law'
+assert 'optimization_excellence' in route_text, 'restore route does not load optimization law'
 
 rules = manifest['continuity_rules']
 assert rules['meaningful_execution_requires_durable_exit_report'] is True
 assert rules['exit_report_requires_ai_to_ai_handoff'] is True
 assert rules['exit_report_requires_learning_when_material_learning_exists'] is True
 assert rules['next_ai_restores_from_repository_not_session_memory'] is True
+assert rules['maximum_useful_progress_per_execution'] is True
+assert rules['preserve_working_architecture_before_polish'] is True
+assert rules['honest_10_10_requires_evidence'] is True
 
 props = schema['properties']
 assert 'what_we_learned' in props
@@ -54,7 +59,7 @@ assert 'next_best_action' in props
 assert 'verification' in props
 assert props['type']['enum'] and 'handoff' in props['type']['enum']
 
-print('PASS — continuity governance is wired and regression-protected')
+print('PASS — continuity + optimization governance is wired and regression-protected')
 print('optimization_law=present')
 print('execution_continuity_law=present')
 print('manifest_boot_and_restore_routes=present')
