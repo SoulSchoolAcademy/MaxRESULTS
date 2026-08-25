@@ -36,6 +36,14 @@ jobs:
         run: python .naya/memory/test_smart_brain_v3.py -v
       - name: Verify index is clean
         run: git diff --exit-code -- .naya/memory/events/INDEX.json
+      - name: Preserve validation diagnostics
+        if: failure()
+        run: |
+          git config user.name 'Naya Power'
+          git config user.email 'naya-power@users.noreply.github.com'
+          git add .naya/memory/VALIDATION-REPORT.json
+          git diff --cached --quiet || git commit -m 'ci: record Smart Brain validation diagnostics'
+          git push || true
 
   daily-intelligence:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
