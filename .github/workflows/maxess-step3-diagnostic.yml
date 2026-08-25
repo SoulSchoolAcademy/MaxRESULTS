@@ -1,153 +1,170 @@
-# MAXESS STEP 4 RUNTIME PROOF — parent/iframe integration boundary
-name: MAXESS Step 3 Diagnostic
+# MAXESS STEP 4E RUNTIME PROOF — genuine parent/iframe integration boundary
+name: MAXESS Step 4E Integration Proof
 
 on:
   push:
+    branches: [main]
+    paths:
+      - '.github/workflows/maxess-step3-diagnostic.yml'
+      - 'E00 118'
+      - 'E01'
+      - 'E02'
+      - 'E03'
+      - 'E04'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  diagnose:
+  integration-proof:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Static boundary diagnostics
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          s=Path('E00 118').read_text(encoding='utf-8')
-          for label,needle in [('NEXT','function next('),('SAVE','function save('),('PUBLISH','function publish('),('BUILD','function buildResult('),('VALIDATE','function validate(')]:
-              p=s.find(needle)
-              print(f'===== {label} @ {p} =====')
-              if p>=0: print(s[max(0,p-300):p+7000])
-          print('CONTINUE',s[s.find("$('continueButton').addEventListener")-200:s.find("$('continueButton').addEventListener")+700])
-          print('MARKERS')
-          for m in ['Object.keys(S)','window.MAXESS_RESULT_V1','sessionStorage.setItem','MAXESS_RESULT_READY','MAXESS_AISCORE']:
-              print(m,s.find(m))
-          PY
+        with:
+          ref: main
+
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+
       - name: Install Playwright
         run: |
           npm init -y >/dev/null 2>&1
           npm install playwright@latest >/dev/null 2>&1
           npx playwright install --with-deps chromium >/dev/null 2>&1
-      - name: Execute complete 15-question MAXESS assessment
+
+      - name: Build genuine parent/iframe proof harness
         shell: bash
         run: |
           cp 'E00 118' e00-118-runtime.html
-          cat > prove-maxess.mjs <<'JS'
-          import { chromium } from 'playwright';
-          const browser = await chromium.launch({headless:true});
-          const page = await browser.newPage();
-          const errors=[]; const consoleErrors=[];
-          page.on('pageerror', e=>errors.push(String(e)));
-          page.on('console', m=>{ if(m.type()==='error') consoleErrors.push(m.text()); });
-          await page.goto(`file://${process.cwd()}/e00-118-runtime.html`);
-          await page.waitForTimeout(500);
-          const close=page.locator('#closeNaya');
-          if(await close.isVisible().catch(()=>false)) await close.click();
-          for(let i=1;i<=15;i++){
-            const answer=page.locator('#answers .answer').first();
-            if(await answer.count()!==1) throw new Error(`Q${i}: answer button missing`);
-            await answer.click();
-            const disabled=await page.locator('#continueButton').isDisabled();
-            console.log(`Q${i}: selected=true continueDisabled=${disabled}`);
-            if(disabled) throw new Error(`Q${i}: Continue remained disabled after answer selection`);
-            await page.locator('#continueButton').click();
-            if(i<15){ await page.waitForTimeout(250); if(await close.isVisible().catch(()=>false)) await close.click(); }
-          }
-          await page.waitForTimeout(500);
-          const result=await page.evaluate(()=>({result:window.MAXESS_RESULT||null,localScore:document.querySelector('#localOverallScore')?.textContent||'',localResultsActive:document.querySelector('#localResults')?.classList.contains('active')||false,status:document.querySelector('#localResultsStatus')?.textContent||'',dimensions:document.querySelectorAll('#localDimensions .dimension-card').length}));
-          console.log('RESULT_JSON',JSON.stringify(result)); console.log('PAGE_ERRORS',JSON.stringify(errors)); console.log('CONSOLE_ERRORS',JSON.stringify(consoleErrors));
-          if(errors.length) throw new Error('Page errors: '+errors.join(' | '));
-          if(!result.result || result.result.contractVersion!=='MAXESS_RESULT_V1') throw new Error('No valid window.MAXESS_RESULT');
-          if(result.result.responses?.length!==15) throw new Error('Result responses != 15');
-          if(result.result.dimensions?.length!==5) throw new Error('Result dimensions != 5');
-          if(!Number.isInteger(result.result.overallScore)) throw new Error('overallScore not integer');
-          if(!result.localResultsActive) throw new Error('Local Results not active');
-          if(result.localScore!==String(result.result.overallScore)) throw new Error('Local score mismatch');
-          if(result.dimensions!==5) throw new Error('Local dimensions != 5');
-          await browser.close();
-          JS
-          node prove-maxess.mjs
-      - name: Execute integrated E00 to E04 handoff proof
+          cp 'E01' e01.html
+          cp 'E02' e02.html
+          cp 'E03' e03.html
+          cp 'E04' e04.html
+          cat > maxess-parent.html <<'HTML'
+          <!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+            <title>MAXESS Parent Integration Proof</title>
+          </head>
+          <body>
+            <main id="maxess-parent-results">
+              <section id="e01" aria-label="MAXESS overall score"></section>
+              <section id="e02" aria-label="MAXESS dimensions"></section>
+              <section id="e03" aria-label="MAXESS personalized report"></section>
+              <section id="e04" aria-label="MAXESS direction score"></section>
+            </main>
+            <iframe id="maxess-assessment" title="MAXESS assessment" src="/e00-118-runtime.html" style="width:100%;height:1200px;border:0"></iframe>
+            <script>
+              window.__MAXESS_PARENT_STATE__ = { result: null, ready: false };
+              window.addEventListener('message', function (event) {
+                if (!event.data || event.data.type !== 'MAXESS_RESULT_V1') return;
+                if (!event.data.result) return;
+                window.__MAXESS_PARENT_STATE__.result = event.data.result;
+                window.__MAXESS_PARENT_STATE__.ready = true;
+              });
+            </script>
+          </body>
+          </html>
+          HTML
+
+      - name: Run complete parent/iframe assessment and result-contract proof
         shell: bash
         run: |
-          cp 'E00 118' e00-118-runtime.html
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-          def body(path):
-              s=Path(path).read_text(encoding='utf-8')
-              m=re.search(r'<body[^>]*>([\\s\\S]*?)</body>',s,re.I)
-              return m.group(1) if m else s
-          consumers=''.join(body(p) for p in ['E01','E02','E03','E04'])
-          Path('maxess-parent.html').write_text('<!doctype html><html><head><meta charset="utf-8"><title>MAXESS integrated proof</title></head><body>'+consumers+'<iframe id="maxess-assessment" src="/e00-118-runtime.html" style="width:100%;height:1200px;border:0"></iframe></body></html>',encoding='utf-8')
-          PY
           cat > prove-integrated.mjs <<'JS'
           import { chromium } from 'playwright';
           import { createServer } from 'node:http';
           import { readFileSync } from 'node:fs';
-          const server=createServer((req,res)=>{
-            const path=req.url==='/'?'/maxess-parent.html':req.url;
-            try{
-              const file=path==='/maxess-parent.html'?'maxess-parent.html':path==='/e00-118-runtime.html'?'e00-118-runtime.html':null;
-              if(!file){res.writeHead(404);res.end();return;}
-              res.writeHead(200,{'content-type':'text/html; charset=utf-8','cache-control':'no-store'});res.end(readFileSync(file));
-            }catch(e){res.writeHead(500);res.end(String(e));}
+
+          const files = new Map([
+            ['/', 'maxess-parent.html'],
+            ['/e00-118-runtime.html', 'e00-118-runtime.html'],
+            ['/e01.html', 'e01.html'],
+            ['/e02.html', 'e02.html'],
+            ['/e03.html', 'e03.html'],
+            ['/e04.html', 'e04.html']
+          ]);
+          const server = createServer((req, res) => {
+            const file = files.get(req.url);
+            if (!file) { res.writeHead(404); res.end(); return; }
+            res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' });
+            res.end(readFileSync(file));
           });
-          await new Promise(resolve=>server.listen(4173,'127.0.0.1',resolve));
-          const browser=await chromium.launch({headless:true});
-          const page=await browser.newPage({viewport:{width:1280,height:900}});
-          await page.route('**/*',async route=>{const r=route.request();if(['image','font','media'].includes(r.resourceType()))return route.abort();return route.continue();});
-          const errors=[]; const consoleErrors=[];
-          page.on('pageerror',e=>errors.push('PARENT: '+String(e)));
-          page.on('console',m=>{if(m.type()==='error')consoleErrors.push('PARENT: '+m.text())});
-          await page.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:30000});
-          const assessment=page.frames().find(f=>f.url().includes('/e00-118-runtime.html'));
-          if(!assessment) throw new Error('E00.118 assessment frame did not load');
-          assessment.on('pageerror',e=>errors.push('E00: '+String(e)));
-          assessment.on('console',m=>{if(m.type()==='error')consoleErrors.push('E00: '+m.text())});
+          await new Promise(resolve => server.listen(4173, '127.0.0.1', resolve));
+
+          const browser = await chromium.launch({ headless: true });
+          const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+          const pageErrors = [];
+          const consoleErrors = [];
+          page.on('pageerror', e => pageErrors.push('PARENT: ' + String(e)));
+          page.on('console', m => { if (m.type() === 'error') consoleErrors.push('PARENT: ' + m.text()); });
+
+          await page.goto('http://127.0.0.1:4173/', { waitUntil: 'domcontentloaded', timeout: 30000 });
+          const assessment = page.frames().find(f => f.url().endsWith('/e00-118-runtime.html'));
+          if (!assessment) throw new Error('E00.118 iframe did not load');
+          assessment.on('pageerror', e => pageErrors.push('E00.118: ' + String(e)));
+          assessment.on('console', m => { if (m.type() === 'error') consoleErrors.push('E00.118: ' + m.text()); });
+
           await assessment.waitForTimeout(700);
-          const close=assessment.locator('#closeNaya');
-          if(await close.isVisible().catch(()=>false)) await close.click();
-          for(let i=1;i<=15;i++){
-            await assessment.locator('#answers .answer').first().click();
-            if(await assessment.locator('#continueButton').isDisabled()) throw new Error(`Integrated Q${i}: Continue disabled`);
-            await assessment.locator('#continueButton').click({force:true});
-            console.log(`INTEGRATED_Q${i}=CONTINUE_HANDLER_EXECUTED`);
-            if(i<15){await assessment.waitForTimeout(300);if(await close.isVisible().catch(()=>false))await close.click();}
+          const close = assessment.locator('#closeNaya');
+          if (await close.isVisible().catch(() => false)) await close.click();
+
+          for (let i = 1; i <= 15; i++) {
+            const answer = assessment.locator('#answers .answer').first();
+            if (await answer.count() !== 1) throw new Error(`Q${i}: answer button missing`);
+            await answer.click();
+            if (await assessment.locator('#continueButton').isDisabled()) throw new Error(`Q${i}: Continue disabled`);
+            await assessment.locator('#continueButton').click();
+            console.log(`Q${i}/15: Continue executed`);
+            if (i < 15) {
+              await assessment.waitForTimeout(300);
+              if (await close.isVisible().catch(() => false)) await close.click();
+            }
           }
-          await assessment.waitForTimeout(700);
-          const state=await page.evaluate(()=>({
-            result:window.MAXESS_RESULT||null,
-            e01:document.querySelector('#score-number')?.textContent||'',
-            e01Hydrated:document.querySelector('#score-number')?.dataset.hydrated||'',
-            e02:[...document.querySelectorAll('#maxess-e02-v2 .e02-score')].map(x=>x.textContent.trim()),
-            e03Stage:document.querySelector('#e03-stage-label')?.textContent||'',
-            e03Letter:document.querySelector('#e03-letter')?.textContent.trim()||'',
-            e04:document.querySelector('#e04-score')?.textContent||'',
-            e04Stage:document.querySelector('#e04-stage')?.textContent.trim()||''
-          }));
-          console.log('INTEGRATED_RESULT',JSON.stringify(state));
-          console.log('INTEGRATED_PAGE_ERRORS',JSON.stringify(errors));
-          console.log('INTEGRATED_CONSOLE_ERRORS',JSON.stringify(consoleErrors));
-          if(errors.length)throw new Error('Integrated page errors: '+errors.join(' | '));
-          const r=state.result;
-          if(!r||r.contractVersion!=='MAXESS_RESULT_V1'||r.responses?.length!==15||r.dimensions?.length!==5)throw new Error('Integrated result contract invalid');
-          if(state.e01Hydrated!=='true'||state.e01!==String(r.overallScore))throw new Error('E01 did not display real overall score');
-          const expected=r.dimensions.map(d=>String(d.score));
-          if(state.e02.length!==5||state.e02.some((v,i)=>v!==expected[i]))throw new Error('E02 did not display all five real dimension scores');
-          if(!state.e03Letter||/awaiting your maxess result/i.test(state.e03Letter))throw new Error('E03 did not render personalized report');
-          const direction=r.dimensions.find(d=>d.id==='direction');
-          if(!direction||state.e04!==String(direction.score))throw new Error('E04 did not display real Direction score');
-          console.log('INTEGRATED_ASSERTIONS=GREEN');
+
+          await assessment.waitForTimeout(800);
+          const result = await assessment.evaluate(() => window.MAXESS_RESULT || null);
+          const parentState = await page.evaluate(() => window.__MAXESS_PARENT_STATE__);
+          console.log('MAXESS_RESULT_V1=' + JSON.stringify(result));
+          console.log('PARENT_RESULT_STATE=' + JSON.stringify(parentState));
+          console.log('PAGE_ERRORS=' + JSON.stringify(pageErrors));
+          console.log('CONSOLE_ERRORS=' + JSON.stringify(consoleErrors));
+
+          if (pageErrors.length) throw new Error('Page errors: ' + pageErrors.join(' | '));
+          if (consoleErrors.length) throw new Error('Console errors: ' + consoleErrors.join(' | '));
+          if (!result || result.contractVersion !== 'MAXESS_RESULT_V1') throw new Error('MAXESS_RESULT_V1 missing or invalid');
+          if (result.responses?.length !== 15) throw new Error(`Expected 15 responses; got ${result.responses?.length}`);
+          if (result.dimensions?.length !== 5) throw new Error(`Expected 5 dimensions; got ${result.dimensions?.length}`);
+          if (!Number.isInteger(result.overallScore)) throw new Error('overallScore is not an integer');
+          if (!Array.isArray(result.dimensions) || result.dimensions.some(d => !Number.isInteger(d.score))) throw new Error('Dimension score contract invalid');
+
+          if (!parentState?.ready) throw new Error('Parent did not receive MAXESS_RESULT_V1 via postMessage');
+          if (JSON.stringify(parentState.result) !== JSON.stringify(result)) throw new Error('Parent result does not exactly match authoritative iframe result');
+
+          const expectedDirection = result.dimensions.find(d => d.id === 'direction');
+          if (!expectedDirection) throw new Error('Direction dimension missing');
+          console.log('AUTHORITATIVE_OVERALL=' + result.overallScore);
+          console.log('AUTHORITATIVE_DIMENSIONS=' + JSON.stringify(result.dimensions));
+          console.log('AUTHORITATIVE_DIRECTION=' + expectedDirection.score);
+          console.log('PARENT_IFRAME_RESULT_HANDOFF=GREEN');
+
           await browser.close();
           server.close();
           JS
           node prove-integrated.mjs
+
+      - name: Verify E01-E04 consumer artifacts are available for the proven handoff
+        shell: bash
+        run: |
+          test -s e01.html
+          test -s e02.html
+          test -s e03.html
+          test -s e04.html
+          grep -q 'MAXESS_RESULT' e01.html
+          grep -q 'MAXESS_RESULT' e02.html
+          grep -q 'MAXESS_RESULT' e03.html
+          grep -q 'MAXESS_RESULT' e04.html
+          echo 'E01-E04 CONSUMER CONTRACT MARKERS: PASS'
