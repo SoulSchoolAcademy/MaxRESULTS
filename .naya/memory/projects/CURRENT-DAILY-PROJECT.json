@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "status": "ACTIVE",
+  "project_id": "PRJ-NAYAPOWER-SUPERBRAIN",
+  "project_name": "Naya Power Superbrain",
+  "date": "2026-08-25",
+  "goal": "Machine-enforce the constitutional 10-Star service, project, prompt, teaching, continuity, and autonomous execution contracts without weakening the verified Superbrain foundation.",
+  "vision": "A model-independent Superbrain that can restore context, understand human intent, execute autonomously within safe boundaries, prove results, learn from meaningful work, and leave a complete continuation path for the next Naya.",
+  "mission": "Turn the constitutional operating laws into measurable runtime behavior and authoritative CI enforcement.",
+  "north_star": "Leave the Superbrain materially more capable, reliable, recoverable, intelligent, accountable, and useful while preserving everything already proven GREEN.",
+  "current_objective": "Machine-enforce PROJECT context, Next Execution, paired representations, meaningful learning, Prompt Architect contracts, and continuity at the canonical execution boundary.",
+  "success_criteria": [
+    "Every meaningful post-policy execution has explicit project context or an explicit non-applicability decision.",
+    "Every meaningful post-policy execution has a valid Next Execution contract.",
+    "Naya and Shawn/Human representations identify the same canonical event.",
+    "Meaningful learning is captured or explicit learning_status explains non-applicability.",
+    "Prompt Architect specifications satisfy the canonical contract.",
+    "Positive and deliberate-failure tests pass.",
+    "Existing Superbrain regression behavior remains GREEN.",
+    "Authoritative CI proves the resulting commit.",
+    "STATE and AI-to-AI handoff record verified evidence and the next action."
+  ],
+  "constraints": [
+    "Preserve the verified GREEN boundary at 0f82325a82ed37b5b3a3d097599025369c03a1ed.",
+    "Do not rewrite historical events merely to satisfy new contracts.",
+    "Do not fabricate verification, receipts, delivery, or external side effects.",
+    "Prefer additive enforcement and explicit REVIEW/UNKNOWN states over unsafe inference.",
+    "Batch compatible work and stop only at a real dependency or authorization boundary."
+  ],
+  "current_state": "Constitutional contracts are documented and the prior foundation is verified GREEN; new project/prompt/teaching/continuation contracts are the remaining runtime-enforcement layer.",
+  "next_execution_path": ".naya/handoffs/NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md"
+}
