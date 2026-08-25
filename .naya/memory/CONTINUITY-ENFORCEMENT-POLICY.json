@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "policy_name": "Naya Power Execution Continuity Enforcement",
+  "effective_at": "2026-08-25T20:30:00-07:00",
+  "meaningful_event_types": [
+    "execution-milestone",
+    "master-system-update",
+    "implementation",
+    "implementation-milestone",
+    "deployment",
+    "release",
+    "repair",
+    "verification",
+    "system-change"
+  ],
+  "meaningful_tags": [
+    "execution",
+    "implemented",
+    "deployment",
+    "release",
+    "repair",
+    "verification",
+    "hardening"
+  ],
+  "event_id_markers": [
+    "-execution",
+    "-implementation",
+    "-deployment",
+    "-release",
+    "-repair"
+  ],
+  "handoff_roots": [
+    ".naya/handoffs"
+  ],
+  "contract": {
+    "paired_representations": true,
+    "verification": true,
+    "durable_receipt": true,
+    "delivery_state": true,
+    "ai_to_ai_handoff": true,
+    "learning_or_explicit_status": true,
+    "next_action": true
+  },
+  "design_principle": "Enforce new meaningful executions without rewriting historical events; preserve the existing green boundary while making future continuity failures visible and machine-detectable."
+}
