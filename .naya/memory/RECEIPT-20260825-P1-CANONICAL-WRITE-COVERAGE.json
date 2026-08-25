@@ -4,9 +4,9 @@
   "status": "VERIFIED",
   "project_id": "PRJ-NAYAPOWER-SUPERBRAIN",
   "objective": "Universal Canonical Event-Write Coverage Audit",
-  "commit_verified": "a728f6ad99cd68b0fbc4bff49337630911e75387",
-  "workflow_run_id": 32908858867,
-  "workflow_job_id": 97998707598,
+  "commit_verified": "5952e3eca2f8f97fc5003b2380acadcf9d7b6456",
+  "workflow_run_id": 32909208608,
+  "workflow_job_id": 97999739763,
   "workflow": ".github/workflows/superbrain-gate.yml",
   "protected_green_boundary": "0f82325a82ed37b5b3a3d097599025369c03a1ed",
   "coverage_scope": [".naya/memory", ".naya/runtime"],
@@ -36,6 +36,7 @@
     "authoritative_gate": "GREEN"
   },
   "gate_evidence": {
+    "exact_main_sha_checked_out": "5952e3eca2f8f97fc5003b2380acadcf9d7b6456",
     "fresh_checkout_restore": "VERIFIED",
     "canonical_memory": "GREEN",
     "duplicate_entity": "GREEN",
@@ -50,9 +51,9 @@
     "health": "GREEN",
     "daily_cis": "GREEN",
     "continuity_receipt": "VERIFIED",
-    "receipt_artifact_id": 9585796589,
-    "receipt_artifact_sha256": "9768ac0ca3cb0b6a173b0ea205a6887ee94375817a27ef04909ee7f71946d286"
+    "receipt_artifact_id": 9585911363,
+    "receipt_artifact_sha256": "7aebeefc536fffffb493653fbe0ac132b9b282f11487c1821d13d626538ff09f"
   },
-  "truth_boundary": "This receipt proves the defined static coverage audit is GREEN. It does not claim semantic universal adoption beyond the audited production scope and detection rules.",
+  "truth_boundary": "This receipt proves the defined static coverage audit is GREEN on the exact main SHA. It does not claim semantic universal adoption beyond the audited production scope and detection rules.",
   "next_best_action": "Harden the audit against dynamic/indirect writers and explicitly enumerate all production event-producing semantics before claiming universal adoption."
 }
