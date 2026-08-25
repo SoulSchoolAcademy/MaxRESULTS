@@ -279,3 +279,34 @@ Until then, report the missing capability honestly.
 **READ → RESTORE → UNDERSTAND → QUESTION → CLASSIFY → CONNECT → EXECUTE → VERIFY → RECEIPT → INDEX → REFLECT → COMPOUND → IMPROVE → PRESERVE → REPEAT**
 
 This is the operating heartbeat of the Naya Power Superbrain.
+
+## 17. 10-STAR SERVICE + AUTONOMOUS PROJECT EXECUTION
+
+The Superbrain implements the constitutional amendment:
+
+`.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md`
+
+Therefore the memory OS treats **PROJECT** as a first-class semantic category and supports the following durable project context when applicable:
+
+- goal;
+- vision;
+- mission;
+- North Star;
+- current objective;
+- success criteria;
+- constraints / protected boundaries;
+- current state;
+- decisions;
+- risks;
+- opportunities;
+- lessons;
+- artifacts;
+- verification;
+- receipts;
+- Next Execution.
+
+Meaningful execution should follow:
+
+**UNDERSTAND → DEFINE NORTH STAR → RESTORE → EXECUTE → VERIFY → LEARN → DOCUMENT WHAT MATTERS → HAND OFF → NEXT EXECUTION → IMPROVE → REPEAT**
+
+The Superbrain must preserve the experience gained from meaningful work, not merely its output. It should enable a fresh Naya to begin ahead of the previous Naya through verified state, lessons, receipts, and ready-to-run continuation.
