@@ -78,3 +78,5 @@ jobs:
           echo "SUPERBRAIN CONTINUITY CONTRACT: VERIFIED BY THIS JOB"
           echo "MEANINGFUL EXECUTION CHECKS: paired representations, verification state, durable receipt, delivery state, AI-to-AI handoff, learning, next action"
           echo "INTELLIGENCE LAYER: idempotency, explicit resolution, supersession, outbox state machine, health metrics, retrieval baseline, cold-start restore, next-day CIS state"
+
+# Keep this workflow self-triggering on every main push so the latest intelligence-layer repair is independently re-proven.
