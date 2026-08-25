@@ -1,0 +1,90 @@
+name: MAXESS E00.118 Surgical Repair
+
+on:
+  push:
+    paths:
+      - 'E00_118_REPAIR_TRIGGER'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - name: Apply smallest E00.118 Continue boundary repair
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('E00 118')
+          s=p.read_text(encoding='utf-8')
+          original=s
+          replacements=[
+            ('<button class="continue" id="continueButton" type="button" disabled>', '<button class="continue" id="continueButton" type="button" aria-disabled="true">'),
+            ('#maxess-ai-score .continue:disabled{opacity:.72;color:rgba(255,255,255,.42);border-color:rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 20px rgba(0,0,0,.3)}', '#maxess-ai-score .continue[aria-disabled="true"]{opacity:.72;color:rgba(255,255,255,.42);border-color:rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 20px rgba(0,0,0,.3);cursor:not-allowed}'),
+            ('function updateContinue(){const disabled=!state.selected||state.finalizing||state.mode!==\'ASSESSMENT\';$(\'continueButton\').disabled=disabled;$(\'continueButton\').setAttribute(\'aria-disabled\',String(disabled));}', 'function updateContinue(){const disabled=!state.selected||state.finalizing||state.mode!==\'ASSESSMENT\';$(\'continueButton\').setAttribute(\'aria-disabled\',String(disabled));}'),
+            ('$(\'continueButton\').addEventListener(\'click\',e=>{e.preventDefault();e.stopPropagation();next();},{capture:true});', '''let maxessContinueExecuting=false;
+function executeContinueBoundary(e){
+ const target=e.target instanceof Element?e.target:null;
+ const btn=target?.closest('#continueButton');
+ const root=$(\'maxess-ai-score\');
+ if(!btn||!root?.contains(btn))return;
+ if(state.finalizing||state.mode!==\'ASSESSMENT\'||!state.selected)return;
+ if(maxessContinueExecuting)return;
+ maxessContinueExecuting=true;
+ e.preventDefault();
+ e.stopPropagation();
+ try{next();}finally{maxessContinueExecuting=false;}
+}
+document.addEventListener('click',executeContinueBoundary,true);''')
+          ]
+          for old,new in replacements:
+              if old not in s:
+                  raise SystemExit('Required canonical marker missing: '+old[:120])
+              s=s.replace(old,new,1)
+          if 'function executeContinueBoundary(e)' not in s:
+              raise SystemExit('Repair function missing')
+          if '$(\'continueButton\').disabled=disabled' in s:
+              raise SystemExit('Native disabled state still present')
+          if s==original:
+              raise SystemExit('No change produced')
+          p.write_text(s,encoding='utf-8')
+          print('E00.118 bytes:',len(original.encode()),'->',len(s.encode()))
+      - name: Static verification
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('E00 118').read_text(encoding='utf-8')
+          required=[
+            'id="continueButton" type="button" aria-disabled="true"',
+            '.continue[aria-disabled="true"]',
+            'function updateContinue()',
+            'function executeContinueBoundary(e)',
+            "document.addEventListener('click',executeContinueBoundary,true)",
+            'function next()',
+            'if(state.i===14){publish();return;}',
+            'function publish()',
+            'function calculate()',
+            "contractVersion:'MAXESS_RESULT_V1'",
+            'window.MAXESS_RESULT_V1=result',
+            'renderLocalResults(result)',
+            'verifyLocalResults(result)',
+          ]
+          missing=[x for x in required if x not in s]
+          if missing: raise SystemExit('Static verification failed: '+repr(missing))
+          print('STATIC_E00_118_SURGICAL_REPAIR=PASS')
+      - name: Remove temporary repair machinery and commit only E00.118
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm -f .github/workflows/maxess-e00-118-surgical-repair.yml E00_118_REPAIR_TRIGGER
+          git add 'E00 118'
+          git config user.name 'Naya Power'
+          git config user.email 'naya-power@users.noreply.github.com'
+          git commit -m 'fix E00.118 Continue terminal boundary'
+          git push origin main
