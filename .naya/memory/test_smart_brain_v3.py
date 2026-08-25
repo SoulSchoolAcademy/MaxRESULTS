@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-import sys, unittest
+import sys
+import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / '.naya/memory'))
 import smart_notes_v3 as brain
+import duplicate_entity_audit as duplicates
 
 
 class SmartBrainV3Tests(unittest.TestCase):
@@ -34,6 +36,11 @@ class SmartBrainV3Tests(unittest.TestCase):
         self.assertEqual(report['report_type'], 'DAILY_INTELLIGENCE_REPORT')
         self.assertIn('source_event_ids', report)
         self.assertTrue(report['verification_required'])
+
+    def test_duplicate_entity_audit_is_green(self):
+        report = duplicates.audit()
+        self.assertEqual(report['status'], 'GREEN')
+        self.assertEqual(report['exact_duplicate_count'], 0)
 
 
 if __name__ == '__main__':
