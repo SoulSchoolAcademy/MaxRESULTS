@@ -34,14 +34,14 @@ jobs:
           PYTHONPYCACHEPREFIX: /tmp/naya-superbrain-pycache
         run: python -m py_compile .naya/memory/smart_notes_v3.py .naya/memory/duplicate_entity_audit.py .naya/memory/relationship_graph.py .naya/memory/entity_resolution.py .naya/memory/contradiction_supersession.py .naya/memory/superbrain_health.py .naya/memory/retrieval_benchmark.py .naya/memory/cis_state.py .naya/runtime/continuity_enforcement.py .naya/runtime/canonical_event_store.py .naya/runtime/outbox.py .naya/runtime/restore_context.py .naya/runtime/project_execution_contract.py .naya/runtime/prompt_architect_contract.py .naya/tests/test_superbrain_gate.py .naya/tests/test_continuity_enforcement.py .naya/tests/test_intelligence_layer.py .naya/tests/test_cold_start_and_cis.py .naya/tests/test_project_prompt_contracts.py
 
-      - name: Validate canonical memory
-        run: python .naya/memory/smart_notes_v3.py validate
-
-      # Cold-start acceptance must observe a genuinely clean checkout. Artifact-producing audit steps intentionally run afterward.
+      # Cold-start acceptance must observe the genuinely clean checkout. It therefore runs before every artifact-producing validation/audit step.
       - name: Run cold-start and CIS acceptance checks
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python .naya/tests/test_cold_start_and_cis.py
+
+      - name: Validate canonical memory
+        run: python .naya/memory/smart_notes_v3.py validate
 
       - name: Run duplicate/entity audit
         run: python .naya/memory/duplicate_entity_audit.py
