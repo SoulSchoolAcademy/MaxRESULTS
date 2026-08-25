@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
 import tempfile
 from pathlib import Path
 
@@ -14,6 +15,7 @@ def load():
     spec = importlib.util.spec_from_file_location("canonical_write_inventory", MODULE)
     mod = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
+    sys.modules[spec.name] = mod
     spec.loader.exec_module(mod)
     return mod
 
@@ -44,7 +46,6 @@ def main() -> int:
             positive = mod.scan_file(canonical)
             assert positive is not None and positive.classification == "A"
 
-            mod.CANONICAL_MODULE = "canonical.py"
             deliberate = mod.scan_file(bypass)
             assert deliberate is not None and deliberate.classification == "B"
             assert deliberate.bypass_risk == "HIGH"
