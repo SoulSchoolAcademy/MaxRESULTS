@@ -10,7 +10,7 @@ Naya Power Superbrain (`PRJ-NAYAPOWER-SUPERBRAIN`)
 Make the personal Superbrain more canonical, continuous, recoverable, accountable, measurable, intelligent, and self-improving while preserving the protected GREEN boundary.
 
 ## Current state
-Main is currently at `a728f6ad99cd68b0fbc4bff49337630911e75387`. The authoritative Superbrain Gate is GREEN on run `32908858867`, brain-gate job `97998707598`. The gate now includes a machine-enforced canonical event-write coverage audit.
+Main is currently at `5952e3eca2f8f97fc5003b2380acadcf9d7b6456`. The authoritative Superbrain Gate is GREEN on run `32909208608`, brain-gate job `97999739763`. The gate includes the machine-enforced canonical event-write coverage audit and checked out the exact main SHA.
 
 ## Completed work
 - Added `.naya/runtime/canonical_write_inventory.py` as a conservative AST-based production event-write coverage audit.
@@ -20,13 +20,14 @@ Main is currently at `a728f6ad99cd68b0fbc4bff49337630911e75387`. The authoritati
 - The audit observed 7 relevant findings: A=1, B=0, C=0, D=6, E=0, blockers=0.
 - Identified `.naya/memory/emit_daily_intelligence.py` as a real canonical event caller using `create_or_replay`.
 - Identified six derived/audit producers that do not write canonical event JSON.
-- Created a durable P1 receipt, Naya note, Shawn/Smart Note, and this continuation handoff.
+- Created and synchronized a durable P1 receipt, Naya note, Shawn/Smart Note, Current Daily Project state, and this continuation handoff.
+- A follow-up authoritative run caught a human-readable handoff heading drift; restoring the canonical machine-recognized headings returned the gate to GREEN.
 
 ## Verified evidence
 - Workflow: `.github/workflows/superbrain-gate.yml`
-- Run: `32908858867`
-- brain-gate: `97998707598`
-- Verified commit: `a728f6ad99cd68b0fbc4bff49337630911e75387`
+- Run: `32909208608`
+- brain-gate: `97999739763`
+- Verified commit: `5952e3eca2f8f97fc5003b2380acadcf9d7b6456`
 - Fresh checkout restoration: VERIFIED
 - Canonical memory: GREEN; 19 canonical events
 - Duplicate/entity audit: GREEN; 0 exact duplicates
@@ -41,7 +42,7 @@ Main is currently at `a728f6ad99cd68b0fbc4bff49337630911e75387`. The authoritati
 - Health: GREEN; 19 events, 0 parse errors, 0 orphan relationships
 - Daily CIS: GREEN
 - Continuity receipt: VERIFIED
-- Receipt artifact: ID `9585796589`; SHA256 `9768ac0ca3cb0b6a173b0ea205a6887ee94375817a27ef04909ee7f71946d286`
+- Receipt artifact: ID `9585911363`; SHA256 `7aebeefc536fffffb493653fbe0ac132b9b282f11487c1821d13d626538ff09f`
 
 ## Unresolved issues
 - Universal semantic production adoption is not yet proven beyond the current static audit rules.

@@ -3,16 +3,17 @@
 ## What we accomplished
 We turned the P1 Universal Canonical Event-Write Adoption objective into a machine-enforced production coverage audit and put that audit inside the authoritative Superbrain Gate.
 
-The current main is:
+The exact main now proven GREEN is:
 
-`a728f6ad99cd68b0fbc4bff49337630911e75387`
+`5952e3eca2f8f97fc5003b2380acadcf9d7b6456`
 
 The authoritative Superbrain Gate is GREEN:
 
-- Run: `32908858867`
-- Job: `97998707598`
+- Run: `32909208608`
+- Job: `97999739763`
 - Receipt artifact: `superbrain-continuity-gate-receipt`
-- Artifact ID: `9585796589`
+- Artifact ID: `9585911363`
+- Artifact SHA256: `7aebeefc536fffffb493653fbe0ac132b9b282f11487c1821d13d626538ff09f`
 
 ## What the audit actually found
 Within the defined production scan scope (`.naya/memory` and `.naya/runtime`), the machine audit found 7 relevant producers:
@@ -37,7 +38,7 @@ The Superbrain is getting smarter by proving its own assumptions. The right sequ
 
 **TRACE → INVENTORY → CLASSIFY → MIGRATE → ENFORCE → TEST → AUTHORITATIVE VERIFY.**
 
-That is exactly how we want Naya to work for people too: do the thinking, expose the evidence, and never pretend a partial result is the whole truth.
+A follow-up failure also proved an important contract lesson: human-readable Next Execution headings are part of a machine interface. The parser caught the drift; the exact canonical headings were restored; the authoritative gate returned GREEN.
 
 ## Next
 Strengthen the coverage audit so it can detect dynamic/indirect event persistence and explicitly account for every production event-producing semantic path. Then migrate any genuine B callers discovered and run the authoritative gate again.
