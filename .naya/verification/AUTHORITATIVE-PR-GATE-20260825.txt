@@ -1,2 +1,0 @@
-Verification-only marker for the pull-request execution path.
-This file carries no runtime behavior and must never substitute for authoritative CI evidence.
