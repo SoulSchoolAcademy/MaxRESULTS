@@ -1,22 +1,8 @@
 {
   "schema_version": 1,
   "checked_at": "DERIVED",
-  "status": "RED",
-  "error_count": 13,
-  "errors": [
-    "/home/runner/work/NayaPOWER/NayaPOWER/.naya/memory/events/2026/08/25/00/SE-20260825-000001-maxess-canonical-source-map.json: physical time bucket mismatch; expected 2026/08/25/18/SE-20260825-000001-maxess-canonical-source-map.json",
-    "/home/runner/work/NayaPOWER/NayaPOWER/.naya/memory/events/2026/08/25/20/SE-20260825-200000-smart-brain-hardening-execution-NAYA-NOTE.json: invalid created_at: 'created_at'",
-    "/home/runner/work/NayaPOWER/NayaPOWER/.naya/memory/events/2026/08/25/20/SE-20260825-200000-smart-brain-hardening-execution-NAYA-NOTE.json: invalid effective_at: 'effective_at'",
-    "/home/runner/work/NayaPOWER/NayaPOWER/.naya/memory/events/2026/08/25/20/SE-20260825-200000-smart-brain-hardening-execution-NAYA-NOTE.json: invalid status",
-    "/home/runner/work/NayaPOWER/NayaPOWER/.naya/memory/events/2026/08/25/20/SE-20260825-200000-smart-brain-hardening-execution-NAYA-NOTE.json: missing representations",
-    "/home/runner/work/NayaPOWER/NayaPOWER/.naya/memory/events/2026/08/25/20/SE-20260825-200000-smart-brain-hardening-execution-NAYA-NOTE.json: missing source",
-    "/home/runner/work/NayaPOWER/NayaPOWER/.naya/memory/events/2026/08/25/20/SE-20260825-200000-smart-brain-hardening-execution-SHAWN-NOTE.json: invalid created_at: 'created_at'",
-    "/home/runner/work/NayaPOWER/NayaPOWER/.naya/memory/events/2026/08/25/20/SE-20260825-200000-smart-brain-hardening-execution-SHAWN-NOTE.json: invalid effective_at: 'effective_at'",
-    "/home/runner/work/NayaPOWER/NayaPOWER/.naya/memory/events/2026/08/25/20/SE-20260825-200000-smart-brain-hardening-execution-SHAWN-NOTE.json: invalid status",
-    "/home/runner/work/NayaPOWER/NayaPOWER/.naya/memory/events/2026/08/25/20/SE-20260825-200000-smart-brain-hardening-execution-SHAWN-NOTE.json: missing representations",
-    "/home/runner/work/NayaPOWER/NayaPOWER/.naya/memory/events/2026/08/25/20/SE-20260825-200000-smart-brain-hardening-execution-SHAWN-NOTE.json: missing source",
-    "duplicate event_id: SE-20260825-200000-smart-brain-hardening-execution",
-    "duplicate event_id: SE-20260825-200000-smart-brain-hardening-execution"
-  ],
+  "status": "GREEN",
+  "error_count": 0,
+  "errors": [],
   "canonical_event_count": 13
 }
