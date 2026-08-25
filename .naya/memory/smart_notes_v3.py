@@ -3,13 +3,13 @@
 
 Canonical source: chronological Note Events under .naya/memory/events.
 The runtime deliberately tolerates the v2 event envelope while enforcing the
-v3 retrieval and CIS model, so migration can be incremental without losing history.
-Indexes are derived; canonical event JSON remains the source of truth.
+v3 retrieval and CIS model. Canonical event JSON remains the source of truth.
+Derived indexes and validation diagnostics are reproducible artifacts.
 """
 from __future__ import annotations
 import argparse, json, math, re
-from collections import Counter, defaultdict
-from datetime import datetime, timedelta, timezone
+from collections import Counter
+from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 MEMORY = ROOT / '.naya' / 'memory'
 EVENTS = MEMORY / 'events'
 INDEX = EVENTS / 'INDEX.json'
+VALIDATION_REPORT = MEMORY / 'VALIDATION-REPORT.json'
 EVENT_RE = re.compile(r'^SE-[0-9]{8}-[0-9]{6}-[a-z0-9-]+$')
 NOTE_RE = re.compile(r'^SN-[0-9]{8}-[0-9]{6}-.+$')
 VALID_STATUS = {'ACTIVE','CANONICAL','HISTORICAL','SUPERSEDED','CONFLICTED','STALE'}
@@ -31,9 +32,7 @@ def parse_time(value):
 
 def tokens(text): return re.findall(r'[a-z0-9]+', str(text).lower())
 
-
 def event_files(): return sorted(EVENTS.rglob('SE-*.json')) if EVENTS.exists() else []
-
 
 def load_events():
     out=[]
@@ -42,12 +41,10 @@ def load_events():
         except Exception as exc: out.append((p,{'__parse_error__':str(exc)}))
     return out
 
-
 def reps(e):
     r=e.get('representations',{})
     if isinstance(r,dict): return list(r.values())
     return r if isinstance(r,list) else []
-
 
 def all_text(e):
     parts=[e.get('event_id',''),e.get('title',''),e.get('subject',''),e.get('project',''),e.get('event_type',''),e.get('type',''),e.get('summary','')]
@@ -59,7 +56,6 @@ def all_text(e):
         parts += r.get('aliases',[]) or []
     return ' '.join(map(str,parts))
 
-
 def validate_event(e,p):
     errors=[]
     if not EVENT_RE.match(e.get('event_id','')): errors.append(f'{p}: invalid event_id')
@@ -70,7 +66,7 @@ def validate_event(e,p):
     if e.get('status') not in VALID_STATUS: errors.append(f'{p}: invalid status')
     if not reps(e): errors.append(f'{p}: missing representations')
     if not e.get('source'): errors.append(f'{p}: missing source')
-    v=e.get('verification',{})
+    v=e.get('verification',{}) or {}
     if v.get('status')=='VERIFIED' and not v.get('canonical_url'): errors.append(f'{p}: verified event missing canonical_url')
     dt=parsed.get('effective_at')
     if dt:
@@ -82,10 +78,8 @@ def validate_event(e,p):
         if r.get('id') and not NOTE_RE.match(r['id']): errors.append(f'{p}: invalid representation id {r["id"]}')
     return errors
 
-
 def validate():
-    errors=[]; ids={}
-    loaded=load_events()
+    errors=[]; ids={}; loaded=load_events()
     for p,e in loaded:
         if e.get('__parse_error__'): errors.append(f'{p}: {e["__parse_error__"]}'); continue
         errors += validate_event(e,p); eid=e.get('event_id')
@@ -104,23 +98,21 @@ def validate():
     if not INDEX.exists(): errors.append('missing events/INDEX.json')
     else:
         try:
-            idx=json.loads(INDEX.read_text(encoding='utf-8'))
-            indexed={x.get('event_id') if isinstance(x,dict) else x for x in idx.get('events',[])}
+            idx=json.loads(INDEX.read_text(encoding='utf-8')); indexed={x.get('event_id') if isinstance(x,dict) else x for x in idx.get('events',[])}
             if indexed != set(ids): errors.append(f'INDEX mismatch: index={len(indexed)} canonical={len(ids)}')
         except Exception as exc: errors.append(f'INDEX invalid: {exc}')
+    report={'schema_version':1,'checked_at':'DERIVED','status':'GREEN' if not errors else 'RED','error_count':len(errors),'errors':errors,'canonical_event_count':len(ids)}
+    VALIDATION_REPORT.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
     return errors
-
 
 def build_index():
     rows=[]
     for p,e in load_events():
         if e.get('__parse_error__'): continue
-        dt=parse_time(e['effective_at'])
         rows.append({'event_id':e['event_id'],'path':str(p.relative_to(EVENTS)),'subject':e.get('subject',''),'type':e.get('type') or e.get('event_type',''),'tags':e.get('tags',[]) or []})
     rows.sort(key=lambda x:(x['path'],x['event_id']))
     data={'version':'3.0.0','status':'CANONICAL','organization':'YEAR/MONTH/DAY/HOUR/EVENT','event_count':len(rows),'events':rows}
     INDEX.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n',encoding='utf-8'); return data
-
 
 def corpus(events):
     docs=[]; df=Counter()
@@ -128,18 +120,15 @@ def corpus(events):
         c=Counter(tokens(all_text(e))); docs.append(c); df.update(c.keys())
     n=max(1,len(docs)); return docs,{t:math.log((n+1)/(d+1))+1 for t,d in df.items()}
 
-
 def cosine(q,doc,idf):
     if not q or not doc:return 0.0
     qc=Counter(q); qv={t:(1+math.log(c))*idf.get(t,1) for t,c in qc.items()}; dv={t:(1+math.log(c))*idf.get(t,0) for t,c in doc.items()}
     dot=sum(qv.get(t,0)*dv.get(t,0) for t in qv); qn=math.sqrt(sum(x*x for x in qv.values())); dn=math.sqrt(sum(x*x for x in dv.values()))
     return dot/(qn*dn) if qn and dn else 0.0
 
-
 def lexical(query,e):
     q=set(tokens(query)); title=set(tokens(e.get('title',''))); aliases=set(tokens(' '.join(e.get('aliases',[]) or []))); tags=set(tokens(' '.join(e.get('tags',[]) or []))); concepts=set(tokens(' '.join(e.get('concepts',[]) or []))); body=set(tokens(all_text(e)))
     return len(q&title)*120+len(q&aliases)*90+len(q&tags)*70+len(q&concepts)*65+len(q&body)*18
-
 
 def retrieve(query,limit=10,since=None,until=None):
     loaded=[(p,e) for p,e in load_events() if not e.get('__parse_error__')]; es=[e for _,e in loaded]; docs,idf=corpus(es); q=tokens(query); ranked=[]
@@ -160,7 +149,6 @@ def retrieve(query,limit=10,since=None,until=None):
         if targets&seed: row[0]+=35
     ranked.sort(key=lambda x:(-x[0],x[1]['effective_at'],x[1]['event_id'])); return ranked[:limit]
 
-
 def daily_report(day=None,tz_name='America/Vancouver'):
     zone=ZoneInfo(tz_name); local_day=datetime.now(zone).date()-timedelta(days=1) if day is None else datetime.fromisoformat(day).date(); start=datetime.combine(local_day,datetime.min.time(),zone); end=start+timedelta(days=1); selected=[]
     for _,e in load_events():
@@ -173,7 +161,6 @@ def daily_report(day=None,tz_name='America/Vancouver'):
             lessons += r.get('lessons',[]) or r.get('what_we_learned',[]) or r.get('learning',[]) or []; changes += r.get('what_changed',[]) or []; nexts += r.get('next_best_actions',[]) or []
     uniq=lambda xs:list(dict.fromkeys(xs))
     return {'report_type':'DAILY_INTELLIGENCE_REPORT','period':local_day.isoformat(),'timezone':tz_name,'event_count':len(selected),'source_event_ids':[e['event_id'] for e in selected],'what_happened':[e.get('title') or e.get('subject') for e in selected],'what_we_learned':uniq(lessons),'what_changed':uniq(changes),'wins':[e['event_id'] for e in selected if e.get('event_type') in {'milestone','success'} or e.get('type')=='milestone'],'next_best_actions':uniq(nexts),'open_loops':[e['event_id'] for e in selected if e.get('status') in {'CONFLICTED','STALE'}],'verification_required':True,'feed_status':'PENDING_INTEGRATION'}
-
 
 def main():
     ap=argparse.ArgumentParser(); sub=ap.add_subparsers(dest='cmd',required=True); sub.add_parser('validate'); sub.add_parser('index')
