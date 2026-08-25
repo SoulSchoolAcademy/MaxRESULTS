@@ -1,3 +1,2 @@
-Trigger controlled E00 796 Continue + terminal Results handoff repair.
-run=2026-08-25T10:00:00-07:00
-boundary=Q15 SAVE -> CALCULATE -> BUILD MAXESS_RESULT_V1 -> VALIDATE -> STORE -> BROADCAST -> LOCAL RESULTS -> EXTERNAL RESULTS HANDOFF
+Trigger controlled E00 796 Continue nested-target boundary repair.
+run=2026-08-24T08:32:00-07:00
