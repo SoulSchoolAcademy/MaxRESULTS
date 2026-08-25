@@ -5,15 +5,15 @@ We turned the P1 Universal Canonical Event-Write Adoption objective into a machi
 
 The exact main now proven GREEN is:
 
-`5952e3eca2f8f97fc5003b2380acadcf9d7b6456`
+`9aefe57a71bd6425681bb435d70417ad33832198`
 
 The authoritative Superbrain Gate is GREEN:
 
-- Run: `32909208608`
-- Job: `97999739763`
+- Run: `32909426069`
+- Job: `98000403862`
 - Receipt artifact: `superbrain-continuity-gate-receipt`
-- Artifact ID: `9585911363`
-- Artifact SHA256: `7aebeefc536fffffb493653fbe0ac132b9b282f11487c1821d13d626538ff09f`
+- Artifact ID: `9585987013`
+- Artifact SHA256: `d0cfa58f9d179c30d3646d0e2a5a1ca5766eb8381c173cdcaf1aedbe45978b85`
 
 ## What the audit actually found
 Within the defined production scan scope (`.naya/memory` and `.naya/runtime`), the machine audit found 7 relevant producers:
