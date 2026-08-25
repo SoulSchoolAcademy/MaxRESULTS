@@ -33,7 +33,7 @@ jobs:
       - name: Rebuild derived event index
         run: python .naya/memory/smart_notes_v3.py index
       - name: Run Smart Brain tests
-        run: python -m unittest .naya/memory/test_smart_brain_v3.py -v
+        run: python .naya/memory/test_smart_brain_v3.py -v
       - name: Verify index is clean
         run: git diff --exit-code -- .naya/memory/events/INDEX.json
 
@@ -50,8 +50,10 @@ jobs:
           python .naya/memory/emit_daily_intelligence.py --day "$DAY" --timezone America/Vancouver
       - name: Re-verify generated event and index
         run: |
+          python .naya/memory/smart_notes_v3.py index
           python .naya/memory/smart_notes_v3.py validate
-          python -m unittest .naya/memory/test_smart_brain_v3.py -v
+          python .naya/memory/test_smart_brain_v3.py -v
+          git diff --exit-code -- .naya/memory/events/INDEX.json
       - name: Commit verified CIS artifact
         run: |
           git config user.name 'Naya Power'
