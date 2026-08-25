@@ -6,6 +6,10 @@ write boundary without changing historical events. Replays resolve to the
 existing event; conflicting payloads are rejected for explicit review.
 Meaningful post-policy executions also pass the project/continuation contract
 before they can be persisted.
+
+IMPORTANT: INDEX.json is a derived artifact owned by the Smart Brain runtime.
+This writer never invents a second index schema; it rebuilds the canonical
+v3 index after a successful create/replay path.
 """
 from __future__ import annotations
 import hashlib, json, os, re
@@ -40,12 +44,23 @@ def _enforce_project_contract(event:dict[str,Any],events_root:Path,index_path:Pa
     if not project_path.exists():raise ValueError('meaningful event requires CURRENT-DAILY-PROJECT.json')
     project=json.loads(project_path.read_text(encoding='utf-8')); policy=json.loads(policy_path.read_text(encoding='utf-8')); errors=validate_event(event,project,policy)
     if errors:raise ValueError('canonical event contract rejected: '+'; '.join(errors))
+def _rebuild_canonical_index(events_root:Path,index_path:Path)->None:
+    rows=[]
+    for p in sorted(events_root.rglob('SE-*.json')):
+        try:e=json.loads(p.read_text(encoding='utf-8'))
+        except Exception:continue
+        rows.append({'event_id':e['event_id'],'path':str(p.relative_to(events_root)),'subject':e.get('subject',''),'type':e.get('type') or e.get('event_type',''),'tags':e.get('tags',[]) or []})
+    rows.sort(key=lambda x:(x['path'],x['event_id']))
+    data={'version':'3.0.0','status':'CANONICAL','organization':'YEAR/MONTH/DAY/HOUR/EVENT','event_count':len(rows),'events':rows}
+    index_path.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
 def create_or_replay(event:dict[str,Any],events_root:Path,index_path:Path)->dict[str,Any]:
     event=json.loads(canonical_json(event)); event_id=str(event.get('event_id','')); path=_candidate_path(events_root,event_id,str(event['effective_at'])); key=idempotency_key(event); fingerprint=content_fingerprint(event)
     _enforce_project_contract(event,events_root,index_path); path.parent.mkdir(parents=True,exist_ok=True); index_path.parent.mkdir(parents=True,exist_ok=True)
     if path.exists():
         existing=json.loads(path.read_text(encoding='utf-8'))
-        if content_fingerprint(existing)==fingerprint:return {"status":"REPLAY","event_id":existing["event_id"],"path":str(path),"idempotency_key":key,"fingerprint":fingerprint}
+        if content_fingerprint(existing)==fingerprint:
+            _rebuild_canonical_index(events_root,index_path)
+            return {"status":"REPLAY","event_id":existing["event_id"],"path":str(path),"idempotency_key":key,"fingerprint":fingerprint}
         return {"status":"CONFLICT","event_id":existing.get("event_id"),"path":str(path),"idempotency_key":key,"fingerprint":fingerprint}
     fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL)
     try:
@@ -54,10 +69,5 @@ def create_or_replay(event:dict[str,Any],events_root:Path,index_path:Path)->dict
         try:path.unlink()
         except OSError:pass
         raise
-    rows=[]
-    if index_path.exists():
-        try:rows=json.loads(index_path.read_text(encoding='utf-8'))
-        except json.JSONDecodeError:rows=[]
-    if not any(isinstance(row,dict) and row.get('event_id')==event_id for row in rows):rows.append({'event_id':event_id,'path':str(path),'idempotency_key':key,'fingerprint':fingerprint})
-    rows.sort(key=lambda row:(row.get('event_id',''),row.get('path',''))); index_path.write_text(json.dumps({'version':1,'events':rows},indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+    _rebuild_canonical_index(events_root,index_path)
     return {"status":"CREATED","event_id":event_id,"path":str(path),"idempotency_key":key,"fingerprint":fingerprint}
