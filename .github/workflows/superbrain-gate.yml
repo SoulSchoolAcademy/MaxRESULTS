@@ -30,10 +30,13 @@ jobs:
           cache: pip
 
       - name: Compile Superbrain runtime
-        run: python -m py_compile .naya/memory/smart_notes_v3.py
+        run: python -m py_compile .naya/memory/smart_notes_v3.py .naya/memory/duplicate_entity_audit.py .naya/tests/test_superbrain_gate.py
 
       - name: Validate canonical memory
         run: python .naya/memory/smart_notes_v3.py validate
+
+      - name: Run duplicate/entity audit
+        run: python .naya/memory/duplicate_entity_audit.py
 
       - name: Run Superbrain regression suite
         run: python .naya/tests/test_superbrain_gate.py
