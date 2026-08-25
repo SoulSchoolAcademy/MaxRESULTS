@@ -91,3 +91,4 @@ jobs:
           echo "INTELLIGENCE LAYER: idempotency, explicit resolution, supersession, outbox state machine, health metrics, retrieval baseline, cold-start restore, next-day CIS state"
 
 # Keep this workflow self-triggering on every main push so every new intelligence contract is independently re-proven.
+# Cold-start acceptance is intentionally strict: UNKNOWN restoration is a failure, not a passing approximation.
