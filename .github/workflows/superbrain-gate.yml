@@ -84,7 +84,7 @@ jobs:
         run: python .naya/memory/superbrain_health.py
 
       - name: Daily CIS smoke test
-        run: python .naya/memory/cis_state.py smoke-test
+        run: python .naya/memory/cis_state.py --day 2026-08-25 --timezone America/Vancouver
 
       - name: Emit continuity gate receipt
         run: python .naya/runtime/continuity_enforcement.py receipt
