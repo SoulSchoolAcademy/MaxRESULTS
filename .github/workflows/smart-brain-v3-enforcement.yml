@@ -27,18 +27,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
+        with: {fetch-depth: 0}
       - name: Validate Smart Brain
         run: python .naya/memory/smart_notes_v3.py validate
-
       - name: Rebuild derived event index
         run: python .naya/memory/smart_notes_v3.py index
-
       - name: Run Smart Brain tests
         run: python -m unittest .naya/memory/test_smart_brain_v3.py -v
-
       - name: Verify index is clean
         run: git diff --exit-code -- .naya/memory/events/INDEX.json
 
@@ -48,21 +43,19 @@ jobs:
     needs: brain-gate
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Generate previous local day intelligence
+        with: {fetch-depth: 0}
+      - name: Emit verified Daily Intelligence Note Event
         run: |
           DAY=$(TZ=America/Vancouver date -d 'yesterday' +%Y-%m-%d)
-          python .naya/memory/smart_notes_v3.py daily-report --day "$DAY" --timezone America/Vancouver > .naya/memory/DAILY-INTELLIGENCE-PENDING.json
-
-      - name: Validate generated intelligence payload
-        run: python -m json.tool .naya/memory/DAILY-INTELLIGENCE-PENDING.json > /dev/null
-
-      - name: Commit verified daily intelligence payload
+          python .naya/memory/emit_daily_intelligence.py --day "$DAY" --timezone America/Vancouver
+      - name: Re-verify generated event and index
+        run: |
+          python .naya/memory/smart_notes_v3.py validate
+          python -m unittest .naya/memory/test_smart_brain_v3.py -v
+      - name: Commit verified CIS artifact
         run: |
           git config user.name 'Naya Power'
           git config user.email 'naya-power@users.noreply.github.com'
-          git add .naya/memory/DAILY-INTELLIGENCE-PENDING.json
-          git diff --cached --quiet || git commit -m 'cis: generate daily intelligence payload'
+          git add .naya/memory/events
+          git diff --cached --quiet || git commit -m 'cis: publish verified daily intelligence event'
           git push
