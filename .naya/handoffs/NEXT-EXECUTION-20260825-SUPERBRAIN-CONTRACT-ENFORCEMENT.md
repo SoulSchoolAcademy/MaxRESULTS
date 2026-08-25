@@ -12,7 +12,7 @@ Make the personal Superbrain more canonical, continuous, recoverable, accountabl
 ## Current state
 Main is currently at `a728f6ad99cd68b0fbc4bff49337630911e75387`. The authoritative Superbrain Gate is GREEN on run `32908858867`, brain-gate job `97998707598`. The gate now includes a machine-enforced canonical event-write coverage audit.
 
-## What was completed
+## Completed work
 - Added `.naya/runtime/canonical_write_inventory.py` as a conservative AST-based production event-write coverage audit.
 - Added `.naya/tests/test_canonical_write_inventory.py` with a positive canonical caller case and a deliberate direct-event-write bypass case.
 - Integrated the coverage audit into `.github/workflows/superbrain-gate.yml`.
@@ -22,7 +22,7 @@ Main is currently at `a728f6ad99cd68b0fbc4bff49337630911e75387`. The authoritati
 - Identified six derived/audit producers that do not write canonical event JSON.
 - Created a durable P1 receipt, Naya note, Shawn/Smart Note, and this continuation handoff.
 
-## Authoritative evidence
+## Verified evidence
 - Workflow: `.github/workflows/superbrain-gate.yml`
 - Run: `32908858867`
 - brain-gate: `97998707598`
@@ -43,15 +43,24 @@ Main is currently at `a728f6ad99cd68b0fbc4bff49337630911e75387`. The authoritati
 - Continuity receipt: VERIFIED
 - Receipt artifact: ID `9585796589`; SHA256 `9768ac0ca3cb0b6a173b0ea205a6887ee94375817a27ef04909ee7f71946d286`
 
-## Critical truth boundary
-Do **not** claim universal production adoption yet. The current audit is a conservative static detector. It proves there are no detected B/C/E bypasses under its current rules and scope; it does not prove that no dynamic or indirect writer exists.
+## Unresolved issues
+- Universal semantic production adoption is not yet proven beyond the current static audit rules.
+- Dynamic and indirect event persistence may require stronger detection.
+- No B/C/E caller was detected in the current audit scope, so no migration was required in this pass.
+- Semantic/vector retrieval, deeper entity/contradiction persistence, durable CIS persistence, durable outbox/retry, teaching-specific runtime enforcement, and AI Operating Feed integration remain future P1/P2/P3 work.
+
+## Constraints
+- Protected GREEN boundary: `0f82325a82ed37b5b3a3d097599025369c03a1ed`.
+- Never weaken validators.
+- Never delete historical knowledge.
+- Never bypass canonical event creation silently.
+- Never call a heuristic GREEN result universal proof.
+- Preserve all existing GREEN behavior and schemas.
 
 ## Current objective
 Harden canonical event-write coverage until the inventory can account for dynamic and indirect production event persistence with materially lower false-negative risk.
 
-## Execution directive
-TRACE BEFORE BUILDING.
-
+## Next action
 1. Restore STATE, Current Daily Project, this handoff, latest receipt, Naya note, and Shawn/Smart Note.
 2. Verify current main SHA and latest authoritative Gate.
 3. Inspect `canonical_write_inventory.py` and its test.
@@ -69,13 +78,8 @@ TRACE BEFORE BUILDING.
 15. Inspect the actual `brain-gate` job and substantive logs.
 16. Only promote the resulting head to GREEN when authoritative evidence proves it.
 
-## Preservation rules
-- Protected GREEN boundary: `0f82325a82ed37b5b3a3d097599025369c03a1ed`.
-- Never weaken validators.
-- Never delete historical knowledge.
-- Never bypass canonical event creation silently.
-- Never call a heuristic GREEN result universal proof.
-- Preserve all existing GREEN behavior and schemas.
+## Execution instructions
+Trace before building. Treat the repository as the source of truth. Inventory first; classify second; migrate only proven-safe callers; enforce the boundary; test both success and deliberate bypass failure; then run authoritative CI. Do not claim universal adoption from a partial inventory. Batch compatible work only when it preserves the existing green boundary.
 
 ## Success criteria
 - Production source coverage is explicitly enumerated.
@@ -85,6 +89,9 @@ TRACE BEFORE BUILDING.
 - Positive and deliberate-failure tests pass.
 - Authoritative Superbrain Gate is GREEN on the resulting main.
 - Receipt, STATE, Naya knowledge, Shawn/Smart knowledge, and this handoff all reflect the same evidence.
+
+## Verification requirements
+Record exact current SHA, workflow run ID, brain-gate job ID, substantive step results, actual logs for failures, receipt ID, artifact ID, and artifact SHA256. Only authoritative Actions evidence can promote a head to GREEN.
 
 ## Weighted priorities
 P0 — authoritative GREEN on every resulting main head
