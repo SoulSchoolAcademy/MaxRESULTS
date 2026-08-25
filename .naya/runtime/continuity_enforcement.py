@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Machine-enforceable execution continuity for Naya Power."""
 from __future__ import annotations
-import argparse, json, re, sys
+import argparse, json, os, re, sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -10,6 +10,7 @@ MEMORY = ROOT / ".naya" / "memory"
 EVENTS = MEMORY / "events"
 POLICY = MEMORY / "CONTINUITY-ENFORCEMENT-POLICY.json"
 REPORT = MEMORY / "CONTINUITY-VALIDATION-REPORT.json"
+RECEIPT = MEMORY / "CONTINUITY-GATE-RECEIPT.json"
 EVENT_RE = re.compile(r"^SE-[0-9]{8}-[0-9]{6}-[a-z0-9-]+$")
 
 def parse_time(value: str) -> datetime:
@@ -86,6 +87,24 @@ def validate() -> tuple[int, dict]:
     REPORT.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return (0 if not errors else 1), report
 
+def emit_receipt() -> int:
+    code, report = validate()
+    receipt = {
+        "schema_version": 1,
+        "receipt_type": "superbrain-continuity-gate",
+        "status": "VERIFIED" if code == 0 else "FAILED",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "commit_sha": os.environ.get("GITHUB_SHA"),
+        "workflow_run_id": os.environ.get("GITHUB_RUN_ID"),
+        "workflow_job": os.environ.get("GITHUB_JOB"),
+        "repository": os.environ.get("GITHUB_REPOSITORY"),
+        "report": report,
+        "evidence": {"validation_report": str(REPORT.relative_to(ROOT))},
+    }
+    RECEIPT.write_text(json.dumps(receipt, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(json.dumps(receipt, indent=2, ensure_ascii=False))
+    return code
+
 def self_test() -> int:
     policy = load_policy()
     good = {"event_id":"SE-20260825-999999-continuity-positive-test","effective_at":policy["effective_at"],"event_type":"execution-milestone","representations":{"naya":{"id":"SN-20260825-999999-test-naya","lessons":["test lesson"],"next_best_actions":["test next"]},"shawn":{"id":"SN-20260825-999999-test-shawn","lessons":["human lesson"],"next_best_actions":["human next"]}},"verification":{"status":"VERIFIED","receipt":"RCPT-test"},"receipt":{"receipt_id":"RCPT-test"},"delivery":{"state":"VERIFIED"},"continuity":{"handoff_url":"https://example.invalid/handoff","learning_status":"LEARNED","execution_state":"COMPLETED"}}
@@ -97,8 +116,9 @@ def self_test() -> int:
     print("PASS — continuity positive and deliberate-failure tests GREEN"); return 0
 
 def main() -> int:
-    parser=argparse.ArgumentParser(); sub=parser.add_subparsers(dest="command",required=True); sub.add_parser("validate"); sub.add_parser("self-test"); args=parser.parse_args()
+    parser=argparse.ArgumentParser(); sub=parser.add_subparsers(dest="command",required=True); sub.add_parser("validate"); sub.add_parser("self-test"); sub.add_parser("receipt"); args=parser.parse_args()
     if args.command == "self-test": return self_test()
+    if args.command == "receipt": return emit_receipt()
     code, report = validate(); print("PASS — execution continuity validation is GREEN" if code == 0 else "FAIL — execution continuity validation is RED"); print(json.dumps(report, indent=2, ensure_ascii=False)); return code
 
 if __name__ == "__main__": sys.exit(main())
