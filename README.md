@@ -20,13 +20,16 @@ Make it dramatically easier for an ordinary human with a meaningful vision to ac
 2. `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — canonical Smart Notes/CIS law
 3. `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md` — canonical Superbrain operating model
 4. `.naya/memory/BOOTSTRAP.md` — model/session continuity contract
-5. `SUPERBRAIN/AI-BOOT/START-HERE.md` — fast AI entry point
+5. `SUPERBRAIN/AI-BOOT/START-HERE.md` — mandatory AI entry point
 6. `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md` — append-only change stream
 7. `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md` — 25-task optimization sequence
-8. `.naya/memory/events/INDEX.json` — chronological Note Event index
-9. `.naya/memory/STATE.json` — current Intelligence State
-10. `.naya/memory/smart_notes_v3.py` — event validation/retrieval/CIS runtime
-11. `.naya/memory/duplicate_entity_audit.py` — duplicate/entity resolution audit
+8. `SUPERBRAIN/10-10-SCORECARD.md` — measured maturity and remaining gates
+9. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-NAYA.md` — AI execution directive
+10. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-SHAWN.md` — human execution directive
+11. `.naya/memory/events/INDEX.json` — chronological Note Event index
+12. `.naya/memory/STATE.json` — current Intelligence State
+13. `.naya/memory/smart_notes_v3.py` — event validation/retrieval/CIS runtime
+14. `.naya/memory/duplicate_entity_audit.py` — duplicate/entity resolution audit
 
 ## Smart Notes + CIS
 
@@ -64,7 +67,7 @@ python .naya/runtime/restore_context.py restore --at "2026-08-23T20:00:00-07:00"
 python .naya/memory/smart_notes_v3.py validate
 python .naya/memory/smart_notes_v3.py retrieve "MAXESS results terminal"
 python .naya/memory/duplicate_entity_audit.py
-python .naya/memory/smart_notes_v3.py daily-report 2026-08-25
+python .naya/memory/smart_notes_v3.py daily-report --day 2026-08-25
 ```
 
 The runtime treats the chronological event store as the system of record and the index as a derived retrieval structure.
@@ -80,9 +83,9 @@ The runtime treats the chronological event store as the system of record and the
 
 ## Current Quality Status
 
-The Superbrain architecture is now substantially hardened: chronological Note Events are canonical, paired Naya/Shawn representations are supported, AI boot/feed continuity is established, deterministic duplicate/entity auditing is enforced in CI, and the CI workflow is hardened for current Node 24-compatible Actions execution with concurrency and least-privilege job permissions.
+The Superbrain architecture is substantially hardened and now has an explicit measured 10/10 scorecard and execution directive. Current maturity is **8.4/10**, not 10/10. The remaining gates are tracked explicitly rather than hidden behind architectural language.
 
-It is **still not honestly 10/10**. Remaining high-leverage gaps are: a genuinely observed green post-change CI run, true semantic/vector retrieval with precision/recall benchmarks, fully automated Daily/Weekly/higher-order CIS plus next-day Intelligence State, health/latency/quality metrics, full cold-start end-to-end acceptance, verified human feed delivery, and complete runtime enforcement across every AI entry point.
+The highest-leverage remaining work is: genuinely green post-change CI; automated duplicate/entity resolution; contradiction/supersession automation; first-class relationship graph; true semantic/vector retrieval with precision/recall benchmarks; fully automatic Daily CIS and next-day Intelligence State; higher-order CIS; health metrics; cold-start acceptance; verified human delivery; and complete end-to-end proof.
 
 That distinction is intentional: **design quality is not the same thing as verified implementation completeness.**
 
