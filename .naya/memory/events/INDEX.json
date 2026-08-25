@@ -3,7 +3,7 @@
   "status": "CANONICAL",
   "organization": "YEAR/MONTH/DAY/HOUR/EVENT",
   "generated_at": "2026-08-25T18:00:00-07:00",
-  "event_count": 10,
+  "event_count": 11,
   "events": [
     {"event_id":"SE-20260824-065600-naya-operational-intelligence","path":"2026/08/24/06/SE-20260824-065600-naya-operational-intelligence.json","subject":"Naya operational intelligence","type":"operating-intelligence","tags":["Naya","diagnostics","verification","restore","learning"]},
     {"event_id":"SE-20260824-071200-maxess-continue-scoring-terminal","path":"2026/08/24/07/SE-20260824-071200-maxess-continue-scoring-terminal.json","subject":"MAXESS Continue / scoring terminal","type":"failure-learning","tags":["MAXESS","Q15","Continue","scoring","terminal-boundary"]},
@@ -14,6 +14,7 @@
     {"event_id":"SE-20260825-000002-maxess-execution-readiness","path":"2026/08/25/00/SE-20260825-000002-maxess-execution-readiness.json","subject":"MAXESS","type":"architecture-plan","tags":["MAXESS","execution","architecture","result-contract"]},
     {"event_id":"SE-20260825-000003-maxess-engine-execution-lock","path":"2026/08/25/00/SE-20260825-000003-maxess-engine-execution-lock.json","subject":"MAXESS","type":"execution-law","tags":["MAXESS","execution-law","verification","terminal-chain"]},
     {"event_id":"SE-20260825-000004-naya-power-operating-law-maxess-terminal","path":"2026/08/25/00/SE-20260825-000004-naya-power-operating-law-maxess-terminal.json","subject":"Naya Power operating method + MAXESS terminal flow","type":"operating-law","tags":["Naya Power","take-the-lead","MAXESS","same-page-results"]},
-    {"event_id":"SE-20260825-000005-cis-universal-learning-vision","path":"2026/08/25/00/SE-20260825-000005-cis-universal-learning-vision.json","subject":"Compounding Intelligence System","type":"cis-vision","tags":["CIS","daily-intelligence","learning","memory"]}
+    {"event_id":"SE-20260825-000005-cis-universal-learning-vision","path":"2026/08/25/00/SE-20260825-000005-cis-universal-learning-vision.json","subject":"Compounding Intelligence System","type":"cis-vision","tags":["CIS","daily-intelligence","learning","memory"]},
+    {"event_id":"SE-20260825-180000-daily-intelligence-smart-notes-migration","path":"2026/08/25/18/SE-20260825-180000-daily-intelligence-smart-notes-migration.json","subject":"Smart Notes architecture migration","type":"daily-intelligence-report","tags":["CIS","daily-intelligence","Smart Notes","migration","architecture"]}
   ]
 }
