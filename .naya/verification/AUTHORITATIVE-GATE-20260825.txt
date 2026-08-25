@@ -1,0 +1,3 @@
+Naya Power authoritative Superbrain Gate verification marker.
+Purpose: trigger the canonical .github/workflows/superbrain-gate.yml on the repaired main state.
+This file carries no runtime behavior and must never substitute for CI evidence.
