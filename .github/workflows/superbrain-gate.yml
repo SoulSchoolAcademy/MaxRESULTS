@@ -29,7 +29,7 @@ jobs:
           python-version: '3.12'
 
       - name: Compile Superbrain runtime
-        run: python -m py_compile .naya/memory/smart_notes_v3.py .naya/memory/duplicate_entity_audit.py .naya/memory/relationship_graph.py .naya/memory/entity_resolution.py .naya/memory/contradiction_supersession.py .naya/memory/superbrain_health.py .naya/memory/retrieval_benchmark.py .naya/memory/cis_state.py .naya/runtime/continuity_enforcement.py .naya/runtime/canonical_event_store.py .naya/runtime/outbox.py .naya/runtime/restore_context.py .naya/tests/test_superbrain_gate.py .naya/tests/test_continuity_enforcement.py .naya/tests/test_intelligence_layer.py .naya/tests/test_cold_start_and_cis.py
+        run: python -m py_compile .naya/memory/smart_notes_v3.py .naya/memory/duplicate_entity_audit.py .naya/memory/relationship_graph.py .naya/memory/entity_resolution.py .naya/memory/contradiction_supersession.py .naya/memory/superbrain_health.py .naya/memory/retrieval_benchmark.py .naya/memory/cis_state.py .naya/runtime/continuity_enforcement.py .naya/runtime/canonical_event_store.py .naya/runtime/outbox.py .naya/runtime/restore_context.py .naya/runtime/project_execution_contract.py .naya/runtime/prompt_architect_contract.py .naya/tests/test_superbrain_gate.py .naya/tests/test_continuity_enforcement.py .naya/tests/test_intelligence_layer.py .naya/tests/test_cold_start_and_cis.py .naya/tests/test_project_prompt_contracts.py
 
       - name: Validate canonical memory
         run: python .naya/memory/smart_notes_v3.py validate
@@ -46,6 +46,9 @@ jobs:
       - name: Run execution continuity regression suite
         run: python .naya/tests/test_continuity_enforcement.py
 
+      - name: Run project/prompt contract regression suite
+        run: python .naya/tests/test_project_prompt_contracts.py
+
       - name: Run intelligence-layer regression suite
         run: python .naya/tests/test_intelligence_layer.py
 
@@ -54,6 +57,12 @@ jobs:
 
       - name: Enforce execution continuity on meaningful events
         run: python .naya/runtime/continuity_enforcement.py validate
+
+      - name: Enforce project and Next Execution contracts
+        run: python .naya/runtime/project_execution_contract.py validate
+
+      - name: Prompt Architect deliberate-failure and positive checks
+        run: python .naya/runtime/prompt_architect_contract.py self-test
 
       - name: Build and verify derived index
         run: |
@@ -76,7 +85,9 @@ jobs:
       - name: Emit continuity gate receipt
         run: |
           echo "SUPERBRAIN CONTINUITY CONTRACT: VERIFIED BY THIS JOB"
+          echo "PROJECT CONTRACT: CURRENT DAILY PROJECT + EVENT BINDING + NEXT EXECUTION"
+          echo "PROMPT CONTRACT: 21-field execution specification + AAA/10-Star quality"
           echo "MEANINGFUL EXECUTION CHECKS: paired representations, verification state, durable receipt, delivery state, AI-to-AI handoff, learning, next action"
           echo "INTELLIGENCE LAYER: idempotency, explicit resolution, supersession, outbox state machine, health metrics, retrieval baseline, cold-start restore, next-day CIS state"
 
-# Keep this workflow self-triggering on every main push so the latest intelligence-layer repair is independently re-proven.
+# Keep this workflow self-triggering on every main push so every new intelligence contract is independently re-proven.
