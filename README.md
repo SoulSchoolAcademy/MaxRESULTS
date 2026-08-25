@@ -49,11 +49,30 @@ MEMORY
 ## Start Here
 
 1. Read `.naya/codex/11-RUNTIME-CONSTITUTION.md`.
-2. Read `.naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md`.
-3. Read `.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md`.
-4. Read `.naya/naya-context-manifest.json`.
-5. Read `.naya/memory/BOOTSTRAP.md` and `.naya/memory/STATE.json`.
-6. For continuity work, use `.naya/runtime/restore_context.py`.
+2. Read `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — canonical Smart Notes, verification receipts, Daily Intelligence Reports, and CIS rules.
+3. Read `.naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md`.
+4. Read `.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md`.
+5. Read `.naya/naya-context-manifest.json`.
+6. Read `.naya/memory/BOOTSTRAP.md` and `.naya/memory/STATE.json`.
+7. For continuity work, use `.naya/runtime/restore_context.py`.
+
+## Smart Notes + CIS
+
+Naya Power memory is organized around **Note Events**, not flat piles of Naya Notes or Human Notes.
+
+**TIME ORGANIZES MEMORY. MEANING CONNECTS MEMORY. INDEXING RETRIEVES MEMORY.**
+
+Canonical time hierarchy:
+
+**YEAR → MONTH → DAY → HOUR → NOTE EVENT**
+
+A meaningful event may contain paired Naya and Human/Shawn representations sharing the same event ID. Every Smart Note must be validated, verified, indexed, and issued a durable receipt. Where the product feed exists, the verification receipt must also be posted to the feed.
+
+Smart Notes feed the **Compounding Intelligence System (CIS)**:
+
+**EVENTS → SMART NOTES → DAILY → WEEKLY → MONTHLY → QUARTERLY → SIX-MONTH → ANNUAL → LIFETIME INTELLIGENCE**
+
+The Daily Intelligence Report is the core reflection ritual: what happened, what was learned, how we grew, wins, challenges, decisions, progress, patterns, open loops, and the next best move.
 
 ## Restore Context
 
