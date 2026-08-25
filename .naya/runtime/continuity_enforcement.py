@@ -50,14 +50,18 @@ def has_handoff(event: dict, policy: dict) -> bool:
 def check_event(event: dict, path: Path, policy: dict) -> list[str]:
     errors = []
     eid = event.get("event_id", "<missing>")
+    continuity = event.get("continuity", {}) or {}
+    execution_state = str(continuity.get("execution_state", "COMPLETED")).upper()
+    if execution_state not in {"IN_PROGRESS", "COMPLETED"}: errors.append(f"{eid}: invalid continuity.execution_state={execution_state}")
     reps = event.get("representations") or {}
     naya = reps.get("naya") if isinstance(reps, dict) else None
     human = (reps.get("shawn") or reps.get("human")) if isinstance(reps, dict) else None
     if not naya or not human: errors.append(f"{eid}: missing paired Naya + Shawn/Human representations")
     verification = event.get("verification") or {}
-    if verification.get("status") != "VERIFIED": errors.append(f"{eid}: continuity requires verification.status=VERIFIED")
+    if execution_state == "COMPLETED" and verification.get("status") != "VERIFIED": errors.append(f"{eid}: completed continuity requires verification.status=VERIFIED")
+    if execution_state == "IN_PROGRESS" and verification.get("status") not in {None, "PENDING"}: errors.append(f"{eid}: in-progress continuity must remain PENDING until verified")
     receipt = event.get("receipt") or {}
-    if not (receipt.get("receipt_id") or verification.get("receipt") or verification.get("receipt_url")): errors.append(f"{eid}: continuity requires a durable receipt reference")
+    if not (receipt.get("receipt_id") or verification.get("receipt") or verification.get("receipt_url") or verification.get("receipt_url")): errors.append(f"{eid}: continuity requires a durable receipt reference")
     delivery = event.get("delivery") or {}
     if not delivery.get("state") and not verification.get("feed_status"): errors.append(f"{eid}: continuity requires explicit delivery state")
     if not has_handoff(event, policy): errors.append(f"{eid}: continuity requires an AI-to-AI handoff reference/artifact")
@@ -66,8 +70,8 @@ def check_event(event: dict, path: Path, policy: dict) -> list[str]:
         if isinstance(rep, dict):
             lessons += rep.get("lessons", []) or rep.get("learning", []) or rep.get("what_we_learned", []) or []
             next_actions += rep.get("next_best_actions", []) or []
-    if not lessons and not (event.get("continuity") or {}).get("learning_status"): errors.append(f"{eid}: continuity requires learning or explicit learning_status")
-    if not next_actions and not (event.get("continuity") or {}).get("next_action_status"): errors.append(f"{eid}: continuity requires a next-action record")
+    if not lessons and not continuity.get("learning_status"): errors.append(f"{eid}: continuity requires learning or explicit learning_status")
+    if not next_actions and not continuity.get("next_action_status"): errors.append(f"{eid}: continuity requires a next-action record")
     if not EVENT_RE.match(str(eid)): errors.append(f"{path}: invalid event_id")
     return errors
 
@@ -78,13 +82,13 @@ def validate() -> tuple[int, dict]:
         if parse_error: errors.append(f"{path}: JSON parse error: {parse_error}"); continue
         if not is_meaningful_execution(event, policy): continue
         checked += 1; errors.extend(check_event(event, path, policy))
-    report = {"schema_version":1,"status":"GREEN" if not errors else "RED","policy_effective_at":policy["effective_at"],"meaningful_execution_events_checked":checked,"error_count":len(errors),"errors":errors,"checks":["paired_naya_human_representation","verification","durable_receipt","delivery_state","ai_to_ai_handoff","learning_or_explicit_non_applicability","next_action"]}
+    report = {"schema_version":1,"status":"GREEN" if not errors else "RED","policy_effective_at":policy["effective_at"],"meaningful_execution_events_checked":checked,"error_count":len(errors),"errors":errors,"checks":["paired_naya_human_representation","verification_state_by_execution_state","durable_receipt","delivery_state","ai_to_ai_handoff","learning_or_explicit_non_applicability","next_action"]}
     REPORT.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return (0 if not errors else 1), report
 
 def self_test() -> int:
     policy = load_policy()
-    good = {"event_id":"SE-20260825-999999-continuity-positive-test","effective_at":policy["effective_at"],"event_type":"execution-milestone","representations":{"naya":{"id":"SN-20260825-999999-test-naya","lessons":["test lesson"],"next_best_actions":["test next"]},"shawn":{"id":"SN-20260825-999999-test-shawn","lessons":["human lesson"],"next_best_actions":["human next"]}},"verification":{"status":"VERIFIED","receipt":"RCPT-test"},"receipt":{"receipt_id":"RCPT-test"},"delivery":{"state":"VERIFIED"},"continuity":{"handoff_url":"https://example.invalid/handoff","learning_status":"LEARNED"}}
+    good = {"event_id":"SE-20260825-999999-continuity-positive-test","effective_at":policy["effective_at"],"event_type":"execution-milestone","representations":{"naya":{"id":"SN-20260825-999999-test-naya","lessons":["test lesson"],"next_best_actions":["test next"]},"shawn":{"id":"SN-20260825-999999-test-shawn","lessons":["human lesson"],"next_best_actions":["human next"]}},"verification":{"status":"VERIFIED","receipt":"RCPT-test"},"receipt":{"receipt_id":"RCPT-test"},"delivery":{"state":"VERIFIED"},"continuity":{"handoff_url":"https://example.invalid/handoff","learning_status":"LEARNED","execution_state":"COMPLETED"}}
     if check_event(good, Path("positive-fixture.json"), policy): print("FAIL — positive continuity fixture rejected"); return 1
     bad = json.loads(json.dumps(good)); del bad["receipt"]; bad["verification"].pop("receipt", None); bad["continuity"].pop("handoff_url", None); bad["continuity"].pop("learning_status", None); bad["representations"]["naya"].pop("lessons", None); bad["representations"]["shawn"].pop("lessons", None)
     errors = check_event(bad, Path("negative-fixture.json"), policy)
