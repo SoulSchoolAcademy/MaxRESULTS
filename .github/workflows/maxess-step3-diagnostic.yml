@@ -1,5 +1,6 @@
 # MAXESS STEP 4G RUNTIME PROOF — genuine parent/iframe integration boundary
 # Step 5 readiness rerun: trigger the canonical integration proof on main.
+# Step 6 execution: force a fresh authoritative run after verifying the genuine iframe harness.
 name: MAXESS Step 4G Integration Proof
 
 on:
