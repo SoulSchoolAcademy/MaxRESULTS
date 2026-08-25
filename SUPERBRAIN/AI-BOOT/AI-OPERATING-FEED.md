@@ -13,6 +13,36 @@ This is the shared operational handoff stream for every AI/session entering the 
 7. If an operating rule changes, create/update the appropriate Master Note and canonical protocol; the feed announces the change.
 8. A new AI reads the newest entries first, then follows links into canonical sources.
 
+## 2026-08-25 — Personal Superbrain seed-first optimization
+
+**Status:** VERIFIED / IMPLEMENTATION HARDENING IN PROGRESS
+
+**Event:** `SE-20260825-122600-superbrain-seed-optimization`
+
+**What changed:** Locked the strategic execution order: maximize and verify the personal Naya Power Superbrain before expanding NayaNET federation. The personal Superbrain is the seed from which future personal Nayas and the network architecture grow.
+
+**Why:** A network should inherit a proven operating system, not multiply an incomplete one. The seed must first support cold-start AI restoration, reliable retrieval, duplicate/entity resolution, verification receipts, automated CIS, measurable health, and a full end-to-end acceptance test.
+
+**Hardening executed in this cycle:** Smart Brain CI now uses the current Node 24-compatible checkout action, has concurrency protection, least-privilege read/write job permissions, and enforces deterministic duplicate/entity collision auditing.
+
+**Canonical paths:**
+- `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md`
+- `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md`
+- `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md`
+- `.naya/memory/events/2026/08/25/12/SE-20260825-122600-superbrain-seed-optimization.json`
+- `.naya/memory/duplicate_entity_audit.py`
+- `.github/workflows/smart-brain-v3-enforcement.yml`
+
+**Readable notes:**
+- `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-SEED-FIRST-NAYA.md`
+- `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-SEED-FIRST-SHAWN.md`
+
+**Verification:** The Smart Note event, paired Naya/Shawn representations, canonical index entry, readable notes, duplicate/entity audit, CI hardening, and feed update were written to the repository. The full Superbrain is **not yet claimed 10/10** until the remaining implementation and end-to-end verification gates pass.
+
+**Next action:** Obtain a genuinely green CI run for the hardened system, then continue the highest-leverage sequence: true semantic/vector retrieval → fully automated CIS + Intelligence State → health/benchmarking → cold-start acceptance → NayaNET federation.
+
+---
+
 ## 2026-08-25 — NayaNET federation + mobile Superbrain architecture
 
 **Status:** VERIFIED DESIGN / IMPLEMENTATION NOT YET PRODUCTION
