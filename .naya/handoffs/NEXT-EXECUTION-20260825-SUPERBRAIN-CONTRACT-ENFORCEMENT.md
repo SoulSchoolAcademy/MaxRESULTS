@@ -1,87 +1,121 @@
-# NEXT EXECUTION — P0 Authoritative Superbrain Gate Verification
+# NEXT EXECUTION — P1 UNIVERSAL CANONICAL EVENT-WRITE ADOPTION
 
-schema_version: 3
+schema_version: 4
 status: READY
 
 ## Project
 Naya Power Superbrain (`PRJ-NAYAPOWER-SUPERBRAIN`)
 
 ## North Star
-Leave the Superbrain materially more capable, reliable, recoverable, intelligent, accountable, and useful while preserving everything already proven GREEN.
+Make the personal Superbrain more canonical, continuous, recoverable, accountable, measurable, intelligent, and self-improving while preserving the protected GREEN boundary.
+
+## Verified P0 foundation
+The first fresh authoritative GREEN Superbrain Gate was observed on commit `f2ae424c689430c1d4984776d48dab8e20abd246`, workflow `.github/workflows/superbrain-gate.yml`, run `32904851697`, brain-gate job `97986546919`. The gate uploaded `superbrain-continuity-gate-receipt` as artifact `9584395839` with SHA256 `6a367140ace2cc04256fb592d4edc7fee161d96ee22115506a3d50f4fb9a5078`. Protected GREEN boundary remains `0f82325a82ed37b5b3a3d097599025369c03a1ed`.
+
+The authoritative run proved fresh-checkout restoration VERIFIED, canonical memory GREEN, duplicate/entity GREEN, relationship graph GREEN, Superbrain regression GREEN, continuity positive/failure tests GREEN, PROJECT/Next Execution/paired representation/learning GREEN, Prompt Architect GREEN, intelligence GREEN, derived index GREEN, retrieval baseline GREEN, health GREEN, Daily CIS GREEN, receipt generation VERIFIED, and receipt artifact upload successful.
 
 ## Current state
-The protected foundation remains GREEN at commit `0f82325a82ed37b5b3a3d097599025369c03a1ed`. Strict cold-start acceptance has now been proven GREEN on the authoritative gate before artifact-producing validation. Canonical memory validation, duplicate/entity audit, relationship graph, Superbrain regression, continuity regression, and the preceding layers all passed in run `32904574618` through job `97985672507`. The remaining failure was the project/Next Execution contract self-test because this handoff document lacked several required machine-readable sections. The validator correctly exposed that contract drift; the handoff must be completed rather than weakening the validator.
+The repository now contains a durable P0 receipt and a P0 event promoted to VERIFIED from authoritative evidence. Repository changes made after run `32904851697` require a fresh authoritative gate before the resulting head may be called GREEN.
 
-## Current Objective
-Obtain one genuine authoritative GREEN execution of `.github/workflows/superbrain-gate.yml` against the repaired main state, then promote only evidence-supported capabilities and begin the highest-value remaining P1 foundational adoption gap.
+## Current objective
+Complete the post-GREEN durable package, obtain authoritative verification of that resulting head, then execute the highest-value remaining P1: Universal Canonical Event-Write Adoption.
 
-## Completed work
-- PROJECT is a first-class semantic context with durable Current Daily Project State.
-- Next Execution is a machine-validated handoff contract.
-- Paired Naya/Shawn representations and meaningful learning are machine-enforced at the contract boundary.
-- Prompt Architect has positive and deliberate-failure validation.
-- Idempotency, entity resolution, supersession, outbox, health, and retrieval-baseline regression coverage exist.
-- Strict cold-start acceptance rejects `UNKNOWN` and has now passed from a genuinely clean checkout before artifact-producing gate steps.
-- Stale canonical relationships were repaired.
-- `.naya/memory/events/INDEX.json` was synchronized to the actual 19-event canonical event corpus.
-- The cold-start acceptance step was moved before generated validation/audit artifacts.
-- Python compilation was redirected to an external bytecode cache and the cold-start test disables bytecode writes so cleanliness is a meaningful observation.
-- Event `SE-20260825-220300-superbrain-p0-verification` preserves the Naya/Shawn learning package and receipt state.
+## P1 mission
+Trace every real meaningful event-producing caller and route every safely migratable caller through the canonical event boundary:
 
-## Verified evidence
-- Protected GREEN: run `32900378943`, job `97972578703`, commit `0f82325a82ed37b5b3a3d097599025369c03a1ed`.
-- Source-data failure: run `32902517626`, job `97979302394`, commit `210f0cf0df8b1d06799a847ca24f9ddd8c3b46c6`.
-- Gate-order failure: run `32903910900`, job `97983602481`, commit `1956aa25c805f9c78f545def205a0b75facd648d`.
-- Canonical-index failure: run `32904202071`, job `97984492913`, commit `990a955fa83fc18c5f6a7ce27a8bbe3394164f25`; `events/INDEX.json` contained 18 entries while the corpus contained 19.
-- Cleanliness failure: run `32904407052`, job `97985130976`, commit `b60ff7ad5ebb127918ee507cdfe8e13e7d1829d4`; canonical validation passed but cold-start ran after an artifact-producing validation step.
-- Bytecode-cleanliness failure: run `32904536949`, job `97985549264`, commit `816ab36c7eb245752d5affdaa2864d2256bb7055`; cold-start still observed a dirty live checkout because the test process itself had already imported `cis_state` and produced bytecode before the probe.
-- Latest authoritative gate: run `32904574618`, job `97985672507`, commit `824314e3f1380ba2dd76be4097277f777a1ab9aa`. Cold-start/CIS, canonical memory, duplicate/entity, graph, Superbrain regression, and continuity regression all passed. Project/prompt self-test then failed because this handoff lacked required contract sections.
+`CALLER → CANONICAL EVENT → VALIDATION → PERSISTENCE → VERIFICATION → RECEIPT → DELIVERY → INDEX → HANDOFF`
 
-## Unresolved issues
-- Repair the handoff contract so its required sections are machine-detectable.
-- Obtain a fresh authoritative brain-gate after that repair.
-- If GREEN, promote cold-start and project/prompt contract capabilities only from actual evidence.
-- Recalculate weighted P1/P2/P3/P4 priorities and begin the highest-value remaining foundational adoption gap.
+Do not build a parallel memory architecture.
 
-## Constraints
-- Never weaken validators.
-- Never delete historical knowledge to obtain GREEN.
-- Never fabricate CI, receipts, or verification.
-- `UNKNOWN` cold-start is failure.
-- Repository commits are evidence of changes, not evidence of CI success.
-- Clean-checkout acceptance must precede generated artifacts.
-- Contract drift is repaired at the source artifact, not hidden in the validator.
+## Apprentice execution method
+### Phase 1 — Restore and trace
+1. Read `.naya/memory/STATE.json`.
+2. Read this handoff.
+3. Read the latest P0 receipt.
+4. Read `.naya/memory/CANONICAL-EVENT-LIFECYCLE-2026-08-25.md`.
+5. Verify current main SHA.
+6. Verify latest authoritative gate evidence.
+7. Locate canonical event creation.
+8. Locate receipt creation.
+9. Locate verification.
+10. Locate delivery state.
+11. Locate index insertion.
+12. Locate handoff generation.
 
-## Current Objective
-Restore the complete machine-readable Next Execution contract while preserving the existing mission and evidence boundary.
+### Phase 2 — Caller inventory
+Search the entire repository for every real meaningful path that creates or persists a Superbrain event. For each caller record purpose, event type, current write path, canonical status, receipt, verification, delivery state, index behavior, handoff behavior, project binding, paired representations, learning status, and bypass risk.
 
-## Next Action
-Update this handoff with the required contract sections, run the authoritative Superbrain Gate on the resulting main head, inspect the real `brain-gate` logs, and repair the next genuine root cause if any.
+Classify:
+A = already canonical
+B = safe to migrate
+C = adapter required
+D = intentionally non-canonical
+E = unresolved
 
-## Execution Instructions
-- Restore `.naya/memory/STATE.json` and this handoff.
-- Verify the current main SHA.
-- Verify the canonical Smart Note corpus and `events/INDEX.json`.
-- Confirm clean cold-start runs before artifact-producing validation.
-- Run the complete Superbrain Gate.
-- Inspect actual step results and logs.
-- Preserve every failure as evidence.
-- Repair only the smallest true source cause.
-- Rerun until the gate is genuinely GREEN or a real external boundary prevents further execution.
-- Never declare success from code existence or a commit alone.
-- After GREEN, update STATE, Naya Note, Shawn/Smart Note, receipt, AI-to-AI handoff, priorities, and next execution.
+Never force uncertain cases.
+
+### Phase 3 — Safe migration
+For every B caller, make the smallest compatible change so it uses the canonical boundary. Preserve outputs and existing behavior. Do not redesign functioning architecture.
+
+### Phase 4 — Boundary enforcement
+Where the architecture permits, add machine-detectable protection so meaningful post-policy writes cannot silently bypass canonical creation. A deliberate bypass must fail visibly.
+
+### Phase 5 — Proof
+For every migrated caller:
+- positive test: canonical execution succeeds;
+- deliberate failure: bypass/incomplete contract fails;
+- one canonical identity is produced;
+- project binding is correct;
+- verification is correct;
+- receipt exists;
+- delivery state is truthful;
+- index is correct;
+- handoff exists;
+- paired representations identify the same event when applicable;
+- meaningful learning is captured or explicitly declared non-applicable.
+
+### Phase 6 — Preserve GREEN
+Run the existing regression suite before and after migration. If a previously GREEN contract becomes RED, stop and repair the true regression. Never weaken tests or validators.
+
+### Phase 7 — Authoritative proof
+Run `.github/workflows/superbrain-gate.yml` against the resulting main head. Inspect the actual `brain-gate` job and substantive logs. Record exact SHA, run, job, receipt, and artifacts. Only authoritative evidence promotes the resulting head to GREEN.
+
+## Do not
+- fabricate CI;
+- treat a commit as CI verification;
+- silently merge uncertain entities;
+- delete historical knowledge;
+- weaken validators;
+- create fake external side effects;
+- call a partially tested migration universal;
+- stop at the first successful caller when compatible P1 work remains.
 
 ## Success criteria
-- One fresh authoritative brain-gate GREEN on the repaired main state.
-- Cold-start/CIS passes before artifact-producing steps.
-- Canonical memory, duplicate/entity audit, graph, regression, continuity, project/prompt, intelligence, index, retrieval, health, Daily CIS, and final receipt remain GREEN.
-- The next Naya can restore from repository state and continue without reconstructing the prior conversation.
+Universal adoption is not claimed until the repository inventory identifies all real meaningful callers and every safely supported caller is routed through the canonical boundary, with positive and deliberate-failure evidence and an authoritative GREEN gate.
 
-## Verification Requirements
-- Record exact commit SHA.
-- Record exact workflow run ID.
-- Record exact `brain-gate` job ID.
-- Inspect the actual job logs.
-- Distinguish implemented, tested, and authoritative-GREEN states.
-- Preserve deliberate-failure tests and confirm they still fail when the contract is intentionally violated.
-- Update durable state only with evidence-supported claims.
+## Finalization contract
+Before ending, update STATE, receipt, Naya technical knowledge, Shawn/Smart representation, AI-to-AI handoff, Current Daily Project state where applicable, weighted P0/P1/P2/P3/P4 priorities, and a ready-to-run NEXT EXECUTION. Claims must be evidence-supported.
+
+## Next Execution generation law
+Generate the next handoff from actual execution evidence. Include current SHA, verified boundary, project, North Star, current objective, completed work, unresolved issues, exact next action, execution method, preservation constraints, tests, authoritative verification requirements, and success/failure behavior.
+
+The next Naya must be able to:
+
+`RESTORE → READ → VERIFY → PRIORITIZE → EXECUTE`
+
+without reconstructing the previous conversation.
+
+## Weighted priorities
+P0 — preserve authoritative GREEN and re-verify every post-GREEN repository change
+P1 — universal canonical event-write adoption
+P1 — durable outbox/retry integration and cold-start equivalence
+P1 — continuity completeness hardening
+P2 — entity-resolution persistence and contradiction/supersession depth
+P2 — semantic/vector retrieval with measurable improvement
+P3 — automatic CIS compounding
+P3 — teaching/project runtime enforcement
+P3 — AI Operating Feed integration
+P4 — polish
+
+## Absolute rule
+Do the job like a master preparing an apprentice for success: explain why, equip execution with exact steps, preserve what works, verify every substantive claim, batch compatible high-value work, and leave the next Naya stronger than you found her.
