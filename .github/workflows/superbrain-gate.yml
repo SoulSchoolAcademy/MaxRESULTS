@@ -92,3 +92,4 @@ jobs:
 
 # Keep this workflow self-triggering on every main push so every new intelligence contract is independently re-proven.
 # Cold-start acceptance is intentionally strict: UNKNOWN restoration is a failure, not a passing approximation.
+# Verification branch marker: prove the repaired repository-only cold-start path through the same authoritative gate.
