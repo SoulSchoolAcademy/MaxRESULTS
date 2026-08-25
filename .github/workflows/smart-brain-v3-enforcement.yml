@@ -1,0 +1,68 @@
+name: Smart Brain v3 Enforcement
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md'
+      - '.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md'
+      - '.naya/memory/**'
+      - '.naya/runtime/**'
+      - '.github/workflows/smart-brain-v3-enforcement.yml'
+  pull_request:
+    paths:
+      - '.naya/codex/**'
+      - '.naya/memory/**'
+      - '.naya/runtime/**'
+      - '.github/workflows/smart-brain-v3-enforcement.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '15 7 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  brain-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate Smart Brain
+        run: python .naya/memory/smart_notes_v3.py validate
+
+      - name: Rebuild derived event index
+        run: python .naya/memory/smart_notes_v3.py index
+
+      - name: Run Smart Brain tests
+        run: python -m unittest .naya/memory/test_smart_brain_v3.py -v
+
+      - name: Verify index is clean
+        run: git diff --exit-code -- .naya/memory/events/INDEX.json
+
+  daily-intelligence:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    needs: brain-gate
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate previous local day intelligence
+        run: |
+          DAY=$(TZ=America/Vancouver date -d 'yesterday' +%Y-%m-%d)
+          python .naya/memory/smart_notes_v3.py daily-report --day "$DAY" --timezone America/Vancouver > .naya/memory/DAILY-INTELLIGENCE-PENDING.json
+
+      - name: Validate generated intelligence payload
+        run: python -m json.tool .naya/memory/DAILY-INTELLIGENCE-PENDING.json > /dev/null
+
+      - name: Commit verified daily intelligence payload
+        run: |
+          git config user.name 'Naya Power'
+          git config user.email 'naya-power@users.noreply.github.com'
+          git add .naya/memory/DAILY-INTELLIGENCE-PENDING.json
+          git diff --cached --quiet || git commit -m 'cis: generate daily intelligence payload'
+          git push
