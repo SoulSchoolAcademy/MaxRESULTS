@@ -3,6 +3,7 @@
 from __future__ import annotations
 import importlib.util
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -10,6 +11,7 @@ MEMORY = ROOT / '.naya' / 'memory'
 RUNTIME = MEMORY / 'smart_notes_v3.py'
 INDEX = MEMORY / 'events' / 'INDEX.json'
 GRAPH = MEMORY / 'RELATIONSHIP-GRAPH.json'
+sys.path.insert(0, str(MEMORY))
 
 
 def load_module(name: str, path: Path):
@@ -36,7 +38,7 @@ ids = {e['event_id'] for _, e in loaded}
 indexed = {e['event_id'] for e in idx['events']}
 assert ids == indexed, f'index mismatch: canonical={len(ids)} indexed={len(indexed)}'
 
-# Every meaningful canonical event must have a readable note representation.
+# Every canonical event must have at least one readable note representation.
 for path, event in loaded:
     reps = mod.reps(event)
     assert reps, f'{event.get("event_id")}: missing representations'
