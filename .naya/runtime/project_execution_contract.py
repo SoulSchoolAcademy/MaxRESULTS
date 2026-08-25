@@ -6,16 +6,42 @@ from pathlib import Path
 from typing import Any
 ROOT=Path(__file__).resolve().parents[2]
 MEMORY=ROOT/'.naya'/'memory'; EVENTS=MEMORY/'events'; PROJECT=MEMORY/'projects'/'CURRENT-DAILY-PROJECT.json'; POLICY=MEMORY/'CONTINUITY-ENFORCEMENT-POLICY.json'; REPORT=MEMORY/'PROJECT-EXECUTION-CONTRACT-REPORT.json'
-EVENT_RE=re.compile(r'^SE-[0-9]{8}-[0-9]{6}-[a-z0-9-]+$'); NEXT_RE=re.compile(r'^NEXT-EXECUTION-[0-9]{8}-.+\.md$')
+EVENT_RE=re.compile(r'^SE-[0-9]{8}-[0-9]{6}-[a-z0-9-]+$'); NEXT_RE=re.compile(r'^NEXT-EXECUTION-[0-9]{8}-.+\.(?:md|json)$')
 
 def load(path:Path)->dict[str,Any]: return json.loads(path.read_text(encoding='utf-8'))
+def load_next_execution(path:Path)->dict[str,Any]:
+    """Load the canonical Next Execution contract from JSON or human-readable Markdown."""
+    if path.suffix.lower()=='.json': return load(path)
+    text=path.read_text(encoding='utf-8')
+    result:dict[str,Any]={}
+    for raw in text.splitlines():
+        line=raw.strip()
+        if not line or line.startswith('#') or line.startswith('- '): continue
+        if ':' in line:
+            key,value=line.split(':',1); key=key.strip().lower().replace(' ','_'); value=value.strip()
+            if key in {'schema_version','status'} and value: result[key]=int(value) if key=='schema_version' and value.isdigit() else value
+    headings={'project':'Project','north_star':'North Star','current_state':'Current state','completed_work':'Completed work','verified_evidence':'Verified evidence','unresolved_issues':'Unresolved issues','constraints':'Constraints','current_objective':'Current objective','next_action':'Next action','execution_instructions':'Execution instructions','success_criteria':'Success criteria','verification_requirements':'Verification requirements'}
+    lines=text.splitlines()
+    for key,title in headings.items():
+        marker=f'## {title}'.lower(); start=None
+        for i,line in enumerate(lines):
+            if line.strip().lower()==marker: start=i+1; break
+        if start is None: continue
+        values=[]
+        for line in lines[start:]:
+            stripped=line.strip()
+            if stripped.startswith('## '): break
+            if stripped and not stripped.startswith('#'):
+                values.append(stripped[2:].strip() if stripped.startswith('- ') else stripped)
+        if values: result[key]=values if key.endswith(('work','evidence','issues','constraints','instructions','criteria','requirements')) else ' '.join(values)
+    return result
+
 def event_files(): return sorted(EVENTS.rglob('SE-*.json')) if EVENTS.exists() else []
 def is_meaningful(event,policy):
     if event.get('continuity_required') is True:return True
     typ=str(event.get('event_type',event.get('type',''))).lower()
     if typ in {str(x).lower() for x in policy.get('meaningful_event_types',[])}:return True
-    tags={str(x).lower() for x in (event.get('tags') or [])}
-    meaningful_tags={str(x).lower() for x in policy.get('meaningful_tags',[])}
+    tags={str(x).lower() for x in (event.get('tags') or [])}; meaningful_tags={str(x).lower() for x in policy.get('meaningful_tags',[])}
     return bool(tags.intersection(meaningful_tags))
 def validate_project(p):
     req=('project_id','project_name','date','goal','vision','mission','north_star','current_objective','success_criteria','constraints','current_state','next_execution_path')
@@ -42,7 +68,7 @@ def validate_event(event,project,policy):
         doc=ROOT/path
         if not doc.exists():errors.append(f'{eid}: Next Execution artifact missing: {path}')
         else:
-            try:errors.extend([f'{eid}: {x}' for x in validate_next_execution(load(doc))])
+            try:errors.extend([f'{eid}: {x}' for x in validate_next_execution(load_next_execution(doc))])
             except Exception as exc:errors.append(f'{eid}: Next Execution parse failure: {exc}')
     learning=event.get('learning') or {}; continuity=event.get('continuity') or {}; lessons=[]
     for rep in (naya,shawn):
@@ -64,6 +90,7 @@ def self_test():
     complete={'schema_version':1,'status':'READY','project':'Test Project','north_star':'test','current_state':'test','completed_work':['test'],'verified_evidence':['test'],'unresolved_issues':[],'constraints':['test'],'current_objective':'test','next_action':'test','execution_instructions':['test'],'success_criteria':['test'],'verification_requirements':['test']}
     assert not validate_project({'project_id':'x','project_name':'x','date':'x','goal':'x','vision':'x','mission':'x','north_star':'x','current_objective':'x','success_criteria':['x'],'constraints':['x'],'current_state':'x','next_execution_path':'x'})
     assert validate_next_execution(complete)==[]
+    existing=ROOT/'.naya'/'handoffs'/'NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md'; assert existing.exists() and not validate_next_execution(load_next_execution(existing))
     errors=validate_event(base,project,policy); assert any('artifact missing' in x for x in errors)
     bad=json.loads(json.dumps(base)); bad['project']='Wrong Project'; bad['representations']['naya']['canonical_event_id']='WRONG'; bad_errors=validate_event(bad,project,policy); assert any('bind' in x for x in bad_errors) and any('Naya representation' in x for x in bad_errors)
     print('PASS — project/Next Execution/paired-representation deliberate-failure tests GREEN'); return 0
