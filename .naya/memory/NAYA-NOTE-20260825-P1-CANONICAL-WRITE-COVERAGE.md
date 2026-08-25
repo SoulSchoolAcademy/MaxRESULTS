@@ -2,8 +2,8 @@
 
 **Status:** VERIFIED
 **Project:** `PRJ-NAYAPOWER-SUPERBRAIN`
-**Verified main:** `a728f6ad99cd68b0fbc4bff49337630911e75387`
-**Authoritative Gate:** run `32908858867`, job `97998707598`
+**Verified main:** `5952e3eca2f8f97fc5003b2380acadcf9d7b6456`
+**Authoritative Gate:** run `32909208608`, job `97999739763`
 **Protected GREEN:** `0f82325a82ed37b5b3a3d097599025369c03a1ed`
 
 ## What was learned
@@ -28,8 +28,10 @@ A GREEN static audit is **not** proof of semantic universal adoption. The audit 
 **Inventory → classify → prove → migrate → enforce.**
 Never infer universal adoption from a partial search. A deliberate direct event-write fixture must fail, and the authoritative gate must observe the guard.
 
+A second lesson was proven by the follow-up gate: the human-readable Next Execution is also a machine interface. Changing its canonical headings broke the contract parser; restoring the exact machine-recognized headings repaired the system without weakening the validator.
+
 ## Evidence
-The authoritative gate completed all substantive steps GREEN, including fresh-checkout restoration, canonical memory, duplicate/entity audit, relationship graph, regression, continuity, PROJECT/Next Execution/paired representations/learning, Prompt Architect, intelligence layer, derived index, retrieval baseline, health, Daily CIS, continuity receipt, and receipt artifact upload.
+The authoritative main gate completed all substantive steps GREEN on the exact main SHA, including fresh-checkout restoration, canonical memory, duplicate/entity audit, relationship graph, regression, continuity, PROJECT/Next Execution/paired representations/learning, Prompt Architect, intelligence layer, derived index, retrieval baseline, health, Daily CIS, continuity receipt, and receipt artifact upload.
 
 ## Next
 Harden the coverage audit against dynamic/indirect writers and explicitly enumerate production event-producing semantics. Only migrate callers if a real B/C/E case is discovered.
