@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Cold-start and next-day CIS acceptance checks."""
 from __future__ import annotations
-import json, shutil, subprocess, sys, tempfile
+import json, os, shutil, subprocess, sys, tempfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/".naya"/"runtime")); sys.path.insert(0,str(ROOT/".naya"/"memory"))
@@ -9,7 +9,10 @@ from cis_state import build
 
 def run_restore(root:Path):
     script=root/".naya"/"runtime"/"restore_context.py"
-    return subprocess.run([sys.executable,str(script),"restore","Superbrain","--limit","5"],cwd=root,text=True,capture_output=True)
+    env=os.environ.copy()
+    # Restore is an acceptance probe. It must not contaminate the checkout with Python bytecode artifacts.
+    env["PYTHONDONTWRITEBYTECODE"]="1"
+    return subprocess.run([sys.executable,str(script),"restore","Superbrain","--limit","5"],cwd=root,text=True,capture_output=True,env=env)
 
 def assert_restored(proc):
     if proc.returncode!=0: raise SystemExit(f"cold-start restore must be VERIFIED; exit={proc.returncode}: {proc.stderr or proc.stdout}")
