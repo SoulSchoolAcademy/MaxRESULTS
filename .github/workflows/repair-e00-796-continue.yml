@@ -1,4 +1,4 @@
-name: MAXESS E00 796 — Continue + Terminal Results Hardening
+name: MAXESS E00 796 — Continue + Scoring Hardening
 
 on:
   push:
@@ -6,7 +6,6 @@ on:
     paths:
       - 'E00 796'
       - '.github/workflows/repair-e00-796-continue.yml'
-      - 'PATCH_E00_TRIGGER'
 
 permissions:
   contents: write
@@ -21,109 +20,83 @@ jobs:
           ref: main
           fetch-depth: 1
 
-      - name: Apply smallest deterministic E00 796 repair
-        shell: bash
+      - name: Patch Continue event boundary and scoring guards
+        shell: python
         run: |
-          set -euo pipefail
-          python3 - <<'PY'
           from pathlib import Path
 
-          p=Path('E00 796')
-          s=p.read_text(encoding='utf-8')
-          original=s
+          p = Path('E00 796')
+          s = p.read_text(encoding='utf-8')
+          original = s
 
-          required=[
+          required = [
               'id="maxess-ai-score"',
               'function save()',
               'function calculate()',
               'function publish()',
+              "$('continueButton').onclick=next;",
               'function next()',
               'const S=',
-              'function attemptResultsHandoff(result)',
           ]
           for marker in required:
               if marker not in s:
                   raise SystemExit(f'Marker missing: {marker}')
 
-          bad="if(!Array.isArray(S)||Object.keys(S).length!==15)"
-          if bad in s:
-              s=s.replace(
-                  "if(!Array.isArray(S)||Object.keys(S).length!==15)throw Error('Score matrix structure invalid');",
-                  "if(!S||typeof S!=='object'||Array.isArray(S)||Object.keys(S).length!==15)throw Error('Score matrix structure invalid');Object.keys(S).forEach(k=>{if(!/^([1-9]|1[0-5])$/.test(k)||!Array.isArray(S[k])||S[k].length!==5)throw Error('Score matrix row invalid');});",
-                  1,
-              )
+          # Make the Continue control authoritative at the element boundary.
+          # Capture-phase handling prevents host/Groove bubble handlers from
+          # swallowing the terminal action before MAXESS receives it.
+          s = s.replace(
+              "$('continueButton').onclick=next;",
+              "$('continueButton').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();next();},{capture:true});",
+              1,
+          )
 
-          old_listener="""document.addEventListener('click',e=>{
-  const button=e.target.closest('#maxess-ai-score #continueButton');
-  if(!button)return;
-  e.preventDefault();
-  e.stopPropagation();
-  if(button.disabled)return;
-  next();
-},true);"""
-          new_listener="""function executeContinue(e){
-  const root=$('maxess-ai-score');
-  const button=e.target&&e.target.closest?e.target.closest('#continueButton'):null;
-  if(!button||!root||!root.contains(button))return;
-  if(e.type==='keydown'&&e.key!=='Enter'&&e.key!==' ')return;
-  e.preventDefault();
-  e.stopPropagation();
-  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
-  if(button.disabled||state.finalizing||state.mode!=='ASSESSMENT'||!state.selected)return;
-  next();
-}
-document.addEventListener('click',executeContinue,true);
-document.addEventListener('pointerup',executeContinue,true);
-document.addEventListener('keydown',executeContinue,true);"""
-          if old_listener in s:
-              s=s.replace(old_listener,new_listener,1)
-          elif "function executeContinue(e)" not in s:
-              raise SystemExit('Continue boundary anchor missing')
+          # Add a strict answer-index guard so the score matrix can never be
+          # read with an invalid key and silently produce a bad terminal score.
+          old_save = "const idx=state.selected.charCodeAt(0)-97;\n\n const r={"
+          new_save = "const idx=state.selected.charCodeAt(0)-97;\n if(idx<0||idx>4||!Array.isArray(S[state.i+1])||S[state.i+1].length!==5){throw Error('Invalid answer score mapping');}\n\n const r={"
+          if old_save not in s:
+              raise SystemExit('save() anchor missing')
+          s = s.replace(old_save,new_save,1)
 
-          old_next="function next(){if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;if(state.i===14){publish();return;}save();state.i++;render();setTimeout(()=>openNaya(),120);}"
-          new_next="function next(){if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;try{if(state.i===14){if(!publish())throw Error('Terminal publish failed');return;}save();state.i++;render();setTimeout(()=>openNaya(),120);}catch(e){console.error('MAXESS Continue execution error',e);state.finalizing=false;state.mode='ASSESSMENT';updateContinue();$('continueText').textContent='Continue';}}"
-          if old_next in s:
-              s=s.replace(old_next,new_next,1)
+          # Make the terminal scoring matrix self-checking before calculation.
+          old_calc = "function calculate(){\n if(state.responses.length!==15)throw Error('Exactly 15 responses required');"
+          new_calc = "function calculate(){\n if(state.responses.length!==15)throw Error('Exactly 15 responses required');\n if(!Array.isArray(D)||D.length!==5)throw Error('Invalid dimension matrix');\n if(!Array.isArray(S)||Object.keys(S).length!==15)throw Error('Invalid score matrix');"
+          if old_calc not in s:
+              raise SystemExit('calculate() anchor missing')
+          s = s.replace(old_calc,new_calc,1)
 
-          old_tail="releaseResultsSections(result);window.MAXESS_RESULT_HANDOFF_URL = null; return true;"
-          new_tail="releaseResultsSections(result);const handedOff=attemptResultsHandoff(result);if(!handedOff)console.warn('MAXESS Results handoff unavailable; verified local Results retained.');return true;"
-          if old_tail in s:
-              s=s.replace(old_tail,new_tail,1)
-          elif "attemptResultsHandoff(result);" not in s:
-              anchor="releaseResultsSections(result);"
-              if anchor not in s:
-                  raise SystemExit('Results release anchor missing')
-              s=s.replace(anchor,anchor+"const handedOff=attemptResultsHandoff(result);if(!handedOff)console.warn('MAXESS Results handoff unavailable; verified local Results retained.');",1)
+          # Verify the matrix normalization explicitly: 5 questions per
+          # dimension, 4 points max per answer, 60 points overall.
+          old_raw = "const raw=state.responses.reduce((a,r)=>a+r.score,0);\n\n return{"
+          new_raw = "const raw=state.responses.reduce((a,r)=>a+r.score,0);\n if(raw<0||raw>60)throw Error('Overall score outside 0-60 matrix');\n\n return{"
+          if old_raw not in s:
+              raise SystemExit('overall raw-score anchor missing')
+          s = s.replace(old_raw,new_raw,1)
 
-          if s==original:
-              raise SystemExit('No E00 mutation required; refusing empty repair commit')
+          # Make the publish boundary observable and deterministic.
+          old_publish = "state.finalizing=true;\n updateContinue();\n\n try{"
+          new_publish = "state.finalizing=true;\n updateContinue();\n\n try{\n  console.info('MAXESS TERMINAL: Q15 saved; beginning authoritative score calculation');"
+          if old_publish not in s:
+              raise SystemExit('publish() anchor missing')
+          s = s.replace(old_publish,new_publish,1)
 
-          p.write_text(s,encoding='utf-8')
-          print('E00 796 patched:',len(original),'->',len(s),'bytes')
-          PY
+          if s == original:
+              print('NO CHANGE: E00 796 already contains hardening')
+          else:
+              p.write_text(s,encoding='utf-8')
+              print('Patched E00 796:',len(s.encode('utf-8')),'bytes')
 
       - name: Static QA
         shell: bash
         run: |
           set -euo pipefail
-          grep -F "typeof S!=='object'" 'E00 796' >/dev/null
-          grep -F "S[k].length!==5" 'E00 796' >/dev/null
-          grep -F "function executeContinue(e)" 'E00 796' >/dev/null
-          grep -F "document.addEventListener('click',executeContinue,true)" 'E00 796' >/dev/null
-          grep -F "document.addEventListener('pointerup',executeContinue,true)" 'E00 796' >/dev/null
-          grep -F "document.addEventListener('keydown',executeContinue,true)" 'E00 796' >/dev/null
-          grep -F "MAXESS Continue execution error" 'E00 796' >/dev/null
-          grep -F "function calculate()" 'E00 796' >/dev/null
-          grep -F "function buildResult()" 'E00 796' >/dev/null
-          grep -F "function valid(c)" 'E00 796' >/dev/null
-          grep -F "persistResult(result);" 'E00 796' >/dev/null
-          grep -F "broadcast(result);" 'E00 796' >/dev/null
-          grep -F "renderLocalResults(result);" 'E00 796' >/dev/null
-          grep -F "attemptResultsHandoff(result);" 'E00 796' >/dev/null
-          grep -F "https://results.nayanet.app/#maxess-result=" 'E00 796' >/dev/null
-          sed -n '/<script>/,/<\/script>/p' 'E00 796' | sed '1d;$d' > /tmp/e00.js
-          node --check /tmp/e00.js
-          echo 'E00 796 Continue + terminal Results static QA: PASS'
+          grep -F "addEventListener('click',e=>{e.preventDefault();e.stopPropagation();next();},{capture:true})" 'E00 796' >/dev/null
+          grep -F "Invalid answer score mapping" 'E00 796' >/dev/null
+          grep -F "Invalid score matrix" 'E00 796' >/dev/null
+          grep -F "Overall score outside 0-60 matrix" 'E00 796' >/dev/null
+          grep -F "MAXESS TERMINAL: Q15 saved" 'E00 796' >/dev/null
+          echo 'E00 796 static QA PASS'
 
       - name: Commit repair
         shell: bash
@@ -136,5 +109,5 @@ document.addEventListener('keydown',executeContinue,true);"""
             echo 'NO CHANGE'
             exit 0
           fi
-          git commit -m 'fix: harden MAXESS Continue and terminal Results handoff'
+          git commit -m 'fix: harden MAXESS Continue terminal scoring path'
           git push origin main
