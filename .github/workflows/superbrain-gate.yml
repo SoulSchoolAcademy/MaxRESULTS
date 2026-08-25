@@ -39,6 +39,8 @@ jobs:
 
       # Cold-start acceptance must observe a genuinely clean checkout. Artifact-producing audit steps intentionally run afterward.
       - name: Run cold-start and CIS acceptance checks
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
         run: python .naya/tests/test_cold_start_and_cis.py
 
       - name: Run duplicate/entity audit
