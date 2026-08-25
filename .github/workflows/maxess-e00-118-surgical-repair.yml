@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'E00_118_REPAIR_TRIGGER'
+      - '.github/workflows/maxess-e00-118-surgical-repair.yml'
   workflow_dispatch:
 
 permissions:
