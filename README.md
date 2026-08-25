@@ -14,22 +14,36 @@ Make it dramatically easier for an ordinary human with a meaningful vision to ac
 
 **UNDERSTAND → PLAN → EXECUTE → VERIFY → LEARN → COMPRESS → PRESERVE → RESTORE → IMPROVE**
 
+## 10-Star Service Standard
+
+Naya Power is governed by a constitutional **10-Star Service + Autonomous Project Execution Law**. The user should not have to become a prompt engineer or project manager to receive expert AI service.
+
+**INTENT → UNDERSTAND → INFER → MINIMUM QUESTIONS → PROMPT/EXECUTION SPECIFICATION → EXECUTE → VERIFY → RECEIPT → NEXT EXECUTION → LEARN → IMPROVE**
+
+The service standard is: **CAKE → ICING → ICE CREAM → CHERRY → CARAMEL → WHIPPED CREAM → SPRINKLES** — fulfill the request, improve it responsibly, add useful intelligence, anticipate what comes next, preserve meaningful learning, and make the experience clear and delightful without unnecessary scope.
+
+**Constitutional law:** `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md`
+
+**Prompt Architect:** `SUPERBRAIN/PROMPT-ARCHITECT/README.md`
+
 ## Start Here
 
 1. `.naya/codex/11-RUNTIME-CONSTITUTION.md`
-2. `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — canonical Smart Notes/CIS law
-3. `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md` — canonical Superbrain operating model
-4. `.naya/memory/BOOTSTRAP.md` — model/session continuity contract
-5. `SUPERBRAIN/AI-BOOT/START-HERE.md` — mandatory AI entry point
-6. `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md` — append-only change stream
-7. `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md` — 25-task optimization sequence
-8. `SUPERBRAIN/10-10-SCORECARD.md` — measured maturity and remaining gates
-9. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-NAYA.md` — AI execution directive
-10. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-SHAWN.md` — human execution directive
-11. `.naya/memory/events/INDEX.json` — chronological Note Event index
-12. `.naya/memory/STATE.json` — current Intelligence State
-13. `.naya/memory/smart_notes_v3.py` — event validation/retrieval/CIS runtime
-14. `.naya/memory/duplicate_entity_audit.py` — duplicate/entity resolution audit
+2. `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md` — 10-Star service, autonomous execution, project, teaching, prompt, continuity, and self-optimization law
+3. `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — canonical Smart Notes/CIS law
+4. `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md` — canonical Superbrain operating model
+5. `.naya/memory/BOOTSTRAP.md` — model/session continuity contract
+6. `SUPERBRAIN/AI-BOOT/START-HERE.md` — mandatory AI entry point
+7. `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md` — append-only change stream
+8. `SUPERBRAIN/PROMPT-ARCHITECT/README.md` — canonical intent-to-prompt execution architecture
+9. `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md` — 25-task optimization sequence
+10. `SUPERBRAIN/10-10-SCORECARD.md` — measured maturity and remaining gates
+11. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-NAYA.md` — AI execution directive
+12. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-SHAWN.md` — human execution directive
+13. `.naya/memory/events/INDEX.json` — chronological Note Event index
+14. `.naya/memory/STATE.json` — current Intelligence State
+15. `.naya/memory/smart_notes_v3.py` — event validation/retrieval/CIS runtime
+16. `.naya/memory/duplicate_entity_audit.py` — duplicate/entity resolution audit
 
 ## Smart Notes + CIS
 
@@ -46,6 +60,22 @@ Canonical storage:
 `.naya/memory/events/YYYY/MM/DD/HH/<event_id>.json`
 
 Naya and Human/Shawn representations can live inside the same event. Every Smart Note must be validated, verified, indexed, and issued a durable receipt. Feed publication is required only where the actual feed integration is available and confirmed.
+
+## Project Memory
+
+**PROJECT** is a first-class semantic category. A project may be an app, website, document, image, design, research effort, learning objective, repair, business initiative, creative work, or other meaningful body of work.
+
+Where applicable, meaningful events should associate with the current project. Project context organizes **work → decisions → discoveries → lessons → artifacts → receipts → next actions**.
+
+## Prompt Architect
+
+If a user knows what they want but does not know how to prompt, Naya should build the prompt. Use:
+
+`SUPERBRAIN/PROMPT-ARCHITECT/README.md`
+
+Preferred user experience:
+
+> **"Don't worry if you don't know what to prompt. Mind-dump what you're trying to accomplish. Naya will organize it, reflect back her understanding, ask only material questions, build the execution specification, and help execute it."**
 
 ## Compounding Intelligence System
 
@@ -80,6 +110,7 @@ The runtime treats the chronological event store as the system of record and the
 - **Supersession is explicit.** History is preserved rather than silently rewritten.
 - **Completion claims require evidence.**
 - **Consequential actions require appropriate authorization.**
+- **Safe, in-scope, evidence-backed improvements should not wait for unnecessary permission.**
 
 ## Current Quality Status
 
