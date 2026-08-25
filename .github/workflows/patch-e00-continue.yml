@@ -20,101 +20,70 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
 
           p=Path('E00 796')
           s=p.read_text()
           original=s
 
           # 1. Correct the score-matrix contract if the bad Array assertion exists.
-          bad="if(!Array.isArray(S)||Object.keys(S).length!==15)"
-          if bad in s:
-              s=s.replace(
-                  "if(!Array.isArray(S)||Object.keys(S).length!==15)\n    throw Error('Invalid score matrix');",
-                  "if(!S||typeof S!=='object'||Array.isArray(S)||Object.keys(S).length!==15)\n    throw Error('Invalid score matrix');\n Object.keys(S).forEach(k=>{\n  if(!Array.isArray(S[k])||S[k].length!==5)throw Error('Invalid score matrix row');\n });",
-                  1
-              )
+          s=s.replace(
+              "if(!Array.isArray(S)||Object.keys(S).length!==15)throw Error('Score matrix structure invalid');",
+              "if(!S||typeof S!=='object'||Array.isArray(S)||Object.keys(S).length!==15)throw Error('Score matrix structure invalid');Object.keys(S).forEach(k=>{if(!/^([1-9]|1[0-5])$/.test(k)||!Array.isArray(S[k])||S[k].length!==5)throw Error('Score matrix row invalid');});",
+              1
+          )
 
-          # 2. Legacy Continue binding repair.
-          legacy="$('continueButton').onclick=next;"
-          hardened="""function bindContinue(){
-           const root=$('maxess-ai-score');
-           const invoke=e=>{
-            const btn=e.target&&e.target.closest?e.target.closest('#continueButton'):null;
-            if(!btn||!root.contains(btn))return;
-            if(e.type==='keydown'&&e.key!=='Enter'&&e.key!==' ')return;
-            if(btn.disabled||state.finalizing||state.mode!=='ASSESSMENT'||!state.selected)return;
-            e.preventDefault();
-            e.stopPropagation();
-            next();
-           };
-           document.addEventListener('click',invoke,true);
-           document.addEventListener('pointerup',invoke,true);
-           document.addEventListener('keydown',invoke,true);
-           const btn=$('continueButton');
-           if(btn)btn.onclick=null;
-          }
-          bindContinue();"""
-          if legacy in s:
-              s=s.replace(legacy,hardened,1)
+          # 2. Harden the Continue boundary for click, pointer and keyboard activation.
+          old_listener="""document.addEventListener('click',e=>{
+  const button=e.target.closest('#maxess-ai-score #continueButton');
+  if(!button)return;
+  e.preventDefault();
+  e.stopPropagation();
+  if(button.disabled)return;
+  next();
+},true);"""
+          new_listener="""function executeContinue(e){
+  const root=$('maxess-ai-score');
+  const button=e.target&&e.target.closest?e.target.closest('#continueButton'):null;
+  if(!button||!root||!root.contains(button))return;
+  if(e.type==='keydown'&&e.key!=='Enter'&&e.key!==' ')return;
+  e.preventDefault();
+  e.stopPropagation();
+  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  if(button.disabled||state.finalizing||state.mode!=='ASSESSMENT'||!state.selected)return;
+  next();
+}
+document.addEventListener('click',executeContinue,true);
+document.addEventListener('pointerup',executeContinue,true);
+document.addEventListener('keydown',executeContinue,true);"""
+          if old_listener in s:
+              s=s.replace(old_listener,new_listener,1)
+          elif "function executeContinue(e)" not in s:
+              raise SystemExit('Continue listener anchor not found')
 
-          # 3. Current hardened boundary: click/pointer/keyboard events can land on
-          # child spans inside the button. Resolve the actual Continue button by
-          # closest() instead of requiring event.target === button.
-          old_target="if(!btn||e.target!==btn)return;"
-          new_target="if(!btn)return;const clicked=e.target&&e.target.closest?e.target.closest('#continueButton'):null;if(clicked!==btn)return;"
-          if old_target in s:
-              s=s.replace(old_target,new_target,1)
-
-          # 4. Put the complete next() terminal boundary under one error boundary.
-          old_next="""function next(){
- if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;
-
- /*
-  * Q15 answer is saved BEFORE any terminal calculation.
-  */
- save();
-
- if(state.i===14){
-  publish();
-  return;
- }
-
- state.i++;
- render();
-
- setTimeout(()=>openNaya(),120);
-}"""
-          new_next="""function next(){
- if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;
- try{
-  save();
-  if(state.i===14){
-   const ok=publish();
-   if(!ok)throw Error('Terminal publish failed');
-   return;
-  }
-  state.i++;
-  render();
-  setTimeout(()=>openNaya(),120);
- }catch(e){
-  console.error('MAXESS Continue execution error',e);
-  state.finalizing=false;
-  state.mode='ASSESSMENT';
-  updateContinue();
-  $('continueText').textContent='Continue';
- }
-}"""
+          # 3. Keep the complete Continue transition inside one failure boundary.
+          old_next="""function next(){if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;if(state.i===14){publish();return;}save();state.i++;render();setTimeout(()=>openNaya(),120);}"""
+          new_next="""function next(){if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;try{if(state.i===14){if(!publish())throw Error('Terminal publish failed');return;}save();state.i++;render();setTimeout(()=>openNaya(),120);}catch(e){console.error('MAXESS Continue execution error',e);state.finalizing=false;state.mode='ASSESSMENT';updateContinue();$('continueText').textContent='Continue';}}"""
           if old_next in s:
               s=s.replace(old_next,new_next,1)
 
-          if "function executeContinue(e)" in s and "const clicked=e.target&&e.target.closest?e.target.closest('#continueButton'):null" not in s:
-              raise SystemExit('Current Continue handler found but nested-target repair was not applied')
+          # 4. Make the terminal Results handoff real. Local Results remain the
+          # verified fallback if navigation is unavailable.
+          old_publish_tail="""releaseResultsSections(result);window.MAXESS_RESULT_HANDOFF_URL = null; return true;"""
+          new_publish_tail="""releaseResultsSections(result);const handedOff=attemptResultsHandoff(result);if(!handedOff)console.warn('MAXESS Results handoff unavailable; verified local Results retained.');return true;"""
+          if old_publish_tail in s:
+              s=s.replace(old_publish_tail,new_publish_tail,1)
+          elif "attemptResultsHandoff(result);" not in s:
+              marker="releaseResultsSections(result);"
+              if marker not in s:
+                  raise SystemExit('Results release anchor not found')
+              s=s.replace(marker,marker+"const handedOff=attemptResultsHandoff(result);if(!handedOff)console.warn('MAXESS Results handoff unavailable; verified local Results retained.');",1)
 
           if s==original:
               raise SystemExit('No E00 mutation required; refusing empty commit')
 
           p.write_text(s)
-          print('E00 796 patched:', len(original), '->', len(s), 'bytes')
+          print('E00 796 patched:',len(original),'->',len(s),'bytes')
           PY
 
       - name: Static verification
@@ -125,25 +94,26 @@ jobs:
           checks={
             'score-object-guard': "typeof S!=='object'" in s and "S[k].length!==5" in s,
             'root-scoped-target': "closest('#continueButton')" in s,
-            'nested-target-guard': "clicked!==btn" in s,
-            'capture-click': "window.addEventListener('click',executeContinue,true)" in s or "document.addEventListener('click',invoke,true)" in s,
-            'pointer-boundary': "window.addEventListener('pointerup',executeContinue,true)" in s or "document.addEventListener('pointerup',invoke,true)" in s,
-            'keyboard-boundary': "addEventListener('keydown'" in s,
+            'capture-click': "document.addEventListener('click',executeContinue,true)" in s,
+            'pointer-boundary': "document.addEventListener('pointerup',executeContinue,true)" in s,
+            'keyboard-boundary': "document.addEventListener('keydown',executeContinue,true)" in s,
             'next-try-boundary': "MAXESS Continue execution error" in s,
             'q15-save': 'save();' in s,
             'publish': 'publish();' in s,
             'calculate': 'const x=calculate();' in s,
             'build': 'function buildResult()' in s,
-            'validate': "function valid(c)" in s,
+            'validate': 'function valid(c)' in s,
             'persist': 'persistResult(result);' in s,
             'broadcast': 'broadcast(result);' in s,
             'local-results': 'renderLocalResults(result);' in s,
             'external-handoff': 'attemptResultsHandoff(result);' in s,
+            'results-domain': 'https://results.nayanet.app/#maxess-result=' in s,
           }
-          bad=[k for k,v in checks.items() if not v]
           print(checks)
+          bad=[k for k,v in checks.items() if not v]
           if bad: raise SystemExit('Static verification failed: '+', '.join(bad))
           PY
+          node --check <(sed -n '/<script>/,/<\/script>/p' 'E00 796' | sed '1d;$d')
 
       - name: Commit verified patch
         run: |
@@ -151,7 +121,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add 'E00 796'
           git diff --cached --quiet && exit 0
-          git commit -m 'fix E00 796 Continue nested-target boundary'
+          git commit -m 'fix E00 796 Continue and terminal Results handoff'
           git push
 
 # NAYA POWER EXECUTION CONTINUITY: keep this workflow push-triggered so the canonical mutation can execute without a manual dead-end.
