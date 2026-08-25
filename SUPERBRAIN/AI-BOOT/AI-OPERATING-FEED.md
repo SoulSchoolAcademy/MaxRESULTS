@@ -13,6 +13,32 @@ This is the shared operational handoff stream for every AI/session entering the 
 7. If an operating rule changes, create/update the appropriate Master Note and canonical protocol; the feed announces the change.
 8. A new AI reads the newest entries first, then follows links into canonical sources.
 
+## 2026-08-25 — NayaNET federation + mobile Superbrain architecture
+
+**Status:** VERIFIED DESIGN / IMPLEMENTATION NOT YET PRODUCTION
+
+**Event:** `SE-20260825-201500-nayanet-personal-superbrain-federation`
+
+**What changed:** Defined the next product architecture: a mobile-first web app as the human control surface for a private personal Superbrain, plus a future NayaNET federation layer connecting autonomous personal Superbrains through explicit permissioned bridges.
+
+**Why:** The personal Superbrain should remain private and complete on its own. Network participation should be simple for the human while the system enforces real consent, scope, privacy transformation, provenance, audit, authorization, encryption, and revocation underneath.
+
+**Canonical paths:**
+- `.naya/codex/NAYANET-FEDERATION-PROTOCOL.md`
+- `.naya/codex/SUPERBRAIN-MOBILE-APP-EXPERIENCE.md`
+- `.naya/memory/events/2026/08/25/20/SE-20260825-201500-nayanet-personal-superbrain-federation.json`
+- `.naya/memory/events/INDEX.json`
+
+**Readable notes:**
+- `SUPERBRAIN/MASTER-NOTES/SN-20260825-NAYANET-PERSONAL-SUPERBRAIN-FEDERATION-NAYA.md`
+- `SUPERBRAIN/MASTER-NOTES/SN-20260825-NAYANET-PERSONAL-SUPERBRAIN-FEDERATION-SHAWN.md`
+
+**Verification:** The event, paired representations, protocol, app architecture, and canonical index entry were written to the repository. Production federation security and live network delivery remain NOT IMPLEMENTED.
+
+**Next action:** Continue the personal Superbrain hardening sequence: green post-repair CI → duplicate/entity resolution → true semantic/vector retrieval → automated CIS → then implement the secure federation bridge.
+
+---
+
 ## 2026-08-25 — Superbrain federation/boot architecture
 
 **Status:** IMPLEMENTED IN REPOSITORY
