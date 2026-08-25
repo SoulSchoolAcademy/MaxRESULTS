@@ -15,13 +15,13 @@ def is_meaningful(event,policy):
     typ=str(event.get('event_type',event.get('type',''))).lower()
     if typ in {str(x).lower() for x in policy.get('meaningful_event_types',[])}:return True
     tags={str(x).lower() for x in (event.get('tags') or [])}
-    return bool(tags.intersection({str(x).lower() for x in policy.get('meaningful_tags',[])}))
+    return bool(tags.intersection({str(x).lower() for x in policy.get('meaningful_tags',[]})) )
 def validate_project(p):
     req=('project_id','project_name','date','goal','vision','mission','north_star','current_objective','success_criteria','constraints','current_state','next_execution_path')
-    return [f'project state missing {k}' for k in req if not p.get(k)]
+    return [f'project state missing {k}' for k in req if k not in p or p.get(k) is None or p.get(k)=='' ]
 def validate_next_execution(n):
     req=('schema_version','status','project','north_star','current_state','completed_work','verified_evidence','unresolved_issues','constraints','current_objective','next_action','execution_instructions','success_criteria','verification_requirements')
-    return [f'next execution missing {k}' for k in req if not n.get(k)]
+    return [f'next execution missing {k}' for k in req if k not in n or n.get(k) is None or n.get(k)=='' ]
 def validate_event(event,project,policy):
     errors=[]; eid=str(event.get('event_id','<missing>'))
     if not EVENT_RE.match(eid):errors.append(f'{eid}: invalid event_id')
