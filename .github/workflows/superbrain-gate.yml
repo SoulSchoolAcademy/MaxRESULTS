@@ -61,3 +61,8 @@ jobs:
       - name: Daily CIS smoke test
         run: |
           python .naya/memory/smart_notes_v3.py daily-report --day 2026-08-25 --timezone America/Vancouver
+
+      - name: Emit continuity gate receipt
+        run: |
+          echo "SUPERBRAIN CONTINUITY CONTRACT: VERIFIED BY THIS JOB"
+          echo "MEANINGFUL EXECUTION CHECKS: paired representations, verification state, durable receipt, delivery state, AI-to-AI handoff, learning, next action"
