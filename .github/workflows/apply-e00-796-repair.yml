@@ -1,0 +1,92 @@
+name: Apply E00 796 Repair
+on:
+  push:
+    paths:
+      - 'PATCH_E00_TRIGGER'
+      - '.github/workflows/apply-e00-796-repair.yml'
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch canonical E00 796
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('E00 796')
+          s=p.read_text(encoding='utf-8')
+          original=s
+          if 'function attemptResultsHandoff(result)' not in s:
+              raise SystemExit('E00 796 handoff function missing')
+          bad="if(!Array.isArray(S)||Object.keys(S).length!==15)throw Error('Score matrix structure invalid');"
+          good="if(!S||typeof S!=='object'||Array.isArray(S)||Object.keys(S).length!==15)throw Error('Score matrix structure invalid');Object.keys(S).forEach(k=>{if(!/^([1-9]|1[0-5])$/.test(k)||!Array.isArray(S[k])||S[k].length!==5)throw Error('Score matrix row invalid');});"
+          if bad in s:
+              s=s.replace(bad,good,1)
+          listener="""document.addEventListener('click',e=>{
+  const button=e.target.closest('#maxess-ai-score #continueButton');
+  if(!button)return;
+  e.preventDefault();
+  e.stopPropagation();
+  if(button.disabled)return;
+  next();
+},true);"""
+          hardened="""function executeContinue(e){
+  const root=$('maxess-ai-score');
+  const button=e.target&&e.target.closest?e.target.closest('#continueButton'):null;
+  if(!button||!root||!root.contains(button))return;
+  if(e.type==='keydown'&&e.key!=='Enter'&&e.key!==' ')return;
+  e.preventDefault();
+  e.stopPropagation();
+  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  if(button.disabled||state.finalizing||state.mode!=='ASSESSMENT'||!state.selected)return;
+  next();
+}
+document.addEventListener('click',executeContinue,true);
+document.addEventListener('pointerup',executeContinue,true);
+document.addEventListener('keydown',executeContinue,true);"""
+          if listener in s:
+              s=s.replace(listener,hardened,1)
+          elif 'function executeContinue(e)' not in s:
+              raise SystemExit('Continue listener anchor missing')
+          old_next="function next(){if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;if(state.i===14){publish();return;}save();state.i++;render();setTimeout(()=>openNaya(),120);}"
+          new_next="function next(){if(state.finalizing||!state.selected||state.mode!=='ASSESSMENT')return;try{if(state.i===14){if(!publish())throw Error('Terminal publish failed');return;}save();state.i++;render();setTimeout(()=>openNaya(),120);}catch(e){console.error('MAXESS Continue execution error',e);state.finalizing=false;state.mode='ASSESSMENT';updateContinue();$('continueText').textContent='Continue';}}"
+          if old_next in s:
+              s=s.replace(old_next,new_next,1)
+          old_tail="releaseResultsSections(result);window.MAXESS_RESULT_HANDOFF_URL = null; return true;"
+          new_tail="releaseResultsSections(result);const handedOff=attemptResultsHandoff(result);if(!handedOff)console.warn('MAXESS Results handoff unavailable; verified local Results retained.');return true;"
+          if old_tail in s:
+              s=s.replace(old_tail,new_tail,1)
+          elif 'attemptResultsHandoff(result);' not in s:
+              raise SystemExit('Terminal handoff anchor missing')
+          if s==original:
+              raise SystemExit('No E00 repair needed; refusing empty commit')
+          p.write_text(s,encoding='utf-8')
+          print('E00 796 mutation:',len(original),'->',len(s),'bytes')
+          PY
+      - name: Static QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F "typeof S!=='object'" 'E00 796' >/dev/null
+          grep -F "function executeContinue(e)" 'E00 796' >/dev/null
+          grep -F "document.addEventListener('pointerup',executeContinue,true)" 'E00 796' >/dev/null
+          grep -F "document.addEventListener('keydown',executeContinue,true)" 'E00 796' >/dev/null
+          grep -F "attemptResultsHandoff(result);" 'E00 796' >/dev/null
+          grep -F "https://results.nayanet.app/#maxess-result=" 'E00 796' >/dev/null
+          sed -n '/<script>/,/<\/script>/p' 'E00 796' | sed '1d;$d' > /tmp/e00.js
+          node --check /tmp/e00.js
+          echo 'E00 796 REPAIR QA PASS'
+      - name: Commit E00 repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'Naya Power'
+          git config user.email 'naya-power@users.noreply.github.com'
+          git add 'E00 796'
+          git diff --cached --quiet && exit 0
+          git commit -m 'fix: repair MAXESS E00 Continue and Results handoff'
+          git push
