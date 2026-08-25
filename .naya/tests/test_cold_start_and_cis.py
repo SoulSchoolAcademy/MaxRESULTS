@@ -10,7 +10,6 @@ from cis_state import build
 def run_restore(root:Path):
     script=root/".naya"/"runtime"/"restore_context.py"
     env=os.environ.copy()
-    # Restore is an acceptance probe. It must not contaminate the checkout with Python bytecode artifacts.
     env["PYTHONDONTWRITEBYTECODE"]="1"
     return subprocess.run([sys.executable,str(script),"restore","Superbrain","--limit","5"],cwd=root,text=True,capture_output=True,env=env)
 
@@ -29,15 +28,19 @@ def assert_restored(proc):
     return data
 
 def main():
-    # Positive: the live repository must restore with a verified status, not a permissive UNKNOWN.
     live=assert_restored(run_restore(ROOT))
-    # Strong cold-start: reconstruct the runtime from repository files in a fresh temporary checkout.
     with tempfile.TemporaryDirectory() as tmp:
         fresh=Path(tmp)
         shutil.copytree(ROOT/".naya",fresh/".naya")
         subprocess.run(["git","init","-q"],cwd=fresh,check=True)
         subprocess.run(["git","config","user.email","naya-test@example.invalid"],cwd=fresh,check=True)
         subprocess.run(["git","config","user.name","Naya Cold Start Test"],cwd=fresh,check=True)
+        # Disable Git's background maintenance for the ephemeral fixture. Background
+        # maintenance can race TemporaryDirectory cleanup and leave .git non-empty;
+        # that would make the acceptance test fail for infrastructure timing rather
+        # than for repository restoration correctness.
+        subprocess.run(["git","config","maintenance.auto","false"],cwd=fresh,check=True)
+        subprocess.run(["git","config","gc.auto","0"],cwd=fresh,check=True)
         subprocess.run(["git","add",".naya"],cwd=fresh,check=True)
         subprocess.run(["git","commit","-qm","cold-start fixture"],cwd=fresh,check=True)
         cold=assert_restored(run_restore(fresh))
