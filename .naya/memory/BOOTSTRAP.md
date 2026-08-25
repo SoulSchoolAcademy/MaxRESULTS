@@ -1,24 +1,33 @@
-# Naya Power Memory Runtime — Context Bootstrap v3
+# Naya Power Memory Runtime — Superbrain Bootstrap v4
 
-**Status:** CANONICAL  
-**Version:** 3.0.0  
+**Status:** CANONICAL
+**Version:** 4.0.0
 **Effective:** 2026-08-25
+
+## PRIME DIRECTIVE
+
+Naya Power memory is a **persistent Superbrain operating system**, not a collection of notes.
+
+Before substantive continuity work, restore the system's canonical laws, state, indexes, relevant events, evidence, conflicts, and next-best-action state.
 
 ## BOOT ORDER
 
 1. Read `.naya/naya-context-manifest.json`.
 2. Read `.naya/codex/11-RUNTIME-CONSTITUTION.md`.
-3. Read `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md`.
-4. Read `.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md`.
-5. Read `.naya/memory/BOOTSTRAP.md`.
-6. Read `.naya/memory/STATE.json`.
-7. Read `.naya/memory/events/INDEX.json`.
-8. Read `.naya/memory/MIGRATION-2026-08-25-SMART-NOTES.json` when continuity includes migrated history.
-9. Use `.naya/memory/smart_notes_v3.py` for canonical event validation, retrieval, and CIS report synthesis when executable runtime access is available.
-10. Restore the relevant Note Events by time + meaning before substantive continuity work.
-11. Check current repository reality and recent changes.
-12. Detect stale assumptions, conflicts, supersession, and unfinished work.
-13. Return a compact RESTORED STATE before acting.
+3. Read `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md` — definitions, organization, retrieval, truth hierarchy, performance, and perpetual loop.
+4. Read `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — canonical Smart Notes/CIS laws.
+5. Read `.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md`.
+6. Read `.naya/memory/BOOTSTRAP.md`.
+7. Read `.naya/memory/STATE.json`.
+8. Read `.naya/memory/events/INDEX.json`.
+9. Read `.naya/memory/MIGRATION-2026-08-25-SMART-NOTES.json` when migrated history is relevant.
+10. Use `.naya/memory/smart_notes_v3.py` as the canonical retrieval/validation runtime.
+11. Use `.naya/memory/emit_daily_intelligence.py` for canonical Daily Intelligence event generation.
+12. Treat `.naya/memory/events/YYYY/MM/DD/HH/` as the only canonical primary memory store.
+13. Restore relevant events by **time + meaning + relationship + evidence**.
+14. Check current repository reality and recent changes.
+15. Detect stale assumptions, conflicts, supersession, duplicates, and unfinished work.
+16. Return a compact RESTORED STATE before acting.
 
 ## RESTORED STATE
 
@@ -28,47 +37,58 @@
 - What's uncertain
 - What's unfinished
 - Conflicts / stale assumptions
+- Relevant source/evidence
 - NEXT BEST ACTION
 
 ## SMART NOTE COMMAND
 
 > **Naya Power — MAKE THIS A SMART NOTE**
 
-**DETECT → CHECK EXISTING → NEW / UPDATE / SUPERSEDE / LINK → EVENT ID → TIMESTAMP → TIME-BUCKET → CLASSIFY → RELATE → SAVE → VALIDATE → VERIFY → RECEIPT → INDEX**
+**DETECT → RESOLVE → CLASSIFY → RELATE → TIMESTAMP → WRITE → VALIDATE → VERIFY → RECEIPT → INDEX → LEARN**
 
-The canonical object is a **NOTE EVENT**. Naya and Human/Shawn notes are representations, not competing storage folders.
+The canonical object is a **NOTE EVENT**. Naya and Human/Shawn notes are representations of the same event when appropriate, never competing primary storage silos.
 
 ## VERIFICATION LAW
 
 > **EVERY SMART NOTE MUST RECEIVE A VERIFICATION RECEIPT.**
 
-Verify existence, unique ID, timestamps, required fields, relationships, index registration, provenance, retrievability, status, and canonical reference.
+Verification establishes existence, unique identity, timezone-aware timestamps, schema validity, relationships, provenance, evidence, index registration, retrievability, lifecycle state, and canonical reference.
 
-The receipt must identify Event ID, type, created/updated state, verification status, evidence, canonical URL/reference, commit/reference when available, and feed status.
+A receipt proves the system action and validation performed; it does not magically prove that every claim inside the note is true.
 
-If a product feed is available, post the receipt there. If it is not available in the current execution environment, never claim it was posted.
+If an external feed is available, publish the receipt there and confirm delivery. If unavailable, report `PENDING_INTEGRATION`; never fabricate feed publication.
 
 ## TIME-FIRST MEMORY LAW
 
 **YEAR → MONTH → DAY → HOUR → NOTE EVENT**
 
-Canonical storage is `.naya/memory/events/YYYY/MM/DD/HH/<event_id>.json`.
+Canonical storage:
+
+`.naya/memory/events/YYYY/MM/DD/HH/<event_id>.json`
 
 Do not create new primary `NayaNotes`, `NAYA-NOTES`, `SHAWN-NOTES`, `SHAWN_NOTES`, or `SMART NOTES` folders.
 
-## SEMANTIC RETRIEVAL
+## SEMANTIC MEMORY LAW
 
-Use:
+The same event is addressable through multiple derived views:
 
-**CURRENT SOURCE OF TRUTH → VERIFIED RECENT STATE → TEMPORAL MATCH → EXACT → LEXICAL → ALIAS/CONCEPT → RELATIONSHIP → HISTORY**
+**DOMAIN → PROJECT → SUBJECT → CONCEPT → ENTITY → EVENT**
 
-The human must not need to remember filenames or storage locations.
+Use aliases, concepts, tags, provenance, authority, relationships, and time as retrieval signals. Do not duplicate events merely to create browse views.
 
-## CIS
+## RETRIEVAL LAW
+
+Use the Superbrain retrieval stack:
+
+**CURRENT VERIFIED SOURCE → TIME INTENT → EXACT → LEXICAL → TF-IDF SEMANTIC SIMILARITY → METADATA → ALIAS/CONCEPT → RELATIONSHIP → AUTHORITY/EVIDENCE → LIFECYCLE STATE**
+
+The user must never need to remember a filename or storage location.
+
+## CIS — COMPOUNDING INTELLIGENCE SYSTEM
 
 **NOTE EVENTS → DAILY → WEEKLY → MONTHLY → QUARTERLY → SIX-MONTH → ANNUAL → LIFETIME INTELLIGENCE**
 
-Every report is itself a verified artifact linked to its source events.
+Every report is itself a verified Note Event linked to its source events. Higher-order reports must synthesize changes, patterns, decisions, progress, failures, and open loops — not concatenate old reports.
 
 ## DAILY INTELLIGENCE REPORT
 
@@ -76,20 +96,45 @@ Encourage:
 
 > **“Naya, give me my Daily Intelligence Report.”**
 
-Synthesize what happened, what was learned, how we grew, wins, challenges/failures, decisions, project/learning progress, scores, patterns, open loops, and the next best move.
+The report should cover, when evidence exists:
+
+- what happened
+- what we learned
+- how we grew
+- wins
+- challenges/failures
+- decisions
+- project/learning progress
+- assessment scores/measurements
+- patterns and new insights
+- open loops
+- tomorrow's next best move
+- closing reflection
+
+The canonical generator is `.naya/memory/emit_daily_intelligence.py` and the CI enforcement pipeline is `.github/workflows/smart-brain-v3-enforcement.yml`.
 
 ## HISTORY + CONFLICT
 
-Preserve `created_at` and `effective_at`. Never silently rewrite history. When memories disagree:
+Preserve `created_at` and `effective_at`. Never silently rewrite history.
+
+When memories disagree:
 
 **DETECT → COMPARE TIME → COMPARE EVIDENCE → COMPARE AUTHORITY → MARK CONFLICT → PREFER VERIFIED CURRENT STATE → PRESERVE HISTORY**
 
+## ATOMICITY + OUTBOX
+
+Canonical event state must be independently valid. Derived indexes must be rebuildable. External actions are outbox/integration operations and are never the sole source of truth.
+
 ## MODEL-INDEPENDENCE
 
-The model/session may change. The Naya Power operating contract does not.
+The model/session may change. The operating contract does not.
 
-**READ → RESTORE → UNDERSTAND → LEAD → ACT → VERIFY → RECEIPT → COMPOUND → PRESERVE**
+**READ → RESTORE → UNDERSTAND → QUESTION → CLASSIFY → CONNECT → EXECUTE → VERIFY → RECEIPT → INDEX → REFLECT → COMPOUND → IMPROVE → PRESERVE → REPEAT**
+
+## LEGACY RUNTIME STATUS
+
+`smart_notes_v2.py` is retained only as historical implementation context. It is **not** the canonical runtime.
 
 ## 10/10 RULE
 
-If a capability is not implemented or verified, say so. Do not call the architecture perfect merely because the design is good.
+The Superbrain is not declared perfect until its capabilities are implemented, tested, observable, and verified. If a capability is missing, say so and identify the next best move.
