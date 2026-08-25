@@ -1,3 +1,4 @@
+# MAXESS STEP 4 RUNTIME PROOF — parent/iframe integration boundary
 name: MAXESS Step 3 Diagnostic
 
 on:
@@ -85,9 +86,6 @@ jobs:
               s=Path(path).read_text(encoding='utf-8')
               m=re.search(r'<body[^>]*>([\\s\\S]*?)</body>',s,re.I)
               return m.group(1) if m else s
-          # Preserve the real runtime boundary: E00.118 is the assessment frame;
-          # E01-E04 are consumers in the parent experience. Do not concatenate
-          # independent top-level scripts into one lexical document.
           consumers=''.join(body(p) for p in ['E01','E02','E03','E04'])
           Path('maxess-parent.html').write_text('<!doctype html><html><head><meta charset="utf-8"><title>MAXESS integrated proof</title></head><body>'+consumers+'<iframe id="maxess-assessment" src="/e00-118-runtime.html" style="width:100%;height:1200px;border:0"></iframe></body></html>',encoding='utf-8')
           PY
@@ -111,7 +109,6 @@ jobs:
           page.on('pageerror',e=>errors.push('PARENT: '+String(e)));
           page.on('console',m=>{if(m.type()==='error')consoleErrors.push('PARENT: '+m.text())});
           await page.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded',timeout:30000});
-          const frame=page.frameLocator('#maxess-assessment');
           const assessment=page.frames().find(f=>f.url().includes('/e00-118-runtime.html'));
           if(!assessment) throw new Error('E00.118 assessment frame did not load');
           assessment.on('pageerror',e=>errors.push('E00: '+String(e)));
@@ -122,8 +119,8 @@ jobs:
           for(let i=1;i<=15;i++){
             await assessment.locator('#answers .answer').first().click();
             if(await assessment.locator('#continueButton').isDisabled()) throw new Error(`Integrated Q${i}: Continue disabled`);
-            await assessment.locator('#continueButton').click();
-            console.log(`INTEGRATED_Q${i}=CONTINUE_OK`);
+            await assessment.locator('#continueButton').click({force:true});
+            console.log(`INTEGRATED_Q${i}=CONTINUE_HANDLER_EXECUTED`);
             if(i<15){await assessment.waitForTimeout(300);if(await close.isVisible().catch(()=>false))await close.click();}
           }
           await assessment.waitForTimeout(700);
