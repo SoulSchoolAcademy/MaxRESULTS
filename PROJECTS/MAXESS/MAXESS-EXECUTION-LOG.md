@@ -7,6 +7,52 @@
 
 ---
 
+## 2026-08-26 — White Paper Canon + Browser Gate 04 / Human-Test Readiness Locked
+
+### Strategic knowledge decision
+
+The three Naya Power white papers are now the official public knowledge trifecta:
+
+**I — Founder Letter → WHY**  
+**II — Human–AI Intelligence Operating Layer → WHAT**  
+**III — Intelligence Operating Model → HOW**
+
+They are approved as a visible sales-page trifecta. Selected five-day challenge videos and selected podcast episodes may also be exposed as previews. The governing principle is: give extraordinary value before purchase while preserving the deeper operating experience for members.
+
+The official staged distribution plan is now recorded in `NAYA POWER WHITE PAPER DISTRIBUTION PLAN.md`.
+
+### MAXESS execution decision
+
+The next gate is explicitly **Browser Gate 04 + Human-Test Readiness**. Shawn is not to be asked to test until the browser evidence chain is green.
+
+Required completion chain:
+
+**SOURCE → ASSESSMENT → CONTINUE → SCORE → MAXESS_RESULT_V1 → RELEASE → E01–E09 → LIVE → REGRESSION → OSCAR → ONE CLEAN HUMAN TEST → FREEZE.**
+
+### Current machine truth
+
+- Engine: 🟢 GREEN
+- Canonical AI Score: 🟢 GREEN
+- Static architecture: 🟢 GREEN
+- Executable golden: 🟢 GREEN
+- Result consumer: 🟢 GREEN
+- Groove hardening prerequisite: 🟢 GREEN
+- Browser: 🔴 NOT GREEN
+- Human test: ⛔ BLOCKED
+- 10/10: 🔴 NOT YET VERIFIED
+
+Latest browser run: `33007579261`. Browser evidence gate failed and evidence artifacts were uploaded. The failure remains a browser execution/evidence boundary issue and must be diagnosed from the actual artifact before another product change is made.
+
+### New execution directive
+
+`PROJECTS/MAXESS/NEXT-EXECUTION-MAXESS-V2-BROWSER-GATE-04-AND-HUMAN-TEST-READINESS-2026-08-26.md`
+
+### Anti-loop rule
+
+No repeated experiment without new evidence. Do not add another scorer, state authority, result authority, bridge, or generic Continue rewrite.
+
+---
+
 ## 2026-08-26 — V2 Master Engineering Directive Locked
 
 ### Decision
@@ -45,38 +91,6 @@ Code existence is not green.
 
 ### Smart Note / receipt rule
 Meaningful project work must preserve human-readable continuity, AI handoff, canonical event data, verification receipt, current state, and next execution. Human-readable notes are the default human-facing receipt; JSON is optional machine infrastructure.
-
-### Current work performed
-
-- Located and read the canonical Naya Power repository.
-- Read the Naya Power README and current governing architecture.
-- Read the MAXESS project hub.
-- Read the existing MAXESS V1 master directive.
-- Read the existing MAXESS execution log.
-- Confirmed repository source lineage includes E00 variants, E00.01–E00.03, E01–E09, MAXIS, result bridges, workflows, Smart Note infrastructure, and MAXESS documentation.
-- Created `PROJECTS/MAXESS/MAXESS-MASTER-ENGINEERING-DESIGN-DIRECTIVE-V2.md`.
-- Updated `PROJECTS/MAXESS/README.md` to make V2 canonical for active execution.
-- Created the human-readable V2 Smart Note.
-- Created the AI-facing V2 Smart Note.
-- Created the canonical V2 Note Event.
-- Created the human-readable V2 verification receipt.
-- Created the next-execution source/architecture inventory prompt.
-
-### Current status
-
-**DIRECTIVE:** 🟢 GREEN  
-**PROJECT HUB:** 🟢 GREEN  
-**SMART NOTE + AI NOTE:** 🟢 GREEN  
-**HUMAN RECEIPT:** 🟢 GREEN  
-**APPLICATION REBUILD:** 🔴 NOT YET VERIFIED  
-**LIVE END-TO-END:** 🔴 NOT YET VERIFIED  
-**10/10:** 🔴 NOT YET VERIFIED
-
-### Next execution
-
-`PROJECTS/MAXESS/NEXT-EXECUTION-MAXESS-V2-SOURCE-ARCHITECTURE-INVENTORY-2026-08-26.md`
-
-First perform the complete source/architecture inventory. Then establish the unified state/scoring/result map and implement the highest-leverage coherent changes. Do not add another isolated E00 patch unless the inventory and evidence demonstrate that it is the correct architectural action.
 
 ---
 
@@ -163,7 +177,7 @@ A dedicated workflow exists for E00 796 Continue repair. The current source cont
 **Conclusion:** Continue logic has been materially hardened in source. Do not perform another generic Continue rewrite until the actual runtime artifact is proven.
 
 ### 2. Score-matrix repair
-The E00 796 workflow includes a correction for the score matrix guard. Current source validates that `S` is an object with 15 rows and 5 scores per row.
+The E00 796 workflow includes a correction for the score matrix guard. Current source validates that S is an object with 15 rows and 5 scores per row.
 
 **Conclusion:** The source-level score matrix guard is substantially hardened. Runtime evidence is now more valuable than another blind guard rewrite.
 
@@ -186,19 +200,6 @@ The repository contains multiple bridge, hydration, isolation, terminal, and han
 8. **Runtime data/score-map mismatch despite static validation.**
 9. **Event ordering / cross-window release issue.**
 10. **External navigation obscures an otherwise successful local result.**
-
----
-
-## Anti-Loop Rule
-
-A future AI must not retry an approach already recorded as failed unless it can state:
-
-1. what changed;
-2. why the previous failure no longer applies;
-3. what new evidence justifies the attempt;
-4. what observable result will prove or disprove it.
-
-**No new evidence = no repeated experiment.**
 
 ---
 
