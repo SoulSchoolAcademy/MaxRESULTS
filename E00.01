@@ -1,11 +1,11 @@
-<script id="MAXESS-E00-01-BRIDGE-V7">
+<script id="MAXESS-E00-01-BRIDGE-V8">
 (function () {
   'use strict';
 
-  if (window.__MAXESS_E00_01_BRIDGE_V7__) return;
-  window.__MAXESS_E00_01_BRIDGE_V7__ = true;
+  if (window.__MAXESS_E00_01_BRIDGE_V8__) return;
+  window.__MAXESS_E00_01_BRIDGE_V8__ = true;
 
-  const BRIDGE = 'MAXESS-E00-01-BRIDGE-V7';
+  const BRIDGE = 'MAXESS-E00-01-BRIDGE-V8';
   const CONTRACT = 'MAXESS_RESULT_V1';
 
   let released = false;
@@ -50,18 +50,15 @@
   }
 
   /*
-   * TERMINAL AUTHORITY:
+   * TERMINAL AUTHORITY
    *
    * E00 owns the scoring engine. E00.01 does not calculate a
    * score and does not duplicate scoring logic. It simply makes
    * the existing E00 publish() authority execute immediately
    * when Q15's Continue button is clicked.
    *
-   * This removes the obsolete completion-popup dependency and
-   * restores the intended one-click terminal flow:
-   *
    * Q15 Continue
-   *   -> E00 publish()
+   *   -> E00.publish()
    *   -> save Q15
    *   -> calculate 15-response result
    *   -> validate MAXESS_RESULT_V1
@@ -154,7 +151,7 @@
   }
 
   window.MAXESS_E00_01 = {
-    version: 7,
+    version: 8,
     contractVersion: CONTRACT,
     getResult: getResult,
     release: showResults,
@@ -170,13 +167,7 @@
   window.addEventListener('MAXESS_RESULT_READY', showResults);
   window.addEventListener('maxess:result-updated', showResults);
 
-  /*
-   * No polling loop.
-   * E00 is the authority and emits the result event when the
-   * result has actually been calculated and validated.
-   */
-  showResults();
-
-  console.log('[MAXESS BRIDGE] E00.01 V7 initialized.');
+  /* No initial storage recovery: stale results must never release this page. */
+  console.log('[MAXESS BRIDGE] E00.01 V8 initialized; awaiting current assessment completion.');
 })();
 </script>
