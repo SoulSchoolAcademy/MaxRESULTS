@@ -1,24 +1,20 @@
-<script id="MAXESS-E00-01-BRIDGE-V8">
+<script id="MAXESS-E00-01-BRIDGE-V9">
 (function () {
   'use strict';
 
-  if (window.__MAXESS_E00_01_BRIDGE_V8__) return;
-  window.__MAXESS_E00_01_BRIDGE_V8__ = true;
+  if (window.__MAXESS_E00_01_BRIDGE_V9__) return;
+  window.__MAXESS_E00_01_BRIDGE_V9__ = true;
 
-  const BRIDGE = 'MAXESS-E00-01-BRIDGE-V8';
+  const BRIDGE = 'MAXESS-E00-01-BRIDGE-V9';
   const CONTRACT = 'MAXESS_RESULT_V1';
 
   let released = false;
   let terminalTriggered = false;
 
   function getResult() {
-    if (
-      window.MAXESS_RESULT &&
-      window.MAXESS_RESULT.contractVersion === CONTRACT
-    ) {
+    if (window.MAXESS_RESULT && window.MAXESS_RESULT.contractVersion === CONTRACT) {
       return window.MAXESS_RESULT;
     }
-
     try {
       const stored = sessionStorage.getItem(CONTRACT);
       if (stored) {
@@ -29,7 +25,6 @@
         }
       }
     } catch (e) {}
-
     return null;
   }
 
@@ -37,37 +32,25 @@
     return !!result &&
       result.contractVersion === CONTRACT &&
       Number.isInteger(result.overallScore) &&
-      result.overallScore >= 0 &&
-      result.overallScore <= 100 &&
-      Array.isArray(result.dimensions) &&
-      result.dimensions.length === 5 &&
+      result.overallScore >= 0 && result.overallScore <= 100 &&
+      Array.isArray(result.dimensions) && result.dimensions.length === 5 &&
       result.dimensions.every(function (d) {
         return d && Number.isInteger(d.score) && d.score >= 0 && d.score <= 100;
       }) &&
-      Array.isArray(result.responses) &&
-      result.responses.length === 15 &&
+      Array.isArray(result.responses) && result.responses.length === 15 &&
       new Set(result.responses.map(function (r) { return r.questionId; })).size === 15;
   }
 
   /*
    * TERMINAL AUTHORITY
+   * E00 owns the scoring engine. E00.01 only triggers the
+   * existing E00 publish() authority on the Q15 Continue state.
    *
-   * E00 owns the scoring engine. E00.01 does not calculate a
-   * score and does not duplicate scoring logic. It simply makes
-   * the existing E00 publish() authority execute immediately
-   * when Q15's Continue button is clicked.
-   *
-   * Q15 Continue
-   *   -> E00.publish()
-   *   -> save Q15
-   *   -> calculate 15-response result
-   *   -> validate MAXESS_RESULT_V1
-   *   -> persist/broadcast
-   *   -> release E01-E09
+   * Q15 Continue -> E00.publish() -> save -> calculate ->
+   * validate -> persist/broadcast -> release/hydrate E01-E09.
    */
   function terminalClick(event) {
-    const button = event.target &&
-      event.target.closest &&
+    const button = event.target && event.target.closest &&
       event.target.closest('#maxess-ai-score #continueButton');
 
     if (!button || button.disabled) return;
@@ -77,7 +60,6 @@
 
     if (terminalTriggered) {
       event.preventDefault();
-      event.stopImmediatePropagation();
       return;
     }
 
@@ -87,7 +69,7 @@
     }
 
     event.preventDefault();
-    event.stopImmediatePropagation();
+    event.stopPropagation();
     terminalTriggered = true;
 
     try {
@@ -95,7 +77,7 @@
 
       if (!ok) {
         terminalTriggered = false;
-        console.error('[MAXESS BRIDGE] E00 terminal publish refused.');
+        console.error('[MAXESS BRIDGE] E00 terminal publish refused; native E00 path remains available.');
         return;
       }
 
@@ -105,11 +87,11 @@
       console.log('[MAXESS BRIDGE] Q15 terminal execution complete.');
     } catch (error) {
       terminalTriggered = false;
-      console.error('[MAXESS BRIDGE] Q15 terminal execution failed.', error);
+      console.error('[MAXESS BRIDGE] Q15 terminal execution failed; native E00 path remains available.', error);
     }
   }
 
-  /* Capture phase intentionally matches E00's terminal event boundary. */
+  /* Capture phase intentionally matches E00's terminal boundary. */
   document.addEventListener('click', terminalClick, true);
 
   function showResults() {
@@ -119,18 +101,13 @@
     if (!validResult(result)) return;
 
     released = true;
-
     window.MAXESS_RESULTS_RELEASED = true;
     window.MAXESS_RESULTS_BRIDGE = BRIDGE;
     window.MAXESS_RESULTS_DATA = result;
 
     try {
       window.dispatchEvent(new CustomEvent('MAXESS_ISOLATION_RELEASE', {
-        detail: {
-          result: result,
-          contractVersion: CONTRACT,
-          bridge: BRIDGE
-        }
+        detail: { result: result, contractVersion: CONTRACT, bridge: BRIDGE }
       }));
     } catch (e) {}
 
@@ -141,25 +118,21 @@
     } catch (e) {}
 
     try {
-      document.documentElement.setAttribute(
-        'data-maxess-results-state',
-        'released'
-      );
+      document.documentElement.setAttribute('data-maxess-results-state', 'released');
     } catch (e) {}
 
     console.log('[MAXESS BRIDGE] RESULTS RELEASED', result.overallScore);
   }
 
   window.MAXESS_E00_01 = {
-    version: 8,
+    version: 9,
     contractVersion: CONTRACT,
     getResult: getResult,
     release: showResults,
     terminal: function () {
-      if (window.MAXESS_AISCORE && typeof window.MAXESS_AISCORE.publish === 'function') {
-        return window.MAXESS_AISCORE.publish();
-      }
-      return false;
+      return window.MAXESS_AISCORE && typeof window.MAXESS_AISCORE.publish === 'function'
+        ? window.MAXESS_AISCORE.publish()
+        : false;
     }
   };
 
@@ -167,7 +140,7 @@
   window.addEventListener('MAXESS_RESULT_READY', showResults);
   window.addEventListener('maxess:result-updated', showResults);
 
-  /* No initial storage recovery: stale results must never release this page. */
-  console.log('[MAXESS BRIDGE] E00.01 V8 initialized; awaiting current assessment completion.');
+  /* Deliberately no initial storage recovery: stale results cannot release the current page. */
+  console.log('[MAXESS BRIDGE] E00.01 V9 initialized; awaiting current assessment completion.');
 })();
 </script>
