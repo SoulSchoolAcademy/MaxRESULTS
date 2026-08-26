@@ -4,7 +4,9 @@ on:
   push:
     branches: [main]
     paths:
-      - 'PROJECTS/MAXESS/**'
+      - 'PROJECTS/MAXESS/E00 MAXESS V2 — AUTHORITATIVE GROOVE.html'
+      - 'PROJECTS/MAXESS/ENGINEERING/**'
+      - 'PROJECTS/MAXESS/TESTS/**'
       - 'MAXESS-RESULT-CONSUMER-V2.html'
       - 'E01'
       - '.github/workflows/maxess-v2-pretest.yml'
@@ -64,5 +66,5 @@ jobs:
             git push
           fi
 
-# Browser evidence is retained on pass/failure so the next execution can
-# inspect real artifacts instead of guessing from a red job.
+# Documentation/Smart Note commits intentionally do not trigger this expensive
+# browser gate. Code/test changes and manual dispatch remain authoritative triggers.
