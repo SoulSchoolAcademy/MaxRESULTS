@@ -61,8 +61,8 @@ The activation system is layered, not a pile of independent documents.
 | 07 | **Naya Notes** | Durable memory, continuity, learning, provenance |
 | 08 | **Naya Nitro** | Responsible execution, momentum, persistence |
 | 09 | **Naya Oscar** | Independent criticism and challenge |
-| 10 | **Scorecard / Evidence** | Measurement, maturity, gates, acceptance |
-| 11 | **CIS / Superbrain** | Compounding intelligence and restored context |
+| 10 | **Superbrain / CIS** | Compounding intelligence and restored context |
+| 11 | **Scorecard / Evidence** | Measurement, maturity, gates, acceptance |
 | 12 | **SOM(E) Optimization** | System-wide balancing and continuous improvement |
 
 These layers are complementary. They must not compete for authority.
