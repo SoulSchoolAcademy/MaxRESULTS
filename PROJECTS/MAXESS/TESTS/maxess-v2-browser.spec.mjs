@@ -1,3 +1,4 @@
+// Fresh Browser Gate execution marker: run current main after verified harness-boundary correction.
 import { test, expect } from '@playwright/test';
 import fs from 'node:fs';
 
@@ -5,7 +6,7 @@ test.setTimeout(30000);
 const browserDiagnostics={runtimeErrors:[],failedRequests:[]};
 test.use({trace:'retain-on-failure',screenshot:'only-on-failure'});
 
-test.afterEach(async ({page},testInfo)=>{
+ test.afterEach(async ({page},testInfo)=>{
   if(testInfo.status!==testInfo.expectedStatus){
     const runtime=await page.evaluate(()=>({
       hasEngine:!!window.MAXESS_E00_ENGINE_V2,
