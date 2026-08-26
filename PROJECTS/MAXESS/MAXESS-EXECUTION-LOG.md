@@ -7,6 +7,36 @@
 
 ---
 
+## 2026-08-26 — Fresh Browser Gate Triggered From Current Main
+
+### Evidence-backed root cause closed
+
+Browser Gate run `33007579261` was inspected directly. The failure was **TEST HARNESS**, not a proven MAXESS scoring defect: the prior harness used greedy runtime-script extraction and injected contaminated `</script><script>` markup into Playwright, producing `Unexpected token '<'` and leaving `window.MAXESS_E00_V2` uninitialized.
+
+### Current source correction
+
+The current `main` test source already contains the corrected boundary:
+
+- enumerates `<script>...</script>` blocks;
+- selects exactly one script containing `window.MAXESS_E00_V2 =`;
+- extracts only that script body;
+- evaluates engine, definition, and runtime separately;
+- asserts both authoritative dependencies and runtime initialization.
+
+This preserves the MAXESS engine, scoring, Continue, and `MAXESS_RESULT_V1` authority. No product scorer, result authority, or generic Continue rewrite is introduced.
+
+### Fresh gate action
+
+A fresh Browser Gate is now being triggered from the **actual current `main` HEAD** so the corrected harness is tested against the current source rather than relying on historical run `33007579261`.
+
+**Required outcome:**
+
+`CURRENT MAIN → CHECKOUT → HARNESS BOUNDARY → BROWSER → 15 QUESTIONS → MAXESS_RESULT_V1 → E01 → WIDTH MATRIX`
+
+No human-test readiness claim is permitted until this fresh run is green.
+
+---
+
 ## 2026-08-26 — White Paper Canon + Browser Gate 04 / Human-Test Readiness Locked
 
 ### Strategic knowledge decision
