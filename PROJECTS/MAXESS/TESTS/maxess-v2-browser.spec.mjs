@@ -7,20 +7,21 @@ test.use({trace:'retain-on-failure',screenshot:'only-on-failure'});
 
 test.afterEach(async ({page},testInfo)=>{
   if(testInfo.status!==testInfo.expectedStatus){
+    const runtime=await page.evaluate(()=>({
+      hasEngine:!!window.MAXESS_E00_ENGINE_V2,
+      hasDefinition:!!window.MAXESS_AI_SCORE_DEFINITION_V1,
+      hasRuntime:!!window.MAXESS_E00_V2,
+      phase:window.MAXESS_E00_V2?.getState?.().phase||null,
+      questionIndex:window.MAXESS_E00_V2?.getState?.().questionIndex??null,
+      responses:window.MAXESS_E00_V2?.getState?.().responses?.length??null,
+      result:window.MAXESS_RESULT?{score:window.MAXESS_RESULT.overallScore,contract:window.MAXESS_RESULT.contractVersion}:null
+    })).catch(e=>({evaluateError:String(e)}));
     const diagnostics={
       url:page.url(),
       title:await page.title().catch(()=>''),
-      runtime:await page.evaluate(()=>({
-        hasEngine:!!window.MAXESS_E00_ENGINE_V2,
-        hasDefinition:!!window.MAXESS_AI_SCORE_DEFINITION_V1,
-        hasRuntime:!!window.MAXESS_E00_V2,
-        phase:window.MAXESS_E00_V2?.getState?.().phase||null,
-        questionIndex:window.MAXESS_E00_V2?.getState?.().questionIndex??null,
-        responses:window.MAXESS_E00_V2?.getState?.().responses?.length??null,
-        result:window.MAXESS_RESULT?{score:window.MAXESS_RESULT.overallScore,contract:window.MAXESS_RESULT.contractVersion}:null,
-        runtimeErrors:browserDiagnostics.runtimeErrors,
-        failedRequests:browserDiagnostics.failedRequests
-      })).catch(e=>({evaluateError:String(e)}))
+      runtime,
+      runtimeErrors:browserDiagnostics.runtimeErrors,
+      failedRequests:browserDiagnostics.failedRequests
     };
     await fs.promises.writeFile(testInfo.outputPath('maxess-browser-diagnostics.json'),JSON.stringify(diagnostics,null,2));
   }
@@ -43,6 +44,8 @@ function buildHarness(){
 async function completeAssessment(page, scoreMode){
   const runtimeErrors=[];
   const failedRequests=[];
+  browserDiagnostics.runtimeErrors=[];
+  browserDiagnostics.failedRequests=[];
   page.on('pageerror',e=>runtimeErrors.push(e.message));
   page.on('console',m=>{if(m.type()==='error')runtimeErrors.push(m.text())});
   page.on('requestfailed',r=>failedRequests.push(`${r.method()} ${r.url()} :: ${r.failure()?.errorText||'unknown'}`));
