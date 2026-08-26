@@ -35,15 +35,13 @@ function buildHarness(){
   const e01=fs.readFileSync('E01','utf8');
   const e01Styles=[...e01.matchAll(/<style[\s\S]*?<\/style>/gi)].map(m=>m[0]).join('\n');
   const e01Body=(e01.match(/<body[^>]*>([\s\S]*?)<\/body>/i)||[, ''])[1];
-  const localGroove=groove
-    .replace(/<script[^>]+MAXESS-E00-AUTHORITATIVE-ENGINE-V2\.js[^>]*><\/script>/i,`<script>${engine}</script>`)
-    .replace(/<script[^>]+MAXESS-AI-SCORE-DEFINITION-V1\.js[^>]*><\/script>/i,`<script>${definition}</script>`);
-  const runtimeMatch=localGroove.match(/<script>([\s\S]*window\.MAXESS_E00_V2=[\s\S]*?)<\/script>\s*$/i);
-  if(!runtimeMatch)throw new Error('Authoritative E00 runtime script not found in Groove');
-  const runtime=runtimeMatch[1];
-  const grooveWithoutRuntime=localGroove.slice(0,runtimeMatch.index);
-  const html=`<!doctype html><html><head><meta charset="utf-8">${e01Styles}</head><body>${grooveWithoutRuntime}<div id="E01-HARNESS">${e01Body}</div>${consumer}</body></html>`;
-  return {html,runtime};
+  const scriptMatches=[...groove.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)];
+  const runtimeMatches=scriptMatches.filter(m=>/window\.MAXESS_E00_V2\s*=/.test(m[1]));
+  if(runtimeMatches.length!==1)throw new Error(`Expected exactly one authoritative E00 runtime script, found ${runtimeMatches.length}`);
+  const runtime=runtimeMatches[0][1];
+  const grooveWithoutScripts=groove.replace(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/gi,'');
+  const html=`<!doctype html><html><head><meta charset="utf-8">${e01Styles}</head><body>${grooveWithoutScripts}<div id="E01-HARNESS">${e01Body}</div>${consumer}</body></html>`;
+  return {html,engine,definition,runtime};
 }
 
 async function completeAssessment(page, scoreMode){
@@ -57,8 +55,11 @@ async function completeAssessment(page, scoreMode){
   await page.goto('about:blank');
   const harness=buildHarness();
   await page.setContent(harness.html, {waitUntil:'domcontentloaded'});
+  await page.addScriptTag({content:harness.engine});
+  await page.addScriptTag({content:harness.definition});
   await page.addScriptTag({content:harness.runtime});
-  await page.waitForFunction(()=>!!window.MAXESS_E00_V2&&!!window.MAXESS_E00_ENGINE_V2&&!!window.MAXESS_AI_SCORE_DEFINITION_V1);
+  await page.waitForFunction(()=>!!window.MAXESS_E00_ENGINE_V2&&!!window.MAXESS_AI_SCORE_DEFINITION_V1);
+  await page.waitForFunction(()=>!!window.MAXESS_E00_V2);
   await page.evaluate(()=>{
     window.__MAXESS_TEST__={ready:0,updated:0,last:null};
     window.addEventListener('MAXESS_RESULT_READY',e=>{window.__MAXESS_TEST__.ready++;window.__MAXESS_TEST__.last=e.detail});
@@ -142,6 +143,8 @@ test('MAXESS V2 required mobile widths remain usable', async ({page})=>{
     await page.setViewportSize({width,height:900});
     const harness=buildHarness();
     await page.setContent(harness.html,{waitUntil:'domcontentloaded'});
+    await page.addScriptTag({content:harness.engine});
+    await page.addScriptTag({content:harness.definition});
     await page.addScriptTag({content:harness.runtime});
     await page.waitForFunction(()=>!!window.MAXESS_E00_V2);
     const overflow=await page.evaluate(()=>({
