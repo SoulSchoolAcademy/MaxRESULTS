@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 import fs from 'node:fs';
 
-test.setTimeout(120000);
+test.setTimeout(30000);
+const browserDiagnostics={runtimeErrors:[],failedRequests:[]};
 test.use({trace:'retain-on-failure',screenshot:'only-on-failure'});
 
 test.afterEach(async ({page},testInfo)=>{
@@ -16,7 +17,9 @@ test.afterEach(async ({page},testInfo)=>{
         phase:window.MAXESS_E00_V2?.getState?.().phase||null,
         questionIndex:window.MAXESS_E00_V2?.getState?.().questionIndex??null,
         responses:window.MAXESS_E00_V2?.getState?.().responses?.length??null,
-        result:window.MAXESS_RESULT?{score:window.MAXESS_RESULT.overallScore,contract:window.MAXESS_RESULT.contractVersion}:null
+        result:window.MAXESS_RESULT?{score:window.MAXESS_RESULT.overallScore,contract:window.MAXESS_RESULT.contractVersion}:null,
+        runtimeErrors:browserDiagnostics.runtimeErrors,
+        failedRequests:browserDiagnostics.failedRequests
       })).catch(e=>({evaluateError:String(e)}))
     };
     await fs.promises.writeFile(testInfo.outputPath('maxess-browser-diagnostics.json'),JSON.stringify(diagnostics,null,2));
@@ -83,6 +86,8 @@ async function completeAssessment(page, scoreMode){
     completionCount:window.MAXESS_E00_V2.getState().completionCount,
     e01Score:document.querySelector('#e01 #score-number')?.textContent||null
   }));
+  browserDiagnostics.runtimeErrors=[...runtimeErrors];
+  browserDiagnostics.failedRequests=[...failedRequests];
   return {result,runtimeErrors,failedRequests};
 }
 
