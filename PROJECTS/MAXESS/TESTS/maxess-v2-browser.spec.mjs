@@ -46,6 +46,14 @@ function buildHarness(){
   return {html,engine,definition,runtime};
 }
 
+async function installHarness(page,harness){
+  await page.evaluate(({engine,definition,runtime})=>{
+    (0,eval)(engine);
+    (0,eval)(definition);
+    (0,eval)(runtime);
+  },harness);
+}
+
 async function completeAssessment(page, scoreMode){
   const runtimeErrors=[];
   const failedRequests=[];
@@ -57,9 +65,7 @@ async function completeAssessment(page, scoreMode){
   await page.goto('about:blank');
   const harness=buildHarness();
   await page.setContent(harness.html, {waitUntil:'domcontentloaded'});
-  await page.addScriptTag({content:harness.engine});
-  await page.addScriptTag({content:harness.definition});
-  await page.addScriptTag({content:harness.runtime});
+  await installHarness(page,harness);
   await page.waitForFunction(()=>!!window.MAXESS_E00_ENGINE_V2&&!!window.MAXESS_AI_SCORE_DEFINITION_V1);
   await page.waitForFunction(()=>!!window.MAXESS_E00_V2);
   await page.evaluate(()=>{
@@ -145,9 +151,7 @@ test('MAXESS V2 required mobile widths remain usable', async ({page})=>{
     await page.setViewportSize({width,height:900});
     const harness=buildHarness();
     await page.setContent(harness.html,{waitUntil:'domcontentloaded'});
-    await page.addScriptTag({content:harness.engine});
-    await page.addScriptTag({content:harness.definition});
-    await page.addScriptTag({content:harness.runtime});
+    await installHarness(page,harness);
     await page.waitForFunction(()=>!!window.MAXESS_E00_V2);
     const overflow=await page.evaluate(()=>({
       body:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,
