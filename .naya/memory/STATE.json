@@ -1,18 +1,18 @@
 {
   "schema":"naya-power-runtime-state/v1",
-  "status":"HUB_PHASE_0_INVENTORY_COMPLETE_MAXESS_BROWSER_BLOCKED",
-  "updated_at":"2026-08-26T16:20:00-07:00",
+  "status":"HUB_PHASE_0_INVENTORY_COMPLETE_MAXESS_BROWSER_ROOT_CAUSE_IDENTIFIED_RERUN_PENDING",
+  "updated_at":"2026-08-26T16:40:00-07:00",
   "repository":"SoulSchoolAcademy/NayaPOWER",
   "branch":"main",
   "current_main":{
-    "commit":"8dc1f397d4c8e5e71d19151427283724c350cdce",
-    "post_change_ci":"NO_STATUS_REPORTED_ON_CURRENT_HEAD",
-    "previous_state_commit":"846529daea1bd35af564bdc061f3fb74a1b7f485",
-    "state_reconciliation":"STALE_STATE_REPAIRED",
-    "latest_verified_superbrain_run":32909426069,
-    "latest_verified_brain_gate_job":98000403862,
-    "latest_verified_superbrain_commit":"9aefe57a71bd6425681bb435d70417ad33832198",
-    "note":"Current main has advanced beyond the prior STATE snapshot. This file now records the observed current main and the active Naya Hub objective. Current-main CI status is not asserted without evidence."
+    "commit":"e6a08b559ca6101270f178bb611aa2dc0e18f23d",
+    "post_change_ci":"PENDING_OR_NOT_YET_REPORTED_ON_CURRENT_HEAD",
+    "previous_state_commit":"7c2c9eeeb67a095d23c6ad68555b49edf79a2fd4",
+    "state_reconciliation":"STALE_STATE_REPAIRED_AGAIN_AFTER_BROWSER_ROOT_CAUSE_RECEIPT",
+    "latest_verified_maxess_browser_run":33007579261,
+    "latest_verified_maxess_browser_commit":"c906a4fabd269092b057dd6db2a7a933134dbf0e",
+    "latest_browser_root_cause":"TEST_HARNESS_GREEDY_RUNTIME_EXTRACTION_CONTAMINATED_SCRIPT_CONTENT",
+    "note":"Run 33007579261 evidence was inspected directly. The browser failure was classified as a test-harness source/composition defect, not a proven MAXESS scoring defect. Current main contains the corrected script-boundary extraction and a regression guard. Fresh Browser Gate evidence is still required before promotion."
   },
   "runtime":{
     "smart_notes_v3":"VERIFIED_BY_PRIOR_CI",
@@ -45,7 +45,7 @@
     "naya_hub_phase_1_result_persistence":"ARCHITECTED_NOT_IMPLEMENTED",
     "naya_hub_phase_1_reload_verification":"NOT_IMPLEMENTED",
     "maxess_engine":"GREEN_BY_DOCUMENTED_EXECUTED_EVIDENCE",
-    "maxess_browser":"RED_LATEST_GATE_33007579261",
+    "maxess_browser":"ROOT_CAUSE_IDENTIFIED_CORRECTIVE_SOURCE_PRESENT_FRESH_GATE_PENDING",
     "maxess_human_test":"BLOCKED_UNTIL_BROWSER_GREEN"
   },
   "protected":[
@@ -70,7 +70,8 @@
     "MAXESS no-historical-rescoring rule",
     "Naya Hub one-identity/one-ecosystem architecture",
     "Naya Hub report-first UX direction",
-    "Naya Hub current inventory assessment"
+    "Naya Hub current inventory assessment",
+    "MAXESS Browser Gate 04 root-cause receipt"
   ],
   "verified_evidence":[
     {
@@ -88,13 +89,15 @@
       "commit":"c906a4fabd269092b057dd6db2a7a933134dbf0e",
       "status":"RED",
       "evidence":"https://github.com/SoulSchoolAcademy/NayaPOWER/actions/runs/33007579261",
-      "observed":"MAXESS V2 Pre-Test Excellence Gate completed with failure at the browser evidence boundary. Human test remains blocked."
+      "artifact_id":9621240299,
+      "artifact_sha256":"sha256:ad150f094026bf9b68df4acdd5a364c652b9319c92008d0da5b049df4c677616",
+      "observed":"MAXESS V2 Pre-Test Excellence Gate failed at the browser evidence gate. Direct artifact inspection proved the browser harness used a greedy runtime extraction that contaminated script content with </script><script> markup, producing Unexpected token '<' and preventing MAXESS globals from initializing."
     },
     {
-      "commit":"9576fa53d093c3420503ee51888bb2291b4ff1eb",
-      "status":"DOCUMENTATION_UPDATE",
-      "evidence":"PROJECTS/NAYA-HUB-NETWORK/NAYA-HUB-CURRENT-INVENTORY-GAP-ASSESSMENT-2026-08-26.md",
-      "observed":"Current Hub/Maxess inventory and gap assessment was durably recorded on main."
+      "commit":"e6a08b559ca6101270f178bb611aa2dc0e18f23d",
+      "status":"DIAGNOSTIC_AND_CONTINUITY_UPDATE",
+      "evidence":"PROJECTS/MAXESS/MAXESS-BROWSER-GATE-04-ROOT-CAUSE-RECEIPT-2026-08-26.md",
+      "observed":"Root cause and regression guard were durably recorded. Current main contains corrected harness extraction and a new pre-browser boundary guard. Fresh Browser Gate evidence is still required."
     }
   ],
   "current_project":{
@@ -128,13 +131,14 @@
     "Vercel is the preferred initial runtime/API layer where appropriate",
     "Supabase is the preferred durable application-state/auth layer",
     "Groove is a presentation/cockpit surface, not business-data authority",
-    "The latest MAXESS Browser Gate 04 run is RED",
+    "The latest MAXESS Browser Gate 04 run is RED but its root cause is now identified",
     "Current Hub project directory is design/documentation only; no production Hub runtime was established by this inventory",
     "The correct implementation unit is an end-to-end intelligent block with explicit truth ownership and verification",
-    "The prior STATE snapshot was stale and has now been reconciled to observed main"
+    "The browser harness source boundary is now guarded against regression",
+    "A fresh Browser Gate run is the immediate proof required"
   ],
   "known_gaps":[
-    "MAXESS Browser Gate 04 root cause and green rerun",
+    "Fresh MAXESS Browser Gate 04 green rerun",
     "MAXESS live/human readiness",
     "Phase 1 member authentication/identity runtime",
     "Phase 1 Supabase schema and row-level security contract",
@@ -148,11 +152,11 @@
     "NayaMail implementation",
     "Ambassador/referral implementation",
     "Network/community implementation",
-    "Current-head authoritative CI status after the latest documentation commits"
+    "Current-head authoritative CI status after the latest workflow/documentation changes"
   ],
   "weighted_priorities":{
     "P0":[
-      "Diagnose MAXESS Browser Gate 04 from actual run 33007579261 evidence and repair only the proven defective boundary",
+      "Run fresh MAXESS Browser Gate on the corrected current main and inspect new evidence",
       "Preserve MAXESS source/result authority while doing so"
     ],
     "P1":[
@@ -173,7 +177,7 @@
       "Polish beyond verified functional excellence"
     ]
   },
-  "next_best_action":"Inspect and classify the actual uploaded evidence from MAXESS Browser Gate 04 run 33007579261, identify the first verified runtime/evidence divergence, and repair only that boundary. In parallel only where safe, prepare the minimal Phase 1 member/result data contract without creating a competing MAXESS authority.",
-  "continuity":{"current_state_document":"PROJECTS/NAYA-HUB-NETWORK/NAYA-HUB-CURRENT-INVENTORY-GAP-ASSESSMENT-2026-08-26.md","next_prompt_source":"The latest execution response and the current Hub inventory document must be used to generate the next Naya prompt.","rule":"Every substantive execution must leave current state, evidence, learning, protected assets, unresolved work, and a concrete next action."
+  "next_best_action":"Obtain fresh Browser Gate evidence from current main after the verified test-harness correction. If green, promote the browser gate to the next machine verification stage; if not, diagnose only the first new evidence-backed divergence. Then begin the smallest safe Phase 1 member/result contract without creating a competing MAXESS authority.",
+  "continuity":{"current_state_document":"PROJECTS/NAYA-HUB-NETWORK/NAYA-HUB-CURRENT-INVENTORY-GAP-ASSESSMENT-2026-08-26.md","latest_browser_root_cause_receipt":"PROJECTS/MAXESS/MAXESS-BROWSER-GATE-04-ROOT-CAUSE-RECEIPT-2026-08-26.md","next_prompt_source":"The latest execution response, current Hub inventory, MAXESS execution log, and browser root-cause receipt must be used to generate the next Naya prompt.","rule":"Every substantive execution must leave current state, evidence, learning, protected assets, unresolved work, and a concrete next action."
   }
 }
