@@ -7,6 +7,7 @@ let s=fs.readFileSync(path,'utf8');
 // against a Groove already hardened by an earlier successful execution.
 const replacements=[
   ['<button class="cont" id="mx-cont" type="button" aria-disabled="true">Continue →</button>','<button class="cont" id="mx-cont" type="button" aria-disabled="true" disabled>Continue →</button>'],
+  ["const $=id=>ROOT.querySelector(id.charAt(0)==='#'?id:'#'+id);","const $=id=>{const selector=id.charAt(0)==='#'?id:'#'+id;return ROOT.querySelector(selector)||document.querySelector(selector);};"],
   ["$('#mx-answers').querySelectorAll('.ans').forEach(x=>x.setAttribute('aria-pressed',String(x===button)));$('#mx-cont').setAttribute('aria-disabled','false');","$('#mx-answers').querySelectorAll('.ans').forEach(x=>x.setAttribute('aria-pressed',String(x===button)));$('#mx-cont').disabled=false;$('#mx-cont').setAttribute('aria-disabled','false');"],
   ["$('#mx-cont').setAttribute('aria-disabled','false');","$('#mx-cont').disabled=false;$('#mx-cont').setAttribute('aria-disabled','false');"],
   ["$('#mx-cont').setAttribute('aria-disabled',state.phase==='ANSWER_SELECTED'?'false':'true');","const ready=state.phase==='ANSWER_SELECTED';$('#mx-cont').disabled=!ready;$('#mx-cont').setAttribute('aria-disabled',ready?'false':'true');"],
@@ -20,6 +21,7 @@ for(const [from,to] of replacements){
 
 const required=[
   'disabled>Continue →</button>',
+  "return ROOT.querySelector(selector)||document.querySelector(selector);",
   "$('#mx-cont').disabled=false;",
   "const ready=state.phase==='ANSWER_SELECTED';$('#mx-cont').disabled=!ready;",
   'if(releasedResult)return releasedResult;',
