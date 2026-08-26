@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Deterministic zero-setup document activation.
 
-This layer accepts extracted document text (from PDF upload, copy/paste, or a
-future hosted uploader), establishes immutable document identity, chunks content
-deterministically, detects duplicates/conflicts, and can promote a verified
-activation into the existing canonical event writer.
+Documents may originate from PDF extraction, copy/paste, or a future hosted
+uploader. This layer establishes immutable identity, chunks content
+deterministically, detects duplicates/conflicts, and promotes verified
+activation documents through the existing canonical event writer.
 
-No vector database is required. Canonical memory is authoritative; all search
-indexes are derived and reproducible.
+Canonical Note Events remain authoritative. Chunks and indexes are derived.
+Vectors are optional and never required for baseline activation.
 """
 from __future__ import annotations
 
@@ -15,13 +15,17 @@ import hashlib
 import json
 import re
 from dataclasses import dataclass, asdict
+from datetime import datetime
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from activation_contract import validate_manifest
+from canonical_event_store import create_or_replay
 
 ROOT = Path(__file__).resolve().parents[2]
 MEMORY = ROOT / ".naya" / "memory"
+EVENTS = MEMORY / "events"
+INDEX = EVENTS / "INDEX.json"
 ACTIVATION_ROOT = MEMORY / "activations"
 STATE_FILE = ACTIVATION_ROOT / "ACTIVATION-STATE.json"
 RECEIPT_FILE = ACTIVATION_ROOT / "ACTIVATION-RECEIPT.json"
@@ -94,9 +98,7 @@ def prepare_document(document: dict[str, Any], chunk_size: int = 2400) -> tuple[
     chunks = chunk_text(content, max_chars=chunk_size)
     if not chunks:
         raise ValueError(f"document {document['document_id']} has no usable content")
-    identity = stable_document_identity(
-        str(document["package_id"]), str(document["document_id"]), str(document["version"]), content
-    )
+    identity = stable_document_identity(str(document["package_id"]), str(document["document_id"]), str(document["version"]), content)
     result = ActivatedDocument(
         document_id=str(document["document_id"]),
         version=str(document["version"]),
@@ -117,7 +119,10 @@ def inspect_package(manifest: dict[str, Any], chunk_size: int = 2400) -> dict[st
     prepared: list[ActivatedDocument] = []
     identities: set[str] = set()
     for document in sorted(manifest["documents"], key=lambda x: x["order"]):
-        item, _ = prepare_document(document, chunk_size=chunk_size)
+        try:
+            item, _ = prepare_document(document, chunk_size=chunk_size)
+        except ValueError as exc:
+            return {"status": "FAILED", "errors": [str(exc)], "documents": []}
         if item.identity in identities:
             return {"status": "CONFLICT", "errors": [f"duplicate content identity: {item.document_id}"], "documents": []}
         identities.add(item.identity)
@@ -135,6 +140,55 @@ def inspect_package(manifest: dict[str, Any], chunk_size: int = 2400) -> dict[st
         "chunk_count": sum(x.chunk_count for x in prepared),
         "documents": [asdict(x) for x in prepared],
     }
+
+
+def _project_context() -> tuple[dict[str, Any], str]:
+    project_path = MEMORY / "projects" / "CURRENT-DAILY-PROJECT.json"
+    project = json.loads(project_path.read_text(encoding="utf-8"))
+    return project, str(project.get("current_objective", ""))
+
+
+def _event_id(document_id: str, effective_at: str) -> str:
+    dt = datetime.fromisoformat(effective_at.replace("Z", "+00:00"))
+    slug = re.sub(r"[^a-z0-9-]+", "-", document_id.lower()).strip("-") or "document"
+    return f"SE-{dt:%Y%m%d-%H%M%S}-activation-{slug}"
+
+
+def promote_document(document: dict[str, Any], effective_at: str, chunk_size: int = 2400) -> dict[str, Any]:
+    """Promote one verified document through the canonical event boundary."""
+    prepared, chunks = prepare_document(document, chunk_size=chunk_size)
+    project, current_objective = _project_context()
+    event_id = _event_id(prepared.document_id, effective_at)
+    event = {
+        "event_id": event_id,
+        "created_at": effective_at,
+        "effective_at": effective_at,
+        "status": "CANONICAL",
+        "event_type": "system-change",
+        "type": "system-change",
+        "title": f"NayaPOWER activation: {prepared.document_id}",
+        "subject": prepared.purpose,
+        "summary": f"Activated {prepared.document_id} from package {prepared.package_id}.",
+        "project": project["project_name"],
+        "project_context": {"project_id": project["project_id"], "current_objective": current_objective},
+        "source": {"type": "activation-document", "id": prepared.document_id, "package_id": prepared.package_id, "content_sha256": prepared.content_sha256},
+        "tags": ["activation", "implementation", "knowledge", "canonical-memory"],
+        "concepts": ["document", "chunk", "canonical memory", "retrieval"],
+        "representations": {
+            "naya": {"id": f"SN-{effective_at[:10].replace('-', '')}-{effective_at[11:19].replace(':', '')}-{prepared.document_id.lower()}-naya", "canonical_event_id": event_id, "title": f"Naya activation — {prepared.document_id}", "summary": f"Machine activation of {prepared.document_id} into canonical memory.", "content": "\n\n".join(chunks), "lessons": ["Activation documents become canonical memory only through the canonical event boundary."]},
+            "shawn": {"id": f"SN-{effective_at[:10].replace('-', '')}-{effective_at[11:19].replace(':', '')}-{prepared.document_id.lower()}-shawn", "canonical_event_id": event_id, "title": f"Shawn activation — {prepared.document_id}", "summary": f"Human-facing record of {prepared.document_id} activation.", "content": f"Activated document {prepared.document_id} ({prepared.purpose}).", "lessons": ["Document activation is deterministic and repeat-safe."]},
+        },
+        "learning": {"status": "CAPTURED", "lessons": ["Document identity and content hash make activation repeat-safe."]},
+        "next_execution": {"path": NEXT_EXECUTION, "next_action": "Continue activation verification and retrieval validation."},
+        "continuity": {"learning_status": "CAPTURED", "next_execution_path": NEXT_EXECUTION},
+        "verification": {"status": "VERIFIED", "canonical_url": f"local://activation/{prepared.identity}", "checks": ["document_identity", "chunking", "project_binding", "paired_representations", "learning_capture"]},
+        "delivery": {"status": "DELIVERED", "target": "canonical-memory"},
+        "receipt": {"status": "EMITTED", "activation_identity": prepared.identity},
+    }
+    result = create_or_replay(event, EVENTS, INDEX)
+    result["document_identity"] = prepared.identity
+    result["chunk_count"] = len(chunks)
+    return result
 
 
 def persist_activation_state(result: dict[str, Any], manifest: dict[str, Any]) -> None:
@@ -160,8 +214,8 @@ def make_receipt(result: dict[str, Any]) -> dict[str, Any]:
     return {
         "schema_version": 1,
         "receipt_type": "NAYAPOWER_ACTIVATION",
-        "status": "VERIFIED" if status == "READY" else status,
-        "verified": status == "READY",
+        "status": "VERIFIED" if status in {"READY", "CREATED", "REPLAY"} else status,
+        "verified": status in {"READY", "CREATED", "REPLAY"},
         "package_id": result.get("package_id"),
         "package_version": result.get("package_version"),
         "document_count": result.get("document_count", 0),
@@ -181,13 +235,24 @@ def persist_receipt(result: dict[str, Any]) -> dict[str, Any]:
     return receipt
 
 
-def activate(manifest: dict[str, Any], chunk_size: int = 2400) -> dict[str, Any]:
-    """Prepare and persist an activation state/receipt without mutating canonical memory.
-
-    Canonical promotion is deliberately a separate, explicit phase so a malformed
-    package can never partially write memory. This is the zero-setup safety boundary.
-    """
+def activate(manifest: dict[str, Any], chunk_size: int = 2400, effective_at: str | None = None, promote: bool = False) -> dict[str, Any]:
+    """Validate a complete package, optionally promote documents canonically, then receipt it."""
     result = inspect_package(manifest, chunk_size=chunk_size)
+    if result.get("status") != "READY":
+        persist_activation_state(result, manifest)
+        persist_receipt(result)
+        return result
+    if promote:
+        if not effective_at:
+            effective_at = datetime.now().astimezone().isoformat(timespec="seconds")
+        outcomes = []
+        documents = sorted(manifest["documents"], key=lambda x: x["order"])
+        for document in documents:
+            outcomes.append(promote_document(document, effective_at, chunk_size=chunk_size))
+        result["promotion"] = outcomes
+        if any(item.get("status") == "CONFLICT" for item in outcomes):
+            result["status"] = "CONFLICT"
+            result["errors"] = ["canonical promotion conflict detected"]
     persist_activation_state(result, manifest)
     persist_receipt(result)
     return result
