@@ -1,5 +1,7 @@
 name: MAXESS V2 Pre-Test Excellence Gate
 
+# Fresh execution marker: validate the corrected hardening boundary on current main.
+
 on:
   push:
     branches: [main]
