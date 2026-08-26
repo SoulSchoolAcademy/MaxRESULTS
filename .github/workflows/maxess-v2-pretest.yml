@@ -52,3 +52,5 @@ jobs:
             git commit -m 'MAXESS: harden authoritative Groove completion gate [skip ci]'
             git push
           fi
+
+# Browser harness correction gate: rerun after dependency-injection hardening.
