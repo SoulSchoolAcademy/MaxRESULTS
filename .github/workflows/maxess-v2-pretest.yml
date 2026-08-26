@@ -61,8 +61,8 @@ jobs:
           else
             git config user.name 'Naya Power Automation'
             git config user.email 'naya-power-automation@users.noreply.github.com'
-            git add 'PROJECTS/MAXESS/E00 MAXESS V2 — AUTHORITATIVE GROOVE.html'
-            git commit -m 'MAXESS: harden authoritative Groove completion gate [skip ci]'
+            git add 'PROJECTS/MAXESS/E00 MAXESS V2 — AUTHORITATIVE GROOVE.html' 'E01'
+            git commit -m 'MAXESS: harden authoritative result handoff [skip ci]'
             git push
           fi
 
