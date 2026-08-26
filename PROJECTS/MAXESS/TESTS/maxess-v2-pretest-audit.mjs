@@ -63,13 +63,14 @@ try{
     assert(canonicalMax.result?.overallScore===100,'Canonical definition maximum golden result must be 100.');
     assert(canonicalMin.completionCount===1&&canonicalMax.completionCount===1,'Canonical golden completion must occur exactly once.');
     assert(Object.isFrozen(canonicalMin.result)&&Object.isFrozen(canonicalMax.result),'Canonical golden results must be frozen.');
+    assert(canonicalMax.result?.dimensions.every(d=>d.rawScore===d.maxScore&&d.maxScore===12),'Every dimension must max at 12 raw points.');
 
     const synthetic={...D,questions:D.questions.map(q=>({...q,answers:q.answers.map(a=>({...a,score:0}))}))};
     const zero=E.createState(synthetic);for(const q of synthetic.questions){E.selectAnswer(zero,synthetic,q.answers[0].id);E.continueAssessment(zero,synthetic)}
     const four={...D,questions:D.questions.map(q=>({...q,answers:q.answers.map(a=>({...a,score:4}))}))};
     const sixty=E.createState(four);for(const q of four.questions){E.selectAnswer(sixty,four,q.answers[0].id);E.continueAssessment(sixty,four)}
     assert(zero.result?.overallScore===0,'Engine mathematical minimum golden result must be 0/100.');
-    assert(sixty.result?.rawScore===60&&sixty.result?.overallScore===100,'Engine mathematical maximum golden result must be 60 raw / 100 normalized.');
+    assert(sixty.result?.score?.raw===60&&sixty.result?.overallScore===100,'Engine mathematical maximum golden result must be 60 raw / 100 normalized.');
     try{E.continueAssessment(zero,synthetic);failures.push('Finalized assessment accepted a duplicate Continue.')}catch(_){/* expected */}
   }
 }catch(e){failures.push('Executable engine/definition verification failed: '+e.message)}
