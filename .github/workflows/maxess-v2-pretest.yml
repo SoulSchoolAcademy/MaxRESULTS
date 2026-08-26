@@ -33,6 +33,24 @@ jobs:
       - name: Static architecture gate
         run: node PROJECTS/MAXESS/TESTS/maxess-v2-pretest-audit.mjs
 
+      - name: Verify browser harness source boundary
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const spec = fs.readFileSync('PROJECTS/MAXESS/TESTS/maxess-v2-browser.spec.mjs','utf8');
+          const engine = fs.readFileSync('PROJECTS/MAXESS/ENGINEERING/MAXESS-E00-AUTHORITATIVE-ENGINE-V2.js','utf8');
+          if (!spec.includes('runtimeMatches=scriptMatches.filter')) {
+            throw new Error('Browser harness runtime extraction is not using the authoritative script boundary.');
+          }
+          if (spec.includes('runtimeMatch=localGroove.match(/<script>([\\s\\S]*window\\.MAXESS_E00_V2')) {
+            throw new Error('Browser harness still contains the retired greedy runtime extraction pattern.');
+          }
+          if (engine.includes('</script><script>')) {
+            throw new Error('Authoritative engine contains embedded HTML/script markup.');
+          }
+          console.log('Browser harness source boundary: verified');
+          NODE
+
       - name: Install Playwright
         run: |
           npm init -y
