@@ -1,10 +1,12 @@
 import fs from 'node:fs';
 
-const path='PROJECTS/MAXESS/E00 MAXESS V2 — AUTHORITATIVE GROOVE.html';
-let s=fs.readFileSync(path,'utf8');
+const groovePath='PROJECTS/MAXESS/E00 MAXESS V2 — AUTHORITATIVE GROOVE.html';
+const e01Path='E01';
+let s=fs.readFileSync(groovePath,'utf8');
+let e01=fs.readFileSync(e01Path,'utf8');
 
-// Idempotent hardening: the workflow may run against the original Groove or
-// against a Groove already hardened by an earlier successful execution.
+// Idempotent hardening: the workflow may run against the original Groove/E01
+// or against files already hardened by an earlier successful execution.
 const replacements=[
   ['<button class="cont" id="mx-cont" type="button" aria-disabled="true">Continue →</button>','<button class="cont" id="mx-cont" type="button" aria-disabled="true" disabled>Continue →</button>'],
   ["const $=id=>ROOT.querySelector(id.charAt(0)==='#'?id:'#'+id);","const $=id=>{const selector=id.charAt(0)==='#'?id:'#'+id;return ROOT.querySelector(selector)||document.querySelector(selector);};"],
@@ -19,7 +21,11 @@ for(const [from,to] of replacements){
   if(s.includes(from))s=s.replace(from,to);
 }
 
-const required=[
+const e01Original="function acceptResult(r){if(!validResult(r))return false;resultState=r;window.MAXESS_RESULT=r;try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(r))}catch(e){}try{window.dispatchEvent(new CustomEvent(READY,{detail:r}))}catch(e){}try{window.dispatchEvent(new CustomEvent(UPDATED,{detail:r}))}catch(e){}return true}";
+const e01Guarded="var emittingResult=false;function acceptResult(r){if(!validResult(r))return false;resultState=r;window.MAXESS_RESULT=r;try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(r))}catch(e){}if(!emittingResult){emittingResult=true;try{window.dispatchEvent(new CustomEvent(READY,{detail:r}))}catch(e){}try{window.dispatchEvent(new CustomEvent(UPDATED,{detail:r}))}catch(e){}emittingResult=false}return true}";
+if(e01.includes(e01Original))e01=e01.replace(e01Original,e01Guarded);
+
+const requiredGroove=[
   'disabled>Continue →</button>',
   "return ROOT.querySelector(selector)||document.querySelector(selector);",
   "$('#mx-cont').disabled=false;",
@@ -28,9 +34,11 @@ const required=[
   "if($('#mx-cont').disabled)return;",
   "$('#mx-cont').disabled=true;$('#mx-cont').setAttribute('aria-disabled','true');"
 ];
-for(const marker of required){
+for(const marker of requiredGroove){
   if(!s.includes(marker))throw new Error('Required Groove hardening invariant missing: '+marker);
 }
+if(!e01.includes('var emittingResult=false;function acceptResult(r){'))throw new Error('Required E01 result-event reentrancy guard missing');
 
-fs.writeFileSync(path,s);
-console.log('GROOVE_HARDENING_VERIFIED');
+fs.writeFileSync(groovePath,s);
+fs.writeFileSync(e01Path,e01);
+console.log('GROOVE_E01_HARDENING_VERIFIED');
