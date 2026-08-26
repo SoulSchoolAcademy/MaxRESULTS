@@ -27,7 +27,7 @@ function render(){
   const button=document.createElement('button');
   button.className='ans';button.type='button';button.style.setProperty('--a',accents[index]);button.setAttribute('aria-pressed','false');
   button.innerHTML='<span class="jewel"><span class="glyph">'+glyphs[index]+'</span></span><span><span class="at">'+esc(answer.title)+'</span><span class="ad">'+esc(answer.description)+'</span></span><span class="ch">›</span>';
-  button.addEventListener('click',function(){ENGINE.selectAnswer(state,DEFINITION,answer.id);$('#mx-answers').querySelectorAll('.ans').forEach(x=>x.setAttribute('aria-pressed',String(x===button)));$('#mx-cont').disabled=false;$('#mx-cont').disabled=false;$('#mx-cont').setAttribute('aria-disabled','false');});
+  button.addEventListener('click',function(){ENGINE.selectAnswer(state,DEFINITION,answer.id);$('#mx-answers').querySelectorAll('.ans').forEach(x=>x.setAttribute('aria-pressed',String(x===button)));$('#mx-cont').disabled=false;$('#mx-cont').disabled=false;$('#mx-cont').disabled=false;$('#mx-cont').setAttribute('aria-disabled','false');});
   $('#mx-answers').appendChild(button);
  });
  const ready=state.phase==='ANSWER_SELECTED';$('#mx-cont').disabled=!ready;$('#mx-cont').setAttribute('aria-disabled',ready?'false':'true');
