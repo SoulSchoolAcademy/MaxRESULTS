@@ -1,0 +1,54 @@
+name: MAXESS V2 Pre-Test Excellence Gate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'PROJECTS/MAXESS/**'
+      - 'MAXESS-RESULT-CONSUMER-V2.html'
+      - 'E01'
+      - '.github/workflows/maxess-v2-pretest.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  maxess-v2-pretest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source of truth
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Apply deterministic in-scope Groove hardening
+        run: node PROJECTS/MAXESS/TESTS/maxess-v2-auto-hardening.mjs
+
+      - name: Static architecture gate
+        run: node PROJECTS/MAXESS/TESTS/maxess-v2-pretest-audit.mjs
+
+      - name: Install Playwright
+        run: |
+          npm init -y
+          npm install --save-dev @playwright/test
+          npx playwright install --with-deps chromium
+
+      - name: Browser evidence gate
+        run: npx playwright test PROJECTS/MAXESS/TESTS/maxess-v2-browser.spec.mjs --reporter=line
+
+      - name: Commit verified hardening if changed
+        if: success()
+        run: |
+          if git diff --quiet; then
+            echo 'No source changes produced by hardening.'
+          else
+            git config user.name 'Naya Power Automation'
+            git config user.email 'naya-power-automation@users.noreply.github.com'
+            git add 'PROJECTS/MAXESS/E00 MAXESS V2 — AUTHORITATIVE GROOVE.html'
+            git commit -m 'MAXESS: harden authoritative Groove completion gate [skip ci]'
+            git push
+          fi
