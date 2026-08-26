@@ -22,7 +22,7 @@ for(const [from,to] of replacements){
 }
 
 const e01Original="function acceptResult(r){if(!validResult(r))return false;resultState=r;window.MAXESS_RESULT=r;try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(r))}catch(e){}try{window.dispatchEvent(new CustomEvent(READY,{detail:r}))}catch(e){}try{window.dispatchEvent(new CustomEvent(UPDATED,{detail:r}))}catch(e){}return true}";
-const e01Guarded="var emittingResult=false;function acceptResult(r){if(!validResult(r))return false;resultState=r;window.MAXESS_RESULT=r;try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(r))}catch(e){}if(!emittingResult){emittingResult=true;try{window.dispatchEvent(new CustomEvent(READY,{detail:r}))}catch(e){}try{window.dispatchEvent(new CustomEvent(UPDATED,{detail:r}))}catch(e){}emittingResult=false}return true}";
+const e01Guarded="var emittingResult=false;function acceptResult(r){if(emittingResult)return true;if(!validResult(r))return false;resultState=r;window.MAXESS_RESULT=r;try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(r))}catch(e){}emittingResult=true;try{window.dispatchEvent(new CustomEvent(READY,{detail:r}))}catch(e){}try{window.dispatchEvent(new CustomEvent(UPDATED,{detail:r}))}catch(e){}emittingResult=false;return true}";
 if(e01.includes(e01Original))e01=e01.replace(e01Original,e01Guarded);
 
 const requiredGroove=[
@@ -37,7 +37,7 @@ const requiredGroove=[
 for(const marker of requiredGroove){
   if(!s.includes(marker))throw new Error('Required Groove hardening invariant missing: '+marker);
 }
-if(!e01.includes('var emittingResult=false;function acceptResult(r){'))throw new Error('Required E01 result-event reentrancy guard missing');
+if(!e01.includes('var emittingResult=false;function acceptResult(r){if(emittingResult)return true;'))throw new Error('Required E01 result-event reentrancy guard missing');
 
 fs.writeFileSync(groovePath,s);
 fs.writeFileSync(e01Path,e01);
