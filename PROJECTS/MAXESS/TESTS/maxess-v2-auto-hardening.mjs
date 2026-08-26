@@ -21,6 +21,11 @@ for(const [from,to] of replacements){
   if(s.includes(from))s=s.replace(from,to);
 }
 
+// Normalize the answer-selection Continue unlock to exactly one assignment.
+// This prevents the hardening pass from accumulating duplicate statements on
+// every successful CI run while preserving the intended behavior.
+s=s.replace(/(\$\('#mx-answers'\)\.querySelectorAll\('\.ans'\)\.forEach\(x=>x\.setAttribute\('aria-pressed',String\(x===button\)\);)(?:\$\('#mx-cont'\)\.disabled=false;)+\$\('#mx-cont'\)\.setAttribute\('aria-disabled','false'\);/,"$1$('#mx-cont').disabled=false;$('#mx-cont').setAttribute('aria-disabled','false');");
+
 const e01Original="function acceptResult(r){if(!validResult(r))return false;resultState=r;window.MAXESS_RESULT=r;try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(r))}catch(e){}try{window.dispatchEvent(new CustomEvent(READY,{detail:r}))}catch(e){}try{window.dispatchEvent(new CustomEvent(UPDATED,{detail:r}))}catch(e){}return true}";
 const e01Guarded="var emittingResult=false;function acceptResult(r,emit){if(emittingResult)return true;if(!validResult(r))return false;resultState=r;window.MAXESS_RESULT=r;try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(r))}catch(e){}if(emit!==false){emittingResult=true;try{window.dispatchEvent(new CustomEvent(READY,{detail:r}))}catch(e){}try{window.dispatchEvent(new CustomEvent(UPDATED,{detail:r}))}catch(e){}emittingResult=false}return true}";
 if(e01.includes(e01Original))e01=e01.replace(e01Original,e01Guarded);
@@ -43,6 +48,9 @@ for(const marker of requiredGroove){
 }
 if(!e01.includes('function acceptResult(r,emit)'))throw new Error('Required E01 result-event emit gate missing');
 if(!e01.includes('acceptResult(e.detail,false)'))throw new Error('Required E01 event-consumer no-redispatch guard missing');
+
+const unlockAssignments=(s.match(/\$\('#mx-cont'\)\.disabled=false;/g)||[]).length;
+if(unlockAssignments!==1)throw new Error(`Expected exactly one Continue unlock assignment, found ${unlockAssignments}`);
 
 fs.writeFileSync(groovePath,s);
 fs.writeFileSync(e01Path,e01);
