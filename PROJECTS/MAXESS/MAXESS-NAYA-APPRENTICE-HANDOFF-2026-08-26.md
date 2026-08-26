@@ -44,22 +44,59 @@ Do not reintroduce competing scoring, state, or result authorities.
 - Result validation and freezing are implemented.
 - `window.MAXESS_RESULT` and `window.MAXESS_RESULT_V1` are published from the frozen result.
 - `MAXESS_RESULT_READY` and `maxess:result-updated` are dispatched.
-- Golden engine invariants were previously verified.
 - Shawn has directly observed the current MAXESS experience working successfully.
-- A 10-step pre-test excellence gate has been created to prevent premature human testing.
-
-Source evidence for the current Groove adapter shows the engine and definition are loaded directly, state is created through the engine, answer selection calls the engine, and final result release validates and freezes the engine result before publishing it. 
+- The 10-step pre-test excellence gate is now executable in GitHub Actions.
+- Deterministic Groove hardening is now automated before the evidence gate.
+- The result consumer was repaired to event-driven presentation-only behavior.
 
 ---
 
-# 4. WHAT IS NOT YET PROVEN
+# 4. IMPORTANT EXECUTION DISCOVERIES
+
+## Result consumer defect
+
+`MAXESS-RESULT-CONSUMER-V2.html` previously used alternate result authority through storage/URL recovery. It has been rewritten so E00 remains the authority and the consumer only validates/hydrates from the canonical events/result.
+
+## Duplicate Continue defect
+
+The Groove release guard alone was insufficient against a programmatic duplicate Continue after finalization. The hardening layer now adds an early `releasedResult` guard and native `disabled` state.
+
+## Scoring invariant distinction
+
+The engine mathematically supports:
+
+- 0 raw / 0 normalized;
+- 60 raw / 100 normalized;
+- 12 raw per dimension maximum.
+
+The current canonical AI Score definition does not contain a zero answer for every question. Its actual achievable minimum is **25/100**. The browser and executable golden tests therefore use 25 for the canonical minimum while separately testing the engine's mathematical 0/60 invariants with synthetic fixtures.
+
+This distinction is important. Never force a test assumption that contradicts the authoritative scoring definition.
+
+## Browser evidence
+
+A Playwright-based GitHub Actions gate now loads the actual Groove artifact, injects the authoritative engine/definition locally, includes the current E01 source in the harness, consumes the result through the event-driven consumer, exercises Q1→Q15, checks canonical min/max, checks frozen result and event counts, tests duplicate Continue, and checks the required mobile widths.
+
+Current authoritative workflow:
+
+`.github/workflows/maxess-v2-pretest.yml`
+
+Current run at the latest documented state:
+
+`33001382999` — MAXESS V2 Pre-Test Excellence Gate.
+
+The run must complete before promoting the human test.
+
+---
+
+# 5. WHAT IS NOT YET PROVEN
 
 Do not falsely call the following green until executed evidence exists:
 
-- formal browser smoke receipt;
+- current browser smoke run;
 - formal 15-question Groove-loaded integration receipt;
 - exact E01 same-result handoff proof;
-- responsive matrix evidence;
+- responsive matrix evidence from the current corrected test;
 - final evidence-gate receipt;
 - live-test promotion.
 
@@ -67,24 +104,22 @@ Shawn's successful observation is valuable evidence, but it is not a substitute 
 
 ---
 
-# 5. IMPORTANT SOURCE RISK
+# 6. SOURCE-LINEAGE RISK
 
-The repository currently contains both:
+The repository contains both:
 
 - `E00 MAXESS V2 — AUTHORITATIVE GROOVE.html`
 - `E00 MAXESS V2 — CANONICAL GROOVE.html`
-
-Treat this as a source-lineage risk.
 
 The intended authoritative runtime is:
 
 `E00 MAXESS V2 — AUTHORITATIVE GROOVE.html`
 
-Before release, determine whether the second artifact is needed, obsolete, or must be clearly labeled/preserved as lineage. Do not let two artifacts become competing live runtimes.
+Before release, determine whether the second artifact is obsolete/lineage-only and ensure it cannot become a competing live runtime.
 
 ---
 
-# 6. DO NOT REPEAT BLINDLY
+# 7. DO NOT REPEAT BLINDLY
 
 Do not return to generic Continue rewrites, score-matrix rewrites, bridge stacking, or legacy choreography without new evidence.
 
@@ -99,50 +134,20 @@ The anti-loop law is:
 
 ---
 
-# 7. NEXT CANONICAL EXECUTION
+# 8. NEXT CANONICAL EXECUTION
 
-Execute:
+Continue the active `.github/workflows/maxess-v2-pretest.yml` evidence gate.
 
-`PROJECTS/MAXESS/NEXT-EXECUTION-MAXESS-V2-10-STEP-PRE-TEST-EXCELLENCE-GATE-2026-08-26.md`
+If it fails:
 
-Execute it top-to-bottom.
+1. read the exact failing step/log;
+2. determine whether the failure is code, test assumption, environment, or deployment evidence;
+3. fix clearly in-scope defects in the same execution;
+4. update the Smart Note and this handoff;
+5. let the corrected commit rerun the gate;
+6. do not promote human testing until all gates are green.
 
-Do not merely summarize it.
-
-The execution must:
-
-1. establish the canonical runtime;
-2. audit the Groove as a thin adapter;
-3. harden Engine ↔ Groove contracts;
-4. run a real Groove-loaded golden integration harness;
-5. prove the complete result release chain;
-6. execute browser smoke where technically possible;
-7. harden responsive/accessibility behavior;
-8. prove E01 consumes the same frozen result;
-9. create one authoritative evidence receipt;
-10. promote the human test only if every gate is green.
-
-If an in-scope defect is discovered, fix it in the same execution and rerun affected verification.
-
----
-
-# 8. HOW TO THINK
-
-Take the lead.
-
-Think beyond the immediate symptom.
-
-Ask:
-
-- What are the top viable ways to reach the destination?
-- What is the root cause rather than the visible symptom?
-- What can fail during the human test even if source code looks correct?
-- What evidence would eliminate that uncertainty?
-- What can be hardened now?
-- What good work must be preserved?
-- What can be automated so the user never has to think about it again?
-
-Do not expose private chain-of-thought. Preserve the actionable reasoning, evidence, decision, and tradeoffs needed for the team.
+If browser tests pass, inspect the resulting evidence and the commit produced by verified hardening before declaring the human gate green.
 
 ---
 
