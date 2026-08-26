@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import vm from 'node:vm';
 
 const groovePath='PROJECTS/MAXESS/E00 MAXESS V2 — AUTHORITATIVE GROOVE.html';
 const consumerPath='MAXESS-RESULT-CONSUMER-V2.html';
@@ -18,7 +19,7 @@ assert(groove.includes('MAXESS_E00_ENGINE_V2'),'Groove does not load the authori
 assert(groove.includes('MAXESS_AI_SCORE_DEFINITION_V1'),'Groove does not load the canonical AI Score definition.');
 assert(count(groove,/ENGINE\.continueAssessment\(state,DEFINITION\)/g)===1,'Groove must have exactly one engine Continue path.');
 assert(count(groove,/function release\(/g)===1,'Groove must have exactly one result-release function.');
-assert(count(groove,/MAXESS_RESULT_READY/g)===1,'Groove must publish exactly one MAXESS_RESULT_READY event definition/dispatch path.');
+assert(count(groove,/MAXESS_RESULT_READY/g)===1,'Groove must publish exactly one MAXESS_RESULT_READY event path.');
 assert(count(groove,/maxess:result-updated/g)===1,'Groove must publish exactly one maxess:result-updated event path.');
 assert(!/\bcalculate\s*\(/.test(groove),'Groove contains a competing calculate() implementation/call.');
 assert(!/\bsessionStorage\b|\blocalStorage\b/.test(groove),'Groove contains storage result authority.');
@@ -32,17 +33,43 @@ assert(groove.includes('releasedResult=ENGINE.freezeResult(result);'),'Groove mu
 assert(groove.includes('window.MAXESS_RESULT=releasedResult;'),'Groove must publish the frozen canonical result.');
 assert(groove.includes('window.MAXESS_RESULT_V1=releasedResult;'),'Groove must publish MAXESS_RESULT_V1.');
 assert(groove.includes('if(releasedResult)return releasedResult;'),'Groove must guard against duplicate result release.');
+assert(groove.includes('if(releasedResult)return;'),'Groove must guard duplicate Continue before invoking the finalized engine.');
+assert(groove.includes('.disabled=!ready'),'Continue must use the native disabled state, not only aria-disabled.');
 assert(engine.includes('Pure deterministic logic'),'Engine source must identify itself as pure deterministic logic.');
 assert(!/sessionStorage|localStorage|setTimeout|setInterval|document\.|querySelector|location\./.test(engine),'Authoritative engine contains UI/storage/timer authority.');
-assert((definition.match(/score:\d/g)||[]).length>=15,'Canonical definition does not expose the expected answer scoring structure.');
 assert(!/sessionStorage|localStorage|setTimeout|setInterval|URLSearchParams|location\.hash/.test(consumer),'Active result consumer contains a forbidden alternate authority.');
 assert(!/function\s+(payload|decode)\b/.test(consumer),'Active result consumer contains URL payload decoding authority.');
 assert(!/setTimeout|setInterval/.test(consumer),'Active result consumer contains polling/timing correctness.');
 assert(consumer.includes("window.addEventListener(READY,onResultEvent)"),'Result consumer is not event-driven from MAXESS_RESULT_READY.');
 assert(consumer.includes("window.addEventListener(UPDATED,onResultEvent)"),'Result consumer is not event-driven from maxess:result-updated.');
-if(/sessionStorage|localStorage/.test(fs.readFileSync('E01','utf8'))){warnings.push('E01 source still contains legacy persistence helpers; static search shows the helper definitions are not independently invoked in the inspected source. Keep this as a cleanup risk and do not treat it as a second authority without execution evidence.');}
 
-console.log('MAXESS V2 STATIC ARCHITECTURE GATE');
+const sandbox={console};
+vm.createContext(sandbox);
+try{
+  vm.runInContext(engine+'\n'+definition,sandbox,{timeout:1000});
+  const E=sandbox.MAXESS_E00_ENGINE_V2;
+  const D=sandbox.MAXESS_AI_SCORE_DEFINITION_V1;
+  assert(!!E,'Authoritative engine did not initialize.');
+  assert(!!D,'Canonical AI Score definition did not initialize.');
+  if(E&&D){
+    E.validateDefinition(D);
+    assert(D.questions.length===15,'Canonical definition must contain exactly 15 questions.');
+    assert(D.dimensions.length===5,'Canonical definition must contain exactly 5 dimensions.');
+    assert(D.questions.every(q=>q.answers.length===5),'Every canonical question must contain exactly 5 answers.');
+    assert(D.questions.every(q=>q.answers.every(a=>Number.isInteger(a.score)&&a.score>=0&&a.score<=4)),'Canonical answers must use only 0–4 scores.');
+    const min=E.createState(D);for(const q of D.questions){const a=q.answers.find(x=>x.score===0);E.selectAnswer(min,D,a.id);E.continueAssessment(min,D)}
+    const max=E.createState(D);for(const q of D.questions){const a=q.answers.find(x=>x.score===4);E.selectAnswer(max,D,a.id);E.continueAssessment(max,D)}
+    assert(min.result?.overallScore===0,'Engine/definition minimum golden result must be 0.');
+    assert(max.result?.overallScore===100,'Engine/definition maximum golden result must be 100.');
+    assert(min.completionCount===1&&max.completionCount===1,'Golden completion must occur exactly once.');
+    assert(Object.isFrozen(min.result)&&Object.isFrozen(max.result),'Golden results must be frozen.');
+    try{E.continueAssessment(min,D);failures.push('Finalized assessment accepted a duplicate Continue.')}catch(_){/* expected */}
+  }
+}catch(e){failures.push('Executable engine/definition verification failed: '+e.message)}
+
+if(/sessionStorage|localStorage/.test(fs.readFileSync('E01','utf8'))){warnings.push('E01 source still contains legacy persistence helpers; inspected source shows helper definitions but no independently found invocation. Treat this as cleanup debt, not as runtime authority, until browser evidence proves otherwise.');}
+
+console.log('MAXESS V2 STATIC + EXECUTABLE ARCHITECTURE GATE');
 console.log('Failures:',failures.length);
 failures.forEach(x=>console.log('RED:',x));
 console.log('Warnings:',warnings.length);
