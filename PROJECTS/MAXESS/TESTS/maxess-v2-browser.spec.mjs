@@ -9,15 +9,19 @@ function buildHarness(){
   const e01=fs.readFileSync('E01','utf8');
   const e01Styles=[...e01.matchAll(/<style[\s\S]*?<\/style>/gi)].map(m=>m[0]).join('\n');
   const e01Body=(e01.match(/<body[^>]*>([\s\S]*?)<\/body>/i)||[, ''])[1];
-  const engineTag='<script src="https://raw.githubusercontent.com/SoulSchoolAcademy/NayaPOWER/main/PROJECTS/MAXESS/ENGINEERING/MAXESS-E00-AUTHORITATIVE-ENGINE-V2.js"></script>';
-  const definitionTag='<script src="https://raw.githubusercontent.com/SoulSchoolAcademy/NayaPOWER/main/PROJECTS/MAXESS/ENGINEERING/MAXESS-AI-SCORE-DEFINITION-V1.js"></script>';
-  const localGroove=groove.replace(engineTag,`<script>${engine}</script>`).replace(definitionTag,`<script>${definition}</script>`);
+  const localGroove=groove
+    .replace(/<script[^>]+MAXESS-E00-AUTHORITATIVE-ENGINE-V2\.js[^>]*><\/script>/i,`<script>${engine}</script>`)
+    .replace(/<script[^>]+MAXESS-AI-SCORE-DEFINITION-V1\.js[^>]*><\/script>/i,`<script>${definition}</script>`);
   return `<!doctype html><html><head><meta charset="utf-8">${e01Styles}</head><body>${localGroove}<div id="E01-HARNESS">${e01Body}</div>${consumer}</body></html>`;
 }
 
 async function completeAssessment(page, scoreMode){
+  const runtimeErrors=[];
+  page.on('pageerror',e=>runtimeErrors.push(e.message));
+  page.on('console',m=>{if(m.type()==='error')runtimeErrors.push(m.text())});
   await page.goto('about:blank');
   await page.setContent(buildHarness(), {waitUntil:'domcontentloaded'});
+  await page.waitForFunction(()=>!!window.MAXESS_E00_V2&&!!window.MAXESS_E00_ENGINE_V2&&!!window.MAXESS_AI_SCORE_DEFINITION_V1);
   await page.evaluate(()=>{
     window.__MAXESS_TEST__={ready:0,updated:0,last:null};
     window.addEventListener('MAXESS_RESULT_READY',e=>{window.__MAXESS_TEST__.ready++;window.__MAXESS_TEST__.last=e.detail});
@@ -27,10 +31,9 @@ async function completeAssessment(page, scoreMode){
   for(let qi=0;qi<15;qi++){
     const idx=await page.evaluate(({qi,scoreMode})=>{
       const q=window.MAXESS_AI_SCORE_DEFINITION_V1.questions[qi];
-      const i=scoreMode==='min'
+      return scoreMode==='min'
         ? q.answers.reduce((best,a,j)=>a.score<q.answers[best].score?j:best,0)
         : q.answers.reduce((best,a,j)=>a.score>q.answers[best].score?j:best,0);
-      return i;
     },{qi,scoreMode});
     const answers=page.locator('#MAXESS-E00-V2 .ans');
     await expect(answers).toHaveCount(5);
@@ -46,7 +49,7 @@ async function completeAssessment(page, scoreMode){
     }
   }
   await expect(page.locator('#MAXESS-E00-V2 #mx-done')).toHaveClass(/on/);
-  return page.evaluate(()=>({
+  const result=await page.evaluate(()=>({
     score:window.MAXESS_RESULT?.overallScore,
     contract:window.MAXESS_RESULT?.contractVersion,
     responses:window.MAXESS_RESULT?.responses?.length,
@@ -56,13 +59,11 @@ async function completeAssessment(page, scoreMode){
     completionCount:window.MAXESS_E00_V2.getState().completionCount,
     e01Score:document.querySelector('#e01 #score-number')?.textContent||null
   }));
+  return {result,runtimeErrors};
 }
 
 test('MAXESS V2 canonical minimum golden browser path', async ({page})=>{
-  const errors=[];
-  page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
-  page.on('pageerror',e=>errors.push(e.message));
-  const r=await completeAssessment(page,'min');
+  const {result:r,runtimeErrors}=await completeAssessment(page,'min');
   expect(r.score).toBe(25);
   expect(r.contract).toBe('MAXESS_RESULT_V1');
   expect(r.responses).toBe(15);
@@ -71,14 +72,11 @@ test('MAXESS V2 canonical minimum golden browser path', async ({page})=>{
   expect(r.updated).toBe(1);
   expect(r.completionCount).toBe(1);
   expect(Number(r.e01Score)).toBe(25);
-  expect(errors).toEqual([]);
+  expect(runtimeErrors).toEqual([]);
 });
 
 test('MAXESS V2 maximum golden browser path and duplicate Continue guard', async ({page})=>{
-  const errors=[];
-  page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
-  page.on('pageerror',e=>errors.push(e.message));
-  const r=await completeAssessment(page,'max');
+  const {result:r,runtimeErrors}=await completeAssessment(page,'max');
   expect(r.score).toBe(100);
   expect(r.contract).toBe('MAXESS_RESULT_V1');
   expect(r.responses).toBe(15);
@@ -92,13 +90,14 @@ test('MAXESS V2 maximum golden browser path and duplicate Continue guard', async
   const after=await page.evaluate(()=>({count:window.MAXESS_E00_V2.getState().completionCount,score:window.MAXESS_RESULT.overallScore}));
   expect(after.count).toBe(before);
   expect(after.score).toBe(100);
-  expect(errors).toEqual([]);
+  expect(runtimeErrors).toEqual([]);
 });
 
 test('MAXESS V2 required mobile widths remain usable', async ({page})=>{
   for(const width of [320,360,375,390,414,480,600,768,900,1024,1280]){
     await page.setViewportSize({width,height:900});
     await page.setContent(buildHarness(),{waitUntil:'domcontentloaded'});
+    await page.waitForFunction(()=>!!window.MAXESS_E00_V2);
     const overflow=await page.evaluate(()=>({
       body:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,
       groove:document.querySelector('#MAXESS-E00-V2')?.scrollWidth>document.querySelector('#MAXESS-E00-V2')?.clientWidth+1,
