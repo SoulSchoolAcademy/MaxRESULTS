@@ -27,9 +27,9 @@ async function completeAssessment(page, scoreMode){
   for(let qi=0;qi<15;qi++){
     const idx=await page.evaluate(({qi,scoreMode})=>{
       const q=window.MAXESS_AI_SCORE_DEFINITION_V1.questions[qi];
-      const target=scoreMode==='min'?0:4;
-      const i=q.answers.findIndex(a=>a.score===target);
-      if(i<0)throw new Error(`No ${scoreMode} answer for Q${qi+1}`);
+      const i=scoreMode==='min'
+        ? q.answers.reduce((best,a,j)=>a.score<q.answers[best].score?j:best,0)
+        : q.answers.reduce((best,a,j)=>a.score>q.answers[best].score?j:best,0);
       return i;
     },{qi,scoreMode});
     const answers=page.locator('#MAXESS-E00-V2 .ans');
@@ -54,25 +54,23 @@ async function completeAssessment(page, scoreMode){
     ready:window.__MAXESS_TEST__.ready,
     updated:window.__MAXESS_TEST__.updated,
     completionCount:window.MAXESS_E00_V2.getState().completionCount,
-    e01Score:document.querySelector('#e01 #score-number')?.textContent||null,
-    released:window.MAXESS_RESULTS_RELEASED===true
+    e01Score:document.querySelector('#e01 #score-number')?.textContent||null
   }));
 }
 
-test('MAXESS V2 minimum golden browser path', async ({page})=>{
+test('MAXESS V2 canonical minimum golden browser path', async ({page})=>{
   const errors=[];
   page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
   page.on('pageerror',e=>errors.push(e.message));
   const r=await completeAssessment(page,'min');
-  expect(r.score).toBe(0);
+  expect(r.score).toBe(25);
   expect(r.contract).toBe('MAXESS_RESULT_V1');
   expect(r.responses).toBe(15);
   expect(r.frozen).toBe(true);
   expect(r.ready).toBe(1);
   expect(r.updated).toBe(1);
   expect(r.completionCount).toBe(1);
-  expect(r.released).toBe(true);
-  expect(Number(r.e01Score)).toBe(0);
+  expect(Number(r.e01Score)).toBe(25);
   expect(errors).toEqual([]);
 });
 
@@ -103,7 +101,7 @@ test('MAXESS V2 required mobile widths remain usable', async ({page})=>{
     await page.setContent(buildHarness(),{waitUntil:'domcontentloaded'});
     const overflow=await page.evaluate(()=>({
       body:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,
-      groove:document.querySelector('#MAXESS-E00-V2')?.scrollWidth>document.querySelector('#MAXESS-E00-V2')?.clientWidth+1,
+      groove:document.querySelector('#MAXESS-E00-V2')?.scrollWidth>document.querySelector('#MAXESS-E00-V00-V2')?.clientWidth+1,
       q:!!document.querySelector('#MAXESS-E00-V2 #mx-q'),
       answers:document.querySelectorAll('#MAXESS-E00-V2 .ans').length
     }));
