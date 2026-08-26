@@ -14,6 +14,18 @@ Make it dramatically easier for an ordinary human with a meaningful vision to ac
 
 **UNDERSTAND → PLAN → EXECUTE → VERIFY → LEARN → COMPRESS → PRESERVE → RESTORE → IMPROVE**
 
+## Master Systems Architecture
+
+**CANONICAL:** `SUPERBRAIN/MASTER-SYSTEMS-ARCHITECTURE.md`
+
+The Naya activation system is governed as one 12-layer architecture rather than a collection of disconnected activations:
+
+**MASTER LAW → MODES → LEAD → MASTER → CODER → DESIGNER → NOTES → NITRO → OSCAR → SUPERBRAIN/CIS → SCORECARD → SOM(E)**
+
+Meta-optimization loop:
+
+**SYNERGIZE → OPTIMIZE → MAXIMIZE → EQUALIZE → VERIFY → LEARN → SYNERGIZE AGAIN**
+
 ## 10-Star Service Standard
 
 Naya Power is governed by a constitutional **10-Star Service + Autonomous Project Execution Law**. The user should not have to become a prompt engineer or project manager to receive expert AI service.
@@ -26,24 +38,33 @@ The service standard is: **CAKE → ICING → ICE CREAM → CHERRY → CARAMEL �
 
 **Prompt Architect:** `SUPERBRAIN/PROMPT-ARCHITECT/README.md`
 
+## Activation System Project
+
+**GitHub Issue #56:** `SUPERBRAIN — Build the 12-Layer Naya Activation System to 10/10`
+
+The activation architecture is structurally locked as a 12-layer model. Structural lock does **not** equal verified 10/10; implementation, cold-start, execution, verification, and end-to-end evidence remain required.
+
+**Master Note:** `SUPERBRAIN/MASTER-NOTES/SN-20260825-NAYA-ACTIVATION-SYSTEM-SOM-E-ARCHITECTURE-LOCK.md`
+
 ## Start Here
 
-1. `.naya/codex/11-RUNTIME-CONSTITUTION.md`
-2. `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md` — 10-Star service, autonomous execution, project, teaching, prompt, continuity, and self-optimization law
-3. `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — canonical Smart Notes/CIS law
-4. `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md` — canonical Superbrain operating model
-5. `.naya/memory/BOOTSTRAP.md` — model/session continuity contract
-6. `SUPERBRAIN/AI-BOOT/START-HERE.md` — mandatory AI entry point
-7. `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md` — append-only change stream
-8. `SUPERBRAIN/PROMPT-ARCHITECT/README.md` — canonical intent-to-prompt execution architecture
-9. `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md` — 25-task optimization sequence
-10. `SUPERBRAIN/10-10-SCORECARD.md` — measured maturity and remaining gates
-11. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-NAYA.md` — AI execution directive
-12. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-SHAWN.md` — human execution directive
-13. `.naya/memory/events/INDEX.json` — chronological Note Event index
-14. `.naya/memory/STATE.json` — current Intelligence State
-15. `.naya/memory/smart_notes_v3.py` — event validation/retrieval/CIS runtime
-16. `.naya/memory/duplicate_entity_audit.py` — duplicate/entity resolution audit
+1. `SUPERBRAIN/MASTER-SYSTEMS-ARCHITECTURE.md` — canonical activation architecture and authority model
+2. `.naya/codex/11-RUNTIME-CONSTITUTION.md`
+3. `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md` — 10-Star service, autonomous execution, project, teaching, prompt, continuity, and self-optimization law
+4. `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — canonical Smart Notes/CIS law
+5. `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md` — canonical Superbrain operating model
+6. `.naya/memory/BOOTSTRAP.md` — model/session continuity contract
+7. `SUPERBRAIN/AI-BOOT/START-HERE.md` — mandatory AI entry point
+8. `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md` — append-only change stream
+9. `SUPERBRAIN/PROMPT-ARCHITECT/README.md` — canonical intent-to-prompt execution architecture
+10. `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md` — 25-task optimization sequence
+11. `SUPERBRAIN/10-10-SCORECARD.md` — measured maturity and remaining gates
+12. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-NAYA.md` — AI execution directive
+13. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-SHAWN.md` — human execution directive
+14. `.naya/memory/events/INDEX.json` — chronological Note Event index
+15. `.naya/memory/STATE.json` — current Intelligence State
+16. `.naya/memory/smart_notes_v3.py` — event validation/retrieval/CIS runtime
+17. `.naya/memory/duplicate_entity_audit.py` — duplicate/entity resolution audit
 
 ## Smart Notes + CIS
 
@@ -130,7 +151,7 @@ Do not use federation to compensate for an incomplete personal brain. Prove the 
 
 ## Self-Optimization
 
-**SYNERGIZE → OPTIMIZE → MAXIMIZE → EQUALIZE → LEARN → REPEAT**
+**SYNERGIZE → OPTIMIZE → MAXIMIZE → EQUALIZE → VERIFY → LEARN → SYNERGIZE AGAIN**
 
 Optimize for quality, intelligence, reliability, safety, continuity, speed where appropriate, simplicity, maintainability, and cost.
 
