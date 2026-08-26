@@ -85,6 +85,53 @@ Before ending every meaningful task, ask:
 
 Then document it.
 
+## Execution discoveries — 2026-08-26
+
+### 1. Result consumer was a real architectural defect
+
+`MAXESS-RESULT-CONSUMER-V2.html` contained alternate result authority through storage and URL/payload recovery. That violated V2's single-authority model.
+
+It was replaced with an event-driven consumer that:
+
+- accepts `MAXESS_RESULT_READY` and `maxess:result-updated`;
+- validates `MAXESS_RESULT_V1`;
+- hydrates presentation only;
+- does not calculate;
+- does not read local/session storage;
+- does not decode URL/hash results;
+- does not poll;
+- does not rebroadcast the canonical result event.
+
+### 2. Duplicate Continue was a subtle completion risk
+
+The authoritative Groove had a result-release guard, but a programmatic duplicate Continue could still reach the finalized engine before that release guard. The in-scope hardening adds an early `releasedResult` guard and native button `disabled` state.
+
+### 3. Canonical minimum is not the same as mathematical engine minimum
+
+The V2 engine mathematically supports 0 raw / 0 normalized and 60 raw / 100 normalized.
+
+The current canonical AI Score definition does **not** contain a zero-score answer for every question. Its achievable minimum is **25/100**. Therefore:
+
+- engine mathematical golden minimum = 0/100;
+- engine mathematical maximum = 60 raw / 100 normalized;
+- canonical definition minimum = 25/100;
+- canonical definition maximum = 100/100;
+- each dimension maximum = 12 raw / 100 normalized.
+
+This distinction is now encoded into the executable verification instead of incorrectly forcing the canonical configuration to produce 0.
+
+### 4. Browser verification is now automated, not merely planned
+
+A GitHub Actions workflow has been created to run:
+
+**hardening → static/executable gate → Playwright browser evidence → responsive matrix → commit verified hardening.**
+
+The current run is the authoritative pre-test evidence path. It must be green before the human-test gate opens.
+
+### 5. Evidence law is working
+
+The first automated run exposed a false test assumption rather than hiding it. The execution then corrected the test to match the actual authoritative scoring definition. This is exactly the intended continuous-learning loop.
+
 ## Result
 
 This lesson is now formalized as an operating law in:
