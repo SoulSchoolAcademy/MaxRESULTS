@@ -1,16 +1,179 @@
 {
   "schema":"naya-power-runtime-state/v1",
-  "status":"PENDING_AUTHORITATIVE_CI",
-  "updated_at":"2026-08-26T00:45:00Z",
+  "status":"HUB_PHASE_0_INVENTORY_COMPLETE_MAXESS_BROWSER_BLOCKED",
+  "updated_at":"2026-08-26T16:20:00-07:00",
   "repository":"SoulSchoolAcademy/NayaPOWER",
   "branch":"main",
-  "current_main":{"commit":"846529daea1bd35af564bdc061f3fb74a1b7f485","post_change_ci":"PENDING","protected_green_commit":"0f82325a82ed37b5b3a3d097599025369c03a1ed","latest_verified_superbrain_run":32909426069,"latest_verified_brain_gate_job":98000403862,"latest_verified_commit":"9aefe57a71bd6425681bb435d70417ad33832198","note":"Retrieval hardening is implemented on the current head but is not promoted to GREEN until an authoritative gate observes this exact resulting main SHA."},
-  "runtime":{"smart_notes_v3":"VERIFIED_BY_CI_PENDING_CURRENT_HEAD","duplicate_entity_audit":"VERIFIED_BY_CI","restore_context":"VERIFIED_BY_CI","daily_intelligence_generator":"VERIFIED_BY_CI","ci_enforcement":"VERIFIED_BY_CI","execution_continuity_governance":"VERIFIED_BY_CI","idempotent_event_creation_primitive":"VERIFIED_BY_CI_TESTS_NOT_YET_UNIVERSALLY_ADOPTED","entity_resolution_decision_layer":"VERIFIED_BY_CI_TESTS_REVIEW_SAFE","contradiction_supersession_transition":"VERIFIED_BY_CI_TESTS_NON_DESTRUCTIVE","outbox_state_machine":"VERIFIED_BY_CI_TESTS","retrieval_baseline":"IMPLEMENTED_CURRENT_HEAD_PENDING_CI","semantic_vector_retrieval":"NOT_IMPLEMENTED_NO_VECTOR_INFRASTRUCTURE_FOUND","superbrain_health_metrics":"VERIFIED_BY_CI","cold_start_structural_acceptance":"VERIFIED_BY_CI","full_cold_start_production_acceptance":"VERIFIED_BY_CI","ten_star_service_contract":"VERIFIED_BY_CI","daily_project_memory_category":"VERIFIED_BY_CI","project_execution_contract":"VERIFIED_BY_CI","prompt_architect":"VERIFIED_BY_CI","teaching_any_subject":"CONSTITUTIONAL_BEHAVIOR_DEFINED_PENDING_RUNTIME_ENFORCEMENT","next_execution_contract":"VERIFIED_BY_CI","canonical_write_boundary_enforcement":"VERIFIED_BY_CI","canonical_write_coverage_audit":"VERIFIED_BY_CI_NO_DETECTED_BYPASSES_IN_SCANNED_PRODUCTION_SCOPE","paired_representation_identity_enforcement":"VERIFIED_BY_CI","meaningful_learning_enforcement":"VERIFIED_BY_CI","continuity_gate_receipt_emitter":"VERIFIED_BY_CI","continuity_receipt_ci_artifact":"VERIFIED_BY_CI"},
-  "protected":["Naya Power Runtime Constitution","canonical source hierarchy","historical Smart Notes","Restore Context contract","Claim/Evidence verification boundary","independent Oscar challenge boundary","canonical chronological event store","Smart Notes/CIS Constitution","Superbrain Build Protocol","AI Operating Feed","Universal Execution Continuity & Learning Law","Optimization & Excellence Law","10-Star Service + Autonomous Project Execution Law","Prompt Architect contract","protected GREEN boundary 0f82325a82ed37b5b3a3d097599025369c03a1ed"],
-  "verified_evidence":[{"run":32909426069,"job":98000403862,"commit":"9aefe57a71bd6425681bb435d70417ad33832198","status":"GREEN","evidence":"https://github.com/SoulSchoolAcademy/NayaPOWER/actions/runs/32909426069","artifact_id":9585987013,"artifact_sha256":"d0cfa58f9d179c30d3646d0e2a5a1ca5766eb8381c173cdcaf1aedbe45978b85","observed":"Exact main SHA checked out. Canonical write audit A=1/B=0/C=0/D=6/E=0. Fresh checkout restore VERIFIED. Canonical memory, duplicate/entity, relationship graph, Superbrain regression, continuity positive/failure, PROJECT/Next Execution/paired representation/learning, Prompt Architect, intelligence, derived index, retrieval baseline, health, Daily CIS, continuity receipt, and artifact upload all GREEN."}],
-  "current_project":{"project_id":"PRJ-NAYAPOWER-SUPERBRAIN","project_name":"Naya Power Superbrain","current_objective":"Finish the zero-cost smart retrieval baseline so the GitHub-native Superbrain is materially useful without vector infrastructure, then obtain authoritative GREEN on the exact resulting main.","north_star":"A user should be able to give Naya knowledge—not configure infrastructure—and Naya should turn that knowledge into a verified, recoverable, high-recall personal Superbrain automatically.","success_criteria":["Exact matching and canonical identifiers dominate when appropriate","BM25 and TF-IDF lexical relevance are combined","Metadata filters are hard constraints","Query expansion improves natural-language intent matching","Recency and authority influence ranking without overriding exact truth","Relationship traversal reranks connected context","Unknown queries fail closed instead of returning arbitrary events","Precision@5, recall@5, MRR, and token coverage are measured","Authoritative CI proves the resulting head" ]},
-  "known":["The personal Superbrain is the seed and remains the priority","Proof beats promises","Meaningful execution continuity is machine-enforced","PROJECT is first-class memory context","Next Execution is a machine-validated handoff contract","Naya and Shawn/Human representations share one canonical event","Meaningful learning and next-action capture are enforced","Cold-start restoration runs before artifact-producing audits","The continuity receipt is executable and uploaded by the authoritative gate","The canonical write coverage audit found one real canonical event caller and six derived/audit producers, with no detected B/C/E bypasses in its defined production scan scope","Retrieval can be made surprisingly strong without vectors by combining exact match, BM25, TF-IDF, metadata, query expansion, recency, authority, and relationship reranking","Vectors remain a future derived representation rather than the source of truth"],
-  "known_gaps":["current-head retrieval hardening still needs authoritative CI","full universal production adoption of canonical event creation remains unproven beyond the conservative static scan scope","coverage audit should be hardened to detect dynamic/indirect writers","true semantic/vector retrieval remains future work","customer PDF ingestion/activation remains future work","fully automatic durable CIS persistence/verification/next-day handoff","durable outbox persistence/retry integration","production NayaNET federation","machine enforcement of teaching-specific runtime behavior","AI Operating Feed append integration"],
-  "weighted_priorities":{"P0":["Authoritative GREEN on current head 846529daea1bd35af564bdc061f3fb74a1b7f485"],"P1":["Harden universal canonical event-write coverage against dynamic/indirect writers","Customer zero-setup PDF ingestion and activation contract","Durable outbox/retry and continuity completeness"],"P2":["Finish and benchmark zero-cost hybrid retrieval","Semantic/vector retrieval adapter with measured precision/recall improvement","Entity resolution and contradiction/supersession depth"],"P3":["Automatic CIS compounding","Teacher runtime enforcement","Magnet/NayaNET federation"],"P4":["Polish and presentation enhancements"]},
-  "next_best_action":"Obtain an authoritative Superbrain Gate against exact current main 846529daea1bd35af564bdc061f3fb74a1b7f485. Inspect every substantive step, especially retrieval quality and deliberate-failure tests. If GREEN, record evidence and begin zero-setup PDF activation architecture; if RED, preserve the failure and repair the smallest true root cause."
+  "current_main":{
+    "commit":"8dc1f397d4c8e5e71d19151427283724c350cdce",
+    "post_change_ci":"NO_STATUS_REPORTED_ON_CURRENT_HEAD",
+    "previous_state_commit":"846529daea1bd35af564bdc061f3fb74a1b7f485",
+    "state_reconciliation":"STALE_STATE_REPAIRED",
+    "latest_verified_superbrain_run":32909426069,
+    "latest_verified_brain_gate_job":98000403862,
+    "latest_verified_superbrain_commit":"9aefe57a71bd6425681bb435d70417ad33832198",
+    "note":"Current main has advanced beyond the prior STATE snapshot. This file now records the observed current main and the active Naya Hub objective. Current-main CI status is not asserted without evidence."
+  },
+  "runtime":{
+    "smart_notes_v3":"VERIFIED_BY_PRIOR_CI",
+    "duplicate_entity_audit":"VERIFIED_BY_PRIOR_CI",
+    "restore_context":"VERIFIED_BY_PRIOR_CI",
+    "daily_intelligence_generator":"VERIFIED_BY_PRIOR_CI",
+    "ci_enforcement":"VERIFIED_BY_PRIOR_CI",
+    "execution_continuity_governance":"VERIFIED_BY_PRIOR_CI",
+    "canonical_event_creation":"VERIFIED_BY_PRIOR_CI_WITH_CONSERVATIVE_SCAN_SCOPE",
+    "entity_resolution_decision_layer":"VERIFIED_BY_PRIOR_CI_TESTS",
+    "contradiction_supersession_transition":"VERIFIED_BY_PRIOR_CI_TESTS",
+    "outbox_state_machine":"VERIFIED_BY_PRIOR_CI_TESTS",
+    "retrieval_baseline":"CURRENT_HEAD_STATUS_NOT_REVERIFIED",
+    "semantic_vector_retrieval":"NOT_IMPLEMENTED_NO_VECTOR_INFRASTRUCTURE_FOUND",
+    "superbrain_health_metrics":"VERIFIED_BY_PRIOR_CI",
+    "cold_start_structural_acceptance":"VERIFIED_BY_PRIOR_CI",
+    "full_cold_start_production_acceptance":"VERIFIED_BY_PRIOR_CI",
+    "ten_star_service_contract":"VERIFIED_BY_PRIOR_CI",
+    "daily_project_memory_category":"VERIFIED_BY_PRIOR_CI",
+    "project_execution_contract":"VERIFIED_BY_PRIOR_CI",
+    "prompt_architect":"VERIFIED_BY_PRIOR_CI",
+    "next_execution_contract":"VERIFIED_BY_PRIOR_CI",
+    "canonical_write_boundary_enforcement":"VERIFIED_BY_PRIOR_CI",
+    "paired_representation_identity_enforcement":"VERIFIED_BY_PRIOR_CI",
+    "meaningful_learning_enforcement":"VERIFIED_BY_PRIOR_CI",
+    "continuity_gate_receipt_emitter":"VERIFIED_BY_PRIOR_CI",
+    "continuity_receipt_ci_artifact":"VERIFIED_BY_PRIOR_CI",
+    "naya_hub_runtime":"NOT_IMPLEMENTED_PHASE_0_DESIGN_ONLY",
+    "naya_hub_phase_1_member_identity":"ARCHITECTED_NOT_IMPLEMENTED",
+    "naya_hub_phase_1_result_persistence":"ARCHITECTED_NOT_IMPLEMENTED",
+    "naya_hub_phase_1_reload_verification":"NOT_IMPLEMENTED",
+    "maxess_engine":"GREEN_BY_DOCUMENTED_EXECUTED_EVIDENCE",
+    "maxess_browser":"RED_LATEST_GATE_33007579261",
+    "maxess_human_test":"BLOCKED_UNTIL_BROWSER_GREEN"
+  },
+  "protected":[
+    "Naya Power Runtime Constitution",
+    "canonical source hierarchy",
+    "historical Smart Notes",
+    "Restore Context contract",
+    "Claim/Evidence verification boundary",
+    "independent Oscar challenge boundary",
+    "canonical chronological event store",
+    "Smart Notes/CIS Constitution",
+    "Superbrain Build Protocol",
+    "AI Operating Feed",
+    "Universal Execution Continuity & Learning Law",
+    "Optimization & Excellence Law",
+    "10-Star Service + Autonomous Project Execution Law",
+    "Prompt Architect contract",
+    "protected Superbrain GREEN evidence from prior authoritative run",
+    "MAXESS canonical scoring/result authority",
+    "MAXESS_RESULT_V1 contract",
+    "MAXESS E01-E09 premium result assets",
+    "MAXESS no-historical-rescoring rule",
+    "Naya Hub one-identity/one-ecosystem architecture",
+    "Naya Hub report-first UX direction",
+    "Naya Hub current inventory assessment"
+  ],
+  "verified_evidence":[
+    {
+      "run":32909426069,
+      "job":98000403862,
+      "commit":"9aefe57a71bd6425681bb435d70417ad33832198",
+      "status":"GREEN",
+      "evidence":"https://github.com/SoulSchoolAcademy/NayaPOWER/actions/runs/32909426069",
+      "artifact_id":9585987013,
+      "artifact_sha256":"d0cfa58f9d179c30d3646d0e2a5a1ca5766eb8381c173cdcaf1aedbe45978b85",
+      "observed":"Prior authoritative Superbrain gate observed the exact checked-out SHA and passed the documented runtime/continuity/retrieval baseline suite. This is historical evidence and does not establish current-head GREEN."
+    },
+    {
+      "run":33007579261,
+      "commit":"c906a4fabd269092b057dd6db2a7a933134dbf0e",
+      "status":"RED",
+      "evidence":"https://github.com/SoulSchoolAcademy/NayaPOWER/actions/runs/33007579261",
+      "observed":"MAXESS V2 Pre-Test Excellence Gate completed with failure at the browser evidence boundary. Human test remains blocked."
+    },
+    {
+      "commit":"9576fa53d093c3420503ee51888bb2291b4ff1eb",
+      "status":"DOCUMENTATION_UPDATE",
+      "evidence":"PROJECTS/NAYA-HUB-NETWORK/NAYA-HUB-CURRENT-INVENTORY-GAP-ASSESSMENT-2026-08-26.md",
+      "observed":"Current Hub/Maxess inventory and gap assessment was durably recorded on main."
+    }
+  ],
+  "current_project":{
+    "project_id":"PRJ-NAYA-HUB-NETWORK",
+    "project_name":"Naya Hub / Naya Network",
+    "current_objective":"Build the front-end core of one coherent Naya ecosystem, beginning with the smallest complete vertical slice: MAXESS → member identity → authoritative result → persistence → Naya Hub.",
+    "north_star":"A fresh user can enter through MAXESS, receive a verified result, establish a member identity, persist the result, enter the Hub, view the result, reload, and see the same authoritative result without invented state or historical rescoring.",
+    "current_phase":"Phase 0 → Phase 1 preparation",
+    "current_intelligent_block":"MAXESS → MEMBER IDENTITY → AUTHORITATIVE RESULT → PERSISTENCE → NAYA HUB",
+    "success_criteria":[
+      "Current repository state is restorable without relying on stale STATE data",
+      "MAXESS browser failure is diagnosed from actual evidence before release claims",
+      "One canonical member identity boundary exists",
+      "One canonical MAXESS result contract is handed off",
+      "One authoritative result is durably persisted",
+      "Hub retrieves and displays the persisted result",
+      "Reload/session verification proves persistence",
+      "No competing scorer/result authority is introduced",
+      "The Hub uses the established Naya/MAXESS visual language",
+      "Machine evidence supports promotion before human testing"
+    ]
+  },
+  "known":[
+    "Naya Hub architecture is substantially documented and registered",
+    "The Hub is the front-end core of one coherent ecosystem",
+    "MAXESS remains the authoritative scoring/result owner",
+    "Historical MAXESS results must not be silently rescored",
+    "The first Hub screen should be report-first, simple, premium, and orb-centered",
+    "NayaMail/Ambassador/network are later intelligent blocks, not Phase 1 blockers",
+    "GitHub is source/deployment authority, not runtime transactional state",
+    "Vercel is the preferred initial runtime/API layer where appropriate",
+    "Supabase is the preferred durable application-state/auth layer",
+    "Groove is a presentation/cockpit surface, not business-data authority",
+    "The latest MAXESS Browser Gate 04 run is RED",
+    "Current Hub project directory is design/documentation only; no production Hub runtime was established by this inventory",
+    "The correct implementation unit is an end-to-end intelligent block with explicit truth ownership and verification",
+    "The prior STATE snapshot was stale and has now been reconciled to observed main"
+  ],
+  "known_gaps":[
+    "MAXESS Browser Gate 04 root cause and green rerun",
+    "MAXESS live/human readiness",
+    "Phase 1 member authentication/identity runtime",
+    "Phase 1 Supabase schema and row-level security contract",
+    "Phase 1 secure API/runtime boundary",
+    "MAXESS-to-member result handoff implementation",
+    "Immutable persisted assessment result implementation",
+    "Hub runtime/application surface",
+    "My Results retrieval surface",
+    "Reload/session persistence verification",
+    "Hub Naya voice/runtime integration",
+    "NayaMail implementation",
+    "Ambassador/referral implementation",
+    "Network/community implementation",
+    "Current-head authoritative CI status after the latest documentation commits"
+  ],
+  "weighted_priorities":{
+    "P0":[
+      "Diagnose MAXESS Browser Gate 04 from actual run 33007579261 evidence and repair only the proven defective boundary",
+      "Preserve MAXESS source/result authority while doing so"
+    ],
+    "P1":[
+      "Define and implement the smallest Phase 1 member identity + result persistence contract",
+      "Build Hub Home + My Results around the authoritative stored result",
+      "Prove reload/session persistence"
+    ],
+    "P2":[
+      "Expand assessment history and growth",
+      "Connect approved Naya voice/knowledge runtime",
+      "Add Naya identity/link and NayaMail/Ambassador foundations"
+    ],
+    "P3":[
+      "Connections, communities, permissioned network messaging",
+      "Network intelligence and Daily Naya Intelligent Network"
+    ],
+    "P4":[
+      "Polish beyond verified functional excellence"
+    ]
+  },
+  "next_best_action":"Inspect and classify the actual uploaded evidence from MAXESS Browser Gate 04 run 33007579261, identify the first verified runtime/evidence divergence, and repair only that boundary. In parallel only where safe, prepare the minimal Phase 1 member/result data contract without creating a competing MAXESS authority.",
+  "continuity":{"current_state_document":"PROJECTS/NAYA-HUB-NETWORK/NAYA-HUB-CURRENT-INVENTORY-GAP-ASSESSMENT-2026-08-26.md","next_prompt_source":"The latest execution response and the current Hub inventory document must be used to generate the next Naya prompt.","rule":"Every substantive execution must leave current state, evidence, learning, protected assets, unresolved work, and a concrete next action."
+  }
 }
