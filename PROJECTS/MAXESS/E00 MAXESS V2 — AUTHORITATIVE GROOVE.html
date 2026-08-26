@@ -9,7 +9,7 @@ const DEFINITION=window.MAXESS_AI_SCORE_DEFINITION_V1;
 if(!ROOT||!ENGINE||!DEFINITION)throw new Error('MAXESS authoritative dependencies missing');
 ENGINE.validateDefinition(DEFINITION);
 let state=ENGINE.createState(DEFINITION),releasedResult=null;
-const $=id=>ROOT.querySelector('#'+id);
+const $=id=>ROOT.querySelector(id.charAt(0)==='#'?id:'#'+id);
 const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 const accents=['#ffd45a','#35e39b','#3ca8ff','#765cff','#ed42c4'];
 const glyphs=['◆','✦','△','✧','✦'];
