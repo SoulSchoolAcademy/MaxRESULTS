@@ -58,7 +58,27 @@ jobs:
           npx playwright install --with-deps chromium
 
       - name: Browser evidence gate
-        run: npx playwright test PROJECTS/MAXESS/TESTS/maxess-v2-browser.spec.mjs --reporter=line
+        run: npx playwright test PROJECTS/MAXESS/TESTS/maxess-v2-browser.spec.mjs --reporter=line,json
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_NAME: playwright-report/results.json
+
+      - name: Preserve browser evidence receipt
+        if: always()
+        run: |
+          mkdir -p playwright-report
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const receipt = {
+            schema: 'maxess-browser-evidence-receipt/v1',
+            run_id: process.env.GITHUB_RUN_ID,
+            commit: process.env.GITHUB_SHA,
+            workflow: process.env.GITHUB_WORKFLOW,
+            generated_at: new Date().toISOString(),
+            browser_spec: 'PROJECTS/MAXESS/TESTS/maxess-v2-browser.spec.mjs',
+            note: 'Playwright JSON report is preserved separately when generated. This receipt records the exact CI execution identity so successful runs remain durable evidence even when no failure-only trace exists.'
+          };
+          fs.writeFileSync('playwright-report/maxess-browser-run-receipt.json',JSON.stringify(receipt,null,2));
+          NODE
 
       - name: Upload browser evidence artifacts
         if: always()
@@ -68,8 +88,9 @@ jobs:
           path: |
             test-results/**
             playwright-report/**
-          if-no-files-found: ignore
+          if-no-files-found: error
           retention-days: 14
+          compression-level: 6
 
       - name: Commit verified hardening if changed
         if: success()
@@ -86,4 +107,6 @@ jobs:
 
 # Documentation/Smart Note commits intentionally do not trigger this expensive
 # browser gate. Code/test changes and manual dispatch remain authoritative triggers.
-# Fresh verification trigger: execute the current main harness after the script-boundary repair.
+# Evidence preservation is intentionally part of the gate: successful browser runs
+# must leave a durable machine-readable receipt/report, not disappear because the
+# test suite only emits traces on failure.
