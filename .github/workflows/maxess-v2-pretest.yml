@@ -40,6 +40,17 @@ jobs:
       - name: Browser evidence gate
         run: npx playwright test PROJECTS/MAXESS/TESTS/maxess-v2-browser.spec.mjs --reporter=line
 
+      - name: Upload browser evidence artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maxess-v2-browser-evidence-${{ github.run_id }}
+          path: |
+            test-results/**
+            playwright-report/**
+          if-no-files-found: ignore
+          retention-days: 14
+
       - name: Commit verified hardening if changed
         if: success()
         run: |
@@ -53,4 +64,5 @@ jobs:
             git push
           fi
 
-# Browser harness correction gate: rerun after dependency-injection hardening.
+# Browser evidence is retained on pass/failure so the next execution can
+# inspect real artifacts instead of guessing from a red job.
