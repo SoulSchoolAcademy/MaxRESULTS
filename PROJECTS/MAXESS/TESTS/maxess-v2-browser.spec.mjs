@@ -7,11 +7,11 @@ function buildHarness(){
   const definition=fs.readFileSync('PROJECTS/MAXESS/ENGINEERING/MAXESS-AI-SCORE-DEFINITION-V1.js','utf8');
   const consumer=fs.readFileSync('MAXESS-RESULT-CONSUMER-V2.html','utf8');
   const e01=fs.readFileSync('E01','utf8');
-  const e01Styles=[...e01.matchAll(/<style[\\s\\S]*?<\\/style>/gi)].map(m=>m[0]).join('\\n');
-  const e01Body=(e01.match(/<body[^>]*>([\\s\\S]*?)<\\/body>/i)||[, ''])[1];
-  const localGroove=groove
-    .replace(/<script src="https:\\/\\/raw\\.githubusercontent\\.com[^>]*MAXESS-E00-AUTHORITATIVE-ENGINE-V2\\.js"><\\/script>/i,`<script>${engine}<\\/script>`)
-    .replace(/<script src="https:\\/\\/raw\\.githubusercontent\\.com[^>]*MAXESS-AI-SCORE-DEFINITION-V1\\.js"><\\/script>/i,`<script>${definition}<\\/script>`);
+  const e01Styles=[...e01.matchAll(/<style[\s\S]*?<\/style>/gi)].map(m=>m[0]).join('\n');
+  const e01Body=(e01.match(/<body[^>]*>([\s\S]*?)<\/body>/i)||[, ''])[1];
+  const engineTag='<script src="https://raw.githubusercontent.com/SoulSchoolAcademy/NayaPOWER/main/PROJECTS/MAXESS/ENGINEERING/MAXESS-E00-AUTHORITATIVE-ENGINE-V2.js"></script>';
+  const definitionTag='<script src="https://raw.githubusercontent.com/SoulSchoolAcademy/NayaPOWER/main/PROJECTS/MAXESS/ENGINEERING/MAXESS-AI-SCORE-DEFINITION-V1.js"></script>';
+  const localGroove=groove.replace(engineTag,`<script>${engine}</script>`).replace(definitionTag,`<script>${definition}</script>`);
   return `<!doctype html><html><head><meta charset="utf-8">${e01Styles}</head><body>${localGroove}<div id="E01-HARNESS">${e01Body}</div>${consumer}</body></html>`;
 }
 
@@ -23,7 +23,7 @@ async function completeAssessment(page, scoreMode){
     window.addEventListener('MAXESS_RESULT_READY',e=>{window.__MAXESS_TEST__.ready++;window.__MAXESS_TEST__.last=e.detail});
     window.addEventListener('maxess:result-updated',e=>{window.__MAXESS_TEST__.updated++});
   });
-  await expect(page.locator('#MAXESS-E00-V2 #mx-q')).toContainText('');
+  await expect(page.locator('#MAXESS-E00-V2 #mx-q')).not.toHaveText('');
   for(let qi=0;qi<15;qi++){
     const idx=await page.evaluate(({qi,scoreMode})=>{
       const q=window.MAXESS_AI_SCORE_DEFINITION_V1.questions[qi];
@@ -46,7 +46,7 @@ async function completeAssessment(page, scoreMode){
     }
   }
   await expect(page.locator('#MAXESS-E00-V2 #mx-done')).toHaveClass(/on/);
-  const result=await page.evaluate(()=>({
+  return page.evaluate(()=>({
     score:window.MAXESS_RESULT?.overallScore,
     contract:window.MAXESS_RESULT?.contractVersion,
     responses:window.MAXESS_RESULT?.responses?.length,
@@ -57,7 +57,6 @@ async function completeAssessment(page, scoreMode){
     e01Score:document.querySelector('#e01 #score-number')?.textContent||null,
     released:window.MAXESS_RESULTS_RELEASED===true
   }));
-  return result;
 }
 
 test('MAXESS V2 minimum golden browser path', async ({page})=>{
@@ -90,8 +89,8 @@ test('MAXESS V2 maximum golden browser path and duplicate Continue guard', async
   expect(r.updated).toBe(1);
   expect(r.completionCount).toBe(1);
   const before=await page.evaluate(()=>window.MAXESS_E00_V2.getState().completionCount);
-  await page.locator('#MAXESS-E00-V2 #mx-cont').click();
-  await page.locator('#MAXESS-E00-V2 #mx-cont').click();
+  await page.locator('#MAXESS-E00-V2 #mx-cont').click({force:true});
+  await page.locator('#MAXESS-E00-V2 #mx-cont').click({force:true});
   const after=await page.evaluate(()=>({count:window.MAXESS_E00_V2.getState().completionCount,score:window.MAXESS_RESULT.overallScore}));
   expect(after.count).toBe(before);
   expect(after.score).toBe(100);
