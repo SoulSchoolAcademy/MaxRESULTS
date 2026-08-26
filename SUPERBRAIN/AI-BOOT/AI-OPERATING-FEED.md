@@ -13,6 +13,28 @@ This is the shared operational handoff stream for every AI/session entering the 
 7. If an operating rule changes, create/update the appropriate Master Note and canonical protocol; the feed announces the change.
 8. A new AI reads the newest entries first, then follows links into canonical sources.
 
+---
+
+## 2026-08-26 07:00 — MAXESS E118/E0796 engine recovery North Star locked
+
+**Status:** ACTIVE / DIAGNOSIS PENDING
+
+**Event:** `SE-20260826-MAXESS-E118-E0796-ENGINE-RECOVERY`
+
+**What changed:** Established the MAXESS engine recovery project as an explicit Superbrain project state. The North Star is to make the complete MAXESS engine work end-to-end, not to preserve E118 or E0796 for its own sake. E118 is currently reported as live; E0796/E00796 is a larger alternative implementation. Both are reported to work independently, while the larger system's communication/integration remains the primary problem.
+
+**Decision rule:** Do not choose E118 vs E0796 by line count. Preserve working behavior, inspect the whole page, map ownership and communication contracts, identify the root integration failure, and then adopt the smallest safe implementation that satisfies the full requirements. Selective logic from E0796 may be integrated into E118 if that is the lowest-risk route.
+
+**Engineering method:** `PRESERVE → INSPECT → MAP → ISOLATE → INTEGRATE → TEST → VERIFY → ADOPT`
+
+**Canonical project note:** `SUPERBRAIN/MASTER-NOTES/SN-20260826-MAXESS-E118-E0796-ENGINE-RECOVERY.md`
+
+**Verification:** Repository project note created and committed at `30b3b22c0e5bb080f4562d4074b54e89838154eb`. The actual E118/E0796 implementation artifacts have not yet been conclusively identified in this repository search; therefore no integration or completion claim is being made.
+
+**Next action:** Inspect the full MAXESS implementation, identify the live E118 artifact and E0796/E00796 artifact(s), map the page's state/event/data flow, and diagnose the exact communication boundary before changing code.
+
+---
+
 ## 2026-08-25 — Personal Superbrain seed-first optimization
 
 **Status:** CREATED / CI VERIFICATION PENDING
