@@ -7,6 +7,79 @@
 
 ---
 
+## 2026-08-26 — V2 Master Engineering Directive Locked
+
+### Decision
+MAXESS V2 is now the active master engineering/design execution standard. V1 remains preserved as lineage.
+
+The rebuild is explicitly moving away from isolated E00/E00.01/E00.02/E00.03 patching as the default strategy.
+
+### Architectural target
+
+**ONE MAXESS APPLICATION → ONE AUTHORITATIVE STATE MACHINE → ONE ASSESSMENT DEFINITION / COMPILER → ONE SCORING ENGINE → ONE VALIDATED `MAXESS_RESULT_V1` CONTRACT → ONE RELEASE PATH → E01–E09 PRESENTATION.**
+
+E00 owns assessment state, completion, scoring, result construction, and result release. E01–E09 remain the nine canonical Results sections and consume the same authoritative result contract.
+
+### Golden assessment
+AI Score remains the golden reference: 15 questions, five answers per question, answer values 0–4, five dimensions, deterministic scoring, normalized 0–100 result.
+
+### Dynamic platform direction
+The same engine is to become a deterministic, knowledge-driven assessment compiler for supported AI-and-life topics without a mandatory paid runtime LLM API.
+
+**TOPIC → DOMAIN/COVERAGE → KNOWLEDGE → LEARNING OBJECTIVES → CAPABILITIES → QUESTION ARCHETYPES → 0–4 RUBRIC → 15 QUESTIONS → VALIDATE → RUN.**
+
+Advanced topics may be supported when coverage is sufficient. Unsupported or weakly covered topics must be handled honestly.
+
+### Flagship design direction
+MAXESS is to be treated as a flagship product: fast, simple, precise, warm, high-tech, premium, alive, accessible, responsive, and resilient. Primary controls are signature jewel-like interactions with intentional material, depth, lighting, motion, and tactile states. Naya is a present human-centered guide, not decoration.
+
+### Execution truth model
+
+```text
+🟢 GREEN = implemented AND verified by evidence
+🟡 YELLOW = implemented but verification incomplete/ambiguous
+🔴 RED = not implemented OR not verified
+```
+
+Code existence is not green.
+
+### Smart Note / receipt rule
+Meaningful project work must preserve human-readable continuity, AI handoff, canonical event data, verification receipt, current state, and next execution. Human-readable notes are the default human-facing receipt; JSON is optional machine infrastructure.
+
+### Current work performed
+
+- Located and read the canonical Naya Power repository.
+- Read the Naya Power README and current governing architecture.
+- Read the MAXESS project hub.
+- Read the existing MAXESS V1 master directive.
+- Read the existing MAXESS execution log.
+- Confirmed repository source lineage includes E00 variants, E00.01–E00.03, E01–E09, MAXIS, result bridges, workflows, Smart Note infrastructure, and MAXESS documentation.
+- Created `PROJECTS/MAXESS/MAXESS-MASTER-ENGINEERING-DESIGN-DIRECTIVE-V2.md`.
+- Updated `PROJECTS/MAXESS/README.md` to make V2 canonical for active execution.
+- Created the human-readable V2 Smart Note.
+- Created the AI-facing V2 Smart Note.
+- Created the canonical V2 Note Event.
+- Created the human-readable V2 verification receipt.
+- Created the next-execution source/architecture inventory prompt.
+
+### Current status
+
+**DIRECTIVE:** 🟢 GREEN  
+**PROJECT HUB:** 🟢 GREEN  
+**SMART NOTE + AI NOTE:** 🟢 GREEN  
+**HUMAN RECEIPT:** 🟢 GREEN  
+**APPLICATION REBUILD:** 🔴 NOT YET VERIFIED  
+**LIVE END-TO-END:** 🔴 NOT YET VERIFIED  
+**10/10:** 🔴 NOT YET VERIFIED
+
+### Next execution
+
+`PROJECTS/MAXESS/NEXT-EXECUTION-MAXESS-V2-SOURCE-ARCHITECTURE-INVENTORY-2026-08-26.md`
+
+First perform the complete source/architecture inventory. Then establish the unified state/scoring/result map and implement the highest-leverage coherent changes. Do not add another isolated E00 patch unless the inventory and evidence demonstrate that it is the correct architectural action.
+
+---
+
 ## 2026-08-26 — Initial Canonical Diagnostic Entry
 
 ### Objective
@@ -101,7 +174,7 @@ The repository contains multiple bridge, hydration, isolation, terminal, and han
 
 ---
 
-## Current Ranked Hypotheses
+## Ranked hypotheses from prior diagnostic cycle
 
 1. **Wrong E00 artifact / source mismatch (`E00 118` vs `E00 796`).**
 2. **Live deployment/embedded page points at a different artifact than current `main`.**
@@ -113,66 +186,6 @@ The repository contains multiple bridge, hydration, isolation, terminal, and han
 8. **Runtime data/score-map mismatch despite static validation.**
 9. **Event ordering / cross-window release issue.**
 10. **External navigation obscures an otherwise successful local result.**
-
----
-
-## Next AI Must Do
-
-### FIRST — SOURCE PARITY
-Determine exactly which E00 artifact is embedded in the failing assessment.
-
-**Do not guess.**
-
-If the live source is `E00 118`:
-
-> The first repair is source restoration/reconciliation, not another scoring rewrite.
-
-If the live source is `E00 796`:
-
-> The next action is runtime diagnostics: capture the exact Continue event, state, terminal publish path, thrown error, result object, and release state.
-
-### SECOND — ISOLATION
-Verify whether E00.02 is actually executing and whether `data-maxess-results-state` reaches `waiting` before completion.
-
-### THIRD — TERMINAL RESULT
-At Q15 verify:
-
-```text
-state.i === 14
-state.selected exists
-state.responses.length === 15
-buildResult() succeeds
-valid(result) === true
-MAXESS_RESULT_V1 exists
-```
-
-### FOURTH — RELEASE
-Verify:
-
-```text
-MAXESS_RESULT_READY
-→ E00.01
-→ E00.03
-→ MAXESS_ISOLATION_RELEASE
-→ E00.02 release
-→ E01/E02/E03/E04 hydrate
-```
-
-### FIFTH — CONFIGURATION
-Resolve the `results.nayanet.app` vs `results.nayanet.xyz` mismatch.
-
-### SIXTH — PRESERVE
-Update this log with:
-
-- exact artifact tested;
-- exact hypothesis;
-- exact test;
-- observed result;
-- root cause;
-- fix;
-- verification;
-- remaining issue;
-- next action.
 
 ---
 
