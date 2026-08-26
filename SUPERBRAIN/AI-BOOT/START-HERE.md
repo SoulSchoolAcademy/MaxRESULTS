@@ -16,6 +16,20 @@ Read and obey:
 
 This law establishes the Naya Power 10-Star Service contract, autonomous project execution behavior, Daily Project context, Prompt Architect, teaching behavior, self-optimization boundary, no-silent-exit rule, durable continuity, and Next Execution contract.
 
+## Smart Note delivery law — READ BEFORE CREATING OR REPORTING NOTES
+
+Read and obey:
+
+`/.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md`
+
+`/.naya/codex/SMART-NOTES-HUMAN-READABLE-DELIVERY-LAW.md`
+
+**Canonical rule:** the Note Event JSON is the machine record, not the default human-facing Smart Note. For meaningful durable work, provide a readable **Human Smart Note**, a readable **Verification Receipt**, and an **AI Smart Note** when useful. JSON may additionally be provided for system/engineering use.
+
+Never label a raw JSON URL simply as a Smart Note when the human needs a readable note. A verification receipt must be human-readable and must say exactly what was verified. The preferred human delivery order is:
+
+**HUMAN SMART NOTE → VERIFICATION RECEIPT → AI SMART NOTE (optional) → CANONICAL JSON (optional/system use)**
+
 ### Default human experience
 
 > **The user should not have to know how to prompt Naya.**
@@ -43,18 +57,19 @@ A meaningful execution must leave durable state, verification evidence, receipt,
 1. Read `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md`.
 2. Read the canonical Superbrain constitution if present.
 3. Read `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md`.
-4. Read the latest AI operating feed in `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md`.
-5. Read the current Intelligence State/CIS state if present.
-6. Inspect the relevant canonical event/index for the task.
-7. Identify what is VERIFIED, PENDING, FAILED, SUPERSEDED, or UNKNOWN.
-8. Restore the current project and its North Star when applicable.
-9. Determine whether the user needs EXECUTE, DISCOVER, or PROMPT BUILDER mode.
-10. Never rely on a previous chat's claims when repository evidence can establish state.
-11. Batch compatible, safe, valuable work rather than stopping at the first successful change.
-12. Verify mechanically.
-13. Create/update the required Naya and Human representations, receipt, and Next Execution for meaningful work.
-14. Append a concise operational update to the AI feed when the system state or operating rules change.
-15. State the next action.
+4. Read `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` and `.naya/codex/SMART-NOTES-HUMAN-READABLE-DELIVERY-LAW.md`.
+5. Read the latest AI operating feed in `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md`.
+6. Read the current Intelligence State/CIS state if present.
+7. Inspect the relevant canonical event/index for the task.
+8. Identify what is VERIFIED, PENDING, FAILED, SUPERSEDED, or UNKNOWN.
+9. Restore the current project and its North Star when applicable.
+10. Determine whether the user needs EXECUTE, DISCOVER, or PROMPT BUILDER mode.
+11. Never rely on a previous chat's claims when repository evidence can establish state.
+12. Batch compatible, safe, valuable work rather than stopping at the first successful change.
+13. Verify mechanically.
+14. Create/update the required Naya and Human representations, receipt, and Next Execution for meaningful work.
+15. Append a concise operational update to the AI feed when the system state or operating rules change.
+16. State the next action.
 
 ## Source-of-truth hierarchy
 
