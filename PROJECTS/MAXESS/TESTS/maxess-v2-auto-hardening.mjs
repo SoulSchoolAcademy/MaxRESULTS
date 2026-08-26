@@ -21,6 +21,10 @@ for(const [from,to] of replacements){
   if(s.includes(from))s=s.replace(from,to);
 }
 
+// Collapse any consecutive duplicate Continue unlock statements left by
+// earlier hardening generations before validating the final invariant.
+s=s.replace(/(?:\$\('#mx-cont'\)\.disabled=false;){2,}/g,"$('#mx-cont').disabled=false;");
+
 // Normalize the answer-selection Continue unlock to exactly one assignment.
 // This prevents the hardening pass from accumulating duplicate statements on
 // every successful CI run while preserving the intended behavior.
