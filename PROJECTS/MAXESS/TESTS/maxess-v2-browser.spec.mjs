@@ -39,8 +39,10 @@ function buildHarness(){
   const runtimeMatches=scriptMatches.filter(m=>/window\.MAXESS_E00_V2\s*=/.test(m[1]));
   if(runtimeMatches.length!==1)throw new Error(`Expected exactly one authoritative E00 runtime script, found ${runtimeMatches.length}`);
   const runtime=runtimeMatches[0][1];
-  const grooveWithoutScripts=groove.replace(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/gi,'');
-  const html=`<!doctype html><html><head><meta charset="utf-8">${e01Styles}</head><body>${grooveWithoutScripts}<div id="E01-HARNESS">${e01Body}</div>${consumer}</body></html>`;
+  const firstScriptIndex=groove.indexOf('<script');
+  if(firstScriptIndex<0)throw new Error('Authoritative E00 scripts not found in Groove');
+  const grooveMarkup=groove.slice(0,firstScriptIndex);
+  const html=`<!doctype html><html><head><meta charset="utf-8">${e01Styles}</head><body>${grooveMarkup}<div id="E01-HARNESS">${e01Body}</div>${consumer}</body></html>`;
   return {html,engine,definition,runtime};
 }
 
