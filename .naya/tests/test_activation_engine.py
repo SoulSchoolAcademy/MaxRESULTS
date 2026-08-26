@@ -8,7 +8,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "runtime"))
 from activation_contract import validate_manifest
-from activation_engine import activate, chunk_text, inspect_package, stable_document_identity
+from activation_engine import activate, inspect_package, stable_document_identity
 
 
 def doc(i: int, content: str | None = None) -> dict:
@@ -63,7 +63,7 @@ def main() -> int:
     malformed["documents"][0].pop("document_id")
     assert inspect_package(malformed)["status"] == "FAILED"
 
-    # Activation is idempotent at the derived state/receipt layer.
+    # Derived activation state/receipt is idempotent.
     with tempfile.TemporaryDirectory() as td:
         import activation_engine as ae
         old_root, old_state, old_receipt = ae.ACTIVATION_ROOT, ae.STATE_FILE, ae.RECEIPT_FILE
@@ -81,7 +81,30 @@ def main() -> int:
         finally:
             ae.ACTIVATION_ROOT, ae.STATE_FILE, ae.RECEIPT_FILE = old_root, old_state, old_receipt
 
-    print("PASS — activation positive, duplicate, idempotency, ordering, and deliberate-failure tests GREEN")
+    # Canonical promotion uses the existing event writer, and replay is idempotent.
+    with tempfile.TemporaryDirectory() as td:
+        import activation_engine as ae
+        old_events, old_index = ae.EVENTS, ae.INDEX
+        ae.EVENTS = Path(td) / "events"
+        ae.INDEX = ae.EVENTS / "INDEX.json"
+        try:
+            result = activate(manifest(1), effective_at="2026-08-26T01:20:00-07:00", promote=True)
+            assert result["status"] == "READY"
+            outcome = result["promotion"][0]
+            assert outcome["status"] == "CREATED"
+            event_path = ae.EVENTS / "2026/08/26/01/SE-20260826-012000-activation-act-01.json"
+            assert event_path.exists()
+            event = json.loads(event_path.read_text(encoding="utf-8"))
+            assert event["verification"]["status"] == "VERIFIED"
+            assert event["representations"]["naya"]["canonical_event_id"] == event["event_id"]
+            assert event["representations"]["shawn"]["canonical_event_id"] == event["event_id"]
+            replay = activate(manifest(1), effective_at="2026-08-26T01:20:00-07:00", promote=True)
+            assert replay["promotion"][0]["status"] == "REPLAY"
+            assert len(list(ae.EVENTS.rglob("SE-*.json"))) == 1
+        finally:
+            ae.EVENTS, ae.INDEX = old_events, old_index
+
+    print("PASS — activation 1/10/20, duplicate, idempotency, ordering, deliberate-failure, and canonical-promotion tests GREEN")
     return 0
 
 
