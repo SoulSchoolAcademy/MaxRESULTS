@@ -101,7 +101,7 @@ test('MAXESS V2 required mobile widths remain usable', async ({page})=>{
     await page.setContent(buildHarness(),{waitUntil:'domcontentloaded'});
     const overflow=await page.evaluate(()=>({
       body:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,
-      groove:document.querySelector('#MAXESS-E00-V2')?.scrollWidth>document.querySelector('#MAXESS-E00-V00-V2')?.clientWidth+1,
+      groove:document.querySelector('#MAXESS-E00-V2')?.scrollWidth>document.querySelector('#MAXESS-E00-V2')?.clientWidth+1,
       q:!!document.querySelector('#MAXESS-E00-V2 #mx-q'),
       answers:document.querySelectorAll('#MAXESS-E00-V2 .ans').length
     }));
