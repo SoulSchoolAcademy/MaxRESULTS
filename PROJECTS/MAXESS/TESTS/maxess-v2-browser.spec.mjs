@@ -1,6 +1,28 @@
 import { test, expect } from '@playwright/test';
 import fs from 'node:fs';
 
+test.setTimeout(120000);
+test.use({trace:'retain-on-failure',screenshot:'only-on-failure'});
+
+test.afterEach(async ({page},testInfo)=>{
+  if(testInfo.status!==testInfo.expectedStatus){
+    const diagnostics={
+      url:page.url(),
+      title:await page.title().catch(()=>''),
+      runtime:await page.evaluate(()=>({
+        hasEngine:!!window.MAXESS_E00_ENGINE_V2,
+        hasDefinition:!!window.MAXESS_AI_SCORE_DEFINITION_V1,
+        hasRuntime:!!window.MAXESS_E00_V2,
+        phase:window.MAXESS_E00_V2?.getState?.().phase||null,
+        questionIndex:window.MAXESS_E00_V2?.getState?.().questionIndex??null,
+        responses:window.MAXESS_E00_V2?.getState?.().responses?.length??null,
+        result:window.MAXESS_RESULT?{score:window.MAXESS_RESULT.overallScore,contract:window.MAXESS_RESULT.contractVersion}:null
+      })).catch(e=>({evaluateError:String(e)}))
+    };
+    await fs.promises.writeFile(testInfo.outputPath('maxess-browser-diagnostics.json'),JSON.stringify(diagnostics,null,2));
+  }
+});
+
 function buildHarness(){
   const groove=fs.readFileSync('PROJECTS/MAXESS/E00 MAXESS V2 — AUTHORITATIVE GROOVE.html','utf8');
   const engine=fs.readFileSync('PROJECTS/MAXESS/ENGINEERING/MAXESS-E00-AUTHORITATIVE-ENGINE-V2.js','utf8');
@@ -17,8 +39,10 @@ function buildHarness(){
 
 async function completeAssessment(page, scoreMode){
   const runtimeErrors=[];
+  const failedRequests=[];
   page.on('pageerror',e=>runtimeErrors.push(e.message));
   page.on('console',m=>{if(m.type()==='error')runtimeErrors.push(m.text())});
+  page.on('requestfailed',r=>failedRequests.push(`${r.method()} ${r.url()} :: ${r.failure()?.errorText||'unknown'}`));
   await page.goto('about:blank');
   await page.setContent(buildHarness(), {waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>!!window.MAXESS_E00_V2&&!!window.MAXESS_E00_ENGINE_V2&&!!window.MAXESS_AI_SCORE_DEFINITION_V1);
@@ -59,11 +83,11 @@ async function completeAssessment(page, scoreMode){
     completionCount:window.MAXESS_E00_V2.getState().completionCount,
     e01Score:document.querySelector('#e01 #score-number')?.textContent||null
   }));
-  return {result,runtimeErrors};
+  return {result,runtimeErrors,failedRequests};
 }
 
 test('MAXESS V2 canonical minimum golden browser path', async ({page})=>{
-  const {result:r,runtimeErrors}=await completeAssessment(page,'min');
+  const {result:r,runtimeErrors,failedRequests}=await completeAssessment(page,'min');
   expect(r.score).toBe(25);
   expect(r.contract).toBe('MAXESS_RESULT_V1');
   expect(r.responses).toBe(15);
@@ -72,11 +96,12 @@ test('MAXESS V2 canonical minimum golden browser path', async ({page})=>{
   expect(r.updated).toBe(1);
   expect(r.completionCount).toBe(1);
   expect(Number(r.e01Score)).toBe(25);
+  expect(failedRequests).toEqual([]);
   expect(runtimeErrors).toEqual([]);
 });
 
 test('MAXESS V2 maximum golden browser path and duplicate Continue guard', async ({page})=>{
-  const {result:r,runtimeErrors}=await completeAssessment(page,'max');
+  const {result:r,runtimeErrors,failedRequests}=await completeAssessment(page,'max');
   expect(r.score).toBe(100);
   expect(r.contract).toBe('MAXESS_RESULT_V1');
   expect(r.responses).toBe(15);
@@ -85,11 +110,15 @@ test('MAXESS V2 maximum golden browser path and duplicate Continue guard', async
   expect(r.updated).toBe(1);
   expect(r.completionCount).toBe(1);
   const before=await page.evaluate(()=>window.MAXESS_E00_V2.getState().completionCount);
-  await page.locator('#MAXESS-E00-V2 #mx-cont').click({force:true});
-  await page.locator('#MAXESS-E00-V2 #mx-cont').click({force:true});
+  await page.evaluate(()=>{
+    const b=document.querySelector('#MAXESS-E00-V2 #mx-cont');
+    b.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true}));
+    b.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true}));
+  });
   const after=await page.evaluate(()=>({count:window.MAXESS_E00_V2.getState().completionCount,score:window.MAXESS_RESULT.overallScore}));
   expect(after.count).toBe(before);
   expect(after.score).toBe(100);
+  expect(failedRequests).toEqual([]);
   expect(runtimeErrors).toEqual([]);
 });
 
