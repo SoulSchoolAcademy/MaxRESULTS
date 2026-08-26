@@ -57,13 +57,20 @@ try{
     assert(D.dimensions.length===5,'Canonical definition must contain exactly 5 dimensions.');
     assert(D.questions.every(q=>q.answers.length===5),'Every canonical question must contain exactly 5 answers.');
     assert(D.questions.every(q=>q.answers.every(a=>Number.isInteger(a.score)&&a.score>=0&&a.score<=4)),'Canonical answers must use only 0–4 scores.');
-    const min=E.createState(D);for(const q of D.questions){const a=q.answers.find(x=>x.score===0);E.selectAnswer(min,D,a.id);E.continueAssessment(min,D)}
-    const max=E.createState(D);for(const q of D.questions){const a=q.answers.find(x=>x.score===4);E.selectAnswer(max,D,a.id);E.continueAssessment(max,D)}
-    assert(min.result?.overallScore===0,'Engine/definition minimum golden result must be 0.');
-    assert(max.result?.overallScore===100,'Engine/definition maximum golden result must be 100.');
-    assert(min.completionCount===1&&max.completionCount===1,'Golden completion must occur exactly once.');
-    assert(Object.isFrozen(min.result)&&Object.isFrozen(max.result),'Golden results must be frozen.');
-    try{E.continueAssessment(min,D);failures.push('Finalized assessment accepted a duplicate Continue.')}catch(_){/* expected */}
+    const canonicalMin=E.createState(D);for(const q of D.questions){const a=q.answers.reduce((m,x)=>x.score<m.score?x:m,q.answers[0]);E.selectAnswer(canonicalMin,D,a.id);E.continueAssessment(canonicalMin,D)}
+    const canonicalMax=E.createState(D);for(const q of D.questions){const a=q.answers.reduce((m,x)=>x.score>m.score?x:m,q.answers[0]);E.selectAnswer(canonicalMax,D,a.id);E.continueAssessment(canonicalMax,D)}
+    assert(canonicalMin.result?.overallScore===25,'Canonical definition minimum golden result must be 25/100.');
+    assert(canonicalMax.result?.overallScore===100,'Canonical definition maximum golden result must be 100.');
+    assert(canonicalMin.completionCount===1&&canonicalMax.completionCount===1,'Canonical golden completion must occur exactly once.');
+    assert(Object.isFrozen(canonicalMin.result)&&Object.isFrozen(canonicalMax.result),'Canonical golden results must be frozen.');
+
+    const synthetic={...D,questions:D.questions.map(q=>({...q,answers:q.answers.map(a=>({...a,score:0}))}))};
+    const zero=E.createState(synthetic);for(const q of synthetic.questions){E.selectAnswer(zero,synthetic,q.answers[0].id);E.continueAssessment(zero,synthetic)}
+    const four={...D,questions:D.questions.map(q=>({...q,answers:q.answers.map(a=>({...a,score:4}))}))};
+    const sixty=E.createState(four);for(const q of four.questions){E.selectAnswer(sixty,four,q.answers[0].id);E.continueAssessment(sixty,four)}
+    assert(zero.result?.overallScore===0,'Engine mathematical minimum golden result must be 0/100.');
+    assert(sixty.result?.rawScore===60&&sixty.result?.overallScore===100,'Engine mathematical maximum golden result must be 60 raw / 100 normalized.');
+    try{E.continueAssessment(zero,synthetic);failures.push('Finalized assessment accepted a duplicate Continue.')}catch(_){/* expected */}
   }
 }catch(e){failures.push('Executable engine/definition verification failed: '+e.message)}
 
