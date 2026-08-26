@@ -30,6 +30,6 @@
     "Prefer zero-cost and local/GitHub-native infrastructure until scale requires federation",
     "Do not claim current-head GREEN until authoritative CI observes it"
   ],
-  "current_state": "The deterministic retrieval engine has been hardened on main with exact matching, BM25, TF-IDF cosine, metadata filters, query expansion, recency, authority, and relationship-aware reranking. A dedicated positive/deliberate-failure suite and relevance-judged benchmark now run in the authoritative gate. Current head is pending authoritative CI.",
+  "current_state": "The deterministic retrieval engine has been hardened on main with exact matching, BM25, TF-IDF cosine, metadata filters, query expansion, recency, authority, and relationship-aware reranking. A dedicated positive/deliberate-failure suite and relevance-judged benchmark now run in the authoritative gate. Current head is pending authoritative CI; this state update intentionally triggers a fresh push-based gate against the resulting exact main head.",
   "next_execution_path": ".naya/handoffs/NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md"
 }
