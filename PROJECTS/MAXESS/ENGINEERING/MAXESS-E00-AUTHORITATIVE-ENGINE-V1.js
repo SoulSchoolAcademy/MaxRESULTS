@@ -4,8 +4,8 @@
  * Pure assessment logic. No DOM. No storage. No timers. No bridges.
  * E01–E09 consume the frozen MAXESS_RESULT_V1 produced here.
  *
- * This is the architectural core extracted from the strongest existing
- * E00 lineage. The current AI Score definition is supplied as config.
+ * Scoring and mastery bands come from the assessment definition. The engine
+ * supplies the machinery; an assessment supplies the subject-specific truth.
  */
 (function (global) {
   'use strict';
@@ -13,21 +13,17 @@
   const ENGINE_VERSION = 'MAXESS-E00-ENGINE-V1';
   const RESULT_CONTRACT = 'MAXESS_RESULT_V1';
 
-  const BANDS = [
-    { id: 'foundation', min: 0, max: 49 },
-    { id: 'developing', min: 50, max: 74 },
-    { id: 'advancing', min: 75, max: 89 },
-    { id: 'mastery', min: 90, max: 100 }
-  ];
-
   function assert(condition, message) {
     if (!condition) throw new Error(message);
   }
 
-  function band(score) {
+  function band(score, bands) {
     const n = Number(score);
     assert(Number.isFinite(n) && n >= 0 && n <= 100, 'Score must be 0–100');
-    return BANDS.find(b => n >= b.min && n <= b.max).id;
+    assert(Array.isArray(bands) && bands.length > 0, 'Assessment mastery bands required');
+    const match = bands.find(b => n >= b.min && n <= b.max);
+    assert(match, `No mastery band covers score ${n}`);
+    return match.id;
   }
 
   function clone(value) {
@@ -45,6 +41,7 @@
     assert(definition && typeof definition === 'object', 'Assessment definition required');
     assert(Array.isArray(definition.questions), 'Questions array required');
     assert(Array.isArray(definition.dimensions), 'Dimensions array required');
+    assert(Array.isArray(definition.bands) && definition.bands.length > 0, 'Mastery bands required');
     assert(definition.questions.length > 0, 'At least one question required');
     assert(definition.dimensions.length > 0, 'At least one dimension required');
 
@@ -69,6 +66,7 @@
       });
     });
 
+    assert(definition.bands.every(b => Number.isFinite(b.min) && Number.isFinite(b.max) && b.min <= b.max), 'Invalid mastery band range');
     return true;
   }
 
@@ -136,13 +134,14 @@
       const rows = responses.filter(r => r.dimensionId === dimension.id);
       const raw = rows.reduce((sum, r) => sum + r.score, 0);
       assert(rows.length === questions.length, `Dimension ${dimension.id} is incomplete`);
+      const score = Math.round((raw / maxRaw) * 100);
       return {
         id: dimension.id,
         name: dimension.name,
         rawScore: raw,
         maxScore: maxRaw,
-        score: Math.round((raw / maxRaw) * 100),
-        band: band(Math.round((raw / maxRaw) * 100))
+        score,
+        band: band(score, definition.bands)
       };
     });
 
@@ -155,7 +154,7 @@
       rawScore,
       maxScore,
       overallScore,
-      masteryBand: band(overallScore),
+      masteryBand: band(overallScore, definition.bands),
       dimensions,
       strongestDimension: sorted[0],
       opportunityDimension: sorted[sorted.length - 1]
@@ -237,7 +236,6 @@
   const API = Object.freeze({
     ENGINE_VERSION,
     RESULT_CONTRACT,
-    BANDS: clone(BANDS),
     validateDefinition,
     createState,
     currentQuestion,
