@@ -86,3 +86,4 @@ jobs:
 
 # Documentation/Smart Note commits intentionally do not trigger this expensive
 # browser gate. Code/test changes and manual dispatch remain authoritative triggers.
+# Fresh verification trigger: execute the current main harness after the script-boundary repair.
