@@ -22,8 +22,12 @@ for(const [from,to] of replacements){
 }
 
 const e01Original="function acceptResult(r){if(!validResult(r))return false;resultState=r;window.MAXESS_RESULT=r;try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(r))}catch(e){}try{window.dispatchEvent(new CustomEvent(READY,{detail:r}))}catch(e){}try{window.dispatchEvent(new CustomEvent(UPDATED,{detail:r}))}catch(e){}return true}";
-const e01Guarded="var emittingResult=false;function acceptResult(r){if(emittingResult)return true;if(!validResult(r))return false;resultState=r;window.MAXESS_RESULT=r;try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(r))}catch(e){}emittingResult=true;try{window.dispatchEvent(new CustomEvent(READY,{detail:r}))}catch(e){}try{window.dispatchEvent(new CustomEvent(UPDATED,{detail:r}))}catch(e){}emittingResult=false;return true}";
+const e01Guarded="var emittingResult=false;function acceptResult(r,emit){if(emittingResult)return true;if(!validResult(r))return false;resultState=r;window.MAXESS_RESULT=r;try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(r))}catch(e){}if(emit!==false){emittingResult=true;try{window.dispatchEvent(new CustomEvent(READY,{detail:r}))}catch(e){}try{window.dispatchEvent(new CustomEvent(UPDATED,{detail:r}))}catch(e){}emittingResult=false}return true}";
 if(e01.includes(e01Original))e01=e01.replace(e01Original,e01Guarded);
+
+const eventListenerOriginal="window.addEventListener(READY,function(e){if(e&&e.detail)acceptResult(e.detail);render()});window.addEventListener(UPDATED,function(e){if(e&&e.detail)acceptResult(e.detail);render()});";
+const eventListenerHardened="window.addEventListener(READY,function(e){if(e&&e.detail)acceptResult(e.detail,false);render()});window.addEventListener(UPDATED,function(e){if(e&&e.detail)acceptResult(e.detail,false);render()});";
+if(e01.includes(eventListenerOriginal))e01=e01.replace(eventListenerOriginal,eventListenerHardened);
 
 const requiredGroove=[
   'disabled>Continue →</button>',
@@ -37,7 +41,8 @@ const requiredGroove=[
 for(const marker of requiredGroove){
   if(!s.includes(marker))throw new Error('Required Groove hardening invariant missing: '+marker);
 }
-if(!e01.includes('var emittingResult=false;function acceptResult(r){if(emittingResult)return true;'))throw new Error('Required E01 result-event reentrancy guard missing');
+if(!e01.includes('function acceptResult(r,emit)'))throw new Error('Required E01 result-event emit gate missing');
+if(!e01.includes('acceptResult(e.detail,false)'))throw new Error('Required E01 event-consumer no-redispatch guard missing');
 
 fs.writeFileSync(groovePath,s);
 fs.writeFileSync(e01Path,e01);
