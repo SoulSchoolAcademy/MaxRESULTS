@@ -38,7 +38,12 @@ function buildHarness(){
   const localGroove=groove
     .replace(/<script[^>]+MAXESS-E00-AUTHORITATIVE-ENGINE-V2\.js[^>]*><\/script>/i,`<script>${engine}</script>`)
     .replace(/<script[^>]+MAXESS-AI-SCORE-DEFINITION-V1\.js[^>]*><\/script>/i,`<script>${definition}</script>`);
-  return `<!doctype html><html><head><meta charset="utf-8">${e01Styles}</head><body>${localGroove}<div id="E01-HARNESS">${e01Body}</div>${consumer}</body></html>`;
+  const runtimeMatch=localGroove.match(/<script>([\s\S]*window\.MAXESS_E00_V2=[\s\S]*?)<\/script>\s*$/i);
+  if(!runtimeMatch)throw new Error('Authoritative E00 runtime script not found in Groove');
+  const runtime=runtimeMatch[1];
+  const grooveWithoutRuntime=localGroove.slice(0,runtimeMatch.index);
+  const html=`<!doctype html><html><head><meta charset="utf-8">${e01Styles}</head><body>${grooveWithoutRuntime}<div id="E01-HARNESS">${e01Body}</div>${consumer}</body></html>`;
+  return {html,runtime};
 }
 
 async function completeAssessment(page, scoreMode){
@@ -50,7 +55,9 @@ async function completeAssessment(page, scoreMode){
   page.on('console',m=>{if(m.type()==='error')runtimeErrors.push(m.text())});
   page.on('requestfailed',r=>failedRequests.push(`${r.method()} ${r.url()} :: ${r.failure()?.errorText||'unknown'}`));
   await page.goto('about:blank');
-  await page.setContent(buildHarness(), {waitUntil:'domcontentloaded'});
+  const harness=buildHarness();
+  await page.setContent(harness.html, {waitUntil:'domcontentloaded'});
+  await page.addScriptTag({content:harness.runtime});
   await page.waitForFunction(()=>!!window.MAXESS_E00_V2&&!!window.MAXESS_E00_ENGINE_V2&&!!window.MAXESS_AI_SCORE_DEFINITION_V1);
   await page.evaluate(()=>{
     window.__MAXESS_TEST__={ready:0,updated:0,last:null};
@@ -133,7 +140,9 @@ test('MAXESS V2 maximum golden browser path and duplicate Continue guard', async
 test('MAXESS V2 required mobile widths remain usable', async ({page})=>{
   for(const width of [320,360,375,390,414,480,600,768,900,1024,1280]){
     await page.setViewportSize({width,height:900});
-    await page.setContent(buildHarness(),{waitUntil:'domcontentloaded'});
+    const harness=buildHarness();
+    await page.setContent(harness.html,{waitUntil:'domcontentloaded'});
+    await page.addScriptTag({content:harness.runtime});
     await page.waitForFunction(()=>!!window.MAXESS_E00_V2);
     const overflow=await page.evaluate(()=>({
       body:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,
