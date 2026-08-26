@@ -3,36 +3,36 @@
 **Project:** MAXESS — AI Mastery Assessment / Results Engine  
 **Repository:** `SoulSchoolAcademy/NayaPOWER`  
 **Branch:** `main`  
-**Status:** ACTIVE / UNIFIED REBUILD DIRECTIVE ACTIVE / LIVE VERIFICATION REQUIRED  
+**Status:** ACTIVE / MASTER V2 DIRECTIVE ACTIVE / LIVE VERIFICATION REQUIRED  
 **Created:** 2026-08-26  
 **North Star:** Build MAXESS as a unified, reliable, beautiful, fast, learning-first assessment machine that can lead with AI Score and ultimately assess supported AI-and-life topics through deterministic knowledge-driven assessment compilation.
 
-## 0. Current Master Directive — READ FIRST
+## 0. CURRENT MASTER DIRECTIVE — READ FIRST
 
-**Canonical rebuild directive:** [`MAXESS-MASTER-ENGINEERING-DESIGN-DIRECTIVE-V1.md`](./MAXESS-MASTER-ENGINEERING-DESIGN-DIRECTIVE-V1.md)
+**Canonical execution/design directive:** [`MAXESS-MASTER-ENGINEERING-DESIGN-DIRECTIVE-V2.md`](./MAXESS-MASTER-ENGINEERING-DESIGN-DIRECTIVE-V2.md)
 
-This directive is now the primary project execution/design standard for the rebuild. It intentionally supersedes tactical attachment to the physical E00/E00.01/E00.02/E00.03 boundaries when a unified implementation is more reliable. Existing artifacts remain source material, references, and evidence of proven behavior.
+V2 supersedes V1 for active execution while preserving V1 as historical lineage. The directive is the controlling project standard for architecture, engineering, design, QA, evidence, continuity, Smart Notes, and next-execution behavior.
 
 The product target is:
 
-**ONE MAXESS APPLICATION → ONE AUTHORITATIVE STATE MACHINE → ONE ASSESSMENT COMPILER → ONE SCORING ENGINE → ONE `MAXESS_RESULT_V1` CONTRACT → ONE RELEASE PATH → MANY RESULTS PRESENTATIONS.**
+**ONE MAXESS APPLICATION → ONE AUTHORITATIVE STATE MACHINE → ONE ASSESSMENT DEFINITION / COMPILER → ONE SCORING ENGINE → ONE VALIDATED `MAXESS_RESULT_V1` CONTRACT → ONE RELEASE PATH → MANY RESULTS PRESENTATIONS.**
 
 ## 1. Immediate North Star
 
 **TOPIC → KNOWLEDGE → LEARNING OBJECTIVES → DIMENSIONS → QUESTIONS → 0–4 RUBRIC → ASSESSMENT → SCORE → INSIGHT → LEARNING → NEXT ACTION.**
 
-The flagship AI Score must remain the golden reference. The dynamic engine must reproduce its existing 15-question / five-dimension / five-answer / 0–4 scoring behavior before broader dynamic-topic acceptance.
+The flagship AI Score remains the golden reference. The dynamic engine must reproduce its existing 15-question / five-dimension / five-answer / 0–4 scoring behavior before broader dynamic-topic acceptance.
 
 ## 2. Canonical Terminology
 
 - Product name: **MAXESS**
 - Assessment: **MAXESS AI Mastery Assessment**
 - Current full executable assessment reference: **`E00 796`**
-- Legacy/minimal shell reference: **`E00 118`**
-- Historical bridge layers: **`E00.01`, `E00.02`, `E00.03`**
+- Historical/minimal shell references: **`E00 700`**, **`E00 1800`**
+- Historical bridge layers: **`E00.01`**, **`E00.02`**, **`E00.03`**
 - Results sections: **`E01–E09`**
 - Stable result contract: **`MAXESS_RESULT_V1`**
-- Current canonical rebuild/design directive: **`PROJECTS/MAXESS/MAXESS-MASTER-ENGINEERING-DESIGN-DIRECTIVE-V1.md`**
+- Current canonical rebuild/design directive: **`PROJECTS/MAXESS/MAXESS-MASTER-ENGINEERING-DESIGN-DIRECTIVE-V2.md`**
 
 ## 3. Architecture Decision — 2026-08-26
 
@@ -40,11 +40,13 @@ The physical boundaries of E00/E00.01/E00.02/E00.03 are not sacred. Their **prov
 
 The rebuild should consolidate duplicated authority, timing-dependent handoffs, competing completion paths, and unnecessary bridge choreography into one coherent runtime.
 
+E00 is the authoritative assessment application. E01–E09 remain the nine canonical Results sections and are deterministic consumers of the result contract.
+
 The experience must remain premium and become better: luminous jewelry-like controls, tactile interaction, strong Naya presence, precise typography, intentional spacing, fast response, responsive behavior, accessibility, and restrained high-tech depth.
 
 ## 4. Dynamic Assessment Direction
 
-MAXESS should eventually let a user enter a topic related to AI and life and receive a useful assessment generated from structured knowledge and deterministic rules without requiring a paid LLM API at runtime.
+MAXESS should let a user enter an appropriate topic related to AI and life and receive a useful assessment generated from structured knowledge and deterministic rules without requiring a paid runtime LLM API.
 
 The compiler should resolve:
 
@@ -52,24 +54,7 @@ The compiler should resolve:
 
 Supported topics may include technical subjects such as quantum computing. Advanced or weakly covered topics must be handled honestly through explicit coverage states rather than fabricated authority.
 
-## 5. Current Legacy Source Lessons
-
-### `E00 796`
-Contains the existing assessment data, five dimensions, score matrix, answer selection, response persistence, score calculation, `MAXESS_RESULT_V1` construction/validation, local results, release logic, external handoff, and hardened Continue boundary.
-
-### `E00.01`
-Contains useful result validation, bridge, terminal-state, and official-result lessons. Its retry/timing architecture should not become a permanent dependency when a direct state transition can be used.
-
-### `E00.02`
-Contains useful isolation/release lessons: Results should not appear before valid completion.
-
-### `E00.03`
-Contains useful result-controller/release lessons: result authority and release should be explicit.
-
-### `E01–E09`
-Contain the Results experience and should be treated as presentation/experience sources whose authoritative data comes from the unified result contract.
-
-## 6. Source / Live Parity Rule
+## 5. Source / Live Parity Rule
 
 Repository code does not prove the live product. Live behavior must be verified against the actual deployed/embed artifact.
 
@@ -77,11 +62,25 @@ No completion claim without:
 
 **SOURCE → BUILD/EMBED → LIVE CHECK → OBSERVED RESULT → EVIDENCE.**
 
-## 7. Smart Notes Rule
+## 6. Smart Notes Rule
 
 Meaningful MAXESS mastermind/project sessions are project knowledge. Durable decisions, discoveries, lessons, design principles, failures, safeguards, performance insights, UX insights, and next actions should be captured as canonical Note Events when they have future value.
 
 Canonical memory follows the Naya Power Smart Notes/CIS Constitution: time-organized Note Events, provenance, verification, receipts, relationships, and project association.
+
+Every meaningful delivery must provide a human-readable Smart Note receipt; an AI-facing note may accompany it; JSON is optional machine infrastructure, not the default human receipt.
+
+## 7. Green / Red Execution Rule
+
+```text
+🟢 GREEN = implemented AND verified by evidence
+🟡 YELLOW = implemented but verification incomplete or ambiguous
+🔴 RED = not implemented OR not verified
+```
+
+Code existing is not green. A requirement becomes green only after the required behavior is executed and observed successfully.
+
+When a gate is green, move to the next gate. When red/yellow remains, attack the highest-leverage blocker first.
 
 ## 8. Definition of Done
 
@@ -95,8 +94,9 @@ It is done when evidence proves:
 - Q15 completes deterministically;
 - score calculation is correct;
 - `MAXESS_RESULT_V1` is valid;
-- Results consume the same result authority;
-- dynamic topic compilation works for a second domain;
+- E01–E09 consume the same result authority;
+- no competing scoring/result authority remains;
+- dynamic topic compilation works for a second supported domain;
 - coverage limits are honest;
 - Naya is present and helpful;
 - the visual system is genuinely premium;
@@ -126,3 +126,9 @@ Every major decision must be challenged with:
 **What would make this a 10?**
 
 Then test the answer.
+
+## 10. Current Execution Command
+
+**Do not start another isolated E00 patch.**
+
+First execute the V2 inventory and architecture gate: inspect the actual E00/E00.xx and E01–E09 sources, reconcile the contracts, identify what is proven versus fragile, then implement the authoritative path and prove the AI Score golden journey before expanding scope.
