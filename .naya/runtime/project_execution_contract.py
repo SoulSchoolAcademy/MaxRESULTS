@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Machine-enforce project, Next Execution, paired-note, learning, and prompt contracts."""
+"""Machine-enforce project, Next Execution, paired-note, learning, and prompt contracts.
+
+The Next Execution Markdown contract is source-of-truth content, while this
+runtime is the machine-enforced boundary. Required Markdown headings are
+intentionally explicit so human-readable handoffs remain parseable and
+reproducible without a second contract format.
+"""
 from __future__ import annotations
 import argparse, json, re
 from pathlib import Path
