@@ -137,7 +137,7 @@ def main() -> int:
     check(results, "future handoff", future_handoff_ok, "continuity/handoff language")
     specialized_ok = all(token.lower() in policy_lower for token in ("Naya:", "NayaPOWER:", "MAXIS:", "MAXESS:", "Oscar:")) and "competing governance" in policy_lower
     check(results, "specialized node boundaries", specialized_ok, "system role boundary")
-    memory_ok = "compounding intelligence system" in memory_lower and "memory" in memory_lower and "current reality" in memory_lower
+    memory_ok = "cis" in memory_lower and "compounding intelligence" in memory_lower and "current reality" in memory_lower
     check(results, "memory/CIS", memory_ok, "memory bootstrap")
     check(results, "canonical event/index", EVENT_INDEX.is_file() and "derived indexes must be rebuildable" in memory_lower, str(EVENT_INDEX.relative_to(ROOT)))
     check_derived_index(results)
