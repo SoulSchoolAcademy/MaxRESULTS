@@ -51,6 +51,10 @@ jobs:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python .naya/tests/test_cold_start_and_cis.py
 
+      # INDEX.json is derived from canonical events. Rebuild it before validation so a stale derived artifact cannot block the authoritative gate.
+      - name: Build canonical derived index before validation
+        run: python .naya/memory/smart_notes_v3.py index > /tmp/superbrain-index.json
+
       - name: Validate canonical memory
         run: python .naya/memory/smart_notes_v3.py validate
 
