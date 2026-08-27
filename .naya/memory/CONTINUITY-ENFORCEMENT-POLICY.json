@@ -1,7 +1,8 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "policy_name": "Naya Power Execution Continuity Enforcement",
   "effective_at": "2026-08-25T20:31:00-07:00",
+  "structured_handoff_effective_at": "2026-08-27T08:00:00-07:00",
   "meaningful_event_types": [
     "execution-milestone",
     "master-system-update",
@@ -32,12 +33,28 @@
   "handoff_roots": [
     ".naya/handoffs"
   ],
+  "structured_handoff_fields": [
+    "mission",
+    "source_of_truth",
+    "current_state",
+    "protected_baseline",
+    "work_completed",
+    "evidence",
+    "decisions",
+    "lessons",
+    "unknowns",
+    "risks",
+    "recommendation",
+    "next_action",
+    "ready_to_run_execution"
+  ],
   "contract": {
     "paired_representations": true,
     "verification": true,
     "durable_receipt": true,
     "delivery_state": true,
     "ai_to_ai_handoff": true,
+    "structured_handoff": true,
     "learning_or_explicit_status": true,
     "next_action": true
   },
