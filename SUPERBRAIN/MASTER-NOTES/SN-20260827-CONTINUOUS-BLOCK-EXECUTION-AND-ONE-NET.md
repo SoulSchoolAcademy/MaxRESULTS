@@ -105,3 +105,15 @@ A semantically correct but differently serialized index is still not release-cle
 On 2026-08-27, Smart Brain run `33116728580` proved that validation, context boot, index rebuild, duplicate/entity audit, and Smart Brain tests could all pass while `Verify index is clean` correctly rejected a serialization mismatch. The subsequent canonical serialization repair reached Smart Brain run `33116868670`, where all brain-gate steps, including cold-start activation and index cleanliness, passed **GREEN** on main commit `c8a7049e37c7a8ca0d30c183bed789db6a10d83e`.
 
 This establishes the rule: **derived state must be reproducible, committed, and machine-identical to its canonical generator.**
+
+## 12. Master Node system-health composition
+
+A unified Naya System Health / Master Node contract is a **composition layer**, not a new source of truth. It must compose existing canonical boot, governance, memory/CIS, continuity, evidence, cold-start, and Smart Brain contracts into one point-in-time receipt.
+
+The canonical implementation is `.naya/runtime/system_health.py`, with its acceptance contract at `.naya/runtime/SYSTEM-HEALTH.md`. It must distinguish `DOCUMENTED`, `REGISTERED`, `ACTIVATED`, `CONTEXT ESTABLISHED`, `OPERATING-METHOD ESTABLISHED`, `VERIFIED`, `NETWORK-CONNECTED`, and `HEALTHY` rather than reducing file existence to health.
+
+The receipt must expose repository/HEAD, governance, boot, policy, memory, runtime method, verification, network, specialized-node boundaries, authority, provenance, human control, continuity, evidence, and limitations. `HEALTHY` is permitted only when the composed deterministic checks pass; `UNKNOWN` is never promoted to `HEALTHY`.
+
+`NETWORK-CONNECTED` means governed architectural integration is verified. It does not claim live distributed federation. Private memory remains private by default, and deployment/Vercel health remains a separate signal from Smart Brain/system health.
+
+The health contract must reuse existing validators rather than duplicate their internal logic. Its value is the unified receipt: one current evidence object showing whether the governed Naya substrate is coherent enough to be considered healthy at that moment.

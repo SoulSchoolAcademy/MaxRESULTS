@@ -67,6 +67,15 @@ jobs:
         run: python .naya/memory/test_smart_brain_v3.py -v
       - name: Verify index is clean
         run: git diff --exit-code -- .naya/memory/events/INDEX.json
+      - name: Verify Naya System Health / Master Node
+        run: python .naya/runtime/system_health.py --receipt .naya/runtime/SYSTEM-HEALTH-RECEIPT.json
+      - name: Publish system health receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: naya-system-health-receipt
+          if-no-files-found: ignore
+          path: .naya/runtime/SYSTEM-HEALTH-RECEIPT.json
       - name: Preserve validation diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
