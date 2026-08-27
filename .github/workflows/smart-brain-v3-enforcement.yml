@@ -59,6 +59,7 @@ jobs:
           print('Naya context manifest: HUMAN CAPABILITY & MASTERY protocol registered and routable.')
           PY
       # INDEX.json is derived from canonical events; CI rebuilds it and requires the committed artifact to match exactly.
+      # Pull-request verification must exercise the same gate before any merge can be trusted.
       - name: Rebuild derived event index
         run: python .naya/memory/smart_notes_v3.py index
       - name: Audit duplicates and entity collisions
