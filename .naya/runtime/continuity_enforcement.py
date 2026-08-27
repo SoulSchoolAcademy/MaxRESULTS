@@ -48,6 +48,14 @@ def has_handoff(event: dict, policy: dict) -> bool:
         if base.exists() and any(event_id in p.name for p in base.rglob("*")): return True
     return False
 
+def has_structured_handoff(event: dict, policy: dict) -> tuple[bool, list[str]]:
+    continuity = event.get("continuity", {}) or {}
+    handoff = continuity.get("handoff") or event.get("handoff") or {}
+    if not isinstance(handoff, dict):
+        return False, ["structured handoff must be an object"]
+    missing = [field for field in policy.get("structured_handoff_fields", []) if not handoff.get(field)]
+    return not missing, missing
+
 def check_event(event: dict, path: Path, policy: dict) -> list[str]:
     errors = []
     eid = event.get("event_id", "<missing>")
@@ -62,10 +70,18 @@ def check_event(event: dict, path: Path, policy: dict) -> list[str]:
     if execution_state == "COMPLETED" and verification.get("status") != "VERIFIED": errors.append(f"{eid}: completed continuity requires verification.status=VERIFIED")
     if execution_state == "IN_PROGRESS" and verification.get("status") not in {None, "PENDING"}: errors.append(f"{eid}: in-progress continuity must remain PENDING until verified")
     receipt = event.get("receipt") or {}
-    if not (receipt.get("receipt_id") or verification.get("receipt") or verification.get("receipt_url") or verification.get("receipt_url")): errors.append(f"{eid}: continuity requires a durable receipt reference")
+    if not (receipt.get("receipt_id") or verification.get("receipt") or verification.get("receipt_url")): errors.append(f"{eid}: continuity requires a durable receipt reference")
     delivery = event.get("delivery") or {}
     if not delivery.get("state") and not verification.get("feed_status"): errors.append(f"{eid}: continuity requires explicit delivery state")
     if not has_handoff(event, policy): errors.append(f"{eid}: continuity requires an AI-to-AI handoff reference/artifact")
+
+    effective = parse_time(event.get("effective_at", event.get("created_at", "")))
+    structured_boundary = parse_time(policy.get("structured_handoff_effective_at", policy["effective_at"]))
+    if effective >= structured_boundary:
+        structured_ok, missing = has_structured_handoff(event, policy)
+        if not structured_ok:
+            errors.append(f"{eid}: structured Future-Naya handoff missing required fields: {', '.join(missing)}")
+
     lessons, next_actions = [], []
     for rep in (naya, human):
         if isinstance(rep, dict):
@@ -83,7 +99,7 @@ def validate() -> tuple[int, dict]:
         if parse_error: errors.append(f"{path}: JSON parse error: {parse_error}"); continue
         if not is_meaningful_execution(event, policy): continue
         checked += 1; errors.extend(check_event(event, path, policy))
-    report = {"schema_version":1,"status":"GREEN" if not errors else "RED","policy_effective_at":policy["effective_at"],"meaningful_execution_events_checked":checked,"error_count":len(errors),"errors":errors,"checks":["paired_naya_human_representation","verification_state_by_execution_state","durable_receipt","delivery_state","ai_to_ai_handoff","learning_or_explicit_non_applicability","next_action"]}
+    report = {"schema_version":2,"status":"GREEN" if not errors else "RED","policy_effective_at":policy["effective_at"],"structured_handoff_effective_at":policy.get("structured_handoff_effective_at"),"meaningful_execution_events_checked":checked,"error_count":len(errors),"errors":errors,"checks":["paired_naya_human_representation","verification_state_by_execution_state","durable_receipt","delivery_state","ai_to_ai_handoff","structured_future_naya_handoff","learning_or_explicit_non_applicability","next_action"]}
     REPORT.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return (0 if not errors else 1), report
 
@@ -107,11 +123,11 @@ def emit_receipt() -> int:
 
 def self_test() -> int:
     policy = load_policy()
-    good = {"event_id":"SE-20260825-999999-continuity-positive-test","effective_at":policy["effective_at"],"event_type":"execution-milestone","representations":{"naya":{"id":"SN-20260825-999999-test-naya","lessons":["test lesson"],"next_best_actions":["test next"]},"shawn":{"id":"SN-20260825-999999-test-shawn","lessons":["human lesson"],"next_best_actions":["human next"]}},"verification":{"status":"VERIFIED","receipt":"RCPT-test"},"receipt":{"receipt_id":"RCPT-test"},"delivery":{"state":"VERIFIED"},"continuity":{"handoff_url":"https://example.invalid/handoff","learning_status":"LEARNED","execution_state":"COMPLETED"}}
+    good = {"event_id":"SE-20260825-999999-continuity-positive-test","effective_at":policy["structured_handoff_effective_at"],"event_type":"execution-milestone","representations":{"naya":{"id":"SN-20260825-999999-test-naya","lessons":["test lesson"],"next_best_actions":["test next"]},"shawn":{"id":"SN-20260825-999999-test-shawn","lessons":["human lesson"],"next_best_actions":["human next"]}},"verification":{"status":"VERIFIED","receipt":"RCPT-test"},"receipt":{"receipt_id":"RCPT-test"},"delivery":{"state":"VERIFIED"},"continuity":{"handoff_url":"https://example.invalid/handoff","learning_status":"LEARNED","execution_state":"COMPLETED","handoff":{"mission":"test mission","source_of_truth":"test source","current_state":"test state","protected_baseline":"test baseline","work_completed":"test work","evidence":"test evidence","decisions":"test decisions","lessons":"test lessons","unknowns":"none","risks":"none","recommendation":"test recommendation","next_action":"test next action","ready_to_run_execution":"test execution"}}}
     if check_event(good, Path("positive-fixture.json"), policy): print("FAIL — positive continuity fixture rejected"); return 1
-    bad = json.loads(json.dumps(good)); del bad["receipt"]; bad["verification"].pop("receipt", None); bad["continuity"].pop("handoff_url", None); bad["continuity"].pop("learning_status", None); bad["representations"]["naya"].pop("lessons", None); bad["representations"]["shawn"].pop("lessons", None)
+    bad = json.loads(json.dumps(good)); del bad["receipt"]; bad["verification"].pop("receipt", None); bad["continuity"].pop("handoff_url", None); bad["continuity"].pop("learning_status", None); bad["representations"]["naya"].pop("lessons", None); bad["representations"]["shawn"].pop("lessons", None); bad["continuity"]["handoff"].pop("ready_to_run_execution", None)
     errors = check_event(bad, Path("negative-fixture.json"), policy)
-    required_fragments = ["durable receipt", "AI-to-AI handoff", "learning"]
+    required_fragments = ["durable receipt", "AI-to-AI handoff", "learning", "structured Future-Naya handoff"]
     if not all(any(fragment in error for error in errors) for fragment in required_fragments): print("FAIL — negative continuity fixture did not expose all deliberate failures"); return 1
     print("PASS — continuity positive and deliberate-failure tests GREEN"); return 0
 
