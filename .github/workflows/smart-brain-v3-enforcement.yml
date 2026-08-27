@@ -68,12 +68,13 @@ jobs:
         run: git diff --exit-code -- .naya/memory/events/INDEX.json
       - name: Preserve validation diagnostics
         if: failure()
-        run: |
-          git config user.name 'Naya Power'
-          git config user.email 'naya-power@users.noreply.github.com'
-          git add .naya/memory/VALIDATION-REPORT.json .naya/memory/DUPLICATE-ENTITY-AUDIT.json
-          git diff --cached --quiet || git commit -m 'ci: record Smart Brain validation diagnostics'
-          git push || true
+        uses: actions/upload-artifact@v4
+        with:
+          name: smart-brain-validation-diagnostics
+          if-no-files-found: ignore
+          path: |
+            .naya/memory/VALIDATION-REPORT.json
+            .naya/memory/DUPLICATE-ENTITY-AUDIT.json
 
   daily-intelligence:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
