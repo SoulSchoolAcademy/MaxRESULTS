@@ -67,7 +67,7 @@ def run_contract(results: list[dict[str, Any]], name: str, command: list[str]) -
 def check_derived_index(results: list[dict[str, Any]]) -> None:
     """Rebuild the canonical derived index, compare it, then restore the checkout."""
     if not EVENT_INDEX.is_file():
-        check(results, "canonical event/index", False, "INDEX.json missing")
+        check(results, "derived event/index integrity", False, "INDEX.json missing")
         return
     with tempfile.NamedTemporaryFile(prefix="naya-index-", suffix=".json", delete=False) as tmp:
         backup = Path(tmp.name)
@@ -106,27 +106,45 @@ def main() -> int:
     cold_contract = load(COLD_CONTRACT)
     master_note = load(MASTER_NOTE)
 
+    policy_lower = policy.lower()
+    boot_lower = boot.lower()
+    memory_lower = memory_boot.lower()
+    start_lower = start.lower()
+
+    documented_ok = all(path.is_file() for path in REQUIRED_FILES.values())
+    check(results, "canonical artifacts documented", documented_ok, ", ".join(str(p.relative_to(ROOT)) for p in REQUIRED_FILES.values()))
     check(results, "canonical repository", manifest.get("repository") == "SoulSchoolAcademy/NayaPOWER", str(manifest.get("repository")))
     check(results, "canonical governance", manifest.get("governance_branch") == "main" and manifest.get("status") == "CANONICAL", f"branch={manifest.get('governance_branch')} status={manifest.get('status')}")
-    check(results, "canonical boot", ".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md" in start and ".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md" in manifest.get("boot_order", []), "START-HERE + manifest boot_order")
-    check(results, "human capability policy", manifest.get("subjects", {}).get("human_capability_and_mastery", {}).get("canonical") == ".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md", "manifest subject owner")
-    check(results, "policy routed", all("human_capability_and_mastery" in route for route in manifest.get("task_routes", {}).values()), "all manifest task routes")
-    check(results, "operating method", "EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → IDENTIFY NEXT BLOCK" in policy and "Continuous Block Execution" in start, "policy + START-HERE")
-    check(results, "block completion evidence", "**COMPLETE** only when" in policy and "UNKNOWN is never SUCCESS" in start, "completion/evidence contract")
-    check(results, "unfinished-block continuity", "ready-to-run **NEXT EXECUTION**" in policy and "same block" in policy, "policy handoff contract")
-    check(results, "master scorecard", "After every **1–3 substantive blocks**" in policy and "WHY IS THIS NOT A 10?" in policy, "review cadence")
-    check(results, "next execution", "Every meaningful Naya execution output must end with a **NEXT EXECUTION**" in policy and "Every meaningful execution output must end" in start, "policy + START-HERE")
-    check(results, "one-network", "Every Naya is a specialized node in one governed Naya network" in start and "NayaPOWER is the shared governance, continuity, verification, and compounding intelligence substrate" in start, "One-Network law")
-    check(results, "authority", "does not override platform/safety constraints" in boot and "HUMAN SAFETY & AGENCY → TRUTH & EVIDENCE → GOVERNING LAW" in policy, "conduct precedence")
-    check(results, "provenance", "provenance" in boot.lower() and "authority" in boot.lower(), "context authority model")
-    check(results, "human control", "human may" in policy.lower() and "human authorization" in policy.lower(), "agency + authorization boundary")
-    check(results, "future handoff", "next Naya" in policy.lower() and "next execution" in start.lower(), "continuity/handoff language")
-    check(results, "specialized node boundaries", all(token in policy for token in ("Naya:", "NayaPOWER:", "MAXIS:", "MAXESS:", "Oscar:")) and "competing governance" in policy, "system role boundary")
-    check(results, "memory/CIS", "CIS — COMPOUNDING INTELLIGENCE SYSTEM" in memory_boot and "Memory is context, not current reality." in memory_boot, "memory bootstrap")
-    check(results, "canonical event/index", EVENT_INDEX.is_file() and "Derived indexes must be rebuildable" in memory_boot, str(EVENT_INDEX.relative_to(ROOT)))
+    check(results, "canonical boot", ".naya/codex/human-capability-and-mastery-operating-protocol.md" in start_lower and ".naya/naya-context-boot-protocol.md" in manifest.get("boot_order", []), "START-HERE + manifest boot_order")
+    registered_ok = manifest.get("subjects", {}).get("human_capability_and_mastery", {}).get("canonical") == ".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md" and all("human_capability_and_mastery" in route for route in manifest.get("task_routes", {}).values())
+    check(results, "human capability policy registered", registered_ok, "manifest subject owner + all task routes")
+    operating_ok = "execute → verify → oscar → score → integrate → capture → check network → identify next block" in policy_lower and "continuous block execution" in start_lower
+    check(results, "operating method", operating_ok, "policy + START-HERE")
+    check(results, "block completion evidence", "**complete** only when" in policy_lower and "unknown is never success" in start_lower, "completion/evidence contract")
+    check(results, "unfinished-block continuity", "ready-to-run **next execution**" in policy_lower and "same block" in policy_lower, "policy handoff contract")
+    check(results, "master scorecard", "after every **1–3 substantive blocks**" in policy_lower and "why is this not a 10?" in policy_lower, "review cadence")
+    next_execution_ok = "every meaningful naya execution output must end with a **next execution**" in policy_lower and "every meaningful execution output must end" in start_lower
+    check(results, "next execution", next_execution_ok, "policy + START-HERE")
+    one_net_ok = "every naya is a specialized node in one governed naya network" in start_lower and "nayapower is the shared governance, continuity, verification, and compounding intelligence substrate" in start_lower
+    check(results, "one-network", one_net_ok, "One-Network law")
+    authority_ok = "does not override platform/safety constraints" in boot_lower and "human safety & agency → truth & evidence → governing law" in policy_lower
+    check(results, "authority", authority_ok, "conduct precedence")
+    provenance_ok = "provenance" in boot_lower and "authority" in boot_lower
+    check(results, "provenance", provenance_ok, "context authority model")
+    human_control_ok = "the human may" in policy_lower and "human authorization" in policy_lower
+    check(results, "human control", human_control_ok, "agency + authorization boundary")
+    future_handoff_ok = "next naya" in policy_lower and "next execution" in start_lower
+    check(results, "future handoff", future_handoff_ok, "continuity/handoff language")
+    specialized_ok = all(token.lower() in policy_lower for token in ("Naya:", "NayaPOWER:", "MAXIS:", "MAXESS:", "Oscar:")) and "competing governance" in policy_lower
+    check(results, "specialized node boundaries", specialized_ok, "system role boundary")
+    memory_ok = "cis — compounding intelligence system" in memory_lower and "memory is context, not current reality." in memory_lower
+    check(results, "memory/CIS", memory_ok, "memory bootstrap")
+    check(results, "canonical event/index", EVENT_INDEX.is_file() and "derived indexes must be rebuildable" in memory_lower, str(EVENT_INDEX.relative_to(ROOT)))
     check_derived_index(results)
-    check(results, "cold-start contract present", COLD_START.is_file() and "UNKNOWN is never SUCCESS" in cold_contract, "cold-start runtime + acceptance contract")
-    check(results, "verification mechanisms", EVIDENCE.is_file() and CONTINUITY.is_file() and ACTIVATION_CONTRACT.is_file(), "evidence + continuity + activation contracts")
+    cold_present_ok = COLD_START.is_file() and "unknown is never success" in cold_contract.lower()
+    check(results, "cold-start contract present", cold_present_ok, "cold-start runtime + acceptance contract")
+    verification_ok = EVIDENCE.is_file() and CONTINUITY.is_file() and ACTIVATION_CONTRACT.is_file()
+    check(results, "verification mechanisms", verification_ok, "evidence + continuity + activation contracts")
 
     # Reuse existing deterministic runtimes rather than reimplementing their checks.
     run_contract(results, "cold-start activation", ["python", str(COLD_START.relative_to(ROOT))])
@@ -134,24 +152,31 @@ def main() -> int:
     run_contract(results, "Smart Brain validation", ["python", ".naya/memory/smart_notes_v3.py", "validate"])
     run_contract(results, "Smart Brain tests", ["python", ".naya/memory/test_smart_brain_v3.py", "-v"])
 
-    failed = [r["name"] for r in results if r["status"] != "PASS"]
-    overall = "HEALTHY" if not failed else "DEGRADED"
+    by_name = {item["name"]: item["status"] == "PASS" for item in results}
+    all_checks_ok = all(by_name.values())
+    activation_ok = by_name.get("cold-start activation", False)
+    context_ok = all(by_name.get(name, False) for name in ("canonical repository", "canonical governance", "canonical boot", "human capability policy registered", "authority", "provenance", "human control"))
+    method_ok = all(by_name.get(name, False) for name in ("operating method", "block completion evidence", "unfinished-block continuity", "master scorecard", "next execution", "future handoff"))
+    verification_run_ok = all(by_name.get(name, False) for name in ("derived event/index integrity", "verification mechanisms", "continuity self-test", "Smart Brain validation", "Smart Brain tests"))
+    network_ok = all(by_name.get(name, False) for name in ("one-network", "specialized node boundaries", "provenance", "human control"))
+    documented_state = "PASS" if by_name.get("canonical artifacts documented", False) else "FAIL"
+    registered_state = "PASS" if all(by_name.get(name, False) for name in ("canonical repository", "canonical governance", "human capability policy registered")) else "PARTIAL"
     receipt = {
         "schema": "naya/system-health-receipt/v1",
-        "status": overall,
+        "status": "HEALTHY" if all_checks_ok else "DEGRADED",
         "generated_at": started,
         "repository": manifest.get("repository"),
         "head": git_head(),
         "governance_branch": manifest.get("governance_branch"),
         "states": {
-            "documented": "PASS" if not failed else "PARTIAL",
-            "registered": "PASS" if not failed else "PARTIAL",
-            "activated": "PASS" if not failed else "PARTIAL",
-            "context_established": "PASS" if not failed else "PARTIAL",
-            "operating_method_established": "PASS" if not failed else "PARTIAL",
-            "verified": "PASS" if not failed else "FAIL",
-            "network_connected": "PASS" if not failed else "PARTIAL",
-            "healthy": overall,
+            "documented": documented_state,
+            "registered": registered_state,
+            "activated": "PASS" if activation_ok else "FAIL",
+            "context_established": "PASS" if context_ok else "PARTIAL",
+            "operating_method_established": "PASS" if method_ok else "PARTIAL",
+            "verified": "PASS" if verification_run_ok and all_checks_ok else ("PARTIAL" if verification_run_ok else "FAIL"),
+            "network_connected": "PASS" if network_ok else "PARTIAL",
+            "healthy": "HEALTHY" if all_checks_ok else "DEGRADED",
         },
         "checks": results,
         "network": {
@@ -181,7 +206,7 @@ def main() -> int:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(receipt, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps(receipt, indent=2, ensure_ascii=False))
-    return 0 if overall == "HEALTHY" else 1
+    return 0 if all_checks_ok else 1
 
 
 if __name__ == "__main__":
