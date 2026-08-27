@@ -3,8 +3,9 @@
 
 This models a fresh Naya entering NayaPOWER with no conversation memory. It proves
 repository-level activation state: authority, boot order, task routing, policy
-content, and explicit state transitions. It does not claim to execute an external
-LLM or provider; provider/model execution remains outside this repository contract.
+content, operating-method contract, and explicit state transitions. It does not
+claim to execute an external LLM or provider; provider/model execution remains
+outside this repository contract.
 """
 from __future__ import annotations
 
@@ -18,6 +19,11 @@ BOOT = ROOT / ".naya" / "NAYA-CONTEXT-BOOT-PROTOCOL.md"
 START = ROOT / "SUPERBRAIN" / "AI-BOOT" / "START-HERE.md"
 POLICY = ROOT / ".naya" / "codex" / "HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md"
 CONSTITUTION = ROOT / ".naya" / "codex" / "11-RUNTIME-CONSTITUTION.md"
+MASTER_NOTE = ROOT / "SUPERBRAIN" / "MASTER-NOTES" / "SN-20260827-CONTINUOUS-BLOCK-EXECUTION-AND-ONE-NET.md"
+
+EXPECTED_POLICY = ".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md"
+EXPECTED_CONSTITUTION = ".naya/codex/11-RUNTIME-CONSTITUTION.md"
+BLOCK_CYCLE = "EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → IDENTIFY NEXT BLOCK"
 
 
 def fail(message: str) -> None:
@@ -30,6 +36,11 @@ def load(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def require(text: str, needle: str, label: str) -> None:
+    if needle not in text:
+        fail(f"{label} missing required contract: {needle}")
+
+
 def main() -> int:
     # A fresh Naya begins with no session memory. Only canonical repository state
     # is used to establish the modeled boot state.
@@ -37,6 +48,7 @@ def main() -> int:
         "conversation_memory": "EMPTY",
         "activation_state": "DOCUMENTED",
         "context_state": "UNKNOWN",
+        "operating_method_state": "UNKNOWN",
         "repository": None,
         "governance_branch": None,
         "policy": None,
@@ -48,13 +60,11 @@ def main() -> int:
     start = load(START)
     policy = load(POLICY)
     constitution = load(CONSTITUTION)
+    master_note = load(MASTER_NOTE)
 
     state["repository"] = manifest.get("repository")
     state["governance_branch"] = manifest.get("governance_branch")
     state["policy"] = manifest.get("subjects", {}).get("human_capability_and_mastery", {}).get("canonical")
-
-    expected_policy = ".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md"
-    expected_constitution = ".naya/codex/11-RUNTIME-CONSTITUTION.md"
 
     if manifest.get("status") != "CANONICAL":
         fail("context manifest is not CANONICAL")
@@ -62,29 +72,62 @@ def main() -> int:
         fail("canonical repository identity is incorrect")
     if state["governance_branch"] != "main":
         fail("governance branch is not main")
-    if state["policy"] != expected_policy:
+    if state["policy"] != EXPECTED_POLICY:
         fail("Human Capability & Mastery subject owner is not canonical")
-    if expected_policy not in manifest.get("boot_order", []):
+    if EXPECTED_POLICY not in manifest.get("boot_order", []):
         fail("Human Capability & Mastery policy is absent from boot_order")
+    if EXPECTED_CONSTITUTION not in manifest.get("boot_order", []):
+        fail("governing constitution is absent from boot_order")
 
     for route_name, route in manifest.get("task_routes", {}).items():
         if "human_capability_and_mastery" not in route:
             fail(f"Human Capability & Mastery policy missing from task route: {route_name}")
 
-    if expected_constitution not in manifest.get("boot_order", []):
-        fail("governing constitution is absent from boot_order")
-    if expected_policy not in boot or expected_policy not in start:
-        fail("canonical boot entry does not explicitly activate the policy")
+    require(boot, EXPECTED_POLICY, "context boot")
+    require(start, EXPECTED_POLICY, "START HERE")
+    require(boot, "does not override platform/safety constraints", "authority preservation")
+    require(start, "ACTIVATE BEFORE SUBSTANTIVE WORK", "policy activation")
+    require(policy, "DO NOT BUILD FOR THE MACHINE. BUILD FOR THE HUMAN.", "human-outcome law")
+    require(policy, "No Naya may claim that a human understands something", "understanding evidence law")
+    require(policy, "MEASURE", "mastery loop")
+    require(policy, "MASTER", "mastery loop")
+
+    # The block method is validated as an integrated operating contract rather
+    # than by filename existence. All canonical steps and handoff requirements
+    # must be present in the activated policy and boot entry.
+    require(policy, BLOCK_CYCLE, "continuous block cycle")
+    for phrase in (
+        "MISSION",
+        "SOURCE OF TRUTH",
+        "CURRENT STATE",
+        "SCOPE",
+        "SUCCESS CRITERIA",
+        "EXECUTE",
+        "VERIFY",
+        "OSCAR",
+        "SCORE",
+        "INTEGRATE",
+        "CAPTURE",
+        "CHECK NETWORK",
+        "NEXT BLOCK",
+        "Block completion contract",
+        "Continuous-flow rule",
+        "Review cadence",
+        "WHY IS THIS NOT A 10?",
+        "ready-to-run **NEXT EXECUTION**",
+    ):
+        require(policy, phrase, "block operating contract")
+
+    require(start, BLOCK_CYCLE, "START HERE block cycle")
+    require(start, "One-Network law", "START HERE One-Network law")
+    require(start, "Every Naya is a specialized node in one governed Naya network", "One-Network architecture")
+    require(master_note, BLOCK_CYCLE, "Master Note block cycle")
+    require(master_note, "Every Naya is a specialized node in one governed Naya network", "Master Note One-Network architecture")
+    require(master_note, "After every 1–3 substantive blocks", "Master Scorecard cadence")
+    require(master_note, "Every meaningful execution output must end with a ready-to-run Next Execution", "Next Execution law")
+
     if "does not override platform/safety constraints" not in boot:
         fail("boot protocol does not preserve higher-order authority")
-    if "ACTIVATE BEFORE SUBSTANTIVE WORK" not in start:
-        fail("START HERE does not require policy activation before substantive work")
-    if "DO NOT BUILD FOR THE MACHINE. BUILD FOR THE HUMAN." not in policy:
-        fail("core human-outcome law is missing")
-    if "No Naya may claim that a human understands something" not in policy:
-        fail("evidence threshold for understanding is missing")
-    if "MEASURE" not in policy or "MASTER" not in policy:
-        fail("mastery operating loop is incomplete")
     if not constitution.strip():
         fail("governing constitution could not be loaded")
 
@@ -97,18 +140,25 @@ def main() -> int:
         "authority_relationship_verified",
         "task_routes_verified",
         "core_policy_requirements_verified",
+        "continuous_block_contract_verified",
+        "unfinished_block_handoff_verified",
+        "master_scorecard_cadence_verified",
+        "next_execution_requirement_verified",
+        "one_network_contract_verified",
         "conversation_memory_empty",
     ]
     state["activation_state"] = "ACTIVATED"
     state["context_state"] = "CONTEXT ESTABLISHED"
+    state["operating_method_state"] = "OPERATING-METHOD ESTABLISHED"
 
     receipt = {
-        "schema": "naya/cold-start-activation-receipt/v1",
+        "schema": "naya/cold-start-activation-receipt/v2",
         "status": "VERIFIED",
         "scope": "repository-level cold-start modeled activation",
         "conversation_memory": state["conversation_memory"],
         "activation_state": state["activation_state"],
         "context_state": state["context_state"],
+        "operating_method_state": state["operating_method_state"],
         "repository": state["repository"],
         "governance_branch": state["governance_branch"],
         "policy": state["policy"],

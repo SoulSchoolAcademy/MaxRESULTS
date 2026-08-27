@@ -14,6 +14,7 @@ It deliberately distinguishes:
 - **REGISTERED** — the policy is owned and routed by the canonical context manifest.
 - **ACTIVATED** — the modeled cold-start sequence loads the applicable policy.
 - **CONTEXT ESTABLISHED** — repository identity, governance, authority, policy, routing, and required evidence are all established.
+- **OPERATING-METHOD ESTABLISHED** — the fresh boot state contains and activates the canonical Continuous Block Execution and One-Network operating method.
 
 The acceptance implementation is `.naya/runtime/cold_start_activation.py`.
 
@@ -32,7 +33,13 @@ A passing test must establish all of the following from canonical repository sta
 9. The policy preserves higher-order platform/safety/constitutional authority.
 10. Core human-capability and evidence requirements are present.
 11. The modeled fresh Naya starts with empty conversation memory.
-12. The resulting modeled state is explicitly `ACTIVATED` and `CONTEXT ESTABLISHED`.
+12. The Continuous Block Execution cycle is present in the canonical policy and boot entry.
+13. Block completion requires defined criteria plus verification evidence.
+14. Unfinished blocks require explicit preservation and ready-to-run continuation.
+15. Master Scorecard review and the “WHY IS THIS NOT A 10?” challenge are part of the operating contract.
+16. Every meaningful execution output requires a ready-to-run NEXT EXECUTION.
+17. The One-Network law identifies NayaPOWER as the shared governance/continuity/verification/compounding substrate and prevents specialized Nayas from silently becoming independent sources of truth.
+18. The resulting modeled state is explicitly `ACTIVATED`, `CONTEXT ESTABLISHED`, and `OPERATING-METHOD ESTABLISHED`.
 
 ## What it does not prove
 
@@ -46,6 +53,6 @@ The Smart Brain v3 GitHub Actions workflow runs this acceptance test whenever th
 
 ## Anti-false-positive rule
 
-A filename-only or manifest-only check is insufficient. The test loads the canonical artifacts and verifies their authority relationship, boot activation language, routing, required policy content, and explicit state transition.
+A filename-only or manifest-only check is insufficient. The test loads the canonical artifacts and verifies their authority relationship, boot activation language, routing, required policy content, block operating contract, One-Network contract, and explicit state transitions.
 
 **UNKNOWN is never SUCCESS.**
