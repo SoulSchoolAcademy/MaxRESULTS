@@ -6,14 +6,21 @@ on:
     paths:
       - '.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md'
       - '.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md'
+      - '.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md'
+      - '.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md'
+      - '.naya/naya-context-manifest.json'
       - '.naya/memory/**'
       - '.naya/runtime/**'
+      - 'SUPERBRAIN/AI-BOOT/**'
       - '.github/workflows/smart-brain-v3-enforcement.yml'
   pull_request:
     paths:
       - '.naya/codex/**'
+      - '.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md'
+      - '.naya/naya-context-manifest.json'
       - '.naya/memory/**'
       - '.naya/runtime/**'
+      - 'SUPERBRAIN/AI-BOOT/**'
       - '.github/workflows/smart-brain-v3-enforcement.yml'
   workflow_dispatch:
   schedule:
@@ -33,6 +40,22 @@ jobs:
         with: {fetch-depth: 0}
       - name: Validate Smart Brain
         run: python .naya/memory/smart_notes_v3.py validate
+      - name: Validate canonical Naya context manifest
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('.naya/naya-context-manifest.json')
+          data = json.loads(path.read_text(encoding='utf-8'))
+          required = '.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md'
+          assert required in data['boot_order'], 'human capability protocol missing from boot_order'
+          assert data['subjects']['human_capability_and_mastery']['canonical'] == required
+          for route_name, route in data['task_routes'].items():
+              assert 'human_capability_and_mastery' in route, f'protocol missing from task route: {route_name}'
+          assert Path(required).is_file(), f'canonical protocol missing: {required}'
+          print('Naya context manifest: HUMAN CAPABILITY & MASTERY protocol registered and routable.')
+          PY
       - name: Rebuild derived event index
         run: python .naya/memory/smart_notes_v3.py index
       - name: Audit duplicates and entity collisions
