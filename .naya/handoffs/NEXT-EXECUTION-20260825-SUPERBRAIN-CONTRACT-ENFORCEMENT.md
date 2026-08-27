@@ -10,9 +10,81 @@ Naya Power Superbrain (`PRJ-NAYAPOWER-SUPERBRAIN`)
 A user should be able to give Naya knowledge—not configure infrastructure—and Naya should turn that knowledge into a verified, recoverable, high-recall personal Superbrain automatically.
 
 ## Current state
-The current main head is `846529daea1bd35af564bdc061f3fb74a1b7f485`. It contains a dependency-free retrieval upgrade. The previous authoritative GREEN remains `9aefe57a71bd6425681bb435d70417ad33832198`, run `32909426069`, brain-gate `98000403862`. The protected GREEN boundary remains `0f82325a82ed37b5b3a3d097599025369c03a1ed`.
+The current main head is `ea6cdf6f7ae6896fdf6a4e24f57f671c4f5a3e70`. It contains the Smart Brain retrieval admission-boundary repair that makes zero-relevance candidates fail closed while preserving authority and recency as ranking signals.
 
-Current-head status is intentionally PENDING until authoritative CI observes the exact head.
+The current authoritative Superbrain Gate run is `33119050211`. Its retrieval-quality and deliberate-failure step passed on the exact head. The gate remains RED because the first later failure is the project/Next Execution contract validation.
+
+Current-head status is intentionally PENDING until the authoritative gate observes all required stages GREEN against the exact head.
+
+## Completed work
+- Verified the live `main` HEAD before repair.
+- Verified Smart Brain v3 architecture and retrieval scoring/admission behavior.
+- Identified the zero-relevance admission defect: authority and recency could manufacture positive total scores.
+- Repaired retrieval admission so relevance must be positive before authority/recency ranking is applied.
+- Confirmed the repair is a minimal source change in `.naya/memory/smart_notes_v3.py`.
+- Confirmed authoritative retrieval quality and deliberate-failure testing passes on the repaired HEAD.
+
+## Verified evidence
+- `ea6cdf6f7ae6896fdf6a4e24f57f671c4f5a3e70` is the exact current `main` HEAD.
+- Superbrain Gate run `33119050211` checked out `ea6cdf6f7ae6896fdf6a4e24f57f671c4f5a3e70`.
+- `brain-gate` job `98681017352` passed retrieval quality and deliberate-failure step 12.
+- Smart Brain v3 validation passed.
+- Canonical memory validation passed.
+- Duplicate/entity audit passed.
+- Relationship graph rebuild passed.
+- Superbrain regression suite passed.
+- Cold-start and CIS acceptance passed.
+
+## Unresolved issues
+- The authoritative Superbrain Gate is still RED at the project/prompt contract stage.
+- The existing canonical Next Execution Markdown artifact does not yet expose all required contract sections in the parser's accepted headings.
+- Later Superbrain Gate stages have not executed because the first failing project/prompt contract stage stopped the gate.
+
+## Constraints
+- Never weaken or delete authoritative tests.
+- Never turn errors into warnings or bypass a gate.
+- Canonical event JSON remains authoritative.
+- Derived retrieval indexes remain derived representations.
+- Repair source contracts rather than validators.
+- Preserve cold-start, CIS, continuity, Smart Brain, provenance, privacy, and human-authority boundaries.
+- Do not confuse NayaPOWER system health with deployment/Vercel health.
+
+## Current objective
+Repair the first evidence-backed project/Next Execution contract failure, then rerun the authoritative Superbrain Gate against the resulting exact current HEAD without weakening validation.
+
+## Next action
+Inspect the contract parser and canonical Next Execution artifact, make the smallest source-of-truth repair that satisfies the existing contract semantics, then rerun the authoritative Superbrain Gate and stop at the next real failure if one remains.
+
+## Execution instructions
+- Verify live `main` HEAD first.
+- Read the project execution contract and its authoritative tests.
+- Confirm the failure from the actual current-head run before editing.
+- Repair only the smallest true boundary.
+- Run the narrow contract self-test and relevant regression suite.
+- Run the full authoritative Superbrain Gate.
+- Verify checkout SHA, workflow run, job IDs, step conclusions, and receipts.
+- Oscar-attack the repair for validator weakening, stale state, hidden special cases, or skipped stages.
+- If GREEN, prove GREEN and score the integrated system.
+- If RED, preserve exact evidence and continue only at the first remaining real failure.
+
+## Success criteria
+- Project and Next Execution contracts pass without weakening their validator.
+- Paired representation, learning, and current-project bindings remain enforced.
+- Retrieval quality remains GREEN.
+- All previously passing Superbrain stages remain GREEN.
+- The full authoritative Superbrain Gate reaches GREEN on the exact current HEAD, or the exact next first failure is preserved for continuation.
+
+## Verification requirements
+- Exact repository: `SoulSchoolAcademy/NayaPOWER`.
+- Exact branch: `main`.
+- Exact checkout SHA must equal the live HEAD.
+- Record authoritative workflow run ID, relevant job IDs, and substantive step conclusions.
+- Verify Master Node health separately from composed Superbrain health.
+- Verify the receipt belongs to the exact current commit.
+- Never promote UNKNOWN or stale evidence to GREEN.
+
+## Architectural boundary
+Canonical event JSON remains authoritative. Retrieval indexes and future vectors are derived representations. No vector database is required for this 1.0 baseline.
 
 ## Implemented retrieval capabilities
 - Exact event-ID/title/subject matching.
@@ -23,25 +95,9 @@ Current-head status is intentionally PENDING until authoritative CI observes the
 - Recency weighting.
 - Authority and verification weighting.
 - Relationship-aware reranking.
-- Unknown queries fail closed instead of returning arbitrary zero-score events.
+- Unknown queries fail closed instead of returning arbitrary zero-relevance events.
 - Impossible metadata filters fail closed.
-- Relevance-judged benchmark measures precision@5, recall@5, MRR, and token coverage.
 - Positive and deliberate-failure retrieval tests are part of the authoritative gate.
-
-## Architectural boundary
-Canonical event JSON remains authoritative. Retrieval indexes and future vectors are derived representations. No vector database is required for this 1.0 baseline.
-
-## P0 — Execute first
-1. Verify exact `main` SHA.
-2. Obtain a fresh authoritative `.github/workflows/superbrain-gate.yml` execution against that exact SHA.
-3. Inspect the real `brain-gate` job and every substantive step.
-4. Confirm retrieval quality regression and deliberate-failure tests pass.
-5. Confirm retrieval benchmark executes and records precision/recall/MRR.
-6. Confirm all previous GREEN boundaries remain GREEN.
-7. Only promote the exact head to GREEN when authoritative evidence proves it.
-
-## If RED
-Preserve the exact failure evidence. Identify the smallest true root cause. Repair source, not validator. Rerun against the repaired head. Never call a previous commit's GREEN proof evidence for the new head.
 
 ## If GREEN — begin P1/P2 customer activation
 Design and implement the smallest zero-setup PDF activation path:
