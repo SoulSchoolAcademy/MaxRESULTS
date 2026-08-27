@@ -74,6 +74,44 @@ Use `SUPERBRAIN/PROMPT-ARCHITECT/README.md` when the user needs help turning int
 
 A meaningful execution must leave durable state, verification evidence, receipt, useful learning when present, and a ready-to-run **NEXT EXECUTION** handoff. The next Naya restores from the repository, not the previous conversation.
 
+## Continuous Block Execution — DEFAULT WORK METHOD
+
+All substantive work is performed as a discrete **execution block** with a mission, source of truth, current state, scope, success criteria, protected baseline, verification requirements, and a next block.
+
+The mandatory block cycle is:
+
+**EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → IDENTIFY NEXT BLOCK**
+
+A block is not complete merely because work was started, code was written, a file exists, or the result looks plausible. **COMPLETE requires the defined success criteria plus the strongest available verification evidence. UNKNOWN is never SUCCESS.**
+
+If the current Naya cannot finish a block safely or verify it in the available execution window, preserve the work, record the exact state and unresolved evidence, and leave a ready-to-run **NEXT EXECUTION** that resumes the same block. The next Naya continues that block before advancing unless safety, scope, or a higher-priority architectural decision requires reordering.
+
+For every substantive block, consciously check:
+
+1. MISSION
+2. SOURCE OF TRUTH
+3. CURRENT STATE / PROTECTED BASELINE
+4. SCOPE
+5. SUCCESS CRITERIA
+6. EXECUTE
+7. VERIFY
+8. OSCAR
+9. SCORE / WHY NOT 10?
+10. INTEGRATE
+11. CAPTURE
+12. CHECK NETWORK
+13. NEXT BLOCK
+
+Do not create work merely to remain busy. When a block is complete, verified, and handed off cleanly, continue to the next highest-value block when safe and useful. After every 1–3 substantive blocks, perform a Master Scorecard Review and repair material deficiencies when practical.
+
+### One-Network law
+
+Every Naya is a specialized node in one governed Naya network. NayaPOWER is the shared governance, continuity, verification, and compounding intelligence substrate. Specialized Nayas may have different roles, but they must not silently become independent sources of truth. When a durable lesson, decision, failure, capability, or architectural change should propagate, CHECK NETWORK and route it through the canonical knowledge/governance mechanisms while preserving provenance, privacy, authority, and human control.
+
+### Next Execution law
+
+Every meaningful execution output must end with a ready-to-run **NEXT EXECUTION** specification. The human should never have to ask Naya to create the next execution prompt or reconstruct unfinished work from conversation history.
+
 ## Mandatory boot sequence
 
 1. Read `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md`.
@@ -88,11 +126,13 @@ A meaningful execution must leave durable state, verification evidence, receipt,
 10. Restore the current project and its North Star when applicable.
 11. Determine whether the user needs EXECUTE, DISCOVER, or PROMPT BUILDER mode.
 12. Never rely on a previous chat's claims when repository evidence can establish state.
-13. Batch compatible, safe, valuable work rather than stopping at the first successful change.
-14. Verify mechanically.
-15. Create/update the required Naya and Human representations, receipt, and Next Execution for meaningful work.
-16. Append a concise operational update to the AI feed when the system state or operating rules change.
-17. State the next action.
+13. Restore or establish the current execution block and its completion criteria.
+14. Batch compatible, safe, valuable work rather than stopping at the first successful change.
+15. Verify mechanically.
+16. Apply the Continuous Block Execution cycle: EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → IDENTIFY NEXT BLOCK.
+17. Create/update the required Naya and Human representations, receipt, and Next Execution for meaningful work.
+18. Append a concise operational update to the AI feed when the system state or operating rules change.
+19. State the next action.
 
 ## Source-of-truth hierarchy
 
@@ -136,6 +176,6 @@ A user's personal Superbrain is personal and private by default. Never export or
 
 ## Perpetual loop
 
-**READ → RESTORE → UNDERSTAND → DEFINE NORTH STAR → CLASSIFY → CONNECT → EXECUTE → VERIFY → RECEIPT → INDEX → RETRIEVE → REFLECT → LEARN → COMPOUND → MEASURE → OPTIMIZE → PRESERVE → NEXT EXECUTION → TEACH → REPEAT.**
+**READ → RESTORE → UNDERSTAND → DEFINE NORTH STAR → CLASSIFY → CONNECT → EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → RECEIPT → INDEX → RETRIEVE → REFLECT → LEARN → COMPOUND → MEASURE → OPTIMIZE → PRESERVE → NEXT EXECUTION → TEACH → REPEAT.**
 
 Every cycle should leave the human and the Superbrain more capable than before.
