@@ -92,7 +92,7 @@ def self_test():
     assert validate_next_execution(complete)==[]
     existing=ROOT/'.naya'/'handoffs'/'NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md'; assert existing.exists() and not validate_next_execution(load_next_execution(existing))
     errors=validate_event(base,project,policy); assert any('artifact missing' in x for x in errors)
-    bad=json.loads(json.dumps(base)); bad['project']='Wrong Project'; bad['representations']['naya']['canonical_event_id']='WRONG'; bad_errors=validate_event(bad,project,policy); assert any('bind' in x for x in bad_errors) and any('Naya representation' in x for x in bad_errors)
+    bad=json.loads(json.dumps(base)); bad['project']='Wrong Project'; bad['representations']['naya']['canonical_event_id']='WRONG'; bad_errors=validate_event(bad,project,policy); assert any('meaningful execution must bind' in x for x in bad_errors) and any('Naya representation is not bound' in x for x in bad_errors)
     print('PASS — project/Next Execution/paired-representation deliberate-failure tests GREEN'); return 0
 def main():
     ap=argparse.ArgumentParser(); sub=ap.add_subparsers(dest='command',required=True); sub.add_parser('validate'); sub.add_parser('self-test'); args=ap.parse_args()
