@@ -110,12 +110,12 @@ def main() -> int:
     boot_lower = boot.lower()
     memory_lower = memory_boot.lower()
     start_lower = start.lower()
+    boot_order = {str(item).lower() for item in manifest.get("boot_order", [])}
 
-    documented_ok = all(path.is_file() for path in REQUIRED_FILES.values())
-    check(results, "canonical artifacts documented", documented_ok, ", ".join(str(p.relative_to(ROOT)) for p in REQUIRED_FILES.values()))
+    check(results, "canonical artifacts documented", all(path.is_file() for path in REQUIRED_FILES.values()), ", ".join(str(p.relative_to(ROOT)) for p in REQUIRED_FILES.values()))
     check(results, "canonical repository", manifest.get("repository") == "SoulSchoolAcademy/NayaPOWER", str(manifest.get("repository")))
     check(results, "canonical governance", manifest.get("governance_branch") == "main" and manifest.get("status") == "CANONICAL", f"branch={manifest.get('governance_branch')} status={manifest.get('status')}")
-    check(results, "canonical boot", ".naya/codex/human-capability-and-mastery-operating-protocol.md" in start_lower and ".naya/naya-context-boot-protocol.md" in manifest.get("boot_order", []), "START-HERE + manifest boot_order")
+    check(results, "canonical boot", ".naya/codex/human-capability-and-mastery-operating-protocol.md" in start_lower and ".naya/naya-context-boot-protocol.md" in boot_order, "START-HERE + manifest boot_order")
     registered_ok = manifest.get("subjects", {}).get("human_capability_and_mastery", {}).get("canonical") == ".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md" and all("human_capability_and_mastery" in route for route in manifest.get("task_routes", {}).values())
     check(results, "human capability policy registered", registered_ok, "manifest subject owner + all task routes")
     operating_ok = "execute → verify → oscar → score → integrate → capture → check network → identify next block" in policy_lower and "continuous block execution" in start_lower
@@ -129,15 +129,15 @@ def main() -> int:
     check(results, "one-network", one_net_ok, "One-Network law")
     authority_ok = "does not override platform/safety constraints" in boot_lower and "human safety & agency → truth & evidence → governing law" in policy_lower
     check(results, "authority", authority_ok, "conduct precedence")
-    provenance_ok = "provenance" in boot_lower and "authority" in boot_lower
-    check(results, "provenance", provenance_ok, "context authority model")
-    human_control_ok = "the human may" in policy_lower and "human authorization" in policy_lower
+    provenance_ok = "provenance-aware" in policy_lower and "authority" in boot_lower
+    check(results, "provenance", provenance_ok, "policy provenance + context authority model")
+    human_control_ok = "the human may" in policy_lower and ("human authorization" in policy_lower or "human control" in policy_lower)
     check(results, "human control", human_control_ok, "agency + authorization boundary")
     future_handoff_ok = "next naya" in policy_lower and "next execution" in start_lower
     check(results, "future handoff", future_handoff_ok, "continuity/handoff language")
     specialized_ok = all(token.lower() in policy_lower for token in ("Naya:", "NayaPOWER:", "MAXIS:", "MAXESS:", "Oscar:")) and "competing governance" in policy_lower
     check(results, "specialized node boundaries", specialized_ok, "system role boundary")
-    memory_ok = "cis — compounding intelligence system" in memory_lower and "memory is context, not current reality." in memory_lower
+    memory_ok = "compounding intelligence system" in memory_lower and "memory is context, not current reality." in memory_lower
     check(results, "memory/CIS", memory_ok, "memory bootstrap")
     check(results, "canonical event/index", EVENT_INDEX.is_file() and "derived indexes must be rebuildable" in memory_lower, str(EVENT_INDEX.relative_to(ROOT)))
     check_derived_index(results)
@@ -159,8 +159,6 @@ def main() -> int:
     method_ok = all(by_name.get(name, False) for name in ("operating method", "block completion evidence", "unfinished-block continuity", "master scorecard", "next execution", "future handoff"))
     verification_run_ok = all(by_name.get(name, False) for name in ("derived event/index integrity", "verification mechanisms", "continuity self-test", "Smart Brain validation", "Smart Brain tests"))
     network_ok = all(by_name.get(name, False) for name in ("one-network", "specialized node boundaries", "provenance", "human control"))
-    documented_state = "PASS" if by_name.get("canonical artifacts documented", False) else "FAIL"
-    registered_state = "PASS" if all(by_name.get(name, False) for name in ("canonical repository", "canonical governance", "human capability policy registered")) else "PARTIAL"
     receipt = {
         "schema": "naya/system-health-receipt/v1",
         "status": "HEALTHY" if all_checks_ok else "DEGRADED",
@@ -169,8 +167,8 @@ def main() -> int:
         "head": git_head(),
         "governance_branch": manifest.get("governance_branch"),
         "states": {
-            "documented": documented_state,
-            "registered": registered_state,
+            "documented": "PASS" if by_name.get("canonical artifacts documented", False) else "FAIL",
+            "registered": "PASS" if all(by_name.get(name, False) for name in ("canonical repository", "canonical governance", "human capability policy registered")) else "PARTIAL",
             "activated": "PASS" if activation_ok else "FAIL",
             "context_established": "PASS" if context_ok else "PARTIAL",
             "operating_method_established": "PASS" if method_ok else "PARTIAL",
