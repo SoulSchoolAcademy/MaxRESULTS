@@ -15,6 +15,30 @@ This is the shared operational handoff stream for every AI/session entering the 
 
 ---
 
+## 2026-08-27 — Continuous Block Execution + One-Network operating law established
+
+**Status:** IMPLEMENTED / RUNTIME WIRING UPDATED / VERIFICATION PENDING
+
+**Event:** `NAYA-CONTINUOUS-BLOCK-EXECUTION-ONE-NET-20260827`
+
+**What changed:** The canonical Human Capability & Mastery Operating Protocol now defines substantive work as discrete execution blocks with a mandatory cycle: `EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → IDENTIFY NEXT BLOCK`. It defines completion criteria, unfinished-block handoff, 1–3 block Master Scorecard cadence, the required “WHY IS THIS NOT A 10?” review, and the rule that every meaningful execution output ends with a ready-to-run NEXT EXECUTION. START HERE now activates this method at boot and defines the One-Network law: every Naya is a specialized node in one governed Naya network, with NayaPOWER as the shared governance/continuity/verification/compounding substrate.
+
+**Why it changed:** Naya work must flow continuously from one verified block to the next without requiring the human to orchestrate every step. An unfinished block must survive the session boundary. Specialized Nayas must compound intelligence through one governed network rather than becoming isolated sources of truth.
+
+**Canonical runtime policy:** `.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md`
+
+**Canonical boot entry:** `SUPERBRAIN/AI-BOOT/START-HERE.md`
+
+**Master Note:** `SUPERBRAIN/MASTER-NOTES/SN-20260827-CONTINUOUS-BLOCK-EXECUTION-AND-ONE-NET.md`
+
+**Verification:** Live `main` was inspected before modification. The runtime protocol update committed as `11f87c0df35c028d20eedd3aa56ed6f6c200c20f`; START HERE update committed as `9dc16c60ae3d36e2e30f5aa6f0751fb07c3785dc`; the Master Note committed as `be31766c45dde6eb4b4a8626f9da4bfd3f080c27`. Final repository state and CI execution have not yet been re-verified after all three writes; therefore green CI is NOT claimed.
+
+**Oscar challenge:** The law deliberately avoids creating a second runtime or competing source of truth. The block method is now canonical policy plus boot instruction plus one Master Note. Remaining verification requirement: re-read live files, validate cross-references, run the strongest available checks, and observe post-change CI if available.
+
+**Next action:** Re-verify the three modified canonical surfaces together, inspect current HEAD, run/observe the relevant Smart Brain/cold-start acceptance checks, and then perform the first formal Master Scorecard across Blocks 01–03 plus this operating-law block.
+
+---
+
 ## 2026-08-27 — Human Capability & Mastery protocol wired into Naya boot state
 
 **Status:** IMPLEMENTED / POST-CHANGE CI PENDING
@@ -34,7 +58,7 @@ This is the shared operational handoff stream for every AI/session entering the 
 - `.naya/memory/BOOTSTRAP.md`
 - `.github/workflows/smart-brain-v3-enforcement.yml`
 
-**Verification:** Live `main` was inspected before modification. The repository is `SoulSchoolAcademy/NayaPOWER` with governance branch `main`. The resulting `main` HEAD is `f83dc9dd6b1bf3f523c093613bf35322aed2b764`. The four intended boot/continuity artifacts are modified relative to the pre-block baseline, and the manifest, boot protocol, START HERE, bootstrap, and CI gate now explicitly reference the Human Capability & Mastery policy. The available combined commit status currently has no post-change checks reported; therefore green CI is NOT claimed.
+**Verification:** Live `main` was inspected before modification. The resulting `main` HEAD is `f83dc9dd6b1bf3f523c093613bf35322aed2b764`. The four intended boot/continuity artifacts are modified relative to the pre-block baseline, and the manifest, boot protocol, START HERE, bootstrap, and CI gate now explicitly reference the Human Capability & Mastery policy. The available combined commit status currently has no post-change checks reported; therefore green CI is NOT claimed.
 
 **Oscar challenge:** The integration avoids creating a second policy source. The canonical policy remains one file; boot/manifest/bootstrap files reference or activate it. CI validates registration. Remaining risk: the available GitHub connector cannot execute the local Python boot/runtime tests directly, and no post-change GitHub Actions result is yet observable.
 
