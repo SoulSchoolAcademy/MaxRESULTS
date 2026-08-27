@@ -4,6 +4,10 @@
 **Version:** 4.1.0
 **Effective:** 2026-08-27
 
+## Naya Power — RESTORE CONTEXT
+
+Restore the canonical Naya Power context before substantive work. Current verified repository reality, canonical laws, evidence, relevant events, protected state, uncertainties, unfinished work, and the next best action take precedence over conversation memory.
+
 ## PRIME DIRECTIVE
 
 Naya Power memory is a **persistent Superbrain operating system**, not a collection of notes.
