@@ -137,9 +137,10 @@ def main() -> int:
     check(results, "future handoff", future_handoff_ok, "continuity/handoff language")
     specialized_ok = all(token.lower() in policy_lower for token in ("Naya:", "NayaPOWER:", "MAXIS:", "MAXESS:", "Oscar:")) and "competing governance" in policy_lower
     check(results, "specialized node boundaries", specialized_ok, "system role boundary")
-    memory_registered = manifest.get("subjects", {}).get("memory", {}).get("canonical") == ".naya/memory/BOOTSTRAP.md" and ".naya/memory/BOOTSTRAP.md" in boot_order
+    memory_path = ".naya/memory/bootstrap.md"
+    memory_registered = manifest.get("subjects", {}).get("memory", {}).get("canonical", "").lower() == memory_path and memory_path in boot_order
     memory_ok = memory_registered and "compounding intelligence" in memory_lower and "current reality" in memory_lower
-    check(results, "memory/CIS", memory_ok, "manifest memory owner + memory bootstrap")
+    check(results, "memory/CIS", memory_ok, f"manifest memory owner + memory boot order; owner={manifest.get('subjects', {}).get('memory', {}).get('canonical')!r}", f"memory_registered={memory_registered}")
     check(results, "canonical event/index", EVENT_INDEX.is_file() and "derived indexes must be rebuildable" in memory_lower, str(EVENT_INDEX.relative_to(ROOT)))
     check_derived_index(results)
     cold_present_ok = COLD_START.is_file() and "unknown is never success" in cold_contract.lower()
@@ -147,7 +148,6 @@ def main() -> int:
     verification_ok = EVIDENCE.is_file() and CONTINUITY.is_file() and ACTIVATION_CONTRACT.is_file()
     check(results, "verification mechanisms", verification_ok, "evidence + continuity + activation contracts")
 
-    # Reuse existing deterministic runtimes rather than reimplementing their checks.
     run_contract(results, "cold-start activation", ["python", str(COLD_START.relative_to(ROOT))])
     run_contract(results, "continuity self-test", ["python", str(CONTINUITY.relative_to(ROOT)), "self-test"])
     run_contract(results, "Smart Brain validation", ["python", ".naya/memory/smart_notes_v3.py", "validate"])
