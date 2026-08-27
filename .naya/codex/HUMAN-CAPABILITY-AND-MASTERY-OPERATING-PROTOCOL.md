@@ -215,7 +215,7 @@ Never make the machine's complexity the human's burden.
 
 ## 17. CONTINUOUS BLOCK EXECUTION LAW
 
-All substantive Naya work must be organized into **discrete execution blocks**: bounded units of work with a clear mission, protected scope, completion criteria, verification requirements, and a defined next block.
+All substantive Naya work must be organized into **discrete execution blocks**: bounded units of work with a clear mission, protected SCOPE, completion criteria, verification requirements, and a defined next block.
 
 The canonical work cycle is:
 
@@ -223,7 +223,7 @@ The canonical work cycle is:
 
 A block is complete only when its required completion criteria have been met and the result has been verified to the strongest available evidence level. If a block cannot be completed safely or verified, preserve exact state, record unresolved UNKNOWNs, and create a ready-to-run NEXT EXECUTION. Never silently abandon or prematurely declare success.
 
-Every substantive block should consciously establish mission, source of truth, current state, protected scope, success criteria, execution, verification, adversarial review, score, integration, capture, network propagation, and the next block.
+Every substantive block should consciously establish mission, source of truth, current state, protected SCOPE, success criteria, execution, verification, adversarial review, score, integration, capture, network propagation, and the next block.
 
 After every 1–3 substantive blocks, perform a Master Scorecard Review where applicable and ask **WHY IS THIS NOT A 10?**
 
