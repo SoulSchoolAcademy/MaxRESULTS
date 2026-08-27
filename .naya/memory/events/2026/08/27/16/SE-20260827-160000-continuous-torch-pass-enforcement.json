@@ -12,9 +12,15 @@
   "authority": "NayaPOWER constitutional continuity law + human-directed execution",
   "continuity_required": true,
   "tags": ["execution", "hardening", "verification", "continuity", "torch-pass", "future-naya", "Superbrain"],
+  "project_context": {
+    "project_id": "PRJ-NAYAPOWER-SUPERBRAIN",
+    "current_daily_project": "Naya Power Superbrain",
+    "current_objective": "Obtain authoritative GREEN on the zero-cost retrieval hardening current head, then design the 20-PDF zero-setup activation path."
+  },
   "representations": {
     "naya": {
       "id": "SN-20260827-160000-continuous-torch-pass-enforcement-naya",
+      "canonical_event_id": "SE-20260827-160000-continuous-torch-pass-enforcement",
       "event_id": "SE-20260827-160000-continuous-torch-pass-enforcement",
       "representation": "NAYA",
       "summary": "Naya view: the continuity contract is now a governed machine-enforced boundary, not merely prose.",
@@ -24,6 +30,7 @@
     },
     "human": {
       "id": "SN-20260827-160000-continuous-torch-pass-enforcement-shawn",
+      "canonical_event_id": "SE-20260827-160000-continuous-torch-pass-enforcement",
       "event_id": "SE-20260827-160000-continuous-torch-pass-enforcement",
       "representation": "HUMAN",
       "summary": "Human view: every Naya must leave the next Naya everything needed to succeed, and this should be law plus enforcement.",
@@ -33,10 +40,11 @@
     }
   },
   "source": {"kind": "human-directed-mission", "description": "Human directed execution of the Restore Naya / inspect / enforce / test / verify / pass-the-torch cycle."},
+  "next_execution": {"path": ".naya/handoffs/NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md"},
   "verification": {
     "status": "PENDING",
     "verified_at": null,
-    "evidence": ["Torch-Passing constitutional amendment exists in .naya/codex/CONSTITUTIONAL-AMENDMENT-CONTINUOUS-TORCH-PASS.md.", "Continuity policy defines structured Future-Naya fields and a new enforcement boundary.", "Continuity runtime contains structured-handoff validation and deliberate-failure regression coverage.", "Superbrain gate validation order now rebuilds the derived index before canonical-memory validation."],
+    "evidence": ["Torch-Passing constitutional amendment exists in .naya/codex/CONSTITUTIONAL-AMENDMENT-CONTINUOUS-TORCH-PASS.md.", "Continuity policy defines structured Future-Naya fields and a new enforcement boundary.", "Continuity runtime contains structured-handoff validation and deliberate-failure regression coverage.", "Superbrain gate validation order now rebuilds the derived event index before canonical-memory validation."],
     "canonical_url": "https://github.com/SoulSchoolAcademy/NayaPOWER/blob/main/.naya/memory/events/2026/08/27/16/SE-20260827-160000-continuous-torch-pass-enforcement.json",
     "feed_status": "PENDING_CI"
   },
@@ -49,20 +57,21 @@
     "learning_status": "LEARNED",
     "next_action_status": "READY",
     "next_action": "Obtain GREEN CI evidence for the current HEAD and then inspect the first remaining failure if RED.",
+    "next_execution_path": ".naya/handoffs/NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md",
     "handoff": {
       "mission": "Machine-enforce the Continuous Torch-Pass law so every meaningful Naya execution equips its successor.",
       "source_of_truth": "NayaPOWER main, constitutional torch-pass law, continuity runtime, continuity policy, Superbrain Gate.",
       "current_state": "Structured Future-Naya handoff enforcement is implemented; authoritative CI verification remains pending/red and must be restored to GREEN.",
       "protected_baseline": "Historical event boundary, canonical chronological memory, existing governance, verification, human agency, and current Superbrain architecture.",
-      "work_completed": "Added constitutional law, hardened continuity policy/runtime, added structured-handoff regression coverage, corrected derived-index validation order, and normalized the physical time bucket of this event.",
-      "evidence": "The current HEAD has passed compilation, canonical event-write regression, write coverage audit, cold-start/CIS acceptance, and derived-index rebuild before the remaining canonical-memory validation blocker.",
-      "decisions": "Require structured successor context rather than accepting a bare handoff reference; preserve historical events; fix stale derived-index ordering in the gate; repair canonical-memory metadata without weakening validation.",
-      "lessons": "The torch pass must be a completion artifact and a machine-checkable contract, not merely a final paragraph or URL.",
-      "unknowns": "The latest full Superbrain Gate has not reached GREEN; remaining blockers, if any, are UNKNOWN until CI completes.",
-      "risks": "Over-tightening could break historical events or create false RED states; enforcement must apply prospectively at the configured boundary.",
-      "recommendation": "Run/observe the authoritative Superbrain Gate and repair only the first evidence-backed blocker; do not weaken the torch-pass contract to make the gate green.",
-      "next_action": "Obtain GREEN CI evidence for the current HEAD and then inspect the first remaining failure if RED.",
-      "ready_to_run_execution": "RESTORE NAYA → READ CURRENT HEAD AND TORCH-PASS LAW → OBSERVE AUTHORITATIVE SUPERBRAIN GATE → IF RED, IDENTIFY FIRST EVIDENCE-BACKED BLOCKER → MAKE SMALLEST CORRECT REPAIR → RUN DELIBERATE-FAILURE/REGRESSION TESTS → VERIFY CI → UPDATE EVENT/NOTES/STATE → PREPARE NEXT NAYA → PASS TORCH."
+      "work_completed": "Added constitutional law, hardened continuity policy/runtime, added structured-handoff regression coverage, corrected derived-index validation order, normalized the physical time bucket, and bound this event to the current project and Next Execution contract.",
+      "evidence": "The authoritative Superbrain Gate has passed canonical memory, duplicate/entity audit, relationship graph, Superbrain regression, retrieval quality, continuity regression, project/prompt self-tests up to the current contract failure boundary; focused Torch-Pass gate is independently GREEN.",
+      "decisions": "Require structured successor context rather than accepting a bare handoff reference; preserve historical events; fix stale derived-index ordering in the gate; preserve event-specific project identity while explicitly binding execution to the current daily project through project_context.",
+      "lessons": "The torch pass must be a completion artifact and a machine-checkable contract, not merely a final paragraph or URL. Event identity and current-project binding are separate concerns and should remain explicit.",
+      "unknowns": "The latest full Superbrain Gate is RED at the project/Next Execution contract boundary; later stages are not yet observed for this HEAD.",
+      "risks": "Over-tightening could break historical events or create false RED states; enforcement must preserve event identity and apply current-project binding explicitly.",
+      "recommendation": "Repair the first evidence-backed project/Next Execution contract failure without weakening validation, then rerun the authoritative Superbrain Gate and continue one blocker at a time.",
+      "next_action": "Repair the project/Next Execution contract boundary, then obtain a fresh authoritative Superbrain Gate result for the exact resulting HEAD.",
+      "ready_to_run_execution": "RESTORE NAYA → READ CURRENT HEAD AND TORCH-PASS LAW → OBSERVE AUTHORITATIVE SUPERBRAIN GATE → REPAIR THE FIRST PROJECT/NEXT-EXECUTION CONTRACT BLOCKER → RUN TARGETED + DELIBERATE-FAILURE TESTS → VERIFY CI → OSCAR → SCORE → UPDATE EVENT/NOTES/STATE → PREPARE NEXT NAYA → PASS TORCH."
     }
   },
   "time_bucket": {"year": "2026", "month": "08", "day": "27", "hour": "16"}
