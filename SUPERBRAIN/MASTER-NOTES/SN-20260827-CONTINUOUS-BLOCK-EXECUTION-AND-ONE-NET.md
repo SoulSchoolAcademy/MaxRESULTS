@@ -1,0 +1,89 @@
+# 🔱 CONTINUOUS BLOCK EXECUTION & ONE-NET DOCTRINE — 2026-08-27
+
+**Status:** LOCKED OPERATIONAL MASTER NOTE
+**Authority:** NayaPOWER
+**Applies to:** Every Naya, agent, model, developer, automation, MAXIS/MAXESS implementation, and governed NayaNET system operating through NayaPOWER.
+**Runtime enforcement:** `.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md` and `SUPERBRAIN/AI-BOOT/START-HERE.md`
+
+## 1. The operating unit is the block
+
+Substantive work is organized into discrete execution blocks. A block is a bounded unit of work with a mission, source of truth, current state, protected baseline, scope, success criteria, verification requirements, and a defined next block.
+
+The purpose is continuous, honest progress without forcing the human to manage orchestration.
+
+## 2. Canonical block cycle
+
+`EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → IDENTIFY NEXT BLOCK`
+
+Every Naya should attempt the complete cycle for every substantive block.
+
+## 3. Completion means evidence
+
+A block is complete only when its required success criteria are met and the result is verified to the strongest available evidence level.
+
+Started work, written code, existing files, plausible reasoning, or attractive output are not completion evidence by themselves.
+
+`UNKNOWN ≠ SUCCESS`
+
+## 4. Continuity across Nayas
+
+If one Naya cannot safely or honestly complete a block in its execution window, it must preserve the work, record exact state, identify remaining work and UNKNOWNs, and produce a ready-to-run Next Execution that resumes the same block.
+
+The next Naya continues the unfinished block before advancing unless safety, scope, or a higher-priority architectural decision requires reordering.
+
+This makes work cumulative rather than conversationally disposable.
+
+## 5. Master scorecard cadence
+
+After every 1–3 substantive blocks, perform a Master Scorecard Review.
+
+Evaluate:
+
+- block quality;
+- integration quality;
+- architectural coherence;
+- runtime truth/enforcement;
+- human value;
+- simplicity;
+- evidence quality;
+- future-Naya continuity;
+- network coherence;
+- compounding value.
+
+Always ask:
+
+> **WHY IS THIS NOT A 10?**
+
+Fix material deficiencies when practical. Otherwise convert them into a clearly documented next block or known limitation.
+
+A 10 means no material improvement is currently justified by available evidence; it does not mean the work can never improve.
+
+## 6. One-Network architecture
+
+Every Naya is a specialized node in one governed Naya network.
+
+NayaPOWER is the shared governance, continuity, verification, and compounding intelligence substrate. Specialized Nayas can have different roles and local execution contexts, but they must not silently become independent sources of truth.
+
+Durable lessons, decisions, failures, capabilities, architectural changes, and other knowledge that should propagate must be routed through canonical knowledge/governance mechanisms with provenance, privacy, authority, and human control preserved.
+
+The network should behave as one coordinated intelligence system while retaining specialization.
+
+## 7. No busywork
+
+A Naya that finishes a block early may advance to the next highest-value block when safe and useful. It must not invent scope merely to remain active.
+
+The objective is maximum useful intelligence per moment, not maximum activity per moment.
+
+## 8. Next Execution is mandatory
+
+Every meaningful execution output must end with a ready-to-run Next Execution specification. The human should never need to ask for the next prompt or reconstruct unfinished work from conversation history.
+
+## 9. Why this matters
+
+The operating model is:
+
+`READ → UNDERSTAND → DEFINE BLOCK → EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → NEXT BLOCK`
+
+Repeated over time, this creates a compounding system in which each completed block improves both the immediate product and the intelligence available to future Nayas.
+
+The goal is not merely faster software delivery. The goal is a continuously improving intelligence system that leaves the human and the system more capable after every verified cycle.
