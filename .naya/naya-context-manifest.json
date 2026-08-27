@@ -1,14 +1,15 @@
 {
   "schema":"naya-context-manifest/v4",
   "status":"CANONICAL",
-  "effective":"2026-08-25",
+  "effective":"2026-08-27",
   "repository":"SoulSchoolAcademy/NayaPOWER",
   "governance_branch":"main",
   "principle":"FULL SYSTEM AWARENESS + SELECTIVE DEEP LOADING",
   "optimization":"MAXIMUM USEFUL PERFORMANCE: quality, correctness, reliability, continuity, verification, safety, efficiency, and minimum unnecessary complexity",
-  "boot_order":["README.md",".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md",".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md",".naya/codex/NAYA-OPTIMIZATION-AND-EXCELLENCE-LAW.md",".naya/codex/11-RUNTIME-CONSTITUTION.md",".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md",".naya/memory/BOOTSTRAP.md",".naya/memory/STATE.json",".naya/memory/INDEX.json",".naya/memory/RETRIEVAL-MANIFEST.json",".naya/runtime/RESTORE-CONTEXT-RUNTIME.md",".naya/runtime/CLAIM-EVIDENCE-VERIFICATION.md"],
+  "boot_order":["README.md",".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md",".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md",".naya/codex/NAYA-OPTIMIZATION-AND-EXCELLENCE-LAW.md",".naya/codex/11-RUNTIME-CONSTITUTION.md",".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md",".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md",".naya/memory/BOOTSTRAP.md",".naya/memory/STATE.json",".naya/memory/INDEX.json",".naya/memory/RETRIEVAL-MANIFEST.json",".naya/runtime/RESTORE-CONTEXT-RUNTIME.md",".naya/runtime/CLAIM-EVIDENCE-VERIFICATION.md"],
   "subjects":{
     "constitution":{"canonical":".naya/codex/11-RUNTIME-CONSTITUTION.md","extensions":[".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md"]},
+    "human_capability_and_mastery":{"canonical":".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md","purpose":"Universal Naya operating policy for human capability, evidence-based understanding, adaptive learning, mastery, human agency, and maximum useful intelligence per moment"},
     "context":{"canonical":".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md"},
     "execution_continuity":{"canonical":".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md","purpose":"Universal requirement for durable execution reports, AI-to-AI handoffs, receipts, learning, and restoreable continuity"},
     "optimization_excellence":{"canonical":".naya/codex/NAYA-OPTIMIZATION-AND-EXCELLENCE-LAW.md","purpose":"Universal requirement to maximize useful verified progress per execution while preserving working architecture and enforcing honest 10/10 challenge"},
@@ -24,12 +25,12 @@
     "notes_protocol":{"canonical":"docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md"}
   },
   "task_routes":{
-    "strategy":["constitution","context","execution_continuity","optimization_excellence","memory"],
-    "memory":["constitution","context","execution_continuity","optimization_excellence","memory","memory_index","retrieval"],
-    "restore":["constitution","context","execution_continuity","optimization_excellence","memory","memory_index","retrieval","state","restore","checkpoints","handoffs"],
-    "execution":["constitution","context","execution_continuity","optimization_excellence","memory","evidence"],
-    "engineering":["constitution","context","execution_continuity","optimization_excellence","memory","restore","evidence"],
-    "evaluation":["constitution","memory","retrieval","restore","evidence","execution_continuity","optimization_excellence"]
+    "strategy":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory"],
+    "memory":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","memory_index","retrieval"],
+    "restore":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","memory_index","retrieval","state","restore","checkpoints","handoffs"],
+    "execution":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","evidence"],
+    "engineering":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","restore","evidence"],
+    "evaluation":["constitution","memory","retrieval","restore","evidence","execution_continuity","optimization_excellence","human_capability_and_mastery"]
   },
   "context_states":["DOCUMENTED","ACTIVATED","CONTEXT ESTABLISHED","IMPLEMENTED","VERIFIED","LIVE VERIFIED","HUMAN REVIEW REQUIRED","BLOCKED","UNKNOWN","STALE","CONFLICTED","SUPERSEDED","FAILED","PARTIAL","ROLLBACK_REQUIRED","REJECTED","AUTHORIZED_DEVIATION"],
   "authority_rules":{
