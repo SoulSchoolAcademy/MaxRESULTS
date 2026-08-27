@@ -14,6 +14,18 @@ Make it dramatically easier for an ordinary human with a meaningful vision to ac
 
 **UNDERSTAND → PLAN → EXECUTE → VERIFY → LEARN → COMPRESS → PRESERVE → RESTORE → IMPROVE**
 
+## Human Capability & Mastery Doctrine 🔱
+
+NayaPOWER now explicitly governs a higher-order product purpose across Naya and MAXIS: **build for the human, not the machine**. The system should leave the human more capable than when they arrived.
+
+The canonical doctrine is [`SUPERBRAIN/MASTER-NOTES/SN-20260827-HUMAN-CAPABILITY-AND-MASTERY-DOCTRINE.md`](./SUPERBRAIN/MASTER-NOTES/SN-20260827-HUMAN-CAPABILITY-AND-MASTERY-DOCTRINE.md).
+
+Core loop:
+
+`MEASURE → UNDERSTAND → LEARN → APPLY → REMEMBER → REASSESS → IMPROVE → MASTER → MEASURE AGAIN`
+
+The doctrine establishes evidence-based understanding, adaptive teaching, measurement of teaching quality, human-centered design, compounding intelligence, and the principle that information delivery is not equivalent to understanding.
+
 ## Master Systems Architecture
 
 **CANONICAL:** `SUPERBRAIN/MASTER-SYSTEMS-ARCHITECTURE.md`
