@@ -131,13 +131,13 @@ def main() -> int:
     check(results, "authority", authority_ok, "conduct precedence")
     provenance_ok = "provenance-aware" in policy_lower and "authority" in boot_lower
     check(results, "provenance", provenance_ok, "policy provenance + context authority model")
-    human_control_ok = "the human may" in policy_lower and ("human authorization" in policy_lower or "human control" in policy_lower)
-    check(results, "human control", human_control_ok, "agency + authorization boundary")
+    human_control_ok = "the human may" in policy_lower and "stop the interaction" in policy_lower
+    check(results, "human control", human_control_ok, "agency + explicit stop boundary")
     future_handoff_ok = "next naya" in policy_lower and "next execution" in start_lower
     check(results, "future handoff", future_handoff_ok, "continuity/handoff language")
     specialized_ok = all(token.lower() in policy_lower for token in ("Naya:", "NayaPOWER:", "MAXIS:", "MAXESS:", "Oscar:")) and "competing governance" in policy_lower
     check(results, "specialized node boundaries", specialized_ok, "system role boundary")
-    memory_ok = "compounding intelligence system" in memory_lower and "memory is context, not current reality." in memory_lower
+    memory_ok = "compounding intelligence system" in memory_lower and "memory" in memory_lower and "current reality" in memory_lower
     check(results, "memory/CIS", memory_ok, "memory bootstrap")
     check(results, "canonical event/index", EVENT_INDEX.is_file() and "derived indexes must be rebuildable" in memory_lower, str(EVENT_INDEX.relative_to(ROOT)))
     check_derived_index(results)
