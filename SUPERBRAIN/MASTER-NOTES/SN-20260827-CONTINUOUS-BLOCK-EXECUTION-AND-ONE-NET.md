@@ -1,8 +1,8 @@
 # 🔱 CONTINUOUS BLOCK EXECUTION & ONE-NET DOCTRINE — 2026-08-27
 
-**Status:** LOCKED OPERATIONAL MASTER NOTE
-**Authority:** NayaPOWER
-**Applies to:** Every Naya, agent, model, developer, automation, MAXIS/MAXESS implementation, and governed NayaNET system operating through NayaPOWER.
+**Status:** LOCKED OPERATIONAL MASTER NOTE  
+**Authority:** NayaPOWER  
+**Applies to:** Every Naya, agent, model, developer, automation, MAXIS/MAXESS implementation, and governed NayaNET system operating through NayaPOWER.  
 **Runtime enforcement:** `.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md` and `SUPERBRAIN/AI-BOOT/START-HERE.md`
 
 ## 1. The operating unit is the block
@@ -78,7 +78,15 @@ The objective is maximum useful intelligence per moment, not maximum activity pe
 
 Every meaningful execution output must end with a ready-to-run Next Execution specification. The human should never need to ask for the next prompt or reconstruct unfinished work from conversation history.
 
-## 9. Why this matters
+## 9. Independent CI observability is part of the contract
+
+A critical acceptance test must execute before unrelated repository-wide gates that can fail and skip the acceptance step. Otherwise a red pipeline can conceal whether the critical acceptance contract itself passed or failed.
+
+The cold-start acceptance test is therefore ordered before the Smart Brain validation gate in `.github/workflows/smart-brain-v3-enforcement.yml`.
+
+On 2026-08-27, commit `c54881c6dc74f22155712efd894a872087d1de7e` produced Smart Brain v3 Enforcement run `33116118610`. Its `brain-gate` executed `Cold-start Naya activation acceptance` and that step **passed**; the later Smart Brain validation step failed on pre-existing memory/index validation errors. This is verified evidence that the cold-start contract executed independently rather than being skipped behind the unrelated gate.
+
+## 10. Why this matters
 
 The operating model is:
 
