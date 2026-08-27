@@ -56,6 +56,8 @@ jobs:
           assert Path(required).is_file(), f'canonical protocol missing: {required}'
           print('Naya context manifest: HUMAN CAPABILITY & MASTERY protocol registered and routable.')
           PY
+      - name: Cold-start Naya activation acceptance
+        run: python .naya/runtime/cold_start_activation.py
       - name: Rebuild derived event index
         run: python .naya/memory/smart_notes_v3.py index
       - name: Audit duplicates and entity collisions
