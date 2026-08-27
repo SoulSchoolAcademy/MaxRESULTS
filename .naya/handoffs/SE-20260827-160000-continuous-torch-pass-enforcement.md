@@ -4,6 +4,7 @@
 **Event:** `SE-20260827-160000-continuous-torch-pass-enforcement`
 **Repository:** `SoulSchoolAcademy/NayaPOWER`
 **Branch:** `main`
+**Current HEAD:** `6df4f33f224cfd351c7e7a981e304256fea42c9b`
 
 ## Mission
 
@@ -17,10 +18,11 @@ Machine-enforce the Continuous Torch-Pass law so every meaningful Naya execution
 - `.naya/runtime/continuity_enforcement.py`
 - `.naya/memory/CONTINUITY-ENFORCEMENT-POLICY.json`
 - `.github/workflows/superbrain-gate.yml`
+- `.github/workflows/torch-pass-gate.yml`
 
 ## Current state
 
-The constitutional Continuous Torch-Pass law is present and explicitly requires a complete successor handoff. The continuity runtime now validates a structured Future-Naya handoff for meaningful executions at the configured prospective boundary. The Superbrain Gate was also corrected so the derived event index is rebuilt before canonical-memory validation. The latest full authoritative gate after the current HEAD has not yet been observed GREEN.
+The constitutional Continuous Torch-Pass law is present and explicitly requires a complete successor handoff. The continuity runtime now validates a structured Future-Naya handoff for meaningful executions at the configured prospective boundary. The Superbrain Gate was also corrected so the derived event index is rebuilt before canonical-memory validation. A focused Torch-Pass workflow now exists to independently execute the continuity regression and enforcement contract. The latest full authoritative gate for the current HEAD has not yet been observed GREEN.
 
 ## Protected baseline
 
@@ -34,16 +36,20 @@ Preserve historical memory/event boundaries, canonical chronological event stora
 4. Added structured handoff fields to the continuity policy.
 5. Hardened `continuity_enforcement.py` to require all structured Future-Naya fields prospectively.
 6. Extended the deliberate-failure self-test to detect missing structured handoff data.
-7. Corrected Superbrain Gate ordering so the derived canonical index is rebuilt before validation.
-8. Recorded this execution as a canonical event and persisted this handoff artifact.
+7. Corrected Superbrain Gate ordering so the derived event index is rebuilt before validation.
+8. Wired Continuous Torch-Pass into the mandatory AI boot/restore path.
+9. Added a focused Torch-Pass CI gate for direct enforcement evidence.
+10. Recorded this execution as a canonical event and persisted this handoff artifact.
 
 ## Evidence
 
 - The constitutional amendment explicitly states that every substantive execution must produce a copy-paste-ready successor prompt and that continuity must be machine-enforceable.
 - The continuity policy contains the structured handoff contract.
-- The continuity runtime implements the structured-field check and regression fixture.
+- The continuity runtime implements the structured-field check and deliberate-failure regression fixture.
 - The Superbrain Gate includes the continuity regression and enforcement steps after canonical-memory validation.
-- CI has already observed compilation and several upstream checks succeeding on the relevant recent runs; the full post-change gate remains to be observed.
+- The AI START-HERE boot path now requires the Torch-Pass law and an explicit pass-the-torch boot step.
+- Current HEAD is `6df4f33f224cfd351c7e7a981e304256fea42c9b`.
+- Recent CI evidence shows compilation, canonical event-write boundary, coverage audit, and cold-start/CIS checks succeeding before an existing canonical-memory validation blocker; the continuity suite was therefore skipped in those full-gate runs. This is not evidence that the full gate is GREEN.
 
 ## Decisions
 
@@ -51,6 +57,7 @@ Preserve historical memory/event boundaries, canonical chronological event stora
 - The successor payload must carry the state needed to restore, understand, execute, and verify.
 - Historical events are not retroactively rewritten merely to satisfy the new contract.
 - The derived index is not authoritative and should be regenerated before validation.
+- The Torch-Pass contract deserves a focused gate because full Superbrain verification can be blocked upstream by unrelated canonical-memory failures.
 
 ## Lessons
 
@@ -58,9 +65,11 @@ Preserve historical memory/event boundaries, canonical chronological event stora
 - The current Naya owns the handoff; the next Naya owns the continuation.
 - Documentation without enforcement is a weaker guarantee than a tested runtime contract.
 - A stale derived artifact must not be allowed to masquerade as canonical truth.
+- Focused evidence can isolate a contract even when a larger gate is blocked, but it does not replace end-to-end verification.
 
 ## Unknowns
 
+- The focused Torch-Pass workflow has been created but its post-creation run has not yet been observed in the available CI results.
 - The latest complete Superbrain Gate for the newest `main` HEAD has not yet been observed GREEN.
 - Any remaining failure after the gate reaches the continuity checks is UNKNOWN until actual CI evidence identifies it.
 
@@ -68,20 +77,21 @@ Preserve historical memory/event boundaries, canonical chronological event stora
 
 - Applying the structured contract retroactively could break preserved historical events; therefore enforcement is prospective.
 - Over-tightening fields without a migration strategy could create false RED states.
-- A green local/unit result must not be mistaken for authoritative end-to-end CI verification.
+- A green unit/self-test result must not be mistaken for authoritative end-to-end CI verification.
+- Multiple CI workflows may be failing for unrelated product/system reasons; isolate the first evidence-backed blocker rather than weakening this contract.
 
 ## Recommendation
 
-Obtain authoritative GREEN evidence for the current HEAD. If RED, take the first evidence-backed blocker only, repair the smallest correct boundary, rerun the relevant deliberate-failure and regression tests, and repeat. Never weaken the torch-pass contract to make a gate green.
+Obtain authoritative GREEN evidence for the current HEAD. First observe the focused Torch-Pass gate because it directly tests this mission. Then observe the full Superbrain Gate. If RED, take the first evidence-backed blocker only, repair the smallest correct boundary, rerun the relevant deliberate-failure and regression tests, and repeat. Never weaken the torch-pass contract to make a gate green.
 
 ## Next action
 
-**Observe the authoritative Superbrain Gate for the current `main` HEAD; if RED, identify the first failing step and execute the smallest evidence-backed repair.**
+**Observe the focused Torch-Pass gate and the full Superbrain Gate for current HEAD `6df4f33f224cfd351c7e7a981e304256fea42c9b`; if RED, identify the first failing step and execute the smallest evidence-backed repair.**
 
 ## Ready-to-run execution
 
 ```text
-RESTORE NAYA → READ CURRENT HEAD AND TORCH-PASS LAW → OBSERVE AUTHORITATIVE SUPERBRAIN GATE → IF RED, IDENTIFY FIRST EVIDENCE-BACKED BLOCKER → MAKE SMALLEST CORRECT REPAIR → RUN DELIBERATE-FAILURE/REGRESSION TESTS → VERIFY CI → UPDATE EVENT/NOTES/STATE → PREPARE NEXT NAYA → PASS TORCH.
+RESTORE NAYA → READ CURRENT HEAD AND TORCH-PASS LAW → OBSERVE FOCUSED TORCH-PASS GATE → VERIFY POSITIVE + DELIBERATE-FAILURE TESTS → OBSERVE FULL SUPERBRAIN GATE → IF RED, IDENTIFY FIRST EVIDENCE-BACKED BLOCKER → MAKE SMALLEST CORRECT REPAIR → RERUN RELEVANT TESTS → VERIFY CI → UPDATE EVENT/NOTES/STATE → PREPARE NEXT NAYA → PASS TORCH.
 ```
 
 ## Successor instruction
