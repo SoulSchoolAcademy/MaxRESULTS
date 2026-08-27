@@ -58,6 +58,7 @@ jobs:
           assert Path(required).is_file(), f'canonical protocol missing: {required}'
           print('Naya context manifest: HUMAN CAPABILITY & MASTERY protocol registered and routable.')
           PY
+      # INDEX.json is derived from canonical events; CI rebuilds it and requires the committed artifact to match exactly.
       - name: Rebuild derived event index
         run: python .naya/memory/smart_notes_v3.py index
       - name: Audit duplicates and entity collisions
