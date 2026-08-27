@@ -34,7 +34,7 @@
   },
   "source": {"kind": "human-directed-mission", "description": "Human directed execution of the Restore Naya / inspect / enforce / test / verify / pass-the-torch cycle."},
   "verification": {
-    "status": "PENDING_CI",
+    "status": "PENDING",
     "verified_at": null,
     "evidence": ["Torch-Passing constitutional amendment exists in .naya/codex/CONSTITUTIONAL-AMENDMENT-CONTINUOUS-TORCH-PASS.md.", "Continuity policy defines structured Future-Naya fields and a new enforcement boundary.", "Continuity runtime contains structured-handoff validation and deliberate-failure regression coverage.", "Superbrain gate validation order now rebuilds the derived index before canonical-memory validation."],
     "canonical_url": "https://github.com/SoulSchoolAcademy/NayaPOWER/blob/main/.naya/memory/events/2026/08/27/15/SE-20260827-160000-continuous-torch-pass-enforcement.json",
