@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Machine-enforce project, Next Execution, paired-note, learning, and prompt contracts.
-
-The Next Execution Markdown contract is source-of-truth content, while this
-runtime is the machine-enforced boundary. Required Markdown headings are
-intentionally explicit so human-readable handoffs remain parseable and
-reproducible without a second contract format.
-"""
+"""Machine-enforce project, Next Execution, paired-note, learning, and prompt contracts."""
 from __future__ import annotations
 import argparse, json, re
 from pathlib import Path
@@ -18,8 +12,7 @@ def load(path:Path)->dict[str,Any]: return json.loads(path.read_text(encoding='u
 def load_next_execution(path:Path)->dict[str,Any]:
     """Load the canonical Next Execution contract from JSON or human-readable Markdown."""
     if path.suffix.lower()=='.json': return load(path)
-    text=path.read_text(encoding='utf-8')
-    result:dict[str,Any]={}
+    text=path.read_text(encoding='utf-8'); result:dict[str,Any]={}
     for raw in text.splitlines():
         line=raw.strip()
         if not line or line.startswith('#') or line.startswith('- '): continue
@@ -37,8 +30,7 @@ def load_next_execution(path:Path)->dict[str,Any]:
         for line in lines[start:]:
             stripped=line.strip()
             if stripped.startswith('## '): break
-            if stripped and not stripped.startswith('#'):
-                values.append(stripped[2:].strip() if stripped.startswith('- ') else stripped)
+            if stripped and not stripped.startswith('#'): values.append(stripped[2:].strip() if stripped.startswith('- ') else stripped)
         if values: result[key]=values if key.endswith(('work','evidence','issues','constraints','instructions','criteria','requirements')) else ' '.join(values)
     return result
 
@@ -58,9 +50,11 @@ def validate_next_execution(n):
 def validate_event(event,project,policy):
     errors=[]; eid=str(event.get('event_id','<missing>'))
     if not EVENT_RE.match(eid):errors.append(f'{eid}: invalid event_id')
-    if event.get('project')!=project.get('project_name'):errors.append(f'{eid}: meaningful execution must bind to CURRENT-DAILY-PROJECT ({project.get("project_name")})')
     ctx=event.get('project_context') or {}
-    if ctx.get('project_id')!=project.get('project_id'):errors.append(f'{eid}: missing project_context.project_id binding')
+    # Preserve the event's own project identity. The operational contract binds
+    # the execution to the current daily project explicitly through project_context.
+    if ctx.get('project_id')!=project.get('project_id') or (ctx.get('current_daily_project') or ctx.get('project_name'))!=project.get('project_name'):
+        errors.append(f'{eid}: meaningful execution must bind to CURRENT-DAILY-PROJECT ({project.get("project_name")})')
     if not ctx.get('current_objective'):errors.append(f'{eid}: missing project_context.current_objective')
     reps=event.get('representations') or {}; naya=reps.get('naya') if isinstance(reps,dict) else None; shawn=(reps.get('shawn') or reps.get('human')) if isinstance(reps,dict) else None
     if not naya or not shawn:errors.append(f'{eid}: paired representations are required')
@@ -92,7 +86,7 @@ def validate():
     REPORT.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n',encoding='utf-8'); return (0 if not errors else 1),report
 def self_test():
     project={'project_id':'PRJ-TEST','project_name':'Test Project'}; policy={'meaningful_event_types':['implementation'],'meaningful_tags':[]}
-    base={'event_id':'SE-20260825-999999-contract-test','event_type':'implementation','project':'Test Project','project_context':{'project_id':'PRJ-TEST','current_objective':'test'},'representations':{'naya':{'id':'SN-20260825-999999-naya','canonical_event_id':'SE-20260825-999999-contract-test','lessons':['test learning']},'shawn':{'id':'SN-20260825-999999-shawn','canonical_event_id':'SE-20260825-999999-contract-test','lessons':['test lesson']}},'continuity':{'learning_status':'LEARNED'},'next_execution':{'path':'.naya/handoffs/NEXT-EXECUTION-20260825-TEST.md'}}
+    base={'event_id':'SE-20260825-999999-contract-test','event_type':'implementation','project':'Test Project','project_context':{'project_id':'PRJ-TEST','current_daily_project':'Test Project','current_objective':'test'},'representations':{'naya':{'id':'SN-20260825-999999-naya','canonical_event_id':'SE-20260825-999999-contract-test','lessons':['test learning']},'shawn':{'id':'SN-20260825-999999-shawn','canonical_event_id':'SE-20260825-999999-contract-test','lessons':['test lesson']}},'continuity':{'learning_status':'LEARNED'},'next_execution':{'path':'.naya/handoffs/NEXT-EXECUTION-20260825-TEST.md'}}
     complete={'schema_version':1,'status':'READY','project':'Test Project','north_star':'test','current_state':'test','completed_work':['test'],'verified_evidence':['test'],'unresolved_issues':[],'constraints':['test'],'current_objective':'test','next_action':'test','execution_instructions':['test'],'success_criteria':['test'],'verification_requirements':['test']}
     assert not validate_project({'project_id':'x','project_name':'x','date':'x','goal':'x','vision':'x','mission':'x','north_star':'x','current_objective':'x','success_criteria':['x'],'constraints':['x'],'current_state':'x','next_execution_path':'x'})
     assert validate_next_execution(complete)==[]
