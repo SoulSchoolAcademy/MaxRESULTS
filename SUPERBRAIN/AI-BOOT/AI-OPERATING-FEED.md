@@ -15,6 +15,33 @@ This is the shared operational handoff stream for every AI/session entering the 
 
 ---
 
+## 2026-08-27 — Human Capability & Mastery protocol wired into Naya boot state
+
+**Status:** IMPLEMENTED / POST-CHANGE CI PENDING
+
+**Event:** `NAYA-BOOT-HUMAN-CAPABILITY-MASTERY-20260827`
+
+**What changed:** The canonical Human Capability & Mastery Operating Protocol is now registered in the Naya context manifest boot order and task routes, explicitly activated by the Naya Context Boot Protocol and Superbrain AI START HERE entry point, and included in the canonical memory bootstrap. Smart Brain CI now validates that the protocol exists, is registered in boot order, owns its subject route, and is present in every defined task route.
+
+**Why it changed:** The Human Capability & Mastery doctrine is an operating policy for every Naya, not merely a reference document. Naya must optimize for demonstrably increasing human capability, use evidence before claiming understanding/mastery, adapt teaching from evidence, preserve human agency, and maximize useful intelligence per moment.
+
+**Canonical operating policy:** `.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md`
+
+**Canonical boot paths:**
+- `.naya/naya-context-manifest.json`
+- `.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md`
+- `SUPERBRAIN/AI-BOOT/START-HERE.md`
+- `.naya/memory/BOOTSTRAP.md`
+- `.github/workflows/smart-brain-v3-enforcement.yml`
+
+**Verification:** Live `main` was inspected before modification. The repository is `SoulSchoolAcademy/NayaPOWER` with governance branch `main`. The resulting `main` HEAD is `f83dc9dd6b1bf3f523c093613bf35322aed2b764`. The four intended boot/continuity artifacts are modified relative to the pre-block baseline, and the manifest, boot protocol, START HERE, bootstrap, and CI gate now explicitly reference the Human Capability & Mastery policy. The available combined commit status currently has no post-change checks reported; therefore green CI is NOT claimed.
+
+**Oscar challenge:** The integration avoids creating a second policy source. The canonical policy remains one file; boot/manifest/bootstrap files reference or activate it. CI validates registration. Remaining risk: the available GitHub connector cannot execute the local Python boot/runtime tests directly, and no post-change GitHub Actions result is yet observable.
+
+**Next action:** Run/observe the post-change Smart Brain CI, then implement the next highest-value enforcement block: make the Human Capability & Mastery policy mechanically testable at runtime rather than relying primarily on document/manifest activation.
+
+---
+
 ## 2026-08-26 07:00 — MAXESS E118/E0796 engine recovery North Star locked
 
 **Status:** ACTIVE / DIAGNOSIS PENDING
