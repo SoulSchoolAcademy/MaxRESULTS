@@ -228,8 +228,11 @@ def retrieve(query,limit=10,since=None,until=None,project=None,event_type=None,s
         if since and dt<since or until and dt>until: continue
         if not metadata_match(e,project,event_type,status,tag): continue
         bm=bm25(expanded,docs[i],idf,avg_len); tf=cosine(expanded,docs[i],idf); lx=lexical(' '.join(expanded),e); exact=exact_match_bonus(query,e)
-        score=exact + lx + bm*95 + tf*140 + authority_score(e) + recency_score(e,latest)
-        if score <= 0: continue
+        relevance=exact + lx + bm*95 + tf*140
+        # Admission is a relevance boundary. Authority and recency may rank
+        # relevant candidates, but they must never manufacture relevance.
+        if relevance <= 0: continue
+        score=relevance + authority_score(e) + recency_score(e,latest)
         ranked.append([score,e])
     ranked.sort(key=lambda x:x[0],reverse=True)
     seed={e['event_id'] for _,e in ranked[:3]}
