@@ -18,12 +18,15 @@
     "evidence": [
       ".naya/control-plane/CANONICAL-IDENTITY-REGISTRY.json",
       ".naya/control-plane/MAP.json",
+      ".naya/control-plane/STATE.json",
       ".naya/control-plane/BLOCKS.json",
       ".naya/control-plane/PROOF.json",
       ".naya/control-plane/validate_control_plane.py"
     ],
     "target_state": "CONTROL_LOOP_PROVEN_REPOSITORY_LEVEL",
-    "next_action": "Run the control-plane validator against the live repository and repair every material finding before declaring B01-B03 complete."
+    "next_action": "Run the control-plane validator against the live repository and repair every material finding before declaring B01-B03 complete.",
+    "next_actions": ["Run the control-plane validator against the live repository and repair every material finding before declaring B01-B03 complete."],
+    "next_action_count": 1
   },
   "status_vocabulary": ["INTENDED", "IMPLEMENTED", "COMPLETE", "VERIFIED", "RACE_READY", "PRODUCTION_PROVEN", "UNKNOWN", "FAILED", "STALE"],
   "rules": {
