@@ -1,26 +1,26 @@
 {
   "schema":"naya-power-runtime-state/v1",
-  "status":"CURRENT_HEAD_COLD_START_REPAIR_AND_10_STAR_ACCEPTANCE_IN_PROGRESS",
-  "updated_at":"2026-08-28T04:50:00Z",
+  "status":"CURRENT_HEAD_CONTINUITY_REPAIR_AND_AUTHORITATIVE_CI_IN_PROGRESS",
+  "updated_at":"2026-08-28T05:08:00Z",
   "repository":"SoulSchoolAcademy/NayaPOWER",
   "branch":"main",
   "current_main":{
-    "commit":"85925108388873f50acd5035ca673befae8b3db9",
-    "post_change_ci":"PENDING_CURRENT_HEAD_AFTER_INDEX_RECONCILIATION",
-    "previous_state_commit":"e6a08b559ca6101270f178bb611aa2dc0e18f23d",
-    "state_reconciliation":"CURRENT_HEAD_STATE_RECONCILED_AFTER_COLD_START_AUDIT",
+    "commit":"ad61414e8873aa00bb425d90696ff2a173c5bdfe",
+    "post_change_ci":"PENDING_CURRENT_HEAD_AFTER_CONTINUITY_REPAIR",
+    "previous_state_commit":"85925108388873f50acd5035ca673befae8b3db9",
+    "state_reconciliation":"CURRENT_HEAD_STATE_RECONCILED_TO_LIVE_MAIN",
     "latest_verified_maxess_browser_run":33007579261,
     "latest_verified_maxess_browser_commit":"c906a4fabd269092b057dd6db2a7a933134dbf0e",
     "latest_browser_root_cause":"TEST_HARNESS_GREEDY_RUNTIME_EXTRACTION_CONTAMINATED_SCRIPT_CONTENT",
-    "note":"Current NayaPOWER head has now wired the Naya Code of Honor into START-HERE, strengthened cold-start acceptance, repaired Smart Brain relationship-shape validation, reconciled the canonical event index, and updated this state. Fresh current-head CI evidence remains required before GREEN is claimed."
+    "note":"Live main is now reconciled to the actual current HEAD after continuity-contract repairs. Fresh current-head authoritative CI remains required before GREEN is claimed."
   },
   "runtime":{
     "smart_notes_v3":"CURRENT_HEAD_REPAIR_COMMITTED_FRESH_CI_PENDING",
     "duplicate_entity_audit":"VERIFIED_BY_PRIOR_CI",
-    "restore_context":"CURRENT_HEAD_RECONCILIATION_IN_PROGRESS",
+    "restore_context":"CURRENT_HEAD_RECONCILIATION_VERIFIED_PENDING_FRESH_CI",
     "daily_intelligence_generator":"VERIFIED_BY_PRIOR_CI",
     "ci_enforcement":"CURRENT_HEAD_REPAIR_COMMITTED_FRESH_CI_PENDING",
-    "execution_continuity_governance":"VERIFIED_BY_PRIOR_CI",
+    "execution_continuity_governance":"CURRENT_HEAD_CONTINUITY_REPAIR_PENDING_FRESH_CI",
     "canonical_event_creation":"VERIFIED_BY_PRIOR_CI_WITH_CONSERVATIVE_SCAN_SCOPE",
     "entity_resolution_decision_layer":"VERIFIED_BY_PRIOR_CI_TESTS",
     "contradiction_supersession_transition":"VERIFIED_BY_PRIOR_CI_TESTS",
@@ -47,67 +47,17 @@
     "maxess_engine":"GREEN_BY_DOCUMENTED_EXECUTED_EVIDENCE",
     "maxess_browser":"ROOT_CAUSE_IDENTIFIED_CORRECTIVE_SOURCE_PRESENT_FRESH_GATE_PENDING",
     "maxess_human_test":"BLOCKED_UNTIL_BROWSER_GREEN",
-    "naya_code_of_honor":"INHERITED_BY_CANONICAL_BOOT_CONTRACT; FRESH_RUNTIME_BEHAVIOR_PENDING_EXTERNAL_MODEL_PROOF"
+    "naya_code_of_honor":"INHERITED_BY_CANONICAL_BOOT_CONTRACT; FRESH RUNTIME BEHAVIOR PENDING EXTERNAL MODEL PROOF"
   },
   "protected":[
-    "Naya Power Runtime Constitution",
-    "canonical source hierarchy",
-    "historical Smart Notes",
-    "Restore Context contract",
-    "Claim/Evidence verification boundary",
-    "independent Oscar challenge boundary",
-    "canonical chronological event store",
-    "Smart Notes/CIS Constitution",
-    "Superbrain Build Protocol",
-    "AI Operating Feed",
-    "Universal Execution Continuity & Learning Law",
-    "Optimization & Excellence Law",
-    "10-Star Service + Autonomous Project Execution Law",
-    "Prompt Architect contract",
-    "Naya Code of Honor",
-    "10/10 System Operating Directive",
-    "protected Superbrain GREEN evidence from prior authoritative run",
-    "MAXESS canonical scoring/result authority",
-    "MAXESS_RESULT_V1 contract",
-    "MAXESS E01-E09 premium result assets",
-    "MAXESS no-historical-rescoring rule",
-    "Naya Hub one-identity/one-ecosystem architecture",
-    "Naya Hub report-first UX direction",
-    "Naya Hub current inventory assessment",
-    "MAXESS Browser Gate 04 root-cause receipt"
+    "Naya Power Runtime Constitution","canonical source hierarchy","historical Smart Notes","Restore Context contract","Claim/Evidence verification boundary","independent Oscar challenge boundary","canonical chronological event store","Smart Notes/CIS Constitution","Superbrain Build Protocol","AI Operating Feed","Universal Execution Continuity & Learning Law","Optimization & Excellence Law","10-Star Service + Autonomous Project Execution Law","Prompt Architect contract","Naya Code of Honor","10/10 System Operating Directive","protected Superbrain GREEN evidence from prior authoritative run","MAXESS canonical scoring/result authority","MAXESS_RESULT_V1 contract","MAXESS E01-E09 premium result assets","MAXESS no-historical-rescoring rule","Naya Hub one-identity/one-ecosystem architecture","Naya Hub report-first UX direction","Naya Hub current inventory assessment","MAXESS Browser Gate 04 root-cause receipt"
   ],
   "verified_evidence":[
-    {
-      "run":32909426069,
-      "job":98000403862,
-      "commit":"9aefe57a71bd6425681bb435d70417ad33832198",
-      "status":"GREEN",
-      "evidence":"https://github.com/SoulSchoolAcademy/NayaPOWER/actions/runs/32909426069",
-      "artifact_id":9585987013,
-      "artifact_sha256":"d0cfa58f9d179c30d3646d0e2a5a1ca5766eb8381c173cdcaf1aedbe45978b85",
-      "observed":"Historical authoritative Superbrain gate passed the documented runtime/continuity/retrieval baseline suite. This is historical evidence and does not establish current-head GREEN."
-    },
-    {
-      "run":33007579261,
-      "commit":"c906a4fabd269092b057dd6db2a7a933134dbf0e",
-      "status":"RED",
-      "evidence":"https://github.com/SoulSchoolAcademy/NayaPOWER/actions/runs/33007579261",
-      "artifact_id":9621240299,
-      "artifact_sha256":"sha256:ad150f094026bf9b68df4acdd5a364c652b9319c92008d0da5b049df4c677616",
-      "observed":"MAXESS V2 Pre-Test Excellence Gate failed at the browser evidence gate. Direct artifact inspection proved the browser harness used a greedy runtime extraction that contaminated script content with </script><script> markup, producing Unexpected token '<' and preventing MAXESS globals from initializing."
-    },
-    {
-      "commit":"e6a08b559ca6101270f178bb611aa2dc0e18f23d",
-      "status":"DIAGNOSTIC_AND_CONTINUITY_UPDATE",
-      "evidence":"PROJECTS/MAXESS/MAXESS-BROWSER-GATE-04-ROOT-CAUSE-RECEIPT-2026-08-26.md",
-      "observed":"Root cause and regression guard were durably recorded. Current main contains corrected harness extraction and a new pre-browser boundary guard. Fresh Browser Gate evidence is still required."
-    },
-    {
-      "commit":"85925108388873f50acd5035ca673befae8b3db9",
-      "status":"CURRENT_HEAD_REPAIR",
-      "evidence":"Current NayaPOWER main",
-      "observed":"Reconciled Smart Brain event index to 25 canonical JSON events, updated current runtime state, and prepared fresh cold-start/10-Star acceptance for verification."
-    }
+    {"run":32909426069,"job":98000403862,"commit":"9aefe57a71bd6425681bb435d70417ad33832198","status":"GREEN","evidence":"https://github.com/SoulSchoolAcademy/NayaPOWER/actions/runs/32909426069","artifact_id":9585987013,"artifact_sha256":"d0cfa58f9d179c30d3646d0e2a5a1ca5766eb8381c173cdcaf1aedbe45978b85","observed":"Historical authoritative Superbrain gate passed the documented runtime/continuity/retrieval baseline suite. Historical only; it does not establish current-head GREEN."},
+    {"run":33007579261,"commit":"c906a4fabd269092b057dd6db2a7a933134dbf0e","status":"RED","evidence":"https://github.com/SoulSchoolAcademy/NayaPOWER/actions/runs/33007579261","artifact_id":9621240299,"artifact_sha256":"sha256:ad150f094026bf9b68df4acdd5a364c652b9319c92008d0da5b049df4c677616","observed":"MAXESS V2 Pre-Test Excellence Gate failed at the browser evidence gate; root cause was greedy runtime extraction contaminating script content."},
+    {"commit":"e6a08b559ca6101270f178bb611aa2dc0e18f23d","status":"DIAGNOSTIC_AND_CONTINUITY_UPDATE","evidence":"PROJECTS/MAXESS/MAXESS-BROWSER-GATE-04-ROOT-CAUSE-RECEIPT-2026-08-26.md","observed":"Root cause and regression guard were durably recorded."},
+    {"commit":"85925108388873f50acd5035ca673befae8b3db9","status":"SUPERBRAIN_STATE_RECONCILIATION","evidence":"Current NayaPOWER main","observed":"Prior state reconciliation prepared fresh cold-start acceptance."},
+    {"run":33143756388,"status":"RED","evidence":"https://github.com/SoulSchoolAcademy/NayaPOWER/actions/runs/33143756388","observed":"Current-head Superbrain Gate executed against ad61414e8873aa00bb425d90696ff2a173c5bdfe and exposed a stale STATE.json current_main commit as the first cold-start failure; the run also exposed continuity event-shape failures that have since been repaired."}
   ],
   "current_project":{
     "project_id":"PRJ-NAYA-HUB-NETWORK",
@@ -116,82 +66,11 @@
     "north_star":"A fresh user can enter through MAXESS, receive a verified result, establish a member identity, persist the result, enter the Hub, view the result, reload, and see the same authoritative result without invented state or historical rescoring.",
     "current_phase":"Phase 0 → Phase 1 preparation",
     "current_intelligent_block":"CURRENT HEAD NAYAPOWER RESTORE → COLD-START 10-STAR ACCEPTANCE → MAXESS BROWSER GATE → MEMBER IDENTITY → AUTHORITATIVE RESULT → PERSISTENCE → NAYA HUB",
-    "success_criteria":[
-      "Current repository state is restorable without relying on stale STATE data",
-      "A fresh Naya can identify the governing Code of Honor and 10/10 directive from repository truth",
-      "MAXESS browser failure is diagnosed from actual evidence before release claims",
-      "One canonical member identity boundary exists",
-      "One canonical MAXESS result contract is handed off",
-      "One authoritative result is durably persisted",
-      "Hub retrieves and displays the persisted result",
-      "Reload/session verification proves persistence",
-      "No competing scorer/result authority is introduced",
-      "The Hub uses the established Naya/MAXESS visual language",
-      "Machine evidence supports promotion before human testing"
-    ]
+    "success_criteria":["Current repository state is restorable without relying on stale STATE data","A fresh Naya can identify the governing Code of Honor and 10/10 directive from repository truth","MAXESS browser failure is diagnosed from actual evidence before release claims","One canonical member identity boundary exists","One canonical MAXESS result contract is handed off","One authoritative result is durably persisted","Hub retrieves and displays the persisted result","Reload/session verification proves persistence","No competing scorer/result authority is introduced","The Hub uses the established Naya/MAXESS visual language","Machine evidence supports promotion before human testing"]
   },
-  "known":[
-    "Naya Hub architecture is substantially documented and registered",
-    "The Hub is the front-end core of one coherent ecosystem",
-    "MAXESS remains the authoritative scoring/result owner",
-    "Historical MAXESS results must not be silently rescored",
-    "The first Hub screen should be report-first, simple, premium, and orb-centered",
-    "NayaMail/Ambassador/network are later intelligent blocks, not Phase 1 blockers",
-    "GitHub is source/deployment authority, not runtime transactional state",
-    "Vercel is the preferred initial runtime/API layer where appropriate",
-    "Supabase is the preferred durable application-state/auth layer",
-    "Groove is a presentation/cockpit surface, not business-data authority",
-    "The latest MAXESS Browser Gate 04 run is RED but its root cause is now identified",
-    "The current NayaPOWER boot path explicitly includes the Naya Code of Honor",
-    "The Code of Honor value-maximization method is now part of the canonical boot contract",
-    "The Smart Brain event index was stale relative to a canonical 10/10 event and has now been reconciled",
-    "The correct implementation unit is an end-to-end intelligent block with explicit truth ownership and verification",
-    "The browser harness source boundary is guarded against regression",
-    "A fresh current-head CI run is the immediate proof required"
-  ],
-  "known_gaps":[
-    "Fresh current-head NayaPOWER CI GREEN evidence after the latest repairs",
-    "Fresh MAXESS Browser Gate 04 green rerun",
-    "MAXESS live/human readiness",
-    "Independent external-model cold-start behavior beyond repository contract proof",
-    "Phase 1 member authentication/identity runtime",
-    "Phase 1 Supabase schema and row-level security contract",
-    "Phase 1 secure API/runtime boundary",
-    "MAXESS-to-member result handoff implementation",
-    "Immutable persisted assessment result implementation",
-    "Hub runtime/application surface",
-    "My Results retrieval surface",
-    "Reload/session persistence verification",
-    "Hub Naya voice/runtime integration",
-    "NayaMail implementation",
-    "Ambassador/referral implementation",
-    "Network/community implementation"
-  ],
-  "weighted_priorities":{
-    "P0":[
-      "Obtain fresh current-head NayaPOWER CI evidence and repair the first evidence-backed failure",
-      "Run fresh MAXESS Browser Gate on corrected current main and inspect new evidence",
-      "Preserve MAXESS source/result authority while doing so"
-    ],
-    "P1":[
-      "Define and implement the smallest Phase 1 member identity + result persistence contract",
-      "Build Hub Home + My Results around the authoritative stored result",
-      "Prove reload/session persistence"
-    ],
-    "P2":[
-      "Expand assessment history and growth",
-      "Connect approved Naya voice/knowledge runtime",
-      "Add Naya identity/link and NayaMail/Ambassador foundations"
-    ],
-    "P3":[
-      "Connections, communities, permissioned network messaging",
-      "Network intelligence and Daily Naya Intelligent Network"
-    ],
-    "P4":[
-      "Polish beyond verified functional excellence"
-    ]
-  },
-  "next_best_action":"Run and inspect the fresh current-head NayaPOWER CI triggered by the event-index/state reconciliation. If GREEN, perform the cold-start 10-Star human-facing acceptance and then move to the fresh MAXESS Browser Gate. If RED, repair only the first evidence-backed divergence, rerun, and do not advance on assumptions.",
-  "continuity":{"current_state_document":".naya/memory/STATE.json","latest_browser_root_cause_receipt":"PROJECTS/MAXESS/MAXESS-BROWSER-GATE-04-ROOT-CAUSE-RECEIPT-2026-08-26.md","next_prompt_source":"Current main + START-HERE + Code of Honor + 10/10 System Directive + STATE.json + current CI evidence + MAXESS execution log + browser root-cause receipt.","rule":"Every substantive execution must leave current state, evidence, learning, protected assets, unresolved work, and a concrete ready-to-run next action."
-  }
+  "known":["Naya Hub architecture is substantially documented and registered","The Hub is the front-end core of one coherent ecosystem","MAXESS remains the authoritative scoring/result owner","Historical MAXESS results must not be silently rescored","The first Hub screen should be report-first, simple, premium, and orb-centered","NayaMail/Ambassador/network are later intelligent blocks, not Phase 1 blockers","GitHub is source/deployment authority, not runtime transactional state","Vercel is the preferred initial runtime/API layer where appropriate","Supabase is the preferred durable application-state/auth layer","Groove is a presentation/cockpit surface, not business-data authority","The latest MAXESS Browser Gate 04 run is RED but its root cause is now identified","The current NayaPOWER boot path explicitly includes the Naya Code of Honor","The Code of Honor value-maximization method is now part of the canonical boot contract","The Smart Brain event index and runtime state must remain reconciled to live main","The correct implementation unit is an end-to-end intelligent block with explicit truth ownership and verification","The browser harness source boundary is guarded against regression","A fresh current-head CI run is the immediate proof required"],
+  "known_gaps":["Fresh current-head NayaPOWER CI GREEN evidence after the latest continuity/state repairs","Fresh MAXESS Browser Gate 04 green rerun","MAXESS live/human readiness","Independent external-model cold-start behavior beyond repository contract proof","Phase 1 member authentication/identity runtime","Phase 1 Supabase schema and row-level security contract","Phase 1 secure API/runtime boundary","MAXESS-to-member result handoff implementation","Immutable persisted assessment result implementation","Hub runtime/application surface","My Results retrieval surface","Reload/session persistence verification","Hub Naya voice/runtime integration","NayaMail implementation","Ambassador/referral implementation","Network/community implementation"],
+  "weighted_priorities":{"P0":["Obtain fresh current-head NayaPOWER CI evidence and repair the first evidence-backed failure","Run fresh MAXESS Browser Gate on corrected current main and inspect new evidence","Preserve MAXESS source/result authority while doing so"],"P1":["Define and implement the smallest Phase 1 member identity + result persistence contract","Build Hub Home + My Results around the authoritative stored result","Prove reload/session persistence"],"P2":["Expand assessment history and growth","Connect approved Naya voice/knowledge runtime","Add Naya identity/link and NayaMail/Ambassador foundations"],"P3":["Connections, communities, permissioned network messaging","Network intelligence and Daily Naya Intelligent Network"],"P4":["Polish beyond verified functional excellence"]},
+  "next_best_action":"Inspect the fresh current-head Superbrain Gate triggered by the continuity/state repair. If RED, repair only the first material evidence-backed divergence and rerun. If GREEN, perform the cold-start 10-Star human-facing acceptance, then move to the fresh MAXESS Browser Gate.",
+  "continuity":{"current_state_document":".naya/memory/STATE.json","latest_browser_root_cause_receipt":"PROJECTS/MAXESS/MAXESS-BROWSER-GATE-04-ROOT-CAUSE-RECEIPT-2026-08-26.md","next_prompt_source":"Current main + START-HERE + Code of Honor + 10/10 System Directive + STATE.json + current CI evidence + MAXESS execution log + browser root-cause receipt.","rule":"Every substantive execution must leave current state, evidence, learning, protected assets, unresolved work, and a concrete ready-to-run next action."}
 }
