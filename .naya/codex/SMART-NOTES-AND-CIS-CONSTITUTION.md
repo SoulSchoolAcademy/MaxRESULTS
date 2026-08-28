@@ -1,7 +1,7 @@
 # Naya Power — Smart Notes + CIS Constitution v3
 
 **STATUS:** CANONICAL / ACTIVE  
-**EFFECTIVE:** 2026-08-25  
+**EFFECTIVE:** 2026-08-27  
 **APPLIES TO:** Every AI instance, model, session, agent, and interface operating Naya Power memory
 
 ## 1. NORTH STAR
@@ -22,7 +22,8 @@ NOTE EVENT
 ├── created_at + effective_at
 ├── YEAR → MONTH → DAY → HOUR bucket
 ├── NAYA representation
-├── HUMAN representation
+├── HUMAN / SHAWN representation
+├── MACHINE representation
 ├── semantic metadata
 ├── provenance + evidence
 ├── relationships
@@ -30,7 +31,13 @@ NOTE EVENT
 └── verification receipt
 ```
 
-Naya Notes and Human/Shawn Notes are representations/views of the same event when they describe the same underlying knowledge. They are **not primary storage silos**.
+Naya, Human/Shawn, and Machine representations are representations/views of the same canonical event. They are **not primary storage silos** and must not drift into separate facts. Each representation serves a distinct purpose:
+
+- **NAYA** — AI-facing operational understanding: what Naya understands, why it matters, lessons, implications, and next action.
+- **HUMAN / SHAWN** — human-facing meaning: what the human meant, decided, valued, corrected, or wants preserved.
+- **MACHINE** — machine-facing structured intelligence: normalized facts, classifications, entities, relationships, status, confidence, provenance, verification state, retrieval/index signals, and other algorithmically actionable fields.
+
+When a Smart Note is warranted, all three representations should be produced where applicable so **human meaning, AI understanding, and machine-operable structure remain aligned**.
 
 ## 3. PHYSICAL ORGANIZATION
 
@@ -260,12 +267,18 @@ The continuation must support:
 
 without requiring the next Naya to reconstruct the previous conversation.
 
-## 20. DUAL REPRESENTATION + AI-TO-AI HANDOFF
+## 20. TRI-REPRESENTATION + AI-TO-AI HANDOFF
 
-Where applicable, the same canonical Note Event should produce:
+Where applicable, the same canonical Note Event must produce three aligned representations:
 
-- **Naya representation** — AI-facing operational understanding;
-- **Shawn/Human/Smart representation** — human-facing meaning and significance;
+- **Naya representation** — AI-facing operational understanding, including what Naya understands, why it matters, lessons, implications, and next action;
+- **Human/Shawn representation** — human-facing meaning, including what the human meant, decided, valued, corrected, or wants preserved;
+- **Machine representation** — algorithm-facing structured intelligence, including normalized facts, classifications, entities, relationships, status, confidence, provenance, verification state, and retrieval/index signals.
+
+These are three views of **one event**, not three independent notes. The machine representation exists so algorithms, validators, retrieval, Daily Intelligence, CIS synthesis, and future Nayas can reliably consume the same intelligence without reconstructing meaning from prose alone.
+
+Where applicable, the event also carries:
+
 - **verification receipt** — what was actually validated;
 - **AI-to-AI handoff** — discoveries, changes, failures, lessons, preserved boundaries, and next action.
 
