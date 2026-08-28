@@ -27,9 +27,6 @@ VALIDATION_REPORT = MEMORY / 'VALIDATION-REPORT.json'
 EVENT_RE = re.compile(r'^SE-[0-9]{8}-[0-9]{6}-[a-z0-9-]+$')
 NOTE_RE = re.compile(r'^SN-[0-9]{8}-[0-9]{6}-.+$')
 VALID_STATUS = {'ACTIVE','CANONICAL','HISTORICAL','SUPERSEDED','CONFLICTED','STALE'}
-
-# Small, transparent domain vocabulary used only to expand intent. Expansion
-# never replaces the user's terms; it adds related retrieval terms.
 QUERY_EXPANSIONS = {
     'decision': {'decision', 'decided', 'choice', 'architecture', 'direction'},
     'decisions': {'decision', 'decided', 'choice', 'architecture', 'direction'},
@@ -50,19 +47,15 @@ QUERY_EXPANSIONS = {
     'cis': {'cis', 'learning', 'intelligence', 'daily', 'compounding'},
 }
 
-
 def parse_time(value):
     if value.endswith('Z'): value = value[:-1] + '+00:00'
     dt = datetime.fromisoformat(value)
     if dt.tzinfo is None: raise ValueError('timestamp must include timezone')
     return dt
 
-
 def tokens(text): return re.findall(r'[a-z0-9]+', str(text).lower())
 
-
 def event_files(): return sorted(EVENTS.rglob('SE-*.json')) if EVENTS.exists() else []
-
 
 def load_events():
     out=[]
@@ -71,12 +64,10 @@ def load_events():
         except Exception as exc: out.append((p,{'__parse_error__':str(exc)}))
     return out
 
-
 def reps(e):
     r=e.get('representations',{})
     if isinstance(r,dict): return list(r.values())
     return r if isinstance(r,list) else []
-
 
 def all_text(e):
     parts=[e.get('event_id',''),e.get('title',''),e.get('subject',''),e.get('project',''),e.get('event_type',''),e.get('type',''),e.get('summary','')]
@@ -88,6 +79,17 @@ def all_text(e):
         parts += r.get('aliases',[]) or []
     return ' '.join(map(str,parts))
 
+def relationship_map(e):
+    rel=e.get('relationships',{}) or {}
+    if isinstance(rel,dict): return rel
+    if isinstance(rel,list): return {'related':rel}
+    return {}
+
+def normalize_targets(value):
+    if value is None: return []
+    if isinstance(value,str): return [value]
+    if isinstance(value,list): return value
+    return [value]
 
 def validate_event(e,p):
     errors=[]; parsed={}
@@ -110,7 +112,6 @@ def validate_event(e,p):
         if r.get('id') and not NOTE_RE.match(r['id']): errors.append(f'{p}: invalid representation id {r["id"]}')
     return errors
 
-
 def validate():
     errors=[]; ids={}; loaded=load_events()
     for p,e in loaded:
@@ -120,13 +121,9 @@ def validate():
         ids[eid]=str(p)
     for _,e in loaded:
         if e.get('__parse_error__'): continue
-        rel=e.get('relationships',{}) or {}
+        rel=relationship_map(e)
         for key in ('related','depends_on','supersedes','superseded_by','source_events'):
-            vals=rel.get(key,[])
-            if vals is None: continue
-            vals=[vals] if isinstance(vals,str) else vals
-            if not isinstance(vals,list): errors.append(f'{e["event_id"]}: invalid relationship list: {key}'); continue
-            for target in vals:
+            for target in normalize_targets(rel.get(key,[])):
                 if target and target not in ids and not str(target).startswith('EXT:'): errors.append(f'{e["event_id"]}: unresolved {key}: {target}')
     if not INDEX.exists(): errors.append('missing events/INDEX.json')
     else:
@@ -138,7 +135,6 @@ def validate():
     VALIDATION_REPORT.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
     return errors
 
-
 def build_index():
     rows=[]
     for p,e in load_events():
@@ -148,12 +144,10 @@ def build_index():
     data={'version':'3.0.0','status':'CANONICAL','organization':'YEAR/MONTH/DAY/HOUR/EVENT','event_count':len(rows),'events':rows}
     INDEX.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n',encoding='utf-8'); return data
 
-
 def expanded_tokens(query):
     base=tokens(query); expanded=list(base)
     for token in base: expanded.extend(sorted(QUERY_EXPANSIONS.get(token,set())))
     return expanded
-
 
 def corpus(events):
     docs=[]; df=Counter(); lengths=[]
@@ -163,13 +157,11 @@ def corpus(events):
     idf={t:math.log((n+1)/(d+1))+1 for t,d in df.items()}
     return docs,idf,avg_len
 
-
 def cosine(q,doc,idf):
     if not q or not doc:return 0.0
     qc=Counter(q); qv={t:(1+math.log(c))*idf.get(t,1) for t,c in qc.items()}; dv={t:(1+math.log(c))*idf.get(t,0) for t,c in doc.items()}
     dot=sum(qv.get(t,0)*dv.get(t,0) for t in qv); qn=math.sqrt(sum(x*x for x in qv.values())); dn=math.sqrt(sum(x*x for x in dv.values()))
     return dot/(qn*dn) if qn and dn else 0.0
-
 
 def bm25(q,doc,idf,avg_len,k1=1.2,b=0.75):
     if not q or not doc:return 0.0
@@ -181,11 +173,9 @@ def bm25(q,doc,idf,avg_len,k1=1.2,b=0.75):
         score += idf.get(term,1.0)*(tf*(k1+1)/denom)
     return score
 
-
 def lexical(query,e):
     q=set(tokens(query)); title=set(tokens(e.get('title',''))); aliases=set(tokens(' '.join(e.get('aliases',[]) or []))); tags=set(tokens(' '.join(e.get('tags',[]) or []))); concepts=set(tokens(' '.join(e.get('concepts',[]) or []))); body=set(tokens(all_text(e)))
     return len(q&title)*120+len(q&aliases)*90+len(q&tags)*70+len(q&concepts)*65+len(q&body)*18
-
 
 def exact_match_bonus(query,e):
     q=query.strip().lower()
@@ -196,22 +186,18 @@ def exact_match_bonus(query,e):
     if q in eid:return 450.0
     return 0.0
 
-
 def authority_score(e):
-    score=0.0
-    authority=str(e.get('authority','')).lower()
+    score=0.0; authority=str(e.get('authority','')).lower()
     if authority in {'repository-execution','canonical','human-decision'}: score+=35
     if authority in {'derived','audit','generated'}: score-=20
     if (e.get('verification') or {}).get('status')=='VERIFIED': score+=35
     score += {'ACTIVE':30,'CANONICAL':25,'HISTORICAL':0,'CONFLICTED':-20,'STALE':-40,'SUPERSEDED':-70}.get(e.get('status'),0)
     return score
 
-
 def recency_score(e,latest_time):
     try: age_days=max(0,(latest_time-parse_time(e['effective_at'])).total_seconds()/86400)
     except Exception:return 0.0
     return 45.0*math.exp(-age_days/14.0)
-
 
 def metadata_match(e,project=None,event_type=None,status=None,tag=None):
     if project and str(e.get('project','')).lower()!=project.lower(): return False
@@ -220,29 +206,24 @@ def metadata_match(e,project=None,event_type=None,status=None,tag=None):
     if tag and tag.lower() not in {str(x).lower() for x in (e.get('tags') or [])}: return False
     return True
 
-
 def retrieve(query,limit=10,since=None,until=None,project=None,event_type=None,status=None,tag=None):
-    loaded=[(p,e) for p,e in load_events() if not e.get('__parse_error__')]; es=[e for _,e in loaded]; docs,idf,avg_len=corpus(es); q=tokens(query); expanded=expanded_tokens(query); latest=max((parse_time(e['effective_at']) for e in es),default=datetime.now().astimezone()); ranked=[]
+    loaded=[(p,e) for p,e in load_events() if not e.get('__parse_error__')]; es=[e for _,e in loaded]; docs,idf,avg_len=corpus(es); expanded=expanded_tokens(query); latest=max((parse_time(e['effective_at']) for e in es),default=datetime.now().astimezone()); ranked=[]
     for i,e in enumerate(es):
         dt=parse_time(e['effective_at'])
         if since and dt<since or until and dt>until: continue
         if not metadata_match(e,project,event_type,status,tag): continue
         bm=bm25(expanded,docs[i],idf,avg_len); tf=cosine(expanded,docs[i],idf); lx=lexical(' '.join(expanded),e); exact=exact_match_bonus(query,e)
         relevance=exact + lx + bm*95 + tf*140
-        # Admission is a relevance boundary. Authority and recency may rank
-        # relevant candidates, but they must never manufacture relevance.
         if relevance <= 0: continue
         score=relevance + authority_score(e) + recency_score(e,latest)
         ranked.append([score,e])
-    ranked.sort(key=lambda x:x[0],reverse=True)
-    seed={e['event_id'] for _,e in ranked[:3]}
+    ranked.sort(key=lambda x:x[0],reverse=True); seed={e['event_id'] for _,e in ranked[:3]}
     for row in ranked:
-        rel=row[1].get('relationships',{}) or {}; targets=set()
+        rel=relationship_map(row[1]); targets=set()
         for k in ('related','depends_on','supersedes','superseded_by','source_events'):
-            v=rel.get(k,[]); targets.update([v] if isinstance(v,str) else (v or []))
+            targets.update(normalize_targets(rel.get(k,[])))
         if targets&seed: row[0]+=35
     ranked.sort(key=lambda x:(-x[0],x[1]['effective_at'],x[1]['event_id'])); return ranked[:limit]
-
 
 def daily_report(day=None,tz_name='America/Vancouver'):
     zone=ZoneInfo(tz_name); local_day=datetime.now(zone).date()-timedelta(days=1) if day is None else datetime.fromisoformat(day).date(); start=datetime.combine(local_day,datetime.min.time(),zone); end=start+timedelta(days=1); selected=[]
@@ -256,7 +237,6 @@ def daily_report(day=None,tz_name='America/Vancouver'):
             lessons += r.get('lessons',[]) or r.get('what_we_learned',[]) or r.get('learning',[]) or []; changes += r.get('what_changed',[]) or []; nexts += r.get('next_best_actions',[]) or []
     uniq=lambda xs:list(dict.fromkeys(xs))
     return {'report_type':'DAILY_INTELLIGENCE_REPORT','period':local_day.isoformat(),'timezone':tz_name,'event_count':len(selected),'source_event_ids':[e['event_id'] for e in selected],'what_happened':[e.get('title') or e.get('subject') for e in selected],'what_we_learned':uniq(lessons),'what_changed':uniq(changes),'wins':[e['event_id'] for e in selected if e.get('event_type') in {'milestone','success'} or e.get('type')=='milestone'],'next_best_actions':uniq(nexts),'open_loops':[e['event_id'] for e in selected if e.get('status') in {'CONFLICTED','STALE'}],'verification_required':True,'feed_status':'PENDING_INTEGRATION'}
-
 
 def main():
     ap=argparse.ArgumentParser(); sub=ap.add_subparsers(dest='cmd',required=True); sub.add_parser('validate'); sub.add_parser('index')
