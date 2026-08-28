@@ -28,6 +28,7 @@ def manifest(n: int = 1) -> dict:
         "package_id": "NAYA-ACTIVATION-TEST",
         "package_version": "1.0",
         "north_star": "activate verified memory",
+        "project": "Naya Power Superbrain",
         "documents": [doc(i) for i in range(1, n + 1)],
     }
 
