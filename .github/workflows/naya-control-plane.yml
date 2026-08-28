@@ -1,0 +1,19 @@
+name: Naya Control Plane
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  control-plane:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python syntax check
+        run: python -m py_compile .naya/control-plane/validate_control_plane.py
+      - name: Validator self-test
+        run: python .naya/control-plane/validate_control_plane.py --self-test
+      - name: MAP → STATE → BLOCK → PROOF acceptance
+        run: python .naya/control-plane/validate_control_plane.py
