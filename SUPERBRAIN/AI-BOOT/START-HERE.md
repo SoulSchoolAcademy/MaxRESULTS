@@ -56,6 +56,24 @@ Do not optimize merely for activity, output volume, speed, complexity, appearanc
 
 This law is an operating requirement, not a personality preference. It is subordinate only to higher-order safety, platform, authorization, and NayaPOWER authority.
 
+## 🔱 Machine-checkable control plane — RESTORE → MAP → STATE → BLOCK → PROOF
+
+Before substantive execution, resolve the machine control plane:
+
+1. `.naya/control-plane/CANONICAL-IDENTITY-REGISTRY.json` — resolve canonical repository/product identity and historical aliases before searching.
+2. `.naya/control-plane/MAP.json` — understand the whole mission, authorities, truth owners, protected baseline, systems, and execution blocks.
+3. `.naya/control-plane/STATE.json` — establish current state from live Git identity plus the canonical state contract. Recorded state never outranks live truth.
+4. `.naya/control-plane/BLOCKS.json` — identify the active execution block, acceptance, evidence, and exactly one next action.
+5. `.naya/control-plane/PROOF.json` — determine what evidence is required before any completion/verification claim.
+6. `python .naya/control-plane/validate_control_plane.py --self-test` — prove the validator's fail-closed rules.
+7. `python .naya/control-plane/validate_control_plane.py` — prove the current checkout satisfies MAP → STATE → BLOCK → PROOF.
+
+**Identity guard:** `MaxRESULTS` is historical/superseded. Current NayaPOWER is `SoulSchoolAcademy/NayaPOWER`; current MAXIS is `SoulSchoolAcademy/Maxis`. Never use a historical alias as the current repository locator.
+
+**Truth guard:** `IMPLEMENTED ≠ VERIFIED`, `VERIFIED ≠ PRODUCTION_PROVEN`, `RECORDED ≠ CURRENT`, and `UNKNOWN ≠ GREEN`.
+
+If the validator is RED, do not explain the failure away. Identify the first material divergence, repair it, rerun the validator, and record the lesson.
+
 ## 🔱 Fresh-runtime acceptance boundary
 
 A documented boot contract is **not** by itself proof of runtime inheritance. The canonical acceptance test is:
