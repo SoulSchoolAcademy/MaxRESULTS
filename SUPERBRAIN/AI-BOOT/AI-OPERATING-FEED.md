@@ -15,6 +15,42 @@ This is the shared operational handoff stream for every AI/session entering the 
 
 ---
 
+## 2026-08-28 — MAXIS guest Hub continuity repair + execution control-plane activation
+
+**Status:** SOURCE REPAIRED / PRODUCTION DEPLOYMENT PENDING / INTERACTIVE RUNTIME PROOF PENDING
+
+**Event:** `NAYA-MAXIS-GUEST-HUB-CONTINUITY-20260828`
+
+**What changed:** The canonical MAXIS product repositories were re-verified as exactly `SoulSchoolAcademy/NayaPOWER` and `SoulSchoolAcademy/Maxis`. A real production deployment was inspected. MAXIS was found to have a source/production SHA drift and a product-path gap: the guest result could not directly continue into the Hub without entering the authentication branch. The guest-first law requires that identity remain optional for receiving value and for the available guest Hub experience.
+
+**Repair:** MAXIS now contains a guest Hub continuity component and a direct `RESULT → CONTINUE TO GUEST HUB` path. The guest Hub reuses the existing pending-claim browser state and calls the authoritative `/api/maxess/preview` endpoint to restore the result; it does not create a second scoring engine. Authenticated member continuity remains separate and authoritative through Supabase Auth/RLS.
+
+**Execution control plane:** NayaPOWER now contains `SUPERBRAIN/EXECUTION-CONTROL-PLANE.md` and `SUPERBRAIN/schemas/execution-state.schema.json`, defining machine-readable execution state, evidence rules, single-next-action law, ownership, contradiction handling, cold-Naya acceptance, and completion requirements without replacing repository-specific Mission State.
+
+**Repository receipts:**
+- MAXIS execution receipt: `EXECUTION/2026-08-28-TEAM-NAYA-EXECUTION-RECEIPT.md`
+- MAXIS guest Hub component: `components/guest-hub.tsx`
+- MAXIS Hub routing: `app/hub/page.tsx`
+- MAXIS result-to-Hub path: `app/maxess/page.tsx`
+- NayaPOWER control plane: `SUPERBRAIN/EXECUTION-CONTROL-PLANE.md`
+- NayaPOWER machine schema: `SUPERBRAIN/schemas/execution-state.schema.json`
+
+**Observed production:** `maxis.nayanet.technology` was HTTP 200 for the front door and MAXESS route. Production Vercel deployment `dpl_GceWvUMucBtGgaGUtyF2gwUQEULb` was READY at SHA `1f0a4299745d3ef7e487acb565efd636090f0266`. Runtime error aggregation reported no errors in the selected 24-hour window.
+
+**Current source:** MAXIS main advanced to `3268efd3a439238c05da61864486372c3c8a870a` for the code repair and then `1cd002e380815007ddd598718d3c068b172c1847` for this execution receipt. NayaPOWER main advanced through the control-plane writes and this feed update.
+
+**Critical boundary:** The available connected runtime surface can inspect real production HTTP responses but cannot perform the complete interactive browser click/POST/cookie sequence. Therefore the following are NOT claimed: successful Q1–Q15 interaction, provider authentication success, authenticated claim success, durable result after refresh, or complete guest Hub browser verification. These remain 🟡 UNKNOWN until a real interactive browser session produces evidence.
+
+**Oscar findings:**
+1. Hub access was too tightly coupled to authentication for the guest-first product law; source repaired.
+2. Free-trial billing is still not an operationally verified capability; do not claim it as complete.
+3. Exact source/production parity remains pending deployment of the latest source.
+4. Interactive end-to-end proof remains the highest-value missing evidence.
+
+**Next action:** Deploy/observe MAXIS at the latest source SHA, then execute the real interactive acceptance sequence `NAME → NAYA → Q1–Q15 → E01–E09 → GUEST HUB → REFRESH`, followed by `OPTIONAL IDENTITY → CLAIM → DURABLE RESULT → HUB → REFRESH`. Repair the first divergence and record exact evidence.
+
+---
+
 ## 2026-08-27 — Continuous Block Execution + One-Network operating law established
 
 **Status:** IMPLEMENTED / RUNTIME WIRING UPDATED / VERIFICATION PENDING
@@ -66,7 +102,7 @@ This is the shared operational handoff stream for every AI/session entering the 
 
 ---
 
-## 2026-08-26 07:00 — MAXESS E118/E0796 engine recovery North Star locked
+## 2026-08-26  — MAXESS E118/E0796 engine recovery North Star locked
 
 **Status:** ACTIVE / DIAGNOSIS PENDING
 
