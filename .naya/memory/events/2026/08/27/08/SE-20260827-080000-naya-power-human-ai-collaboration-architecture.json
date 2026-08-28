@@ -1,0 +1,118 @@
+{
+  "event_id": "SE-20260827-080000-naya-power-human-ai-collaboration-architecture",
+  "created_at": "2026-08-27T08:00:00-07:00",
+  "effective_at": "2026-08-27T08:00:00-07:00",
+  "type": "strategic-architecture-and-product-narrative",
+  "subject": "Naya Power as a human-AI collaboration operating architecture",
+  "project": "Naya Power",
+  "tags": [
+    "NayaPower",
+    "human-AI-collaboration",
+    "operating-system",
+    "architecture",
+    "nine-systems",
+    "Superbrain",
+    "Naya-Notes",
+    "Naya-Law",
+    "Naya-Scorecarding",
+    "Lead-Mode",
+    "Naya-Design",
+    "Naya-Coder",
+    "MAXIS",
+    "Powercast"
+  ],
+  "aliases": [
+    "Naya Power operating relationship",
+    "nine dimensions of AI operating relationship",
+    "human plus AI system",
+    "Naya Power architecture thesis"
+  ],
+  "concepts": [
+    "AI operating architecture",
+    "human capability amplification",
+    "context and continuity",
+    "shared language",
+    "standards and verification",
+    "initiative and execution",
+    "design and engineering quality"
+  ],
+  "relationships": [
+    {"type": "governs", "target": "MAXIS"},
+    {"type": "supports", "target": "Superbrain"},
+    {"type": "expressed_by", "target": "Naya"},
+    {"type": "measured_by", "target": "Naya Scorecarding / Oscar"},
+    {"type": "feeds", "target": "Naya Power customer narrative"}
+  ],
+  "authority": "Naya Power strategic architecture / product narrative",
+  "confidence": "high",
+  "status": "ACTIVE",
+  "provenance": {
+    "source": "Shawn-provided strategic narrative in conversation",
+    "origin": "human-source-material",
+    "external-validation-claim": "AI-generated evaluations described by Shawn are preserved as reported evidence, not scientific validation"
+  },
+  "evidence": [
+    "Naya Power canonical README defines Naya Power as a model-independent runtime architecture for reliable, verifiable, recoverable, continuous human-AI collaboration.",
+    "Naya Power Smart Notes + CIS Constitution defines Note Events, Naya/Human representations, verification receipts, project-first memory, provenance, and AI-to-AI handoff.",
+    "Shawn-provided narrative defines nine core dimensions: Personality, Brain, Notes, Lead Mode, Law, Scorecarding, Language, Design, and Coder.",
+    "Shawn-provided narrative establishes the customer outcome as increased human capability rather than AI replacement."
+  ],
+  "naya_representation": {
+    "summary": "Naya Power is best understood not as a collection of AI prompts or features, but as an operating architecture for the relationship between human intention and artificial intelligence. Its core purpose is to reduce the operational burden placed on the human while increasing reliability, continuity, shared meaning, quality control, initiative, design quality, and implementation quality.",
+    "problem": "Powerful AI is often operated inside an inadequate environment: weak context, weak continuity, ambiguous language, missing standards, reactive interaction, and repeated human management.",
+    "thesis": "Configure the intelligence and the working relationship, not merely the prompt.",
+    "nine_dimensions": {
+      "Personality": "relationship and interaction identity",
+      "Brain": "knowledge, context, and intellectual foundation",
+      "Notes": "continuity, persistence, decisions, discoveries, and learning",
+      "Lead_Mode": "initiative, execution, and reduced human project-management burden",
+      "Law": "standards, rules, boundaries, and non-negotiables",
+      "Scorecarding": "evaluation, critique, improvement, and quality control",
+      "Language": "shared definitions and reduced ambiguity",
+      "Design": "visual, UX, communication, and presentation intelligence",
+      "Coder": "engineering, architecture, implementation, and verification discipline"
+    },
+    "human_transformation": "Move the human from Explain/Correct/Repeat/Remind/Manage/Evaluate/Start Over toward Direct/Collaborate/Create/Delegate/Evaluate/Improve/Build.",
+    "north_star_statement": "Human + AI becomes a more capable system than either operating alone.",
+    "customer_layer": "The customer should experience what it is like when AI carries more of the operational burden, rather than being forced to learn how to operate Naya Power as a prompt-engineering system.",
+    "powercast_thesis": "The larger story is a methodology for human-AI collaboration: Naya is the embodiment, Naya Power is the operating system, the nine systems are the architecture, scorecarding is the measurement layer, and the human remains the point."
+  },
+  "human_representation": {
+    "summary": "Shawn's strategic framing is that Naya Power should be presented as a coherent architecture for human-AI collaboration, not merely a chatbot, prompt library, or branded feature set.",
+    "important_boundary": "Independent AI scores and descriptions are interesting external evidence of architectural coherence, but they are not scientific proof or objective product validation.",
+    "customer_test": "Could an ordinary human with a meaningful vision but little prompting skill accomplish something complicated with an AI running Naya Power?",
+    "product_principle": "Build for the human, not the machine."
+  },
+  "machine_representation": {
+    "retrieval_keys": [
+      "Naya Power",
+      "human-AI collaboration",
+      "operating architecture",
+      "nine dimensions",
+      "customer layer",
+      "human capability",
+      "Powercast",
+      "MAXIS relationship"
+    ],
+    "classification": "strategic architecture / product narrative / customer doctrine",
+    "supersession_policy": "Future refinements should supersede or link this event rather than silently overwrite it."
+  },
+  "verification": {
+    "status": "PENDING_EVENT_INDEX_REGISTRATION",
+    "required": [
+      "event exists",
+      "unique event_id",
+      "timezone-aware timestamps",
+      "required semantic fields",
+      "Naya representation",
+      "human representation",
+      "machine representation",
+      "provenance and evidence",
+      "relationships",
+      "index registration",
+      "canonical reference",
+      "receipt"
+    ]
+  },
+  "next_execution": "Register this event in .naya/memory/events/INDEX.json, create the MAXIS cross-reference, validate the Smart Notes system, and issue the verification receipt."
+}
