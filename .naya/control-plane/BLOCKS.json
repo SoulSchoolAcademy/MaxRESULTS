@@ -1,0 +1,35 @@
+{
+  "$schema": "naya/control-plane/block/v1",
+  "status": "CANONICAL",
+  "active_block": {
+    "id": "B01-B03-MINIMUM-CONTROL-LOOP",
+    "status": "ACTIVE",
+    "intent": "Turn repository operating doctrine into the smallest complete machine-checkable MAP → STATE → BLOCK → PROOF control loop.",
+    "scope": ["canonical identity resolution", "machine-readable MAP", "current-state contract and drift detection", "structured execution block", "evidence-linked proof", "cold-start validation of these controls"],
+    "protected": ["existing Naya Repository Operating Standard", "existing Mission State/current-state authority", "existing cold-start activation contract", "MAXESS scoring/result authority", "anti-duplication law"],
+    "acceptance": [
+      "historical MaxRESULTS resolves to current canonical identity and cannot be selected as current",
+      "live Git HEAD is distinguishable from recorded/stale HEAD",
+      "UNKNOWN cannot be promoted to VERIFIED",
+      "VERIFIED requires claim-appropriate evidence",
+      "active block has exactly one next action",
+      "cold-start validator fails closed on stale/conflicting/unsupported state"
+    ],
+    "evidence": [
+      ".naya/control-plane/CANONICAL-IDENTITY-REGISTRY.json",
+      ".naya/control-plane/MAP.json",
+      ".naya/control-plane/BLOCKS.json",
+      ".naya/control-plane/PROOF.json",
+      ".naya/control-plane/validate_control_plane.py"
+    ],
+    "target_state": "CONTROL_LOOP_PROVEN_REPOSITORY_LEVEL",
+    "next_action": "Run the control-plane validator against the live repository and repair every material finding before declaring B01-B03 complete."
+  },
+  "status_vocabulary": ["INTENDED", "IMPLEMENTED", "COMPLETE", "VERIFIED", "RACE_READY", "PRODUCTION_PROVEN", "UNKNOWN", "FAILED", "STALE"],
+  "rules": {
+    "verified_requires_proof": true,
+    "unknown_is_not_green": true,
+    "recorded_is_not_current": true,
+    "one_next_action": true
+  }
+}
