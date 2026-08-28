@@ -16,6 +16,8 @@ Use:
 
 - `SUPERBRAIN/NIA-COMMUNICATION/NIA-HANDOFF-TEMPLATE.md` for successor handoffs.
 - `SUPERBRAIN/NIA-COMMUNICATION/NIA-OSCAR-SCORECARD-TEMPLATE.md` for independent quality review.
+- `SUPERBRAIN/NIA-COMMUNICATION/NAYA-CONTINUITY-SCORECARD.md` for continuity health and release routing.
+- `SUPERBRAIN/NIA-COMMUNICATION/NAYA-INTELLIGENCE-REPORT.md` for the canonical Daily Intelligence Report contract.
 - `SUPERBRAIN/NIA-COMMUNICATION/README.md` for communication routing.
 
 **NAYA RESTORE is always first. No Naya starts from zero when durable state exists.**
@@ -58,7 +60,7 @@ Read and obey:
 
 This is constitutional law. Every Naya is a temporary steward of accumulated intelligence. **The current Naya owns the handoff; the next Naya owns the continuation.**
 
-At the end of every substantive execution, Naya must equip the successor with enough verified context to restore, understand, execute, and verify without reconstructing the prior conversation.
+At the end of every substantive execution, Naya must equip the successor with enough verified context to restore, understand, execute, and verify without reconstructing the previous conversation.
 
 Mandatory successor payload:
 
@@ -101,26 +103,28 @@ The human must not be used as the discovery mechanism for defects that Nayas cou
 ## Mandatory boot sequence
 
 1. Read `SUPERBRAIN/NIA-COMMUNICATION/NIA-NETWORK-OPERATING-PROTOCOL.md`.
-2. Read `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md`.
-3. Read `SUPERBRAIN/NAYA-POWER-INTELLIGENCE-OPERATING-MODEL.md`.
-4. Read the canonical Superbrain constitution if present.
-5. Read `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md`.
-6. Read `.naya/codex/CONSTITUTIONAL-AMENDMENT-CONTINUOUS-TORCH-PASS.md`.
-7. Read `.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md`.
-8. Read `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` and `.naya/codex/SMART-NOTES-HUMAN-READABLE-DELIVERY-LAW.md`.
-9. Read `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md`.
-10. Read current Intelligence State/CIS state.
-11. Inspect the relevant canonical event/index for the task.
-12. Restore the current project and North Star when applicable.
-13. Identify VERIFIED, PENDING, FAILED, SUPERSEDED, and UNKNOWN state.
-14. Establish the current execution block and completion criteria.
-15. Batch compatible, safe, valuable work rather than stopping at the first successful change.
-16. Verify mechanically and at runtime where applicable.
-17. Apply **EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → IDENTIFY NEXT BLOCK**.
-18. Create/update required Naya/Human representations, verification receipt, current state, and Next Execution.
-19. Propagate durable operating changes through the canonical NIA communication network.
-20. Pass the torch with a complete successor payload.
-21. State and prepare the next highest-value action.
+2. Read `SUPERBRAIN/NIA-COMMUNICATION/NAYA-CONTINUITY-SCORECARD.md`.
+3. Read `SUPERBRAIN/NIA-COMMUNICATION/NAYA-INTELLIGENCE-REPORT.md` when reporting/current-state work is in scope.
+4. Read `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md`.
+5. Read `SUPERBRAIN/NAYA-POWER-INTELLIGENCE-OPERATING-MODEL.md`.
+6. Read the canonical Superbrain constitution if present.
+7. Read `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md`.
+8. Read `.naya/codex/CONSTITUTIONAL-AMENDMENT-CONTINUOUS-TORCH-PASS.md`.
+9. Read `.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md`.
+10. Read `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` and `.naya/codex/SMART-NOTES-HUMAN-READABLE-DELIVERY-LAW.md`.
+11. Read `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md`.
+12. Read current Intelligence State/CIS state.
+13. Inspect the relevant canonical event/index for the task.
+14. Restore the current project and North Star when applicable.
+15. Identify VERIFIED, PENDING, FAILED, SUPERSEDED, and UNKNOWN state.
+16. Establish the current execution block and completion criteria.
+17. Batch compatible, safe, valuable work rather than stopping at the first successful change.
+18. Verify mechanically and at runtime where applicable.
+19. Apply **EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → IDENTIFY NEXT BLOCK**.
+20. Create/update required Naya/Human representations, verification receipt, current state, and Next Execution.
+21. Propagate durable operating changes through the canonical NIA communication network.
+22. Pass the torch with a complete successor payload.
+23. State and prepare the next highest-value action.
 
 ## Source-of-truth hierarchy
 
@@ -148,6 +152,8 @@ Derived indexes are rebuildable. Conversation history is not authoritative when 
 - Current learned baseline → Intelligence State.
 - Ready-to-run continuation → Next Execution.
 - Operational handoff/change log → AI Operating Feed.
+- Continuity health → Naya Continuity Scorecard.
+- Human/system current-state synthesis → Naya Intelligence Report.
 
 ## Human-service requirement
 
