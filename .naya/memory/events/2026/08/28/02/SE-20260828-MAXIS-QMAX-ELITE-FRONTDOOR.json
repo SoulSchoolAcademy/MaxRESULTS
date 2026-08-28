@@ -1,0 +1,42 @@
+{
+  "event_id": "SE-20260828-MAXIS-QMAX-ELITE-FRONTDOOR",
+  "created_at": "2026-08-28T02:22:00Z",
+  "effective_at": "2026-08-27T19:22:00-07:00",
+  "type": "PROJECT_EXECUTION",
+  "subject": "MAXIS QMAX Elite Craft Pass",
+  "project": "SoulSchoolAcademy/Maxis",
+  "tags": ["MAXIS", "QMAX", "front-door", "elite-craft", "execution", "verification", "torch-pass"],
+  "aliases": ["QMAX elite front door", "MAXIS front door craft pass", "front-door premium entry"],
+  "concepts": ["product-first hierarchy", "Naya presence", "assessment discovery", "optical centering", "interaction craft", "evidence gates"],
+  "human": {
+    "role": "SHAWN / HUMAN",
+    "intent": "Take the current MAXIS front door from functional to elite product quality without adding unnecessary complexity, while verifying the real product journey and preserving truth, security, and authoritative assessment architecture.",
+    "north_star": "SIMPLE ABOVE. SOPHISTICATED BELOW."
+  },
+  "ai": {
+    "role": "NAYA / AI",
+    "understanding": "The highest-value change is stronger hierarchy, optical composition, restrained illumination, tactile controls, Naya presence, and a truthful discovery path—not more visual elements.",
+    "execution_contract": ["READ", "RESOLVE", "UNDERSTAND", "PROTECT", "AUDIT", "SIMPLIFY", "CENTER", "REFINE", "POLISH", "VERIFY", "OBSERVE", "CRITIQUE", "FIX", "RETEST", "SCORE", "RECORD", "PASS THE TORCH"]
+  },
+  "machine": {
+    "role": "MACHINE / ALGORITHM",
+    "objective": "quality_maximum",
+    "front_door_hierarchy": ["WELCOME TO MAXIS", "NAYA", "WHAT'S YOUR AI / CHATGPT SCORE?", "NAME INPUT", "ENTER MAXIS", "+ DISCOVERY", "REASSURANCE"],
+    "required_evidence_chain": ["source_head", "implementation", "typecheck", "production_build", "deployment_sha", "runtime_observation", "golden_path", "visual_QA", "receipt"],
+    "green_rule": "CURRENT SOURCE SHA = READY DEPLOYMENT SHA = OBSERVED RUNTIME SHA"
+  },
+  "output": "MAXIS main received the elite front-door craft pass and subsequent frictionless anonymous-session hardening.",
+  "result": "SOURCE_AND_BUILD_GREEN; EXACT_CURRENT_HEAD_PRODUCTION_RUNTIME_UNVERIFIED",
+  "lesson": "Do not confuse code correctness, build success, deployment readiness, runtime observation, and observed product quality. Each is a separate evidence gate.",
+  "wisdom": "A premium product is not made premium by adding more. It becomes premium when unnecessary decisions disappear and every remaining decision feels intentional.",
+  "recommendation": "Keep the current implementation stable until exact-head Vercel deployment is available; then run the real runtime and golden path before calling QMAX green.",
+  "provenance": {
+    "source": "User-provided QMAX Elite Craft Pass + live GitHub inspection of SoulSchoolAcademy/Maxis + GitHub Actions evidence",
+    "authority": "NayaPOWER governance + MAXIS QMAX protocol",
+    "evidence": ["Maxis main current head 7d5ce8269286f56e48305c750b9d0f98c42cde3b", "GitHub Quality run 33135643694", "quality job 98734855219", "Vercel current-head status remains build-rate-limit failure"]
+  },
+  "relationships": {"project": "SoulSchoolAcademy/Maxis", "supersedes": [], "related_events": ["SE-20260827-CIS-MEMORY-TO-INTELLIGENCE"]},
+  "status": "VERIFIED_SOURCE_BUILD_PENDING_RUNTIME",
+  "verification": {"status": "VERIFIED", "method": "Current MAXIS main head, implementation commits, latest GitHub Quality run, and Vercel deployment state were re-fetched and inspected. No exact-head READY Vercel deployment was claimed.", "receipt": ".naya/receipts/20260828-MAXIS-QMAX-ELITE-FRONTDOOR-VERIFICATION.md"},
+  "next_execution": "Verify exact current main SHA on Vercel, observe the actual front door at the QMAX viewport matrix, then run NAME → ENTER MAXIS → REAL SESSION → MAXESS → Q1–Q15 → RESULT and record observed evidence."
+}
