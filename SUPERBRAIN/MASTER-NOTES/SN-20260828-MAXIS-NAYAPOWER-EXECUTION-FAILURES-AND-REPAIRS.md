@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Preserve the exact failures discovered during the first real execution of the current Team Naya doctrine so the next Naya does not rediscover them.
+Preserve the exact failures discovered during real Team Naya execution so the next Naya does not rediscover them.
 
 ## NayaPOWER finding
 
@@ -10,7 +10,7 @@ The existing cold-start runtime gate failed before Smart Brain validation becaus
 
 `ready-to-run **NEXT EXECUTION**`
 
-This was a governance/documentation-to-runtime contract drift, not a product failure.
+This was governance/documentation-to-runtime contract drift, not a product failure.
 
 ### Repair
 
@@ -22,9 +22,9 @@ Added the exact enforcement phrase to:
 
 If a runtime validator checks a contractual phrase, that phrase is part of the executable contract. Human-readable equivalence is insufficient.
 
-## MAXIS finding #1
+## MAXIS finding #1 — source parsing
 
-The first current-source MAXIS Quality run failed at TypeScript parsing after the guest-Hub repair.
+The first current-source MAXIS Quality run failed at TypeScript parsing after the Guest Hub repair.
 
 ### Root cause
 
@@ -35,63 +35,121 @@ Malformed JSX was introduced in:
 
 ### Repair
 
-Both files were structurally rewritten and the next verification run proved:
+Both files were structurally repaired and subsequent verification proved:
 
-- typecheck: PASS
-- build: PASS
-- front-door contract: 24/24 PASS
-- current-HEAD production server startup: PASS
+- typecheck PASS
+- build PASS
+- front-door contract PASS
+- current-HEAD production server startup PASS
 
-## MAXIS finding #2
+## MAXIS finding #2 — golden-path contract drift
 
-The current-source QMAX golden-path test then failed with:
-
-`QMAX GOLDEN PATH FAILED: next action to Hub is missing`
-
-### Root cause
-
-The product now correctly exposes two legitimate Hub continuations:
+The current-source QMAX golden-path test failed because it expected one Hub continuation while the product correctly exposed two:
 
 1. authenticated save/claim → Hub;
 2. guest continuation → Guest Hub.
 
-The old test assumed exactly one link whose accessible name contained `Hub`, so it rejected the correct two-path design.
+### Repair
+
+The test was strengthened to require both explicit contracts rather than weakening the product:
+
+- exactly one `Continue to Guest Hub` action;
+- exactly one `Save result & enter Hub` member continuation.
+
+## MAXIS finding #3 — Guest Hub auth boundary
+
+Production initially redirected:
+
+`/hub?guest=1 → /login?guest=1&next=%2Fhub`
+
+### Root cause
+
+`lib/supabase/proxy.ts` intercepted `/hub` before GuestHub could evaluate `guest=1`.
 
 ### Repair
 
-The golden-path contract was strengthened rather than weakened. It now requires:
+`9aff6e9749a4c1a86788ffc42838fe625ac10998`
 
-- exactly one explicit `Continue to Guest Hub` action;
-- exactly one `Save result & enter Hub` member continuation.
+`fix(maxis): allow guest Hub route through auth proxy`
 
-This makes the test encode the actual product truth instead of hiding the second legitimate path.
+The `/hub` route was added to the public-path allowlist while member ownership remained authenticated and server-authoritative.
 
-## Current evidence
+## MAXIS finding #4 — Guest Hub name continuity
 
-At commit `dde0aaa470485738a18bfbef3d87a169494b8dc6` the MAXIS Quality run demonstrated:
+After the route repair reached production, QMAX advanced to Guest Hub but failed at the personalized-name assertion.
 
-- typecheck PASS;
-- build PASS;
-- QMAX front-door contract 24/24 PASS;
-- current-HEAD production server startup PASS;
-- QMAX golden path reached the result and authoritative result checks before failing only on the outdated Hub-link assertion.
+### Root cause
 
-The test was then repaired in commit:
+`components/guest-hub.tsx` relied only on `maxis_ai_assessment_pending_claim_v1` for the participant name. The existing browser identity cookie `maxis_pending_username` was already part of the MAXIS identity flow, but GuestHub did not use it as a fallback when the pending result payload lacked the name.
 
-`e4919112bb5fe8ec734af7d5c2202e23f1633f12`
+### Repair
 
-A fresh MAXIS Quality run is queued/in progress for that commit.
+Current source repair:
 
-## Production boundary
+`5329a9dae05b63c4cd18f6f49331033a8fceccb4`
 
-Vercel production remains on an older READY deployment and has not yet been observed at the latest source SHA. Therefore exact production/source parity remains UNKNOWN.
+`fix(maxis): restore guest Hub name from identity cookie`
+
+The repair:
+
+- reads the existing identity cookie;
+- prefers the pending claim name;
+- falls back to the cookie name;
+- passes the restored name into the authoritative guest preview request;
+- preserves the guest/member boundary.
+
+### Verification
+
+Current MAXIS Quality at the repair source is GREEN for typecheck, build, front-door contract, current-HEAD runtime, and QMAX golden path.
+
+Production-final correctly remains RED because production still serves an older deployment.
+
+## MAXIS finding #5 — production deployment rate limit
+
+Current source SHA:
+
+`5329a9dae05b63c4cd18f6f49331033a8fceccb4`
+
+Vercel GitHub status reports:
+
+`Deployment rate limited — retry in 24 hours.`
+
+### Meaning
+
+This is a deployment-quota boundary, not an application-code failure. The source is green, but the production-serving environment cannot accept another deployment through the current Vercel path while the quota is active.
+
+### Team Naya rule
+
+Do not convert deployment blockage into fake GREEN.
+
+Do not weaken QMAX to accommodate stale production.
+
+Do not create unnecessary code changes merely to wait for deployment.
+
+Instead:
+
+1. finish all legitimate source verification;
+2. record the exact production/deployment boundary;
+3. batch the next production release so one deployment contains all verified changes;
+4. when an authorized production deployment path becomes available, deploy once;
+5. verify SHA parity;
+6. immediately rerun production-final;
+7. continue from the first real runtime divergence.
+
+## Reusable execution law
+
+`SOURCE GREEN ≠ PRODUCTION GREEN`
+
+`DEPLOYMENT READY + SHA PARITY + RUNTIME EVIDENCE` are required before a production claim is GREEN.
+
+A platform quota is an explicit execution dependency and belongs in Mission State / execution receipts as a first-class boundary.
 
 ## Non-negotiable next move
 
 Do not polish the UI.
 
-Do not add another architecture.
+Do not create another architecture.
 
-Do not claim the golden path green.
+Do not claim the Guest Hub block green.
 
-First obtain a green MAXIS Quality run for the repaired test, deploy that exact verified source, then execute the real interactive guest journey and the optional identity/claim journey.
+When production deployment becomes available, deploy the current verified MAXIS source once, prove the exact SHA, rerun production-final, and repair only the first remaining runtime divergence.
