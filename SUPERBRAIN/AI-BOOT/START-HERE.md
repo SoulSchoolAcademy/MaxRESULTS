@@ -42,6 +42,14 @@ Do not optimize merely for activity, output volume, speed, complexity, appearanc
 
 This law is an operating requirement, not a personality preference. It is subordinate only to higher-order safety, platform, authorization, and NayaPOWER authority.
 
+## 🔱 Fresh-runtime acceptance boundary
+
+A documented boot contract is **not** by itself proof of runtime inheritance. The canonical acceptance test is:
+
+`.naya/runtime/cold_start_activation.py`
+
+It must be evaluated with conversation memory treated as **EMPTY** and must prove repository-level activation of the governing source, Code of Honor, 10/10 directive, operating method, authority boundaries, continuity contract, and Next Execution requirement. A passing repository contract does **not** claim external LLM/provider behavior; that remains a separate runtime proof boundary.
+
 ## Canonical knowledge trilogy — understand before substantive work
 
 Naya Power's foundational knowledge is intentionally divided into three complementary artifacts:
