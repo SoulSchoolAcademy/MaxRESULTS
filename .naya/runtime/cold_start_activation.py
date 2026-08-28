@@ -2,10 +2,10 @@
 """Deterministic cold-start acceptance test for the canonical Naya boot contract.
 
 This models a fresh Naya entering NayaPOWER with no conversation memory. It proves
-repository-level activation state: authority, boot order, task routing, policy
-content, operating-method contract, and explicit state transitions. It does not
-claim to execute an external LLM or provider; provider/model execution remains
-outside this repository contract.
+repository-level activation state: authority, boot order, Code of Honor inheritance,
+task routing, policy content, operating-method contract, and explicit state transitions.
+It does not claim to execute an external LLM or provider; provider/model execution
+remains outside this repository contract.
 """
 from __future__ import annotations
 
@@ -19,11 +19,16 @@ BOOT = ROOT / ".naya" / "NAYA-CONTEXT-BOOT-PROTOCOL.md"
 START = ROOT / "SUPERBRAIN" / "AI-BOOT" / "START-HERE.md"
 POLICY = ROOT / ".naya" / "codex" / "HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md"
 CONSTITUTION = ROOT / ".naya" / "codex" / "11-RUNTIME-CONSTITUTION.md"
+CODE_OF_HONOR = ROOT / "SUPERBRAIN" / "MASTER-NOTES" / "SN-20260827-NAYA-CODE-OF-HONOR.md"
+SYSTEM_DIRECTIVE = ROOT / "SUPERBRAIN" / "MASTER-NOTES" / "SN-20260827-10-OF-10-SYSTEM-OPERATING-DIRECTIVE.md"
 MASTER_NOTE = ROOT / "SUPERBRAIN" / "MASTER-NOTES" / "SN-20260827-CONTINUOUS-BLOCK-EXECUTION-AND-ONE-NET.md"
 
 EXPECTED_POLICY = ".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md"
 EXPECTED_CONSTITUTION = ".naya/codex/11-RUNTIME-CONSTITUTION.md"
+CODE_OF_HONOR_PATH = "SUPERBRAIN/MASTER-NOTES/SN-20260827-NAYA-CODE-OF-HONOR.md"
+SYSTEM_DIRECTIVE_PATH = "SUPERBRAIN/MASTER-NOTES/SN-20260827-10-OF-10-SYSTEM-OPERATING-DIRECTIVE.md"
 BLOCK_CYCLE = "EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → IDENTIFY NEXT BLOCK"
+VALUE_LOOP = "ZOOM OUT → ZOOM IN → CONNECT → PRIORITIZE → OPTIMIZE → EXECUTE → VERIFY → LEARN → COMPOUND"
 
 
 def fail(message: str) -> None:
@@ -42,13 +47,12 @@ def require(text: str, needle: str, label: str) -> None:
 
 
 def main() -> int:
-    # A fresh Naya begins with no session memory. Only canonical repository state
-    # is used to establish the modeled boot state.
     state = {
         "conversation_memory": "EMPTY",
         "activation_state": "DOCUMENTED",
         "context_state": "UNKNOWN",
         "operating_method_state": "UNKNOWN",
+        "code_of_honor_state": "UNKNOWN",
         "repository": None,
         "governance_branch": None,
         "policy": None,
@@ -60,6 +64,8 @@ def main() -> int:
     start = load(START)
     policy = load(POLICY)
     constitution = load(CONSTITUTION)
+    code_of_honor = load(CODE_OF_HONOR)
+    system_directive = load(SYSTEM_DIRECTIVE)
     master_note = load(MASTER_NOTE)
 
     state["repository"] = manifest.get("repository")
@@ -85,23 +91,33 @@ def main() -> int:
 
     require(boot, EXPECTED_POLICY, "context boot")
     require(start, EXPECTED_POLICY, "START HERE")
+    require(start, CODE_OF_HONOR_PATH, "START HERE Code of Honor")
+    require(start, SYSTEM_DIRECTIVE_PATH, "START HERE 10/10 System Directive")
     require(boot, "does not override platform/safety constraints", "authority preservation")
     require(start, "ACTIVATE BEFORE SUBSTANTIVE WORK", "policy activation")
+
+    require(code_of_honor, "CREATE THE MOST HUMAN VALUE POSSIBLE WITH EVERY MEANINGFUL ACTION.", "Code of Honor value law")
+    require(code_of_honor, VALUE_LOOP, "Code of Honor value-maximization method")
+    require(code_of_honor, "EFFORT ≠ VALUE", "Code of Honor value distinction")
+    require(code_of_honor, "Every Naya operating through a NayaPOWER-governed Naya Brain inherits this Code of Honor", "Code of Honor inheritance law")
+    require(code_of_honor, "Naya does not merely complete work. Naya creates value.", "Code of Honor final standard")
+    require(system_directive, "SOURCE OF TRUTH", "10/10 System Directive")
+    require(system_directive, "STATE", "10/10 System Directive")
+    require(system_directive, "RUNTIME", "10/10 System Directive")
+    require(system_directive, "HANDOFF", "10/10 System Directive")
+
     require(policy, "DO NOT BUILD FOR THE MACHINE. BUILD FOR THE HUMAN.", "human-outcome law")
     require(policy, "No Naya may claim that a human understands something", "understanding evidence law")
     require(policy, "MEASURE", "mastery loop")
     require(policy, "MASTER", "mastery loop")
 
-    # The block method is validated as an integrated operating contract rather
-    # than by filename existence. All canonical steps and handoff requirements
-    # must be present in the activated policy and boot entry.
     require(policy, BLOCK_CYCLE, "continuous block cycle")
     for phrase in (
         "MISSION",
         "SOURCE OF TRUTH",
         "CURRENT STATE",
         "SCOPE",
-        "SUCCESS CRITERIA",
+        "completion criteria",
         "EXECUTE",
         "VERIFY",
         "OSCAR",
@@ -120,7 +136,7 @@ def main() -> int:
 
     require(start, BLOCK_CYCLE, "START HERE block cycle")
     require(start, "One-Network law", "START HERE One-Network law")
-    require(start, "Every Naya is a specialized node in one governed Naya network", "One-Network architecture")
+    require(start, "Every Naya is a governed node in one intelligence system", "One-Network architecture")
     require(master_note, BLOCK_CYCLE, "Master Note block cycle")
     require(master_note, "Every Naya is a specialized node in one governed Naya network", "Master Note One-Network architecture")
     require(master_note, "After every 1–3 substantive blocks", "Master Scorecard cadence")
@@ -136,6 +152,10 @@ def main() -> int:
         "canonical_governance_branch",
         "canonical_boot_entry",
         "canonical_constitution",
+        "canonical_code_of_honor_loaded",
+        "canonical_10_10_system_directive_loaded",
+        "code_of_honor_inheritance_verified",
+        "value_maximization_method_verified",
         "human_capability_policy_loaded",
         "authority_relationship_verified",
         "task_routes_verified",
@@ -150,21 +170,26 @@ def main() -> int:
     state["activation_state"] = "ACTIVATED"
     state["context_state"] = "CONTEXT ESTABLISHED"
     state["operating_method_state"] = "OPERATING-METHOD ESTABLISHED"
+    state["code_of_honor_state"] = "INHERITED_AND_APPLIED_BY_REPOSITORY_BOOT_CONTRACT"
 
     receipt = {
-        "schema": "naya/cold-start-activation-receipt/v2",
+        "schema": "naya/cold-start-activation-receipt/v3",
         "status": "VERIFIED",
         "scope": "repository-level cold-start modeled activation",
         "conversation_memory": state["conversation_memory"],
         "activation_state": state["activation_state"],
         "context_state": state["context_state"],
         "operating_method_state": state["operating_method_state"],
+        "code_of_honor_state": state["code_of_honor_state"],
         "repository": state["repository"],
         "governance_branch": state["governance_branch"],
         "policy": state["policy"],
+        "code_of_honor": CODE_OF_HONOR_PATH,
+        "system_directive": SYSTEM_DIRECTIVE_PATH,
         "policy_sha256": hashlib.sha256(policy.encode("utf-8")).hexdigest(),
+        "code_of_honor_sha256": hashlib.sha256(code_of_honor.encode("utf-8")).hexdigest(),
         "evidence": state["evidence"],
-        "limitation": "This proves the canonical repository boot contract, not an external LLM/provider execution.",
+        "limitation": "This proves the canonical repository boot contract and Code of Honor inheritance contract, not an external LLM/provider execution.",
     }
 
     print(json.dumps(receipt, indent=2, sort_keys=True))
