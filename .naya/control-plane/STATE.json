@@ -1,0 +1,45 @@
+{
+  "$schema": "naya/control-plane/state/v1",
+  "status": "LIVE_BOUND",
+  "repository": "SoulSchoolAcademy/NayaPOWER",
+  "state_authority": "This file is a control-plane contract; live repository identity/HEAD must be resolved from the executing Git repository at validation time.",
+  "current_head": {
+    "source": "git:HEAD",
+    "mode": "LIVE_RESOLUTION",
+    "recorded_head_is_not_authoritative": true
+  },
+  "current_branch": {
+    "source": "git:branch --show-current",
+    "mode": "LIVE_RESOLUTION"
+  },
+  "mission": "Make it dramatically easier for an ordinary human with a meaningful vision to accomplish extraordinary things with AI without becoming an AI project manager.",
+  "current_block": "B01-B03-MINIMUM-CONTROL-LOOP",
+  "current_block_status": "ACTIVE",
+  "current_deployment": {
+    "source": "deployment evidence when applicable",
+    "status": "UNKNOWN_UNTIL_CURRENT_EVIDENCE"
+  },
+  "verified_evidence": {
+    "rule": "Only evidence linked in PROOF.json and current receipts may support VERIFIED claims.",
+    "missing_evidence_state": "UNKNOWN"
+  },
+  "unknown": [
+    "fresh current-head CI status after this control-plane implementation",
+    "external LLM cold-start behavioral proof beyond repository-level acceptance",
+    "production proof unless a current production runtime observation exists"
+  ],
+  "failures": [],
+  "risks": [
+    "Legacy .naya/memory/STATE.json contains a recorded current_main.commit that may become stale as main advances; it must not outrank live Git HEAD.",
+    "Machine validation is repository-local and does not itself prove external provider behavior."
+  ],
+  "bottleneck": "Prove B01-B03 mechanically, then close the first evidence-backed failure without using deployment as a discovery mechanism.",
+  "single_next_action": "Run .naya/control-plane/validate_control_plane.py in a fresh checkout; repair the first material finding; rerun until the control-plane acceptance is GREEN.",
+  "truth_rules": [
+    "LIVE authoritative source outranks recorded state.",
+    "RECORDED_BUT_STALE is not CURRENT.",
+    "UNKNOWN is not VERIFIED.",
+    "A block is not VERIFIED without claim-appropriate evidence.",
+    "Exactly one highest-value next action is exposed."
+  ]
+}
