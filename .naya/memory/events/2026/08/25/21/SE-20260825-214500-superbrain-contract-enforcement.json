@@ -6,7 +6,7 @@
   "time_precision":"hour",
   "subject":"Superbrain constitutional contract enforcement",
   "project":"Naya Power Superbrain",
-  "project_context":{"project_id":"PRJ-NAYAPOWER-SUPERBRAIN","current_objective":"Machine-enforce PROJECT context, Next Execution, paired representations, meaningful learning, Prompt Architect contracts, and continuity at the canonical execution boundary."},
+  "project_context":{"project_id":"PRJ-NAYAPOWER-SUPERBRAIN","project_name":"Naya Power Superbrain","current_daily_project":"Naya Power Superbrain","current_objective":"Machine-enforce PROJECT context, Next Execution, paired representations, meaningful learning, Prompt Architect contracts, and continuity at the canonical execution boundary."},
   "continuity_required":true,
   "continuity":{"execution_state":"IN_PROGRESS","handoff_path":".naya/handoffs/NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md","learning_status":"LEARNED","next_action_status":"REQUIRED_NEXT_PHASE","next_execution_path":".naya/handoffs/NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md"},
   "next_execution":{"path":".naya/handoffs/NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md"},
