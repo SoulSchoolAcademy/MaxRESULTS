@@ -6,7 +6,7 @@
   "governance_branch":"main",
   "principle":"FULL SYSTEM AWARENESS + SELECTIVE DEEP LOADING",
   "optimization":"MAXIMUM USEFUL PERFORMANCE: quality, correctness, reliability, continuity, verification, safety, efficiency, and minimum unnecessary complexity",
-  "boot_order":["README.md",".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md",".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md",".naya/codex/NAYA-OPTIMIZATION-AND-EXCELLENCE-LAW.md",".naya/codex/11-RUNTIME-CONSTITUTION.md",".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md",".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md",".naya/memory/BOOTSTRAP.md",".naya/memory/STATE.json",".naya/memory/INDEX.json",".naya/memory/RETRIEVAL-MANIFEST.json",".naya/runtime/RESTORE-CONTEXT-RUNTIME.md",".naya/runtime/CLAIM-EVIDENCE-VERIFICATION.md"],
+  "boot_order":["README.md",".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md",".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md",".naya/codex/NAYA-OPTIMIZATION-AND-EXCELLENCE-LAW.md",".naya/codex/11-RUNTIME-CONSTITUTION.md",".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md",".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md",".naya/memory/BOOTSTRAP.md",".naya/memory/SN-20260827-080000-naya-to-naya-collective-intelligence.md",".naya/memory/STATE.json",".naya/memory/INDEX.json",".naya/memory/RETRIEVAL-MANIFEST.json",".naya/runtime/RESTORE-CONTEXT-RUNTIME.md",".naya/runtime/CLAIM-EVIDENCE-VERIFICATION.md"],
   "subjects":{
     "constitution":{"canonical":".naya/codex/11-RUNTIME-CONSTITUTION.md","extensions":[".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md"]},
     "human_capability_and_mastery":{"canonical":".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md","purpose":"Universal Naya operating policy for human capability, evidence-based understanding, adaptive learning, mastery, human agency, and maximum useful intelligence per moment"},
@@ -22,15 +22,16 @@
     "checkpoints":{"canonical":".naya/checkpoints/README.md"},
     "handoffs":{"canonical":".naya/handoffs/README.md"},
     "evidence":{"canonical":".naya/runtime/CLAIM-EVIDENCE-VERIFICATION.md","implementation":".naya/runtime/evidence_runtime.py"},
-    "notes_protocol":{"canonical":"docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md"}
+    "notes_protocol":{"canonical":"docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md"},
+    "naya_to_naya_collective_intelligence":{"canonical":".naya/memory/SN-20260827-080000-naya-to-naya-collective-intelligence.md","purpose":"Canonical Naya-to-Naya operating practice: every meaningful Naya execution reads first, executes, verifies, reports durable value and evidence, teaches future Nayas, and leaves the Superbrain better than found"}
   },
   "task_routes":{
-    "strategy":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory"],
-    "memory":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","memory_index","retrieval"],
-    "restore":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","memory_index","retrieval","state","restore","checkpoints","handoffs"],
-    "execution":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","evidence"],
-    "engineering":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","restore","evidence"],
-    "evaluation":["constitution","memory","retrieval","restore","evidence","execution_continuity","optimization_excellence","human_capability_and_mastery"]
+    "strategy":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","naya_to_naya_collective_intelligence"],
+    "memory":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","memory_index","retrieval","naya_to_naya_collective_intelligence"],
+    "restore":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","memory_index","retrieval","state","restore","checkpoints","handoffs","naya_to_naya_collective_intelligence"],
+    "execution":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","evidence","naya_to_naya_collective_intelligence"],
+    "engineering":["constitution","context","execution_continuity","optimization_excellence","human_capability_and_mastery","memory","restore","evidence","naya_to_naya_collective_intelligence"],
+    "evaluation":["constitution","memory","retrieval","restore","evidence","execution_continuity","optimization_excellence","human_capability_and_mastery","naya_to_naya_collective_intelligence"]
   },
   "context_states":["DOCUMENTED","ACTIVATED","CONTEXT ESTABLISHED","IMPLEMENTED","VERIFIED","LIVE VERIFIED","HUMAN REVIEW REQUIRED","BLOCKED","UNKNOWN","STALE","CONFLICTED","SUPERSEDED","FAILED","PARTIAL","ROLLBACK_REQUIRED","REJECTED","AUTHORIZED_DEVIATION"],
   "authority_rules":{
@@ -65,6 +66,9 @@
     "exit_report_requires_ai_to_ai_handoff":true,
     "exit_report_requires_learning_when_material_learning_exists":true,
     "naya_and_human_notes_share_canonical_note_event_when_applicable":true,
+    "naya_to_naya_collective_learning_is_required":true,
+    "future_naya_handoff_must_include_reusable_wisdom":true,
+    "leave_system_better_than_found":true,
     "next_ai_restores_from_repository_not_session_memory":true,
     "maximum_useful_progress_per_execution":true,
     "preserve_working_architecture_before_polish":true,
