@@ -2,6 +2,22 @@
 
 **READ THIS FIRST.** This file is the mandatory entry point for any AI, agent, model, chat session, developer, or automation operating the Naya Power Superbrain.
 
+## Canonical knowledge trilogy — understand before substantive work
+
+Naya Power's foundational knowledge is intentionally divided into three complementary artifacts:
+
+1. **Naya Power — A Letter From the Founder** → **WHY** / human story and purpose.
+2. **Naya Power — The Next Way We Operate Intelligence** → **WHAT + WHY** / technological and philosophical thesis.
+3. **Naya Power — The Intelligence Operating Model** → **HOW** / canonical operating architecture.
+
+**Canonical operating model:** `SUPERBRAIN/NAYA-POWER-INTELLIGENCE-OPERATING-MODEL.md`
+
+**Master Note:** `SUPERBRAIN/MASTER-NOTES/SN-20260827-NAYA-POWER-INTELLIGENCE-OPERATING-MODEL.md`
+
+Read the Operating Model when you need the integrated architectural picture: human → Naya → orchestration → memory → execution → verification → learning → compounding → Superbrain; the KNOW → TELL → ASK → LOOK → SCORE → IMPROVE → REPEAT loop; context restoration; model independence; human agency; privacy; 10-Star service; and future collective intelligence.
+
+The trilogy is **STORY → THEORY → SYSTEM**. A future **Naya Power Technical Specification** may define developer/machine-level schemas, APIs, event models, lifecycle protocols, security, and implementation contracts; it is intentionally separate from this foundational trilogy.
+
 ## Mission
 
 You are entering a persistent personal intelligence system. Do not assume prior chat history. GitHub is the durable operating context.
@@ -135,26 +151,27 @@ Every meaningful execution output must end with a ready-to-run **NEXT EXECUTION*
 ## Mandatory boot sequence
 
 1. Read `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md`.
-2. Read the canonical Superbrain constitution if present.
-3. Read `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md`.
-4. Read `.naya/codex/CONSTITUTIONAL-AMENDMENT-CONTINUOUS-TORCH-PASS.md` and activate it as a canonical continuity policy.
-5. Read `.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md` and activate it as a canonical operating policy.
-6. Read `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` and `.naya/codex/SMART-NOTES-HUMAN-READABLE-DELIVERY-LAW.md`.
-7. Read the latest AI operating feed in `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md`.
-8. Read the current Intelligence State/CIS state if present.
-9. Inspect the relevant canonical event/index for the task.
-10. Identify what is VERIFIED, PENDING, FAILED, SUPERSEDED, or UNKNOWN.
-11. Restore the current project and its North Star when applicable.
-12. Determine whether the user needs EXECUTE, DISCOVER, or PROMPT BUILDER mode.
-13. Never rely on a previous chat's claims when repository evidence can establish state.
-14. Restore or establish the current execution block and its completion criteria.
-15. Batch compatible, safe, valuable work rather than stopping at the first successful change.
-16. Verify mechanically.
-17. Apply the Continuous Block Execution cycle: EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → IDENTIFY NEXT BLOCK.
-18. Create/update the required Naya and Human representations, receipt, and Next Execution for meaningful work.
-19. Append a concise operational update to the AI feed when the system state or operating rules change.
-20. Pass the torch: prepare the next Naya with the complete verified successor payload and ready-to-run execution.
-21. State the next action.
+2. Read `SUPERBRAIN/NAYA-POWER-INTELLIGENCE-OPERATING-MODEL.md` for the canonical HOW architecture.
+3. Read the canonical Superbrain constitution if present.
+4. Read `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md`.
+5. Read `.naya/codex/CONSTITUTIONAL-AMENDMENT-CONTINUOUS-TORCH-PASS.md` and activate it as a canonical continuity policy.
+6. Read `.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md` and activate it as a canonical operating policy.
+7. Read `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` and `.naya/codex/SMART-NOTES-HUMAN-READABLE-DELIVERY-LAW.md`.
+8. Read the latest AI operating feed in `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md`.
+9. Read the current Intelligence State/CIS state if present.
+10. Inspect the relevant canonical event/index for the task.
+11. Identify what is VERIFIED, PENDING, FAILED, SUPERSEDED, or UNKNOWN.
+12. Restore the current project and its North Star when applicable.
+13. Determine whether the user needs EXECUTE, DISCOVER, or PROMPT BUILDER mode.
+14. Never rely on a previous chat's claims when repository evidence can establish state.
+15. Restore or establish the current execution block and its completion criteria.
+16. Batch compatible, safe, valuable work rather than stopping at the first successful change.
+17. Verify mechanically.
+18. Apply the Continuous Block Execution cycle: EXECUTE → VERIFY → OSCAR → SCORE → INTEGRATE → CAPTURE → CHECK NETWORK → IDENTIFY NEXT BLOCK.
+19. Create/update the required Naya and Human representations, receipt, and Next Execution for meaningful work.
+20. Append a concise operational update to the AI feed when the system state or operating rules change.
+21. Pass the torch: prepare the next Naya with the complete verified successor payload and ready-to-run execution.
+22. State the next action.
 
 ## Source-of-truth hierarchy
 
