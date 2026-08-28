@@ -1,0 +1,63 @@
+{
+  "$schema": "naya/control-plane/map/v1",
+  "status": "CANONICAL",
+  "repository": "SoulSchoolAcademy/NayaPOWER",
+  "canonical_identity_registry": ".naya/control-plane/CANONICAL-IDENTITY-REGISTRY.json",
+  "mission": "Make it dramatically easier for an ordinary human with a meaningful vision to accomplish extraordinary things with AI without becoming an AI project manager.",
+  "north_star": "Maximum verified human value per unit of effort, with compounding intelligence and continuity.",
+  "authority": {
+    "governing_standard": "SUPERBRAIN/NAYA-REPOSITORY-OPERATING-STANDARD.md",
+    "boot_entry": "SUPERBRAIN/AI-BOOT/START-HERE.md",
+    "current_state": ".naya/memory/STATE.json",
+    "execution_issue": 66,
+    "assessment_issue": 67
+  },
+  "truth_owners": {
+    "source": "GitHub repository and commit history",
+    "current_state": ".naya/memory/STATE.json",
+    "runtime_transactional_state": "Application runtime/database authority where applicable",
+    "evidence": "Execution receipts, CI artifacts, runtime/render/whole-journey evidence",
+    "history": ".naya/memory/events/ and execution receipts"
+  },
+  "protected": [
+    "NayaPOWER constitutional and governing laws",
+    "canonical source hierarchy",
+    "Mission State/current truth contract",
+    "MAXESS canonical scoring/result authority",
+    "MAXESS_RESULT_V1",
+    "independent Oscar challenge boundary",
+    "UNKNOWN-as-not-verified law",
+    "one-authority/anti-duplication law",
+    "continuous torch-pass and successor continuity"
+  ],
+  "major_systems": [
+    "Naya activation",
+    "Superbrain memory/CIS",
+    "Prompt Architect",
+    "Execution continuity",
+    "Verification/evidence",
+    "Oscar quality review",
+    "MAXIS/MAXESS integration"
+  ],
+  "execution_map": {
+    "current_program": "Issue #66 — mechanically enforce the Naya Repository Operating Standard",
+    "blocks": ["B01-MAP", "B02-STATE-DRIFT", "B03-PROOF", "B04-CHECKPOINT", "B05-CONCURRENCY", "B06-COLD-NAYA", "B07-HEALTH", "B08-REPEATABILITY"],
+    "active_block": "B01-B03-MINIMUM-CONTROL-LOOP",
+    "definition_of_done": "Cold Naya can resolve identity, restore current state, identify the active block, and reject unsupported verification using machine-checkable artifacts."
+  },
+  "verification_mechanisms": [
+    ".naya/control-plane/validate_control_plane.py",
+    ".naya/runtime/cold_start_activation.py",
+    "GitHub Actions evidence",
+    "execution receipts",
+    "runtime/render/whole-journey tests where applicable"
+  ],
+  "resolution_rules": [
+    "Resolve canonical identity before repository search.",
+    "Historical/superseded names are aliases, never current locators.",
+    "Current repository HEAD is authoritative over recorded HEAD claims.",
+    "UNKNOWN cannot satisfy VERIFIED or RACE_READY.",
+    "A block cannot be VERIFIED without appropriate evidence.",
+    "One highest-value next action must be exposed for the current block."
+  ]
+}
