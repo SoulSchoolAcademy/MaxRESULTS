@@ -14,6 +14,26 @@ Make it dramatically easier for an ordinary human with a meaningful vision to ac
 
 **UNDERSTAND → PLAN → EXECUTE → VERIFY → LEARN → COMPRESS → PRESERVE → RESTORE → IMPROVE**
 
+## 🔱 Naya Repository Operating Standard — CANONICAL
+
+**`SUPERBRAIN/NAYA-REPOSITORY-OPERATING-STANDARD.md`** is the mandatory shared repository operating standard for every Naya-operated project.
+
+It establishes the common cognitive architecture for the Naya SuperBrain:
+
+**SOURCE → STATE → MAP → GAP → EXECUTE → PROVE → LEARN → HANDOFF → CONTINUE**
+
+The standard defines the cold-start contract, repository navigation/map requirements, authority hierarchy, current-state vocabulary, execution-block model, evidence law, Smart Note routing, Naya signatures/receipts, successor continuity, anti-duplication law, and the repository 10/10 test.
+
+### The three-layer model
+
+- **NayaPOWER** — the shared Naya intelligence/execution operating system; its human North Star is maximizing human capability through Naya.
+- **Product repositories** — product-specific missions and human outcomes, such as MAXIS.
+- **Repository SuperBrain** — persistent project memory containing truth, architecture, plans, evidence, decisions, learning, and successor continuity.
+
+> **NayaPOWER governs the method. The product defines the human outcome. The repository preserves the execution intelligence.**
+
+Every major project repository should use this standard or a clearly linked project adapter. The physical folder structure may differ, but the cognitive map must remain recognizable to a cold Naya.
+
 ## Human Capability & Mastery Doctrine 🔱
 
 NayaPOWER now explicitly governs a higher-order product purpose across Naya and MAXIS: **build for the human, not the machine**. The system should leave the human more capable than when they arrived.
@@ -62,23 +82,24 @@ The activation architecture is structurally locked as a 12-layer model. Structur
 
 ## Start Here
 
-1. `SUPERBRAIN/MASTER-SYSTEMS-ARCHITECTURE.md` — canonical activation architecture and authority model
-2. `.naya/codex/11-RUNTIME-CONSTITUTION.md`
-3. `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md` — 10-Star service, autonomous execution, project, teaching, prompt, continuity, and self-optimization law
-4. `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — canonical Smart Notes/CIS law
-5. `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md` — canonical Superbrain operating model
-6. `.naya/memory/BOOTSTRAP.md` — model/session continuity contract
-7. `SUPERBRAIN/AI-BOOT/START-HERE.md` — mandatory AI entry point
-8. `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md` — append-only change stream
-9. `SUPERBRAIN/PROMPT-ARCHITECT/README.md` — canonical intent-to-prompt execution architecture
-10. `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md` — 25-task optimization sequence
-11. `SUPERBRAIN/10-10-SCORECARD.md` — measured maturity and remaining gates
-12. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-NAYA.md` — AI execution directive
-13. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-SHAWN.md` — human execution directive
-14. `.naya/memory/events/INDEX.json` — chronological Note Event index
-15. `.naya/memory/STATE.json` — current Intelligence State
-16. `.naya/memory/smart_notes_v3.py` — event validation/retrieval/CIS runtime
-17. `.naya/memory/duplicate_entity_audit.py` — duplicate/entity resolution audit
+1. `SUPERBRAIN/NAYA-REPOSITORY-OPERATING-STANDARD.md` — **mandatory cross-project repository operating standard**
+2. `SUPERBRAIN/MASTER-SYSTEMS-ARCHITECTURE.md` — canonical activation architecture and authority model
+3. `.naya/codex/11-RUNTIME-CONSTITUTION.md`
+4. `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md` — 10-Star service, autonomous execution, project, teaching, prompt, continuity, and self-optimization law
+5. `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — canonical Smart Notes/CIS law
+6. `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md` — canonical Superbrain operating model
+7. `.naya/memory/BOOTSTRAP.md` — model/session continuity contract
+8. `SUPERBRAIN/AI-BOOT/START-HERE.md` — mandatory AI entry point
+9. `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md` — append-only change stream
+10. `SUPERBRAIN/PROMPT-ARCHITECT/README.md` — canonical intent-to-prompt execution architecture
+11. `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md` — 25-task optimization sequence
+12. `SUPERBRAIN/10-10-SCORECARD.md` — measured maturity and remaining gates
+13. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-NAYA.md` — AI execution directive
+14. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-SHAWN.md` — human execution directive
+15. `.naya/memory/events/INDEX.json` — chronological Note Event index
+16. `.naya/memory/STATE.json` — current Intelligence State
+17. `.naya/memory/smart_notes_v3.py` — event validation/retrieval/CIS runtime
+18. `.naya/memory/duplicate_entity_audit.py` — duplicate/entity resolution audit
 
 ## Smart Notes + CIS
 
