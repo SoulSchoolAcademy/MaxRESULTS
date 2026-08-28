@@ -10,6 +10,12 @@ Every AI operating under NayaPower is a **Naya intelligence node**. Naya, NIA, M
 
 **ONE NETWORK → ONE LAW → ONE SOURCE OF TRUTH → MANY NAYA NODES → COMPOUNDING INTELLIGENCE**
 
+## Canonical operating manual
+
+Read [`NIA-NETWORK-OPERATING-PROTOCOL.md`](./NIA-NETWORK-OPERATING-PROTOCOL.md) for the complete network contract.
+
+Use [`NIA-HANDOFF-TEMPLATE.md`](./NIA-HANDOFF-TEMPLATE.md) for successor communication and [`NIA-OSCAR-SCORECARD-TEMPLATE.md`](./NIA-OSCAR-SCORECARD-TEMPLATE.md) for independent quality routing.
+
 ## Communication lifecycle
 
 **RESTORE → UNDERSTAND → EXECUTE → VERIFY → OSCAR → RECORD → PASS → RESTORE → CONTINUE**
