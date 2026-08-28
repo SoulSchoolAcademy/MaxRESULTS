@@ -14,8 +14,8 @@
   "failures": [],
   "risks": ["Legacy .naya/memory/STATE.json contains a recorded current_main.commit that may become stale as main advances; it must not outrank live Git HEAD.", "Machine validation is repository-local and does not itself prove external provider behavior."],
   "bottleneck": "Prove B01-B03 mechanically, then close the first evidence-backed failure without using deployment as a discovery mechanism.",
-  "single_next_action": "Run .naya/control-plane/validate_control_plane.py in a fresh checkout; repair the first material finding; rerun until the control-plane acceptance is GREEN.",
-  "next_actions": ["Run .naya/control-plane/validate_control_plane.py in a fresh checkout; repair the first material finding; rerun until the control-plane acceptance is GREEN."],
+  "single_next_action": "Run the control-plane validator against the live repository and repair every material finding before declaring B01-B03 complete.",
+  "next_actions": ["Run the control-plane validator against the live repository and repair every material finding before declaring B01-B03 complete."],
   "next_action_count": 1,
   "truth_rules": ["LIVE authoritative source outranks recorded state.", "RECORDED_BUT_STALE is not CURRENT.", "UNKNOWN is not VERIFIED.", "A block is not VERIFIED without claim-appropriate evidence.", "Exactly one highest-value next action is exposed."]
 }
