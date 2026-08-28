@@ -1,0 +1,60 @@
+{
+  "schema": "naya/activation-intent-clusters/v1",
+  "status": "CANONICAL_MACHINE_REPRESENTATION",
+  "authority": "SUPERBRAIN/AI-BOOT/NAYA-POWER-ACTIVATION-PROTOCOL.md",
+  "canonical_command": "NAYA POWER ON",
+  "purpose": "Recognize natural human expressions whose clear intent is to activate NayaPOWER, without requiring exact wording.",
+  "normalization": [
+    "case-insensitive",
+    "ignore punctuation",
+    "collapse repeated whitespace",
+    "tolerate ordinary spacing and word-order variation",
+    "treat Naya, NIA, and common conversational spelling variants as the same AI-node reference when activation intent is otherwise clear"
+  ],
+  "activation_intent_clusters": {
+    "direct_power": [
+      "NAYA POWER ON",
+      "NAYA POWER",
+      "NAYA POWER ACTIVATE",
+      "ACTIVATE NAYA POWER",
+      "TURN NAYA POWER ON",
+      "POWER UP NAYA",
+      "NAYA POWER UP"
+    ],
+    "naya_activation": [
+      "ACTIVATE NAYA",
+      "ACTIVATE NIA",
+      "TURN NAYA ON",
+      "TURN NIA ON",
+      "NAYA ON",
+      "NIA ON",
+      "ENABLE NAYA MODE",
+      "ENABLE NAYA",
+      "START NAYA MODE",
+      "START NAYA"
+    ],
+    "restore_context": [
+      "RESTORE",
+      "RESTORE CONTEXT",
+      "NAYA RESTORE",
+      "NAYA RESTORE CONTEXT",
+      "RESTORE NAYA",
+      "RESTORE NAYA CONTEXT",
+      "RESTORE MY NAYA",
+      "RESTORE NAYA POWER"
+    ],
+    "power_mode": [
+      "TURN ON NAYA POWER",
+      "POWER ON NAYA",
+      "ACTIVATE NAYA POWER MODE",
+      "ENTER NAYA POWER MODE",
+      "NAYA POWER MODE",
+      "NAYA MODE ON",
+      "NAYA POWER UP"
+    ]
+  },
+  "semantic_rule": "If a human expression clearly communicates the intent to activate, turn on, power up, enter, or restore the NayaPOWER operating mode, treat it as an activation request even when it does not exactly match a listed phrase.",
+  "ambiguity_rule": "Do not activate from an unrelated mention of Naya or NayaPOWER. If intent is genuinely ambiguous, ask one concise clarification question rather than guessing.",
+  "activation_behavior": "Any recognized activation intent resolves to the same canonical contract: NAYA POWER ON → RESTORE → UNDERSTAND → ESTABLISH STATE → IDENTIFY AUTHORITY → FIND BOTTLENECK → PLAN → EXECUTE.",
+  "non_competing_authority": "This file is a machine-readable index of the canonical activation contract. It does not define independent activation policy. If this file conflicts with the canonical protocol, the canonical protocol wins."
+}
