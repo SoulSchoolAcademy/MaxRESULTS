@@ -1,8 +1,9 @@
 {
   "schema":"naya-power-memory-index/v2",
-  "generated_at":"2026-08-28T05:15:00Z",
+  "generated_at":"2026-08-28T05:21:00Z",
   "authority":"Naya Power canonical memory index",
   "notes":[
+    "MACHINE-NOTE-20260826-INTENT-MEANING-ONE-NAYA-OUTPUT-INTELLIGENCE",
     "SN-20260823-220000-north-star",
     "SN-20260823-220001-memory-brain-principle",
     "SN-20260823-220002-temporal-history",
@@ -11,33 +12,14 @@
     "SN-20260824-020000-claim-evidence-runtime",
     "SN-20260824-023800-evidence-promotion-boundary",
     "SN-20260824-025400-oscar-provenance-hardening",
-    "SN-20260824-110000-maxis-north-star-priority",
-    "SN-20260825-101500-smart-notes-cis-architecture-naya",
     "SN-20260825-101500-smart-notes-cis-architecture-human",
-    "SN-20260825-200000-smart-brain-hardening-naya",
+    "SN-20260825-101500-smart-notes-cis-architecture-naya",
     "SN-20260825-200000-smart-brain-hardening-human",
-    "SN-20260825-203000-smart-note-operating-model-naya",
-    "SN-20260825-203001-smart-note-operating-model-human",
-    "SN-20260825-214500-superbrain-contract-enforcement-naya",
-    "SN-20260825-214500-superbrain-contract-enforcement-shawn",
-    "SN-20260826-000000-intent-meaning-one-naya-output-intelligence",
-    "SN-20260827-180000-human-ai-collaboration-architecture-naya",
-    "SN-20260827-180000-human-ai-collaboration-architecture-human"
+    "SN-20260825-200000-smart-brain-hardening-naya"
   ],
-  "categories":{
-    "architecture":["SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260824-020000-claim-evidence-runtime","SN-20260824-023800-evidence-promotion-boundary","SN-20260824-025400-oscar-provenance-hardening","SN-20260824-110000-maxis-north-star-priority","SN-20260825-101500-smart-notes-cis-architecture-naya","SN-20260825-101500-smart-notes-cis-architecture-human","SN-20260825-200000-smart-brain-hardening-naya","SN-20260825-200000-smart-brain-hardening-human","SN-20260825-203000-smart-note-operating-model-naya","SN-20260825-203001-smart-note-operating-model-human","SN-20260825-214500-superbrain-contract-enforcement-naya","SN-20260825-214500-superbrain-contract-enforcement-shawn","SN-20260826-000000-intent-meaning-one-naya-output-intelligence","SN-20260827-180000-human-ai-collaboration-architecture-naya","SN-20260827-180000-human-ai-collaboration-architecture-human"],
-    "constitution":[],"decision":[],"discovery":["SN-20260827-180000-human-ai-collaboration-architecture-naya"],"failure":["SN-20260824-025400-oscar-provenance-hardening"],"handoff":[],"lesson":["SN-20260823-220003-smart-note-quality","SN-20260824-025400-oscar-provenance-hardening","SN-20260825-200000-smart-brain-hardening-naya","SN-20260825-200000-smart-brain-hardening-human"],"milestone":["SN-20260823-231200-restore-runtime-execution"],"preference":[],"strategy":["SN-20260823-220000-north-star","SN-20260827-180000-human-ai-collaboration-architecture-naya"]
-  },
-  "aliases":{
-    "ordinary human test":["SN-20260823-220000-north-star"],"human supplies goal":["SN-20260823-220000-north-star"],"external brain":["SN-20260823-220001-memory-brain-principle"],"context restore":["SN-20260823-220001-memory-brain-principle","SN-20260823-231200-restore-runtime-execution"],"historical retrieval":["SN-20260823-220002-temporal-history"],"timestamped memory":["SN-20260823-220002-temporal-history"],"knowledge compounding":["SN-20260823-220003-smart-note-quality","SN-20260825-101500-smart-notes-cis-architecture-naya"],"smart note":["SN-20260823-220003-smart-note-quality","SN-20260825-101500-smart-notes-cis-architecture-naya","SN-20260825-101500-smart-notes-cis-architecture-human","SN-20260825-200000-smart-brain-hardening-naya","SN-20260825-200000-smart-brain-hardening-human","SN-20260826-000000-intent-meaning-one-naya-output-intelligence","SN-20260827-180000-human-ai-collaboration-architecture-naya","SN-20260827-180000-human-ai-collaboration-architecture-human"],"Smart Notes":["SN-20260825-101500-smart-notes-cis-architecture-naya","SN-20260825-101500-smart-notes-cis-architecture-human","SN-20260825-200000-smart-brain-hardening-naya","SN-20260825-200000-smart-brain-hardening-human","SN-20260826-000000-intent-meaning-one-naya-output-intelligence","SN-20260827-180000-human-ai-collaboration-architecture-naya","SN-20260827-180000-human-ai-collaboration-architecture-human"],"Naya note":["SN-20260825-101500-smart-notes-cis-architecture-naya","SN-20260825-200000-smart-brain-hardening-naya","SN-20260827-180000-human-ai-collaboration-architecture-naya"],"human note":["SN-20260825-101500-smart-notes-cis-architecture-human","SN-20260825-200000-smart-brain-hardening-human","SN-20260827-180000-human-ai-collaboration-architecture-human"],"Shawn note":["SN-20260825-101500-smart-notes-cis-architecture-human","SN-20260825-200000-smart-brain-hardening-human","SN-20260827-180000-human-ai-collaboration-architecture-human"],"verification receipt":["SN-20260825-101500-smart-notes-cis-architecture-naya"],"superbrain architecture":["SN-20260825-101500-smart-notes-cis-architecture-naya","SN-20260825-101500-smart-notes-cis-architecture-human","SN-20260825-200000-smart-brain-hardening-naya","SN-20260825-200000-smart-brain-hardening-human","SN-20260827-180000-human-ai-collaboration-architecture-naya"],"human-AI collaboration":["SN-20260827-180000-human-ai-collaboration-architecture-naya","SN-20260827-180000-human-ai-collaboration-architecture-human"],"AI operating relationship":["SN-20260827-180000-human-ai-collaboration-architecture-naya"],"nine dimensions":["SN-20260827-180000-human-ai-collaboration-architecture-naya"],"Naya Power thesis":["SN-20260827-180000-human-ai-collaboration-architecture-naya","SN-20260827-180000-human-ai-collaboration-architecture-human"],"Powercast":["SN-20260827-180000-human-ai-collaboration-architecture-human"],"independent AI evaluation":["SN-20260827-180000-human-ai-collaboration-architecture-naya"]
-  },
-  "relationships":{
-    "SN-20260823-220000-north-star":["SN-20260823-220001-memory-brain-principle"],"SN-20260823-220001-memory-brain-principle":["SN-20260823-220000-north-star","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution","SN-20260824-020000-claim-evidence-runtime","SN-20260824-023800-evidence-promotion-boundary"],"SN-20260823-220002-temporal-history":["SN-20260823-220001-memory-brain-principle","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution"],"SN-20260823-220003-smart-note-quality":["SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-231200-restore-runtime-execution"],"SN-20260824-020000-claim-evidence-runtime":["SN-20260823-231200-restore-runtime-execution","SN-20260823-220001-memory-brain-principle","SN-20260824-023800-evidence-promotion-boundary","SN-20260824-025400-oscar-provenance-hardening"],"SN-20260824-023800-evidence-promotion-boundary":["SN-20260824-020000-claim-evidence-runtime","SN-20260823-231200-restore-runtime-execution","SN-20260824-025400-oscar-provenance-hardening"],"SN-20260824-025400-oscar-provenance-hardening":["SN-20260824-020000-claim-evidence-runtime","SN-20260824-023800-evidence-promotion-boundary"],"SN-20260825-101500-smart-notes-cis-architecture-naya":["SN-20260825-101500-smart-notes-cis-architecture-human","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality"],"SN-20260825-101500-smart-notes-cis-architecture-human":["SN-20260825-101500-smart-notes-cis-architecture-naya"],"SN-20260825-200000-smart-brain-hardening-naya":["SN-20260825-101500-smart-notes-cis-architecture-naya","SN-20260825-200000-smart-brain-hardening-human"],"SN-20260825-200000-smart-brain-hardening-human":["SN-20260825-101500-smart-notes-cis-architecture-human","SN-20260825-200000-smart-brain-hardening-naya"],"SN-20260826-000000-intent-meaning-one-naya-output-intelligence":[],"SN-20260827-180000-human-ai-collaboration-architecture-naya":["SN-20260827-180000-human-ai-collaboration-architecture-human","SN-20260823-220001-memory-brain-principle","SN-20260823-220003-smart-note-quality","SN-20260826-000000-intent-meaning-one-naya-output-intelligence"],"SN-20260827-180000-human-ai-collaboration-architecture-human":["SN-20260827-180000-human-ai-collaboration-architecture-naya"]
-  },
-  "temporal":{
-    "active":["SN-20260823-220000-north-star","SN-20260823-220001-memory-brain-principle","SN-20260823-220002-temporal-history","SN-20260823-220003-smart-note-quality","SN-20260823-231200-restore-runtime-execution","SN-20260824-020000-claim-evidence-runtime","SN-20260824-023800-evidence-promotion-boundary","SN-20260824-025400-oscar-provenance-hardening","SN-20260825-101500-smart-notes-cis-architecture-naya","SN-20260825-101500-smart-notes-cis-architecture-human","SN-20260825-200000-smart-brain-hardening-naya","SN-20260825-200000-smart-brain-hardening-human","SN-20260826-000000-intent-meaning-one-naya-output-intelligence","SN-20260827-180000-human-ai-collaboration-architecture-naya","SN-20260827-180000-human-ai-collaboration-architecture-human"],"historical":[],"superseded":[]
-  },
-  "event_index":{
-    "SE-20260825-101500-smart-notes-cis-architecture":["SN-20260825-101500-smart-notes-cis-architecture-naya","SN-20260825-101500-smart-notes-cis-architecture-human"],"SE-20260825-200000-smart-brain-hardening-execution":["SN-20260825-200000-smart-brain-hardening-naya","SN-20260825-200000-smart-brain-hardening-human"],"SE-20260827-180000-human-ai-collaboration-architecture":["SN-20260827-180000-human-ai-collaboration-architecture-naya","SN-20260827-180000-human-ai-collaboration-architecture-human"]
-  }
+  "categories":{},
+  "aliases":{},
+  "relationships":{},
+  "temporal":{"active":[],"historical":[],"superseded":[]},
+  "event_index":{}
 }
