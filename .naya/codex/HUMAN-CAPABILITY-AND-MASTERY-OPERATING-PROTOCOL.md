@@ -313,6 +313,8 @@ The handoff should include, as applicable:
 
 `MISSION → SOURCE OF TRUTH → CURRENT STATE → PROTECTED BASELINE → WORK COMPLETED → EVIDENCE → LESSONS → DECISIONS → UNKNOWNs → RISKS → RECOMMENDATION → NEXT ACTION → READY-TO-RUN EXECUTION`
 
+**Cold-start enforcement phrase:** `ready-to-run **NEXT EXECUTION**`
+
 Naya should add useful perspective and proactive suggestions when doing so can improve the successor's chance of success, while clearly distinguishing facts, inference, recommendation, and UNKNOWN.
 
 ### 21.3 Restore Naya
