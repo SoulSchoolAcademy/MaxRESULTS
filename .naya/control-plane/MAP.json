@@ -10,7 +10,8 @@
     "boot_entry": "SUPERBRAIN/AI-BOOT/START-HERE.md",
     "current_state": ".naya/memory/STATE.json",
     "execution_issue": 66,
-    "assessment_issue": 67
+    "assessment_issue": 67,
+    "maxis_design_decision": 69
   },
   "truth_owners": {
     "source": "GitHub repository and commit history",
@@ -28,7 +29,8 @@
     "independent Oscar challenge boundary",
     "UNKNOWN-as-not-verified law",
     "one-authority/anti-duplication law",
-    "continuous torch-pass and successor continuity"
+    "continuous torch-pass and successor continuity",
+    "MAXIS Living Sun presentation direction as recorded in Issue #69, without coupling presentation to scoring truth"
   ],
   "major_systems": [
     "Naya activation",
@@ -37,13 +39,25 @@
     "Execution continuity",
     "Verification/evidence",
     "Oscar quality review",
-    "MAXIS/MAXESS integration"
+    "MAXIS/MAXESS integration",
+    "MAXIS Living Sun assessment presentation"
   ],
   "execution_map": {
     "current_program": "Issue #66 — mechanically enforce the Naya Repository Operating Standard",
     "blocks": ["B01-MAP", "B02-STATE-DRIFT", "B03-PROOF", "B04-CHECKPOINT", "B05-CONCURRENCY", "B06-COLD-NAYA", "B07-HEALTH", "B08-REPEATABILITY"],
     "active_block": "B01-B03-MINIMUM-CONTROL-LOOP",
     "definition_of_done": "Cold Naya can resolve identity, restore current state, identify the active block, and reject unsupported verification using machine-checkable artifacts."
+  },
+  "design_direction": {
+    "product": "MAXIS/MAXESS",
+    "selected_presentation": "NAYA LIVING SUN",
+    "decision_issue": 69,
+    "status": "DESIGN_SELECTED_IMPLEMENTATION_PENDING",
+    "core_principle": "The assessment is a living intelligence environment; the human choice visibly changes the environment while the question remains the visual priority.",
+    "hierarchy": ["QUESTION", "ANSWERS", "NAYA", "PROGRESS", "LIVING_FIELD"],
+    "interaction": "HUMAN_CHOICE → SYSTEM_RESPONSE → PROGRESSION",
+    "presentation_boundary": "Presentation consumes MAXESS state; MAXESS engine remains authoritative for questions, answers, progression, scoring, and results.",
+    "noncanonical_hypotheses": ["exactly 27 orbs", "fixed orb count", "literal solar-system physics", "particle-heavy effects"]
   },
   "verification_mechanisms": [
     ".naya/control-plane/validate_control_plane.py",
