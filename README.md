@@ -50,6 +50,8 @@ The service standard is: **CAKE → ICING → ICE CREAM → CHERRY → CARAMEL �
 
 **Prompt Architect:** `SUPERBRAIN/PROMPT-ARCHITECT/README.md`
 
+**MAXIS QMAX governance lock:** [`SUPERBRAIN/MASTER-NOTES/SN-20260828-MAXIS-QMAX-ELITE-CRAFT-GOVERNANCE-LOCK.md`](./SUPERBRAIN/MASTER-NOTES/SN-20260828-MAXIS-QMAX-ELITE-CRAFT-GOVERNANCE-LOCK.md). This locks the requirement that MAXIS executions complete the coherent objective, self-review, Oscar-critique, fix material defects, retest, verify, and only then present/deploy the strongest candidate.
+
 ## Activation System Project
 
 **GitHub Issue #56:** `SUPERBRAIN — Build the 12-Layer Naya Activation System to 10/10`
