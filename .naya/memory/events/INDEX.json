@@ -2,7 +2,7 @@
   "version": "3.0.0",
   "status": "CANONICAL",
   "organization": "YEAR/MONTH/DAY/HOUR/EVENT",
-  "event_count": 24,
+  "event_count": 25,
   "events": [
     {"event_id":"SE-20260824-000001-maxess-execution-discipline","path":"2026/08/24/00/SE-20260824-000001-maxess-execution-discipline.json","subject":"MAXESS execution discipline","type":"execution-law","tags":["MAXESS","execution","batching","anti-loop","verification","cause-and-effect"]},
     {"event_id":"SE-20260824-000002-dynamic-any-subject-assessment","path":"2026/08/24/00/SE-20260824-000002-dynamic-any-subject-assessment.json","subject":"Dynamic Any-Subject Assessment","type":"architecture-principle","tags":["MAXESS","dynamic-assessment","universal","generation","scoring","schema","provider"]},
@@ -27,6 +27,7 @@
     {"event_id":"SE-20260826-200000-maxess-master-engineering-design-north-star","path":"2026/08/26/20/SE-20260826-200000-maxess-master-engineering-design-north-star.json","subject":"MAXESS Master Engineering + Design North Star","type":"master-engineering-design-directive","tags":["MAXESS","master-directive","engineering","design","10/10","dynamic-assessment","AI-score","knowledge-bank","scoring","UX","performance","Naya","Smart-Notes","CIS","Oscar","human-readable","verification-receipt"]},
     {"event_id":"SE-20260826-202500-naya-power-white-paper-trifecta-and-maxess-next-gate","path":"2026/08/26/20/SE-20260826-202500-naya-power-white-paper-trifecta-and-maxess-next-gate.json","subject":"Naya Power White Paper Trifecta + MAXESS Human-Test Readiness","type":"strategic-knowledge-and-project-continuity","tags":["NayaPower","white-papers","canonical","WHY-WHAT-HOW","distribution","sales-page","podcast","five-day-challenge","MAXESS","browser-gate","human-test","scorecard","Oscar","continuity"]},
     {"event_id":"SE-20260827-080000-naya-power-human-ai-collaboration-architecture","path":"2026/08/27/08/SE-20260827-080000-naya-power-human-ai-collaboration-architecture.json","subject":"Naya Power as a human-AI collaboration operating architecture","type":"strategic-architecture-and-product-narrative","tags":["NayaPower","human-AI-collaboration","operating-system","architecture","nine-systems","Superbrain","Naya-Notes","Naya-Law","Naya-Scorecarding","Lead-Mode","Naya-Design","Naya-Coder","MAXIS","Powercast"]},
-    {"event_id":"SE-20260827-180000-tri-representation-smart-note-law","path":"2026/08/27/18/SE-20260827-180000-tri-representation-smart-note-law.json","subject":"Tri-representation Smart Note intelligence contract","type":"knowledge-and-governance","tags":["Smart-Notes","CIS","human-representation","naya-representation","machine-representation","algorithm","intelligence","learning","compounding","verification","future-naya"]}
+    {"event_id":"SE-20260827-180000-tri-representation-smart-note-law","path":"2026/08/27/18/SE-20260827-180000-tri-representation-smart-note-law.json","subject":"Tri-representation Smart Note intelligence contract","type":"knowledge-and-governance","tags":["Smart-Notes","CIS","human-representation","naya-representation","machine-representation","algorithm","intelligence","learning","compounding","verification","future-naya"]},
+    {"event_id":"NE-20260827-10OF10-SYSTEM-DIRECTIVE","path":"2026/08/27/21/NE-20260827-10OF10-SYSTEM-DIRECTIVE.json","subject":"Nine-domain 10/10 operating model","type":"governance_decision","tags":["NayaPOWER","10/10","governance","source-of-truth","state","execution","verification","runtime","quality","continuity","learning","handoff"]}
   ]
 }
