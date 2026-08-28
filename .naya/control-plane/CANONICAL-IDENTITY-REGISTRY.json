@@ -2,7 +2,7 @@
   "$schema": "naya/control-plane/canonical-identity-registry/v1",
   "status": "CANONICAL",
   "registry_purpose": "Resolve current identities before repository or artifact selection.",
-  "resolution_rule": "CANONICAL_CURRENT identity outranks historical or superseded aliases regardless of frequency in inherited context.",
+  "resolution_rule": "CURRENT identity outranks historical or superseded aliases regardless of frequency in inherited context.",
   "identities": [
     {
       "canonical_id": "NAYAPOWER",
@@ -14,11 +14,11 @@
     },
     {
       "canonical_id": "MAXIS",
-      "canonical_repository": "SoulSchoolAcademy/MAXIS",
-      "status": "CURRENT_IF_REPOSITORY_EXISTS",
-      "aliases": ["MAXIS"],
-      "supersedes": ["MaxRESULTS"],
-      "selection_rule": "MAXIS product work must resolve through the current MAXIS repository identity, never the historical MaxRESULTS locator."
+      "canonical_repository": "SoulSchoolAcademy/Maxis",
+      "status": "CURRENT",
+      "aliases": ["MAXIS", "Maxis"],
+      "supersedes": ["MaxRESULTS", "Max Results"],
+      "selection_rule": "MAXIS product work resolves to SoulSchoolAcademy/Maxis; MaxRESULTS is historical and must never be selected as the current product repository."
     }
   ],
   "required_resolution": {
