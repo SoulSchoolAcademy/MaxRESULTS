@@ -94,7 +94,15 @@ Canonical storage:
 
 `.naya/memory/events/YYYY/MM/DD/HH/<event_id>.json`
 
-Naya and Human/Shawn representations can live inside the same event. Every Smart Note must be validated, verified, indexed, and issued a durable receipt. Feed publication is required only where the actual feed integration is available and confirmed.
+Each canonical Note Event can carry three aligned representations of the same underlying knowledge:
+
+- **NAYA representation** — AI-facing operational understanding.
+- **HUMAN / SHAWN representation** — human-facing meaning, intent, decisions, corrections, and significance.
+- **MACHINE representation** — algorithm-facing normalized facts, classifications, entities, relationships, status, confidence, provenance, verification state, and retrieval/index signals.
+
+These are **three views of one event, not three independent notes**. The machine representation exists so validators, retrieval, Daily Intelligence, CIS synthesis, and future Nayas can consume structured intelligence without reconstructing meaning from prose alone.
+
+Every Smart Note must be validated, verified, indexed, and issued a durable receipt. Feed publication is required only where the actual feed integration is available and confirmed.
 
 ## Project Memory
 
