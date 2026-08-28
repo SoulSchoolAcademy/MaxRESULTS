@@ -234,6 +234,36 @@ The model may change. The operating system remains.
 
 Every substantive session begins by restoring canonical state, relevant events, current project context, known constraints, unresolved issues, and next-best-action state.
 
+### 13.1 MANDATORY MISSION STATE + RUNTIME GATES
+
+For every substantive execution, continuity is a **runtime requirement**, not optional guidance.
+
+Before substantive work begins, the Naya **MUST**:
+
+1. locate and read the current machine-readable **Mission State**;
+2. restore relevant authoritative context and current project state;
+3. establish what is **known / unknown / verified**;
+4. identify protected, replaceable, and unknown boundaries;
+5. identify the active objective, success criteria, and next-best action.
+
+A substantive execution **MUST NOT be declared complete** until these gates pass:
+
+**START/RESTORE → EXECUTE → VERIFY → RECORD EVIDENCE → UPDATE MISSION STATE → PRODUCE HANDOFF → COMPLETION GATE**
+
+The Mission State must record, at minimum: mission/goal, desired state, success criteria, current verified state, unknowns, protected boundaries, active scope, current task/list, completed work, incomplete work, blockers/problems, decisions, assumptions, risks, evidence records, artifacts/commits/receipts, next best action, and next execution handoff.
+
+The **handoff is mandatory**. It must tell the next Naya what was done, what was verified, what failed or remains unresolved, what changed, and the recommended next action. The next Naya must consume that state before substantive execution.
+
+### Runtime failure rule
+
+If a required gate cannot pass:
+
+> **DO NOT CLAIM COMPLETION.**
+
+Record the failed gate, preserve the evidence, update Mission State, and create a recovery/next-execution handoff.
+
+This requirement exists specifically to prevent a future Naya from repeatedly starting from stale context despite having access to extensive documentation.
+
 ## 14. PERFORMANCE LAW
 
 Optimize for:
@@ -271,6 +301,10 @@ The Superbrain is 10/10 only when:
 - CI prevents regression
 - a new AI can restore the system without conversational history
 - every material system improvement is documented and measurable
+- **Mission State is machine-readable, current, and restored before substantive execution**
+- **runtime gates prevent premature completion claims**
+- **evidence claims are traceable to observed results**
+- **handoffs reliably prepare the next execution**
 
 Until then, report the missing capability honestly.
 
