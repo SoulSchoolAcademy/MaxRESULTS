@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "policy_name": "Naya Power Execution Continuity Enforcement",
   "effective_at": "2026-08-25T20:31:00-07:00",
   "structured_handoff_effective_at": "2026-08-29T06:10:00-07:00",
@@ -50,6 +50,32 @@
     "human_continuation",
     "human_continuation_naya_authored"
   ],
+  "next_action_delivery_schema": {
+    "version": 1,
+    "required_fields": [
+      "next_action",
+      "next_actor",
+      "ready_to_run_execution",
+      "expected_output",
+      "success_criteria",
+      "verification"
+    ],
+    "conditional_fields": [
+      "human_prompt_authoring_required"
+    ],
+    "human_continuation_actors": [
+      "human",
+      "shawn",
+      "user"
+    ],
+    "successor_context_fields": [
+      "mission",
+      "current_state",
+      "constraints",
+      "why_this_action"
+    ],
+    "principle": "A substantive execution may not complete without an executable operational torch containing the next action, next actor, ready-to-run execution, expected output, success criteria, verification, and enough successor context to act without reconstructing the conversation."
+  },
   "contract": {
     "paired_representations": true,
     "verification": true,
@@ -60,7 +86,7 @@
     "learning_or_explicit_status": true,
     "next_action": true,
     "naya_owned_human_continuation": true,
-    "human_prompt_authoring_required": false
+    "human_prompt_authoring_required": "conditional"
   },
-  "design_principle": "Enforce new meaningful executions without rewriting historical events; preserve the existing green boundary while making future continuity failures visible and machine-detectable. The Naya-owned human continuation requirement becomes enforceable at the constitutional amendment's 2026-08-29 effective boundary."
+  "design_principle": "Enforce new meaningful executions without rewriting historical events; preserve the existing green boundary while making future continuity failures visible and machine-detectable. The canonical Next Action Delivery Contract becomes enforceable at the structured handoff boundary."
 }
