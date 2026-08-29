@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nayanet.xyz/schema/smart-note-triad-v0.1.json",
+  "title": "NayaNet Smart Note Triad",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["smart_note_id", "schema_version", "created_at", "human_note", "naya_note", "machine_note"],
+  "properties": {
+    "smart_note_id": {"type": "string", "minLength": 1},
+    "schema_version": {"const": "SMART-NOTE-TRIAD-v0.1"},
+    "created_at": {"type": "string", "minLength": 1},
+    "human_note": {"$ref": "#/$defs/note"},
+    "naya_note": {"$ref": "#/$defs/note"},
+    "machine_note": {"$ref": "#/$defs/machine_note"}
+  },
+  "$defs": {
+    "note": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "content"],
+      "properties": {
+        "status": {"enum": ["PRESENT", "UNAVAILABLE"]},
+        "content": {"type": "string"},
+        "unavailable_reason": {"type": "string"}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "PRESENT"}}}, "then": {"required": ["content"]}},
+        {"if": {"properties": {"status": {"const": "UNAVAILABLE"}}}, "then": {"required": ["unavailable_reason"]}}
+      ]
+    },
+    "machine_note": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "content", "provenance", "evidence", "permissions"],
+      "properties": {
+        "status": {"enum": ["PRESENT", "UNAVAILABLE"]},
+        "content": {"type": "object"},
+        "provenance": {"type": "object"},
+        "evidence": {"type": "object"},
+        "permissions": {"type": "object"},
+        "unavailable_reason": {"type": "string"}
+      }
+    }
+  }
+}
