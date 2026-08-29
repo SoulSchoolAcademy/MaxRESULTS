@@ -122,26 +122,27 @@ The next Naya must be able to continue without reconstructing the previous conve
 **EVIDENCE:** live suite completed successfully with 12/12 tests passing.
 
 ### CCT-005 — Outcome / Value Feedback
-**STATUS:** VERIFYING — REPAIR APPLIED / LIVE VERIFICATION REQUIRED
-**OWNER:** Team Naya / CCT005-repair-privacy-integrity
+**STATUS:** VERIFYING — EVIDENCE-WEIGHT REPAIR APPLIED / LIVE VERIFICATION REQUIRED
+**OWNER:** Team Naya / CCT005-repair-evidence-weight
 **SCOPE:** `.naya/runtime/cct005_value_feedback.py` + `.naya/runtime/cct005_value_feedback_test.py`
-**CLAIM:** `CCT005-REPAIR-PRIVATE-CONTEXT`
-**BASE COMMIT:** `0684b6f11d7e6d68aa4bdf72ef6981671576942b` claim commit
-**ACCEPTANCE:** private outcomes remain valid when correctly integrity-bound; privacy remains non-shareable by default; tampering remains rejected.
+**CLAIM:** `CCT005-REPAIR-EVIDENCE-WEIGHT`
+**ACCEPTANCE:** evidence strength changes value without being normalized away; weak evidence cannot equal verified evidence for otherwise identical outcomes.
 **IMPLEMENTED:** dependency-free outcome record, fail-closed verifier, privacy scope, integrity binding, deterministic provisional value signal, duplicate protection, and adversarial regressions.
-**REPAIR:** test fixture now constructs PRIVATE privacy/context before integrity generation instead of mutating signed fields afterward.
+**REPAIR 1:** private privacy/context are supplied before integrity generation.
+**REPAIR 2:** value normalization denominator now uses confidence only, leaving evidence strength in the contribution so `INFERRED < VERIFIED` can be represented.
+**REPAIR COMMIT:** `861948dfb1e74a5c3af20e2a73a3500fef913344`.
 
 ## CCT-005 HANDOFF
 
-**CHANGED:** repaired only the failing privacy test fixture; enforcement code was intentionally left unchanged.
+**CHANGED:** smallest implementation change in `value_signal()`: denominator changed from `confidence * evidence_strength` to `confidence`, preventing evidence strength from canceling itself during normalization. No security or privacy boundary was weakened.
 
-**TESTED:** prior live CCT-005 run passed the first five tests and failed at `test_private_context_not_shareable_by_default` because the fixture mutated signed fields after hashing. Source inspection verified the cause. Post-repair live execution is still required.
+**TESTED:** live CCT-005 evidence before this repair passed private-context, duplicate, reuse, failure, and contradiction tests, then failed at `test_inferred_is_weaker_than_verified`. Source inspection identified normalization cancellation. Post-repair live execution is still required.
 
-**VERIFIED:** the verifier's integrity behavior is correct: changing privacy/context after signing must be rejected. The repaired fixture now represents a valid private outcome at construction time.
+**VERIFIED:** source-level diagnosis is verified from the implementation: evidence strength previously appeared in both numerator and denominator, so identical successful INFERRED and VERIFIED outcomes both normalized to 100. The repair leaves evidence strength in the numerator.
 
-**UNKNOWN:** live CCT-005 rerun and full regression suite after the repair.
+**UNKNOWN:** live result of the repaired CCT-005 suite; full regression suite after the repair; calibration of the provisional value formula against real outcome data.
 
-**LEARNING:** privacy classification and private context are integrity-protected state. Privacy-by-default does not mean private outcomes are invalid; it means their sharing scope remains restricted. Never weaken tamper detection to accommodate a malformed test fixture.
+**LEARNING:** evidence quality must affect value rather than merely confidence inside a normalization that cancels it. Weak inference must not receive the same value as verified evidence simply because of mathematical normalization.
 
 **NEXT ACTION:** pull latest `main`; run `python .naya/runtime/cct005_value_feedback_test.py` first. If green, run the established CCT-004, CCT-003, claim/concurrency, Intelligent Block, and Note Event promotion suites. Record exact live evidence before changing CCT-005 to DONE and releasing the claim.
 
@@ -151,4 +152,4 @@ The workboard exists so that even many simultaneous Nayas behave like coordinate
 
 **One road. Clear lanes. Explicit ownership. Verified merges. No silent overwrites.**
 
-**CURRENT NAYA ACTION:** CCT005-repair-privacy-integrity remains VERIFYING pending live Codespace evidence. No GREEN claim and no claim release until the repaired suite and regressions pass live.
+**CURRENT NAYA ACTION:** CCT005-repair-evidence-weight remains VERIFYING pending live Codespace evidence. No GREEN claim and no claim release until the repaired suite and regressions pass live.
