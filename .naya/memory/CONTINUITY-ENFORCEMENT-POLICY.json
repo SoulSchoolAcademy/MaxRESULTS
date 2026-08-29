@@ -2,7 +2,7 @@
   "schema_version": 2,
   "policy_name": "Naya Power Execution Continuity Enforcement",
   "effective_at": "2026-08-25T20:31:00-07:00",
-  "structured_handoff_effective_at": "2026-08-27T08:00:00-07:00",
+  "structured_handoff_effective_at": "2026-08-29T18:00:00-07:00",
   "meaningful_event_types": [
     "execution-milestone",
     "master-system-update",
@@ -46,7 +46,9 @@
     "risks",
     "recommendation",
     "next_action",
-    "ready_to_run_execution"
+    "ready_to_run_execution",
+    "human_continuation",
+    "human_continuation_naya_authored"
   ],
   "contract": {
     "paired_representations": true,
@@ -56,7 +58,9 @@
     "ai_to_ai_handoff": true,
     "structured_handoff": true,
     "learning_or_explicit_status": true,
-    "next_action": true
+    "next_action": true,
+    "naya_owned_human_continuation": true,
+    "human_prompt_authoring_required": false
   },
-  "design_principle": "Enforce new meaningful executions without rewriting historical events; preserve the existing green boundary while making future continuity failures visible and machine-detectable."
+  "design_principle": "Enforce new meaningful executions without rewriting historical events; preserve the existing green boundary while making future continuity failures visible and machine-detectable. From the effective boundary forward, a structured handoff is incomplete unless it contains a ready human-facing continuation and explicitly records that Naya authored it."
 }
