@@ -91,15 +91,15 @@ The repository has a canonical Smart Note/CSI representation, including Smart No
 
 **Canonical Note Event/store — EXISTS**
 
-`.naya/runtime/canonical_event_store.py` is the chronological authoritative writer. It uses `SE-*` event IDs, idempotent create/replay behavior, conflict detection, and rebuilds the existing canonical v3 index rather than inventing a second index. fileciteturn299file0L2-L2
+`.naya/runtime/canonical_event_store.py` is the chronological authoritative writer. It uses `SE-*` event IDs, idempotent create/replay behavior, conflict detection, and rebuilds the existing canonical v3 index rather than inventing a second index.
 
 **Note Event → CCT promotion — EXISTS**
 
-`.naya/runtime/cct_note_event_promotion.py` requires a VERIFIED event, evidence, provenance, and explicit consumers/purpose, then creates the existing Intelligent Block artifact. It does not create a second memory system. fileciteturn296file0L2-L2
+`.naya/runtime/cct_note_event_promotion.py` requires a VERIFIED event, evidence, provenance, and explicit consumers/purpose, then creates the existing Intelligent Block artifact. It does not create a second memory system.
 
 **CCT-005 value feedback — EXISTS**
 
-`.naya/runtime/cct005_value_feedback.py` already provides deterministic, bounded outcome verification and value calculation. Evidence strength materially affects the contribution; duplicate IDs are deduplicated. fileciteturn298file0L2-L2
+`.naya/runtime/cct005_value_feedback.py` already provides deterministic, bounded outcome verification and value calculation. Evidence strength materially affects the contribution; duplicate IDs are deduplicated.
 
 **Smart Note → Note Event → CCT-005 connection — PARTIAL / NEW BRIDGE ADDED**
 
