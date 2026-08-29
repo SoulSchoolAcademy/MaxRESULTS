@@ -122,71 +122,73 @@ The next Naya must be able to continue without reconstructing the previous conve
 **EVIDENCE:** live suite completed successfully with 12/12 tests passing.
 
 ### CCT-005 — Outcome / Value Feedback
-**STATUS:** VERIFYING — EVIDENCE-WEIGHT REPAIR APPLIED / LIVE VERIFICATION REQUIRED
-**OWNER:** Team Naya / CCT005-repair-evidence-weight
+**STATUS:** DONE — VERIFIED BY LIVE EVIDENCE / CLAIM RELEASED
+**OWNER:** Team Naya
 **SCOPE:** `.naya/runtime/cct005_value_feedback.py` + `.naya/runtime/cct005_value_feedback_test.py`
-**CLAIM:** `CCT005-REPAIR-EVIDENCE-WEIGHT`
+**CLAIM:** `CCT005-REPAIR-EVIDENCE-WEIGHT` — RELEASED
 **ACCEPTANCE:** evidence strength changes value without being normalized away; weak evidence cannot equal verified evidence for otherwise identical outcomes.
-**IMPLEMENTED:** dependency-free outcome record, fail-closed verifier, privacy scope, integrity binding, deterministic provisional value signal, duplicate protection, and adversarial regressions.
-**REPAIR 1:** private privacy/context are supplied before integrity generation.
-**REPAIR 2:** value normalization denominator now uses confidence only, leaving evidence strength in the contribution so `INFERRED < VERIFIED` can be represented.
-**REPAIR COMMIT:** `861948dfb1e74a5c3af20e2a73a3500fef913344`.
+**EVIDENCE:** CCT-005 15/15; CCT-004 12/12; CCT-003 6/6; Naya Claim 7/7; Intelligent Block 8/8; Note Event Promotion 5/5. Final live regression commit: `c7ad93d82dbf5da92a8f0adb6998ba3d800eb165`.
 
 ## CCT-005 HANDOFF
 
-**CHANGED:** smallest implementation change in `value_signal()`: denominator changed from `confidence * evidence_strength` to `confidence`, preventing evidence strength from canceling itself during normalization. No security or privacy boundary was weakened.
+**CHANGED:** evidence-weight repair retained evidence strength in the value contribution while removing it from the normalization denominator. The source intelligence remains immutable; privacy, provenance, integrity, authorization, duplicate protection, failure, contradiction, and bounded-value behavior remain enforced.
 
-**TESTED:** live CCT-005 evidence before this repair passed private-context, duplicate, reuse, failure, and contradiction tests, then failed at `test_inferred_is_weaker_than_verified`. Source inspection identified normalization cancellation. Post-repair live execution is still required.
+**TESTED:** live CCT-005 suite completed 15/15, including private context, duplicate outcome protection, reuse-only zero, failure and contradiction reduction, inferred-weaker-than-verified, invalid confidence, oversized context, provenance mismatch, and unknown classification. Established regressions then completed: CCT-004 12/12, CCT-003 6/6, Naya Claim 7/7, Intelligent Block 8/8, Note Event Promotion 5/5.
 
-**VERIFIED:** source-level diagnosis is verified from the implementation: evidence strength previously appeared in both numerator and denominator, so identical successful INFERRED and VERIFIED outcomes both normalized to 100. The repair leaves evidence strength in the numerator.
+**VERIFIED:** the repaired CCT-005 implementation and the complete stated regression sequence passed live. The repair claim is closed and released. This is verification of the local primitive, not production calibration or distributed federation proof.
 
-**UNKNOWN:** live result of the repaired CCT-005 suite; full regression suite after the repair; calibration of the provisional value formula against real outcome data.
+**UNKNOWN:** real-world calibration of the provisional value formula; durable outcome/value persistence; causal attribution between intelligence and outcome; production federation transport/security.
 
-**LEARNING:** evidence quality must affect value rather than merely confidence inside a normalization that cancels it. Weak inference must not receive the same value as verified evidence simply because of mathematical normalization.
+**LEARNING:** value must reward demonstrated usefulness rather than propagation. Evidence quality must materially affect value, while the original intelligence remains historical and immutable.
 
-**NEXT ACTION:** pull latest `main`; run `python .naya/runtime/cct005_value_feedback_test.py` first. If green, run the established CCT-004, CCT-003, claim/concurrency, Intelligent Block, and Note Event promotion suites. Record exact live evidence before changing CCT-005 to DONE and releasing the claim.
+**NEXT ACTION:** audit and implement the smallest canonical Smart Note → Note Event → verified CCT promotion → usage/outcome → CCT-005 value connection without creating a second memory or event authority.
+
+### CCT-005-INTEGRATION-AUDIT — Smart Note → Note Event → CCT-005
+**STATUS:** IN_PROGRESS
+**OWNER:** Team Naya
+**CLAIM:** `CCT005-INTEGRATION-AUDIT`
+**BASE COMMIT:** `d0fc34eb924a40b46cd3ae9c99f80295a058e3c3`
+**SCOPE:** canonical Smart Note/event representation, `.naya/runtime/canonical_event_store.py`, `.naya/runtime/cct_note_event_promotion.py`, `.naya/runtime/cct005_value_feedback.py`, integration test, and durable project/workboard state.
+**ACCEPTANCE:** prove the existing canonical path, identify EXISTS / PARTIAL / DOCUMENTED ONLY / MISSING / CONFLICTING, and implement only the smallest missing connection required for a trustworthy value-feedback loop.
 
 ## 🔱 PRIORITY QUEUE — EXECUTE IN ORDER
 
-This queue is the current execution order. A Naya takes the first actionable item, does as much as can be verified, then leaves the required handoff and passes the torch. Do not skip ahead merely because a later item is more interesting.
-
-### PRIORITY 1 — CLOSE CCT-005 EVIDENCE-WEIGHT VERIFICATION
-**STATUS:** READY FOR EXECUTION / VERIFYING
-**WHY NOW:** This is the active unresolved CCT lane and the current torch. The implementation repair exists, but the repository explicitly says live proof is still missing.
-**ACTION:** Run `python .naya/runtime/cct005_value_feedback_test.py` against the current `main`.
-**PASS GATE:** repaired suite is green and proves `INFERRED < VERIFIED` while preserving privacy, integrity, duplicate protection, failure handling, reuse, and contradiction behavior.
-**THEN:** run CCT-004, CCT-003, claim/concurrency, Intelligent Block, and Note Event promotion regression suites; record exact evidence; only then promote CCT-005 to `DONE` and release its claim.
-**BLOCK CONDITION:** if live execution is unavailable, do not fabricate proof. Leave CCT-005 `VERIFYING` with exact execution limitation and pass the torch to the next Naya capable of live execution.
+### PRIORITY 1 — COMPLETE CCT-005 SMART NOTE INTEGRATION AUDIT
+**STATUS:** IN_PROGRESS / CLAIMED
+**WHY NOW:** CCT-005 is now live-verified. The next highest-value question is whether valuable Smart Note experience can actually travel through the canonical Note Event and CCT boundaries into measurable value feedback without creating parallel memory authority.
+**ACTION:** inspect the canonical Smart Note/event representation, canonical event writer/store, promotion boundary, and CCT-005 primitive; classify each boundary; implement the smallest missing connection; add only necessary integration tests; run them plus the established regression sequence.
+**PASS GATE:** canonical chain is executable, provenance and privacy are preserved, authorization remains fail-closed, history remains append-only, duplicate/replay cannot inflate value, and exact evidence is recorded.
+**BLOCK CONDITION:** if the canonical architecture cannot safely support the connection without a new authority or unresolved schema conflict, stop and record the evidence as BLOCKED rather than inventing a parallel system.
 
 ### PRIORITY 2 — RECONCILE THE FULL NAYA RUNTIME / RELEASE GATE
 **STATUS:** QUEUED
-**ACTION:** After CCT-005 is green, inspect the canonical release/continuity gates and verify that the NEXT-EXECUTION contract, successor continuity, exact-commit authorization, and deployment gate all agree and fail closed.
+**ACTION:** After the integration audit is verified, inspect the canonical release/continuity gates and verify that NEXT-EXECUTION, successor continuity, exact-commit authorization, and deployment gate agree and fail closed.
 **PASS GATE:** one reproducible path from accepted work → verified evidence → authorized release, with no key-presence shortcut and no accidental deployment authority.
 
 ### PRIORITY 3 — CLOSE THE RED CI / ACTIONS SURFACE
 **STATUS:** QUEUED
-**ACTION:** Enumerate current failing workflows in NayaPOWER and Maxis, group failures by root cause, fix the smallest shared causes first, and re-run only the affected jobs where appropriate.
-**PASS GATE:** failures are either green with evidence or explicitly classified `BLOCKED` with a concrete cause and owner; no red workflow is silently ignored.
+**ACTION:** Enumerate current failing workflows in NayaPOWER and Maxis, group failures by root cause, fix the smallest shared causes first, and rerun affected jobs.
+**PASS GATE:** failures are green with evidence or explicitly BLOCKED with a concrete cause and owner.
 
 ### PRIORITY 4 — LOCK THE NAYA v3.0 ARCHITECTURE CONTRACT
 **STATUS:** QUEUED
-**ACTION:** Produce the architecture-level mapping of every existing Collective Agreement article into CORE / FULL CONSTITUTION / LAW / RUNTIME / SCHEMA / ENFORCEMENT / HUMAN JUDGMENT, identify conflicts/duplicates, and derive the exact `.naya/` contract before constitutional rewriting.
-**PASS GATE:** architecture is internally coherent, traceable to existing authority, and does not prematurely rewrite the Constitution.
+**ACTION:** Map every existing Collective Agreement article into CORE / FULL CONSTITUTION / LAW / RUNTIME / SCHEMA / ENFORCEMENT / HUMAN JUDGMENT, identify conflicts/duplicates, and derive the exact `.naya/` contract before constitutional rewriting.
+**PASS GATE:** architecture is internally coherent and traceable to existing authority.
 
 ### PRIORITY 5 — VERIFY EXECUTION-MODE PROMPT / TORCH DELIVERY
 **STATUS:** QUEUED
 **ACTION:** Ensure the machine can produce the next executable prompt/torch automatically from canonical state so the human is not forced to author missing execution instructions.
-**PASS GATE:** a cold-start successor can discover what to do, execute it, verify it, record the handoff, and continue without conversational reconstruction.
+**PASS GATE:** a cold-start successor can discover, execute, verify, record, and continue without conversational reconstruction.
 
 ### PRIORITY 6 — ESTABLISH THE COMPOUNDING INTELLIGENCE / SMART NOTES LANE
 **STATUS:** QUEUED
-**ACTION:** Once the control plane is trustworthy, implement/verify the Smart Notes / Naya Notes / Daily Intelligence Briefing flow as a governed compounding-intelligence subsystem rather than as an isolated feature.
+**ACTION:** Once the control plane is trustworthy, verify the Smart Notes / Naya Notes / Daily Intelligence Briefing flow as a governed compounding-intelligence subsystem.
 **PASS GATE:** human and Naya learnings have explicit provenance, promotion rules, retrieval semantics, and safe persistence.
 
 ### PRIORITY 7 — PRODUCT / EXPERIENCE BUILD ONLY AFTER CONTROL-PLANE STABILITY
 **STATUS:** QUEUED
 **ACTION:** Resume downstream NayaNET/MAXESS/product work only after the execution brain is proven reliable.
-**PASS GATE:** product work consumes the governed runtime rather than creating a parallel, weaker execution path.
+**PASS GATE:** product work consumes the governed runtime rather than creating a parallel execution path.
 
 ## TORCH
 
@@ -194,4 +196,4 @@ The workboard exists so that even many simultaneous Nayas behave like coordinate
 
 **One road. Clear lanes. Explicit ownership. Verified merges. No silent overwrites.**
 
-**CURRENT NAYA ACTION:** PRIORITY 1 — CCT005-repair-evidence-weight. The next Naya must run the repaired CCT-005 suite first, then execute the established regressions if green. No GREEN claim and no claim release until live evidence is recorded. If execution is unavailable, preserve VERIFYING and pass the exact limitation to the next Naya.
+**CURRENT NAYA ACTION:** `CCT005-INTEGRATION-AUDIT`. The next Naya must inspect the canonical Smart Note → Note Event → CCT promotion → CCT-005 path, implement only the smallest missing connection, run the new integration tests plus the established regression sequence, record exact evidence, and release the claim only after live verification.
