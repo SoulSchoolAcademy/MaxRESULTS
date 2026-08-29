@@ -22,8 +22,17 @@ def test_canonical_torch_schema():
     assert contract['schema_version']==1
     assert contract['required_fields']==['mission','desired_outcome','current_state','verified','unknown','protected','blocked','decision_recommendation','next_actor','next_action','ready_to_run_execution','expected_output','success_criteria','verification','constraints']
     assert contract['human_continuation']['human_prompt_authoring_required'] is True
-    assert 'human_action' in contract['human_continuation']['required_additional_fields']
-    assert 'human_return_payload' in contract['human_continuation']['required_additional_fields']
+    assert contract['human_continuation']['required_additional_fields']==['human_action','human_return_payload']
+    assert contract['delivery_rule'].startswith('A substantive execution is incomplete')
+
+def test_successor_torch_template_and_spec():
+    template=(ROOT/'.naya/templates/NEXT-NAYA-SUCCESSOR-TORCH.md').read_text(encoding='utf-8')
+    spec=(ROOT/'.naya/contracts/NEXT-ACTION-DELIVERY-SPECIFICATION-v1.0.md').read_text(encoding='utf-8')
+    required_template_tokens=['## MISSION','## DESIRED OUTCOME','## CURRENT STATE','## NEXT ACTOR','## NEXT ACTION','## READY-TO-RUN EXECUTION','WHERE:','WHAT TO READ:','WHAT TO DO:','WHAT NOT TO DO:','WHAT TO VERIFY:','EXPECTED RESULT:','FAILURE HANDLING:','NEXT DECISION POINT:','## EXPECTED OUTPUT','## SUCCESS CRITERIA','## VERIFICATION','## HUMAN CONTINUATION']
+    assert all(token in template for token in required_template_tokens)
+    assert 'Do not invent a second competing handoff system' not in spec
+    for token in ['CANONICAL FLOW','MANDATORY DELIVERY OBJECT','HUMAN CONTINUATION','EXECUTABLE CONTEXT','ZERO-DROPOFF RULE','SURVIVAL TEST','RESPONSE BOUNDARY','NON-REGRESSION','SUCCESS CONDITION']:
+        assert token in spec
 
 def test_successor_survival_and_negative_contract():
     policy=project.load(project.POLICY)
@@ -38,5 +47,5 @@ def test_successor_survival_and_negative_contract():
     context=json.loads(json.dumps(good)); context['current_state']=''; assert any('reconstructing context' in e for e in project.validate_next_action_delivery(context,policy))
 
 def main():
-    test_project_contract(); test_prompt_contract(); test_current_project_state(); test_canonical_torch_schema(); test_successor_survival_and_negative_contract(); print('PASS — project, successor torch, paired representation, learning, and Prompt Architect contracts GREEN')
+    test_project_contract(); test_prompt_contract(); test_current_project_state(); test_canonical_torch_schema(); test_successor_torch_template_and_spec(); test_successor_survival_and_negative_contract(); print('PASS — project, successor torch, paired representation, learning, and Prompt Architect contracts GREEN')
 if __name__=='__main__': main()
