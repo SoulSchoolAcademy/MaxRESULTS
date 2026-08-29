@@ -35,16 +35,20 @@ Build Naya into a trusted AI operating partner that helps people think, create, 
 
 ## VERIFIED
 - `SoulSchoolAcademy/NayaPOWER` is the canonical governing repository and `main` is its governance branch.
-- NayaPOWER governance requires GitHub-first inspection, explicit authority, preservation, verification, and honest state classification.
+- NayaPOWER now has one canonical Runtime Briefing at `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md`.
+- The manifest registers `runtime_briefing` as the canonical subject and places the briefing first in `boot_order`.
+- All declared task routes begin with `runtime_briefing`.
+- The canonical boot protocol explicitly requires the briefing before substantive execution and defines omission as RED.
+- The machine acceptance test enforces the briefing shape and simulates omission = RED / inclusion = GREEN.
 - MAXESS remains the authoritative scoring/result owner.
 - NAYA LIVING SUN is registered as the current MAXIS presentation direction.
 - Vercel has separate `naya-power` and `maxis` projects; MAXIS deployment routes from `SoulSchoolAcademy/Maxis` to `maxis`.
-- The canonical Runtime Briefing path is `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md`.
 
 ## UNKNOWN
-- Whether current `main` has passed a fresh authoritative NayaPOWER CI gate after the latest continuity changes.
+- Whether current `main` has passed a fresh authoritative NayaPOWER CI gate after these continuity changes.
 - Whether the current MAXIS browser gate is green at the current HEAD.
 - Whether the public MAXIS runtime fully matches the intended current source.
+- Whether the latest intended MAXIS `main` SHA is the current production SHA until Vercel deployment metadata proves it.
 - Any consequential runtime behavior not directly observed or evidenced.
 
 ## THIS WEEK
@@ -53,7 +57,7 @@ Build Naya into a trusted AI operating partner that helps people think, create, 
 **Critical path:** restore/reconcile current state → resolve `SoulSchoolAcademy/Maxis` as the application source → deploy through Vercel `maxis` when capacity permits → verify deployed SHA and guest-first runtime → run the fresh MAXESS Browser Gate → advance the human-facing vertical slice only after applicable gates are green.
 
 ## NEXT ACTION
-**Wire this briefing into the canonical cold-start boot/read-order contract and machine acceptance test, then run the gate proving omission = RED and inclusion = GREEN.**
+**Obtain fresh current-head NayaPOWER CI/boot-gate evidence for the new cold-start enforcement, then use that verified state to execute the MAXIS current-source browser gate.**
 
 ## PROOF
 Material completion requires the applicable evidence: exact repository/branch/commit, changed artifact identity, deployment project and deployed SHA when deployment is involved, automated/build evidence, runtime/rendered evidence for user-facing work, responsive/accessibility evidence where material, complete-journey evidence where material, and explicit remaining UNKNOWN/BLOCKED state.
@@ -61,4 +65,4 @@ Material completion requires the applicable evidence: exact repository/branch/co
 Use: **IMPLEMENTED ≠ TESTED ≠ VERIFIED ≠ RUNTIME-PROVEN ≠ PRODUCTION-PROVEN.**
 
 ## LAST LEARNING
-Context recovery is a primary organizational bottleneck. The remedy is one compact canonical Runtime Briefing, mandatory at cold start, followed by the existing governing authority chain and current-state reconciliation. A governing repository and an application repository are not interchangeable: NayaPOWER governs MAXIS, while MAXIS deploys from `SoulSchoolAcademy/Maxis` through Vercel `maxis`.
+Context recovery was correctly identified as a primary organizational bottleneck. The durable solution is now structural: one canonical Runtime Briefing, exactly eleven orientation fields, first in the canonical boot/read order, registered as the first subject on every task route, and machine-enforced so omission is RED. The test proves the rule's behavior; CI/runtime evidence must still prove the current repository gate. Deployment ownership remains separate: NayaPOWER governs MAXIS, while MAXIS deploys from `SoulSchoolAcademy/Maxis` through Vercel `maxis`.
