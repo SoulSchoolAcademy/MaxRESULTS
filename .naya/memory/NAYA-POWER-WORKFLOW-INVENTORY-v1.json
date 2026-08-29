@@ -1,1 +1,6 @@
-{"schema":"naya-power-workflow-inventory/v1","status":"TEMPORARY_SCAFFOLD","workflows":[]}
+{
+  "schema": "naya-power-workflow-inventory/v1",
+  "status": "TEMPORARY_SCAFFOLD",
+  "generated_from_branch": "naya-action-delivery-contract-v1",
+  "workflows": []
+}
