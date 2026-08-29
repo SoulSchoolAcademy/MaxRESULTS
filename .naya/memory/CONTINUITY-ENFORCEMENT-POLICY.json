@@ -1,5 +1,5 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "policy_name": "Naya Power Execution Continuity Enforcement",
   "effective_at": "2026-08-25T20:31:00-07:00",
   "structured_handoff_effective_at": "2026-08-29T06:10:00-07:00",
@@ -33,6 +33,8 @@
   "handoff_roots": [
     ".naya/handoffs"
   ],
+  "successor_torch_contract": ".naya/contracts/NEXT-ACTION-DELIVERY-CONTRACT-v1.json",
+  "successor_torch_template": ".naya/templates/NEXT-NAYA-SUCCESSOR-TORCH.md",
   "structured_handoff_fields": [
     "mission",
     "source_of_truth",
@@ -52,6 +54,7 @@
   ],
   "next_action_delivery_schema": {
     "version": 1,
+    "canonical_contract_path": ".naya/contracts/NEXT-ACTION-DELIVERY-CONTRACT-v1.json",
     "required_fields": [
       "next_action",
       "next_actor",
@@ -74,6 +77,10 @@
       "constraints",
       "why_this_action"
     ],
+    "human_continuation_required_fields": [
+      "human_action",
+      "human_return_payload"
+    ],
     "principle": "A substantive execution may not complete without an executable operational torch containing the next action, next actor, ready-to-run execution, expected output, success criteria, verification, and enough successor context to act without reconstructing the conversation."
   },
   "contract": {
@@ -86,7 +93,8 @@
     "learning_or_explicit_status": true,
     "next_action": true,
     "naya_owned_human_continuation": true,
-    "human_prompt_authoring_required": "conditional"
+    "human_prompt_authoring_required": "conditional",
+    "response_delivery_contract": true
   },
-  "design_principle": "Enforce new meaningful executions without rewriting historical events; preserve the existing green boundary while making future continuity failures visible and machine-detectable. The canonical Next Action Delivery Contract becomes enforceable at the structured handoff boundary."
+  "design_principle": "Enforce meaningful executions through one canonical successor-torch schema, one reusable handoff template, and the existing continuity/project validators; preserve the existing green boundary and do not create a parallel continuity engine."
 }
