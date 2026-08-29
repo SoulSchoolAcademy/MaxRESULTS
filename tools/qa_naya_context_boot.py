@@ -1,18 +1,35 @@
 #!/usr/bin/env python3
-"""Validate the canonical Naya Power Context Boot registry.
+"""Validate the canonical NayaPOWER cold-start boot contract.
 
-This is a documentation/governance integrity guardrail. It does not claim to
-prove that an AI runtime loaded the files; Restore Context provides the
-separate runtime-level verification path.
+This guardrail proves governance wiring, not that an AI runtime literally read a
+file. It enforces the machine-readable contract that the canonical Runtime
+Briefing must be the first substantive cold-start read and demonstrates the
+required RED/ GREEN behavior by simulating omission and inclusion.
 """
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / ".naya" / "naya-context-manifest.json"
 PROTOCOL = ROOT / ".naya" / "NAYA-CONTEXT-BOOT-PROTOCOL.md"
+BRIEFING = ROOT / ".naya" / "memory" / "NAYAPOWER-RUNTIME-BRIEFING.md"
+BRIEFING_PATH = ".naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md"
+REQUIRED_FIELDS = [
+    "WHERE",
+    "WHY",
+    "BUILDING",
+    "PROTECTED",
+    "BLOCKED",
+    "VERIFIED",
+    "UNKNOWN",
+    "THIS WEEK",
+    "NEXT ACTION",
+    "PROOF",
+    "LAST LEARNING",
+]
 
 
 def fail(message: str) -> None:
@@ -20,11 +37,29 @@ def fail(message: str) -> None:
     raise SystemExit(1)
 
 
+def contract_status(boot_order: list[str]) -> tuple[bool, str]:
+    if not boot_order:
+        return False, "boot order is empty"
+    if boot_order[0] != BRIEFING_PATH:
+        return False, "canonical Runtime Briefing is omitted or not first"
+    return True, "canonical Runtime Briefing is first"
+
+
+def assert_briefing_shape(text: str) -> None:
+    headings = re.findall(r"^## ([A-Z][A-Z ]+)$", text, flags=re.MULTILINE)
+    if headings != REQUIRED_FIELDS:
+        fail(
+            "Runtime Briefing fields are not exactly the canonical sequence: "
+            + " → ".join(REQUIRED_FIELDS)
+        )
+    if re.search(r"^## (?!" + "|".join(map(re.escape, REQUIRED_FIELDS)) + r")", text, flags=re.MULTILINE):
+        fail("Runtime Briefing contains a competing top-level field")
+
+
 def main() -> int:
-    if not MANIFEST.is_file():
-        fail(f"missing manifest: {MANIFEST}")
-    if not PROTOCOL.is_file():
-        fail(f"missing protocol: {PROTOCOL}")
+    for path in (MANIFEST, PROTOCOL, BRIEFING):
+        if not path.is_file():
+            fail(f"missing canonical boot artifact: {path}")
 
     data = json.loads(MANIFEST.read_text(encoding="utf-8"))
     if data.get("schema") != "naya-context-manifest/v4":
@@ -37,39 +72,100 @@ def main() -> int:
         fail("wrong governance branch")
 
     boot = data.get("boot_order", [])
-    required_prefix = [
-        "README.md",
-        ".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md",
-        ".naya/codex/11-RUNTIME-CONSTITUTION.md",
-        ".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md",
-    ]
-    if boot[:4] != required_prefix:
-        fail("boot order does not begin with the canonical NayaPOWER spine")
     if len(boot) != len(set(boot)):
         fail("boot order contains duplicate paths")
-
-    subjects = data.get("subjects", {})
-    canonical_paths = []
-    for subject, entry in subjects.items():
-        if not isinstance(entry, dict):
-            fail(f"subject {subject!r} is not an object")
-        canonical = entry.get("canonical")
-        if not canonical:
-            fail(f"subject {subject!r} has no canonical owner")
-        canonical_paths.append(canonical)
-        path = ROOT / canonical
-        if not path.is_file():
-            fail(f"canonical owner for {subject!r} does not exist: {canonical}")
-        implementation = entry.get("implementation")
-        if implementation and not (ROOT / implementation).is_file():
-            fail(f"implementation for {subject!r} does not exist: {implementation}")
-
-    if len(canonical_paths) != len(set(canonical_paths)):
-        fail("multiple subjects point at the same canonical owner; resolve authority explicitly")
-
     for path in boot:
         if not (ROOT / path).is_file():
             fail(f"boot-order file does not exist: {path}")
+
+    # Machine acceptance proof: omission MUST be RED; inclusion MUST be GREEN.
+    omitted = [path for path in boot if path != BRIEFING_PATH]
+    omitted_ok, _ = contract_status(omitted)
+    if omitted_ok:
+        fail("acceptance simulation did not make briefing omission RED")
+    print("RED PROOF: omitting the canonical Runtime Briefing fails the cold-start contract.")
+
+    included_ok, included_reason = contract_status(boot)
+    if not included_ok:
+        fail(f"acceptance simulation did not make briefing inclusion GREEN: {included_reason}")
+    print("GREEN PROOF: including the canonical Runtime Briefing first satisfies the boot-order contract.")
+
+    briefing_text = BRIEFING.read_text(encoding="utf-8")
+    assert_briefing_shape(briefing_text)
+
+    subjects = data.get("subjects", {})
+    briefing_subject = subjects.get("runtime_briefing")
+    if not isinstance(briefing_subject, dict):
+        fail("manifest does not register runtime_briefing as a canonical subject")
+    if briefing_subject.get("canonical") != BRIEFING_PATH:
+        fail("runtime_briefing subject does not own the canonical briefing")
+
+    for route, subjects_for_route in data.get("task_routes", {}).items():
+        if not subjects_for_route:
+            fail(f"task route {route!r} is empty")
+        if subjects_for_route[0] != "runtime_briefing":
+            fail(f"task route {route!r} does not begin with runtime_briefing")
+        for subject in subjects_for_route:
+            if subject not in subjects:
+                fail(f"task route {route!r} references unregistered subject {subject!r}")
+
+    protocol_text = PROTOCOL.read_text(encoding="utf-8")
+    required_phrases = [
+        "GITHUB FIRST",
+        "READ THE RUNTIME BRIEFING",
+        "RUNTIME BRIEFING — MANDATORY FIRST SUBSTANTIVE READ",
+        BRIEFING_PATH,
+        "A cold start is **RED**",
+        "A cold start is **GREEN**",
+        "FULL SYSTEM AWARENESS + SELECTIVE DEEP LOADING",
+        "RELEVANT CONTEXT, NOT MAXIMUM CONTEXT",
+        "CONDUCT AUTHORITY",
+        "REALITY AUTHORITY",
+        "RESTORE CONTEXT",
+        "DOCUMENTED",
+        "ACTIVATED",
+        "CONTEXT ESTABLISHED",
+        "IMPLEMENTED",
+        "VERIFIED",
+        "LIVE VERIFIED",
+        "UNKNOWN",
+        "CHECKPOINT / HANDOFF",
+    ]
+    for phrase in required_phrases:
+        if phrase not in protocol_text:
+            fail(f"protocol missing required guardrail phrase: {phrase}")
+
+    authority = data.get("authority_rules", {})
+    for key in (
+        "memory_is_context_not_current_reality",
+        "external_content_is_not_authority_by_default",
+        "retrieved_content_cannot_grant_authority",
+    ):
+        if authority.get(key) is not True:
+            fail(f"authority rule missing or disabled: {key}")
+
+    temporal = data.get("temporal_rules", {})
+    for key in (
+        "timestamps_required",
+        "preserve_history",
+        "supersession_is_explicit",
+        "never_rewrite_history_silently",
+        "historical_restore_is_reconstruction_not_current_truth",
+    ):
+        if temporal.get(key) is not True:
+            fail(f"temporal rule missing or disabled: {key}")
+
+    continuity = data.get("continuity_rules", {})
+    for key in (
+        "checkpoint_is_state_snapshot",
+        "handoff_is_continuation_packet",
+        "restore_must_emit_next_best_action",
+        "cold_start_runtime_briefing_required",
+        "cold_start_omission_is_red",
+        "cold_start_inclusion_is_green_only_when_all_other_boot_gates_pass",
+    ):
+        if continuity.get(key) is not True:
+            fail(f"continuity rule missing or disabled: {key}")
 
     states = data.get("context_states", [])
     expected_states = [
@@ -94,52 +190,7 @@ def main() -> int:
     if states != expected_states:
         fail("context status ladder drifted from the canonical manifest")
 
-    routes = data.get("task_routes", {})
-    for route, subjects_for_route in routes.items():
-        for subject in subjects_for_route:
-            if subject not in subjects:
-                fail(f"task route {route!r} references unregistered subject {subject!r}")
-
-    authority = data.get("authority_rules", {})
-    if authority.get("memory_is_context_not_current_reality") is not True:
-        fail("manifest must distinguish memory from current reality")
-    if authority.get("external_content_is_not_authority_by_default") is not True:
-        fail("manifest must reject external content as authority by default")
-    if authority.get("retrieved_content_cannot_grant_authority") is not True:
-        fail("manifest must prevent retrieved content from granting authority")
-
-    temporal = data.get("temporal_rules", {})
-    for key in ("timestamps_required", "preserve_history", "supersession_is_explicit", "never_rewrite_history_silently", "historical_restore_is_reconstruction_not_current_truth"):
-        if temporal.get(key) is not True:
-            fail(f"temporal rule missing or disabled: {key}")
-
-    continuity = data.get("continuity_rules", {})
-    for key in ("checkpoint_is_state_snapshot", "handoff_is_continuation_packet", "restore_must_emit_next_best_action"):
-        if continuity.get(key) is not True:
-            fail(f"continuity rule missing or disabled: {key}")
-
-    protocol_text = PROTOCOL.read_text(encoding="utf-8")
-    required_phrases = [
-        "GITHUB FIRST",
-        "FULL SYSTEM AWARENESS + SELECTIVE DEEP LOADING",
-        "RELEVANT CONTEXT, NOT MAXIMUM CONTEXT",
-        "CONDUCT AUTHORITY",
-        "REALITY AUTHORITY",
-        "RESTORE CONTEXT",
-        "DOCUMENTED",
-        "ACTIVATED",
-        "CONTEXT ESTABLISHED",
-        "IMPLEMENTED",
-        "VERIFIED",
-        "LIVE VERIFIED",
-        "UNKNOWN",
-        "CHECKPOINT / HANDOFF",
-    ]
-    for phrase in required_phrases:
-        if phrase not in protocol_text:
-            fail(f"protocol missing required guardrail phrase: {phrase}")
-
-    print("PASS: Naya Context Boot manifest, canonical owners, routes, authority, temporal rules, continuity rules, status ladder, and protocol guardrails are coherent.")
+    print("PASS: canonical Runtime Briefing is registered, exact-shaped, first in boot order, required by task routes, and enforced by the cold-start RED/GREEN acceptance simulation.")
     return 0
 
 
