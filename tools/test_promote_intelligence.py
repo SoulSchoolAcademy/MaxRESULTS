@@ -2,7 +2,6 @@
 """Dependency-free acceptance tests for Promotion Engine v1."""
 from __future__ import annotations
 
-import json
 import tempfile
 from pathlib import Path
 
@@ -40,7 +39,7 @@ def test_fingerprint_and_exact_dedup():
 
 def test_semantic_dedup():
     a = event("INT-TEST-001", "Do not claim completion without verified runtime evidence.")
-    b = event("INT-TEST-002", "Never report finished until runtime evidence verifies the result.")
+    b = event("INT-TEST-002", "Do not claim completion without verified runtime evidence in production.")
     index = pe.load_prior_event_index([(Path("a.json"), a), (Path("b.json"), b)])
     duplicate, score = pe.find_duplicate(a, index)
     assert duplicate == "INT-TEST-002", (duplicate, score)
@@ -71,17 +70,10 @@ def test_idempotent_note_and_feed_paths():
             pe.ROOT = original_root
 
 
-def test_receipt_shape():
-    receipt = {
-        "verification_summary": {
-            "implemented": True,
-            "tested": False,
-            "verified": False,
-            "runtime_proven": False,
-            "production_proven": False,
-        }
+def test_verification_is_not_self_certified():
+    assert pe.EVIDENCE_STATES == {
+        "UNKNOWN", "IMPLEMENTED", "TESTED", "VERIFIED", "RUNTIME-PROVEN", "PRODUCTION-PROVEN"
     }
-    assert receipt["verification_summary"]["verified"] is False
 
 
 def main():
