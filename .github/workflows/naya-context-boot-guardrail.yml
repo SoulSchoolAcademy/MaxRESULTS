@@ -61,3 +61,5 @@ jobs:
 
       - name: Validate Naya-Owned Human Torch Delivery
         run: python3 tools/qa_naya_torch_delivery.py
+
+      # Naya-owned torch gate: the workflow itself is a protected continuation surface.
