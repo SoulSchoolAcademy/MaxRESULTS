@@ -15,10 +15,12 @@ Multiple Nayas may operate concurrently, but no Naya may assume it has exclusive
 
 - `QUEUED` — available to claim.
 - `CLAIMED` — one Naya currently owns execution of this item.
+- `IN_PROGRESS` — active implementation.
 - `BLOCKED` — execution cannot proceed; reason and evidence required.
 - `VERIFYING` — implementation exists but proof is incomplete.
 - `DONE` — acceptance criteria verified.
 - `SUPERSEDED` — intentionally replaced by a newer verified design.
+- `ABANDONED` — work stopped without being accepted.
 
 ## CONCURRENCY RULES
 
@@ -32,22 +34,28 @@ Multiple Nayas may operate concurrently, but no Naya may assume it has exclusive
 8. Never use conversation context as the authority for concurrent state. The repository is authoritative.
 9. Commit messages must identify the work item and intent clearly enough for another Naya to reconstruct the change.
 10. If a conflict cannot be resolved from repository evidence, stop the conflicting write and record the exact ambiguity as `BLOCKED`.
+11. **A claim is not a lock on GitHub.** The live branch commit must still be rechecked immediately before a write; a stale claim cannot authorize a conflicting update.
 
-## CLAIM FORMAT
+## CLAIM CONTRACT
 
-Each active work item should identify:
+The executable contract is `.naya/runtime/naya_claim.py` with regression tests in `.naya/runtime/naya_claim_test.py`.
 
-- `WORK_ID`
-- `OWNER_NAYA`
-- `STATUS`
-- `SCOPE`
-- `STARTED_AT`
-- `BASE_COMMIT`
-- `ACCEPTANCE`
-- `LAST_VERIFIED`
-- `NEXT_ACTION`
+Each claim contains:
 
-Claims are coordination metadata, not proof of completion.
+- `work_id`
+- `owner_naya`
+- `task_id`
+- `scope`
+- `affected_files`
+- `base_commit`
+- `acceptance`
+- `status`
+- `started_at`
+- `expires_at`
+- `last_verified`
+- `result_commit`
+
+Active states are `CLAIMED`, `IN_PROGRESS`, and `VERIFYING`. A write is denied when the claim is expired, terminal, based on a stale commit, or overlaps another active claim.
 
 ## SAFE PARALLELISM
 
@@ -93,9 +101,20 @@ The next Naya must be able to continue without reconstructing the previous conve
 **ACCEPTANCE:** only explicitly verified, evidenced Note Events with explicit consumer scope become CCT blocks.
 
 ### CCT-003 — Isolated Two-Naya Exchange
-**STATUS:** QUEUED
-**OWNER:** UNCLAIMED
+**STATUS:** VERIFYING
+**OWNER:** Team Naya
+**SCOPE:** `.naya/runtime/cct003_two_naya_test.py`
 **ACCEPTANCE:** Naya A artifact → isolated Naya B consumption → derived Block B → lineage/provenance proof.
+**IMPLEMENTED:** deterministic local producer/consumer integration fixture with source-conversation exclusion, authorization, parent integrity, and explicit lineage assertions.
+**RUNTIME STATUS:** pending live Codespace execution.
+
+### CCT-003-CONCURRENCY — Naya Claim / Lease
+**STATUS:** VERIFYING
+**OWNER:** Team Naya
+**SCOPE:** `.naya/runtime/naya_claim.py` + `.naya/runtime/naya_claim_test.py`
+**ACCEPTANCE:** stale, expired, terminal, or conflicting claims cannot authorize writes; disjoint work can proceed.
+**IMPLEMENTED:** dependency-free claim validation, overlap detection, expiry, and exact base-commit binding.
+**RUNTIME STATUS:** pending live Codespace execution.
 
 ### CCT-004 — Adversarial Federation Semantics
 **STATUS:** QUEUED
@@ -112,3 +131,5 @@ The next Naya must be able to continue without reconstructing the previous conve
 The workboard exists so that even many simultaneous Nayas behave like coordinated traffic rather than collisions.
 
 **One road. Clear lanes. Explicit ownership. Verified merges. No silent overwrites.**
+
+**NEXT NAYA ACTION:** Pull the latest `main`, run `python .naya/runtime/cct003_two_naya_test.py` and `python .naya/runtime/naya_claim_test.py`, then record actual outputs. If green, advance to CCT-004 adversarial semantics; if red, repair only the first evidence-backed defect.
