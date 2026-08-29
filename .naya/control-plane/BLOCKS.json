@@ -4,16 +4,19 @@
   "active_block": {
     "id": "B01-B03-MINIMUM-CONTROL-LOOP",
     "status": "ACTIVE",
-    "intent": "Turn repository operating doctrine into the smallest complete machine-checkable MAP → STATE → BLOCK → PROOF control loop.",
-    "scope": ["canonical identity resolution", "machine-readable MAP", "current-state contract and drift detection", "structured execution block", "evidence-linked proof", "cold-start validation of these controls"],
-    "protected": ["existing Naya Repository Operating Standard", "existing Mission State/current-state authority", "existing cold-start activation contract", "MAXESS scoring/result authority", "anti-duplication law"],
+    "intent": "Turn repository operating doctrine into the smallest complete machine-checkable MAP → STATE → BLOCK → PROOF control loop, with continuous successor continuity and a ten-first execution standard.",
+    "scope": ["canonical identity resolution", "machine-readable MAP", "current-state contract and drift detection", "structured execution block", "evidence-linked proof", "cold-start validation of these controls", "mandatory successor continuity", "one-shot torch completeness"],
+    "protected": ["existing Naya Repository Operating Standard", "existing Mission State/current-state authority", "existing cold-start activation contract", "MAXESS scoring/result authority", "anti-duplication law", "evidence boundaries", "authorization and safety boundaries"],
     "acceptance": [
       "historical MaxRESULTS resolves to current canonical identity and cannot be selected as current",
       "live Git HEAD is distinguishable from recorded/stale HEAD",
       "UNKNOWN cannot be promoted to VERIFIED",
       "VERIFIED requires claim-appropriate evidence",
       "active block has exactly one next action",
-      "cold-start validator fails closed on stale/conflicting/unsupported state"
+      "cold-start validator fails closed on stale/conflicting/unsupported state",
+      "every substantive execution carries a complete successor payload",
+      "one-shot execution explicitly requires ten-first judgment without guessing or bypassing verification",
+      "a blocker handoff contains an executable recovery path rather than a bare failure statement"
     ],
     "evidence": [
       ".naya/control-plane/CANONICAL-IDENTITY-REGISTRY.json",
@@ -21,11 +24,13 @@
       ".naya/control-plane/STATE.json",
       ".naya/control-plane/BLOCKS.json",
       ".naya/control-plane/PROOF.json",
-      ".naya/control-plane/validate_control_plane.py"
+      ".naya/control-plane/validate_control_plane.py",
+      ".naya/codex/CONSTITUTIONAL-AMENDMENT-CONTINUOUS-TORCH-PASS.md",
+      "SUPERBRAIN/AI-BOOT/START-HERE.md"
     ],
     "target_state": "CONTROL_LOOP_PROVEN_REPOSITORY_LEVEL",
-    "next_action": "Run the control-plane validator against the live repository and repair every material finding before declaring B01-B03 complete.",
-    "next_actions": ["Run the control-plane validator against the live repository and repair every material finding before declaring B01-B03 complete."],
+    "next_action": "Obtain the exact first failing step/evidence for the current-head NayaPOWER CI checks on commit b828fa86ae6886df7198136efd4b1505245433d5; if evidence identifies a repairable divergence, repair only that first cause and rerun the affected gate.",
+    "next_actions": ["Obtain the exact first failing step/evidence for the current-head NayaPOWER CI checks on commit b828fa86ae6886df7198136efd4b1505245433d5; if evidence identifies a repairable divergence, repair only that first cause and rerun the affected gate."],
     "next_action_count": 1
   },
   "status_vocabulary": ["INTENDED", "IMPLEMENTED", "COMPLETE", "VERIFIED", "RACE_READY", "PRODUCTION_PROVEN", "UNKNOWN", "FAILED", "STALE"],
@@ -33,6 +38,8 @@
     "verified_requires_proof": true,
     "unknown_is_not_green": true,
     "recorded_is_not_current": true,
-    "one_next_action": true
+    "one_next_action": true,
+    "one_shot_ten_first": true,
+    "no_dead_end_handoff": true
   }
 }
