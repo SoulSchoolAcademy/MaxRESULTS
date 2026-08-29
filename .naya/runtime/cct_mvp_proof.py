@@ -54,7 +54,7 @@ def second_pass(proof:dict)->dict:
 def main()->int:
     p=argparse.ArgumentParser(); p.add_argument("--output",default=str(DEFAULT_OUT)); args=p.parse_args()
     proof=build_proof(); proof["second_pass"]=second_pass(proof); proof["final_status"]="CCT MVP GREEN"
-    output=Path(args.output); output.parent.mkdir(parents=True,exist_ok=True); output.write_text(json.dumps(proof,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+    output=Path(args.output); output.parent.mkdir(parents=True,exist_ok=True); output.write_text(json.dumps(proof,indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf-8")
     print("CCT MVP PROOF")
     for name,status in proof["matrix"].items(): print(f"{name:<36} {status}")
     print(f"SECOND-PASS VERIFICATION{'':14} {proof['second_pass']['status']}")
