@@ -117,7 +117,9 @@ CCT-005 currently verifies and scores outcome records in-memory. There is no sep
 
 ## CI / VERIFICATION INFRASTRUCTURE
 
-A duplicate standalone CCT workflow was initially added but removed to avoid creating a second CI authority. The established `Naya Control Plane` workflow was extended with a separate `cct-regression` job that runs the new integration test followed by the established CCT regression sequence. The live GitHub Actions surface currently reports unrelated existing workflow failures, so no CI GREEN claim is made for the new integration job until a run is observed and its job evidence is inspected.
+A duplicate standalone CCT workflow was initially added but removed to avoid creating a second CI authority. The established `Naya Control Plane` workflow was extended with a separate `cct-regression` job that runs the new integration test followed by the established CCT regression sequence.
+
+**LIVE EXECUTION EVIDENCE:** main run `33281731026` and PR #85 run `33281769297` both reached the `cct-regression` job and both completed `failure` with zero reported steps. This is consistent with the existing remote execution-plane failure pattern and is **not evidence that any CCT test failed**. No test-step output exists from those runs, so no GREEN claim is permitted.
 
 ## CHANGED
 
@@ -128,19 +130,20 @@ A duplicate standalone CCT workflow was initially added but removed to avoid cre
 - Corrected the bridge to require canonical `SE-*` events with explicit `SN-*` representations.
 - Required explicit unique outcome IDs so distinct usages remain distinguishable while duplicate IDs cannot inflate value.
 - Removed the duplicate standalone CCT regression workflow and attached the regression job to the established Naya Control Plane workflow.
+- Opened PR #85 as an independent CI probe; its CCT job also failed before producing test-step evidence.
 
 ## TESTED
 
 **Live verified before this audit:** CCT-005 15/15; CCT-004 12/12; CCT-003 6/6; Naya Claim 7/7; Intelligent Block 8/8; Note Event Promotion 5/5.
 
-**New integration:** source-inspected and committed, but not yet independently observed as a passing live CI/Codespace run. The current GitHub Actions surface has existing failures and no observed CCT integration job result yet.
+**Integration test:** present and wired into CI, but no live test-step output has been observed because the available Actions runs terminate before executing steps. Therefore the integration test is **not verified**.
 
 ## VERIFIED
 
 - CCT-005 repair is verified by the supplied live evidence and is closed.
 - Existing CCT-003/CCT-004/Claim/Intelligent Block/Note Event promotion layers remain verified by the supplied live evidence.
 - The canonical architecture was inspected and the bridge reuses existing authorities.
-- The new bridge is fail-closed at Smart Note identity, event verification, consumer authorization, block verification, outcome verification, privacy, provenance, integrity, and duplicate identity boundaries.
+- The new bridge is statically aligned with the existing promotion/value boundaries and is fail-closed at Smart Note identity, event verification, consumer authorization, block verification, outcome verification, privacy, provenance, integrity, and duplicate identity boundaries.
 
 ## UNKNOWN
 
@@ -157,14 +160,14 @@ The correct canonical boundary is **Smart Note representation inside the canonic
 
 Value feedback should compose existing authorities rather than become a new memory system. The integration must preserve the original event, promote only verified/evidenced intelligence, and create uniquely identified outcome records so real reuse can be distinguished from duplicate replay.
 
-A successful local composition is not the same as durable learning. The next architectural question is how outcome evidence can become append-only canonical history without turning CCT-005 into a second event authority.
+A successful source inspection or a zero-step CI failure is not execution proof. The system must distinguish **code failure** from **execution-plane failure** and refuse to label the integration GREEN until actual test output exists.
 
 ## NEXT ACTION
 
-**Run the new `.naya/runtime/cct005_note_event_integration_test.py` in the live Codespace, then run the established sequence: CCT-005 → CCT-004 → CCT-003 → Naya Claim → Intelligent Block → Note Event Promotion. Capture exact output. If all pass, update the workboard/project to VERIFIED and release `CCT005-INTEGRATION-AUDIT`. If any fail, repair only the first evidence-backed defect.**
+**Run `.naya/runtime/cct005_note_event_integration_test.py` directly in the live Codespace, then run the established sequence: CCT-005 → CCT-004 → CCT-003 → Naya Claim → Intelligent Block → Note Event Promotion. Capture exact output. If all pass, update the workboard/project to VERIFIED and release `CCT005-INTEGRATION-AUDIT`. If any actual test fails, repair only the first evidence-backed defect.**
 
 ## TORCH
 
-The next Naya must restore current `main`, inspect the live CCT integration result, and either close/release the integration claim with exact evidence or repair only the first failing boundary. Do not declare GREEN from source inspection alone.
+The next Naya must restore current `main`, preserve the existing bridge, obtain real execution evidence, and either close/release the integration claim or repair the first actual failing assertion. Do not declare GREEN from source inspection, zero-step Actions failures, or inference.
 
 **NEXT NAYA > CURRENT NAYA.**
