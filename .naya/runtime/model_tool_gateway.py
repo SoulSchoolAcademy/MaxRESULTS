@@ -48,8 +48,14 @@ def authorize(action: dict[str, Any]) -> dict[str, Any]:
     missing = [key for key in REQUIRED_ACTION if action.get(key) in (None, "", [], {})]
     if missing:
         fail("action request missing required fields: " + ", ".join(missing))
-    if str(action["risk"]).upper() not in ALLOWED_RISK:
+    supplied_risk = str(action["risk"]).upper()
+    if supplied_risk not in ALLOWED_RISK:
         fail("action risk must be L1, L2, or L3")
+
+    from risk_engine import classify
+    derived_risk = classify(action)
+    if supplied_risk != derived_risk:
+        fail(f"declared risk {supplied_risk} does not match derived risk {derived_risk}")
 
     state = load_state()
     if state.get("status") != "CLAIMED":
@@ -59,14 +65,14 @@ def authorize(action: dict[str, Any]) -> dict[str, Any]:
             fail("execution context missing " + key)
 
     from execution_controller import transition
-    updated = transition("EXECUTING", action=action)
+    updated = transition("EXECUTING", action=action, derived_risk=derived_risk)
     return {
         "status": "AUTHORIZED",
         "action_id": action["action_id"],
         "execution_status": updated["status"],
         "claim_id": updated["claim_id"],
         "block_id": updated["block_id"],
-        "risk": str(action["risk"]).upper(),
+        "risk": derived_risk,
         "side_effect_allowed": True,
         "proof_required_after_action": True,
     }
@@ -99,15 +105,16 @@ def self_test() -> int:
         result = authorize(action)
         assert result["status"] == "AUTHORIZED"
         assert result["execution_status"] == "EXECUTING"
+        assert result["risk"] == "L2"
 
         invalid = json.loads(json.dumps(action))
-        invalid["evidence_requirement"] = []
+        invalid["risk"] = "L1"
         try:
             authorize(invalid)
-        except AssertionError:
-            pass
+        except AssertionError as exc:
+            assert "does not match derived risk" in str(exc)
         else:
-            raise AssertionError("gateway accepted an action with empty evidence requirements")
+            raise AssertionError("gateway accepted a caller-supplied risk below the derived risk")
 
         print("PASS — model/tool gateway authorization self-test GREEN")
         return 0
@@ -127,7 +134,7 @@ def main() -> int:
         if args.command == "self-test":
             return self_test()
         fail("only self-test is available in this repository-native contract")
-    except (AssertionError, json.JSONDecodeError) as exc:
+    except (AssertionError, json.JSONDecodeError, ValueError) as exc:
         print(f"GATEWAY=RED\nFIRST_DIVERGENCE={exc}")
         return 1
 
