@@ -1,6 +1,6 @@
-# NEXT EXECUTION — AUTHORITATIVE ZERO-COST RETRIEVAL VERIFICATION + PDF ACTIVATION
+# NEXT EXECUTION — CLOSE AND VERIFY THE CANONICAL SUCCESSOR GATE
 
-schema_version: 6
+schema_version: 7
 status: READY
 
 ## Project
@@ -10,111 +10,77 @@ Naya Power Superbrain (`PRJ-NAYAPOWER-SUPERBRAIN`)
 A user should be able to give Naya knowledge—not configure infrastructure—and Naya should turn that knowledge into a verified, recoverable, high-recall personal Superbrain automatically.
 
 ## Current state
-The current main head is `ea6cdf6f7ae6896fdf6a4e24f57f671c4f5a3e70`. It contains the Smart Brain retrieval admission-boundary repair that makes zero-relevance candidates fail closed while preserving authority and recency as ranking signals.
-
-The current authoritative Superbrain Gate run is `33119050211`. Its retrieval-quality and deliberate-failure step passed on the exact head. The gate remains RED because the first later failure is the project/Next Execution contract validation.
-
-Current-head status is intentionally PENDING until the authoritative gate observes all required stages GREEN against the exact head.
+The GitHub-native Superbrain baseline has deterministic retrieval, canonical memory, provenance, continuity, cold-start, CIS, and project/prompt contracts. The canonical NEXT-EXECUTION behavioral gate is now implemented in the authoritative project execution validator and wired into continuity enforcement. The remaining work is authoritative CI verification of this exact tree and resolution of any first real failure without weakening the contract.
 
 ## Completed work
-- Verified the live `main` HEAD before repair.
-- Verified Smart Brain v3 architecture and retrieval scoring/admission behavior.
-- Identified the zero-relevance admission defect: authority and recency could manufacture positive total scores.
-- Repaired retrieval admission so relevance must be positive before authority/recency ranking is applied.
-- Confirmed the repair is a minimal source change in `.naya/memory/smart_notes_v3.py`.
-- Confirmed authoritative retrieval quality and deliberate-failure testing passes on the repaired HEAD.
+- Hardened deterministic retrieval admission so relevance is required before authority and recency ranking.
+- Added authoritative canonical NEXT-EXECUTION semantic validation.
+- Added deterministic artifact loading and independent successor consumption.
+- Added rejection of arbitrary, missing, malformed, incomplete, and conversation-dependent successors.
+- Added a hard continuity requirement for canonical successors on meaningful COMPLETED executions.
+- Added deliberate orphan coverage for a completion that contains an unusable ready-to-run string.
+- Added project, continuation, Prompt Architect, behavioral-matrix, and independent-consumption regression coverage.
 
 ## Verified evidence
-- `ea6cdf6f7ae6896fdf6a4e24f57f671c4f5a3e70` is the exact current `main` HEAD.
-- Superbrain Gate run `33119050211` checked out `ea6cdf6f7ae6896fdf6a4e24f57f671c4f5a3e70`.
-- `brain-gate` job `98681017352` passed retrieval quality and deliberate-failure step 12.
-- Smart Brain v3 validation passed.
-- Canonical memory validation passed.
-- Duplicate/entity audit passed.
-- Relationship graph rebuild passed.
-- Superbrain regression suite passed.
-- Cold-start and CIS acceptance passed.
+- The canonical successor is stored durably at `.naya/handoffs/NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md`.
+- The project execution validator defines the 12 semantic successor fields and deterministic loading/consumption functions.
+- Continuity enforcement calls the authoritative successor validator for COMPLETED meaningful executions.
+- Prompt Architect delegates successor validation to the authoritative project contract.
+- The repository Superbrain Gate includes compilation, continuation, project/prompt, cold-start, intelligence, activation, health, and receipt stages.
 
 ## Unresolved issues
-- The authoritative Superbrain Gate is still RED at the project/prompt contract stage.
-- The existing canonical Next Execution Markdown artifact does not yet expose all required contract sections in the parser's accepted headings.
-- Later Superbrain Gate stages have not executed because the first failing project/prompt contract stage stopped the gate.
+- The authoritative GitHub Superbrain Gate must still execute against the resulting exact main HEAD.
+- Any first failing stage must be repaired at its true contract boundary and reverified.
+- GREEN must not be claimed from static inspection or repository presence alone.
 
 ## Constraints
 - Never weaken or delete authoritative tests.
 - Never turn errors into warnings or bypass a gate.
 - Canonical event JSON remains authoritative.
 - Derived retrieval indexes remain derived representations.
-- Repair source contracts rather than validators.
-- Preserve cold-start, CIS, continuity, Smart Brain, provenance, privacy, and human-authority boundaries.
-- Do not confuse NayaPOWER system health with deployment/Vercel health.
+- Preserve cold-start, CIS, continuity, provenance, privacy, and human-authority boundaries.
+- Keep the 1.0 baseline GitHub-native and zero-cost; external vector infrastructure is not a prerequisite.
+- Do not claim GREEN until authoritative CI observes it on the exact commit.
 
 ## Current objective
-Repair the first evidence-backed project/Next Execution contract failure, then rerun the authoritative Superbrain Gate against the resulting exact current HEAD without weakening validation.
+Close the canonical NEXT-EXECUTION behavioral gate and drive the authoritative Superbrain Gate through every remaining stage until GREEN or until the exact first remaining blocker is preserved.
 
 ## Next action
-Inspect the contract parser and canonical Next Execution artifact, make the smallest source-of-truth repair that satisfies the existing contract semantics, then rerun the authoritative Superbrain Gate and stop at the next real failure if one remains.
+Run the authoritative Superbrain Gate against the exact current `main` HEAD. If it fails, inspect only the first failing stage, repair the actual source contract, rerun, and continue. If it passes, verify the workflow run, job/step conclusions, receipt, exact commit SHA, and independent successor-consumption evidence.
 
 ## Execution instructions
-- Verify live `main` HEAD first.
-- Read the project execution contract and its authoritative tests.
-- Confirm the failure from the actual current-head run before editing.
-- Repair only the smallest true boundary.
-- Run the narrow contract self-test and relevant regression suite.
-- Run the full authoritative Superbrain Gate.
-- Verify checkout SHA, workflow run, job IDs, step conclusions, and receipts.
-- Oscar-attack the repair for validator weakening, stale state, hidden special cases, or skipped stages.
-- If GREEN, prove GREEN and score the integrated system.
-- If RED, preserve exact evidence and continue only at the first remaining real failure.
+- Verify the exact `main` HEAD before interpreting any CI result.
+- Read the authoritative project, continuity, Prompt Architect, and relevant test contracts before changing code.
+- Treat the 12 semantic fields as mandatory: project, north_star, current_state, completed_work, verified_evidence, unresolved_issues, constraints, current_objective, next_action, execution_instructions, success_criteria, verification_requirements.
+- Reject any successor that is missing, malformed, incomplete, conversation-dependent, non-actionable, or merely a path/string without a valid artifact.
+- Preserve durable receipt, paired Naya/Human representation, verification, delivery, AI-to-AI handoff, learning, and next-action protections.
+- Run targeted tests after each repair and then rerun the authoritative Superbrain Gate.
+- Record exact workflow IDs, job IDs, substantive step conclusions, receipt evidence, and tested SHA.
+- Oscar-attack the result for stale state, validator weakening, hidden special cases, or skipped stages.
 
 ## Success criteria
-- Project and Next Execution contracts pass without weakening their validator.
-- Paired representation, learning, and current-project bindings remain enforced.
-- Retrieval quality remains GREEN.
-- All previously passing Superbrain stages remain GREEN.
-- The full authoritative Superbrain Gate reaches GREEN on the exact current HEAD, or the exact next first failure is preserved for continuation.
+- All 12 semantic successor fields extract deterministically from the durable artifact.
+- A fresh Naya can consume the artifact without originating conversation context.
+- Arbitrary, missing, invalid, conversation-dependent, incomplete, and unusable orphan continuations return RED.
+- The canonical successor returns GREEN.
+- Existing continuity protections remain enforced.
+- All previously GREEN Superbrain stages remain GREEN.
+- The authoritative Superbrain Gate reaches GREEN on the exact current HEAD, or the exact first remaining blocker is preserved with evidence.
 
 ## Verification requirements
 - Exact repository: `SoulSchoolAcademy/NayaPOWER`.
 - Exact branch: `main`.
-- Exact checkout SHA must equal the live HEAD.
-- Record authoritative workflow run ID, relevant job IDs, and substantive step conclusions.
-- Verify Master Node health separately from composed Superbrain health.
-- Verify the receipt belongs to the exact current commit.
-- Never promote UNKNOWN or stale evidence to GREEN.
+- Exact checkout SHA must equal the tested live HEAD.
+- Verify the invalid orphan returns RED and the durable canonical successor returns GREEN through the actual behavioral validator.
+- Verify all 12 semantic fields are extractable and non-empty.
+- Verify execution instructions are actionable.
+- Verify success criteria and verification requirements exist.
+- Verify independent successor consumption succeeds without conversation state.
+- Verify the continuity and Prompt Architect tests pass.
+- Verify the final receipt belongs to the exact tested commit.
 
 ## Architectural boundary
-Canonical event JSON remains authoritative. Retrieval indexes and future vectors are derived representations. No vector database is required for this 1.0 baseline.
-
-## Implemented retrieval capabilities
-- Exact event-ID/title/subject matching.
-- BM25 lexical ranking.
-- TF-IDF cosine ranking.
-- Hard metadata filters: project, event type, status, tag, since/until.
-- Transparent domain query expansion.
-- Recency weighting.
-- Authority and verification weighting.
-- Relationship-aware reranking.
-- Unknown queries fail closed instead of returning arbitrary zero-relevance events.
-- Impossible metadata filters fail closed.
-- Positive and deliberate-failure retrieval tests are part of the authoritative gate.
-
-## If GREEN — begin P1/P2 customer activation
-Design and implement the smallest zero-setup PDF activation path:
-
-`PDF → DOCUMENT → CHUNKS → CANONICAL MEMORY → DERIVED RETRIEVAL INDEX → NAYA`
-
-Requirements:
-- support incremental 1, 10, and 20 document activation;
-- deterministic document identity and duplicate ingestion protection;
-- preserve canonical source truth;
-- derive searchable lexical indexes automatically;
-- make activation reproducible from the repository;
-- avoid requiring customers to configure a vector database;
-- keep the architecture provider-neutral so Supabase/vector infrastructure can be added later;
-- add positive and deliberate-failure tests;
-- measure retrieval before/after ingestion;
-- preserve the existing GREEN boundary.
+Canonical event JSON remains authoritative. NEXT-EXECUTION is a durable canonical successor contract. Retrieval indexes and future vectors are derived representations. No vector database is required for the 1.0 baseline.
 
 ## Product strategy
 1.0 = GitHub-native, zero-cost, highly capable deterministic Superbrain.
@@ -124,7 +90,7 @@ Requirements:
 Do not let 2.0/3.0 infrastructure block 1.0 usefulness.
 
 ## Finalization contract
-Every meaningful execution leaves STATE + receipt + Naya knowledge + Shawn/Smart knowledge + Current Daily Project + AI-to-AI handoff + weighted priorities + a ready-to-run Next Execution. Claims must be evidence-supported.
+Every meaningful execution leaves STATE + receipt + Naya knowledge + Shawn/Smart knowledge + Current Daily Project + AI-to-AI handoff + weighted priorities + a canonical ready-to-run NEXT-EXECUTION artifact. Claims must be evidence-supported.
 
 ## Master principle
 **Make the first version genuinely useful, free, recoverable, and measurable. Then compound upward without replacing what already works.**
