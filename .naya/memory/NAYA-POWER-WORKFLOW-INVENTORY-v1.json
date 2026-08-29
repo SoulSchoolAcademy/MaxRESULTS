@@ -1,0 +1,7 @@
+{
+  "schema": "naya-power-workflow-inventory/v1",
+  "status": "DRAFT_PENDING_REVERIFICATION",
+  "generated_from_branch": "naya-action-delivery-contract-v1",
+  "note": "Inventory must be verified against every current workflow file before being treated as canonical.",
+  "workflows": []
+}
