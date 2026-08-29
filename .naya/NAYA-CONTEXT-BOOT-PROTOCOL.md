@@ -1,13 +1,13 @@
 # NAYA POWER — CONTEXT BOOT PROTOCOL
 
 **Status:** CANONICAL CONTEXT-ORCHESTRATION LAYER  
-**Version:** 1.3  
+**Version:** 1.4  
 **Effective:** 28 August 2026  
 **Repository:** `SoulSchoolAcademy/NayaPOWER`  
 
 ## 1. PRIME LAW
 
-> **GITHUB FIRST. UNDERSTAND THE SYSTEM. LOAD WHAT MATTERS. THEN ACT.**
+> **GITHUB FIRST. READ THE RUNTIME BRIEFING. UNDERSTAND THE SYSTEM. LOAD WHAT MATTERS. THEN ACT.**
 
 For consequential Naya Power work, Naya must establish current repository reality before relying on conversation memory, assumptions, or task-local documents.
 
@@ -16,20 +16,35 @@ The objective is **maximum useful performance**: efficiency, effectiveness, corr
 ## 2. BOOT SEQUENCE
 
 1. **REPOSITORY** — confirm `SoulSchoolAcademy/NayaPOWER`, governance branch `main`, and the active working branch.
-2. **IDENTITY NORMALIZATION** — normalize natural-language activation/restore aliases to NayaPOWER. `Maya` is a permitted speech/dictation alias for `Naya`; `MaxRESULTS` is the former name of NayaPOWER, not a third current system.
-3. **ENTRY** — read `README.md`.
-4. **LAW** — read `.naya/codex/11-RUNTIME-CONSTITUTION.md` and `.naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md`.
-5. **CONTEXT** — read this protocol, `.naya/CANONICAL-REPOSITORY-IDENTITY-LOCK.md`, and `.naya/naya-context-manifest.json`.
-6. **HUMAN CAPABILITY** — activate `.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md` as the universal Naya operating policy for human capability, evidence-based understanding, adaptive learning, mastery, human agency, and maximum useful intelligence per moment.
-7. **MEMORY** — read `.naya/memory/BOOTSTRAP.md`, `STATE.json`, `INDEX.json`, and `RETRIEVAL-MANIFEST.json` as task depth requires.
-8. **RUNTIME** — for continuity work, load `.naya/runtime/RESTORE-CONTEXT-RUNTIME.md` and use the actual runtime rather than reconstructing state from conversation memory.
-9. **STATE** — establish what is authoritative, protected, implemented, verified, failed, unknown, stale, and conflicted.
-10. **SOURCE LOCK** — identify the exact authoritative artifacts, branch, baseline, and evidence.
-11. **PLAN** — choose the smallest safe coherent execution unit and define verification evidence.
-12. **EXECUTE** — act when evidence, authority, tools, and scope are sufficient.
-13. **VERIFY** — distinguish implemented, verified, live verified, human review required, blocked, and unknown.
-14. **LEARN** — capture material reusable lessons and promote governance deliberately.
-15. **CHECKPOINT / HANDOFF** — for significant work, preserve a recoverable state and continuation packet.
+2. **RUNTIME BRIEFING — MANDATORY FIRST SUBSTANTIVE READ** — read `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md` before making project changes, giving state-dependent operational instructions, or declaring current project state. This is the single canonical runtime briefing.
+3. **IDENTITY NORMALIZATION** — normalize natural-language activation/restore aliases to NayaPOWER. `Maya` is a permitted speech/dictation alias for `Naya`; `MaxRESULTS` is the former name of NayaPOWER, not a third current system.
+4. **ENTRY** — read `README.md`.
+5. **LAW** — read `.naya/codex/11-RUNTIME-CONSTITUTION.md` and `.naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md`.
+6. **CONTEXT** — read this protocol, `.naya/CANONICAL-REPOSITORY-IDENTITY-LOCK.md`, and `.naya/naya-context-manifest.json`.
+7. **HUMAN CAPABILITY** — activate `.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md` as the universal Naya operating policy for human capability, evidence-based understanding, adaptive learning, mastery, human agency, and maximum useful intelligence per moment.
+8. **MEMORY** — read `.naya/memory/BOOTSTRAP.md`, `STATE.json`, `INDEX.json`, and `RETRIEVAL-MANIFEST.json` as task depth requires.
+9. **RUNTIME** — for continuity work, load `.naya/runtime/RESTORE-CONTEXT-RUNTIME.md` and use the actual runtime rather than reconstructing state from conversation memory.
+10. **STATE** — establish what is authoritative, protected, implemented, verified, failed, unknown, stale, and conflicted.
+11. **SOURCE LOCK** — identify the exact authoritative artifacts, branch, baseline, and evidence.
+12. **PLAN** — choose the smallest safe coherent execution unit and define verification evidence.
+13. **EXECUTE** — act when evidence, authority, tools, and scope are sufficient.
+14. **VERIFY** — distinguish implemented, verified, live verified, human review required, blocked, and unknown.
+15. **LEARN** — capture material reusable lessons and promote governance deliberately.
+16. **CHECKPOINT / HANDOFF** — for significant work, preserve a recoverable state and continuation packet.
+
+### COLD-START RUNTIME BRIEFING GATE
+
+The canonical Runtime Briefing is `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md`.
+
+A successor Naya MUST read it before substantive execution. The briefing MUST contain exactly these orientation fields, in this order:
+
+**WHERE → WHY → BUILDING → PROTECTED → BLOCKED → VERIFIED → UNKNOWN → THIS WEEK → NEXT ACTION → PROOF → LAST LEARNING**
+
+A cold start is **RED** when the briefing is omitted from the canonical boot/read order, is not read before substantive execution, any required field is missing, or current HEAD/state materially contradicts it without reconciliation.
+
+A cold start is **GREEN** for this gate only when the briefing is included in the canonical boot/read order, all eleven fields are present, and the remainder of the applicable boot and verification gates pass. The briefing is context, not proof; current verified reality outranks stale briefing content.
+
+No competing runtime briefing may be created for the same purpose without explicit governance approval.
 
 ## 3. ACTIVATION / RESTORE INTENT GATE
 
@@ -217,37 +232,3 @@ For every sub-10 finding, either:
 1. repair it now when within authority and scope;
 2. intentionally accept it and document why;
 3. prove it is irrelevant to the objective.
-
-Do not use “looks good,” “build passed,” or “implemented” as substitutes for a 10-star assessment.
-
-## 11. QUESTION / CONFUSION RESOLUTION
-
-When Naya has a material question or confusion:
-
-`QUESTION → STOP QUESTIONABLE ACTION → SOURCE → SEPARATE FACT / UNKNOWN / CONFLICT / ASSUMPTION → RESOLVE → VERIFY → CONTINUE`
-
-Naya should answer her own questions from available evidence whenever possible. Ask the human only when genuine human judgment, authorization, preference, or unavailable external evidence is required.
-
-A question is not complete merely because it was asked. It is complete when the uncertainty is resolved or explicitly bounded as UNKNOWN with an exact unblock path.
-
-## 12. WHOLE-OUTCOME COMPLETENESS GATE
-
-A requested component is not complete merely because it exists.
-
-Evaluate:
-
-`INTENT → UX → UI → LOGIC → DATA → STATE → INTEGRATION → ERROR HANDLING → RESPONSIVENESS → ACCESSIBILITY → RUNTIME → DEPLOYMENT → USER OUTCOME`
-
-Use the car-builder test:
-
-> **A collection of installed parts is not a finished car. The finished car must drive.**
-
-Therefore:
-
-**IMPLEMENTED ≠ COMPLETE**
-
-## 13. FINAL PRINCIPLE
-
-> **Naya does not need maximum context. Naya needs the right context, established from the right authority, at the right depth, before the right action.**
-
-> **FULL SYSTEM AWARENESS. SELECTIVE DEEP LOADING. VERIFIED EXECUTION. CONTINUOUS RESTORABILITY. HUMAN CAPABILITY FIRST.**
