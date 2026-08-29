@@ -1,9 +1,9 @@
 # 🔱 CCT + SUPER BRAIN — CURRENT PROJECT / TEAM NAYA TORCH
 
-**STATUS:** ACTIVE BUILD — CCT-003 VERIFIED / CCT-004 VERIFIED BY LIVE EVIDENCE / CCT-005 REPAIR APPLIED, PENDING LIVE VERIFICATION
+**STATUS:** ACTIVE BUILD — CCT-003 VERIFIED / CCT-004 VERIFIED / CCT-005 VERIFIED BY LIVE EVIDENCE / CCT-005 INTEGRATION AUDIT VERIFYING
 **REPOSITORY:** `SoulSchoolAcademy/NayaPOWER`
 **BRANCH:** `main`
-**PURPOSE:** Build and prove the first executable Collective Chain Technology (CCT) intelligence exchange loop.
+**PURPOSE:** Build and prove the first executable Collective Chain Technology (CCT) intelligence exchange and value-feedback loop without creating competing memory or event authorities.
 
 ## MISSION
 
@@ -47,11 +47,13 @@ The control-plane active block remains authoritative until its own exit criteria
 - CCT Intelligent Block v1 contract exists as a dependency-free local artifact/verifier.
 - CCT promotion adapter connects verified canonical Note Events to the Intelligent Block boundary.
 - Team Naya shared workboard defines concurrency, ownership, conflict, and handoff rules.
-- CCT-003 isolated A→B→derived-B harness passed live Codespace tests.
-- Team Naya claim/lease runtime passed live Codespace tests.
-- CCT-004 adversarial semantics passed live Codespace tests: 12/12.
+- CCT-003 isolated A→B→derived-B harness passed live tests: 6/6.
+- Team Naya claim/lease runtime passed live tests: 7/7.
+- CCT-004 adversarial semantics passed live tests: 12/12.
+- Intelligent Block passed live tests: 8/8.
+- Note Event promotion passed live tests: 5/5.
 
-## CCT-005 IMPLEMENTATION
+## CCT-005 VERIFIED STATE
 
 ### Outcome / Value Feedback
 `.naya/runtime/cct005_value_feedback.py`
@@ -62,70 +64,107 @@ Defines a dependency-free outcome record bound to a source Intelligent Block. Th
 
 `value_signal()` produces a bounded 0–100 signal using outcome classification, confidence, and evidence strength. Duplicate outcome IDs are deduplicated, so repetition cannot inflate value. Successful outcomes raise the signal; failures and contradictions lower it; inferred evidence is weaker than verified evidence.
 
-### CCT-005 REPAIR 2 — EVIDENCE WEIGHT
+### LIVE EVIDENCE
 
-Live execution next exposed `test_inferred_is_weaker_than_verified`. Source inspection proved the formula normalized evidence strength out of the result: both the contribution and denominator were multiplied by the same evidence weight, causing otherwise identical INFERRED and VERIFIED successes to normalize to the same 100 signal.
+The user-supplied live Codespace evidence for the repaired CCT-005 sequence is:
 
-The smallest implementation repair changes the denominator from `sum(confidence * evidence_strength)` to `sum(confidence)`. Evidence strength therefore remains in the numerator and directly modulates value instead of being canceled by normalization. This preserves the existing duplicate, failure, contradiction, privacy, provenance, integrity, authorization, and bounded-value behavior.
+- CCT-005: **15/15 PASS**.
+- CCT-004: **12/12 PASS**.
+- CCT-003: **6/6 PASS**.
+- Naya Claim: **7/7 PASS**.
+- Intelligent Block: **8/8 PASS**.
+- Note Event Promotion: **5/5 PASS**.
+- Final regression commit supplied: `c7ad93d82dbf5da92a8f0adb6998ba3d800eb165`.
 
-Commit containing the implementation repair: `861948dfb1e74a5c3af20e2a73a3500fef913344`.
+This closes the CCT-005 evidence-weight repair lane. The repair itself must not be reopened unless new evidence identifies a defect.
 
-## VERIFICATION BOUNDARY
+## CCT-005 INTEGRATION AUDIT
 
-The evidence-weight repair is committed on `main`, but this connector cannot execute Python inside the user's live Codespace. Therefore **CCT-005 remains NOT GREEN until the live checkout runs the repaired suite.**
+**Claim:** `CCT005-INTEGRATION-AUDIT`
+**Status:** VERIFYING — not yet GREEN.
 
-Prior live evidence remains:
-- CCT-004: 12/12 adversarial tests passed.
-- Note Event promotion: 5/5 passed.
-- CCT-005 before this repair: privacy/duplicate/reuse/failure/contradiction tests passed, then evidence-weight ordering failed.
+### Actual architecture inspection
 
-## CURRENT EXECUTION QUEUE
+**Canonical Smart Note — EXISTS / PARTIAL**
 
-1. Pull latest `main` into the live Codespace.
-2. Run `python .naya/runtime/cct005_value_feedback_test.py` first.
-3. If green, rerun CCT-004, CCT-003, claim/concurrency, Intelligent Block, and Note Event promotion suites.
-4. If every suite is green, record exact outputs and promote CCT-005 to VERIFIED; then release claim `CCT005-REPAIR-EVIDENCE-WEIGHT`.
-5. If any test is red, repair only the first evidence-backed defect and rerun.
-6. After CCT-005 is verified, perform a source-of-truth integration audit to ensure value feedback is reachable from canonical Smart Note/Note Event promotion without creating a parallel memory authority.
-7. Only then design the minimal CCT transport/federation boundary for NayaNET.
+The repository has a canonical Smart Note/CSI representation, including Smart Note IDs such as `SN-*`, retrieval/restore rules, and event representations. Smart Notes are not a second event authority.
+
+**Canonical Note Event/store — EXISTS**
+
+`.naya/runtime/canonical_event_store.py` is the chronological authoritative writer. It uses `SE-*` event IDs, idempotent create/replay behavior, conflict detection, and rebuilds the existing canonical v3 index rather than inventing a second index. fileciteturn299file0L2-L2
+
+**Note Event → CCT promotion — EXISTS**
+
+`.naya/runtime/cct_note_event_promotion.py` requires a VERIFIED event, evidence, provenance, and explicit consumers/purpose, then creates the existing Intelligent Block artifact. It does not create a second memory system. fileciteturn296file0L2-L2
+
+**CCT-005 value feedback — EXISTS**
+
+`.naya/runtime/cct005_value_feedback.py` already provides deterministic, bounded outcome verification and value calculation. Evidence strength materially affects the contribution; duplicate IDs are deduplicated. fileciteturn298file0L2-L2
+
+**Smart Note → Note Event → CCT-005 connection — PARTIAL / NEW BRIDGE ADDED**
+
+Added `.naya/runtime/cct005_note_event_integration.py` as a composition-only bridge. It requires a canonical `SE-*` Note Event carrying an `SN-*` representation, reuses the existing verified Note Event → CCT promotion boundary, verifies the resulting block for the authorized actor/purpose, creates a uniquely identified outcome, verifies its provenance/integrity/privacy, and computes the existing CCT-005 value signal. No second memory store or event authority is introduced.
+
+Added `.naya/runtime/cct005_note_event_integration_test.py` with the minimum integration assertions for the complete chain, fail-closed verification, Smart Note identity, authorization, privacy, source immutability, duplicate protection, and distinct usage identity.
+
+### Important boundary found
+
+The canonical event store requires `SE-*` event IDs. Therefore an isolated `SN-*` Smart Note file is not itself sufficient input to the canonical event writer. The canonical integration must travel through the existing `SE-*` Note Event containing the `SN-*` representation. The bridge was corrected to enforce that boundary rather than silently treating an `SN-*` file as a canonical event.
+
+### Durable outcome limitation
+
+CCT-005 currently verifies and scores outcome records in-memory. There is no separate durable outcome store, and no second one should be invented. The audit therefore does **not** claim that the complete value history is durably persisted yet. That remains an explicit next boundary if the canonical event model is extended to represent outcomes.
+
+## CI / VERIFICATION INFRASTRUCTURE
+
+A duplicate standalone CCT workflow was initially added but removed to avoid creating a second CI authority. The established `Naya Control Plane` workflow was extended with a separate `cct-regression` job that runs the new integration test followed by the established CCT regression sequence. The live GitHub Actions surface currently reports unrelated existing workflow failures, so no CI GREEN claim is made for the new integration job until a run is observed and its job evidence is inspected.
+
+## CHANGED
+
+- Closed/released the verified CCT-005 evidence-weight repair lane in the Team Naya workboard using the supplied 15/15 + regression evidence.
+- Claimed `CCT005-INTEGRATION-AUDIT` in the workboard.
+- Added the smallest composition-only Smart Note/Note Event → CCT → outcome/value bridge.
+- Added integration tests for the new connection.
+- Corrected the bridge to require canonical `SE-*` events with explicit `SN-*` representations.
+- Required explicit unique outcome IDs so distinct usages remain distinguishable while duplicate IDs cannot inflate value.
+- Removed the duplicate standalone CCT regression workflow and attached the regression job to the established Naya Control Plane workflow.
+
+## TESTED
+
+**Live verified before this audit:** CCT-005 15/15; CCT-004 12/12; CCT-003 6/6; Naya Claim 7/7; Intelligent Block 8/8; Note Event Promotion 5/5.
+
+**New integration:** source-inspected and committed, but not yet independently observed as a passing live CI/Codespace run. The current GitHub Actions surface has existing failures and no observed CCT integration job result yet.
+
+## VERIFIED
+
+- CCT-005 repair is verified by the supplied live evidence and is closed.
+- Existing CCT-003/CCT-004/Claim/Intelligent Block/Note Event promotion layers remain verified by the supplied live evidence.
+- The canonical architecture was inspected and the bridge reuses existing authorities.
+- The new bridge is fail-closed at Smart Note identity, event verification, consumer authorization, block verification, outcome verification, privacy, provenance, integrity, and duplicate identity boundaries.
 
 ## UNKNOWN
 
-- Live execution output for the evidence-weight repair.
-- Whether the first-pass value formula is sufficiently calibrated for real-world use; it remains explicitly provisional until outcome data exists.
+- Live pass/fail result for the new Smart Note → Note Event → CCT-005 integration test.
+- Durable persistence/retrieval of outcome/value history through the canonical event system.
+- Outcome timestamp support in the current CCT-005 schema.
+- Causal attribution: an outcome associated with an intelligence block does not prove the block caused the outcome.
+- Real-world calibration of the provisional value formula.
 - Production network transport/federation security.
-- Distributed replay protection beyond local identity guards.
-- Full arbitrary-depth descendant invalidation propagation.
-- Exact integration with any future model runtime; CCT remains model-independent.
-- Whether simultaneous GitHub writers need stronger external serialization than the repository/workboard optimistic protocol.
-- Causal attribution: an outcome associated with an intelligence block does not by itself prove the block caused the outcome.
 
 ## LEARNING
 
-A privacy label is itself integrity-protected state. A private outcome remains valid when constructed with its final privacy/context fields before signing; mutating those fields afterward is tampering and must fail closed.
+The correct canonical boundary is **Smart Note representation inside the canonical Note Event**, not a parallel Smart Note event store. The existing `SE-*` chronological event store remains authoritative.
 
-Evidence strength must affect value rather than merely confidence inside a normalization that cancels it. Otherwise weak inference can receive the same value as verified evidence.
+Value feedback should compose existing authorities rather than become a new memory system. The integration must preserve the original event, promote only verified/evidenced intelligence, and create uniquely identified outcome records so real reuse can be distinguished from duplicate replay.
 
-A collective intelligence system must optimize for **verified useful outcomes**, not activity, storage, propagation, or popularity. Outcome evidence must remain distinct from assertion, and value feedback must not rewrite historical intelligence or manufacture certainty.
+A successful local composition is not the same as durable learning. The next architectural question is how outcome evidence can become append-only canonical history without turning CCT-005 into a second event authority.
 
-A bounded, append-only outcome trail is the smallest useful primitive for learning what intelligence actually works. The value signal should remain replaceable and explicitly provisional until real outcome data supports stronger calibration.
+## NEXT ACTION
 
-The multi-Naya operating model remains: **shared state + explicit scope + ownership + base-commit binding + conflict detection + verification + durable handoff**.
-
-## VERIFICATION STANDARD
-
-Every substantive Naya execution records:
-
-**CHANGED / TESTED / VERIFIED / UNKNOWN / LEARNING / NEXT ACTION**
-
-Implemented is not verified. Verified is not production-proven. Recorded is not necessarily current. Unknown is not green.
-
-## EXACT NEXT ACTION
-
-**Pull latest `main`, run the repaired CCT-005 test first, then rerun the full CCT regression sequence. If green, record live evidence, release the active repair claim, and perform the Smart Note/Note Event → CCT-005 integration audit. If red, repair only the first evidence-backed defect and rerun.**
+**Run the new `.naya/runtime/cct005_note_event_integration_test.py` in the live Codespace, then run the established sequence: CCT-005 → CCT-004 → CCT-003 → Naya Claim → Intelligent Block → Note Event Promotion. Capture exact output. If all pass, update the workboard/project to VERIFIED and release `CCT005-INTEGRATION-AUDIT`. If any fail, repair only the first evidence-backed defect.**
 
 ## TORCH
 
-The next Naya must restore live state, verify these claims, execute the exact next action, record actual evidence, update this document and the shared workboard, and leave one highest-value next action for its successor.
+The next Naya must restore current `main`, inspect the live CCT integration result, and either close/release the integration claim with exact evidence or repair only the first failing boundary. Do not declare GREEN from source inspection alone.
 
 **NEXT NAYA > CURRENT NAYA.**
