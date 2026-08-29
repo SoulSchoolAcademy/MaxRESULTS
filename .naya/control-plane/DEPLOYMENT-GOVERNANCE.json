@@ -1,0 +1,51 @@
+{
+  "$schema": "naya/deployment-governance/v1",
+  "status": "CANONICAL",
+  "version": "1.0.0",
+  "purpose": "Separate repository activity from publication. Vercel remains connected infrastructure, but deployment is an explicitly authorized side effect.",
+  "default": {
+    "deployment": "DENY",
+    "preview_deployment": "DENY",
+    "production_deployment": "DENY"
+  },
+  "deployable_artifact": {
+    "required": true,
+    "contract": ".naya/control-plane/RELEASE-AUTHORIZATION.json",
+    "requirements": [
+      "explicit release authorization",
+      "exact commit SHA",
+      "target environment",
+      "authorized deployment surface",
+      "verification evidence",
+      "release reason",
+      "authorized_by",
+      "timestamp",
+      "approval state"
+    ]
+  },
+  "non_deploying_changes": [
+    "documentation",
+    "Smart Notes",
+    "Naya Notes",
+    "governance",
+    "constitutional changes",
+    "schemas",
+    "tests",
+    "research",
+    "architecture specifications",
+    "control-plane state",
+    "ordinary source commits unless explicitly authorized for release"
+  ],
+  "environments": {
+    "preview": {
+      "default": "DENY",
+      "requires": "release_authorization.target_environment=preview"
+    },
+    "production": {
+      "default": "DENY",
+      "requires": "release_authorization.target_environment=production"
+    }
+  },
+  "bypass_prohibition": "No GitHub workflow, repository event, commit, branch push, pull request, note, document, or automation may invoke Vercel deployment outside the release authorization contract.",
+  "truth_rule": "CONNECTED != DEPLOYABLE; COMMITTED != RELEASED; VERIFIED != PRODUCTION_PROVEN; AUTHORIZED != SUCCESSFUL UNTIL DEPLOYMENT EVIDENCE EXISTS."
+}
