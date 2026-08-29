@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "contract_name": "Next Action Delivery Contract",
+  "purpose": "Canonical machine-readable operational torch for every substantive Naya execution handoff.",
+  "required_fields": [
+    "mission",
+    "desired_outcome",
+    "current_state",
+    "verified",
+    "unknown",
+    "protected",
+    "blocked",
+    "decision_recommendation",
+    "next_actor",
+    "next_action",
+    "ready_to_run_execution",
+    "expected_output",
+    "success_criteria",
+    "verification",
+    "constraints"
+  ],
+  "human_continuation": {
+    "actors": ["human", "shawn", "user"],
+    "human_prompt_authoring_required": true,
+    "required_additional_fields": ["human_action", "human_return_payload"]
+  },
+  "quality_rules": {
+    "next_action_min_chars": 24,
+    "rejected_next_actions": [
+      "inspect it",
+      "review this",
+      "run the next test",
+      "continue",
+      "do it",
+      "fix it"
+    ],
+    "ready_to_run_execution_must_include": [
+      "where",
+      "why",
+      "current_state",
+      "what_was_verified",
+      "what_is_unknown",
+      "what_is_protected",
+      "what_is_blocked",
+      "what_to_read",
+      "what_to_do",
+      "what_not_to_do",
+      "what_to_preserve",
+      "what_to_verify",
+      "expected_result",
+      "failure_handling",
+      "next_decision_point"
+    ],
+    "survival_test": "A successor must be able to act without reconstructing the prior conversation."
+  },
+  "delivery_rule": "A substantive execution is incomplete until this contract is instantiated and delivered through the applicable handoff/output boundary.",
+  "authority": "The contract strengthens the existing NAYA-ACTION-DELIVERY-LAW and Naya execution continuity system; it does not replace them."
+}
