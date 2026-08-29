@@ -42,6 +42,17 @@
     "MAXIS/MAXESS integration",
     "MAXIS Living Sun assessment presentation"
   ],
+  "operational_laws": {
+    "execution_escalation": {
+      "path": ".naya/NAYA-EXECUTION-LOOP-ESCALATION-LAW.md",
+      "status": "ACTIVE",
+      "scope": "Every consequential Naya/NayaPOWER/MAXIS execution, debugging cycle, investigation, verification cycle, and recovery attempt.",
+      "default_escalation_threshold": 3,
+      "red_line_threshold": 10,
+      "rule": "After three materially equivalent failures/blockers, stop blind repetition and perform a strategic reassessment. Attempt four must be materially different. More than ten materially equivalent attempts without strategy change is RED ALERT unless an explicit human-authorized exception is documented.",
+      "required_record": "ATTEMPT COUNT → OBSERVED RESULT → EVIDENCE → CURRENT HYPOTHESIS → ALTERNATIVE HYPOTHESIS → STRATEGY CHANGE → NEXT TEST"
+    }
+  },
   "execution_map": {
     "current_program": "Issue #66 — mechanically enforce the Naya Repository Operating Standard",
     "blocks": ["B01-MAP", "B02-STATE-DRIFT", "B03-PROOF", "B04-CHECKPOINT", "B05-CONCURRENCY", "B06-COLD-NAYA", "B07-HEALTH", "B08-REPEATABILITY"],
@@ -72,6 +83,8 @@
     "Current repository HEAD is authoritative over recorded HEAD claims.",
     "UNKNOWN cannot satisfy VERIFIED or RACE_READY.",
     "A block cannot be VERIFIED without appropriate evidence.",
-    "One highest-value next action must be exposed for the current block."
+    "One highest-value next action must be exposed for the current block.",
+    "When materially equivalent execution fails three times, stop repeating the same approach and perform a strategic reassessment before another attempt.",
+    "After ten materially equivalent attempts without a material strategy change, treat the condition as RED ALERT and require a materially different route or documented human-authorized exception."
   ]
 }
