@@ -7,12 +7,12 @@ from cct005_value_feedback import make_outcome, verify_outcome, value_signal
 
 BLOCK = "block-a"
 
-def outcome(outcome_id="o1", classification="SUCCESS", evidence_type="VERIFIED", actor="naya-b"):
+def outcome(outcome_id="o1", classification="SUCCESS", evidence_type="VERIFIED", actor="naya-b", privacy="SCOPED", context=None):
     return make_outcome(
         outcome_id=outcome_id, block_id=BLOCK, actor=actor,
         intended_use="solve-task", action="used-block", result="task completed",
         classification=classification, evidence=[{"type": evidence_type, "ref": "e1"}],
-        confidence=1.0, context={"domain": "test"}, privacy="SCOPED",
+        confidence=1.0, context={"domain": "test"} if context is None else context, privacy=privacy,
         provenance={"source_block": BLOCK},
     )
 
@@ -34,7 +34,7 @@ def test_forged_outcome_integrity_denied():
     assert not verify_outcome(x, block_id=BLOCK).allowed
 
 def test_private_context_not_shareable_by_default():
-    x = outcome(); x["privacy"] = "PRIVATE"; x["context"] = {"secret": "do-not-export"}
+    x = outcome(privacy="PRIVATE", context={"secret": "do-not-export"})
     assert verify_outcome(x, block_id=BLOCK).allowed
     assert x["privacy"] == "PRIVATE"
 
