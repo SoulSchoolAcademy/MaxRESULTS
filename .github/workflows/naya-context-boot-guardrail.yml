@@ -6,6 +6,7 @@ on:
     paths:
       - 'README.md'
       - '.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md'
+      - '.naya/NAYA-ACTION-DELIVERY-LAW.md'
       - '.naya/naya-context-manifest.json'
       - '.naya/codex/**'
       - '.naya/memory/**'
@@ -17,6 +18,7 @@ on:
     paths:
       - 'README.md'
       - '.naya/NAYA-CONTEXT-BOOT-PROTOCOL.md'
+      - '.naya/NAYA-ACTION-DELIVERY-LAW.md'
       - '.naya/naya-context-manifest.json'
       - '.naya/codex/**'
       - '.naya/memory/**'
