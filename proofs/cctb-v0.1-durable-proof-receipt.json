@@ -1,0 +1,46 @@
+{
+  "protocol": "CCTB v0.1 durable interchange",
+  "tested_commit_sha": "68aee910dcdf14c328185de788817c7392f52f68",
+  "execution_mode": "isolated local execution of exact repository source retrieved from cctb-v0.1-proof; no GitHub Actions",
+  "tests": {
+    "cct_mvp": 6,
+    "cct_durable": 6,
+    "total": 12
+  },
+  "block_a": {
+    "block_id": "sha256:0eb22f69d13d717682895e92441db20e44b9a2888fa69213e3fbaff04b27a5ac",
+    "block_hash": "sha256:0eb22f69d13d717682895e92441db20e44b9a2888fa69213e3fbaff04b27a5ac",
+    "artifact_hash": "sha256:521ccf2d26aafad320a9fdc1050733f6e4c82005310c00fe45dca99cbcdb1313"
+  },
+  "block_b": {
+    "block_id": "sha256:482f78681877802ef6a26783cec50ad14dda6569c3fb6a92c8b7e2df2438ad94",
+    "block_hash": "sha256:482f78681877802ef6a26783cec50ad14dda6569c3fb6a92c8b7e2df2438ad94",
+    "artifact_hash": "sha256:bdba5db6f3ca06127b61b2f391039bcfe6e5f7fccc6cd3b165bb0934f4e710df"
+  },
+  "durable_sequence": {
+    "a_write": true,
+    "a_reload": true,
+    "a_identity_stable": true,
+    "independent_b_consumption": true,
+    "b_write": true,
+    "b_reload": true,
+    "lineage_id": true,
+    "lineage_hash": true,
+    "verify_link": true
+  },
+  "negative_tests": {
+    "tampered_artifact": "RED",
+    "unauthorized_consumer": "RED",
+    "broken_lineage": "RED",
+    "malformed_artifact": "RED"
+  },
+  "independent_recomputation": {
+    "a_block_id": true,
+    "b_block_id": true,
+    "a_artifact_sha": "sha256:521ccf2d26aafad320a9fdc1050733f6e4c82005310c00fe45dca99cbcdb1313",
+    "b_artifact_sha": "sha256:bdba5db6f3ca06127b61b2f391039bcfe6e5f7fccc6cd3b165bb0934f4e710df",
+    "lineage_id": true,
+    "lineage_hash": true
+  },
+  "status": "TESTED AND VERIFIED LOCALLY"
+}
