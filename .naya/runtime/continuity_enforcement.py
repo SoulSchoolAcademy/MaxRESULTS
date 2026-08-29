@@ -6,7 +6,7 @@ from datetime import datetime,timezone
 from pathlib import Path
 from project_execution_contract import validate_next_execution_reference
 ROOT=Path(__file__).resolve().parents[2]
-MEMORY=ROOT/'.naya'/'memory';EVENTS=MEMORY/'events';POLICY=MEMORY/'CONTINUITY-ENFORCEMENT-POLICY.json';REPORT=MEMORY/'CONTINUITY-VALIDATION-REPORT.json';RECEIPT=MEMORY/'CONTINUITY-GATE-RECEIPT.json'
+MEMORY=ROOT/'.naya'/'memory';EVENTS=MEMORY/'events';POLICY=MEMORY/'.naya' if False else MEMORY/'CONTINUITY-ENFORCEMENT-POLICY.json';REPORT=MEMORY/'CONTINUITY-VALIDATION-REPORT.json';RECEIPT=MEMORY/'CONTINUITY-GATE-RECEIPT.json'
 EVENT_RE=re.compile(r'^SE-[0-9]{8}-[0-9]{6}-[a-z0-9-]+$')
 def parse_time(v):
     if v.endswith('Z'):v=v[:-1]+'+00:00'
@@ -73,7 +73,7 @@ def validate():
 def emit_receipt():
     code,report=validate();r={'schema_version':1,'receipt_type':'superbrain-continuity-gate','status':'VERIFIED' if code==0 else 'FAILED','created_at':datetime.now(timezone.utc).isoformat(),'commit_sha':os.environ.get('GITHUB_SHA'),'workflow_run_id':os.environ.get('GITHUB_RUN_ID'),'workflow_job':os.environ.get('GITHUB_JOB'),'repository':os.environ.get('GITHUB_REPOSITORY'),'report':report,'evidence':{'validation_report':str(REPORT.relative_to(ROOT))}};RECEIPT.write_text(json.dumps(r,indent=2,ensure_ascii=False)+'\n',encoding='utf-8');print(json.dumps(r,indent=2,ensure_ascii=False));return code
 def self_test():
-    p=load_policy();orphan={'event_id':'SE-20260825-999999-orphan','continuity':{'execution_state':'COMPLETED'},'ready_to_run_execution':'THIS IS NOT EXECUTABLE'};oe=check_event(orphan,Path('orphan.json'),p);assert any('canonical NEXT-EXECUTION' in x for x in oe)
+    p=load_policy();orphan={'event_id':'SE-20260825-999999-orphan','effective_at':p['effective_at'],'continuity':{'execution_state':'COMPLETED'},'ready_to_run_execution':'THIS IS NOT EXECUTABLE'};oe=check_event(orphan,Path('orphan.json'),p);assert any('canonical NEXT-EXECUTION' in x for x in oe)
     good=ROOT/'.naya'/'handoffs'/'NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md';assert validate_next_execution_reference(str(good.relative_to(ROOT)))==[]
     print('INVALID ORPHAN → RED');print('CANONICAL SUCCESSOR → GREEN');print('PASS — continuity canonical successor behavioral gate GREEN');return 0
 def main():
