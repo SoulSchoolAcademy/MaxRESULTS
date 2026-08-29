@@ -1,6 +1,6 @@
 # 🔱 CCT + SUPER BRAIN — CURRENT PROJECT / TEAM NAYA TORCH
 
-**STATUS:** ACTIVE BUILD — CCT-003 VERIFIED / CCT-004 VERIFIED BY LIVE EVIDENCE / CCT-005 IMPLEMENTED, PENDING LIVE VERIFICATION
+**STATUS:** ACTIVE BUILD — CCT-003 VERIFIED / CCT-004 VERIFIED BY LIVE EVIDENCE / CCT-005 REPAIR APPLIED, PENDING LIVE VERIFICATION
 **REPOSITORY:** `SoulSchoolAcademy/NayaPOWER`
 **BRANCH:** `main`
 **PURPOSE:** Build and prove the first executable Collective Chain Technology (CCT) intelligence exchange loop.
@@ -64,30 +64,31 @@ Defines a dependency-free outcome record bound to a source Intelligent Block. Th
 
 This is deliberately a first-pass value primitive, not a production ranking model or claim that correlation proves causation.
 
-### Regression Suite
-`.naya/runtime/cct005_value_feedback_test.py`
+### CCT-005 REPAIR
 
-The suite covers valid binding, wrong-block attribution, actor authorization, missing evidence, integrity forgery, privacy preservation, duplicate inflation, reuse without outcomes, failure/contradiction effects, evidence strength, invalid confidence, bounded context, provenance mismatch, and unknown classification.
+Live execution exposed a failure in `test_private_context_not_shareable_by_default`. Source inspection proved the verifier was correctly rejecting the test fixture because the fixture changed `privacy` and `context` after `make_outcome()` had already generated the integrity hash. The enforcement code was therefore not weakened.
+
+The smallest repair was made in `.naya/runtime/cct005_value_feedback_test.py`: private privacy/context are now supplied to `make_outcome()` before integrity is generated. This preserves privacy-by-default, provenance, integrity, authorization, and outcome validity simultaneously.
 
 ## VERIFICATION BOUNDARY
 
-CCT-004 has live Codespace evidence: 12/12 adversarial tests passed, with the canonical Note Event promotion suite also passing 5/5. CCT-005 has been implemented in the repository, but this connector cannot execute Python inside the user's live Codespace.
+The repair is committed on `main`, but this connector cannot execute Python inside the user's live Codespace. Therefore **CCT-005 remains NOT GREEN until the live checkout reruns its test suite after pulling the repair.**
 
-Therefore **CCT-005 is NOT GREEN yet.** No Naya may claim it is green until the live checkout executes its test suite and the prior regression suites remain green.
+CCT-004 has prior live evidence: 12/12 adversarial tests passed. The canonical Note Event promotion suite has prior live evidence: 5/5 passed.
 
 ## CURRENT EXECUTION QUEUE
 
 1. Pull latest `main` into the live Codespace.
-2. Run `python .naya/runtime/cct005_value_feedback_test.py`.
-3. Rerun CCT-004, CCT-003, claim/concurrency, Intelligent Block, and Note Event promotion suites.
-4. If every suite is green, record exact outputs and promote CCT-005 to VERIFIED.
+2. Run `python .naya/runtime/cct005_value_feedback_test.py` first.
+3. If green, rerun CCT-004, CCT-003, claim/concurrency, Intelligent Block, and Note Event promotion suites.
+4. If every suite is green, record exact outputs and promote CCT-005 to VERIFIED; then release claim `CCT005-REPAIR-PRIVATE-CONTEXT`.
 5. If any test is red, repair only the first evidence-backed defect and rerun.
 6. After CCT-005 is verified, perform a source-of-truth integration audit to ensure value feedback is reachable from canonical Smart Note/Note Event promotion without creating a parallel memory authority.
 7. Only then design the minimal CCT transport/federation boundary for NayaNET.
 
 ## UNKNOWN
 
-- Live execution output for CCT-005 from this connector session.
+- Live execution output for the repaired CCT-005 suite.
 - Whether the first-pass value formula is sufficiently calibrated for real-world use; it must remain explicitly provisional until outcome data exists.
 - Production network transport/federation security.
 - Distributed replay protection beyond local identity guards.
@@ -97,6 +98,8 @@ Therefore **CCT-005 is NOT GREEN yet.** No Naya may claim it is green until the 
 - Causal attribution: an outcome associated with an intelligence block does not by itself prove the block caused the outcome.
 
 ## LEARNING
+
+A privacy label is itself integrity-protected state. A private outcome remains valid when constructed with its final privacy/context fields before signing; mutating those fields afterward is tampering and must fail closed.
 
 A collective intelligence system must optimize for **verified useful outcomes**, not activity, storage, propagation, or popularity. Outcome evidence must remain distinct from assertion, and value feedback must not rewrite historical intelligence or manufacture certainty.
 
@@ -114,7 +117,7 @@ Implemented is not verified. Verified is not production-proven. Recorded is not 
 
 ## EXACT NEXT ACTION
 
-**Pull latest `main`, run the CCT-005 test, then rerun the full CCT regression sequence. If green, record live evidence and perform the Smart Note/Note Event → CCT-005 integration audit. If red, repair only the first evidence-backed defect and rerun.**
+**Pull latest `main`, run the repaired CCT-005 test first, then rerun the full CCT regression sequence. If green, record live evidence, release the active repair claim, and perform the Smart Note/Note Event → CCT-005 integration audit. If red, repair only the first evidence-backed defect and rerun.**
 
 ## TORCH
 
