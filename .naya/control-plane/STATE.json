@@ -16,42 +16,38 @@
       "START-HERE explicitly exposes the No-Orphan law and ready_to_run_execution requirement",
       "cold_start_activation.py checks No-Orphan law discoverability, required continuation field, blocker continuation, and final continuation rule",
       "naya-control-plane workflow explicitly invokes validator self-test, cold-start control-plane acceptance, cold-start activation, and MAP → STATE → BLOCK → PROOF acceptance",
-      "Canonical main resolved to dbc46a6da203faf5694e11aa34613d9cc6fbb5c3 before this receipt",
-      "Current-head Naya Control Plane workflow run 33222970100 exists for dbc46a6da203faf5694e11aa34613d9cc6fbb5c3 and was retried as attempt 2",
-      "Attempt 2 completed with conclusion FAILURE, job 99021159955, but exposed job steps are empty and job-log retrieval returns BlobNotFound"
+      "continuity_enforcement.py requires ready_to_run_execution through the canonical CONTINUITY-ENFORCEMENT-POLICY.json structured_handoff_fields and its negative self-test removes that field deliberately",
+      "A current-head Naya Control Plane run was observed and retried, but GitHub exposed no job steps and its logs returned BlobNotFound",
+      "The state correction itself advanced main; therefore this handoff deliberately treats live Git HEAD, not a stored SHA, as authoritative",
+      "After the state correction, GitHub exposed workflow activity for the new head, confirming automation is triggering; the exposed run was repair-e00-results-handoff and completed FAILURE"
     ],
     "latest_automation_observation": {
-      "head": "dbc46a6da203faf5694e11aa34613d9cc6fbb5c3",
-      "workflow": "Naya Control Plane",
-      "workflow_run_id": 33222970100,
-      "run_attempt": 2,
-      "job_id": 99021159955,
+      "observed_head_before_this_state_write": "7e8a41899b9cf25bc20a31bc897c55af283b37c2",
+      "workflow": ".github/workflows/repair-e00-results-handoff.yml",
+      "workflow_run_id": 33223122230,
       "status": "completed",
       "conclusion": "failure",
-      "steps_exposed": false,
-      "logs": "BlobNotFound",
-      "observed_at": "2026-08-29T00:17:52Z"
+      "exact_internal_failure": "UNKNOWN",
+      "steps_or_logs": "not yet retrieved for this run"
     },
     "vercel_observation": {
-      "head": "dbc46a6da203faf5694e11aa34613d9cc6fbb5c3",
-      "context": "Vercel",
-      "state": "failure",
+      "classification": "EXTERNAL_PROVIDER_BLOCKER",
       "description": "Deployment rate limited — retry in 24 hours.",
-      "classification": "EXTERNAL_PROVIDER_BLOCKER"
+      "scope": "observed on prior current-head automation evidence; do not treat as repository defect without new evidence"
     },
     "missing_evidence_state": "UNKNOWN"
   },
   "unknown": [
-    "Exact internal first failing step for Naya Control Plane run 33222970100 attempt 2 because GitHub exposes no steps and job-log retrieval returns BlobNotFound",
-    "Fresh successful Naya Control Plane result after the no-orphan changes",
-    "Fresh successful Smart Brain v3 Enforcement result after the no-orphan changes",
+    "Exact internal first failing step for the current-head Naya Control Plane workflow, if/when it appears for the live head, until GitHub exposes steps/logs",
+    "Fresh successful Naya Control Plane result after the latest state-only continuity update",
+    "Fresh successful Smart Brain v3 Enforcement result after the latest state-only continuity update",
     "Local execution of repository Python acceptance from this connector session because no repository checkout/runtime is exposed here",
     "External LLM cold-start behavioral proof beyond repository-level acceptance",
     "Production proof unless a current production runtime observation exists"
   ],
   "failures": [
-    "Current exact HEAD dbc46a6da203faf5694e11aa34613d9cc6fbb5c3 has a Naya Control Plane workflow run whose second attempt completed FAILURE; exact failing step is unavailable because steps are not exposed and job logs return BlobNotFound.",
-    "Current exact HEAD dbc46a6da203faf5694e11aa34613d9cc6fbb5c3 has an exposed Vercel FAILURE with description Deployment rate limited — retry in 24 hours.; this is treated as an external provider condition, not a repository defect without additional evidence."
+    "A current-head Naya Control Plane run previously completed FAILURE with no exposed steps and BlobNotFound job logs; exact internal cause remains UNKNOWN.",
+    "The latest observed workflow for the state-correction head, repair-e00-results-handoff run 33223122230, completed FAILURE; exact internal cause has not been retrieved and is UNKNOWN."
   ],
   "risks": [
     "Legacy .naya/memory/STATE.json may contain a recorded current_main.commit that becomes stale as main advances; it must not outrank live Git HEAD.",
@@ -59,11 +55,11 @@
     "Automation failures without retrievable job evidence must remain UNKNOWN rather than being guessed or silently repaired.",
     "A future substantive response can still orphan a successor at the response layer; repository law and machine acceptance reduce this risk but do not prove external model behavior."
   ],
-  "bottleneck": "Obtain the exact first failing step for Naya Control Plane run 33222970100 attempt 2, or establish an independent repository-local execution result if GitHub job evidence remains unavailable; do not patch without evidence.",
-  "single_next_action": "Resolve live main HEAD again; if it is unchanged, obtain the strongest retrievable evidence for Naya Control Plane run 33222970100 attempt 2 and the applicable current-head gates, using job steps/logs first and repository-local acceptance if a checkout/runtime becomes available; if exact failure evidence remains unavailable, preserve UNKNOWN and do not make a speculative code repair.",
-  "next_actions": ["Resolve live main HEAD again; if it is unchanged, obtain the strongest retrievable evidence for Naya Control Plane run 33222970100 attempt 2 and the applicable current-head gates, using job steps/logs first and repository-local acceptance if a checkout/runtime becomes available; if exact failure evidence remains unavailable, preserve UNKNOWN and do not make a speculative code repair."],
+  "bottleneck": "Obtain exact current-head automation failure evidence for the canonical Naya Control Plane and related No-Orphan gates; if steps/logs remain unavailable, preserve UNKNOWN and use repository-local proof when a checkout/runtime is available.",
+  "single_next_action": "Resolve live main HEAD at execution start; query GitHub Actions for that exact HEAD; inspect the Naya Control Plane, Continuous Torch-Pass, Claim Evidence, and Superbrain gates; retrieve jobs/steps/logs for any failures; repair only the first evidence-backed repository divergence, rerun against the new exact HEAD, and if evidence remains unavailable preserve UNKNOWN without speculative repair.",
+  "next_actions": ["Resolve live main HEAD at execution start; query GitHub Actions for that exact HEAD; inspect the Naya Control Plane, Continuous Torch-Pass, Claim Evidence, and Superbrain gates; retrieve jobs/steps/logs for any failures; repair only the first evidence-backed repository divergence, rerun against the new exact HEAD, and if evidence remains unavailable preserve UNKNOWN without speculative repair."],
   "next_action_count": 1,
-  "ready_to_run_execution": "NEXT NAYA EXECUTION — CURRENT-HEAD FAILURE EVIDENCE RECOVERY\n\nMISSION: Continue hardening NayaPOWER No-Orphan/Continuous Torch-Pass without speculative repair.\nSOURCE OF TRUTH: SoulSchoolAcademy/NayaPOWER main. Resolve live HEAD before every claim.\nCURRENT OBSERVED HEAD AT HANDOFF: dbc46a6da203faf5694e11aa34613d9cc6fbb5c3.\nCURRENT AUTOMATION EVIDENCE: Naya Control Plane run 33222970100, attempt 2, job 99021159955, completed FAILURE; GitHub exposes no job steps and job-log retrieval returns BlobNotFound.\nEXTERNAL OBSERVATION: Vercel failure says Deployment rate limited — retry in 24 hours.; classify as EXTERNAL_PROVIDER_BLOCKER and do not modify repository code for that status alone.\nEXECUTE: 1) Resolve live main HEAD. 2) If HEAD changed, replace the handoff SHA everywhere. 3) Retrieve run 33222970100 attempt 2 job 99021159955 steps/logs again. 4) Inspect exact current-head workflow/check/status evidence for Naya Control Plane, Naya Continuous Torch-Pass Gate, Naya Power Claim Evidence Enforcement, and Superbrain Gate. 5) If a first failing repository step becomes visible, identify FAILURE → FIRST DIVERGENCE → EVIDENCE → ROOT CAUSE and repair only that cause, then rerun against the new exact HEAD. 6) If logs remain unavailable, do not guess; preserve UNKNOWN and use the strongest available repository evidence. 7) Inspect continuity_enforcement.py and CONTINUITY-ENFORCEMENT-POLICY.json to preserve machine enforcement of ready_to_run_execution. 8) Oscar: WHY IS THIS NOT A 10? Attack current-head binding, evidence integrity, No-Orphan discoverability, ready_to_run_execution, UNKNOWN fail-closed behavior, stale-state protection, and successor continuity. 9) Record only evidence-backed state, exactly one next action, and this complete ready_to_run_execution. 10) Before ending, pass the torch with the next executable prompt. ACCEPTANCE: IMPLEMENTED ≠ VERIFIED; VERIFIED ≠ PRODUCTION_PROVEN; RECORDED ≠ CURRENT; UNKNOWN ≠ GREEN. DO NOT END WITH AN EXPLANATION-ONLY RESPONSE. CONTINUE. NEXT NAYA > CURRENT NAYA.",
+  "ready_to_run_execution": "NEXT NAYA EXECUTION — LIVE-HEAD AUTOMATION PROOF RECOVERY\n\nMISSION: Continue NayaPOWER No-Orphan/Continuous Torch-Pass hardening. Do not redesign working architecture. Do not guess.\nSOURCE OF TRUTH: SoulSchoolAcademy/NayaPOWER, branch main. The live Git HEAD resolved at the beginning of this execution is authoritative; no SHA in prior state is current by default.\nEXECUTE: 1) Resolve live main HEAD immediately. 2) Query GitHub Actions for that exact HEAD. 3) Inspect Naya Control Plane, Naya Continuous Torch-Pass Gate, Naya Power Claim Evidence Enforcement, and Superbrain Gate runs for that exact HEAD. 4) For every relevant run inspect status, conclusion, jobs, steps, logs, and artifacts. 5) If a run is RED and its first failing step is exposed, classify FAILURE → FIRST DIVERGENCE → EVIDENCE → ROOT CAUSE and repair only that repository-side cause. 6) If job steps/logs are unavailable or BlobNotFound occurs, preserve EXACT ROOT CAUSE=UNKNOWN; do not infer a code defect. 7) Inspect .naya/runtime/continuity_enforcement.py and .naya/memory/CONTINUITY-ENFORCEMENT-POLICY.json to ensure ready_to_run_execution remains mandatory; do not duplicate enforcement if already protected. 8) If a repository checkout/runtime is available, run python .naya/runtime/cold_start_activation.py, python .naya/runtime/cold_start_control_plane_acceptance.py, python .naya/control-plane/validate_control_plane.py --self-test, and python .naya/control-plane/validate_control_plane.py; record actual outputs only. 9) Treat Vercel rate-limit/capacity failures as EXTERNAL_PROVIDER_BLOCKER unless new evidence proves a repository cause. 10) Oscar: WHY IS THIS NOT A 10? Attack current-head binding, automation observability, No-Orphan discoverability, ready_to_run_execution, blocker continuation, UNKNOWN fail-closed behavior, stale-state protection, duplication, and cold-start continuity. 11) Persist evidence-backed CURRENT STATE, VERIFIED, UNKNOWN, FAILED, LESSON, SYSTEM IMPROVEMENT, one CURRENT BOTTLENECK, exactly one SINGLE NEXT ACTION, and this live-head-bound READY-TO-RUN EXECUTION. 12) Before ending, perform Torch-Completeness: a cold Naya must know what is true, unknown, failed, and exactly what to do next without this conversation. 13) Do not end with an explanation-only response. Write the next executable NEXT NAYA EXECUTION and CONTINUE. ACCEPTANCE: IMPLEMENTED != VERIFIED; VERIFIED != PRODUCTION_PROVEN; RECORDED != CURRENT; UNKNOWN != GREEN. NEXT NAYA > CURRENT NAYA.",
   "truth_rules": [
     "LIVE authoritative source outranks recorded state.",
     "RECORDED_BUT_STALE is not CURRENT.",
