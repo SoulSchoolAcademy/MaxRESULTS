@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 REPORT=ROOT/'.naya'/'memory'/'PROMPT-ARCHITECT-CONTRACT-REPORT.json'
 PROJECT_CONTRACT=ROOT/'.naya'/'runtime'/'project_execution_contract.py'
+ARTIFACT='.naya/handoffs/NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md'
 REQUIRED=("goal","vision","mission","north_star","current_project","current_state","known_context","unknowns","protected_baseline","constraints","inputs","required_actions","quality_standard","output_requirements","verification_requirements","evidence_requirements","authorization_boundary","failure_handling","learning_capture","receipt_requirements","next_execution")
 
 
@@ -26,11 +27,14 @@ def validate(spec):
 
 
 def self_test():
-    good={k:'test' for k in REQUIRED}; good['quality_standard']='AAA/10-STAR'; good['next_execution']={field:('run validation' if field=='execution_instructions' else ['test'] if field in {'completed_work','verified_evidence','unresolved_issues','constraints','success_criteria','verification_requirements'} else 'test') for field in _project_contract().NEXT_FIELDS}; assert validate(good)==[]
-    bad=dict(good); bad['next_execution']='arbitrary prose'; errors=validate(bad); assert any('canonical NEXT-EXECUTION' in x for x in errors)
-    incomplete=dict(good); incomplete['next_execution']=dict(good['next_execution']); incomplete['next_execution'].pop('success_criteria'); errors=validate(incomplete); assert any('missing success_criteria' in x for x in errors)
-    conversation=dict(good); conversation['next_execution']=dict(good['next_execution']); conversation['next_execution']['execution_instructions']='continue from this conversation'; errors=validate(conversation); assert any('conversation-dependent' in x for x in errors)
-    missing=dict(good); missing['next_execution']=None; errors=validate(missing); assert any('missing prompt contract field: next_execution' in x for x in errors)
+    contract=_project_contract()
+    good={k:'test' for k in REQUIRED}; good['quality_standard']='AAA/10-STAR'; good['next_execution']={field:('run validation' if field=='execution_instructions' else ['test'] if field in {'completed_work','verified_evidence','unresolved_issues','constraints','success_criteria','verification_requirements'} else 'test') for field in contract.NEXT_FIELDS}; assert validate(good)==[]
+    valid_path=dict(good); valid_path['next_execution']=ARTIFACT; assert validate(valid_path)==[]
+    bad=dict(good); bad['next_execution']='arbitrary prose'; errors=validate(bad); assert any('canonical NEXT-EXECUTION' in x for x in errors); print(f'ARBITRARY next_execution → RED ({errors[0]})')
+    incomplete=dict(good); incomplete['next_execution']=dict(good['next_execution']); incomplete['next_execution'].pop('success_criteria'); errors=validate(incomplete); assert any('missing success_criteria' in x for x in errors); print(f'INCOMPLETE next_execution → RED ({errors[0]})')
+    conversation=dict(good); conversation['next_execution']=dict(good['next_execution']); conversation['next_execution']['execution_instructions']='continue from this conversation'; errors=validate(conversation); assert any('conversation-dependent' in x for x in errors); print(f'CONVERSATION-DEPENDENT next_execution → RED ({errors[0]})')
+    missing=dict(good); missing['next_execution']=None; errors=validate(missing); assert any('missing prompt contract field: next_execution' in x for x in errors); print(f'MISSING next_execution → RED ({errors[0]})')
+    print('CANONICAL next_execution artifact → GREEN')
     print('PASS — Prompt Architect canonical NEXT-EXECUTION deliberate-failure tests GREEN'); return 0
 
 
