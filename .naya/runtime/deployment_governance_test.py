@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed regression tests for NayaPOWER deployment governance.
-
-These tests prove repository-side authorization policy. Provider deployment
-success still requires external Vercel evidence.
-"""
+"""Fail-closed regression tests for NayaPOWER deployment governance."""
 from __future__ import annotations
 
 import json
@@ -15,6 +11,7 @@ AUTH = ROOT / ".naya" / "control-plane" / "RELEASE-AUTHORIZATION.json"
 VERCEL = ROOT / "vercel.json"
 WORKFLOWS = ROOT / ".github" / "workflows"
 AUTHORIZED_WORKFLOW = WORKFLOWS / "authorized-vercel-release.yml"
+CANONICAL_PROJECT_ID = "prj_cHa9gwrtscCW8JuMDjcvw6DafaOK"
 
 
 def load(path: Path):
@@ -22,13 +19,13 @@ def load(path: Path):
 
 
 def deployment_allowed(*, authorization: dict, commit_sha: str, target: str) -> bool:
-    """Pure policy decision used by the regression cases."""
     return (
         authorization.get("status") == "AUTHORIZED"
         and authorization.get("repository") == "SoulSchoolAcademy/NayaPOWER"
         and authorization.get("commit_sha") == commit_sha
         and authorization.get("target_environment") == target
         and authorization.get("deployment_surface") == "vercel"
+        and authorization.get("vercel_project_id") == CANONICAL_PROJECT_ID
         and authorization.get("approval") == "EXPLICIT_APPROVAL_GRANTED"
         and authorization.get("verification", {}).get("status") == "PASS"
         and bool(authorization.get("verification", {}).get("evidence"))
@@ -36,13 +33,13 @@ def deployment_allowed(*, authorization: dict, commit_sha: str, target: str) -> 
 
 
 def test_vercel_git_deployments_disabled():
-    config = load(VERCEL)
-    assert config["git"]["deploymentEnabled"] is False
+    assert load(VERCEL)["git"]["deploymentEnabled"] is False
 
 
 def test_release_contract_is_fail_closed_template():
     auth = load(AUTH)
     assert auth["status"] == "TEMPLATE"
+    assert auth["vercel_project_id"] == CANONICAL_PROJECT_ID
     assert not deployment_allowed(authorization=auth, commit_sha="abc", target="production")
 
 
@@ -69,10 +66,25 @@ def test_wrong_commit_is_denied_even_when_other_fields_are_valid():
         "commit_sha": "abc123",
         "target_environment": "production",
         "deployment_surface": "vercel",
+        "vercel_project_id": CANONICAL_PROJECT_ID,
         "approval": "EXPLICIT_APPROVAL_GRANTED",
         "verification": {"status": "PASS", "evidence": ["tests passed"]},
     }
     assert not deployment_allowed(authorization=auth, commit_sha="different", target="production")
+
+
+def test_wrong_vercel_project_is_denied():
+    auth = {
+        "status": "AUTHORIZED",
+        "repository": "SoulSchoolAcademy/NayaPOWER",
+        "commit_sha": "abc123",
+        "target_environment": "production",
+        "deployment_surface": "vercel",
+        "vercel_project_id": "wrong-project",
+        "approval": "EXPLICIT_APPROVAL_GRANTED",
+        "verification": {"status": "PASS", "evidence": ["tests passed"]},
+    }
+    assert not deployment_allowed(authorization=auth, commit_sha="abc123", target="production")
 
 
 def test_authorized_release_is_permitted():
@@ -82,6 +94,7 @@ def test_authorized_release_is_permitted():
         "commit_sha": "abc123",
         "target_environment": "production",
         "deployment_surface": "vercel",
+        "vercel_project_id": CANONICAL_PROJECT_ID,
         "approval": "EXPLICIT_APPROVAL_GRANTED",
         "verification": {"status": "PASS", "evidence": ["tests passed"]},
     }
@@ -107,6 +120,7 @@ def test_canonical_release_workflow_contains_the_only_deployment_boundary():
     assert "release_id" in text
     assert "explicit_approval_granted" in text
     assert "release_authorization.py" in text
+    assert "vercel_project_id" in text
     assert "vercel@latest deploy" in text
 
 
