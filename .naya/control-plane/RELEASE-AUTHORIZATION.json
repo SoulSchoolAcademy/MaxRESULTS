@@ -8,6 +8,7 @@
   "commit_sha": "REQUIRED_EXACT_COMMIT_SHA",
   "target_environment": "preview|production",
   "deployment_surface": "vercel",
+  "vercel_project_id": "prj_cHa9gwrtscCW8JuMDjcvw6DafaOK",
   "release_reason": "REQUIRED",
   "verification": {
     "status": "PASS_REQUIRED",
@@ -16,5 +17,5 @@
   "authorized_by": "REQUIRED",
   "authorized_at": "REQUIRED_TIMEZONE_AWARE_TIMESTAMP",
   "approval": "EXPLICIT_APPROVAL_REQUIRED",
-  "notes": "A template is not authorization. A release record must be complete, exact, evidence-backed, and explicitly approved before deployment execution."
+  "notes": "A template is not authorization. A release record must be complete, exact, evidence-backed, explicitly approved, and bound to the canonical Vercel project before deployment execution."
 }
