@@ -1,0 +1,37 @@
+name: Naya-to-Naya Claiming Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  claiming:
+    name: execution-claiming-enforcement
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Compile claiming runtime and tests
+        run: python -m py_compile .naya/control-plane/claiming.py .naya/tests/test_claiming.py
+
+      - name: Run claiming adversarial tests
+        run: python .naya/tests/test_claiming.py
+
+      - name: Run canonical claiming self-test
+        run: python .naya/control-plane/claiming.py self-test
+
+      - name: Validate canonical claim registry
+        run: python .naya/control-plane/claiming.py validate
