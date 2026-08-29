@@ -1,0 +1,173 @@
+{
+  "blocks": {
+    "a": {
+      "block_id": "sha256:f05d6fe8b072927a89f2756d7f9d0fa2bcf4c70840c34e846b2cfc9ee25a1bef",
+      "block_type": "learning",
+      "claim": "A scarce execution resource should be spent only when it produces distinct verified value.",
+      "created_at": "2026-08-29T00:00:00Z",
+      "evidence": [
+        {
+          "reference": "cct-mvp-proof",
+          "type": "local_execution"
+        }
+      ],
+      "lineage": {
+        "parent_block_hash": null,
+        "parent_block_id": null
+      },
+      "permissions": {
+        "audience": [
+          "naya-b"
+        ],
+        "scope": "network:approved"
+      },
+      "producer": {
+        "agent_id": "naya-a"
+      },
+      "schema_version": "cctb-0.1",
+      "source_context": "independent_artifact",
+      "subject": "maximum verified value per action",
+      "verification": {
+        "method": "deterministic CCTB protocol test",
+        "status": "VERIFIED"
+      }
+    },
+    "b": {
+      "block_id": "sha256:64d74b222bd5d0e1c71706a63f9912b503b52ce48cc92a5005a3ad17dc85e063",
+      "block_type": "learning",
+      "claim": "Independent consumers can verify permitted intelligence and create a traceable successor.",
+      "created_at": "2026-08-29T00:01:00Z",
+      "evidence": [
+        {
+          "parent_block_id": "sha256:f05d6fe8b072927a89f2756d7f9d0fa2bcf4c70840c34e846b2cfc9ee25a1bef",
+          "type": "independent_consumption"
+        }
+      ],
+      "lineage": {
+        "parent_block_hash": "sha256:f05d6fe8b072927a89f2756d7f9d0fa2bcf4c70840c34e846b2cfc9ee25a1bef",
+        "parent_block_id": "sha256:f05d6fe8b072927a89f2756d7f9d0fa2bcf4c70840c34e846b2cfc9ee25a1bef"
+      },
+      "permissions": {
+        "audience": [
+          "naya-a"
+        ],
+        "scope": "network:approved"
+      },
+      "producer": {
+        "agent_id": "naya-b"
+      },
+      "schema_version": "cctb-0.1",
+      "source_context": "independent_artifact",
+      "subject": "maximum verified value per action",
+      "verification": {
+        "method": "independent Naya B consumption and successor test",
+        "status": "VERIFIED"
+      }
+    }
+  },
+  "first_pass": "GREEN",
+  "final_status": "CCT MVP GREEN",
+  "lineage": {
+    "parent_block_hash": "sha256:f05d6fe8b072927a89f2756d7f9d0fa2bcf4c70840c34e846b2cfc9ee25a1bef",
+    "parent_block_id": "sha256:f05d6fe8b072927a89f2756d7f9d0fa2bcf4c70840c34e846b2cfc9ee25a1bef"
+  },
+  "matrix": {
+    "B → A LINEAGE": "GREEN",
+    "BLOCK A CREATION": "GREEN",
+    "BLOCK A EVIDENCE": "GREEN",
+    "BLOCK A PERMISSIONS": "GREEN",
+    "BLOCK A PROVENANCE": "GREEN",
+    "BLOCK A VALIDATION": "GREEN",
+    "BLOCK B CREATION": "GREEN",
+    "CONVERSATION INDEPENDENCE": "GREEN",
+    "INDEPENDENT LINEAGE VERIFY": "GREEN",
+    "MACHINE-READABLE PROOF": "GREEN",
+    "NAYA B INDEPENDENT CONSUMPTION": "GREEN",
+    "NEGATIVE TESTS": "GREEN",
+    "PERMISSION ENFORCEMENT": "GREEN",
+    "TAMPER DETECTION": "GREEN"
+  },
+  "negative_tests": {
+    "bad_lineage": {
+      "errors": [
+        "parent_block_hash does not match parent canonical hash"
+      ],
+      "status": "RED"
+    },
+    "conversation_dependent": {
+      "errors": [
+        "source_context must be independent_artifact",
+        "block_id does not match canonical content"
+      ],
+      "status": "RED"
+    },
+    "incomplete": {
+      "errors": [
+        "missing claim",
+        "block_id does not match canonical content"
+      ],
+      "status": "RED"
+    },
+    "invalid_orphan": {
+      "errors": [
+        "parent_block_id does not match parent",
+        "parent_block_hash does not match parent canonical hash"
+      ],
+      "status": "RED"
+    },
+    "malformed": {
+      "errors": [
+        "missing block_type",
+        "missing producer",
+        "missing created_at",
+        "missing subject",
+        "missing claim",
+        "missing evidence",
+        "missing verification",
+        "missing permissions",
+        "missing lineage",
+        "missing source_context",
+        "unsupported schema_version",
+        "producer.agent_id required",
+        "verification.status must be VERIFIED",
+        "evidence is required",
+        "permissions.audience is required",
+        "source_context must be independent_artifact",
+        "block_id does not match canonical content",
+        "lineage must be an object"
+      ],
+      "status": "RED"
+    },
+    "tampered": {
+      "errors": [
+        "block_id does not match canonical content"
+      ],
+      "status": "RED"
+    },
+    "unauthorized": {
+      "errors": [
+        "consumer naya-c is not permitted"
+      ],
+      "status": "RED"
+    }
+  },
+  "proof_version": "0.1",
+  "protocol": "CCTB v0.1",
+  "second_pass": {
+    "checks": {
+      "a_hash": true,
+      "a_valid_for_b": true,
+      "b_hash": true,
+      "b_valid_for_a": true,
+      "first_pass_green": true,
+      "lineage_hash": true,
+      "lineage_id": true,
+      "matrix_all_green": true,
+      "recorded_lineage_hash": true,
+      "recorded_lineage_id": true
+    },
+    "status": "GREEN",
+    "verifier": "cct_mvp_second_pass.py"
+  },
+  "source_context": "independent_artifact"
+}
