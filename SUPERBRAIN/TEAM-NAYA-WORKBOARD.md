@@ -115,17 +115,33 @@ The next Naya must be able to continue without reconstructing the previous conve
 **EVIDENCE:** live test suite completed successfully.
 
 ### CCT-004 — Adversarial Federation Semantics
-**STATUS:** VERIFYING
+**STATUS:** VERIFIED BY LIVE CODESPACE TESTS
 **OWNER:** Team Naya
 **SCOPE:** `.naya/runtime/cct004_adversarial.py` + `.naya/runtime/cct004_adversarial_test.py`
 **ACCEPTANCE:** replay, duplicate identity, provenance/lineage forgery, revocation, supersession, contradiction, fake independence, permission escalation, circular lineage, stale knowledge, and bounded payload failures are fail-closed.
-**IMPLEMENTED:** dependency-free semantic guard layer and 11-test adversarial suite.
-**RUNTIME STATUS:** pending live Codespace execution.
+**EVIDENCE:** live suite completed successfully with 12/12 tests passing.
 
 ### CCT-005 — Outcome / Value Feedback
-**STATUS:** QUEUED
-**OWNER:** UNCLAIMED
-**ACCEPTANCE:** intelligence use produces measurable outcome evidence that can update future value/retrieval decisions.
+**STATUS:** VERIFYING
+**OWNER:** Team Naya
+**SCOPE:** `.naya/runtime/cct005_value_feedback.py` + `.naya/runtime/cct005_value_feedback_test.py`
+**ACCEPTANCE:** intelligence use produces bounded, provenance-preserving outcome evidence that can update future value/retrieval decisions without mutating source intelligence.
+**IMPLEMENTED:** dependency-free outcome record, fail-closed verifier, privacy scope, integrity binding, deterministic provisional value signal, duplicate protection, and adversarial regressions.
+**RUNTIME STATUS:** pending live Codespace execution.
+
+## CCT-005 HANDOFF
+
+**CHANGED:** outcome/value primitive and 14-test regression suite added.
+
+**TESTED:** repository implementation inspected; live Python execution is pending in Codespace.
+
+**VERIFIED:** implementation is present on `main`; no GREEN claim yet.
+
+**UNKNOWN:** calibration against real outcomes, causal attribution, and production persistence/analytics.
+
+**LEARNING:** value must come from outcome evidence, not propagation count; the source intelligence remains immutable while later outcomes form an auditable feedback trail.
+
+**NEXT ACTION:** pull latest `main`, run `python .naya/runtime/cct005_value_feedback_test.py`, then rerun the established CCT regression suites. If green, perform the canonical Smart Note/Note Event → CCT-005 integration audit before federation.
 
 ## TORCH
 
@@ -133,4 +149,4 @@ The workboard exists so that even many simultaneous Nayas behave like coordinate
 
 **One road. Clear lanes. Explicit ownership. Verified merges. No silent overwrites.**
 
-**CURRENT NAYA ACTION:** Pull the latest `main`, run the CCT-004 adversarial suite, then rerun the complete CCT regression suite. Do not declare CCT-004 green without live evidence. If a test fails, repair only the first evidence-backed defect and rerun.
+**CURRENT NAYA ACTION:** Verify CCT-005 live; do not declare green without runtime evidence. If red, repair only the first evidence-backed defect and rerun.
