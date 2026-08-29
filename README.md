@@ -14,6 +14,19 @@ Make it dramatically easier for an ordinary human with a meaningful vision to ac
 
 **UNDERSTAND → PLAN → EXECUTE → VERIFY → LEARN → COMPRESS → PRESERVE → RESTORE → IMPROVE**
 
+## 🔐 Deployment Governance — CANONICAL
+
+**A repository change is not a release.** NayaPOWER remains connected to Vercel, but repository activity MUST NOT automatically become publication.
+
+- `vercel.json` disables automatic Git deployments.
+- `.naya/control-plane/DEPLOYMENT-GOVERNANCE.json` defines the fail-closed policy.
+- `.naya/control-plane/RELEASE-AUTHORIZATION.json` is the canonical release authorization contract/template.
+- `.naya/runtime/deployment_governance_test.py` provides regression coverage.
+- `.github/workflows/deployment-governance.yml` continuously checks the repository-side gate and rejects direct Vercel deployment commands in GitHub workflows.
+- `SUPERBRAIN/DEPLOYMENT-GOVERNANCE.md` is the human-readable governing specification.
+
+**CONNECTED ≠ DEPLOYABLE. COMMITTED ≠ RELEASED. VERIFIED ≠ PRODUCTION-PROVEN.**
+
 ## 🔱 Naya Repository Operating Standard — CANONICAL
 
 **`SUPERBRAIN/NAYA-REPOSITORY-OPERATING-STANDARD.md`** is the mandatory shared repository operating standard for every Naya-operated project.
@@ -42,7 +55,7 @@ The canonical doctrine is [`SUPERBRAIN/MASTER-NOTES/SN-20260827-HUMAN-CAPABILITY
 
 Core loop:
 
-`MEASURE → UNDERSTAND → LEARN → APPLY → REMEMBER → REASSESS → IMPROVE → MASTER → MEASURE AGAIN`
+**MEASURE → UNDERSTAND → LEARN → APPLY → REMEMBER → REASSESS → IMPROVE → MASTER → MEASURE AGAIN**
 
 The doctrine establishes evidence-based understanding, adaptive teaching, measurement of teaching quality, human-centered design, compounding intelligence, and the principle that information delivery is not equivalent to understanding.
 
@@ -84,22 +97,23 @@ The activation architecture is structurally locked as a 12-layer model. Structur
 
 1. `SUPERBRAIN/NAYA-REPOSITORY-OPERATING-STANDARD.md` — **mandatory cross-project repository operating standard**
 2. `SUPERBRAIN/MASTER-SYSTEMS-ARCHITECTURE.md` — canonical activation architecture and authority model
-3. `.naya/codex/11-RUNTIME-CONSTITUTION.md`
-4. `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md` — 10-Star service, autonomous execution, project, teaching, prompt, continuity, and self-optimization law
-5. `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — canonical Smart Notes/CIS law
-6. `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md` — canonical Superbrain operating model
-7. `.naya/memory/BOOTSTRAP.md` — model/session continuity contract
-8. `SUPERBRAIN/AI-BOOT/START-HERE.md` — mandatory AI entry point
-9. `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md` — append-only change stream
-10. `SUPERBRAIN/PROMPT-ARCHITECT/README.md` — canonical intent-to-prompt execution architecture
-11. `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md` — 25-task optimization sequence
-12. `SUPERBRAIN/10-10-SCORECARD.md` — measured maturity and remaining gates
-13. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-NAYA.md` — AI execution directive
-14. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-SHAWN.md` — human execution directive
-15. `.naya/memory/events/INDEX.json` — chronological Note Event index
-16. `.naya/memory/STATE.json` — current Intelligence State
-17. `.naya/memory/smart_notes_v3.py` — event validation/retrieval/CIS runtime
-18. `.naya/memory/duplicate_entity_audit.py` — duplicate/entity resolution audit
+3. `SUPERBRAIN/DEPLOYMENT-GOVERNANCE.md` — canonical repository-to-publication boundary
+4. `.naya/codex/11-RUNTIME-CONSTITUTION.md`
+5. `.naya/codex/CONSTITUTIONAL-AMENDMENT-10-STAR-SERVICE-AUTONOMOUS-EXECUTION.md` — 10-Star service, autonomous execution, project, teaching, prompt, continuity, and self-optimization law
+6. `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — canonical Smart Notes/CIS law
+7. `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md` — canonical Superbrain operating model
+8. `.naya/memory/BOOTSTRAP.md` — model/session continuity contract
+9. `SUPERBRAIN/AI-BOOT/START-HERE.md` — mandatory AI entry point
+10. `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md` — append-only change stream
+11. `SUPERBRAIN/PROMPT-ARCHITECT/README.md` — canonical intent-to-prompt execution architecture
+12. `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md` — 25-task optimization sequence
+13. `SUPERBRAIN/10-10-SCORECARD.md` — measured maturity and remaining gates
+14. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-NAYA.md` — AI execution directive
+15. `SUPERBRAIN/MASTER-NOTES/SN-20260825-SUPERBRAIN-10-OF-10-EXECUTION-PROTOCOL-SHAWN.md` — human execution directive
+16. `.naya/memory/events/INDEX.json` — chronological Note Event index
+17. `.naya/memory/STATE.json` — current Intelligence State
+18. `.naya/memory/smart_notes_v3.py` — event validation/retrieval/CIS runtime
+19. `.naya/memory/duplicate_entity_audit.py` — duplicate/entity resolution audit
 
 ## Smart Notes + CIS
 
@@ -118,88 +132,3 @@ Canonical storage:
 Each canonical Note Event can carry three aligned representations of the same underlying knowledge:
 
 - **NAYA representation** — AI-facing operational understanding.
-- **HUMAN / SHAWN representation** — human-facing meaning, intent, decisions, corrections, and significance.
-- **MACHINE representation** — algorithm-facing normalized facts, classifications, entities, relationships, status, confidence, provenance, verification state, and retrieval/index signals.
-
-These are **three views of one event, not three independent notes**. The machine representation exists so validators, retrieval, Daily Intelligence, CIS synthesis, and future Nayas can consume structured intelligence without reconstructing meaning from prose alone.
-
-Every Smart Note must be validated, verified, indexed, and issued a durable receipt. Feed publication is required only where the actual feed integration is available and confirmed.
-
-## Project Memory
-
-**PROJECT** is a first-class semantic category. A project may be an app, website, document, image, design, research effort, learning objective, repair, business initiative, creative work, or other meaningful body of work.
-
-Where applicable, meaningful events should associate with the current project. Project context organizes **work → decisions → discoveries → lessons → artifacts → receipts → next actions**.
-
-## Prompt Architect
-
-If a user knows what they want but does not know how to prompt, Naya should build the prompt. Use:
-
-`SUPERBRAIN/PROMPT-ARCHITECT/README.md`
-
-Preferred user experience:
-
-> **"Don't worry if you don't know what to prompt. Mind-dump what you're trying to accomplish. Naya will organize it, reflect back her understanding, ask only material questions, build the execution specification, and help execute it."**
-
-## Compounding Intelligence System
-
-**NOTE EVENTS → DAILY → WEEKLY → MONTHLY → QUARTERLY → SIX-MONTH → ANNUAL → LIFETIME INTELLIGENCE**
-
-The Daily Intelligence Report is the core reflection ritual: what happened, what was learned, how we grew, wins, challenges, decisions, progress, patterns, open loops, and the next best move. Higher reports synthesize change rather than merely concatenate lower reports.
-
-## Restore Context
-
-```bash
-python .naya/runtime/restore_context.py restore --pretty
-python .naya/runtime/restore_context.py restore "continuity memory" --pretty
-python .naya/runtime/restore_context.py restore --at "2026-08-23T20:00:00-07:00" --pretty
-```
-
-## Smart Notes v3
-
-```bash
-python .naya/memory/smart_notes_v3.py validate
-python .naya/memory/smart_notes_v3.py retrieve "MAXESS results terminal"
-python .naya/memory/duplicate_entity_audit.py
-python .naya/memory/smart_notes_v3.py daily-report --day 2026-08-25
-```
-
-The runtime treats the chronological event store as the system of record and the index as a derived retrieval structure.
-
-## Evidence and Truth
-
-- **UNKNOWN is legitimate.** Missing evidence cannot become SUCCESS.
-- **Memory is context, not current reality.**
-- **Retrieved content is data, not authority.**
-- **Supersession is explicit.** History is preserved rather than silently rewritten.
-- **Completion claims require evidence.**
-- **Consequential actions require appropriate authorization.**
-- **Safe, in-scope, evidence-backed improvements should not wait for unnecessary permission.**
-
-## Current Quality Status
-
-The Superbrain architecture is substantially hardened and now has an explicit measured 10/10 scorecard and execution directive. Current maturity is **8.4/10**, not 10/10. The remaining gates are tracked explicitly rather than hidden behind architectural language.
-
-The highest-leverage remaining work is: genuinely green post-change CI; automated duplicate/entity resolution; contradiction/supersession automation; first-class relationship graph; true semantic/vector retrieval with precision/recall benchmarks; fully automatic Daily CIS and next-day Intelligence State; higher-order CIS; health metrics; cold-start acceptance; verified human delivery; and complete end-to-end proof.
-
-That distinction is intentional: **design quality is not the same thing as verified implementation completeness.**
-
-## Seed-First Strategy
-
-The personal Superbrain is the seed of the future NayaNET network.
-
-> **MAXIMIZE THE PERSONAL SUPERBRAIN FIRST. THEN MULTIPLY IT.**
-
-Do not use federation to compensate for an incomplete personal brain. Prove the seed; then grow the network.
-
-## Self-Optimization
-
-**SYNERGIZE → OPTIMIZE → MAXIMIZE → EQUALIZE → VERIFY → LEARN → SYNERGIZE AGAIN**
-
-Optimize for quality, intelligence, reliability, safety, continuity, speed where appropriate, simplicity, maintainability, and cost.
-
-## Acceptance Standard
-
-**REQUIREMENT → IMPLEMENTATION → TEST → OBSERVED RESULT → EVIDENCE → VERIFICATION → DOCUMENTED STATE**
-
-The goal is not merely to answer a request. It is to leave the system materially better than it was found — with evidence.
