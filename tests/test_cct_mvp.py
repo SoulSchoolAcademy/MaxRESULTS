@@ -9,6 +9,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / ".naya" / "runtime"))
 from cct_protocol import block_hash, consume_block, create_block, validate_block, verify_link  # noqa: E402
+from cct_mvp_proof import build_proof, second_pass  # noqa: E402
 
 
 def block_a():
@@ -53,3 +54,12 @@ def test_orphan_lineage_is_rejected_by_link_verifier():
     orphan["lineage"] = {"parent_block_id": "missing-parent", "parent_block_hash": "sha256:missing"}
     orphan["block_id"] = block_hash(orphan)
     assert verify_link(orphan, block_a())
+
+
+def test_canonical_proof_is_byte_reproducible():
+    proof = build_proof()
+    proof["second_pass"] = second_pass(proof)
+    proof["final_status"] = "CCT MVP GREEN"
+    expected = json.dumps(proof, indent=2, sort_keys=True) + "\n"
+    artifact = ROOT / "proofs" / "cctb-v0.1-mvp-proof.json"
+    assert artifact.read_text(encoding="utf-8") == expected
