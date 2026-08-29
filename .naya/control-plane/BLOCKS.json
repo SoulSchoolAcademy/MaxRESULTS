@@ -29,8 +29,8 @@
       "SUPERBRAIN/AI-BOOT/START-HERE.md"
     ],
     "target_state": "CONTROL_LOOP_PROVEN_REPOSITORY_LEVEL",
-    "next_action": "Obtain the exact first failing step/evidence for the current-head NayaPOWER CI checks on commit b828fa86ae6886df7198136efd4b1505245433d5; if evidence identifies a repairable divergence, repair only that first cause and rerun the affected gate.",
-    "next_actions": ["Obtain the exact first failing step/evidence for the current-head NayaPOWER CI checks on commit b828fa86ae6886df7198136efd4b1505245433d5; if evidence identifies a repairable divergence, repair only that first cause and rerun the affected gate."],
+    "next_action": "Obtain the exact first failing step/evidence for the current-head NayaPOWER automation on commit 669bf01c040e6eab15b0c8af6766c4d89c83dc69. The current GitHub evidence shows a Vercel failure with a build-rate-limit target, while no GitHub Actions workflow run is currently exposed for this SHA; if a retrievable evidence source identifies a repairable divergence, repair only that first cause and rerun the affected gate.",
+    "next_actions": ["Obtain the exact first failing step/evidence for the current-head NayaPOWER automation on commit 669bf01c040e6eab15b0c8af6766c4d89c83dc69. The current GitHub evidence shows a Vercel failure with a build-rate-limit target, while no GitHub Actions workflow run is currently exposed for this SHA; if a retrievable evidence source identifies a repairable divergence, repair only that first cause and rerun the affected gate."],
     "next_action_count": 1
   },
   "status_vocabulary": ["INTENDED", "IMPLEMENTED", "COMPLETE", "VERIFIED", "RACE_READY", "PRODUCTION_PROVEN", "UNKNOWN", "FAILED", "STALE"],
