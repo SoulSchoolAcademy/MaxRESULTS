@@ -21,3 +21,22 @@ jobs:
         run: python .naya/runtime/cold_start_activation.py
       - name: MAP → STATE → BLOCK → PROOF acceptance
         run: python .naya/control-plane/validate_control_plane.py
+
+  cct-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: CCT-005 value feedback
+        run: python .naya/runtime/cct005_value_feedback_test.py
+      - name: CCT-005 Smart Note integration
+        run: python .naya/runtime/cct005_note_event_integration_test.py
+      - name: CCT-004 adversarial semantics
+        run: python .naya/runtime/cct004_adversarial_test.py
+      - name: CCT-003 two-Naya exchange
+        run: python .naya/runtime/cct003_two_naya_test.py
+      - name: Naya claim concurrency
+        run: python .naya/runtime/naya_claim_test.py
+      - name: Intelligent Block
+        run: python .naya/runtime/cct_intelligent_block_test.py
+      - name: Note Event promotion
+        run: python .naya/runtime/cct_note_event_promotion_test.py
