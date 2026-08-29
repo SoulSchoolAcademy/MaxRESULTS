@@ -122,28 +122,28 @@ The next Naya must be able to continue without reconstructing the previous conve
 **EVIDENCE:** live suite completed successfully with 12/12 tests passing.
 
 ### CCT-005 — Outcome / Value Feedback
-**STATUS:** VERIFYING — REPAIR CLAIM ACTIVE
+**STATUS:** VERIFYING — REPAIR APPLIED / LIVE VERIFICATION REQUIRED
 **OWNER:** Team Naya / CCT005-repair-privacy-integrity
 **SCOPE:** `.naya/runtime/cct005_value_feedback.py` + `.naya/runtime/cct005_value_feedback_test.py`
 **CLAIM:** `CCT005-REPAIR-PRIVATE-CONTEXT`
-**BASE COMMIT:** `main` at claim creation
+**BASE COMMIT:** `0684b6f11d7e6d68aa4bdf72ef6981671576942b` claim commit
 **ACCEPTANCE:** private outcomes remain valid when correctly integrity-bound; privacy remains non-shareable by default; tampering remains rejected.
 **IMPLEMENTED:** dependency-free outcome record, fail-closed verifier, privacy scope, integrity binding, deterministic provisional value signal, duplicate protection, and adversarial regressions.
-**RUNTIME STATUS:** RED evidence identified: privacy test mutates signed fields after integrity creation, causing the expected integrity failure.
+**REPAIR:** test fixture now constructs PRIVATE privacy/context before integrity generation instead of mutating signed fields afterward.
 
 ## CCT-005 HANDOFF
 
-**CHANGED:** repair lane opened after live CCT-005 failure.
+**CHANGED:** repaired only the failing privacy test fixture; enforcement code was intentionally left unchanged.
 
-**TESTED:** live run passed the first five tests and failed at `test_private_context_not_shareable_by_default` with an integrity assertion failure.
+**TESTED:** prior live CCT-005 run passed the first five tests and failed at `test_private_context_not_shareable_by_default` because the fixture mutated signed fields after hashing. Source inspection verified the cause. Post-repair live execution is still required.
 
-**VERIFIED:** source inspection confirms the failing test mutates `privacy` and `context` after `make_outcome()` has already signed the record. The verifier correctly detects this as tampering.
+**VERIFIED:** the verifier's integrity behavior is correct: changing privacy/context after signing must be rejected. The repaired fixture now represents a valid private outcome at construction time.
 
-**UNKNOWN:** live rerun after repairing the test fixture; full regression status after repair.
+**UNKNOWN:** live CCT-005 rerun and full regression suite after the repair.
 
-**LEARNING:** privacy classification is part of the integrity-protected outcome. A private outcome must be constructed with its final private fields before hashing; otherwise accepting it would weaken tamper detection.
+**LEARNING:** privacy classification and private context are integrity-protected state. Privacy-by-default does not mean private outcomes are invalid; it means their sharing scope remains restricted. Never weaken tamper detection to accommodate a malformed test fixture.
 
-**NEXT ACTION:** repair only the failing test fixture so it constructs a PRIVATE outcome with the private context before integrity is generated; rerun CCT-005 first. If green, run the complete established CCT regression suite, then mark CCT-005 DONE only on live evidence.
+**NEXT ACTION:** pull latest `main`; run `python .naya/runtime/cct005_value_feedback_test.py` first. If green, run the established CCT-004, CCT-003, claim/concurrency, Intelligent Block, and Note Event promotion suites. Record exact live evidence before changing CCT-005 to DONE and releasing the claim.
 
 ## TORCH
 
@@ -151,4 +151,4 @@ The workboard exists so that even many simultaneous Nayas behave like coordinate
 
 **One road. Clear lanes. Explicit ownership. Verified merges. No silent overwrites.**
 
-**CURRENT NAYA ACTION:** CCT005-repair-privacy-integrity owns the repair lane. Do not weaken integrity enforcement to make the test pass.
+**CURRENT NAYA ACTION:** CCT005-repair-privacy-integrity remains VERIFYING pending live Codespace evidence. No GREEN claim and no claim release until the repaired suite and regressions pass live.
