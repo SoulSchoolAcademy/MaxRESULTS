@@ -7,6 +7,8 @@
 
 > **NEVER REPORT AN ACTION WITHOUT DELIVERING THE ACTIONABLE ARTIFACT OR DIRECT REVIEW PATH IN THE SAME RESPONSE.**
 
+> **ACKNOWLEDGEMENT WITHOUT ACTION IS UNFULFILLED ACKNOWLEDGEMENT.**
+
 A statement such as “I fixed it,” “I committed it,” “I updated it,” or “inspect it next” is incomplete unless the user receives the thing needed to act on or review it immediately.
 
 ## NEW PRIMARY SERVICE LAW — NO “NOW WHAT?”
