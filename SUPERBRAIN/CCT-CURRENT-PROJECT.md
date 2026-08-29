@@ -1,6 +1,6 @@
 # 🔱 CCT + SUPER BRAIN — CURRENT PROJECT / TEAM NAYA TORCH
 
-**STATUS:** ACTIVE BUILD
+**STATUS:** ACTIVE BUILD — CCT-003 IMPLEMENTED / PENDING LIVE VERIFICATION
 **REPOSITORY:** `SoulSchoolAcademy/NayaPOWER`
 **BRANCH:** `main`
 **PURPOSE:** Build and prove the first executable Collective Chain Technology (CCT) intelligence exchange loop.
@@ -45,76 +45,75 @@ The control-plane active block remains authoritative until its own exit criteria
 - Deployment governance is fail-closed; repository activity is not itself a release.
 - Repository control-plane MAP / STATE / BLOCK / PROOF artifacts exist.
 - CCT Intelligent Block v1 contract exists as a dependency-free local artifact/verifier.
-- CCT promotion adapter now connects verified canonical Note Events to the Intelligent Block boundary.
-- Team Naya shared workboard now defines concurrency, ownership, conflict, and handoff rules.
+- CCT promotion adapter connects verified canonical Note Events to the Intelligent Block boundary.
+- Team Naya shared workboard defines concurrency, ownership, conflict, and handoff rules.
+- CCT-003 integration harness exists for the isolated A→B→derived-B proof.
+- Team Naya claim/lease runtime and regression harness exist for stale/expired/conflicting work coordination.
 
-## CURRENT CCT IMPLEMENTATION
+## CCT-003 IMPLEMENTATION
 
-### Intelligent Block
-`.naya/runtime/cct_intelligent_block.py`
+### Isolated Exchange Harness
+`.naya/runtime/cct003_two_naya_test.py`
 
-Provides schema/version, stable identity, producer, content, provenance/lineage, evidence, verification, permissions, lifecycle, SHA-256 integrity, fail-closed verification, and parent validation before derivation.
+The fixture models Naya A producing a verified, explicitly authorized block; an isolated Naya B receiving only the portable artifact/protocol context; B independently consuming the artifact; and B deriving Block B with explicit `parent` lineage and `origin=B`.
 
-### Acceptance Harness
-`.naya/runtime/cct_intelligent_block_test.py`
+It also tests unauthorized consumption, tampered-parent rejection, and prevention of falsely representing derived knowledge as source-independent.
 
-Covers valid acceptance and fail-closed handling of unverified, unevidenced, tampered, unauthorized, revoked, and provenance-invalid blocks plus derived lineage.
+### Concurrency Contract
+`.naya/runtime/naya_claim.py`
 
-### Canonical Promotion Boundary
-`.naya/runtime/cct_note_event_promotion.py`
+Provides dependency-free claim validation, explicit active/terminal states, expiry checks, affected-file overlap detection, and exact base-commit binding. A stale base commit or conflicting active claim cannot authorize a write.
 
-Converts an existing canonical Note Event into a CCT block only when:
+### Concurrency Tests
+`.naya/runtime/naya_claim_test.py`
 
-- the event has a valid event ID;
-- verification status is exactly `VERIFIED`;
-- evidence exists;
-- provenance exists;
-- consumers are explicitly authorized;
-- purpose scope is explicit.
-
-No parallel memory store is created.
-
-### Promotion Tests
-`.naya/runtime/cct_note_event_promotion_test.py`
-
-Covers verified promotion, unverified denial, missing-evidence denial, missing consumer authorization denial, and unauthorized consumer denial.
+Covers valid claims, expiry, overlapping claims, disjoint work, stale commits, conflicting claims, and terminal claims.
 
 ## IMPORTANT BOUNDARY
 
-The current implementation and tests prove a portable artifact contract and canonical promotion boundary. They do **not** yet prove real network transport, an actual LLM-to-LLM exchange, or independent model execution.
+The repository now contains the executable CCT-003 proof harness and concurrency controls, but this connector session cannot execute the Python files in the user's live Codespace. Therefore **CCT-003 runtime status remains UNKNOWN until the live checkout runs the tests**.
 
-Do not claim two Nayas communicated over CCT until the isolated integration proof passes.
+Do not claim a green CCT-003 until the actual Codespace output is recorded.
 
-## CONCURRENCY CONTROL
+## ACCEPTANCE
 
-`SUPERBRAIN/TEAM-NAYA-WORKBOARD.md` is the shared traffic-control artifact.
+CCT-003 is GREEN only when live execution proves:
 
-Multiple Nayas may work concurrently, but each must claim a work item, keep scope explicit, re-read shared files before writing, avoid silent overwrites, and leave durable status/evidence. Repository state outranks conversational state.
+1. A creates valid Block A.
+2. A is authorized to share it.
+3. B receives only permitted artifact/protocol context.
+4. B receives no originating conversation.
+5. B validates A.
+6. B independently consumes A.
+7. B creates Block B.
+8. B explicitly links B → A.
+9. provenance remains intact.
+10. invalid/unauthorized exchanges fail closed.
+11. concurrent work claims prevent overlapping writes.
+12. stale/expired/terminal claims cannot authorize writes.
+13. evidence is reproducible from repository fixtures.
 
 ## CURRENT EXECUTION QUEUE
 
-1. Run `.naya/runtime/cct_intelligent_block_test.py` in a live repository checkout and record actual output.
-2. Run `.naya/runtime/cct_note_event_promotion_test.py` in the same checkout and record actual output.
-3. Build the isolated Naya-A producer fixture from a verified canonical Note Event.
-4. Build the isolated Naya-B consumer fixture with originating conversation context excluded.
-5. Prove independent consumption and derived Block B.
-6. Add adversarial replay, duplicate identity, circular derivation, stale/superseded parent, permission escalation, contradictory evidence, and bounded-payload tests.
-7. Add descendant dependency behavior for revocation/supersession.
-8. Add outcome/value feedback: intelligence → use → outcome → measurement → value update.
-9. Only after the local two-Naya proof is green, design the minimal CCT transport/federation boundary for NayaNET.
+1. Run `python .naya/runtime/cct003_two_naya_test.py` in a live repository checkout.
+2. Run `python .naya/runtime/naya_claim_test.py` in the same checkout.
+3. If both are green, run the prior Intelligent Block and Note Event promotion harnesses again as a regression suite.
+4. If all are green, advance to CCT-004 adversarial federation semantics: replay, duplicate identity, stale/superseded parent, revocation/descendant behavior, contradiction, circular lineage, permission escalation, and bounded payloads.
+5. Add outcome/value feedback: intelligence → use → outcome → measurement → value update.
+6. Only after the local two-Naya proof is green, design the minimal CCT transport/federation boundary for NayaNET.
 
-## CURRENT UNKNOWNs
+## UNKNOWN
 
-- Live execution output for both CCT harnesses from this connector session.
-- Whether the isolated Naya A/B exchange can be proven without unnecessary transport infrastructure.
-- Production federation security/privacy controls.
-- Exact integration with any future model runtime; the current boundary intentionally remains model-independent.
+- Live execution output for CCT-003 and claim/lease harnesses from this connector session.
+- Production network transport/federation security.
+- Exact integration with any future model runtime; current CCT remains model-independent.
+- Whether real simultaneous GitHub writers need stronger external serialization than the repository/workboard optimistic protocol; this must be tested before federation-scale concurrency.
 
-## SUCCESS CRITERIA
+## LEARNING
 
-CCT MVP is not complete until a reproducible test proves:
+The correct multi-Naya model is not a single global lock. It is **shared state + explicit scope + ownership + base-commit binding + conflict detection + verification + durable handoff**. This preserves parallelism while preventing silent collision.
 
-**verified canonical intelligence → authorized CCT block → isolated consumer → independent validation/use → derived block → preserved lineage → adversarial rejection of invalid/unauthorized variants.**
+A claim is coordination metadata, not proof and not authority to overwrite canonical truth.
 
 ## VERIFICATION STANDARD
 
@@ -126,7 +125,7 @@ Implemented is not verified. Verified is not production-proven. Recorded is not 
 
 ## EXACT NEXT ACTION
 
-**In a live repository checkout, run both CCT acceptance harnesses: `python .naya/runtime/cct_intelligent_block_test.py` and `python .naya/runtime/cct_note_event_promotion_test.py`. If both are green, build CCT-003: an isolated Naya-A producer and isolated Naya-B consumer integration harness. If either is red, repair only the first evidence-backed defect and rerun.**
+**Pull the latest `main`, run `python .naya/runtime/cct003_two_naya_test.py` and `python .naya/runtime/naya_claim_test.py`, record the exact live outputs, then run the earlier two CCT harnesses as a regression suite. If all are green, claim CCT-004 and execute the adversarial semantics suite. If any test is red, repair only the first evidence-backed defect and rerun.**
 
 ## TORCH
 
