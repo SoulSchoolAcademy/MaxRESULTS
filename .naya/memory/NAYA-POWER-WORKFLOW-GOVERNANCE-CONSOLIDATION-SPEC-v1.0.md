@@ -13,7 +13,7 @@ Restore and harden NayaPOWER before reopening downstream MAXIS promotion work.
 
 1. **P1 — Restore real GitHub Actions execution.** Fresh runs have repeatedly failed before useful executable steps/jobs. Exact provider-side subcause remains UNKNOWN.
 2. **P2 — Verify the Successor Torch / Next Action Delivery implementation** once real CI execution exists.
-3. **P3 — Consolidate workflow architecture** using this specification as the design baseline; no YAML changes are part of this specification.
+3. **P3 — Consolidate workflow architecture** using this specification and its frozen machine-readable inventory as the design baseline; no YAML changes are part of this specification.
 4. **P4 — Promote only verified learning into PIS/CIS.**
 5. **P5 — Earn trustworthy Superbrain GREEN and only then reopen downstream promotion.**
 
@@ -26,9 +26,27 @@ At most two active lanes:
 
 A blocked external lane must not create team-wide paralysis. A second lane may advance only if it does not modify or bypass the blocked proof boundary.
 
-## KNOWN REPOSITORY FACTS
+## FROZEN MACHINE-READABLE INVENTORY
 
-At least the following workflow families are present in `.github/workflows/` on the active recovery branch:
+Canonical inventory:
+
+`.naya/memory/NAYA-POWER-WORKFLOW-INVENTORY-v1.json`
+
+Inventory branch:
+`naya-action-delivery-contract-v1`
+
+Inventory source commit:
+`70eaf17bad4fd95d6bb9898aaa6de5efbb18b490`
+
+Inventory blob SHA:
+`b4dc9bd8265d23a644f6fc3ecbf6f3285a629012`
+
+Inventory URL:
+https://github.com/SoulSchoolAcademy/NayaPOWER/blob/naya-action-delivery-contract-v1/.naya/memory/NAYA-POWER-WORKFLOW-INVENTORY-v1.json
+
+The live branch contains **31 workflow files**, not 30. `intelligence-promotion.yml` was present in the live tree and was therefore included rather than silently omitted. The inventory records the discrepancy explicitly.
+
+## KNOWN REPOSITORY FACTS
 
 ### Core / Superbrain
 - `superbrain-gate.yml`
@@ -65,8 +83,9 @@ At least the following workflow families are present in `.github/workflows/` on 
 - `execute-maxess-section01.yml`
 - `maxess-nitro-v2.yml`
 - `e06-aaa-power-pass.yml`
+- `intelligence-promotion.yml`
 
-The live workflow tree therefore contains many parallel execution surfaces. This inventory is the source-of-truth starting point for consolidation. fileciteturn231file0
+The machine-readable inventory is authoritative for the frozen pre-implementation topology. fileciteturn279file0
 
 ## PROVEN FAN-OUT CHARACTERISTICS
 
@@ -80,7 +99,7 @@ The audit has directly established these characteristics in multiple workflows:
 - overlapping E00/Results repair workflows exist;
 - verification/governance logic is distributed across multiple independent workflow files.
 
-Representative examples include the E00 repair family and Results/build workflows previously inspected during the audit.
+Representative examples include the E00 repair family, Results/build workflows, and the intelligence promotion path.
 
 ## CAUSALITY DISCIPLINE
 
@@ -146,6 +165,7 @@ Likely absorbed into its governed job structure where appropriate:
 - `naya-control-plane.yml`
 - `smart-brain-v3-enforcement.yml`
 - `naya-memory-runtime.yml`
+- `intelligence-promotion.yml`
 
 Absorption must preserve independent check semantics and evidence, not merely delete files.
 
@@ -245,7 +265,7 @@ OSCAR / NIA SCORECARD
 
 ## REQUIRED PRE-IMPLEMENTATION INVENTORY
 
-Before any YAML change, every workflow must be captured in a machine-readable inventory with:
+Before any YAML change, every workflow must be captured in the machine-readable inventory with:
 
 - filename;
 - trigger;
@@ -264,13 +284,13 @@ Before any YAML change, every workflow must be captured in a machine-readable in
 - migration dependency;
 - retirement condition.
 
-Fields that have not yet been observed must remain `UNKNOWN`.
+Fields that have not been directly observed remain `UNKNOWN` in the inventory.
 
 ## IMPLEMENTATION ORDER
 
-1. Freeze the current inventory as evidence.
-2. Finish the machine-readable workflow inventory.
-3. Produce the final target topology.
+1. Freeze the current inventory as evidence. **COMPLETE.**
+2. Finish the machine-readable workflow inventory. **COMPLETE at 31 live workflows.**
+3. Produce the final target topology. **DEFINED in this specification; not yet implemented.**
 4. Human review of this specification.
 5. Implement the smallest consolidation tranche.
 6. Verify the tranche independently.
@@ -291,12 +311,12 @@ Never consolidate by:
 
 ## CURRENT READINESS
 
-This document is a **design baseline**, not authorization to change `.github/workflows/` yet.
+This document remains a **design baseline**, not authorization to change `.github/workflows/` yet.
 
-The architecture is ready for the next inventory phase.
+The machine-readable inventory is now frozen and bound to this specification.
 
 ## NEXT ACTOR
 Lane B — Naya architecture/continuity executor.
 
 ## NEXT ACTION
-Complete the machine-readable inventory of every `.github/workflows/*.yml` file, using only observed source evidence, and produce the final `KEEP / CONTROL-PLANE / CONSOLIDATE / MANUAL ONLY / RETIRE` matrix with exact trigger, permission, mutation, concurrency, and dependency data before changing any workflow.
+Obtain human review of the frozen 31-workflow inventory and target topology. Do not change workflow YAML until that review is complete and the smallest consolidation tranche is explicitly selected.
