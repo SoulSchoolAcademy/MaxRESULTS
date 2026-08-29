@@ -3,14 +3,14 @@
 from pathlib import Path
 import importlib.util
 ROOT=Path(__file__).resolve().parents[2]
+ARTIFACT='.naya/handoffs/NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md'
 def load(name,path):
     spec=importlib.util.spec_from_file_location(name,ROOT/path);mod=importlib.util.module_from_spec(spec);assert spec and spec.loader;spec.loader.exec_module(mod);return mod
 project=load('project_contract','.naya/runtime/project_execution_contract.py')
 prompt=load('prompt_contract','.naya/runtime/prompt_architect_contract.py')
-ARTIFACT='.naya/handoffs/NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md'
 
 def valid_successor():
-    return {field:('Run the validation and inspect the result' if field=='execution_instructions' else ['verified test'] if field in {'completed_work','verified_evidence','unresolved_issues','constraints','success_criteria','verification_requirements'} else 'test') for field in project.NEXT_FIELDS}
+    return {field:('Run validation and inspect the result' if field=='execution_instructions' else ['verified test'] if field in {'completed_work','verified_evidence','unresolved_issues','constraints','success_criteria','verification_requirements'} else 'test') for field in project.NEXT_FIELDS}
 
 def test_project_contract(): assert project.self_test()==0
 
@@ -21,21 +21,32 @@ def test_current_project_state():
 
 def test_behavioral_matrix():
     valid=valid_successor();assert project.validate_next_execution(valid)==[]
-    assert project.validate_next_execution_reference(None)
-    assert project.validate_next_execution_reference('arbitrary continuation')
-    assert project.validate_next_execution_reference('.naya/handoffs/NEXT-EXECUTION-20990101-MISSING.md')
-    incomplete=dict(valid);incomplete.pop('success_criteria');assert any('missing success_criteria' in x for x in project.validate_next_execution(incomplete))
-    dependent=dict(valid);dependent['execution_instructions']='Continue from this conversation';assert any('conversation-dependent' in x for x in project.validate_next_execution(dependent))
+    cases=[
+        ('ARBITRARY CONTINUATION', 'arbitrary continuation', lambda: project.validate_next_execution_reference('arbitrary continuation'), 'canonical NEXT-EXECUTION'),
+        ('MISSING CONTINUATION', 'missing continuation', lambda: project.validate_next_execution_reference(None), 'missing'),
+        ('INVALID ARTIFACT', 'missing canonical artifact', lambda: project.validate_next_execution_reference('.naya/handoffs/NEXT-EXECUTION-20990101-MISSING.md'), 'artifact missing'),
+    ]
+    for label,_,fn,needle in cases:
+        errors=fn();assert errors and any(needle in error for error in errors),(label,errors)
+        print(f'{label} → RED ({errors[0]})')
+    incomplete=dict(valid);incomplete.pop('success_criteria');errors=project.validate_next_execution(incomplete);assert any('missing success_criteria' in x for x in errors);print(f'INCOMPLETE SUCCESSOR → RED ({errors[0]})')
+    dependent=dict(valid);dependent['execution_instructions']='Continue from this conversation';errors=project.validate_next_execution(dependent);assert any('conversation-dependent' in x for x in errors);print(f'CONVERSATION-DEPENDENT → RED ({errors[0]})')
     orphan={'event_id':'SE-20260825-999999-orphan','continuity':{'execution_state':'COMPLETED'},'ready_to_run_execution':'THIS IS NOT EXECUTABLE'}
-    assert any('canonical NEXT-EXECUTION' in x for x in project.validate_event(orphan,{'project_id':'x','project_name':'x'},{}) )
+    errors=project.validate_event(orphan,{'project_id':'x','project_name':'x'},{})
+    assert any('completed execution requires a canonical NEXT-EXECUTION successor' in x for x in errors)
+    assert not any('ready_to_run_execution' in x for x in errors)
+    print('ORPHAN ready_to_run_execution → RED (completed execution requires a canonical NEXT-EXECUTION successor)')
 
 def test_independent_consumption():
     artifact,errors=project.resolve_next_execution(ARTIFACT);assert errors==[],errors
     consumed=project.consume_next_execution(ARTIFACT);assert tuple(consumed)==project.NEXT_FIELDS
     assert all(consumed[field] not in (None,'',[]) for field in project.NEXT_FIELDS)
     assert 'Naya Power Superbrain' in str(consumed['project'])
+    assert 'GitHub-native Superbrain baseline' in str(consumed['current_state'])
     assert project.validate_next_execution_reference(ARTIFACT)==[]
+    print('CANONICAL SUCCESSOR → GREEN')
+    print('INDEPENDENT CONSUMPTION → GREEN (12/12 semantic fields)')
 
 def main():
-    test_project_contract();test_prompt_contract();test_current_project_state();test_behavioral_matrix();test_independent_consumption();print('INVALID ORPHAN → RED');print('CANONICAL SUCCESSOR → GREEN');print('PASS — project, continuation, Prompt Architect, behavioral matrix, and independent consumption GREEN')
+    test_project_contract();test_prompt_contract();test_current_project_state();test_behavioral_matrix();test_independent_consumption();print('PASS — project, continuation, Prompt Architect, behavioral matrix, and independent consumption GREEN')
 if __name__=='__main__':main()
