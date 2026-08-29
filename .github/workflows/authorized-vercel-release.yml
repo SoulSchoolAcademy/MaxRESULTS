@@ -89,6 +89,7 @@ jobs:
               "commit_sha": os.environ["COMMIT_SHA"],
               "target_environment": os.environ["TARGET_ENVIRONMENT"],
               "deployment_surface": "vercel",
+              "vercel_project_id": "prj_cHa9gwrtscCW8JuMDjcvw6DafaOK",
               "release_reason": os.environ["RELEASE_REASON"],
               "verification": {
                   "status": "PASS",
