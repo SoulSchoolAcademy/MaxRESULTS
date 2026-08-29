@@ -3,7 +3,7 @@
 ## WHERE
 - **Canonical repository:** `SoulSchoolAcademy/NayaPOWER`
 - **Canonical branch:** `main`
-- **Current HEAD:** `87a42808bf364d78b01c4e197653050c01269e09` at time of this update; resolve live `main` again at every cold start and before substantive execution.
+- **Current HEAD:** `268059f525db0df3d0ac0e28492c59dec11b2e5c` at time of this update; resolve live `main` again at every cold start and before substantive execution.
 - **MAXIS application repository:** `SoulSchoolAcademy/Maxis`
 - **MAXIS deployment path:** `SoulSchoolAcademy/Maxis` → Vercel project `maxis`; NayaPOWER is the governing repository, not the MAXIS deployment source.
 - **Canonical mission roadmap:** `.naya/MAXIS-NAYAPOWER-MASTER-MISSION-ROADMAP.md`
@@ -69,25 +69,29 @@ A lower-priority task must not displace a higher-priority blocker merely because
 
 ## BLOCKED
 - Fresh current-head NayaPOWER governance CI proof is not yet green.
-- The previous current-head CI investigation established failed GitHub check-run metadata but did not expose the actual annotation/step failure through the available connector; do not assume the old SHA remains current.
+- Current-head `268059f...` governance runs were observed as completed/failure with GitHub job metadata but no executable steps exposed by the connected Actions interface; job logs remain unavailable. The first actual step-level failure is therefore not proven.
 - P2–P7 remain downstream of the active critical path and must not be treated as active until their predecessors close.
 
 ## VERIFIED
 - `SoulSchoolAcademy/NayaPOWER` is the canonical governing repository and `main` is its governance branch.
-- The current live `main` resolved during this execution to `87a42808bf364d78b01c4e197653050c01269e09`.
+- The current live `main` resolved during this execution to `268059f525db0df3d0ac0e28492c59dec11b2e5c`.
 - The canonical Runtime Briefing is first in cold-start boot order.
 - The canonical Action Delivery Law exists and is machine-enforced.
 - The Naya-owned human torch amendment exists and prohibits requiring the human to author the next prompt.
 - `human_continuation` and `human_continuation_naya_authored` are required at the structured-handoff boundary.
 - `human_prompt_authoring_required = false` remains the intended contract.
 - `tools/qa_naya_torch_delivery.py` contains positive, missing-continuation, and non-Naya-authored deliberate-failure fixtures.
+- The current-head commit produced 11 GitHub Actions workflow runs; the relevant governance runs for Control Plane, Continuous Torch-Pass, and Architecture Lock all concluded failure on the exact current SHA.
+- The current-head `brain-gate` and `system-health-master-node` GitHub Actions check-runs are completed/failure and each reports one annotation, but the annotation body is not exposed by the available connector surface.
+- The workflow definitions contain explicit executable steps for checkout and governance validation.
 - The Primary Intelligence Hub and Intelligence Feed exist as canonical reporting layers.
 - The canonical roadmap establishes Governance Green → Source/Deployment Parity → Golden Path as the critical sequence.
 
 ## UNKNOWN
-- Whether current `main` SHA `87a42808bf364d78b01c4e197653050c01269e09` has passed fresh applicable governance CI.
-- The first actual current-head CI failure, if any, until authoritative execution/step evidence is available.
-- Whether the latest governance workflows have executed the torch gate successfully on the current SHA.
+- Whether the current-head governance jobs actually began executing normal workflow steps before failing.
+- The first actual current-head CI failure and its root cause.
+- The contents of the GitHub Actions failure annotations.
+- Whether the latest current-head governance workflows have executed the torch gate successfully.
 - Any consequential runtime behavior not directly observed or evidenced.
 
 ## INTELLIGENCE
@@ -104,7 +108,7 @@ Cold start: read this Runtime Briefing first, then the Primary Intelligence Hub 
 **Critical path:** current-head governance proof → MAXIS source/deployment parity → golden path → experience quality → save/claim/hub → mastery loop → expansion.
 
 ## NEXT ACTION
-**P1 / Governance Green:** resolve the live `main` SHA, retrieve fresh governance CI/check-run evidence for that exact SHA, and determine whether the current failure is actionable from authoritative evidence. If a real defect is exposed, repair only that defect and rerun. If the evidence boundary remains opaque, do not modify source speculatively; pursue the narrowest remaining authoritative evidence channel and preserve `UNKNOWN`.
+**P1 / Governance Green:** pursue the narrowest remaining authoritative GitHub execution-evidence channel for current SHA `268059f525db0df3d0ac0e28492c59dec11b2e5c`. Prioritize obtaining the actual failure annotation/runner startup reason for the failed Actions check-runs. Do not modify governance source speculatively. If a concrete defect becomes observable, repair only that defect and rerun; otherwise preserve `UNKNOWN`.
 
 ## PROOF
 For P1, proof requires: exact current SHA; applicable governance workflows actually execute; Action Delivery and Naya-owned human torch tests execute; positive continuation passes; missing/non-Naya-authored continuation fixtures remain RED; fresh applicable CI is GREEN; and no material governance regression exists.
@@ -112,4 +116,4 @@ For P1, proof requires: exact current SHA; applicable governance workflows actua
 For all work: **IMPLEMENTED ≠ TESTED ≠ VERIFIED ≠ RUNTIME-PROVEN ≠ PRODUCTION-PROVEN.**
 
 ## LAST LEARNING
-The project needs two coupled controls: a **priority stack** that determines where Naya should work, and a **torch contract** that ensures Naya leaves the human and successor with the exact continuation. A next action without priority context can drift; priority context without a delivered continuation can strand the human. The operating loop is therefore: **RESTORE → SCORE PRIORITIES → SELECT ONE → EXECUTE → VERIFY → LEARN → RESCORE → PASS TORCH**.
+The priority stack is now operationally coupled to the torch law: the priority stack determines **where Naya should work**, while the torch contract determines **how Naya keeps the work moving**. Current evidence also reinforces that a failed GitHub check without step-level failure detail is not sufficient evidence for a repository repair.
