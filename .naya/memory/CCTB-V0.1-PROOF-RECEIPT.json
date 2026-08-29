@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "protocol": "CCTB",
+  "version": "0.1",
+  "status": "VERIFIED_LOCAL",
+  "tested_commit": "ddb772234704c2d5926c8c37100c0d2fae1d3d87",
+  "proof": {
+    "producer": "naya-a",
+    "consumer": "naya-b",
+    "root_block_id": "sha256:f607e8a69fbb7f4502e1c737f7f3bc5928c502f87a72e6d642d1316721e8e94a",
+    "successor_block_id": "sha256:37476ab0f9a2bc073ec32c6dcffeecb10b764a3e38186e3abe969bb33e420ebd",
+    "parent_block_id": "sha256:f607e8a69fbb7f4502e1c737f7f3bc5928c502f87a72e6d642d1316721e8e94a",
+    "independent_consumption": "GREEN",
+    "lineage": "GREEN",
+    "tamper_detection": "GREEN",
+    "permission_enforcement": "GREEN"
+  },
+  "execution": {
+    "command": "python .naya/runtime/cct_protocol.py self-test",
+    "conversation_context": false,
+    "remote_github_actions": "NOT_RUN",
+    "remote_reason": "Actions account quota/spending restriction; local proof used deliberately"
+  }
+}
