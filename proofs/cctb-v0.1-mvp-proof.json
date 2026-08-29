@@ -65,8 +65,8 @@
       }
     }
   },
-  "first_pass": "GREEN",
   "final_status": "CCT MVP GREEN",
+  "first_pass": "GREEN",
   "lineage": {
     "parent_block_hash": "sha256:f05d6fe8b072927a89f2756d7f9d0fa2bcf4c70840c34e846b2cfc9ee25a1bef",
     "parent_block_id": "sha256:f05d6fe8b072927a89f2756d7f9d0fa2bcf4c70840c34e846b2cfc9ee25a1bef"
@@ -133,8 +133,7 @@
         "evidence is required",
         "permissions.audience is required",
         "source_context must be independent_artifact",
-        "block_id does not match canonical content",
-        "lineage must be an object"
+        "block_id does not match canonical content"
       ],
       "status": "RED"
     },
