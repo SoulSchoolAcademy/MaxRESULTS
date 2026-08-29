@@ -3,9 +3,11 @@
 ## WHERE
 - **Canonical repository:** `SoulSchoolAcademy/NayaPOWER`
 - **Canonical branch:** `main`
-- **Current HEAD:** `04f57cd0225b6086b98752376297e2c1d736d594` — resolve live `main` again at every cold start; never trust a stale recorded SHA.
+- **Current HEAD:** `fa0b74e289c302b68d09d5421d23aeb284f51607` — resolve live `main` again at every cold start; never trust a stale recorded SHA.
 - **MAXIS application repository:** `SoulSchoolAcademy/Maxis`
 - **MAXIS deployment path:** `SoulSchoolAcademy/Maxis` → Vercel project `maxis`; NayaPOWER is the governing repository, not the MAXIS deployment source.
+- **Canonical mission roadmap:** `.naya/MAXIS-NAYAPOWER-MASTER-MISSION-ROADMAP.md`
+- **MAXIS product execution scorecard:** `SoulSchoolAcademy/Maxis/EXECUTION/MAXIS-MASTER-ROADMAP-AND-WEEKLY-SCORECARD.md`
 - **Historical identity:** `MaxRESULTS` / `Max Results` is superseded terminology; current canonical identity is NayaPOWER.
 
 ## WHY
@@ -16,6 +18,7 @@ Build Naya into a trusted AI operating partner that helps people think, create, 
 - **Product direction:** NAYA LIVING SUN — question first, Naya as guide, restrained 24-orb / 12-color living field, meaningful motion and interaction feedback.
 - **System direction:** preserve MAXESS assessment/result authority while progressing toward the smallest complete vertical slice: authoritative result → member identity → persistence → Naya Hub.
 - **Operating direction:** Execution Mode requires forward motion: known next actions are executed when possible or handed off as complete runnable continuations at genuine boundaries.
+- **Roadmap direction:** execute the canonical domino sequence in `.naya/MAXIS-NAYAPOWER-MASTER-MISSION-ROADMAP.md`, one highest-value domino at a time, with weekly evidence scorecards.
 
 ## PROTECTED
 - Human value over technical cleverness.
@@ -27,10 +30,11 @@ Build Naya into a trusted AI operating partner that helps people think, create, 
 - One canonical source of truth; no competing Master.
 - MAXIS deployment ownership remains **Maxis → Vercel/maxis**, not NayaPOWER → Vercel/maxis.
 - Acknowledgement alone is never treated as completion when a known executable action remains.
+- The roadmap is destination/sequence authority; this Runtime Briefing remains current-position authority.
 
 ## BLOCKED
-- Fresh current-head NayaPOWER continuity proof is still required before GREEN is claimed.
-- The latest current-head governance checks on `04f57cd0225b6086b98752376297e2c1d736d594` are RED; root-cause evidence must be obtained before claiming the new gate is green.
+- Fresh current-head NayaPOWER continuity/action-delivery proof is still required before GREEN is claimed.
+- The latest governance workflow failures must be diagnosed from evidence before claiming the governance gates are green.
 - MAXIS human readiness is blocked until current-source browser/runtime proof is green.
 - MAXIS production parity is not proven until the current intended `SoulSchoolAcademy/Maxis` `main` SHA is deployed to Vercel `maxis` and runtime-verified.
 - Naya Hub Phase 1 runtime remains unproven unless current evidence supersedes this state.
@@ -47,30 +51,35 @@ Build Naya into a trusted AI operating partner that helps people think, create, 
 - MAXESS remains the authoritative scoring/result owner.
 - NAYA LIVING SUN is registered as the current MAXIS presentation direction.
 - Vercel has separate `naya-power` and `maxis` projects; MAXIS deployment routes from `SoulSchoolAcademy/Maxis` to `maxis`.
+- The canonical cross-system mission roadmap and the MAXIS product weekly scorecard now exist in their respective canonical repositories.
+- The latest roadmap commit is `fa0b74e289c302b68d09d5421d23aeb284f51607`.
 
 ## UNKNOWN
-- Why the current-head `validate-context-boot` GitHub Actions check on `04f57cd0225b6086b98752376297e2c1d736d594` failed; the available check metadata reports failure but not the step-level error.
-- Whether the newly added `qa_naya_execution_mode.py` test itself has executed successfully in CI.
-- Whether current `main` has passed a fresh authoritative NayaPOWER CI gate after the action-delivery changes.
+- Whether the new roadmap commit has passed the fresh NayaPOWER governance CI gates.
+- Why the current-head governance workflow failure occurs; the available workflow metadata does not expose step-level logs through the current connector.
+- Whether `qa_naya_execution_mode.py` has passed in the latest current-head CI run.
+- Whether current `main` has passed a fresh authoritative NayaPOWER CI gate after the latest changes.
 - Whether the current MAXIS browser gate is green at the current HEAD.
 - Whether the public MAXIS runtime fully matches the intended current source.
 - Whether the latest intended MAXIS `main` SHA is the current production SHA until Vercel deployment metadata proves it.
 - Any consequential runtime behavior not directly observed or evidenced.
 
 ## THIS WEEK
-**ONE OBJECTIVE:** Complete and prove the next coherent MAXIS milestone without scattering execution.
+**ONE OBJECTIVE:** Establish a green governance foundation, then prove the next coherent MAXIS milestone without scattering execution.
 
-**Critical path:** repair the current NayaPOWER governance gate → obtain fresh green cold-start/action-delivery evidence → resolve `SoulSchoolAcademy/Maxis` as the application source → deploy through Vercel `maxis` when capacity permits → verify deployed SHA and guest-first runtime → run the fresh MAXESS Browser Gate → advance the human-facing vertical slice only after applicable gates are green.
+**Critical path:** diagnose/repair the current NayaPOWER governance failure → obtain fresh green cold-start/action-delivery evidence → resolve `SoulSchoolAcademy/Maxis` as the application source → deploy through Vercel `maxis` when capacity permits → verify deployed SHA and guest-first runtime → run the fresh MAXESS Browser Gate → advance the human-facing vertical slice only after applicable gates are green.
+
+**Weekly scorecard:** evaluate Mission, Current State, Active Domino, Governance, Source, Deployment, Golden Path, Quality, Accessibility, Performance, Results, Continuity, Mastery, Evidence, Learning, and Successor readiness. One red critical-path gate prevents an overall GREEN claim.
 
 ## NEXT ACTION
-**Diagnose and minimally repair the first failure in the current NayaPOWER `validate-context-boot` gate for `04f57cd0225b6086b98752376297e2c1d736d594`, then rerun the governance gate and prove the cold-start/action-delivery tests green.**
+**Diagnose the first failing NayaPOWER governance check at the current `main` state, using the fresh workflow run evidence for `fa0b74e289c302b68d09d5421d23aeb284f51607`; identify the first observed divergence, make the smallest repair supported by evidence, then rerun the affected gate.**
 
 ## PROOF
 Material completion requires the applicable evidence: exact repository/branch/commit, changed artifact identity, deployment project and deployed SHA when deployment is involved, automated/build evidence, runtime/rendered evidence for user-facing work, responsive/accessibility evidence where material, complete-journey evidence where material, and explicit remaining UNKNOWN/BLOCKED state.
 
-For this governance block specifically, proof requires: current `main` SHA, successful `validate-context-boot` CI check, successful Execution Mode action-delivery check, and direct evidence that omission of the required action/continuation is RED while execution or a complete runnable continuation is GREEN.
+For the current governance block, proof requires: current `main` SHA, successful applicable governance CI, successful Execution Mode action-delivery check, and direct evidence that omission of the required action/continuation is RED while execution or a complete runnable continuation is GREEN.
 
 Use: **IMPLEMENTED ≠ TESTED ≠ VERIFIED ≠ RUNTIME-PROVEN ≠ PRODUCTION-PROVEN.**
 
 ## LAST LEARNING
-Acknowledgement without action is unfulfilled acknowledgement. The durable solution is structural: canonicalize the Action Delivery Law, place it after the Runtime Briefing in the boot/read order, register it on every task route, and machine-test the semantic boundary so a known next action with neither execution nor runnable continuation is RED while execution or a complete continuation is GREEN. The first governance CI run after wiring is currently RED, so the next Naya must diagnose that actual failure rather than assuming the new contract is proven.
+Acknowledgement without action is unfulfilled acknowledgement. The durable solution is structural: canonicalize the Action Delivery Law, place it after the Runtime Briefing in the boot/read order, register it on every task route, and machine-test the semantic boundary so a known next action with neither execution nor runnable continuation is RED while execution or a complete continuation is GREEN. The mission roadmap now makes the larger destination and domino sequence explicit, while the weekly scorecard makes progress auditable. The current governance gates remain unproven until fresh evidence is green.
