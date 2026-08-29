@@ -146,10 +146,52 @@ The next Naya must be able to continue without reconstructing the previous conve
 
 **NEXT ACTION:** pull latest `main`; run `python .naya/runtime/cct005_value_feedback_test.py` first. If green, run the established CCT-004, CCT-003, claim/concurrency, Intelligent Block, and Note Event promotion suites. Record exact live evidence before changing CCT-005 to DONE and releasing the claim.
 
+## 🔱 PRIORITY QUEUE — EXECUTE IN ORDER
+
+This queue is the current execution order. A Naya takes the first actionable item, does as much as can be verified, then leaves the required handoff and passes the torch. Do not skip ahead merely because a later item is more interesting.
+
+### PRIORITY 1 — CLOSE CCT-005 EVIDENCE-WEIGHT VERIFICATION
+**STATUS:** READY FOR EXECUTION / VERIFYING
+**WHY NOW:** This is the active unresolved CCT lane and the current torch. The implementation repair exists, but the repository explicitly says live proof is still missing.
+**ACTION:** Run `python .naya/runtime/cct005_value_feedback_test.py` against the current `main`.
+**PASS GATE:** repaired suite is green and proves `INFERRED < VERIFIED` while preserving privacy, integrity, duplicate protection, failure handling, reuse, and contradiction behavior.
+**THEN:** run CCT-004, CCT-003, claim/concurrency, Intelligent Block, and Note Event promotion regression suites; record exact evidence; only then promote CCT-005 to `DONE` and release its claim.
+**BLOCK CONDITION:** if live execution is unavailable, do not fabricate proof. Leave CCT-005 `VERIFYING` with exact execution limitation and pass the torch to the next Naya capable of live execution.
+
+### PRIORITY 2 — RECONCILE THE FULL NAYA RUNTIME / RELEASE GATE
+**STATUS:** QUEUED
+**ACTION:** After CCT-005 is green, inspect the canonical release/continuity gates and verify that the NEXT-EXECUTION contract, successor continuity, exact-commit authorization, and deployment gate all agree and fail closed.
+**PASS GATE:** one reproducible path from accepted work → verified evidence → authorized release, with no key-presence shortcut and no accidental deployment authority.
+
+### PRIORITY 3 — CLOSE THE RED CI / ACTIONS SURFACE
+**STATUS:** QUEUED
+**ACTION:** Enumerate current failing workflows in NayaPOWER and Maxis, group failures by root cause, fix the smallest shared causes first, and re-run only the affected jobs where appropriate.
+**PASS GATE:** failures are either green with evidence or explicitly classified `BLOCKED` with a concrete cause and owner; no red workflow is silently ignored.
+
+### PRIORITY 4 — LOCK THE NAYA v3.0 ARCHITECTURE CONTRACT
+**STATUS:** QUEUED
+**ACTION:** Produce the architecture-level mapping of every existing Collective Agreement article into CORE / FULL CONSTITUTION / LAW / RUNTIME / SCHEMA / ENFORCEMENT / HUMAN JUDGMENT, identify conflicts/duplicates, and derive the exact `.naya/` contract before constitutional rewriting.
+**PASS GATE:** architecture is internally coherent, traceable to existing authority, and does not prematurely rewrite the Constitution.
+
+### PRIORITY 5 — VERIFY EXECUTION-MODE PROMPT / TORCH DELIVERY
+**STATUS:** QUEUED
+**ACTION:** Ensure the machine can produce the next executable prompt/torch automatically from canonical state so the human is not forced to author missing execution instructions.
+**PASS GATE:** a cold-start successor can discover what to do, execute it, verify it, record the handoff, and continue without conversational reconstruction.
+
+### PRIORITY 6 — ESTABLISH THE COMPOUNDING INTELLIGENCE / SMART NOTES LANE
+**STATUS:** QUEUED
+**ACTION:** Once the control plane is trustworthy, implement/verify the Smart Notes / Naya Notes / Daily Intelligence Briefing flow as a governed compounding-intelligence subsystem rather than as an isolated feature.
+**PASS GATE:** human and Naya learnings have explicit provenance, promotion rules, retrieval semantics, and safe persistence.
+
+### PRIORITY 7 — PRODUCT / EXPERIENCE BUILD ONLY AFTER CONTROL-PLANE STABILITY
+**STATUS:** QUEUED
+**ACTION:** Resume downstream NayaNET/MAXESS/product work only after the execution brain is proven reliable.
+**PASS GATE:** product work consumes the governed runtime rather than creating a parallel, weaker execution path.
+
 ## TORCH
 
 The workboard exists so that even many simultaneous Nayas behave like coordinated traffic rather than collisions.
 
 **One road. Clear lanes. Explicit ownership. Verified merges. No silent overwrites.**
 
-**CURRENT NAYA ACTION:** CCT005-repair-evidence-weight remains VERIFYING pending live Codespace evidence. No GREEN claim and no claim release until the repaired suite and regressions pass live.
+**CURRENT NAYA ACTION:** PRIORITY 1 — CCT005-repair-evidence-weight. The next Naya must run the repaired CCT-005 suite first, then execute the established regressions if green. No GREEN claim and no claim release until live evidence is recorded. If execution is unavailable, preserve VERIFYING and pass the exact limitation to the next Naya.
