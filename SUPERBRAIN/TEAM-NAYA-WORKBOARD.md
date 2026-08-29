@@ -144,31 +144,29 @@ The next Naya must be able to continue without reconstructing the previous conve
 **NEXT ACTION:** audit and implement the smallest canonical Smart Note → Note Event → verified CCT promotion → usage/outcome → CCT-005 value connection without creating a second memory or event authority.
 
 ### CCT-005-INTEGRATION-AUDIT — Smart Note → Note Event → CCT-005
-**STATUS:** VERIFYING — BLOCKED ON LIVE EXECUTION EVIDENCE
+**STATUS:** DONE — VERIFIED/GREEN — CLAIM RELEASED
 **OWNER:** Team Naya
-**CLAIM:** `CCT005-INTEGRATION-AUDIT`
+**CLAIM:** `CCT005-INTEGRATION-AUDIT` — RELEASED
 **BASE COMMIT:** `d0fc34eb924a40b46cd3ae9c99f80295a058e3c3`
 **SCOPE:** canonical Smart Note/event representation, `.naya/runtime/canonical_event_store.py`, `.naya/runtime/cct_note_event_promotion.py`, `.naya/runtime/cct005_value_feedback.py`, integration test, and durable project/workboard state.
 **ACCEPTANCE:** prove the existing canonical path, identify EXISTS / PARTIAL / DOCUMENTED ONLY / MISSING / CONFLICTING, and implement only the smallest missing connection required for a trustworthy value-feedback loop.
 
 **IMPLEMENTATION STATE:** composition-only bridge and integration tests are committed on `main`; the bridge requires a canonical `SE-*` Note Event carrying an `SN-*` representation, reuses the existing promotion boundary, requires explicit unique outcome identity, preserves privacy/provenance/integrity/authorization, and does not create a second memory/event authority.
 
-**LIVE CI PROBE:** GitHub Actions run `33281731026` on main and PR run `33281769297` both reached the `cct-regression` job but completed `failure` with zero reported steps. This is an execution-plane/runner failure signal, not evidence that the CCT tests themselves failed. The integration therefore remains **UNVERIFIED**.
+**LIVE INTEGRATION EVIDENCE:** CCT-005 Smart Note → Note Event → CCT value integration completed **8/8 PASS** in live Codespace. The established regression sequence also completed: CCT-005 **15/15 PASS**; CCT-004 **12/12 PASS**; CCT-003 **6/6 PASS**; Naya Claim **7/7 PASS**; Intelligent Block **8/8 PASS**; Note Event Promotion **5/5 PASS**.
 
-**PR PROBE:** PR #85 (`cct005-integration-audit`) was opened against main to obtain an independent CI execution surface. Its observed `cct-regression` job also failed before any step evidence was produced. Do not merge it solely to claim GREEN.
+**VERIFICATION RESULT:** the complete local integration chain is verified GREEN by the supplied live test evidence. Claim released after verification. This does not establish durable outcome/value persistence or production federation proof.
 
 ## 🔱 PRIORITY QUEUE — EXECUTE IN ORDER
 
 ### PRIORITY 1 — COMPLETE CCT-005 SMART NOTE INTEGRATION AUDIT
-**STATUS:** VERIFYING / BLOCKED ON EXECUTION PLANE
-**WHY NOW:** CCT-005 is now live-verified. The next highest-value question is whether valuable Smart Note experience can actually travel through the canonical Note Event and CCT boundaries into measurable value feedback without creating parallel memory authority.
-**ACTION:** run the new integration test in a live Codespace, then run the established sequence: CCT-005 → CCT-004 → CCT-003 → Naya Claim → Intelligent Block → Note Event Promotion. Capture exact output.
-**PASS GATE:** canonical chain is executable, provenance and privacy are preserved, authorization remains fail-closed, history remains append-only, duplicate/replay cannot inflate value, and exact evidence is recorded.
-**BLOCK CONDITION:** if the execution plane returns another zero-step failure, record it as execution-plane blocked and do not declare the code GREEN or RED. If a test step produces an actual assertion/error, repair only the first evidence-backed defect.
+**STATUS:** DONE / RELEASED
+**WHY NOW:** Completed and verified. The canonical Smart Note → Note Event → CCT-005 value path is now proven by live 8/8 integration evidence plus the established regression sequence.
+**EVIDENCE:** CCT-005 integration 8/8; CCT-005 15/15; CCT-004 12/12; CCT-003 6/6; Naya Claim 7/7; Intelligent Block 8/8; Note Event Promotion 5/5.
 
 ### PRIORITY 2 — RECONCILE THE FULL NAYA RUNTIME / RELEASE GATE
-**STATUS:** QUEUED
-**ACTION:** After the integration audit is verified, inspect the canonical release/continuity gates and verify that NEXT-EXECUTION, successor continuity, exact-commit authorization, and deployment gate agree and fail closed.
+**STATUS:** QUEUED — NEXT HIGHEST-VALUE ARCHITECTURAL PRIORITY
+**ACTION:** Claim this lane before editing. Inspect the canonical release/continuity gates and verify that NEXT-EXECUTION, successor continuity, exact-commit authorization, and deployment gate agree and fail closed.
 **PASS GATE:** one reproducible path from accepted work → verified evidence → authorized release, with no key-presence shortcut and no accidental deployment authority.
 
 ### PRIORITY 3 — CLOSE THE RED CI / ACTIONS SURFACE
@@ -198,8 +196,10 @@ The next Naya must be able to continue without reconstructing the previous conve
 
 ## TORCH
 
-The workboard exists so that even many simultaneous Nayas behave like coordinated traffic rather than collisions.
+`CCT005-INTEGRATION-AUDIT` is **DONE / VERIFIED / RELEASED**. The next highest-value architectural priority is **Priority 2 — Full Naya Runtime / Release-Gate Reconciliation**.
 
-**One road. Clear lanes. Explicit ownership. Verified merges. No silent overwrites.**
+**NEXT NAYA ACTION:** restore current `main`; read the canonical control-plane state and existing release/continuity/deployment contracts; claim the Priority 2 lane with explicit affected files and base commit; inspect before editing; identify any conflicting or duplicated release authority; implement only the smallest evidence-backed correction; run the applicable tests; record exact evidence; release the claim only after verification; pass the torch.
 
-**CURRENT NAYA ACTION:** `CCT005-INTEGRATION-AUDIT`. Do not release the claim yet. The next Naya must run `.naya/runtime/cct005_note_event_integration_test.py` in a live Codespace, then run the established regression sequence, capture exact evidence, and only then either release the claim as VERIFIED or repair the first actual test failure.
+**DURABLE LIMITATION:** CCT-005 outcome/value history is still in-memory. Do not invent a second outcome store. If durable outcomes become necessary, extend the canonical event model deliberately and preserve append-only provenance.
+
+**NEXT NAYA > CURRENT NAYA.**
