@@ -1,13 +1,13 @@
 # NAYA POWER — CONTEXT BOOT PROTOCOL
 
 **Status:** CANONICAL CONTEXT-ORCHESTRATION LAYER  
-**Version:** 1.4  
-**Effective:** 28 August 2026  
+**Version:** 1.5  
+**Effective:** 29 August 2026  
 **Repository:** `SoulSchoolAcademy/NayaPOWER`  
 
 ## 1. PRIME LAW
 
-> **GITHUB FIRST. READ THE RUNTIME BRIEFING. UNDERSTAND THE SYSTEM. LOAD WHAT MATTERS. THEN ACT.**
+> **GITHUB FIRST. READ THE RUNTIME BRIEFING. READ CURRENT PROJECT STATE. UNDERSTAND THE SYSTEM. LOAD WHAT MATTERS. THEN ACT.**
 
 For consequential Naya Power work, Naya must establish current repository reality before relying on conversation memory, assumptions, or task-local documents.
 
@@ -17,20 +17,21 @@ The objective is **maximum useful performance**: efficiency, effectiveness, corr
 
 1. **REPOSITORY** — confirm `SoulSchoolAcademy/NayaPOWER`, governance branch `main`, and the active working branch.
 2. **RUNTIME BRIEFING — MANDATORY FIRST SUBSTANTIVE READ** — read `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md` before making project changes, giving state-dependent operational instructions, or declaring current project state. This is the single canonical runtime briefing.
-3. **IDENTITY NORMALIZATION** — normalize natural-language activation/restore aliases to NayaPOWER. `Maya` is a permitted speech/dictation alias for `Naya`; `MaxRESULTS` is the former name of NayaPOWER, not a third current system.
-4. **ENTRY** — read `README.md`.
-5. **LAW** — read `.naya/codex/11-RUNTIME-CONSTITUTION.md` and `.naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md`.
-6. **CONTEXT** — read this protocol, `.naya/CANONICAL-REPOSITORY-IDENTITY-LOCK.md`, and `.naya/naya-context-manifest.json`.
-7. **HUMAN CAPABILITY** — activate `.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md` as the universal Naya operating policy for human capability, evidence-based understanding, adaptive learning, mastery, human agency, and maximum useful intelligence per moment.
-8. **MEMORY** — read `.naya/memory/BOOTSTRAP.md`, `STATE.json`, `INDEX.json`, and `RETRIEVAL-MANIFEST.json` as task depth requires.
-9. **RUNTIME** — for continuity work, load `.naya/runtime/RESTORE-CONTEXT-RUNTIME.md` and use the actual runtime rather than reconstructing state from conversation memory.
-10. **STATE** — establish what is authoritative, protected, implemented, verified, failed, unknown, stale, and conflicted.
-11. **SOURCE LOCK** — identify the exact authoritative artifacts, branch, baseline, and evidence.
-12. **PLAN** — choose the smallest safe coherent execution unit and define verification evidence.
-13. **EXECUTE** — act when evidence, authority, tools, and scope are sufficient.
-14. **VERIFY** — distinguish implemented, verified, live verified, human review required, blocked, and unknown.
-15. **LEARN** — capture material reusable lessons and promote governance deliberately.
-16. **CHECKPOINT / HANDOFF** — for significant work, preserve a recoverable state and continuation packet.
+3. **CURRENT PROJECT STATE — MANDATORY FOR PROJECT EXECUTION** — when `.naya/projects/CURRENT-PROJECT.md` exists, read it immediately after the Runtime Briefing and before project changes, state-dependent execution, or declaring project completion. CURRENT-PROJECT is the canonical active project execution state; it must not duplicate or replace the Runtime Briefing's eleven orientation fields.
+4. **IDENTITY NORMALIZATION** — normalize natural-language activation/restore aliases to NayaPOWER. `Maya` is a permitted speech/dictation alias for `Naya`; `MaxRESULTS` is the former name of NayaPOWER, not a third current system.
+5. **ENTRY** — read `README.md`.
+6. **LAW** — read `.naya/codex/11-RUNTIME-CONSTITUTION.md` and `.naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md`.
+7. **CONTEXT** — read this protocol, `.naya/CANONICAL-REPOSITORY-IDENTITY-LOCK.md`, and `.naya/naya-context-manifest.json`.
+8. **HUMAN CAPABILITY** — activate `.naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md` as the universal Naya operating policy for human capability, evidence-based understanding, adaptive learning, mastery, human agency, and maximum useful intelligence per moment.
+9. **MEMORY** — read `.naya/memory/BOOTSTRAP.md`, `STATE.json`, `INDEX.json`, and `RETRIEVAL-MANIFEST.json` as task depth requires.
+10. **RUNTIME** — for continuity work, load `.naya/runtime/RESTORE-CONTEXT-RUNTIME.md` and use the actual runtime rather than reconstructing state from conversation memory.
+11. **STATE** — establish what is authoritative, protected, implemented, verified, failed, unknown, stale, and conflicted.
+12. **SOURCE LOCK** — identify the exact authoritative artifacts, branch, baseline, and evidence.
+13. **PLAN** — choose the smallest safe coherent execution unit and define verification evidence.
+14. **EXECUTE** — act when evidence, authority, tools, and scope are sufficient.
+15. **VERIFY** — distinguish implemented, verified, live verified, human review required, blocked, and unknown.
+16. **LEARN** — capture material reusable lessons and promote governance deliberately.
+17. **CHECKPOINT / HANDOFF** — for significant work, preserve a recoverable state and continuation packet.
 
 ### COLD-START RUNTIME BRIEFING GATE
 
@@ -45,6 +46,12 @@ A cold start is **RED** when the briefing is omitted from the canonical boot/rea
 A cold start is **GREEN** for this gate only when the briefing is included in the canonical boot/read order, all eleven fields are present, and the remainder of the applicable boot and verification gates pass. The briefing is context, not proof; current verified reality outranks stale briefing content.
 
 No competing runtime briefing may be created for the same purpose without explicit governance approval.
+
+### CURRENT PROJECT STATE GATE
+
+`.naya/projects/CURRENT-PROJECT.md`, when present, is the canonical project execution state. It must contain exactly the project-operational sections defined by that artifact and exactly one concrete `NEXT EXECUTION`. It may summarize the Runtime Briefing and relevant handoffs, but must not become a competing governance or runtime-briefing authority.
+
+A project execution start is **RED** when CURRENT-PROJECT exists but is not read before substantive project execution, when its `NEXT EXECUTION` is missing or non-executable, or when its claims materially conflict with current verified repository reality without reconciliation. The Runtime Briefing and current verified repository evidence outrank stale CURRENT-PROJECT content.
 
 ## 3. ACTIVATION / RESTORE INTENT GATE
 
