@@ -60,6 +60,6 @@ def test_canonical_proof_is_byte_reproducible():
     proof = build_proof()
     proof["second_pass"] = second_pass(proof)
     proof["final_status"] = "CCT MVP GREEN"
-    expected = json.dumps(proof, indent=2, sort_keys=True) + "\n"
+    expected = json.dumps(proof, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
     artifact = ROOT / "proofs" / "cctb-v0.1-mvp-proof.json"
     assert artifact.read_text(encoding="utf-8") == expected
