@@ -1,59 +1,92 @@
-# CCT Collective Operating Protocol — Integration Map v0.1
+# CCT Collective Operating Protocol — Integration Map v0.2
 
-**Status:** PROPOSED / NOT YET CANONICAL
-**Purpose:** Turn the Naya Superbrain collective mission into one enforceable operating loop without prematurely replacing existing laws, contracts, or architecture.
+**Status:** PROPOSED / INTEGRATION MAP — NOT YET CANONICAL LAW
+**Purpose:** Reconcile the collective operating model with existing NayaPOWER authorities and define one non-duplicative execution path.
 
 ## North Star
-Every Naya should be able to restore authoritative context, understand the human/project mission, select the highest-value next action, execute with clear instructions, verify the result, extract durable value, update governed intelligence, and leave the next Naya an immediately executable continuation.
+Every Naya should restore authoritative context, understand the human/project mission, select the highest-value next action, execute with clear instructions, verify the result, extract durable value, preserve governed intelligence, and leave the next Naya an immediately executable continuation.
 
-## Operating loop
+## Canonical authority reconciliation
 
-`RESTORE → QUALIFY → PRIORITIZE → TORCH → EXECUTE → VERIFY → EXTRACT VALUE → PROMOTE → COMPOUND → PASS TORCH`
+| Responsibility | Canonical owner | Integration role | Must NOT own |
+|---|---|---|---|
+| Governing principles / truth / verification law | Master Law / Digital Codex | Highest authority | Runtime execution details |
+| System architecture / layer boundaries | `SUPERBRAIN/MASTER-SYSTEMS-ARCHITECTURE.md` | Architecture authority | Per-event truth |
+| Human mission / service behavior | 10-Star Service + Autonomous Execution Law | Defines human-facing outcome and service contract | Repository truth or evidence |
+| CCT intelligence artifact integrity / provenance / permissions | CCT runtime | Governs portable collective intelligence | Priority selection or execution sequencing |
+| Collective coordination | Proposed CCT Collective Operating Protocol integration layer | Connects already-authoritative systems | Replacing their contracts |
+| Current project/state/context | Repository SuperBrain + canonical state | Restorable working context | Overriding governing truth |
+| Work authorization / ownership | Naya claim/lease runtime | Authorizes the current actor/scope | Defining mission priority |
+| Priority / next-best-action selection | Naya Lead / execution-priority layer | Selects one highest-value next action | Evidence truth or CCT provenance |
+| Continuation / handoff | NEXT EXECUTION + execution continuity law | Durable successor state | Becoming a second memory system |
+| Execution | Naya Nitro / execution layer | Performs authorized action | Overriding governing law |
+| Evidence / acceptance | Scorecard + evidence law + gate runtimes | Determines what can be claimed | Treating activity as proof |
+| Memory / Smart Notes | Smart Notes + CIS Constitution | Canonical Note Event lifecycle | Silent rewriting of truth |
+| Compounding | CSI | Synthesizes verified durable learning | Automatically promoting unverified notes |
+| Independent challenge | Oscar | Adversarial review | Rewriting requirements silently |
+| Meta-optimization | SOM(E) | Optimizes the integrated system | Becoming a competing execution authority |
 
-## Responsibilities
+## Integrated operating loop
 
-### CCT
-Coordinates collective state, knowledge/value transitions, continuity, and governed inheritance between Nayās.
+`READ → RESTORE → QUALIFY → PRIORITIZE → CLAIM → TORCH → EXECUTE → VERIFY → RECEIPT → EXTRACT VALUE → PROMOTE → COMPOUND → HANDOFF → CONTINUE`
 
-### Collective Agreement / Intelligence Protocol
-Defines authority, permitted behavior, priority rules, evidence requirements, conflict/supersession, promotion, and handoff rules. Canonical naming and exact precedence must be reconciled against existing authoritative documents before this becomes law.
+This is an integration sequence, not a new universal law. Existing canonical laws retain precedence.
 
-### Superbrain
-Consumes authoritative PSI + current state + governed CSI and produces the best next action for the current mission.
+## Boundary contracts
 
-### PSI
-Provides authoritative, persistent operating intelligence and source-of-truth context.
+### 1. CCT → Superbrain
+CCT may provide only intelligence that satisfies its existing integrity, provenance, permission, and lifecycle rules. The Superbrain consumes it as governed context; it does not silently upgrade unverified material to truth.
 
-### Priority
-Ranks work by mission value, urgency, dependencies, risk, and expected useful outcome. Priority selection must produce one explicit next action rather than a vague list.
+### 2. Superbrain → Priority
+The Superbrain supplies authoritative context, current state, mission, constraints, available work, and relevant learning. The priority layer selects the highest-value next action according to the applicable project/execution rules.
 
-### Torch
-Carries current state, mission, priority, exact next action, constraints, evidence, unresolved work, and successor instructions.
+### 3. Priority → Claim
+The selected action must identify the work scope that requires authorization. Claim/lease remains the authority for concurrent ownership and stale-work protection.
 
-### Execution
-Performs the selected action and records what actually happened.
+### 4. Claim → Torch
+A valid current claim may be bound to one explicit continuation. The torch carries state and executable continuation; it does not grant authority beyond the claim.
 
-### Verification
-Separates deterministic checks, runtime evidence, integration evidence, and production proof. Never upgrades a claim beyond the evidence available.
+### 5. Torch → Execution
+Execution validates the continuation, performs only authorized work, and records actual results. A failed action preserves the verified checkpoint and identifies the next recovery action.
 
-### Smart Notes / CSI
-Extract only durable value from experience. Promote validated insights, corrections, decisions, discoveries, and reusable lessons into governed intelligence; do not canonicalize raw noise.
+### 6. Execution → Verification
+Completion is not proof. Verification determines the evidence-supported state and whether a claim may be released.
 
-### Human Service
-For each human interaction, establish whether the mission is to learn or create, qualify the desired outcome, and orient every useful output toward achieving it. Learning should optimize for fastest durable understanding. Creation should optimize for the strongest path to the desired result and an executable sequence.
+### 7. Verification → Smart Notes / CSI
+Only durable value from verified experience should become governed memory. The canonical Note Event remains the system of record.
 
-## Failure behavior
-A roadblock is not mission termination. Preserve truth about the unavailable capability, select the highest-value executable alternative, execute it, preserve the blocked dependency as a queued continuation, and return when its prerequisite becomes available.
+### 8. CSI → Superbrain
+Verified, appropriately promoted learning becomes future context. History remains preserved; supersession is explicit.
 
-## Activation boundary
-Customer-specific 20-PDF activation is an input path into NayaPOWER. It initializes customer knowledge/context; it does not define the NayaPOWER collective architecture.
+### 9. Handoff → Next Naya
+Every consequential execution leaves a restoreable continuation. The next Naya restores from repository truth, not private conversation memory.
+
+## Existing canonical documents reconciled
+
+- `SUPERBRAIN/MASTER-SYSTEMS-ARCHITECTURE.md` — defines the 12-layer architecture, authority hierarchy, universal execution loop, and explicit non-duplication rules.
+- `.naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md` — governs durable state, evidence, handoff, learning, receipts, and no-silent-exit behavior.
+- `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md` — governs Note Events, verification receipts, supersession, CIS, NEXT EXECUTION, and tri-representation.
+- `SUPERBRAIN/10-10-SCORECARD.md` — remains the maturity/evidence authority; architecture or tests alone do not establish 10/10.
+
+## Conflicts / duplicates resolved
+
+1. **CCT must not own the entire execution loop.** CCT owns governed collective intelligence exchange/inheritance; Lead, Claim, Torch, Nitro, Verification, Notes, CIS, Oscar, and SOM(E) retain their existing authorities.
+2. **The proposed Collective Agreement / Intelligence Protocol is not yet a new law.** It remains an integration layer until canonical terminology and precedence are formally accepted.
+3. **Smart Note / Naya Note / Human Note are not separate primary stores.** They are representations/views of canonical Note Events under the Smart Notes + CIS Constitution.
+4. **A torch does not confer authority.** Authorization remains with the applicable claim/lease and governing rules.
+5. **A completed action does not establish truth.** Verification and evidence remain separate.
+6. **Customer 20-PDF activation is an input path, not collective architecture.** It initializes customer-specific knowledge/context and must obey the canonical memory and authority model.
+
+## Smallest missing integration boundary
+
+The next runtime boundary should be a thin composition layer, not another broad protocol:
+
+`VERIFIED CCT INTELLIGENCE + CURRENT VALID CLAIM + EXPLICIT PRIORITY/TORCH → AUTHORIZED EXECUTABLE CONTINUATION`
+
+It must fail closed when intelligence is unverified, the consumer is unauthorized, the claim is stale/conflicting, the mission is absent, or the continuation lacks one explicit executable action and acceptance criteria.
 
 ## Acceptance condition
-This map is successful only when the existing repository components can be traced into one executable, governed loop with no ambiguous ownership between protocol, Superbrain, memory, priority, torch, execution, evidence, and compounding.
 
-## Next engineering work
-1. Reconcile this map against every existing authoritative collective/CCT document.
-2. Identify conflicts/duplicates and choose one canonical owner for each responsibility.
-3. Implement the smallest missing runtime boundary connecting CCT → Superbrain → Priority → Torch → Execution → Evidence → CSI.
-4. Add deterministic acceptance tests at each boundary.
-5. Use live execution only for the proof layers that require it.
+This map is successful when every responsibility has one canonical owner and the existing components compose into one traceable execution path without duplicate authority.
+
+Structural reconciliation does **not** claim runtime completion. Runtime gates and observed evidence remain required.
