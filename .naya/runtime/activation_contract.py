@@ -50,6 +50,22 @@ def validate_manifest(manifest: dict[str, Any]) -> list[str]:
     return errors
 
 
+def validate_20_pdf_manifest(manifest: dict[str, Any]) -> list[str]:
+    """Validate the fixed-size 20-document activation package boundary."""
+    errors = validate_manifest(manifest)
+    if errors:
+        return errors
+    if len(manifest["documents"]) != 20:
+        errors.append(f"20-PDF package requires exactly 20 documents; got {len(manifest['documents'])}")
+    expected = list(range(1, 21))
+    actual = sorted(document.get("order") for document in manifest["documents"])
+    if actual != expected:
+        errors.append(f"20-PDF package requires document orders 1..20; got {actual}")
+    if not str(manifest["package_id"]).startswith(PACKAGE_ID_PREFIX):
+        errors.append(f"package_id must start with {PACKAGE_ID_PREFIX}")
+    return errors
+
+
 def activation_result_schema() -> dict[str, Any]:
     return {
         "schema_version": SCHEMA_VERSION,
