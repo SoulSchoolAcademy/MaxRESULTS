@@ -13,6 +13,7 @@ on:
       - '.naya/runtime/**'
       - 'tools/qa_naya_context_boot.py'
       - 'tools/qa_naya_execution_mode.py'
+      - 'tools/qa_naya_torch_delivery.py'
       - '.github/workflows/naya-context-boot-guardrail.yml'
   pull_request:
     paths:
@@ -25,6 +26,7 @@ on:
       - '.naya/runtime/**'
       - 'tools/qa_naya_context_boot.py'
       - 'tools/qa_naya_execution_mode.py'
+      - 'tools/qa_naya_torch_delivery.py'
       - '.github/workflows/naya-context-boot-guardrail.yml'
   workflow_dispatch:
 
@@ -56,3 +58,6 @@ jobs:
 
       - name: Validate Execution Mode Action Delivery
         run: python3 tools/qa_naya_execution_mode.py
+
+      - name: Validate Naya-Owned Human Torch Delivery
+        run: python3 tools/qa_naya_torch_delivery.py
