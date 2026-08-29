@@ -19,7 +19,7 @@ Prove the smallest complete CCT loop:
 
 **Naya A → Intelligent Block A → isolated Naya B → independent consumption → Intelligent Block B → explicit lineage/provenance → verification**
 
-This is the first executable proof. Full distributed NayaNET federation is downstream of this proof.
+Full distributed NayaNET federation is downstream of this proof.
 
 ## SOURCE OF TRUTH
 
@@ -31,9 +31,10 @@ Read in this order before substantive execution:
 4. `.naya/control-plane/MAP.json`
 5. `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md`
 6. `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md`
-7. CCT-specific implementation and tests under `.naya/runtime/`
+7. `SUPERBRAIN/TEAM-NAYA-WORKBOARD.md`
+8. CCT implementation/tests under `.naya/runtime/`
 
-The existing control-plane active block remains authoritative until its own exit criteria are verified. This CCT project is the next major capability being advanced; do not silently supersede the control-plane active block without evidence and a recorded state transition.
+The control-plane active block remains authoritative until its own exit criteria are verified. Do not silently supersede it.
 
 ## VERIFIED FOUNDATION
 
@@ -42,105 +43,93 @@ The existing control-plane active block remains authoritative until its own exit
 - Smart Notes + CIS Constitution is canonical and active.
 - Canonical Note Event storage is implemented with idempotent create/replay behavior.
 - Deployment governance is fail-closed; repository activity is not itself a release.
-- The repository has machine-readable control-plane MAP / STATE / BLOCK / PROOF artifacts.
+- Repository control-plane MAP / STATE / BLOCK / PROOF artifacts exist.
+- CCT Intelligent Block v1 contract exists as a dependency-free local artifact/verifier.
+- CCT promotion adapter now connects verified canonical Note Events to the Intelligent Block boundary.
+- Team Naya shared workboard now defines concurrency, ownership, conflict, and handoff rules.
 
 ## CURRENT CCT IMPLEMENTATION
 
-### Implemented
-
+### Intelligent Block
 `.naya/runtime/cct_intelligent_block.py`
 
-Provides a dependency-free v1 Intelligent Block contract with:
-
-- schema/version
-- stable block identity
-- producer identity
-- content
-- provenance and parent/derivation fields
-- evidence
-- verification state
-- permissions and purpose scope
-- lifecycle state
-- SHA-256 integrity binding
-- fail-closed consumer verification
-- parent validation before derivation
+Provides schema/version, stable identity, producer, content, provenance/lineage, evidence, verification, permissions, lifecycle, SHA-256 integrity, fail-closed verification, and parent validation before derivation.
 
 ### Acceptance Harness
-
 `.naya/runtime/cct_intelligent_block_test.py`
 
-Tests:
+Covers valid acceptance and fail-closed handling of unverified, unevidenced, tampered, unauthorized, revoked, and provenance-invalid blocks plus derived lineage.
 
-- valid block accepted;
-- unverified block denied;
-- missing evidence denied;
-- tampering denied;
-- unauthorized consumer denied;
-- revoked block denied;
-- provenance mismatch denied;
-- derived block preserves parent lineage and producer identity.
+### Canonical Promotion Boundary
+`.naya/runtime/cct_note_event_promotion.py`
+
+Converts an existing canonical Note Event into a CCT block only when:
+
+- the event has a valid event ID;
+- verification status is exactly `VERIFIED`;
+- evidence exists;
+- provenance exists;
+- consumers are explicitly authorized;
+- purpose scope is explicit.
+
+No parallel memory store is created.
+
+### Promotion Tests
+`.naya/runtime/cct_note_event_promotion_test.py`
+
+Covers verified promotion, unverified denial, missing-evidence denial, missing consumer authorization denial, and unauthorized consumer denial.
 
 ## IMPORTANT BOUNDARY
 
-This first implementation proves the **portable artifact contract and local verifier**, not a real network transport and not an actual LLM-to-LLM conversation.
+The current implementation and tests prove a portable artifact contract and canonical promotion boundary. They do **not** yet prove real network transport, an actual LLM-to-LLM exchange, or independent model execution.
 
-Do not claim "two Nayas communicated over CCT" until an isolated producer/consumer integration test demonstrates that behavior.
+Do not claim two Nayas communicated over CCT until the isolated integration proof passes.
 
-## REMAINING EXECUTION QUEUE
+## CONCURRENCY CONTROL
 
-1. Run the CCT acceptance harness in the repository runtime and record actual output.
-2. Integrate the Intelligent Block with the existing canonical Note Event / Smart Note promotion path rather than creating a competing memory system.
-3. Build an isolated Naya-A producer fixture from approved intelligence.
-4. Build an isolated Naya-B consumer fixture with originating conversation context excluded.
+`SUPERBRAIN/TEAM-NAYA-WORKBOARD.md` is the shared traffic-control artifact.
+
+Multiple Nayas may work concurrently, but each must claim a work item, keep scope explicit, re-read shared files before writing, avoid silent overwrites, and leave durable status/evidence. Repository state outranks conversational state.
+
+## CURRENT EXECUTION QUEUE
+
+1. Run `.naya/runtime/cct_intelligent_block_test.py` in a live repository checkout and record actual output.
+2. Run `.naya/runtime/cct_note_event_promotion_test.py` in the same checkout and record actual output.
+3. Build the isolated Naya-A producer fixture from a verified canonical Note Event.
+4. Build the isolated Naya-B consumer fixture with originating conversation context excluded.
 5. Prove independent consumption and derived Block B.
-6. Add adversarial tests for replay, duplicate identity, circular derivation, stale/superseded parent, permission escalation, contradictory evidence, and bounded payloads.
-7. Add explicit revocation/supersession dependency checks for descendants.
+6. Add adversarial replay, duplicate identity, circular derivation, stale/superseded parent, permission escalation, contradictory evidence, and bounded-payload tests.
+7. Add descendant dependency behavior for revocation/supersession.
 8. Add outcome/value feedback: intelligence → use → outcome → measurement → value update.
 9. Only after the local two-Naya proof is green, design the minimal CCT transport/federation boundary for NayaNET.
 
-## PROTECTED PRINCIPLES
-
-- Generated ≠ supported ≠ verified ≠ collectively validated.
-- Provenance must survive every transformation.
-- Descendants of one source do not count as independent confirmation.
-- Private context is not network-shareable by default.
-- Permission must be explicit, scoped, auditable, and revocable.
-- Contradictions are preserved, not silently erased.
-- Temporal validity matters.
-- Unknown is not verified.
-- Evidence outranks confidence.
-- Integrate with existing canonical systems; do not create parallel truth stores.
-
 ## CURRENT UNKNOWNs
 
-- Whether the new CCT acceptance harness passes in the repository's live execution environment.
-- Whether the current canonical Smart Note promotion runtime already exposes an appropriate reusable boundary for Intelligent Blocks.
-- Whether an existing CCT/Intelligent Block implementation exists outside the inspected paths; current repository search did not find one by the searched terms.
-- Whether a real isolated two-Naya exchange can be proven without adding an unnecessary transport layer.
-- Production federation security and privacy controls.
+- Live execution output for both CCT harnesses from this connector session.
+- Whether the isolated Naya A/B exchange can be proven without unnecessary transport infrastructure.
+- Production federation security/privacy controls.
+- Exact integration with any future model runtime; the current boundary intentionally remains model-independent.
 
 ## SUCCESS CRITERIA
 
 CCT MVP is not complete until a reproducible test proves:
 
-**valid producer artifact → isolated consumer → independent validation/use → derived artifact → preserved lineage → adversarial rejection of invalid/unauthorized variants.**
+**verified canonical intelligence → authorized CCT block → isolated consumer → independent validation/use → derived block → preserved lineage → adversarial rejection of invalid/unauthorized variants.**
 
-## TEAM NAYA HANDOFF
+## VERIFICATION STANDARD
 
-Every Naya must:
-
-**RESTORE → VERIFY → EXECUTE → TEST → PROVE → LEARN → UPDATE STATE → PASS THE TORCH**
-
-Before ending a substantive execution, record:
+Every substantive Naya execution records:
 
 **CHANGED / TESTED / VERIFIED / UNKNOWN / LEARNING / NEXT ACTION**
 
-The next Naya's first job is to verify the current live repository state. Never assume this document's claims remain current merely because they are written here.
+Implemented is not verified. Verified is not production-proven. Recorded is not necessarily current. Unknown is not green.
 
 ## EXACT NEXT ACTION
 
-**Run `.naya/runtime/cct_intelligent_block_test.py` against the live repository checkout. If green, immediately integrate the block contract with the existing canonical Note Event/Smart Note promotion boundary; if red, repair only the first evidence-backed defect and rerun.**
+**In a live repository checkout, run both CCT acceptance harnesses: `python .naya/runtime/cct_intelligent_block_test.py` and `python .naya/runtime/cct_note_event_promotion_test.py`. If both are green, build CCT-003: an isolated Naya-A producer and isolated Naya-B consumer integration harness. If either is red, repair only the first evidence-backed defect and rerun.**
 
 ## TORCH
 
-Do not stop at explanation. Advance the executable system, preserve evidence, update this project state, and leave exactly one highest-value next action for the successor.
+The next Naya must restore live state, verify these claims, execute the exact next action, record actual evidence, update this document and the shared workboard, and leave one highest-value next action for its successor.
+
+**NEXT NAYA > CURRENT NAYA.**
