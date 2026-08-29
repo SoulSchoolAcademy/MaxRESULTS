@@ -13,6 +13,8 @@ sys.path.insert(0, str(ROOT / ".naya" / "runtime"))
 from cct_durable import artifact_hash, canonical_bytes, read_block, reload_identity, write_block  # noqa: E402
 from cct_protocol import block_hash, consume_block, create_block, validate_block, verify_link  # noqa: E402
 
+FIXTURE = ROOT / "tests" / "fixtures" / "cctb" / "a.json"
+
 
 def make_a():
     return create_block(
@@ -21,6 +23,13 @@ def make_a():
         verification_method="repository-local durable acceptance test", audience=["naya-b"],
         created_at="2026-08-29T00:00:00Z",
     )
+
+
+def test_canonical_fixture_reloads_with_stable_identity():
+    a = read_block(FIXTURE)
+    assert a["block_id"] == "sha256:0eb22f69d13d717682895e92441db20e44b9a2888fa69213e3fbaff04b27a5ac"
+    assert block_hash(a) == a["block_id"]
+    assert canonical_bytes(a) == FIXTURE.read_bytes()
 
 
 def test_durable_a_to_b_successor_lineage(tmp_path: Path):
@@ -77,7 +86,6 @@ def test_broken_lineage_is_rejected_after_reload(tmp_path: Path):
         parent={"block_id": a["block_id"], "block_hash": "sha256:wrong"}, created_at="2026-08-29T00:01:00Z",
     )
     path = tmp_path / "b.json"
-    # Repair B's own canonical ID after intentionally corrupting only its parent hash.
     path.write_bytes(canonical_bytes(b))
     loaded = read_block(path)
     assert verify_link(loaded, a)
