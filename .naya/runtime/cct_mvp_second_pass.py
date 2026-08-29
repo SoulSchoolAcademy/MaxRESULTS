@@ -30,7 +30,7 @@ def main() -> int:
     proof = json.loads(args.proof.read_text(encoding="utf-8"))
     proof["second_pass"] = verify(proof)
     proof["final_status"] = "CCT MVP GREEN"
-    args.proof.write_text(json.dumps(proof, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    args.proof.write_text(json.dumps(proof, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
     print("SECOND-PASS VERIFICATION → GREEN")
     return 0
 
