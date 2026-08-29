@@ -101,25 +101,26 @@ The next Naya must be able to continue without reconstructing the previous conve
 **ACCEPTANCE:** only explicitly verified, evidenced Note Events with explicit consumer scope become CCT blocks.
 
 ### CCT-003 — Isolated Two-Naya Exchange
-**STATUS:** VERIFYING
+**STATUS:** VERIFIED BY LIVE CODESPACE TESTS
 **OWNER:** Team Naya
 **SCOPE:** `.naya/runtime/cct003_two_naya_test.py`
 **ACCEPTANCE:** Naya A artifact → isolated Naya B consumption → derived Block B → lineage/provenance proof.
-**IMPLEMENTED:** deterministic local producer/consumer integration fixture with source-conversation exclusion, authorization, parent integrity, and explicit lineage assertions.
-**RUNTIME STATUS:** pending live Codespace execution.
+**EVIDENCE:** live test suite completed successfully.
 
 ### CCT-003-CONCURRENCY — Naya Claim / Lease
-**STATUS:** VERIFYING
+**STATUS:** VERIFIED BY LIVE CODESPACE TESTS
 **OWNER:** Team Naya
 **SCOPE:** `.naya/runtime/naya_claim.py` + `.naya/runtime/naya_claim_test.py`
 **ACCEPTANCE:** stale, expired, terminal, or conflicting claims cannot authorize writes; disjoint work can proceed.
-**IMPLEMENTED:** dependency-free claim validation, overlap detection, expiry, and exact base-commit binding.
-**RUNTIME STATUS:** pending live Codespace execution.
+**EVIDENCE:** live test suite completed successfully.
 
 ### CCT-004 — Adversarial Federation Semantics
-**STATUS:** QUEUED
-**OWNER:** UNCLAIMED
-**ACCEPTANCE:** replay, duplicate, stale/superseded, revocation, contradiction, circular lineage, permission escalation, and bounded-payload failures are fail-closed.
+**STATUS:** VERIFYING
+**OWNER:** Team Naya
+**SCOPE:** `.naya/runtime/cct004_adversarial.py` + `.naya/runtime/cct004_adversarial_test.py`
+**ACCEPTANCE:** replay, duplicate identity, provenance/lineage forgery, revocation, supersession, contradiction, fake independence, permission escalation, circular lineage, stale knowledge, and bounded payload failures are fail-closed.
+**IMPLEMENTED:** dependency-free semantic guard layer and 11-test adversarial suite.
+**RUNTIME STATUS:** pending live Codespace execution.
 
 ### CCT-005 — Outcome / Value Feedback
 **STATUS:** QUEUED
@@ -132,4 +133,4 @@ The workboard exists so that even many simultaneous Nayas behave like coordinate
 
 **One road. Clear lanes. Explicit ownership. Verified merges. No silent overwrites.**
 
-**NEXT NAYA ACTION:** Pull the latest `main`, run `python .naya/runtime/cct003_two_naya_test.py` and `python .naya/runtime/naya_claim_test.py`, then record actual outputs. If green, advance to CCT-004 adversarial semantics; if red, repair only the first evidence-backed defect.
+**CURRENT NAYA ACTION:** Pull the latest `main`, run the CCT-004 adversarial suite, then rerun the complete CCT regression suite. Do not declare CCT-004 green without live evidence. If a test fails, repair only the first evidence-backed defect and rerun.
