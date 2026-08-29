@@ -15,10 +15,44 @@ def test_positive_and_deliberate_failures():
     assert module.self_test() == 0
 
 
+def test_completed_execution_requires_durable_successor():
+    policy = module.load_policy()
+    orphan = {
+        "event_id": "SE-20260825-999999-continuity-orphan",
+        "effective_at": policy["effective_at"],
+        "event_type": "execution-milestone",
+        "continuity": {"execution_state": "COMPLETED"},
+        "ready_to_run_execution": "THIS IS NOT EXECUTABLE",
+    }
+    errors = module.check_event(orphan, Path("orphan.json"), policy)
+    assert any("canonical NEXT-EXECUTION successor" in error for error in errors), errors
+    print("INVALID ORPHAN → RED")
+
+    embedded = {
+        "event_id": "SE-20260825-999999-continuity-embedded",
+        "effective_at": policy["effective_at"],
+        "event_type": "execution-milestone",
+        "project_context": {"project_id": "x", "current_daily_project": "x", "current_objective": "test"},
+        "representations": {
+            "naya": {"id": "n", "canonical_event_id": "SE-20260825-999999-continuity-embedded", "lessons": ["learned"]},
+            "shawn": {"id": "s", "canonical_event_id": "SE-20260825-999999-continuity-embedded", "lessons": ["learned"]},
+        },
+        "verification": {"status": "VERIFIED", "receipt": "r"},
+        "receipt": {"receipt_id": "r"},
+        "delivery": {"state": "VERIFIED"},
+        "continuity": {"execution_state": "COMPLETED", "handoff": {"mission": "x"}, "learning_status": "LEARNED", "next_action_status": "RECORDED"},
+        "next_execution": {"project": "x", "north_star": "x", "current_state": "x", "completed_work": ["x"], "verified_evidence": ["x"], "unresolved_issues": ["x"], "constraints": ["x"], "current_objective": "x", "next_action": "run validation", "execution_instructions": "Run validation", "success_criteria": ["x"], "verification_requirements": ["x"]},
+    }
+    errors = module.check_event(embedded, Path("embedded.json"), policy)
+    assert any("durable NEXT-EXECUTION artifact path" in error for error in errors), errors
+    print("EMBEDDED NON-DURABLE SUCCESSOR → RED")
+
+
 def test_current_canonical_corpus():
     code, report = module.validate()
     assert code == 0, report
     assert report["status"] == "GREEN"
+    print("CONTINUITY VALIDATOR → GREEN")
 
 
 if __name__ == "__main__":
