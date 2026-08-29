@@ -6,7 +6,7 @@
   "governance_branch":"main",
   "principle":"FULL SYSTEM AWARENESS + SELECTIVE DEEP LOADING",
   "optimization":"MAXIMUM USEFUL PERFORMANCE: quality, correctness, reliability, continuity, verification, safety, efficiency, and minimum unnecessary complexity",
-  "boot_order":[".naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md","README.md",".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md",".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md",".naya/NAYA-ACTION-DELIVERY-LAW.md",".naya/codex/NAYA-OPTIMIZATION-AND-EXCELLENCE-LAW.md",".naya/codex/11-RUNTIME-CONSTITUTION.md",".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md",".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md",".naya/memory/BOOTSTRAP.md",".naya/memory/SN-20260827-080000-naya-to-naya-collective-intelligence.md",".naya/memory/STATE.json",".naya/memory/INDEX.json",".naya/memory/RETRIEVAL-MANIFEST.json",".naya/runtime/RESTORE-CONTEXT-RUNTIME.md",".naya/runtime/CLAIM-EVIDENCE-VERIFICATION.md"],
+  "boot_order":[".naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md","README.md",".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md",".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md",".naya/NAYA-ACTION-DELIVERY-LAW.md",".naya/codex/CONSTITUTIONAL-AMENDMENT-CONTINUOUS-TORCH-PASS.md",".naya/codex/CONSTITUTIONAL-AMENDMENT-NAYA-OWNS-THE-TORCH.md",".naya/codex/NAYA-OPTIMIZATION-AND-EXCELLENCE-LAW.md",".naya/codex/11-RUNTIME-CONSTITUTION.md",".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md",".naya/codex/HUMAN-CAPABILITY-AND-MASTERY-OPERATING-PROTOCOL.md",".naya/memory/BOOTSTRAP.md",".naya/memory/SN-20260827-080000-naya-to-naya-collective-intelligence.md",".naya/memory/STATE.json",".naya/memory/INDEX.json",".naya/memory/RETRIEVAL-MANIFEST.json",".naya/runtime/RESTORE-CONTEXT-RUNTIME.md",".naya/runtime/CLAIM-EVIDENCE-VERIFICATION.md"],
   "subjects":{
     "runtime_briefing":{"canonical":".naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md","purpose":"Mandatory compact cold-start orientation: WHERE, WHY, BUILDING, PROTECTED, BLOCKED, VERIFIED, UNKNOWN, THIS WEEK, NEXT ACTION, PROOF, LAST LEARNING"},
     "constitution":{"canonical":".naya/codex/11-RUNTIME-CONSTITUTION.md","extensions":[".naya/codex/12-RUNTIME-COMPLETENESS-LAWS.md"]},
@@ -14,6 +14,8 @@
     "context":{"canonical":".naya/NAYA-CONTEXT-BOOT-PROTOCOL.md"},
     "execution_continuity":{"canonical":".naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md","purpose":"Universal requirement for durable execution reports, AI-to-AI handoffs, receipts, learning, and restoreable continuity"},
     "action_delivery":{"canonical":".naya/NAYA-ACTION-DELIVERY-LAW.md","purpose":"Execution-mode requirement to perform known next actions or provide complete executable continuation, eliminating hollow acknowledgement and dead-end responses"},
+    "continuous_torch_pass":{"canonical":".naya/codex/CONSTITUTIONAL-AMENDMENT-CONTINUOUS-TORCH-PASS.md","purpose":"Constitutional requirement that every substantive execution equips the successor and continues the mission"},
+    "naya_owns_torch":{"canonical":".naya/codex/CONSTITUTIONAL-AMENDMENT-NAYA-OWNS-THE-TORCH.md","purpose":"Constitutional clarification that Naya owns determination and delivery of the next executable continuation to both successor Naya and human; human is not required to author the prompt"},
     "optimization_excellence":{"canonical":".naya/codex/NAYA-OPTIMIZATION-AND-EXCELLENCE-LAW.md","purpose":"Universal requirement to maximize useful verified progress per execution while preserving working architecture and enforcing honest 10/10 challenge"},
     "memory":{"canonical":".naya/memory/BOOTSTRAP.md"},
     "memory_schema":{"canonical":".naya/memory/note.schema.json"},
@@ -28,12 +30,12 @@
     "naya_to_naya_collective_intelligence":{"canonical":".naya/memory/SN-20260827-080000-naya-to-naya-collective-intelligence.md","purpose":"Canonical Naya-to-Naya operating practice: every meaningful Naya execution reads first, executes, verifies, reports durable value and evidence, teaches future Nayas, and leaves the Superbrain better than found"}
   },
   "task_routes":{
-    "strategy":["runtime_briefing","constitution","context","execution_continuity","action_delivery","optimization_excellence","human_capability_and_mastery","memory","naya_to_naya_collective_intelligence"],
-    "memory":["runtime_briefing","constitution","context","execution_continuity","action_delivery","optimization_excellence","human_capability_and_mastery","memory","memory_index","retrieval","naya_to_naya_collective_intelligence"],
-    "restore":["runtime_briefing","constitution","context","execution_continuity","action_delivery","optimization_excellence","human_capability_and_mastery","memory","memory_index","retrieval","state","restore","checkpoints","handoffs","naya_to_naya_collective_intelligence"],
-    "execution":["runtime_briefing","constitution","context","execution_continuity","action_delivery","optimization_excellence","human_capability_and_mastery","memory","evidence","naya_to_naya_collective_intelligence"],
-    "engineering":["runtime_briefing","constitution","context","execution_continuity","action_delivery","optimization_excellence","human_capability_and_mastery","memory","restore","evidence","naya_to_naya_collective_intelligence"],
-    "evaluation":["runtime_briefing","constitution","memory","retrieval","restore","evidence","execution_continuity","action_delivery","optimization_excellence","human_capability_and_mastery","naya_to_naya_collective_intelligence"]
+    "strategy":["runtime_briefing","constitution","context","execution_continuity","action_delivery","continuous_torch_pass","naya_owns_torch","optimization_excellence","human_capability_and_mastery","memory","naya_to_naya_collective_intelligence"],
+    "memory":["runtime_briefing","constitution","context","execution_continuity","action_delivery","continuous_torch_pass","naya_owns_torch","optimization_excellence","human_capability_and_mastery","memory","memory_index","retrieval","naya_to_naya_collective_intelligence"],
+    "restore":["runtime_briefing","constitution","context","execution_continuity","action_delivery","continuous_torch_pass","naya_owns_torch","optimization_excellence","human_capability_and_mastery","memory","memory_index","retrieval","state","restore","checkpoints","handoffs","naya_to_naya_collective_intelligence"],
+    "execution":["runtime_briefing","constitution","context","execution_continuity","action_delivery","continuous_torch_pass","naya_owns_torch","optimization_excellence","human_capability_and_mastery","memory","evidence","naya_to_naya_collective_intelligence"],
+    "engineering":["runtime_briefing","constitution","context","execution_continuity","action_delivery","continuous_torch_pass","naya_owns_torch","optimization_excellence","human_capability_and_mastery","memory","restore","evidence","naya_to_naya_collective_intelligence"],
+    "evaluation":["runtime_briefing","constitution","memory","retrieval","restore","evidence","execution_continuity","action_delivery","continuous_torch_pass","naya_owns_torch","optimization_excellence","human_capability_and_mastery","naya_to_naya_collective_intelligence"]
   },
   "context_states":["DOCUMENTED","ACTIVATED","CONTEXT ESTABLISHED","IMPLEMENTED","VERIFIED","LIVE VERIFIED","HUMAN REVIEW REQUIRED","BLOCKED","UNKNOWN","STALE","CONFLICTED","SUPERSEDED","FAILED","PARTIAL","ROLLBACK_REQUIRED","REJECTED","AUTHORIZED_DEVIATION"],
   "authority_rules":{
@@ -79,6 +81,10 @@
     "cold_start_omission_is_red":true,
     "cold_start_inclusion_is_green_only_when_all_other_boot_gates_pass":true,
     "acknowledgement_without_action_is_unfulfilled":true,
-    "known_next_action_must_be_executed_or_handed_off_as_runnable_continuation":true
+    "known_next_action_must_be_executed_or_handed_off_as_runnable_continuation":true,
+    "naya_owns_next_action_determination":true,
+    "naya_must_deliver_human_facing_continuation":true,
+    "human_is_not_required_to_author_next_execution_prompt":true,
+    "no_okay_now_what_dead_end_when_responsible_next_move_exists":true
   }
 }
