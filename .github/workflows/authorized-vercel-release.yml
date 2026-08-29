@@ -1,0 +1,67 @@
+name: NayaPOWER Authorized Vercel Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: Exact Vercel target environment
+        required: true
+        type: choice
+        options:
+          - preview
+          - production
+      commit_sha:
+        description: Exact 40-character commit SHA to release
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  authorize-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact requested commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 1
+
+      - name: Verify workflow ref is exact requested commit
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "${{ inputs.commit_sha }}"
+
+      - name: Validate release authorization
+        shell: bash
+        env:
+          TARGET_ENVIRONMENT: ${{ inputs.target_environment }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          import importlib.util
+
+          path = Path('.naya/runtime/release_authorization.py')
+          spec = importlib.util.spec_from_file_location('release_authorization', path)
+          module = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(module)
+
+          decision = module.current_template_decision(
+              os.environ['COMMIT_SHA'],
+              os.environ['TARGET_ENVIRONMENT'],
+          )
+          if not decision.allowed:
+              raise SystemExit(f'RELEASE DENIED: {decision.reason}')
+          print(f'RELEASE AUTHORIZED: {decision.reason}')
+          PY
+
+      - name: Explicit deployment boundary
+        shell: bash
+        run: |
+          echo 'AUTHORIZED RELEASE BOUNDARY REACHED.'
+          echo 'A complete, exact-commit RELEASE-AUTHORIZATION.json is required.'
+          echo 'This workflow intentionally fails closed until that authorization exists.'
+          exit 1
