@@ -3,7 +3,7 @@
 ## WHERE
 - **Canonical repository:** `SoulSchoolAcademy/NayaPOWER`
 - **Canonical branch:** `main`
-- **Last observed HEAD before this briefing update:** `09e76ed0a684d8e9531b5074c9ec665c46bb1d06`; resolve live `main` again before every substantive execution because this update creates a new commit.
+- **Last observed HEAD before this briefing update:** `6678ceef8849c719d1c0e24e42737680bbcfe52e`; resolve live `main` again before every substantive execution because this update creates a new commit.
 - **MAXIS application repository:** `SoulSchoolAcademy/Maxis`
 - **MAXIS deployment path:** `SoulSchoolAcademy/Maxis` → Vercel project `maxis`.
 - **Canonical mission roadmap:** `.naya/MAXIS-NAYAPOWER-MASTER-MISSION-ROADMAP.md`
@@ -27,42 +27,39 @@ Build Naya into a trusted AI operating partner and complete MAXIS through the ve
 
 ## BLOCKED
 - P1 Governance Green is not yet proven.
-- GitHub Actions governance runs repeatedly conclude `failure` with no executable step records and unavailable logs.
-- The current exact `main` before this briefing update was `09e76ed0a684d8e9531b5074c9ec665c46bb1d06`.
-- A direct rerun of the current `Superbrain Gate` brain-gate job also produced a second attempt that again completed `failure` with `steps=[]` and logs returning `BlobNotFound`.
-- No repository/test defect has been proven from this evidence.
+- Fresh current-head GitHub Actions runs on `6678ceef8849c719d1c0e24e42737680bbcfe52e` repeatedly conclude `failure` before any executable step is materialized.
+- The latest Torch-Pass run `33257047638` has job `99112502808`: `completed → failure`, `started_at=2026-08-29T14:14:01Z`, `completed_at=2026-08-29T14:14:03Z`, `steps=[]`, `runner_id=0`, and empty `runner_name`.
+- The latest Control Plane run `33257047526` has job `99112502254` with the same `completed → failure`, `steps=[]`, `runner_id=0`, and empty `runner_name` pattern.
+- The latest Architecture Lock run `33257047557` has job `99112502616` with the same pattern.
+- Job-log retrieval remains unavailable/`BlobNotFound`; no executable failure has been proven.
+- A direct local `git clone` attempt from the current execution environment failed because outbound GitHub DNS/network access is unavailable, so an actual repository checkout could not be created here.
 - P2–P7 remain blocked by P1.
 
 ## VERIFIED
-- Live `main` resolved to `09e76ed0a684d8e9531b5074c9ec665c46bb1d06` immediately before this briefing update.
-- The commit changed only the Intelligence Feed document `MASTER-NOTES/INTELLIGENCE-FEED/2026-08-29-HIGH-PERFORMANCE-NAYAPOWER.md` in the observed commit metadata.
-- The canonical governance workflows contain explicit executable steps, including checkout and Python validation.
-- `tools/qa_naya_context_boot.py` enforces the Runtime Briefing first in cold-start order and explicit RED/GREEN acceptance behavior.
-- `tools/qa_naya_execution_mode.py` machine-enforces action/continuation delivery.
-- `tools/qa_naya_torch_delivery.py` contains a positive Naya-owned continuation fixture plus deliberate missing-continuation and non-Naya-authored negative fixtures.
-- `CONTINUITY-ENFORCEMENT-POLICY.json` requires both `human_continuation` and `human_continuation_naya_authored` and sets `human_prompt_authoring_required` to false.
-- `continuity_enforcement.py` enforces the structured handoff fields at the effective boundary.
-- Current `Superbrain Gate` run `33256734930` on `09e76ed0a684d8e9531b5074c9ec665c46bb1d06` completed `failure`; its jobs `brain-gate` and `system-health-master-node` both completed `failure` with no materialized steps through the connected job surface.
-- Rerunning brain-gate job `99111675520` succeeded as an accepted rerun request; the resulting run moved to attempt 2 and produced new jobs `99111877257` and `99111877725`, both `completed → failure` with `steps=[]`.
-- Job-log retrieval for `99111877257` returned GitHub `BlobNotFound`.
-- The parent commit `57920db5e8d026b5ffc6954460a95d2fcf8bc6e1` also had GitHub Actions failures, establishing that the pattern predates the latest Intelligence Feed commit.
+- Live `main` resolved to `6678ceef8849c719d1c0e24e42737680bbcfe52e` immediately before this briefing update.
+- The current-head GitHub Actions collection contains 11 workflow runs for the exact SHA; relevant governance runs include Torch-Pass `33257047638`, Control Plane `33257047526`, Architecture Lock `33257047557`, and Superbrain Gate `33257047566`.
+- GitHub job metadata is now strong enough to prove job lifecycle metadata: the relevant jobs have start/completion timestamps but `runner_id=0`, empty `runner_name`, and no materialized steps.
+- The canonical Torch-Pass workflow at the current SHA explicitly uses `runs-on: ubuntu-24.04`, checkout, Python 3.12, compilation, positive/negative continuity tests, canonical validation, receipt emission, and artifact upload.
+- The canonical cold-start guardrail script at the current SHA explicitly enforces the Runtime Briefing as first substantive boot input and its RED/GREEN acceptance behavior.
+- The repository's existing continuity regression test asserts `module.self_test() == 0` and the canonical corpus validates GREEN when executed in a real checkout.
+- The repository permissions available through the connected GitHub integration include admin/maintain/push access.
 
 ## UNKNOWN
-- The exact root cause of the GitHub Actions pre-step failures.
-- The contents of the failure annotations.
-- Whether GitHub assigned a runner before the failures.
+- The exact GitHub-side reason for the pre-step job failures.
+- Whether GitHub's hosted runner service rejected/failed runner assignment, or another provider-side execution boundary occurred before steps materialized.
+- The actual failure annotation contents.
 - Whether the governance Python suite executes on GitHub at all for these runs.
-- Full local reproduction of the repository-wide governance suite is not currently available because no repository checkout/runtime is mounted in the current execution environment.
+- Full local reproduction of the repository-wide governance suite remains unavailable because the current execution environment cannot clone the private repository or otherwise mount a checkout at the exact SHA.
 - Governance is NOT GREEN.
 
 ## THIS WEEK
 **ONE OBJECTIVE:** Establish a genuinely green governance foundation, then prove MAXIS source/deployment parity and the golden path without scattering execution.
 
 ## NEXT ACTION
-**P1 / Governance evidence:** obtain an executable repository checkout/runtime and reproduce the exact governance commands from current `main` locally, then use the result to distinguish repository defects from the external GitHub Actions execution boundary. Do not modify governance source speculatively. After local reproduction, fresh CI must still prove GREEN before P1 closes.
+**P1 / Execution evidence:** obtain a real executable checkout/runtime outside the current Naya network boundary and run the exact governance commands at the newly resolved `main` SHA. Use that result to distinguish repository defects from the GitHub runner boundary. If local governance passes, stop modifying governance source and pursue authoritative GitHub runner execution evidence. If local governance fails, repair only the first reproducible defect. Fresh authoritative CI must still prove GREEN before P1 closes.
 
 ## PROOF
 P1 closes only when the exact current SHA is known, applicable governance workflows demonstrably execute, the relevant tests pass, deliberate-negative fixtures remain RED, fresh authoritative CI is GREEN at the exact tested SHA, and no material governance regression exists.
 
 ## LAST LEARNING
-Repeated opaque GitHub failures are no longer the highest-value target for repeated annotation retrieval. The diagnostic method must change: reproduce the governed commands outside the opaque CI boundary, use that result to classify the failure, and only then repair a proven defect. The rerun reproduced the same pre-step failure pattern, strengthening the evidence boundary without proving a repository cause.
+The diagnostic pivot was correct: repeated annotation retrieval was no longer the highest-value action. Current GitHub job metadata now shows a consistent pre-step boundary across independent governance workflows: jobs start and finish within roughly two seconds while `runner_id=0`, `runner_name` is empty, and `steps=[]`. This strongly narrows the evidence boundary toward runner assignment/startup, but does not prove the provider root cause. The current Naya environment also cannot clone the private repository because outbound GitHub network/DNS is unavailable. Therefore the next diagnostic modality must be a real executable checkout/runtime, not another opaque-log loop.
