@@ -11,6 +11,7 @@ AUTH = ROOT / ".naya" / "control-plane" / "RELEASE-AUTHORIZATION.json"
 VERCEL = ROOT / "vercel.json"
 WORKFLOWS = ROOT / ".github" / "workflows"
 AUTHORIZED_WORKFLOW = WORKFLOWS / "authorized-vercel-release.yml"
+GOVERNANCE_WORKFLOW = WORKFLOWS / "deployment-governance.yml"
 CANONICAL_PROJECT_ID = "prj_cHa9gwrtscCW8JuMDjcvw6DafaOK"
 
 
@@ -105,12 +106,29 @@ def test_only_the_canonical_release_workflow_may_contain_vercel_deploy_command()
     forbidden_markers = ("vercel deploy", "vercel@latest deploy", "deploy --prod")
     offenders = []
     for path in WORKFLOWS.glob("*.yml"):
-        if path.resolve() == AUTHORIZED_WORKFLOW.resolve():
+        # The governance workflow contains scanner literals but has no deployment capability.
+        if path.resolve() in {AUTHORIZED_WORKFLOW.resolve(), GOVERNANCE_WORKFLOW.resolve()}:
             continue
         text = path.read_text(encoding="utf-8").lower()
         if any(marker in text for marker in forbidden_markers):
             offenders.append(str(path.relative_to(ROOT)))
     assert not offenders, f"Vercel deployment bypass candidates found: {offenders}"
+
+
+def test_governance_workflow_does_not_execute_vercel():
+    text = GOVERNANCE_WORKFLOW.read_text(encoding="utf-8").lower()
+    # It may contain literal scanner patterns, but must not contain an executable
+    # Vercel deployment invocation or a Vercel deployment action.
+    executable_markers = (
+        "npx vercel deploy",
+        "npm exec vercel deploy",
+        "yarn vercel deploy",
+        "pnpm vercel deploy",
+        "vercel@latest deploy",
+        "amondnet/vercel-action",
+        "vercel/action",
+    )
+    assert not any(marker in text for marker in executable_markers)
 
 
 def test_canonical_release_workflow_contains_the_only_deployment_boundary():
