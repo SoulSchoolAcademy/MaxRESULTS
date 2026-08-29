@@ -3,111 +3,113 @@
 ## WHERE
 - **Canonical repository:** `SoulSchoolAcademy/NayaPOWER`
 - **Canonical branch:** `main`
-- **Current HEAD:** resolve live `main` again at every cold start; never trust a stale recorded SHA.
+- **Current HEAD:** `87a42808bf364d78b01c4e197653050c01269e09` at time of this update; resolve live `main` again at every cold start and before substantive execution.
 - **MAXIS application repository:** `SoulSchoolAcademy/Maxis`
 - **MAXIS deployment path:** `SoulSchoolAcademy/Maxis` → Vercel project `maxis`; NayaPOWER is the governing repository, not the MAXIS deployment source.
 - **Canonical mission roadmap:** `.naya/MAXIS-NAYAPOWER-MASTER-MISSION-ROADMAP.md`
 - **MAXIS product execution scorecard:** `SoulSchoolAcademy/Maxis/EXECUTION/MAXIS-MASTER-ROADMAP-AND-WEEKLY-SCORECARD.md`
-- **Historical identity:** `MaxRESULTS` / `Max Results` is superseded terminology; current canonical identity is NayaPOWER.
 
 ## WHY
 Build Naya into a trusted AI operating partner that helps people think, create, learn, and execute at the highest useful level, while producing polished, useful human experiences. For MAXIS: create a delightful, understandable, accessible, repeatable path from curiosity → self-discovery → insight → learning → mastery.
 
 ## BUILDING
 - **Flagship objective:** complete the MAXIS experience end-to-end with verified quality.
-- **Product direction:** NAYA LIVING SUN — question first, Naya as guide, restrained 24-orb / 12-color living field, meaningful motion and interaction feedback.
-- **System direction:** preserve MAXESS assessment/result authority while progressing toward the smallest complete vertical slice: authoritative result → member identity → persistence → Naya Hub.
-- **Operating direction:** Execution Mode requires forward motion: known next actions are executed when possible or handed off as complete runnable continuations at genuine boundaries.
+- **Operating direction:** execute the canonical roadmap one highest-value domino at a time; do not scatter execution across lower-priority work while a critical-path blocker remains.
 - **Continuity direction:** Naya owns continuation. Every substantive execution must close with both a durable successor handoff and a ready-to-run human-facing continuation authored by Naya, except genuine completion, explicit stop, safety/platform boundary, or a required human decision/authorization boundary.
-- **Roadmap direction:** execute the canonical domino sequence in `.naya/MAXIS-NAYAPOWER-MASTER-MISSION-ROADMAP.md`, one highest-value domino at a time, with weekly evidence scorecards.
+- **Intelligence direction:** every material execution should leave Product/Evidence/Knowledge/Guardrail/Better Next Action where applicable.
+
+## PRIORITY EXECUTION STACK
+This is the canonical execution ordering for current mission work. Re-score from current evidence at every substantive execution; do not blindly follow stale priority claims.
+
+### P1 — GOVERNANCE GREEN — 10/10 — ACTIVE
+Close the NayaPOWER governance proof gap. Current focus: obtain authoritative fresh CI evidence for the current live `main` SHA, determine the first actionable failure if one is exposed, repair only proven defects, and verify fresh green evidence. Governance cannot be called GREEN from source inspection or opaque failure metadata.
+
+### P2 — MAXIS SOURCE / DEPLOYMENT PARITY — 9/10 — BLOCKED BY P1
+Prove `SoulSchoolAcademy/Maxis` current `main` SHA → Vercel project `maxis` deployed SHA → runtime identity. Do not begin until P1 is genuinely GREEN.
+
+### P3 — MAXIS GOLDEN PATH — 9/10 — BLOCKED BY P2
+Prove the live journey: `NAME → SUPPORTED TOPIC → NAYA → Q1–Q15 → COMPLETE → AUTHORITATIVE SCORE → E01–E09 → GUEST HUB`.
+
+### P4 — EXPERIENCE QUALITY — 8/10 — BLOCKED BY P3
+Attack the proven golden path for comprehension, accessibility, responsiveness, performance, interaction quality, and Naya experience.
+
+### P5 — SAVE / CLAIM / HUB — 7/10 — BLOCKED BY P4
+Prove durable save/claim continuity and member Hub behavior without compromising guest-first value.
+
+### P6 — MASTERY LOOP — 6/10 — BLOCKED BY P5
+Prove take → learn → practice → retake → compare → improve.
+
+### P7 — PLATFORM EXPANSION — 4/10 — BLOCKED BY P6
+Expand only after the core system is proven.
+
+## PRIORITY SELECTION LAW
+At every substantive execution:
+1. Restore current state from canonical sources.
+2. Re-score the priority stack against fresh evidence.
+3. Select the **single highest-value executable action** on the active critical path.
+4. Execute it when authority and evidence permit.
+5. Verify the result.
+6. Record material learning.
+7. Re-score before selecting the next action.
+8. End with a complete Naya-authored continuation for the human and successor unless the work is genuinely complete or a valid boundary applies.
+
+A lower-priority task must not displace a higher-priority blocker merely because it is easier, more interesting, or more visible.
 
 ## PROTECTED
 - Human value over technical cleverness.
 - Preserve what works; make the smallest change that fully solves the problem.
 - MAXESS questions, answers, progression, scoring, result data, and canonical result contract.
-- Living Sun remains a presentation layer and must not corrupt assessment truth.
 - NayaPOWER governance, continuity, evidence, identity, and authority boundaries.
 - Accessibility, responsive behavior, performance, comprehension, and security/ownership boundaries.
 - One canonical source of truth; no competing Master.
-- MAXIS deployment ownership remains **Maxis → Vercel/maxis**, not NayaPOWER → Vercel/maxis.
-- Acknowledgement alone is never treated as completion when a known executable action remains.
+- MAXIS deployment ownership remains **Maxis → Vercel/maxis**.
+- Acknowledgement alone is never completion when a known executable action remains.
 - Naya, not the human, owns determination and authorship of the next executable continuation when safely determinable.
-- The roadmap is destination/sequence authority; this Runtime Briefing remains current-position authority.
+- `UNKNOWN` must remain `UNKNOWN` until evidence closes it.
 
 ## BLOCKED
 - Fresh current-head NayaPOWER governance CI proof is not yet green.
-- The latest governance/control-plane workflow failures are occurring immediately with no step-level evidence exposed through the current connector; their root cause remains UNKNOWN rather than guessed.
-- The new torch-delivery runtime contract is implemented in policy, runtime self-test, dedicated acceptance test, and workflow wiring, but fresh CI proof of that exact contract is not yet available for the latest HEAD.
-- MAXIS human readiness is blocked until current-source browser/runtime proof is green.
-- MAXIS production parity is not proven until the current intended `SoulSchoolAcademy/Maxis` `main` SHA is deployed to Vercel `maxis` and runtime-verified.
-- Naya Hub Phase 1 runtime remains unproven unless current evidence supersedes this state.
+- The previous current-head CI investigation established failed GitHub check-run metadata but did not expose the actual annotation/step failure through the available connector; do not assume the old SHA remains current.
+- P2–P7 remain downstream of the active critical path and must not be treated as active until their predecessors close.
 
 ## VERIFIED
 - `SoulSchoolAcademy/NayaPOWER` is the canonical governing repository and `main` is its governance branch.
-- NayaPOWER has one canonical Runtime Briefing at `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md`.
-- The manifest registers `runtime_briefing` as the canonical subject and places the briefing first in `boot_order`.
-- All declared task routes begin with `runtime_briefing`.
-- The canonical action-delivery law exists at `.naya/NAYA-ACTION-DELIVERY-LAW.md`.
-- The manifest registers `action_delivery`, places it after the Runtime Briefing in the canonical boot/read order, and includes it on every declared task route.
-- The action-delivery machine acceptance test exists at `tools/qa_naya_execution_mode.py` and is wired into `.github/workflows/naya-context-boot-guardrail.yml`.
-- The constitutional amendment `.naya/codex/CONSTITUTIONAL-AMENDMENT-NAYA-OWNS-THE-TORCH.md` establishes Naya-owned continuation and explicitly prohibits requiring the human to author the next prompt.
-- `.naya/memory/CONTINUITY-ENFORCEMENT-POLICY.json` now requires `human_continuation` and `human_continuation_naya_authored` at the structured-handoff boundary.
-- `.naya/runtime/continuity_enforcement.py` enforces the configured structured-handoff fields and its positive self-test fixture includes the new Naya-owned human continuation contract.
-- `tools/qa_naya_torch_delivery.py` contains positive, missing-continuation, and non-Naya-authored deliberate-failure fixtures against the canonical continuity runtime.
-- `.github/workflows/naya-context-boot-guardrail.yml` invokes the dedicated Naya-owned human torch acceptance test.
-- MAXESS remains the authoritative scoring/result owner.
-- NAYA LIVING SUN is registered as the current MAXIS presentation direction.
-- Vercel has separate `naya-power` and `maxis` projects; MAXIS deployment routes from `SoulSchoolAcademy/Maxis` to `maxis`.
-- The canonical cross-system mission roadmap and the MAXIS product weekly scorecard now exist in their respective canonical repositories.
-- The canonical Daily Intelligence System exists and defines the reporting hierarchy and compounding learning loop. fileciteturn90file0L2-L10
-- The Primary Intelligence Hub exists at `MASTER-NOTES/PRIMARY-INTELLIGENCE-HUB.md`.
-- The Lesson Promotion Protocol exists at `.naya/intelligence/LESSON-PROMOTION-PROTOCOL.md`.
-- The canonical intelligence event schema exists at `.naya/intelligence/intelligence-event.schema.json`.
-- The latest-learning feed exists at `MASTER-NOTES/INTELLIGENCE-FEED/`.
+- The current live `main` resolved during this execution to `87a42808bf364d78b01c4e197653050c01269e09`.
+- The canonical Runtime Briefing is first in cold-start boot order.
+- The canonical Action Delivery Law exists and is machine-enforced.
+- The Naya-owned human torch amendment exists and prohibits requiring the human to author the next prompt.
+- `human_continuation` and `human_continuation_naya_authored` are required at the structured-handoff boundary.
+- `human_prompt_authoring_required = false` remains the intended contract.
+- `tools/qa_naya_torch_delivery.py` contains positive, missing-continuation, and non-Naya-authored deliberate-failure fixtures.
+- The Primary Intelligence Hub and Intelligence Feed exist as canonical reporting layers.
+- The canonical roadmap establishes Governance Green → Source/Deployment Parity → Golden Path as the critical sequence.
 
 ## UNKNOWN
-- Whether the latest `main` HEAD has passed the fresh NayaPOWER governance CI gates.
-- The exact first failing CI step for the current-head governance workflows because GitHub currently exposes failed job metadata but no step-level logs/steps through the available connector.
-- Whether `qa_naya_torch_delivery.py` has executed successfully in fresh CI; the test is present and wired, but current CI proof is unavailable.
-- Whether the current MAXIS browser gate is green at the current HEAD.
-- Whether the public MAXIS runtime fully matches the intended current source.
-- Whether the latest intended MAXIS `main` SHA is the current production SHA until Vercel deployment metadata proves it.
+- Whether current `main` SHA `87a42808bf364d78b01c4e197653050c01269e09` has passed fresh applicable governance CI.
+- The first actual current-head CI failure, if any, until authoritative execution/step evidence is available.
+- Whether the latest governance workflows have executed the torch gate successfully on the current SHA.
 - Any consequential runtime behavior not directly observed or evidenced.
 
 ## INTELLIGENCE
-**MANDATORY COLD-START FOLLOW-THROUGH:** After reading this Runtime Briefing, inspect the **Primary Intelligence Hub** and the newest relevant entries in the **Intelligence Feed** before substantive execution. Then selectively load the relevant daily/weekly/monthly source reports and promoted artifacts.
-
 - **Primary Hub:** `MASTER-NOTES/PRIMARY-INTELLIGENCE-HUB.md`
 - **Latest Feed:** `MASTER-NOTES/INTELLIGENCE-FEED/`
 - **Promotion Protocol:** `.naya/intelligence/LESSON-PROMOTION-PROTOCOL.md`
 - **Event Schema:** `.naya/intelligence/intelligence-event.schema.json`
-- **Historical Baseline:** `MAXIS/MASTER-NOTES/2026-08-29-RETROSPECTIVE-LEARNING-BASELINE.md` when working in MAXIS context.
 
-The internal intelligence system is the shared **memory-to-mastery engine**. It turns experience into knowledge, knowledge into system improvement, and system improvement into better future execution.
-
-Human request supported by default:
-> **“Give me the Intelligence System Update.”**
-
-Expected answer: current state → newest learning → cumulative learning → system changes caused by learning → repeated problems → risks/unknowns → direction → highest-value next action → exact proof.
+Cold start: read this Runtime Briefing first, then the Primary Intelligence Hub and newest relevant Intelligence Feed entries before substantive execution.
 
 ## THIS WEEK
 **ONE OBJECTIVE:** Establish a green governance foundation, then prove the next coherent MAXIS milestone without scattering execution.
 
-**Critical path:** prove the Naya-owned human torch contract through fresh current-head governance CI → diagnose any first actionable failure from evidence → obtain green cold-start/action-delivery/torch evidence → resolve `SoulSchoolAcademy/Maxis` as the application source → deploy through Vercel `maxis` when capacity permits → verify deployed SHA and guest-first runtime → run the fresh MAXESS Browser Gate → advance the human-facing vertical slice only after applicable gates are green.
-
-**Weekly scorecard:** evaluate Mission, Current State, Active Domino, Governance, Source, Deployment, Golden Path, Quality, Accessibility, Performance, Results, Continuity, Mastery, Evidence, Learning, and Successor readiness. One red critical-path gate prevents an overall GREEN claim.
+**Critical path:** current-head governance proof → MAXIS source/deployment parity → golden path → experience quality → save/claim/hub → mastery loop → expansion.
 
 ## NEXT ACTION
-**Obtain fresh current-head GitHub Actions evidence for the current `main`; locate the Naya Context Boot governance run if present, inspect its job/step/log evidence, and determine the first observed failure. If the connector still exposes no step-level evidence, preserve UNKNOWN and use the available run/job metadata to identify the narrowest responsible external boundary rather than guessing.**
+**P1 / Governance Green:** resolve the live `main` SHA, retrieve fresh governance CI/check-run evidence for that exact SHA, and determine whether the current failure is actionable from authoritative evidence. If a real defect is exposed, repair only that defect and rerun. If the evidence boundary remains opaque, do not modify source speculatively; pursue the narrowest remaining authoritative evidence channel and preserve `UNKNOWN`.
 
 ## PROOF
-Material completion requires the applicable evidence: exact repository/branch/commit, changed artifact identity, deployment project and deployed SHA when deployment is involved, automated/build evidence, runtime/rendered evidence for user-facing work, responsive/accessibility evidence where material, complete-journey evidence where material, and explicit remaining UNKNOWN/BLOCKED state.
+For P1, proof requires: exact current SHA; applicable governance workflows actually execute; Action Delivery and Naya-owned human torch tests execute; positive continuation passes; missing/non-Naya-authored continuation fixtures remain RED; fresh applicable CI is GREEN; and no material governance regression exists.
 
-For the current governance block, proof requires: current `main` SHA, successful applicable governance CI, successful Execution Mode action-delivery check, successful Naya-owned human torch acceptance test, and direct evidence that omission of the required human continuation is RED while a complete Naya-authored continuation is GREEN.
-
-Use: **IMPLEMENTED ≠ TESTED ≠ VERIFIED ≠ RUNTIME-PROVEN ≠ PRODUCTION-PROVEN.**
+For all work: **IMPLEMENTED ≠ TESTED ≠ VERIFIED ≠ RUNTIME-PROVEN ≠ PRODUCTION-PROVEN.**
 
 ## LAST LEARNING
-The human must never have to ask Naya for the torch that Naya is responsible for carrying. The durable contract therefore has two simultaneous continuation targets: Naya → next Naya and Naya → human. The human is the principal for judgment, authorization, redirection, and stopping; Naya owns continuation management and authors the ready-to-run next execution prompt. A structured handoff without a human-facing continuation is incomplete. The implementation now makes both fields machine-required at the effective boundary, with deliberate negative fixtures, while preserving historical state. Fresh CI proof remains the final authority.
-
-**NEW SYSTEM LEARNING:** The reporting system itself is now a first-class intelligence layer. A Naya should not merely write a note and leave; material learning must enter the shared feed, be classified for promotion, be verified where possible, and become discoverable to the next Naya through the Primary Intelligence Hub.
+The project needs two coupled controls: a **priority stack** that determines where Naya should work, and a **torch contract** that ensures Naya leaves the human and successor with the exact continuation. A next action without priority context can drift; priority context without a delivered continuation can strand the human. The operating loop is therefore: **RESTORE → SCORE PRIORITIES → SELECT ONE → EXECUTE → VERIFY → LEARN → RESCORE → PASS TORCH**.
