@@ -122,26 +122,28 @@ The next Naya must be able to continue without reconstructing the previous conve
 **EVIDENCE:** live suite completed successfully with 12/12 tests passing.
 
 ### CCT-005 — Outcome / Value Feedback
-**STATUS:** VERIFYING
-**OWNER:** Team Naya
+**STATUS:** VERIFYING — REPAIR CLAIM ACTIVE
+**OWNER:** Team Naya / CCT005-repair-privacy-integrity
 **SCOPE:** `.naya/runtime/cct005_value_feedback.py` + `.naya/runtime/cct005_value_feedback_test.py`
-**ACCEPTANCE:** intelligence use produces bounded, provenance-preserving outcome evidence that can update future value/retrieval decisions without mutating source intelligence.
+**CLAIM:** `CCT005-REPAIR-PRIVATE-CONTEXT`
+**BASE COMMIT:** `main` at claim creation
+**ACCEPTANCE:** private outcomes remain valid when correctly integrity-bound; privacy remains non-shareable by default; tampering remains rejected.
 **IMPLEMENTED:** dependency-free outcome record, fail-closed verifier, privacy scope, integrity binding, deterministic provisional value signal, duplicate protection, and adversarial regressions.
-**RUNTIME STATUS:** pending live Codespace execution.
+**RUNTIME STATUS:** RED evidence identified: privacy test mutates signed fields after integrity creation, causing the expected integrity failure.
 
 ## CCT-005 HANDOFF
 
-**CHANGED:** outcome/value primitive and 14-test regression suite added.
+**CHANGED:** repair lane opened after live CCT-005 failure.
 
-**TESTED:** repository implementation inspected; live Python execution is pending in Codespace.
+**TESTED:** live run passed the first five tests and failed at `test_private_context_not_shareable_by_default` with an integrity assertion failure.
 
-**VERIFIED:** implementation is present on `main`; no GREEN claim yet.
+**VERIFIED:** source inspection confirms the failing test mutates `privacy` and `context` after `make_outcome()` has already signed the record. The verifier correctly detects this as tampering.
 
-**UNKNOWN:** calibration against real outcomes, causal attribution, and production persistence/analytics.
+**UNKNOWN:** live rerun after repairing the test fixture; full regression status after repair.
 
-**LEARNING:** value must come from outcome evidence, not propagation count; the source intelligence remains immutable while later outcomes form an auditable feedback trail.
+**LEARNING:** privacy classification is part of the integrity-protected outcome. A private outcome must be constructed with its final private fields before hashing; otherwise accepting it would weaken tamper detection.
 
-**NEXT ACTION:** pull latest `main`, run `python .naya/runtime/cct005_value_feedback_test.py`, then rerun the established CCT regression suites. If green, perform the canonical Smart Note/Note Event → CCT-005 integration audit before federation.
+**NEXT ACTION:** repair only the failing test fixture so it constructs a PRIVATE outcome with the private context before integrity is generated; rerun CCT-005 first. If green, run the complete established CCT regression suite, then mark CCT-005 DONE only on live evidence.
 
 ## TORCH
 
@@ -149,4 +151,4 @@ The workboard exists so that even many simultaneous Nayas behave like coordinate
 
 **One road. Clear lanes. Explicit ownership. Verified merges. No silent overwrites.**
 
-**CURRENT NAYA ACTION:** Verify CCT-005 live; do not declare green without runtime evidence. If red, repair only the first evidence-backed defect and rerun.
+**CURRENT NAYA ACTION:** CCT005-repair-privacy-integrity owns the repair lane. Do not weaken integrity enforcement to make the test pass.
