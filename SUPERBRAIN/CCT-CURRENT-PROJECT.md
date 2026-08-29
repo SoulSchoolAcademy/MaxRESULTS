@@ -62,34 +62,37 @@ Defines a dependency-free outcome record bound to a source Intelligent Block. Th
 
 `value_signal()` produces a bounded 0–100 signal using outcome classification, confidence, and evidence strength. Duplicate outcome IDs are deduplicated, so repetition cannot inflate value. Successful outcomes raise the signal; failures and contradictions lower it; inferred evidence is weaker than verified evidence.
 
-This is deliberately a first-pass value primitive, not a production ranking model or claim that correlation proves causation.
+### CCT-005 REPAIR 2 — EVIDENCE WEIGHT
 
-### CCT-005 REPAIR
+Live execution next exposed `test_inferred_is_weaker_than_verified`. Source inspection proved the formula normalized evidence strength out of the result: both the contribution and denominator were multiplied by the same evidence weight, causing otherwise identical INFERRED and VERIFIED successes to normalize to the same 100 signal.
 
-Live execution exposed a failure in `test_private_context_not_shareable_by_default`. Source inspection proved the verifier was correctly rejecting the test fixture because the fixture changed `privacy` and `context` after `make_outcome()` had already generated the integrity hash. The enforcement code was therefore not weakened.
+The smallest implementation repair changes the denominator from `sum(confidence * evidence_strength)` to `sum(confidence)`. Evidence strength therefore remains in the numerator and directly modulates value instead of being canceled by normalization. This preserves the existing duplicate, failure, contradiction, privacy, provenance, integrity, authorization, and bounded-value behavior.
 
-The smallest repair was made in `.naya/runtime/cct005_value_feedback_test.py`: private privacy/context are now supplied to `make_outcome()` before integrity is generated. This preserves privacy-by-default, provenance, integrity, authorization, and outcome validity simultaneously.
+Commit containing the implementation repair: `861948dfb1e74a5c3af20e2a73a3500fef913344`.
 
 ## VERIFICATION BOUNDARY
 
-The repair is committed on `main`, but this connector cannot execute Python inside the user's live Codespace. Therefore **CCT-005 remains NOT GREEN until the live checkout reruns its test suite after pulling the repair.**
+The evidence-weight repair is committed on `main`, but this connector cannot execute Python inside the user's live Codespace. Therefore **CCT-005 remains NOT GREEN until the live checkout runs the repaired suite.**
 
-CCT-004 has prior live evidence: 12/12 adversarial tests passed. The canonical Note Event promotion suite has prior live evidence: 5/5 passed.
+Prior live evidence remains:
+- CCT-004: 12/12 adversarial tests passed.
+- Note Event promotion: 5/5 passed.
+- CCT-005 before this repair: privacy/duplicate/reuse/failure/contradiction tests passed, then evidence-weight ordering failed.
 
 ## CURRENT EXECUTION QUEUE
 
 1. Pull latest `main` into the live Codespace.
 2. Run `python .naya/runtime/cct005_value_feedback_test.py` first.
 3. If green, rerun CCT-004, CCT-003, claim/concurrency, Intelligent Block, and Note Event promotion suites.
-4. If every suite is green, record exact outputs and promote CCT-005 to VERIFIED; then release claim `CCT005-REPAIR-PRIVATE-CONTEXT`.
+4. If every suite is green, record exact outputs and promote CCT-005 to VERIFIED; then release claim `CCT005-REPAIR-EVIDENCE-WEIGHT`.
 5. If any test is red, repair only the first evidence-backed defect and rerun.
 6. After CCT-005 is verified, perform a source-of-truth integration audit to ensure value feedback is reachable from canonical Smart Note/Note Event promotion without creating a parallel memory authority.
 7. Only then design the minimal CCT transport/federation boundary for NayaNET.
 
 ## UNKNOWN
 
-- Live execution output for the repaired CCT-005 suite.
-- Whether the first-pass value formula is sufficiently calibrated for real-world use; it must remain explicitly provisional until outcome data exists.
+- Live execution output for the evidence-weight repair.
+- Whether the first-pass value formula is sufficiently calibrated for real-world use; it remains explicitly provisional until outcome data exists.
 - Production network transport/federation security.
 - Distributed replay protection beyond local identity guards.
 - Full arbitrary-depth descendant invalidation propagation.
@@ -100,6 +103,8 @@ CCT-004 has prior live evidence: 12/12 adversarial tests passed. The canonical N
 ## LEARNING
 
 A privacy label is itself integrity-protected state. A private outcome remains valid when constructed with its final privacy/context fields before signing; mutating those fields afterward is tampering and must fail closed.
+
+Evidence strength must affect value rather than merely confidence inside a normalization that cancels it. Otherwise weak inference can receive the same value as verified evidence.
 
 A collective intelligence system must optimize for **verified useful outcomes**, not activity, storage, propagation, or popularity. Outcome evidence must remain distinct from assertion, and value feedback must not rewrite historical intelligence or manufacture certainty.
 
