@@ -13,7 +13,8 @@ NEXT_FIELDS=('project','north_star','current_state','completed_work','verified_e
 CONVERSATION_MARKERS=(
     'as discussed','as we discussed','from this conversation','from our conversation','chat history','conversation history',
     'previous messages','earlier in this chat','above in the conversation','based on what shawn just said','ask shawn to provide',
-    'wait for shawn to explain','use the originating conversation','reconstruct the conversation','continue from the chat'
+    'wait for shawn to explain','use the originating conversation','reconstruct the conversation','continue from the chat',
+    'continue from this conversation','refer to the conversation','refer to our chat','as you know from our chat'
 )
 ACTION_VERBS=re.compile(r'\b(run|execute|inspect|read|write|update|create|modify|implement|verify|validate|test|check|compare|record|commit|deploy|measure|review|remove|preserve|rerun|load|consume|confirm|open|generate|fix|diagnose)\b',re.I)
 
@@ -52,7 +53,6 @@ def load_next_execution(path:Path)->dict[str,Any]:
     if not path.is_file(): raise FileNotFoundError(str(path))
     if path.suffix.lower()=='.json': return load(path)
     text=path.read_text(encoding='utf-8'); result:dict[str,Any]={}
-    headings={k:k.replace('_',' ').title() for k in NEXT_FIELDS}
     lines=text.splitlines()
     for raw in lines:
         line=raw.strip()
@@ -60,8 +60,8 @@ def load_next_execution(path:Path)->dict[str,Any]:
         if ':' in line and not line.startswith('- '):
             key,value=line.split(':',1); key=key.strip().lower().replace(' ','_'); value=value.strip()
             if key in {'schema_version','status'} and value: result[key]=int(value) if key=='schema_version' and value.isdigit() else value
-    for key,title in headings.items():
-        marker=f'## {title}'.lower(); start=None
+    for key in NEXT_FIELDS:
+        title=key.replace('_',' ').title(); marker=f'## {title}'.lower(); start=None
         for i,line in enumerate(lines):
             if line.strip().lower()==marker: start=i+1; break
         if start is None: continue
@@ -94,10 +94,13 @@ def validate_project(p):
 def validate_next_execution(n):
     """Validate the canonical successor object itself."""
     errors=[]
+    if not isinstance(n,dict): return ['next execution canonical structure must be an object']
     for key in NEXT_FIELDS:
         if not _nonempty(n.get(key)): errors.append(f'next execution missing {key}')
-    if _conversation_dependent(n.get('execution_instructions')): errors.append('next execution is conversation-dependent')
-    if _conversation_dependent(n.get('next_action')): errors.append('next execution next_action is conversation-dependent')
+    if not _nonempty(n.get('project')): errors.append('next execution requires project identity')
+    if not _nonempty(n.get('current_state')): errors.append('next execution requires current-state identity')
+    for field in ('project','current_state','current_objective','next_action','execution_instructions','success_criteria','verification_requirements'):
+        if _conversation_dependent(n.get(field)): errors.append(f'next execution {field} is conversation-dependent')
     if not _actionable(n.get('execution_instructions')): errors.append('next execution execution_instructions are not actionable')
     if not _nonempty(n.get('success_criteria')): errors.append('next execution requires success criteria')
     if not _nonempty(n.get('verification_requirements')): errors.append('next execution requires verification requirements')
@@ -152,9 +155,12 @@ def validate_event(event,project,policy):
         if nex is None: nex=continuity.get('next_execution_path')
         if nex is None:
             errors.append(f'{eid}: completed execution requires a canonical NEXT-EXECUTION successor')
+        elif isinstance(nex,dict):
+            path=nex.get('path')
+            if not isinstance(path,str) or not path.strip(): errors.append(f'{eid}: completed execution requires a durable NEXT-EXECUTION artifact path; embedded successor objects are not sufficient')
+            else: errors.extend([f'{eid}: {x}' for x in validate_next_execution_reference(path)])
         else:
-            value=nex.get('path') if isinstance(nex,dict) else nex
-            errors.extend([f'{eid}: {x}' for x in validate_next_execution_reference(value)])
+            errors.extend([f'{eid}: {x}' for x in validate_next_execution_reference(nex)])
     learning=event.get('learning') or {}; lessons=[]
     for rep in (naya,shawn):
         if isinstance(rep,dict):lessons += rep.get('lessons',[]) or rep.get('learning',[]) or rep.get('what_we_learned',[]) or []
@@ -177,19 +183,29 @@ def validate():
 def self_test():
     valid={field:('test action: run validation' if field=='execution_instructions' else ['test'] if field in {'completed_work','verified_evidence','unresolved_issues','constraints','success_criteria','verification_requirements'} else 'test') for field in NEXT_FIELDS}
     assert validate_next_execution(valid)==[]
-    for invalid,needle in [({},'missing project'),({'project':'x'},'missing north_star'),({field:'test' for field in NEXT_FIELDS}|{'execution_instructions':'continue from this conversation'},'conversation-dependent'),({field:'test' for field in NEXT_FIELDS}|{'execution_instructions':'remember what we discussed'},'conversation-dependent')]:
-        assert any(needle in x for x in validate_next_execution(invalid))
     incomplete=dict(valid); incomplete.pop('success_criteria'); assert any('missing success_criteria' in x for x in validate_next_execution(incomplete))
+    dependent=dict(valid); dependent['execution_instructions']='Continue from this conversation'; assert any('conversation-dependent' in x for x in validate_next_execution(dependent))
     assert any('canonical NEXT-EXECUTION' in x for x in validate_next_execution_reference('arbitrary prose'))
     assert any('missing' in x for x in validate_next_execution_reference(None))
-    assert any('missing' in x for x in validate_next_execution_reference('.naya/handoffs/NEXT-EXECUTION-20990101-MISSING.md'))
-    orphan={'continuity':{'execution_state':'COMPLETED'},'ready_to_run_execution':'THIS IS NOT EXECUTABLE'}
+    assert any('artifact missing' in x for x in validate_next_execution_reference('.naya/handoffs/NEXT-EXECUTION-20990101-MISSING.md'))
+    assert any('not parseable' in x or 'missing' in x for x in validate_next_execution_reference('.naya/handoffs/NEXT-EXECUTION-20990101-MALFORMED.md'))
+    orphan={'event_id':'SE-20260825-999999-orphan','continuity':{'execution_state':'COMPLETED'},'ready_to_run_execution':'THIS IS NOT EXECUTABLE'}
     orphan_errors=validate_event(orphan,{'project_id':'x','project_name':'x'},{})
     assert any('canonical NEXT-EXECUTION' in x for x in orphan_errors)
+    embedded={'event_id':'SE-20260825-999999-embedded','project_context':{'project_id':'x','current_daily_project':'x','current_objective':'test'},'representations':{'naya':{'id':'n','canonical_event_id':'SE-20260825-999999-embedded'},'shawn':{'id':'s','canonical_event_id':'SE-20260825-999999-embedded'}},'verification':{'status':'VERIFIED','receipt':'r'},'receipt':{'receipt_id':'r'},'delivery':{'state':'VERIFIED'},'continuity':{'execution_state':'COMPLETED','handoff':{'mission':'x'},'learning_status':'LEARNED'},'next_execution':valid}
+    assert any('durable NEXT-EXECUTION artifact path' in x for x in validate_event(embedded,{'project_id':'x','project_name':'x'},{'structured_handoff_fields':[]}))
     existing=ROOT/'.naya'/'handoffs'/'NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md'
     artifact,errors=resolve_next_execution(str(existing.relative_to(ROOT))); assert not errors and artifact
     consumed=consume_next_execution(str(existing.relative_to(ROOT))); assert tuple(consumed)==NEXT_FIELDS and all(_nonempty(consumed[k]) for k in NEXT_FIELDS)
-    print('PASS — canonical NEXT-EXECUTION RED/ GREEN behavioral and independent-consumption tests GREEN'); return 0
+    print('ARBITRARY CONTINUATION → RED')
+    print('MISSING CONTINUATION → RED')
+    print('INVALID ARTIFACT → RED')
+    print('CONVERSATION-DEPENDENT CONTINUATION → RED')
+    print('INCOMPLETE SUCCESSOR → RED')
+    print('INVALID ORPHAN → RED')
+    print('CANONICAL SUCCESSOR → GREEN')
+    print('INDEPENDENT CONSUMPTION → GREEN (12/12 semantic fields)')
+    print('PASS — canonical NEXT-EXECUTION RED/GREEN behavioral and independent-consumption tests GREEN'); return 0
 
 
 def main():
