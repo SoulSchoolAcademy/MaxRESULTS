@@ -1,0 +1,24 @@
+{
+  "protocol": "CCTB v0.1",
+  "publication_version": "0.1",
+  "status": "TESTED/VERIFIED LOCALLY",
+  "canonical_mvp_proof": {
+    "path": "proofs/cctb-v0.1-mvp-proof.json",
+    "content_sha": "6d05697b86dc5eabc14cf4d96a368884e6baf344",
+    "independent_verifier": ".naya/runtime/cct_mvp_second_pass.py"
+  },
+  "durable_proof_receipt": {
+    "path": "proofs/cctb-v0.1-durable-proof-receipt.json",
+    "content_sha": "140211e8f863c0441c17aa87727e7b2d3b1ce798",
+    "tested_commit_sha": "68aee910dcdf14c328185de788817c7392f52f68",
+    "status": "TESTED AND VERIFIED LOCALLY"
+  },
+  "publication_contract": {
+    "requires_canonical_mvp_proof": true,
+    "requires_durable_proof_receipt": true,
+    "requires_independent_verifier": true,
+    "requires_runtime_proof": false,
+    "requires_production_proof": false,
+    "github_actions_required": false
+  }
+}
