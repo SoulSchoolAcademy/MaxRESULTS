@@ -6,7 +6,7 @@ from datetime import datetime,timezone
 from pathlib import Path
 from project_execution_contract import validate_next_execution_reference
 ROOT=Path(__file__).resolve().parents[2]
-MEMORY=ROOT/'.naya'/'memory';EVENTS=MEMORY/'events';POLICY=MEMORY/'.naya' if False else MEMORY/'CONTINUITY-ENFORCEMENT-POLICY.json';REPORT=MEMORY/'CONTINUITY-VALIDATION-REPORT.json';RECEIPT=MEMORY/'CONTINUITY-GATE-RECEIPT.json'
+MEMORY=ROOT/'.naya'/'memory';EVENTS=MEMORY/'events';POLICY=MEMORY/'CONTINUITY-ENFORCEMENT-POLICY.json';REPORT=MEMORY/'CONTINUITY-VALIDATION-REPORT.json';RECEIPT=MEMORY/'CONTINUITY-GATE-RECEIPT.json'
 EVENT_RE=re.compile(r'^SE-[0-9]{8}-[0-9]{6}-[a-z0-9-]+$')
 def parse_time(v):
     if v.endswith('Z'):v=v[:-1]+'+00:00'
