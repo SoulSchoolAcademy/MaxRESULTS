@@ -21,17 +21,18 @@ class IntegrationRejected(ValueError):
 
 def _is_canonical_smart_note(event: dict[str, Any]) -> bool:
     event_id = event.get("event_id")
-    if not isinstance(event_id, str) or not event_id:
+    if not isinstance(event_id, str) or not event_id.startswith("SE-"):
         return False
     representations = event.get("representations")
-    if isinstance(representations, dict):
-        for representation in representations.values():
-            if not isinstance(representation, dict):
-                continue
-            note_id = representation.get("id")
-            if isinstance(note_id, str) and note_id.startswith("SN-") and representation.get("canonical_event_id") == event_id:
-                return True
-    return event_id.startswith("SN-")
+    if not isinstance(representations, dict):
+        return False
+    for representation in representations.values():
+        if not isinstance(representation, dict):
+            continue
+        note_id = representation.get("id")
+        if isinstance(note_id, str) and note_id.startswith("SN-") and representation.get("canonical_event_id") == event_id:
+            return True
+    return False
 
 
 def integrate_verified_note_event(
@@ -47,11 +48,14 @@ def integrate_verified_note_event(
     confidence: float,
     context: dict[str, Any],
     privacy: str,
+    outcome_id: str,
     consumers: list[str] | None = None,
 ) -> dict[str, Any]:
     """Execute the smallest complete Smart Note -> CCT-005 value loop."""
     if not isinstance(event, dict) or not _is_canonical_smart_note(event):
-        raise IntegrationRejected("input must be a canonical Smart Note/Note Event")
+        raise IntegrationRejected("input must be a canonical Smart Note/Note Event with an SN representation")
+    if not isinstance(outcome_id, str) or not outcome_id:
+        raise IntegrationRejected("unique outcome_id is required")
     consumers = list(consumers or [actor])
     if actor not in consumers:
         raise IntegrationRejected("actor must be explicitly authorized as a CCT consumer")
@@ -71,7 +75,7 @@ def integrate_verified_note_event(
         raise IntegrationRejected("promoted block rejected: " + decision.reason)
 
     outcome = make_outcome(
-        outcome_id=f"OUT-{event['event_id']}-{actor}",
+        outcome_id=outcome_id,
         block_id=block["block_id"],
         actor=actor,
         intended_use=intended_use,
