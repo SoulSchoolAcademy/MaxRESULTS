@@ -96,7 +96,7 @@ def verify_outcome(record: Any, *, block_id: str, authorized_actor: str | None =
 
 
 def value_signal(outcomes: list[dict[str, Any]]) -> float:
-    """Return a bounded 0..100 value signal; duplicate IDs and reuse alone do not inflate it."""
+    """Return a bounded 0..100 signal; evidence strength must affect value."""
     valid: dict[str, dict[str, Any]] = {}
     for record in outcomes:
         outcome_id = record.get("outcome_id")
@@ -115,7 +115,10 @@ def value_signal(outcomes: list[dict[str, Any]]) -> float:
         strength = max((evidence_weight.get(e.get("type"), 0.0) for e in evidence if isinstance(e, dict)), default=0.0)
         contribution = weights.get(cls, 0.0) * confidence * strength
         total += contribution
-        maximum += confidence * strength
+        # Confidence measures how strongly the outcome is asserted; evidence
+        # strength modulates the value contribution and must not be normalized
+        # away by the denominator.
+        maximum += confidence
     if maximum <= 0:
         return 0.0
     return round(max(0.0, min(100.0, 50.0 + 50.0 * total / maximum)), 4)
