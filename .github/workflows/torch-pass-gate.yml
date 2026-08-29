@@ -1,10 +1,17 @@
 name: Naya Continuous Torch-Pass Gate
 
+# CONSOLIDATION TRANCHE 1:
+# The substantive torch-pass checks are already part of the authoritative
+# Superbrain Gate (`superbrain-gate.yml`, job: brain-gate), including:
+# - continuity runtime/test compilation;
+# - positive + deliberate-failure continuity regression;
+# - current canonical continuity validation;
+# - continuity receipt generation and artifact publication.
+#
+# This workflow remains available for explicit/manual verification only.
+# It is no longer an independent push/PR execution surface, which prevents
+# duplicate automatic Actions runs while preserving the original checks.
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
