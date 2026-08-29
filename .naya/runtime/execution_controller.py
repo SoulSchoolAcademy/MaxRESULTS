@@ -58,7 +58,11 @@ def save(data: dict[str, Any]) -> None:
 
 
 def require_fields(data: dict[str, Any], fields: tuple[str, ...]) -> None:
-    missing = [field for field in fields if data.get(field) in (None, "", [])]
+    missing = []
+    for field in fields:
+        value = data.get(field)
+        if value is None or value == "" or value == [] or value == {}:
+            missing.append(field)
     if missing:
         fail("missing required execution fields: " + ", ".join(missing))
 
