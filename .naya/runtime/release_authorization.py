@@ -2,7 +2,6 @@
 """Fail-closed release authorization gate for NayaPOWER."""
 from __future__ import annotations
 
-from dataclasses import dataclass
 from pathlib import Path
 import json
 
@@ -12,10 +11,17 @@ AUTH_PATH = ROOT / ".naya" / "control-plane" / "RELEASE-AUTHORIZATION.json"
 CANONICAL_PROJECT_ID = "prj_cHa9gwrtscCW8JuMDjcvw6DafaOK"
 
 
-@dataclass(frozen=True)
 class Decision:
-    allowed: bool
-    reason: str
+    """Dependency-free decision value returned by the release gate."""
+
+    __slots__ = ("allowed", "reason")
+
+    def __init__(self, allowed: bool, reason: str) -> None:
+        self.allowed = allowed
+        self.reason = reason
+
+    def __repr__(self) -> str:
+        return f"Decision(allowed={self.allowed!r}, reason={self.reason!r})"
 
 
 def _load(path: Path) -> dict:
