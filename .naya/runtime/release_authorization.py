@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed release authorization gate for NayaPOWER.
-
-This module decides whether a specific Vercel deployment may proceed. It does
-not deploy anything itself. A deployment consumer must provide the exact
-commit SHA and an explicit, complete authorization record.
-"""
+"""Fail-closed release authorization gate for NayaPOWER."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -14,6 +9,7 @@ import json
 ROOT = Path(__file__).resolve().parents[2]
 POLICY_PATH = ROOT / ".naya" / "control-plane" / "DEPLOYMENT-GOVERNANCE.json"
 AUTH_PATH = ROOT / ".naya" / "control-plane" / "RELEASE-AUTHORIZATION.json"
+CANONICAL_PROJECT_ID = "prj_cHa9gwrtscCW8JuMDjcvw6DafaOK"
 
 
 @dataclass(frozen=True)
@@ -27,10 +23,10 @@ def _load(path: Path) -> dict:
 
 
 def authorize(*, authorization: dict, commit_sha: str, target_environment: str) -> Decision:
-    """Return ALLOW only when every release gate is explicitly satisfied."""
+    """ALLOW only when every release gate is explicitly satisfied."""
     if not isinstance(commit_sha, str) or not commit_sha:
         return Decision(False, "exact commit SHA is required")
-    if not isinstance(target_environment, str) or target_environment not in {"preview", "production"}:
+    if target_environment not in {"preview", "production"}:
         return Decision(False, "target environment must be preview or production")
     if authorization.get("status") != "AUTHORIZED":
         return Decision(False, "release authorization is not AUTHORIZED")
@@ -42,6 +38,8 @@ def authorize(*, authorization: dict, commit_sha: str, target_environment: str) 
         return Decision(False, "target environment mismatch")
     if authorization.get("deployment_surface") != "vercel":
         return Decision(False, "deployment surface is not Vercel")
+    if authorization.get("vercel_project_id") != CANONICAL_PROJECT_ID:
+        return Decision(False, "Vercel project binding mismatch")
     if authorization.get("approval") != "EXPLICIT_APPROVAL_GRANTED":
         return Decision(False, "explicit approval is missing")
     verification = authorization.get("verification")
@@ -54,15 +52,11 @@ def authorize(*, authorization: dict, commit_sha: str, target_environment: str) 
         value = authorization.get(field)
         if not isinstance(value, str) or not value or value.startswith("REQUIRED") or value.startswith("REPLACE_WITH"):
             return Decision(False, f"required authorization field missing: {field}")
-    return Decision(True, "release authorization accepted for exact commit and target")
+    return Decision(True, "release authorization accepted for exact commit, target, and Vercel project")
 
 
 def current_template_decision(commit_sha: str, target_environment: str) -> Decision:
-    return authorize(
-        authorization=_load(AUTH_PATH),
-        commit_sha=commit_sha,
-        target_environment=target_environment,
-    )
+    return authorize(authorization=_load(AUTH_PATH), commit_sha=commit_sha, target_environment=target_environment)
 
 
 def policy() -> dict:
