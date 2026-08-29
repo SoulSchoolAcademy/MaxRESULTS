@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Fail-closed regression tests for NayaPOWER deployment governance.
 
-These tests prove repository-side authorization policy. They do not claim that
-an external Vercel webhook was observed; that requires provider evidence.
+These tests prove repository-side authorization policy. Provider deployment
+success still requires external Vercel evidence.
 """
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ POLICY = ROOT / ".naya" / "control-plane" / "DEPLOYMENT-GOVERNANCE.json"
 AUTH = ROOT / ".naya" / "control-plane" / "RELEASE-AUTHORIZATION.json"
 VERCEL = ROOT / "vercel.json"
 WORKFLOWS = ROOT / ".github" / "workflows"
+AUTHORIZED_WORKFLOW = WORKFLOWS / "authorized-vercel-release.yml"
 
 
 def load(path: Path):
@@ -24,11 +25,13 @@ def deployment_allowed(*, authorization: dict, commit_sha: str, target: str) -> 
     """Pure policy decision used by the regression cases."""
     return (
         authorization.get("status") == "AUTHORIZED"
+        and authorization.get("repository") == "SoulSchoolAcademy/NayaPOWER"
         and authorization.get("commit_sha") == commit_sha
         and authorization.get("target_environment") == target
         and authorization.get("deployment_surface") == "vercel"
         and authorization.get("approval") == "EXPLICIT_APPROVAL_GRANTED"
         and authorization.get("verification", {}).get("status") == "PASS"
+        and bool(authorization.get("verification", {}).get("evidence"))
     )
 
 
@@ -59,26 +62,52 @@ def test_normal_commit_does_not_authorize_deployment():
     assert not deployment_allowed(authorization=load(AUTH), commit_sha="ordinary", target="production")
 
 
-def test_authorized_release_is_permitted():
+def test_wrong_commit_is_denied_even_when_other_fields_are_valid():
     auth = {
         "status": "AUTHORIZED",
+        "repository": "SoulSchoolAcademy/NayaPOWER",
         "commit_sha": "abc123",
         "target_environment": "production",
         "deployment_surface": "vercel",
         "approval": "EXPLICIT_APPROVAL_GRANTED",
-        "verification": {"status": "PASS"},
+        "verification": {"status": "PASS", "evidence": ["tests passed"]},
+    }
+    assert not deployment_allowed(authorization=auth, commit_sha="different", target="production")
+
+
+def test_authorized_release_is_permitted():
+    auth = {
+        "status": "AUTHORIZED",
+        "repository": "SoulSchoolAcademy/NayaPOWER",
+        "commit_sha": "abc123",
+        "target_environment": "production",
+        "deployment_surface": "vercel",
+        "approval": "EXPLICIT_APPROVAL_GRANTED",
+        "verification": {"status": "PASS", "evidence": ["tests passed"]},
     }
     assert deployment_allowed(authorization=auth, commit_sha="abc123", target="production")
 
 
-def test_no_workflow_contains_unconditional_vercel_deploy_command():
-    forbidden = ("vercel deploy", "npx vercel", "npm exec vercel", "deploy_to_vercel")
+def test_only_the_canonical_release_workflow_may_contain_vercel_deploy_command():
+    forbidden_markers = ("vercel deploy", "vercel@latest deploy", "deploy --prod")
     offenders = []
     for path in WORKFLOWS.glob("*.yml"):
+        if path.resolve() == AUTHORIZED_WORKFLOW.resolve():
+            continue
         text = path.read_text(encoding="utf-8").lower()
-        if any(token in text for token in forbidden):
+        if any(marker in text for marker in forbidden_markers):
             offenders.append(str(path.relative_to(ROOT)))
-    assert not offenders, f"Vercel bypass candidates found: {offenders}"
+    assert not offenders, f"Vercel deployment bypass candidates found: {offenders}"
+
+
+def test_canonical_release_workflow_contains_the_only_deployment_boundary():
+    text = AUTHORIZED_WORKFLOW.read_text(encoding="utf-8").lower()
+    assert "workflow_dispatch" in text
+    assert "commit_sha" in text
+    assert "release_id" in text
+    assert "explicit_approval_granted" in text
+    assert "release_authorization.py" in text
+    assert "vercel@latest deploy" in text
 
 
 def test_policy_preserves_connection_but_denies_default_deployment():
