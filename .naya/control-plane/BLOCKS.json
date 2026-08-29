@@ -4,8 +4,8 @@
   "active_block": {
     "id": "B01-B03-MINIMUM-CONTROL-LOOP",
     "status": "ACTIVE",
-    "intent": "Turn repository operating doctrine into the smallest complete machine-checkable MAP → STATE → BLOCK → PROOF control loop, with continuous successor continuity and a ten-first execution standard.",
-    "scope": ["canonical identity resolution", "machine-readable MAP", "current-state contract and drift detection", "structured execution block", "evidence-linked proof", "cold-start validation of these controls", "mandatory successor continuity", "one-shot torch completeness"],
+    "intent": "Turn repository operating doctrine into the smallest complete machine-checkable MAP → STATE → BLOCK → PROOF control loop, with continuous successor continuity, one-shot ten-first execution, and no-orphan continuation.",
+    "scope": ["canonical identity resolution", "machine-readable MAP", "current-state contract and drift detection", "structured execution block", "evidence-linked proof", "cold-start validation of these controls", "mandatory successor continuity", "one-shot torch completeness", "no-orphan execution continuation"],
     "protected": ["existing Naya Repository Operating Standard", "existing Mission State/current-state authority", "existing cold-start activation contract", "MAXESS scoring/result authority", "anti-duplication law", "evidence boundaries", "authorization and safety boundaries"],
     "acceptance": [
       "historical MaxRESULTS resolves to current canonical identity and cannot be selected as current",
@@ -16,7 +16,8 @@
       "cold-start validator fails closed on stale/conflicting/unsupported state",
       "every substantive execution carries a complete successor payload",
       "one-shot execution explicitly requires ten-first judgment without guessing or bypassing verification",
-      "a blocker handoff contains an executable recovery path rather than a bare failure statement"
+      "a blocker handoff contains an executable recovery path rather than a bare failure statement",
+      "No-Orphan law is reachable from mandatory START-HERE boot and included in cold-start acceptance"
     ],
     "evidence": [
       ".naya/control-plane/CANONICAL-IDENTITY-REGISTRY.json",
@@ -25,12 +26,15 @@
       ".naya/control-plane/BLOCKS.json",
       ".naya/control-plane/PROOF.json",
       ".naya/control-plane/validate_control_plane.py",
+      ".naya/runtime/cold_start_control_plane_acceptance.py",
+      ".naya/runtime/cold_start_activation.py",
       ".naya/codex/CONSTITUTIONAL-AMENDMENT-CONTINUOUS-TORCH-PASS.md",
+      ".naya/codex/CONSTITUTIONAL-AMENDMENT-NO-ORPHAN-EXECUTION.md",
       "SUPERBRAIN/AI-BOOT/START-HERE.md"
     ],
     "target_state": "CONTROL_LOOP_PROVEN_REPOSITORY_LEVEL",
-    "next_action": "Obtain the exact first failing step/evidence for the current-head NayaPOWER automation on commit 669bf01c040e6eab15b0c8af6766c4d89c83dc69. The current GitHub evidence shows a Vercel failure with a build-rate-limit target, while no GitHub Actions workflow run is currently exposed for this SHA; if a retrievable evidence source identifies a repairable divergence, repair only that first cause and rerun the affected gate.",
-    "next_actions": ["Obtain the exact first failing step/evidence for the current-head NayaPOWER automation on commit 669bf01c040e6eab15b0c8af6766c4d89c83dc69. The current GitHub evidence shows a Vercel failure with a build-rate-limit target, while no GitHub Actions workflow run is currently exposed for this SHA; if a retrievable evidence source identifies a repairable divergence, repair only that first cause and rerun the affected gate."],
+    "next_action": "Obtain a fresh current-head Naya Control Plane and Smart Brain v3 Enforcement result after the No-Orphan boot/acceptance repair. If either gate is RED and retrievable evidence identifies a repository-side divergence, repair only the first evidence-backed cause and rerun; if evidence is unavailable or the failure is external, preserve UNKNOWN/FAILED and execute the strongest available recovery path without guessing.",
+    "next_actions": ["Obtain a fresh current-head Naya Control Plane and Smart Brain v3 Enforcement result after the No-Orphan boot/acceptance repair. If either gate is RED and retrievable evidence identifies a repository-side divergence, repair only the first evidence-backed cause and rerun; if evidence is unavailable or the failure is external, preserve UNKNOWN/FAILED and execute the strongest available recovery path without guessing."],
     "next_action_count": 1
   },
   "status_vocabulary": ["INTENDED", "IMPLEMENTED", "COMPLETE", "VERIFIED", "RACE_READY", "PRODUCTION_PROVEN", "UNKNOWN", "FAILED", "STALE"],
@@ -40,6 +44,7 @@
     "recorded_is_not_current": true,
     "one_next_action": true,
     "one_shot_ten_first": true,
-    "no_dead_end_handoff": true
+    "no_dead_end_handoff": true,
+    "no_orphan_execution": true
   }
 }
