@@ -1,14 +1,15 @@
 {
   "schema": "naya-power-runtime-state/v2",
   "status": "SUPERBRAIN_CONTINUITY_10_10_LOCAL_EXECUTION_PHASE",
-  "updated_at": "2026-08-30T19:30:00Z",
+  "updated_at": "2026-08-30T19:35:00Z",
   "repository": "SoulSchoolAcademy/NayaPOWER",
   "branch": "main",
   "current_main": {
-    "commit": "90e168e9635716fc131bd4534a795727639dc2cf",
-    "state_reconciliation": "CURRENT_HEAD_RECONCILED_TO_THIS_STATE",
+    "commit": null,
+    "commit_policy": "DYNAMIC_FROM_OBSERVED_GIT_HEAD",
+    "state_reconciliation": "OBSERVED_HEAD_IS_RUNTIME_SOURCE_OF_TRUTH",
     "post_change_ci": "PAUSED_BY_HUMAN_DIRECTION",
-    "note": "Observed GitHub main is the live source of truth. GitHub Actions is intentionally not used during the current pause. Local/runtime behavioral proof remains separately classified."
+    "note": "STATE.json must not embed a permanent current HEAD because every state update creates a new commit. Restore resolves live git HEAD and treats this file as a state projection, not as authority for current commit identity."
   },
   "runtime": {
     "superbrain_identity": "VERIFIED_BY_CANONICAL_START_HERE",
@@ -39,7 +40,7 @@
   "historical_evidence": [
     {"run": 32909426069, "status": "GREEN", "observed": "Historical authoritative Superbrain gate passed the documented runtime/continuity/retrieval baseline suite. Historical only; it does not establish current-head GREEN."},
     {"run": 33007579261, "status": "RED", "observed": "MAXESS browser evidence gate failed; root cause was greedy runtime extraction contaminating script content. Root cause and corrective guard were durably recorded."},
-    {"run": 33143756388, "status": "RED", "observed": "Current-head Superbrain Gate exposed stale STATE.json current_main data and continuity event-shape failures. Those continuity issues are now under direct repair."}
+    {"run": 33143756388, "status": "RED", "observed": "Current-head Superbrain Gate exposed stale STATE.json current_main data and continuity event-shape failures. The current-state design now treats observed git HEAD as dynamic authority."}
   ],
   "current_project": {
     "project_id": "PRJ-NAYA-SUPERBRAIN-CONTINUITY",
@@ -47,23 +48,13 @@
     "current_objective": "Make NayaPOWER a trusted, high-performance, continuously improving AI operating system whose intelligence, execution, verification, continuity, and learning compound across successor Nayas.",
     "current_phase": "Local implementation and behavioral-proof preparation",
     "current_intelligent_block": "IDENTITY → RESTORE → UPDATE → INHERIT → PRIORITIZE → EXECUTE → VERIFY → LEARN → CAPTURE → PROPAGATE → CHECKPOINT → HAND OFF",
-    "success_criteria": [
-      "A fresh Naya identifies NayaPOWER as the canonical Superbrain",
-      "Observed live HEAD is treated as repository reality",
-      "State/projection contradictions surface as reconciliation rather than silent guessing",
-      "Restore returns mission, project, priority, updates, durable learning, handoff, next action, and proof target",
-      "Canonical Note Event remains the memory foundation",
-      "A deterministic A→B→C fixture demonstrates inherited intelligence changing subsequent action",
-      "Material learning is captured and propagation is separately evidenced",
-      "A successor-ready handoff can be consumed without conversational archaeology",
-      "No unverified claim is promoted to runtime-proven"
-    ]
+    "success_criteria": ["Fresh Naya identity is correct", "Observed live HEAD is repository reality", "Contradictions become reconciliation rather than silent guessing", "Restore returns mission/project/priority/updates/learning/handoff/next action/proof target", "Canonical Note Event remains the memory foundation", "A→B→C demonstrates inherited intelligence changing subsequent action", "Propagation has separate evidence", "Successor handoff works without conversational archaeology", "No lower evidence state is promoted into a higher claim"]
   },
   "known": [
     "NayaPOWER is the canonical shared Superbrain",
     "MaxRESULTS is the MAXESS product workspace and not a competing brain",
     "Maxis is a product/proving ground and reusable intelligence returns to NayaPOWER",
-    "START-HERE now explicitly establishes this identity model",
+    "START-HERE explicitly establishes this identity model",
     "restore_context.py observes live git reality and exposes reconciliation status",
     "the Superbrain continuity contract is canonical",
     "the continuity guard is structural and intentionally leaves runtime proof separate",
@@ -79,22 +70,9 @@
     "Full governance benchmark remains runtime-unproven"
   ],
   "weighted_priorities": {
-    "P0": [
-      "Run all available local deterministic validators in a real NayaPOWER checkout",
-      "Execute restore and inspect reconciliation/next-action behavior",
-      "Execute A→B→C compounding proof against existing canonical intelligence path",
-      "Perform fresh-Naya live behavioral acceptance"
-    ],
-    "P1": [
-      "Run adversarial stale/conflict/blocked continuity tests",
-      "Close any behavioral gaps found by fresh-Naya acceptance",
-      "Strengthen handoff/checkpoint behavioral torch passing"
-    ],
-    "P2": [
-      "Use authorized runtime when the human lifts the GitHub Actions pause",
-      "Prove PIS propagation and exact-SHA runtime receipts",
-      "Return to MAXIS/Naya Hub product work after Superbrain continuity is sufficiently proven"
-    ]
+    "P0": ["Run all available local deterministic validators in a real NayaPOWER checkout", "Execute restore and inspect reconciliation/next-action behavior", "Execute A→B→C compounding proof against the existing canonical intelligence path", "Perform fresh-Naya live behavioral acceptance"],
+    "P1": ["Run adversarial stale/conflict/blocked continuity tests", "Close behavioral gaps found by fresh-Naya acceptance", "Strengthen handoff/checkpoint behavioral torch passing"],
+    "P2": ["Use authorized runtime when the human lifts the GitHub Actions pause", "Prove PIS propagation and exact-SHA runtime receipts", "Return to MAXIS/Naya Hub product work after Superbrain continuity is sufficiently proven"]
   },
   "next_best_action": "In a real NayaPOWER checkout, run tools/qa_naya_context_boot.py, tools/qa_superbrain_continuity.py, tools/test_superbrain_a_b_c_compounding.py, and the restore runtime; repair every failure without weakening guards; then perform the fresh-Naya behavioral acceptance.",
   "continuity": {
