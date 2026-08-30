@@ -8,6 +8,7 @@ boundary testing.
 from __future__ import annotations
 
 from pathlib import Path
+import inspect
 import sys
 
 RUNTIME = Path(__file__).resolve().parent
@@ -148,11 +149,12 @@ def full_chain():
 
 def main() -> int:
     # 1 incomplete activation cannot silently become complete
-    try:
-        bind_activation_to_human_mission({"status": "PARTIAL"}, mission())
-        raise AssertionError
-    except ActivationMissionBindingError:
-        pass
+    for bad_status in ("PARTIAL", "CONFLICT", "FAILED", ""):
+        try:
+            bind_activation_to_human_mission({**activation_result(), "status": bad_status}, mission())
+            raise AssertionError(f"activation status {bad_status!r} must not qualify")
+        except ActivationMissionBindingError:
+            pass
 
     # 2 customer knowledge cannot bypass canonical event authority
     try:
@@ -183,8 +185,12 @@ def main() -> int:
     except (TorchError, AttributeError):
         pass
 
-    # 6 execution cannot occur merely because a Torch exists
-    assert callable(full_chain)
+    # 6 execution cannot occur merely because a Torch exists: the Torch boundary
+    # has no execution method and its constructor only packages a decision.
+    torch_source = inspect.getsource(create_torch)
+    assert "subprocess" not in torch_source
+    assert "execute(" not in torch_source
+    assert "verify" not in torch_source.split("def create_torch", 1)[1].split("def ", 1)[0]
 
     # 7 evidence remains tied to actual completed execution
     assert validate_execution_result({"execution_state": "STARTED"})
@@ -227,10 +233,12 @@ def main() -> int:
     assert "conversation history" not in serialized and "previous messages" not in serialized
 
     print("INCOMPLETE ACTIVATION → RED")
+    print("CONFLICTED/FAILED ACTIVATION → RED")
     print("CANONICAL EVENT BYPASS → RED")
     print("MISSING HUMAN INTENT → RED")
     print("PRIORITY WITHOUT QUALIFIED MISSION → RED")
     print("TORCH WITHOUT PRIORITY → RED")
+    print("TORCH DOES NOT EXECUTE WORK → GREEN")
     print("EXECUTION WITHOUT OBSERVED RESULT → RED")
     print("EVIDENCE WITHOUT COMPLETED EXECUTION → RED")
     print("SMART NOTE WITHOUT MEANINGFUL VALUE → RED")
