@@ -2,7 +2,7 @@
   "version": "3.0.0",
   "status": "CANONICAL",
   "organization": "YEAR/MONTH/DAY/HOUR/EVENT",
-  "event_count": 31,
+  "event_count": 32,
   "events": [
     {"event_id":"SE-20260824-000001-maxess-execution-discipline","path":"2026/08/24/00/SE-20260824-000001-maxess-execution-discipline.json","subject":"MAXESS execution discipline","type":"execution-law","tags":["MAXESS","execution","batching","anti-loop","verification","cause-and-effect"]},
     {"event_id":"SE-20260824-000002-dynamic-any-subject-assessment","path":"2026/08/24/00/SE-20260824-000002-dynamic-any-subject-assessment.json","subject":"Dynamic Any-Subject Assessment","type":"architecture-principle","tags":["MAXESS","dynamic-assessment","universal","generation","scoring","schema","provider"]},
@@ -33,6 +33,7 @@
     {"event_id":"SN-20260829-HUMAN-AGENCY-REALITY-JUDGMENT","path":"2026/08/29/19/SN-20260829-HUMAN-AGENCY-REALITY-JUDGMENT.json","subject":"Naya must protect human agency without sacrificing truth","type":"master_lesson","tags":["human-agency","reality","judgment","authority","outcome","excellence","CIS","PIS","universal-agent-interface"]},
     {"event_id":"SN-20260830-ACTIVATION-PROGRAM-DESIGN","path":"2026/08/30/07/SN-20260830-ACTIVATION-PROGRAM-DESIGN.json","subject":"Activation must be a guided, incremental customer experience","type":"master_lesson","tags":["activation","customer-experience","continuation-prompt","Smart-Notes","PIS","Running-Feed","sales","onboarding","Naya"]},
     {"event_id":"SE-20260830-080000-smart-note-smart-link-law","path":"2026/08/30/08/SE-20260830-080000-smart-note-smart-link-law.json","subject":"Smart Note delivery requires Smart Links and proactive value capture","type":"master-system-update","tags":["Smart-Notes","Smart-Links","evidence","receipt","PIS","proactive-service","learning","compounding","continuity","verification"]},
-    {"event_id":"SE-20260830-SUPERBRAIN-COMPOUNDING-LOOP","path":"2026/08/30/19/SE-20260830-SUPERBRAIN-COMPOUNDING-LOOP.json","subject":"Smart Notes exist to compound intelligence across time and Naya instances","type":"master-system-update","tags":["Smart-Notes","PIS","CIS","compounding","learning","continuity","restore","Running-Feed","Daily-Intelligence","Superbrain"]}
+    {"event_id":"SE-20260830-SUPERBRAIN-COMPOUNDING-LOOP","path":"2026/08/30/19/SE-20260830-SUPERBRAIN-COMPOUNDING-LOOP.json","subject":"Smart Notes exist to compound intelligence across time and Naya instances","type":"master-system-update","tags":["Smart-Notes","PIS","CIS","compounding","learning","continuity","restore","Running-Feed","Daily-Intelligence","Superbrain"]},
+    {"event_id":"SE-20260830-INTELLIGENT-HUB-CONNECTION-ARCHITECTURE","path":"2026/08/30/19/SE-20260830-INTELLIGENT-HUB-CONNECTION-ARCHITECTURE.json","subject":"Intelligent Hub first-class Superbrain connection and collective wisdom architecture","type":"architecture_decision","tags":["intelligent-hub","superbrain","wisdom-contribution","collective-intelligence","github-app","privacy","intelligence-feed"]}
   ]
 }
