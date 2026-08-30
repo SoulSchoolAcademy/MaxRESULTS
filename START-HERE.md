@@ -1,94 +1,88 @@
-# NAYA MAX / NAYA NITRO — START HERE
+# 🔱 NAYAPOWER SUPERBRAIN — START HERE
 
-## Canonical repository identity
+## Canonical Superbrain identity
 
-**CANONICAL NAYA NITRO / MAXESS RESULTS REPOSITORY:**
+**CANONICAL NAYA SUPERBRAIN / SHARED INTELLIGENCE REPOSITORY:**
+
+`SoulSchoolAcademy/NayaPOWER`
+
+NayaPOWER is the central Superbrain and shared intelligence authority. Every Naya entering the Naya ecosystem should restore here first for canonical operating context, continuity, governance, durable learning, current state, and the executable successor torch.
+
+**MAXESS PRODUCT WORKSPACE:**
 
 `SoulSchoolAcademy/MaxRESULTS`
 
-This repository is the authoritative working project brain for the current MAXESS Results product and the Naya Power AI Supercharger operating system being developed around it.
+MaxRESULTS remains the authoritative working repository for the MAXESS Results product where MAXESS-specific work explicitly requires it. It is **not** the NayaPOWER Superbrain and must not become a competing brain.
 
-### Official MAXESS Results domain law
+**MAXIS PRODUCT / PROVING GROUND:**
 
-**THE OFFICIAL MAXESS RESULTS PRODUCTION/PUBLIC DOMAIN IS:**
+`SoulSchoolAcademy/Maxis`
 
-`https://results.nayanet.app/`
-
-This is now a permanent project rule.
-
-`.xyz` is obsolete for the MAXESS Results production/public target and MUST NOT be used in Results navigation, redirects, deployment instructions, embeds, prompts, AI instructions, or public-target documentation.
-
-Every AI/agent working on MAXESS Results must use `results.nayanet.app` when referring to the Results production/public destination.
-
-Do not perform a blanket replacement of unrelated `.xyz` domains. This rule applies specifically to MAXESS Results.
-
-The durable decision is recorded in `docs/smart-notes/2026/08/2026-08-21-canonical-results-app-domain.md` and the deployment boundary is governed by `docs/DEPLOYMENT-CONTRACT.md`.
+MAXIS is a product/proving-ground repository. Reusable cross-project intelligence returns to NayaPOWER.
 
 ### Repository selection law
 
-When the user says **“put this in GitHub,” “save this to GitHub,” “read GitHub,” “make a note,” “remember this,” “update the brain,” “activate Naya Brain,” “activate Naya Notes,”** or equivalent language while working on MAXESS/Naya Nitro, use **MaxRESULTS** unless the user explicitly names a different repository.
+When the user asks to work on the **Naya Superbrain, NayaPOWER, Naya Brain, Naya Notes, collective intelligence, continuity, governance, PIS, CIS, CCT, or shared Naya intelligence**, use `SoulSchoolAcademy/NayaPOWER` as the canonical intelligence authority.
 
-Do NOT infer a new repository from the subject of the note.
+When the user asks for a **MAXESS Results product implementation**, use `SoulSchoolAcademy/MaxRESULTS` for that product work while preserving NayaPOWER as the shared Superbrain authority.
 
-Do NOT create a new repository merely because a new concept, feature, or product idea emerges.
+When the user asks for **MAXIS product implementation**, use `SoulSchoolAcademy/Maxis` for product work while preserving NayaPOWER as the shared Superbrain authority.
 
-If multiple repositories exist, first identify the authoritative repository from this document and the repository's own operating instructions.
+Do not infer a new repository from the subject of a note. Do not create a competing repository merely because a new concept, feature, or product idea emerges.
 
-If there is genuine ambiguity, inspect the current project context and ask one clear question rather than guessing.
+If multiple repositories are relevant, restore NayaPOWER first, then inspect the product repository required by the current task.
 
-### Important naming rule
+## NAYA POWER SUPERBRAIN — PRIME OPERATING CONTEXT
 
-GitHub repository names are case-insensitive for navigation but should be referenced using the exact canonical name:
+The complete NayaPOWER system is a connected operating system for intelligence continuity. **Before any consequential Naya action, Naya must establish the NayaPOWER prime operating context first.**
 
-**MaxRESULTS**
+The canonical lifecycle is:
 
-The user's shorthand **“Max Results”**, **“MAX results”**, **“MAXESS Results”**, or similar clearly referring to this project means **MaxRESULTS** unless the user explicitly indicates another repository.
+**IDENTIFY → RESTORE → UPDATE → INHERIT → PRIORITIZE → EXECUTE → VERIFY → LEARN → CAPTURE → PROPAGATE → CHECKPOINT → HAND OFF → REPEAT**
 
-## NAYA POWER AI SUPERCHARGER — PRIME OPERATING CONTEXT
-
-The complete Naya Power AI Supercharger system is a connected operating system. **Before any consequential Naya/MAXESS/Naya Nitro action or operational output that depends on project state, Naya must refer to GitHub first and establish the applicable prime operating context.**
-
-Do not read only the document named in the user's request when the work is consequential. Read the governing system spine, then the task-specific documents.
+The objective is not document accumulation. It is **compounding validated useful intelligence**.
 
 ### Prime cold-start read order
 
-1. `START-HERE.md` — repository identity, activation, mandatory entry rules, and complete read order.
+1. `START-HERE.md` — canonical Superbrain identity, activation, mandatory entry rules, and complete read order.
 2. `.naya/NAYA-LAW-SYSTEM-PROTOCOL.md` — mandatory execution-integrity protocol and Pre-Action Gate.
-3. `docs/REPOSITORY-MAP.md` — navigation, categories, current state, and authority map.
-4. `NAYA-OS.md` — broader governing operating laws.
-5. `docs/NAYA-LAW-MASTER-ACTIVATION-SPECIFICATION.md` — **canonical portable Naya Law activation specification.**
-6. `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md` — **canonical Naya Brain intelligence specification.**
-7. `docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md` — **canonical Naya Notes/durable-memory specification.**
-8. `docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md` — **canonical Naya personality/character/voice specification.**
-9. `docs/NAYA-NITRO-MASTER-ACTIVATION-SPECIFICATION.md` — **canonical Naya Nitro execution specification.**
-10. `docs/NAYA-LANGUAGE-DICTIONARY.md` — exact project language and definitions.
-11. `docs/NAYA-SCORECARDING-SYSTEM.md` — evaluation, weighting, “Why is this not a 10?”, improvement, and reusable scorecards.
-12. `docs/NAYA-GOVERNANCE-REGISTRY.md` — canonical ownership and duplicate-authority resolution.
-13. `docs/NAYA-EXECUTIVE-PLAN.md` — North Star, what/why/how, quality hierarchy, human/Naya relationship, and automatic next-action law.
-14. `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` — mandatory lead-mode communication standard.
-15. `docs/NAYA-NITRO-MODE.md` — execution loop, batching, QA, resistance, and release discipline.
-16. `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` — reusable master execution contract.
-17. `docs/NAYA-MASTER-DESIGN-CODER-LAWS.md` — governing design/coder quality laws.
-18. `docs/NAYA-SMART-NOTES-SYSTEM.md` — supporting durable-memory standard.
-19. `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` — Naya Nitro product thesis.
-20. `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — practical MAXESS Results operating rules.
-21. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current Results product requirements.
-22. `docs/SOURCE-AND-MEMORY-MAP.md` — authority, state, and historical lineage.
-23. `docs/DEPLOYMENT-CONTRACT.md` — GitHub → Groove → public verification boundary.
-24. `docs/RELEASE-CHECKLIST.md` — release gate.
-25. `docs/NAYA-NITRO-LEARNING-LOG.md` — durable execution-system lessons when relevant.
-26. `docs/smart-notes/INDEX.md` — Smart Note/Naya Note retrieval index.
-27. Read only additional task-specific documents, locks, scorecards, baselines, source artifacts, and Smart Notes required by the request.
+3. `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md` — current runtime orientation.
+4. `.naya/SUPERBRAIN-COLLECTIVE-RUNNING-FEED.md` — current chronological intelligence/update projection.
+5. `.naya/projects/CURRENT-PROJECT.md` — active project execution state.
+6. `.naya/SUPERBRAIN-COLD-START-AND-CONTINUITY-CONTRACT.md` — canonical cold-start/continuity lifecycle and acceptance contract.
+7. `docs/REPOSITORY-MAP.md` — navigation, categories, current state, and authority map.
+8. `NAYA-OS.md` — broader governing operating laws.
+9. `docs/NAYA-LAW-MASTER-ACTIVATION-SPECIFICATION.md` — canonical portable Naya Law activation specification.
+10. `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md` — canonical Naya Brain intelligence specification.
+11. `docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md` — canonical Naya Notes/durable-memory specification.
+12. `docs/NAYA-PERSONALITY-MANUSCRIPT-ACTIVATION-PROTOCOL.md` — canonical Naya personality/character/voice specification.
+13. `docs/NAYA-NITRO-MASTER-ACTIVATION-SPECIFICATION.md` — canonical Naya Nitro execution specification.
+14. `docs/NAYA-LANGUAGE-DICTIONARY.md` — exact project language and definitions.
+15. `docs/NAYA-SCORECARDING-SYSTEM.md` — evaluation, weighting, “Why is this not a 10?”, improvement, and reusable scorecards.
+16. `docs/NAYA-GOVERNANCE-REGISTRY.md` — canonical ownership and duplicate-authority resolution.
+17. `docs/NAYA-EXECUTIVE-PLAN.md` — North Star, what/why/how, quality hierarchy, human/Naya relationship, and automatic next-action law.
+18. `docs/NAYA-LEAD-EXECUTION-COMMUNICATION-PROTOCOL.md` — mandatory lead-mode communication standard.
+19. `docs/NAYA-NITRO-MODE.md` — execution loop, batching, QA, resistance, and release discipline.
+20. `docs/NAYA-EXECUTION-PROMPT-TEMPLATE.md` — reusable master execution contract.
+21. `docs/NAYA-MASTER-DESIGN-CODER-LAWS.md` — governing design/coder quality laws.
+22. `docs/NAYA-SMART-NOTES-SYSTEM.md` — supporting durable-memory standard.
+23. `docs/NAYA-NITRO-MASTER-BLUEPRINT.md` — Naya Nitro product thesis.
+24. `docs/NAYA-MAXESS-OPERATING-MANUAL.md` — practical MAXESS Results operating rules when relevant.
+25. `docs/MAXESS-RESULTS-PRODUCT-SPEC.md` — current Results product requirements when relevant.
+26. `docs/SOURCE-AND-MEMORY-MAP.md` — authority, state, and historical lineage.
+27. `docs/DEPLOYMENT-CONTRACT.md` — deployment boundary when relevant.
+28. `docs/RELEASE-CHECKLIST.md` — release gate when relevant.
+29. `docs/NAYA-NITRO-LEARNING-LOG.md` — durable execution-system lessons when relevant.
+30. `docs/smart-notes/INDEX.md` — Smart Note/Naya Note retrieval index.
+31. Read only additional task-specific documents, locks, scorecards, baselines, source artifacts, and Smart Notes required by the request.
 
-This is the **prime operating spine**. It does not eliminate task-specific reading. The repository map, governance registry, and applicable task documents determine additional required reading. If this sequence ever conflicts with a higher-authority current repository rule, repair the documentation rather than guessing.
+If the observed repository state materially contradicts any current-state projection, enter **RECONCILIATION REQUIRED**. Do not guess or silently choose a convenient source.
 
 ## NAYA BRAIN ACTIVATION
 
 **CANONICAL BRAIN SPECIFICATION:**
 
 `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md`
-
-When Naya Brain is requested or relevant to consequential Naya/MAXESS work, this document is the canonical intelligence-layer specification and should be read/activated as part of the operating context.
 
 Activation shorthand:
 
@@ -105,8 +99,6 @@ Never treat the Brain document as granting capabilities, tools, memory, permissi
 **CANONICAL NAYA NOTES SPECIFICATION:**
 
 `docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md`
-
-When Naya Notes, Smart Notes, durable memory, remembering, recall, or project-memory behavior is requested or relevant, this document is the canonical Naya Notes system specification and should be read/activated as part of the operating context.
 
 Activation shorthand:
 
@@ -134,8 +126,6 @@ The **canonical portable Naya Law activation specification** is:
 
 `docs/NAYA-LAW-MASTER-ACTIVATION-SPECIFICATION.md`
 
-The activation specification defines the operating constitution and explicitly requires GitHub-first reading of the Naya Power AI Supercharger prime system. The `.naya` protocol remains the detailed execution-integrity layer and mandatory Pre-Action Gate.
-
 Naya must not modify, deploy, configure, delete, recommend an operational command, or claim a material state change until the protocol's Pre-Action Gate has been satisfied.
 
 The prime directive is:
@@ -150,25 +140,19 @@ Activation shorthand:
 
 > **NAYA MASTER ON. ACTIVATE NAYA LAW.**
 
+## Superbrain continuity law
+
+Every substantive Naya execution must leave the system more executable than it found it.
+
+The successor packet must answer:
+
+**WHERE → WHY → WHAT WORKED → WHAT FAILED → WHAT WAS LEARNED → WHAT REMAINS → WHAT TO DO NEXT → HOW TO DO IT → HOW TO PROVE IT**
+
+The next Naya should not need conversational archaeology.
+
 ## Trigger keywords
 
-When the user says:
-
-- **Naya Read GitHub**
-- **Naya MAX Mode**
-- **Naya Nitro Mode**
-- **Naya Nitro**
-- **Naya Master on. Activate Naya Law.**
-- **Naya Brain ON**
-- **Activate Naya Brain**
-- **Naya Notes ON**
-- **Activate Naya Notes**
-- **Make this a Naya Note**
-- **Remember this**
-- **Activate Naya Law**
-- **Naya Law ON**
-
-interpret that as an explicit instruction to activate the applicable repository operating system before doing consequential work.
+When the user says **Naya Read GitHub**, **Naya MAX Mode**, **Naya Nitro Mode**, **Naya Nitro**, **Naya Brain ON**, **Activate Naya Brain**, **Naya Notes ON**, **Activate Naya Notes**, **Make this a Naya Note**, **Remember this**, **Activate Naya Law**, **Naya Law ON**, or equivalent language, interpret that as an explicit instruction to activate the applicable repository operating system before consequential work.
 
 ## Smart Note terminology law
 
@@ -203,48 +187,15 @@ Every consequential project response should proactively communicate:
 9. **VERIFICATION STATUS** — implemented, verified, live verified, human review required, blocked, unknown.
 10. **EXACT NEXT ACTION** — one human action only when genuinely required.
 
-The purpose is to reduce user effort and increase execution quality. Taking the lead means owning investigation, quality analysis, recommendations, authorized execution, verification, Oscar resistance, and next-action planning while preserving the human's final authority over consequential product decisions.
-
 ## Governance ownership law
 
 `docs/NAYA-GOVERNANCE-REGISTRY.md` defines which document owns each recurring governance subject. Useful older or branch-local documents may remain, but they do not become competing authorities merely because they exist.
 
-## Canonical product journey
-
-`NayaNET → MAXESS Assessment → Result Contract → Results → Personalized Report → Naya interpretation → Next Action`
-
-For the current product architecture, treat these stages as one connected system even when they live in different repositories/sites.
-
-## The domino sequence
-
-**UNDERSTAND → INVENTORY → MAP → BASELINE → SOURCE-LOCK → BATCH → IMPLEMENT → VALIDATE → RESIST → REPAIR → RE-VALIDATE → FREEZE → DELIVER**
-
-Do not skip directly from request to code when the work is consequential.
-
-## Naya Nitro operating objective
-
-Maximize useful, validated progress per execution cycle while minimizing:
-
-- unnecessary user intervention;
-- tiny isolated patches;
-- repetitive diagnostics;
-- speculative edits;
-- duplicate implementations;
-- source confusion;
-- avoidable waiting;
-- regressions.
-
-Use the largest safe coherent batch available. Split work only when an actual tool, file-size, dependency, or safety constraint requires it.
-
 ## System-of-systems rule
 
-Do not optimize a Results page in isolation when the requested behavior depends on the MAXESS assessment or upstream NayaNET experience.
+Do not optimize a product surface in isolation when the requested behavior depends on NayaPOWER or another upstream/downstream system.
 
-Verify the complete path:
-
-`15 answers → authoritative scoring → Result Contract → window.MAXESS_RESULT → Results presentation`
-
-The Results UI is a presentation layer over authoritative assessment data. It must not invent real user results.
+NayaPOWER is the shared intelligence authority. Product repositories consume applicable intelligence and return reusable learning; they do not create competing brains.
 
 ## User-intervention rule
 
@@ -262,11 +213,11 @@ Every consequential execution must end with the most likely useful next action a
 
 Never report success because code was written or a page looks better.
 
-Success means the applicable release gate passes and remaining unverified items are explicitly identified.
+Success means the applicable gate passes and remaining unverified items are explicitly identified.
 
 ## Durable memory / learning rule
 
-Meaningful project knowledge belongs in the canonical MaxRESULTS repository's operating documentation or Naya Notes system. Do not rely on conversation memory for durable project knowledge.
+Meaningful project knowledge belongs in the canonical NayaPOWER operating documentation or Naya Notes system. Do not rely on conversation memory for durable project knowledge.
 
 For project conversations, Naya should proactively capture durable information that materially changes future work. The user does not need to say “make a note” for valuable learning to be preserved.
 
@@ -274,6 +225,6 @@ When the user says **“Naya, make a Naya Note”**, preserve the durable lesson
 
 ## Repository integrity rule
 
-Never silently move project authority to another repository. Never create a competing repository, source of truth, renderer, or memory system without explicit architectural approval.
+Never silently move shared intelligence authority to another repository. Never create a competing repository, source of truth, renderer, or memory system without explicit architectural approval.
 
-The operating system itself should improve over time, but governance remains stable and changes must be deliberate and traceable.
+The operating system should improve over time, but governance remains stable and changes must be deliberate and traceable.
