@@ -17,10 +17,24 @@
     "docs/NAYA-SMART-NOTE-DELIVERY-AND-PIS-TRIGGER-CONTRACT.md"
   ],
   "evidence": [
-    "Source file blob SHA: c39dd15b077736d3f14d36ea291a9a92bddc1f39"
+    "Source blob SHA: c39dd15b077736d3f14d36ea291a9a92bddc1f39",
+    "Intelligence event creation commit: 1757ebc05362f392103df6024a8f58852fa141ae",
+    "Shawn Note creation commit: 0a38e307c72a4e145e955b95a40b1922b4a92663",
+    "Naya Note creation commit: e85d7470670aae032a63cbcf0f9a042fe6376d0f",
+    "Machine Note creation commit: 6684500d8e1296d5d2ef16dbd058570a95eb58a9",
+    "PIS update creation commit: 836da17c66384b283e674bad0c777aedc8800ed8",
+    "Intelligence Feed entry creation commit: e1886e6927dd02b3fd1f8d631dc404be659cccb5"
   ],
-  "evidence_state": "SOURCE-VERIFIED / PERSISTENCE-WRITE-PENDING-VERIFICATION",
-  "promotion_status": "CREATED",
+  "evidence_state": "PERSISTED_AND_RE-READ",
+  "promotion_status": "PERSISTED_AS_ALIGNED_INTELLIGENCE_BUNDLE",
   "candidate_homes": ["NAYA_NOTE", "HUMAN_SMART_NOTE", "MACHINE_NOTE", "PIS_UPDATE", "INTELLIGENCE_FEED"],
+  "promoted_artifacts": [
+    "MASTER-NOTES/INTELLIGENCE-EVENTS/INT-2026-08-30-002.json",
+    "MASTER-NOTES/SHAWN-NOTES/2026-08-30-MEET-NAYA-SALES-OPENING.md",
+    "MASTER-NOTES/NAYA-NOTES/2026-08-30-MEET-NAYA-SALES-OPENING.md",
+    "MASTER-NOTES/2026-08-30-MEET-NAYA-SALES-OPENING-MACHINE-NOTE.md",
+    "MASTER-NOTES/PIS-UPDATES/2026-08-30-MEET-NAYA-SALES-OPENING.md",
+    "MASTER-NOTES/INTELLIGENCE-FEED/2026-08-30-MEET-NAYA-SALES-OPENING.md"
+  ],
   "successor_instruction": "When creating customer-facing NayaPOWER education or sales material, use this narrative as a foundational source: lead with human experience and transformation, teach progressively, explain Smart Notes and compounding, preserve human agency, distinguish evidence states, and invite experience rather than relying on claims alone."
 }
