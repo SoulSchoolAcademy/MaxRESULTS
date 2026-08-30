@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Run the NayaPOWER Superbrain acceptance suite without GitHub Actions.
+"""Run the NayaPOWER Superbrain acceptance/regression suite locally.
 
-This is an execution harness, not a substitute for the authoritative runtime
-plane. It runs only local, deterministic checks and records stdout/stderr,
-exit codes, elapsed time, and the exact Git HEAD observed at execution start.
+GitHub Actions is intentionally not used. The runner discovers explicitly
+named Superbrain checks plus relevant regression tests already present in the
+repository, executes every selected check even after a failure, and records a
+machine-readable receipt with the exact starting HEAD.
 """
 from __future__ import annotations
 
@@ -16,17 +17,44 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT_DIR = ROOT / ".naya" / "receipts" / "local-superbrain"
-COMMANDS = [
-    [sys.executable, "tools/qa_naya_context_boot.py"],
-    [sys.executable, "tools/qa_superbrain_continuity.py"],
-    [sys.executable, ".naya/runtime/restore_context.py", "restore", "--pretty"],
-    [sys.executable, "tools/test_superbrain_a_b_c_compounding.py"],
-    [sys.executable, "tools/test_superbrain_adversarial.py"],
+CORE = [
+    ROOT / "tools/qa_naya_context_boot.py",
+    ROOT / "tools/qa_superbrain_continuity.py",
+    ROOT / ".naya/runtime/restore_context.py",
+    ROOT / "tools/test_superbrain_a_b_c_compounding.py",
+    ROOT / "tools/test_superbrain_adversarial.py",
 ]
+REGRESSION_KEYWORDS = (
+    "smart_note", "smart_notes", "canonical_event", "event_store", "promot", "cct",
+    "continuity", "retrieval", "governance", "reality", "torch", "runtime",
+)
 
 
 def git(*args: str) -> str:
     return subprocess.check_output(["git", *args], cwd=ROOT, text=True).strip()
+
+
+def selected_commands() -> list[list[str]]:
+    commands: list[list[str]] = []
+    for path in CORE:
+        if not path.is_file():
+            raise FileNotFoundError(path)
+        if path.name == "restore_context.py":
+            commands.append([sys.executable, str(path.relative_to(ROOT)), "restore", "--pretty"])
+        else:
+            commands.append([sys.executable, str(path.relative_to(ROOT))])
+    seen = {tuple(command[1:]) for command in commands}
+    candidates = sorted(ROOT.glob("tools/test_*.py"))
+    candidates += sorted(ROOT.glob("tools/qa_*.py"))
+    for path in candidates:
+        lowered = path.name.lower()
+        if not any(keyword in lowered for keyword in REGRESSION_KEYWORDS):
+            continue
+        command = [sys.executable, str(path.relative_to(ROOT))]
+        if tuple(command[1:]) not in seen and path not in CORE:
+            commands.append(command)
+            seen.add(tuple(command[1:]))
+    return commands
 
 
 def main() -> int:
@@ -34,10 +62,14 @@ def main() -> int:
     started = datetime.now(timezone.utc)
     head = git("rev-parse", "HEAD")
     clean_before = git("status", "--porcelain") == ""
+    commands = selected_commands()
     results = []
     overall = 0
 
-    for command in COMMANDS:
+    print(f"LOCAL SUPERBRAIN SUITE — observed HEAD: {head}")
+    print(f"Selected checks: {len(commands)}")
+
+    for command in commands:
         t0 = time.monotonic()
         proc = subprocess.run(command, cwd=ROOT, text=True, capture_output=True)
         elapsed_ms = round((time.monotonic() - t0) * 1000, 2)
@@ -59,12 +91,13 @@ def main() -> int:
             print("CONTINUING — failure recorded; remaining checks will still execute.")
 
     receipt = {
-        "schema": "naya-power-local-superbrain-suite/v1",
+        "schema": "naya-power-local-superbrain-suite/v2",
         "started_at": started.isoformat(),
         "finished_at": datetime.now(timezone.utc).isoformat(),
         "observed_head": head,
         "clean_worktree_before": clean_before,
         "github_actions_used": False,
+        "selected_check_count": len(commands),
         "commands": results,
         "overall": "PASS" if overall == 0 else "FAIL",
     }
