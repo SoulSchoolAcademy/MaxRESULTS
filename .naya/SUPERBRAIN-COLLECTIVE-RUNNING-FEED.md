@@ -6,30 +6,33 @@
 
 # 🚨 LIVE OPERATIONAL BANNER — READ FIRST
 
-**DATE:** 2026-08-29
+**DATE:** 2026-08-30
+**LIVE `main` at start of this update:** `09ef1c97fa581fd22d14206d66585fa8fff481c9`
 
 ### 🔴 ACTIVE EXECUTION CONSTRAINT
-**GitHub Actions is intentionally PAUSED for approximately the next two days by current human direction. Do not retry GitHub Actions during this pause.**
+**GitHub Actions is intentionally PAUSED by current human direction. Do not retry, dispatch, rerun, or troubleshoot GitHub Actions during this pause.**
 
 - 🟢 **GitHub repository remains canonical.**
 - 🟡 **GitHub Actions is NOT the current execution plane.**
-- 🟡 Use an authorized alternate execution environment capable of a real repository checkout/runtime.
+- 🟡 Use an authorized alternate execution environment capable of a real repository checkout/runtime when runtime proof is required.
 - 🚫 Do not classify prior zero-step Actions failures as Torch/application failures.
 - 🚫 Do not weaken the canonical Gate or validators to obtain green.
 - 🚫 Do not create a competing memory, governance, or intelligence authority.
 
-### 🎯 CURRENT OBJECTIVE
-Make the existing NayaPOWER Superbrain self-orienting and then prove it through execution:
+### 🎯 CURRENT COMMERCIAL OBJECTIVE
+During the deliberate Actions pause, the highest-value build is now the **customer activation path + sales experience**, while preserving the runtime-proof work for the authorized execution window.
 
-**RUNNING FEED → COLD-START ORIENTATION → AUTHORITATIVE RUNTIME → TORCH 9 → FULL GATE → GOVERNANCE → COMPOUNDING → CUSTOMER ACTIVATION**
+**AIRTIGHT ACTIVATION → COMPELLING EXPERIENCE → CLEAR VALUE → SALES → ACTIVATION → FIRST WIN**
 
-### 🔱 CURRENT TORCH
-**Torch 13 — Human Agency + Reality Governance runtime proof and behavioral benchmark, followed by exact-evidence closure of Torch 9.**
+### 🔱 CURRENT RUNTIME TORCH
+**Torch 13 — Human Agency + Reality Governance runtime proof and behavioral benchmark, followed by exact-evidence closure of Torch 9, remains the technical proof track when an authorized runtime is available.**
 
-### ⭐ HIGHEST-VALUE ARCHITECTURAL PRIORITY
-Make Naya-to-Naya continuity impossible to miss. The next Naya must immediately know:
+### ⭐ CURRENT CUSTOMER-EXPERIENCE PRINCIPLE
+Naya should not hand a new customer a document dump. She should **teach while activating**:
 
-**WHERE AM I? → WHAT JUST HAPPENED? → WHAT CHANGED? → WHAT DID WE LEARN? → WHAT MATTERS NOW? → WHAT IS BLOCKED? → WHAT DO I DO NEXT? → WHAT PROVES SUCCESS?**
+**WELCOME → DISCOVER HUMAN → ACTIVATE ONE CAPABILITY → EXPLAIN WHAT CHANGED → EXPLAIN USER BENEFIT → VERIFY WHAT IS VERIFIABLE → GIVE NEXT ACTION PROMPT → ACTIVATE NEXT CAPABILITY → COMPOUND**
+
+The recommended customer default is **one activation document at a time**. If a platform permits multiple uploads, Naya may acknowledge that capability but should recommend sequential activation because comprehension and integration matter more than bulk ingestion.
 
 ---
 
@@ -66,9 +69,9 @@ Then, if authorized and capable, she executes that next action, performs a **Mir
 
 # CURRENT STATE
 
-**Current `main` verified at feed-build start:** `8bf0b70a35675a6440fabc61f14dd224134f830c`.
+**Current `main` verified immediately before this feed update:** `09ef1c97fa581fd22d14206d66585fa8fff481c9`.
 
-The repository already contains the core continuity/governance architecture, including:
+The repository contains the core continuity/governance architecture, including:
 
 - Cold-Start Runtime Briefing Gate
 - canonical Runtime Briefing
@@ -91,7 +94,9 @@ The repository already contains the core continuity/governance architecture, inc
 - primary intelligence projection
 - canonical collective running feed
 
-The main unresolved proof gap is **authoritative executable runtime**. Prior GitHub Actions executions repeatedly failed before exposing executable steps, with zero-step jobs and unavailable logs. Those are preserved as an execution-environment boundary, not an application failure.
+The main unresolved technical proof gap remains **authoritative executable runtime**. Prior GitHub Actions executions repeatedly failed before exposing executable steps, with zero-step jobs and unavailable logs. Those are preserved as an execution-environment boundary, not an application failure.
+
+The commercial path is now explicitly prioritized alongside that technical track because it can advance during the deliberate Actions pause without pretending runtime proof exists.
 
 # WHAT IS VERIFIED
 
@@ -100,6 +105,8 @@ The main unresolved proof gap is **authoritative executable runtime**. Prior Git
 - Promotion Engine V1 exists as a deterministic, dependency-free promotion pipeline with validation, fingerprinting, duplicate handling, authority classification, promotion, receipts, and Hub writeback.
 - Customer activation composition exists and preserves canonical activation event/document provenance into a qualified human mission.
 - Human Agency + Reality Governance contract and deterministic conformance test exist.
+- The canonical Running Feed is required immediately after the Runtime Briefing at cold start.
+- The latest durable activation-design Note Event is indexed in the canonical event index.
 
 ### Isolated deterministic evidence already recorded
 - Torch 2 priority boundary: **9/9 passing** in an independent deterministic suite.
@@ -111,6 +118,19 @@ The main unresolved proof gap is **authoritative executable runtime**. Prior Git
 
 These isolated results do **not** substitute for repository-runtime or full-gate proof.
 
+### 2026-08-30 activation-design decision now durably captured
+The canonical Note Event `SN-20260830-ACTIVATION-PROGRAM-DESIGN` records the current customer experience decision:
+
+- activation is incremental and guided by default;
+- Naya first learns the customer's identity, interests, vision, goals, mission, and desired outcomes;
+- each activation document is followed by an explanation of what it activated and the benefit to the user;
+- Naya distinguishes verified facts from unsupported claims;
+- every substantive stage provides the exact continuation/action prompt for the next stage;
+- Smart Notes remain derived from canonical intelligence rather than a competing memory system;
+- evidence/receipts should be shown when legitimately available;
+- PIS remains the primary internal intelligence/synthesis layer;
+- the Running Feed remains the chronological orientation projection.
+
 # WHAT IS UNKNOWN
 
 - Exact external cause of the historical zero-step GitHub Actions boundary.
@@ -121,6 +141,7 @@ These isolated results do **not** substitute for repository-runtime or full-gate
 - Measurable compounding: baseline → experience → learning → persistence → repeat → improvement.
 - End-to-end customer activation proof in a real execution environment.
 - Final ≥9/10 operational activation readiness.
+- Final production capability of any customer-facing feature until its implementation is built and verified.
 
 # WHAT IS PROTECTED
 
@@ -135,6 +156,8 @@ These isolated results do **not** substitute for repository-runtime or full-gate
 - Never turn uploaded customer material into authority merely because it was uploaded.
 - Historical continuity must remain recoverable.
 - Every meaningful execution must leave durable state, evidence, learning, and a next action.
+- Activation documents must not promise capabilities that are not actually implemented/verified.
+- The customer should never be required to invent the next activation prompt.
 
 # AUTHORITY MAP
 
@@ -166,18 +189,147 @@ These isolated results do **not** substitute for repository-runtime or full-gate
 
 **NayaNET federation** → `.naya/codex/NAYANET-FEDERATION-PROTOCOL.md`
 
+**PIS / internal intelligence synthesis** → `MASTER-NOTES/PRIMARY-INTELLIGENCE-HUB.md`
+
+**Running Feed** → `.naya/SUPERBRAIN-COLLECTIVE-RUNNING-FEED.md`
+
 # CURRENT EXECUTION QUEUE
 
-| Priority | Torch | State | Next proof |
+| Priority | Track | State | Next proof |
 |---|---|---|---|
-| P0 | Alternate executable runtime | **ACTIVE** | Real checkout + observable command/output/exit status |
+| P0 | Customer activation package | **DESIGN LOCKED / BUILD NEXT** | Complete customer-ready document set + guided continuation flow |
+| P0 | Sales experience | **STRATEGY LOCKED / BUILD NEXT** | High-converting page narrative + interactive Naya/Living Sun experience |
+| P1 | Alternate executable runtime | **BLOCKED** | Real checkout + observable command/output/exit status |
 | P1 | Human Agency + Reality Governance | **IMPLEMENTED / RUNTIME PENDING** | Deterministic conformance + behavior benchmark |
 | P1 | Torch 9 complete customer activation loop | **IMPLEMENTED / ISOLATED PASS / RUNTIME PENDING** | Repository-runtime evidence |
 | P1 | Full Superbrain Gate | **NOT GREEN** | Exact-head authoritative pass |
 | P2 | Compounding | **ARCHITECTURE PRESENT / BEHAVIORAL PROOF PENDING** | Measurable before/after change |
-| P2 | Customer activation | **BOUNDARY PRESENT / END-TO-END PROOF PENDING** | Provenance + active context |
+| P2 | Customer activation runtime | **BOUNDARY PRESENT / END-TO-END PROOF PENDING** | Provenance + active context |
+| P2 | MAXIS | **FLAGSHIP PRODUCT / RUNTIME PROOF OPEN** | Resume exact proof path when authorized runtime/Gate is available |
 
 **Working percentages are not proof. Evidence wins.**
+
+# ACTIVATION PROGRAM — CURRENT DESIGN LOCK
+
+The customer-facing activation package should be designed as a small, exceptionally clear system rather than a stack of giant manuals.
+
+### Recommended core package
+
+1. **NayaPOWER — What You Activated**
+   - what NayaPOWER is;
+   - what the customer is activating;
+   - what is shared vs personal;
+   - human authority and evidence boundaries;
+   - what “activation” means.
+
+2. **Naya Activation Guide**
+   - exact activation sequence;
+   - WHAT / WHY / HOW / VERIFY for every required capability;
+   - document-by-document completion boundary;
+   - continuation prompt for the next activation step.
+
+3. **Naya Operating Guide**
+   - Mission → Priority → Torch → Execution → Evidence → Verification → Learning → Next;
+   - how Naya leads without silently changing the goal;
+   - when Naya informs, warns, challenges, recommends, confirms, acts, or refuses;
+   - how the user works with Naya day to day.
+
+4. **Naya Intelligence & Learning Guide**
+   - Smart Notes;
+   - Naya Notes;
+   - machine-facing learning representation;
+   - PIS/internal intelligence;
+   - Daily Intelligence;
+   - Running Feed;
+   - provenance;
+   - compounding;
+   - Naya-to-Naya continuity.
+
+5. **Naya Troubleshooting & Recovery Guide**
+   - restoreability;
+   - interruption/recovery;
+   - authority boundaries;
+   - disagreement and challenge;
+   - confirmation gates;
+   - evidence and verification;
+   - what to do when a capability is unavailable.
+
+6. **Activation Acceptance Checklist**
+   - objective activation criteria;
+   - what must be present;
+   - what must be verified;
+   - what remains optional/unsupported;
+   - final “activated / not activated” determination.
+
+### Guided activation behavior
+
+For each document, Naya should:
+
+**WELCOME → EXPLAIN → ACTIVATE → REPORT → BENEFIT → VERIFY → CONTINUE**
+
+The report should answer:
+
+- What did this document activate?
+- Why does it matter to you?
+- What can you do now?
+- What was actually verified?
+- What remains unverified?
+- What is the next document?
+- What exact prompt should you paste/use next?
+
+### First customer interaction
+
+The first activation stage should intentionally discover:
+
+**WHO ARE YOU? → WHAT ARE YOU INTO? → WHAT IS YOUR VISION? → WHAT IS YOUR GOAL? → WHAT IS YOUR MISSION? → WHAT ARE YOU TRYING TO ACCOMPLISH? → WHAT MATTERS MOST?**
+
+Then Naya establishes the relationship:
+
+> I am here to help you succeed. I will be warm, direct, truthful, evidence-aware, and proactive. You own the destination; I help you navigate reality.
+
+### Smart Note explanation
+
+Naya should teach the customer that a Smart Note can become part of the Superbrain's canonical learning process, producing complementary human, Naya, and machine representations from the same underlying intelligence event when applicable.
+
+Where legitimate evidence exists, Naya should provide it rather than merely claiming that a note was created. Human-facing and Naya-facing receipts should be clear; machine-facing evidence may be shown when useful for confidence and transparency.
+
+# SALES EXPERIENCE — CURRENT DESIGN LOCK
+
+The sales page and activation package are one customer journey:
+
+**STRANGER → SALES PAGE → TALK TO NAYA → UNDERSTAND VALUE → PURCHASE → ACTIVATION → FIRST WIN**
+
+The sales page should sell the transformation and experience before revealing the architecture.
+
+### Core story
+
+**THE PROBLEM** — AI is powerful but often session-based; context, discoveries, decisions, and learning can disappear.
+
+**THE SHIFT** — What if your AI could build on experience instead of starting over?
+
+**THE EXPERIENCE** — Let visitors interact with Naya rather than merely reading claims.
+
+**THE TECHNOLOGY** — Reveal the SuperBrain architecture after the value is understood.
+
+**THE BENEFITS** — continuity, preserved discoveries, better decisions, priority awareness, reduced repetition, compounding intelligence, Naya-to-Naya continuity, and governed execution.
+
+**WHO IT IS FOR** — founders/entrepreneurs, AI power users, teams, creators/professionals, and AI-native organizations.
+
+**USP DIRECTION** — NayaPOWER turns AI from a session-based tool into a continuously improving intelligence system. The differentiator is not memory alone; it is **continuity + collective intelligence + learning + governance + execution**.
+
+### Make the page itself a demonstration
+
+Use the **Living Sun / Living Naya** concept as the visual centerpiece where implementation permits.
+
+The intended experience is:
+
+**SEE THE LIVING SUN → ASK NAYA A QUESTION → NAYA ANSWERS → ASK A FOLLOW-UP → EXPERIENCE THE DIFFERENCE**
+
+Voice/text interaction should be grounded in actual available NayaPOWER knowledge. Do not imply live grounding or capabilities until the implementation is real and verified.
+
+**Principle:**
+
+> **Do not merely tell visitors what NayaPOWER does. Let them experience NayaPOWER.**
 
 # MOST IMPORTANT RECENT LEARNING
 
@@ -193,7 +345,11 @@ but for:
 
 **state comprehension + priority comprehension + temporal awareness + next-action clarity.**
 
-This learning is now operationalized by making this feed the canonical chronological orientation projection and by requiring the cold-start experience to surface it before consequential work.
+The next layer of that learning is now explicit in the customer activation design:
+
+> **Activation must teach while it activates.**
+
+A powerful system should not make a new customer absorb a massive document dump. It should progressively reveal capability, demonstrate value, verify what is real, and continuously provide the next action.
 
 # WHY THE FEED EXISTS
 
@@ -229,6 +385,9 @@ A PriorityDecision is not a Torch. A Torch is not authorization or execution. Ex
 ### Customer activation
 Customer knowledge must carry provenance into canonical Note Events before it can influence qualified mission state. Human intent must remain explicit; knowledge cannot invent the human's mission.
 
+### Activation experience — 2026-08-30
+The latest durable decision is that the activation program itself is part of the product experience. Naya should lead the customer through the package one document at a time, explain each capability in human terms, preserve AI/machine clarity inside the same contract, show legitimate evidence, and always provide the exact continuation prompt. This is a UX/governance decision, not a claim that the customer-facing implementation is already production-complete.
+
 # SUCCESSION PROTOCOL
 
 Every substantive Naya must leave:
@@ -239,50 +398,45 @@ The successor must be able to restore without conversation history.
 
 # NEXT ACTION — EXECUTE NOW
 
-**1. Treat this feed as the first operational orientation artifact.**
+**P0 — Build the customer-ready activation package.**
 
-**2. Update the canonical cold-start path so every substantive Naya reads this feed immediately after the Runtime Briefing and before choosing a priority.**
+Create the six core activation artifacts above, keeping each concise but airtight. Each document must be written for three simultaneous audiences where appropriate:
 
-**3. During the GitHub Actions pause, do NOT retry Actions. Obtain/use an authorized alternate execution environment with a real NayaPOWER checkout.**
+**HUMAN → NAYA/AI → MACHINE/RUNTIME**
 
-**4. In that environment run, in order:**
+Do not repeat the whole system in every document. Each document should have one job, explicit scope, activation behavior, verification boundary, user benefit, and exact continuation prompt.
 
-```text
-PYTHONPATH=.naya/runtime python SUPERBRAIN/human_agency_governance_conformance_test.py
-PYTHONPATH=.naya/runtime python .naya/runtime/customer_activation_loop_test.py
-```
+After the activation package is locked, build the sales page around the same customer journey and use the Living Sun/Living Naya concept as the experiential centerpiece where technically supported.
 
-Then run the complete canonical Superbrain Gate equivalent required by the repository's current contract, preserving exact SHA, commands, outputs, exit statuses, receipts, and artifacts.
-
-**5. If the first concrete application failure appears, repair only that first evidence-backed repository-controlled boundary, rerun its regression, and rerun the complete gate.**
-
-**6. After runtime proof exists, execute the behavioral governance benchmark, compounding proof, and customer activation proof.**
-
-**7. Before ending, update canonical state and this feed with facts actually established, then re-verify `refs/heads/main`.**
+When GitHub Actions reaches its authorized resume point, return to the runtime proof track without losing the commercial work.
 
 # NEXT-NAYA COPY-PASTE DIRECTIVE
 
 > You are the next Naya operating on `SoulSchoolAcademy/NayaPOWER`.
 >
-> Do not ask the human to reconstruct the project.
+> Read `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md`, then `.naya/SUPERBRAIN-COLLECTIVE-RUNNING-FEED.md`, then the governing laws before substantive work.
 >
-> First read `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md` and this file `.naya/SUPERBRAIN-COLLECTIVE-RUNNING-FEED.md`.
+> Resolve live `refs/heads/main` before interpreting current state.
 >
-> Verify `refs/heads/main` before interpreting any runtime evidence.
+> GitHub Actions is intentionally paused by current human direction. Do not invoke, dispatch, rerun, or troubleshoot it during the pause.
 >
-> **GitHub Actions is intentionally paused for approximately two days by current human direction. Do not retry GitHub Actions during this pause.** GitHub remains canonical source; use an authorized alternate execution plane.
+> Current P0 is the customer-facing activation package. Build the six core activation artifacts: What You Activated, Activation Guide, Operating Guide, Intelligence & Learning Guide, Troubleshooting & Recovery Guide, and Activation Acceptance Checklist.
 >
-> Restore: mission, North Star, current state, verified boundaries, unknowns, protected rules, current bottleneck, and exact next action.
+> Activation must be incremental and guided by default. Naya first discovers the customer's identity, vision, goals, mission, and desired outcomes; then activates one capability, explains what changed and why it benefits the customer, distinguishes verified from unverified behavior, and provides the exact continuation prompt for the next document.
 >
-> Then execute the highest-value authorized action. Do not invent evidence. Do not weaken validators. Do not create a competing authority.
+> Treat the activation documents as one coherent system, not six disconnected manuals. Avoid unsupported promises. Preserve human authority, canonical Note Event authority, PIS authority, Running Feed orientation, provenance, and the evidence ladder.
 >
-> Before release, perform the Mirror / 10/10 audit: `WHY IS THIS NOT A 10?` Repair meaningful findings or document the genuine human/authority dependency.
+> Then build the sales experience around: STRANGER → TALK TO NAYA → UNDERSTAND VALUE → PURCHASE → ACTIVATION → FIRST WIN.
 >
-> Finish by recording evidence, learning, durable state, and a complete successor directive.
+> Use the Living Sun / Living Naya concept as an interactive demonstration where the actual implementation supports it.
+>
+> Every substantive response must provide a specific NEXT ACTION with the exact next prompt/instruction set.
+>
+> Before release, perform `WHY IS THIS NOT A 10?` and repair meaningful findings.
 
 # HISTORICAL CONTINUITY
 
-Detailed historical entries remain recoverable from the prior versions of this canonical file in Git history. The current projection intentionally places **live operational truth first** so a cold Naya cannot mistake stale historical context for current priority.
+Detailed historical entries remain recoverable from prior versions of this canonical file in Git history. The current projection intentionally places **live operational truth first** so a cold Naya cannot mistake stale historical context for current priority.
 
 **MASTER RULE:**
 
