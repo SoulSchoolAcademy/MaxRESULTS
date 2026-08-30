@@ -8,29 +8,31 @@
   "vision": "A trustworthy Intelligence Operating System gives humans and AI agents continuity, governed memory, execution, verification, learning, and compounding intelligence while preserving human authority.",
   "mission": "PROVE → INTEGRATE → LEARN → ACTIVATE: obtain authoritative runtime proof, close Torch 9, pass the full Superbrain Gate, repair only evidence-backed failures, demonstrate governance and compounding, verify activation, and put the first humans through the system.",
   "north_star": "Leave the Superbrain materially more capable, reliable, recoverable, intelligent, accountable, and useful while preserving everything already proven GREEN.",
-  "current_objective": "Break the authoritative pre-step runtime boundary with evidence, then close Torch 9 and drive the canonical Superbrain Gate through the first concrete evidence-backed failure.",
+  "current_objective": "Diagnose the authoritative pre-step runtime boundary with evidence, then close Torch 9 and drive the canonical Superbrain Gate through the first concrete evidence-backed application failure.",
   "success_criteria": ["Exact HEAD is identified before runtime claims are interpreted", "Authoritative runtime exposes real command, output, exit status, and exact HEAD or produces a precisely classified pre-step environment blocker", "Torch 9 has actual repository-runtime evidence", "Full Superbrain Gate runs against the exact tested HEAD", "Only concrete evidence-backed failures are repaired", "Actual Naya demonstrates obey, warn, challenge, recommend, confirm, and refuse behaviors", "A measurable learning loop changes subsequent behavior", "Customer activation is verified", "A fresh Naya can restore and execute from canonical state without conversational archaeology", "Every meaningful execution leaves a canonical Next-Naya execution directive"],
   "constraints": ["Preserve protected GREEN boundaries", "Never weaken validators", "Never delete historical knowledge", "Vectors are derived, never authoritative", "Do not claim current-head GREEN until authoritative runtime observes it", "The human owns the destination; Naya must not silently redefine it", "A blocked execution must carry a canonical continuation path", "Never leave the human or next Naya at 'now what?'"],
-  "current_state": "Verified main HEAD at execution start was 789a1b4f416978d7121fe33cea82b7620ead593d. Exact-head Superbrain Gate run 33289924051 (run #877) tested that SHA and completed failure for brain-gate job 99199649171 and system-health-master-node job 99199649258. Both jobs exposed zero steps; both job-log endpoints returned BlobNotFound; no artifacts were exposed. A separate workflow on the same exact SHA, Naya Power Memory + Restore Runtime run 33289924038, also failed with zero exposed steps, independently reproducing the pre-step runtime boundary. The Superbrain Gate workflow definition at that exact SHA contains explicit Checkout and Set up Python steps before all application commands, including Torch 9, so the observed zero-step failure occurs before any repository application command is observable. No application code was changed.",
+  "current_state": "At execution start, refs/heads/main was verified at 33f78f81a27ede5c16e4db7eece4079b388b9fa4. The newest exact-head Superbrain Gate was run 33289967077 (run #879), testing that SHA. brain-gate job 99199766776 and system-health-master-node job 99199766911 both completed failure with zero exposed steps; both job-log requests returned BlobNotFound; the run exposed zero artifacts. The same exact SHA also triggered Naya Power Memory + Restore Runtime run 33289967067, whose runtime-contract job 99199766570 failed with zero exposed steps, and Naya Control Plane run 33289967106, whose control-plane job 99199766789 and cct-regression job 99199766741 both failed with zero exposed steps. The Superbrain Gate workflow at the exact SHA explicitly defines Checkout and Set up Python before application commands. The independent Naya Control Plane workflow uses only ubuntu-latest plus checkout@v4 and direct run steps, yet its jobs show the same zero-step failure. This materially strengthens the pre-step runtime/runner boundary classification. GitHub Status currently reports Actions operational and no incident reported on Aug 30, 2026, so a current GitHub-wide incident is not established. No application code or workflow controls were changed because no repository-controlled defect has been proven.",
   "last_verified_runtime": {
-    "run_id": 33289924051,
-    "run_number": 877,
+    "run_id": 33289967077,
+    "run_number": 879,
     "workflow": "Superbrain Gate",
-    "head_sha": "789a1b4f416978d7121fe33cea82b7620ead593d",
+    "head_sha": "33f78f81a27ede5c16e4db7eece4079b388b9fa4",
     "jobs": {
-      "system-health-master-node": {"job_id": 99199649258, "conclusion": "failure", "steps": 0, "logs": "BlobNotFound"},
-      "brain-gate": {"job_id": 99199649171, "conclusion": "failure", "steps": 0, "logs": "BlobNotFound"}
+      "system-health-master-node": {"job_id": 99199766911, "conclusion": "failure", "steps": 0, "logs": "BlobNotFound"},
+      "brain-gate": {"job_id": 99199766776, "conclusion": "failure", "steps": 0, "logs": "BlobNotFound"}
     },
     "artifacts": 0,
     "classification": "PRE-STEP RUNTIME/ENVIRONMENT BOUNDARY — APPLICATION EXECUTION NOT OBSERVED"
   },
-  "cross_workflow_confirmation": {
-    "run_id": 33289924038,
-    "workflow": "Naya Power Memory + Restore Runtime",
-    "head_sha": "789a1b4f416978d7121fe33cea82b7620ead593d",
-    "job_id": 99199648902,
-    "conclusion": "failure",
-    "steps": 0
+  "cross_workflow_confirmation": [
+    {"run_id": 33289967067, "workflow": "Naya Power Memory + Restore Runtime", "head_sha": "33f78f81a27ede5c16e4db7eece4079b388b9fa4", "job_id": 99199766570, "conclusion": "failure", "steps": 0},
+    {"run_id": 33289967106, "workflow": "Naya Control Plane", "head_sha": "33f78f81a27ede5c16e4db7eece4079b388b9fa4", "jobs": [{"job_id": 99199766741, "name": "cct-regression", "conclusion": "failure", "steps": 0}, {"job_id": 99199766789, "name": "control-plane", "conclusion": "failure", "steps": 0}]
+  ],
+  "runtime_diagnosis": {
+    "repository_controlled_cause_proven": false,
+    "current_github_status": "Actions operational; no Aug 30 incident reported",
+    "diagnostic_conclusion": "Evidence currently points to runner/provisioning/log-storage or account/repository execution boundary rather than application code. Repository workflow configuration has been inspected; no concrete defect explaining zero-step jobs has been proven.",
+    "next_high_value_action": "Obtain runner/account-level diagnostic evidence or support-side backend evidence; do not weaken the canonical Gate."
   },
   "next_execution_path": ".naya/handoffs/NEXT-EXECUTION-20260830-RUNTIME-RETRY-TORCH9.md"
 }
