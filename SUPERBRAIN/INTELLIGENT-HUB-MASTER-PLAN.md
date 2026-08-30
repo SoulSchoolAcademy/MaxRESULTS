@@ -1,6 +1,6 @@
 # 🔱 NayaPOWER Intelligent Hub — Official Master Plan
 
-**STATUS:** CANONICAL DESIGN / CONTRACTS ESTABLISHED / UI NOT YET BUILT
+**STATUS:** CANONICAL DESIGN / CONTRACTS ESTABLISHED / KERNEL IMPLEMENTED / UI NOT YET BUILT
 **DATE:** 2026-08-30
 
 ## North Star
@@ -18,6 +18,8 @@ The Intelligent Hub is a first-class NayaPOWER system. Its stable interfaces are
 1. `SUPERBRAIN/INTELLIGENT-HUB-SUPERBRAIN-CONNECTION-CONTRACT.md`
 2. `SUPERBRAIN/WISDOM-CONTRIBUTION-PROTOCOL.md`
 3. `SUPERBRAIN/COLLECTIVE-INTELLIGENCE-EVENT-SCHEMA.md`
+
+Machine-readable contract projections now live under `.naya/runtime/intelligent_hub_contracts/`.
 
 ## Connection architecture
 
@@ -71,10 +73,32 @@ The existing `SUPERBRAIN/AI-BOOT/AI-OPERATING-FEED.md` remains the AI/session op
 
 This is the intended collective-intelligence flywheel.
 
+## Kernel checkpoint
+
+The first provider-neutral kernel is implemented at `.naya/runtime/intelligent_hub_kernel.py`.
+
+It currently proves:
+
+- authenticated connection binding
+- explicit, separately revocable wisdom-contribution consent
+- least-privilege capability declaration
+- human approval before publication
+- minimum-necessary contribution intake
+- rejection of raw/private-source fields
+- deterministic privacy screening for common identifiers, repository URLs, and credential patterns
+- duplicate detection
+- canonical Collective Intelligence Event construction and validation
+- anonymous collective projection with contributor identity excluded
+- Intelligence Feed publication/retrieval
+- event acknowledgement
+- connection revocation
+
+The reference authentication implementation is deliberately a test fixture. Production provider authentication must be supplied by a provider adapter (for example, a GitHub App installation) and must never require unrestricted repository access.
+
 ## Product sequence
 
-1. Establish and verify the three contracts.
-2. Build the Hub connection layer.
+1. Establish and verify the three contracts. **DONE**
+2. Build the Hub connection layer. **KERNEL IMPLEMENTED**
 3. Implement GitHub App authorization and selected-Superbrain connection.
 4. Implement contribution scope and consent UX.
 5. Implement wisdom extraction and privacy/quality gate.
