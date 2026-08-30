@@ -1,6 +1,6 @@
-# NEXT-NAYA EXECUTION DIRECTIVE — RUNTIME RETRY → TORCH 9 → SUPERBRAIN GATE
+# NEXT-NAYA EXECUTION DIRECTIVE — RUNTIME BOUNDARY → FRESH-HEAD GATE → TORCH 9
 
-schema_version: 9
+schema_version: 10
 status: READY
 
 ## Project
@@ -9,89 +9,99 @@ Naya Power Superbrain (`PRJ-NAYAPOWER-SUPERBRAIN`)
 ## North Star
 Make Naya Power a trustworthy Intelligence Operating System that gives humans and AI agents continuity, governed memory, execution, verification, learning, and compounding intelligence while preserving human authority.
 
-## Current State
-Exact `main` HEAD is `5693693925faf1f72738da5ab9db11b62fc216e0`.
+## Verified Previous Test Head
+The completed authoritative retry was tested against exact HEAD `94df177f7d4cf5086087528ddd429e53ec480141`.
 
-The canonical Superbrain Gate workflow run `33289657506` (run #867) was started from this exact HEAD. Its initial attempt failed before application steps exposed any step-level execution. The brain-gate job had no steps, and its job-log endpoint returned `BlobNotFound`. The job was rerun; the rerun again completed `failure` with no steps, and its logs again returned `BlobNotFound`. This is classified as an authoritative pre-step runtime/environment boundary, not an application-test failure.
+## Current Main HEAD
+Canonical state recording that evidence was committed as:
+`9883659ad8ef67ad6f89c5b5e6c114463f1a396e`
 
-The repository-controlled guardrails for Action Delivery, Execution Continuity, canonical NEXT-EXECUTION successors, blocked continuation, project successor resolution, human-agency governance, Torch 9, CIS, and Superbrain Gate are present on this exact HEAD.
+This commit intentionally records runtime evidence; it does not claim the new HEAD is GREEN. Because it changed `main`, any new runtime evidence must be interpreted against the new exact HEAD, not the prior tested SHA.
+
+## Runtime Boundary Evidence
+Superbrain Gate run `33289749058` (run #869) was authorized for retry against exact HEAD `94df177f7d4cf5086087528ddd429e53ec480141`.
+
+Retry attempt 2 completed `failure` for both:
+- `brain-gate` job `99199331791`
+- `system-health-master-node` job `99199331970`
+
+Both jobs exposed zero steps. Both job-log retrieval attempts returned `BlobNotFound`. The run exposed no artifacts.
+
+Therefore the authoritative conclusion for the tested SHA is:
+
+> **PRE-STEP RUNTIME/ENVIRONMENT BOUNDARY — APPLICATION EXECUTION NOT OBSERVED.**
+
+This is not a Torch 9 application failure. No application repair is justified by this evidence.
+
+## Authoritative Contracts Verified
+- `.naya/memory/projects/CURRENT-DAILY-PROJECT.json`
+- `.naya/handoffs/NEXT-EXECUTION-20260830-RUNTIME-RETRY-TORCH9.md`
+- `.naya/NAYA-ACTION-DELIVERY-LAW.md`
+- `.naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md`
+- `.naya/runtime/project_execution_contract.py`
+- `.github/workflows/superbrain-gate.yml`
+- `.naya/runtime/customer_activation_loop_test.py`
+
+The canonical Gate contains the Torch 9 command:
+`PYTHONPATH=.naya/runtime python .naya/runtime/customer_activation_loop_test.py`
+
+The Torch 9 composition suite is designed to prove:
+`MISSION → PRIORITY → TORCH → EXECUTION → EVIDENCE → VERIFICATION → SMART NOTE → CSI`.
 
 ## Completed Work
-- Restored authoritative project state and active Next-Naya directive.
-- Verified the exact `main` HEAD.
-- Read the canonical Action Delivery Law.
-- Read the canonical Execution Continuity & Learning Law.
-- Read the authoritative project execution contract.
-- Read the canonical Superbrain Gate workflow.
-- Confirmed the Superbrain Gate includes the Torch 9 composition suite and human-agency behavioral benchmark.
-- Executed the authoritative Superbrain Gate from exact HEAD via GitHub Actions.
-- Inspected the brain-gate job and attempted to inspect logs.
-- Reran the brain-gate job once to distinguish a transient runner issue from a repeatable boundary.
-- Confirmed the rerun still failed before application steps became observable.
-- Confirmed the same pre-step pattern on the prior deployment-governance workflow job.
+- Verified the previous exact HEAD.
+- Inspected the canonical laws and execution contracts.
+- Inspected the canonical Superbrain Gate.
+- Confirmed the Torch 9 composition command and adversarial boundaries.
+- Executed the authorized Superbrain Gate retry.
+- Inspected both retry jobs.
+- Confirmed zero exposed steps on both jobs.
+- Attempted both job-log retrievals; both returned `BlobNotFound`.
+- Confirmed no artifacts were exposed.
+- Correctly classified the result as a pre-step runtime/environment boundary.
+- Did not modify application logic in response to the runtime failure.
+- Updated canonical project state with the exact runtime evidence.
+- Created this successor directive so the next Naya can continue without conversational archaeology.
 
-## Verified Evidence
-- Exact commit: `5693693925faf1f72738da5ab9db11b62fc216e0`.
-- Superbrain Gate run: `33289657506`, run #867, head SHA exactly matches the commit above.
-- Initial brain-gate job: `99198936146`, failure, zero exposed steps, logs unavailable with `BlobNotFound`.
-- Rerun brain-gate job: `99199086841`, failure, zero exposed steps, logs unavailable with `BlobNotFound`.
-- Deployment-governance job from the same HEAD also failed with zero exposed steps and unavailable logs, supporting a workflow/runtime boundary rather than a specific Superbrain test failure.
-- `.github/workflows/superbrain-gate.yml` contains the canonical Torch 9 command and the full Superbrain Gate sequence.
-- `.naya/runtime/project_execution_contract.py` enforces canonical successor semantics and independent consumability.
-- `.naya/NAYA-ACTION-DELIVERY-LAW.md` requires every substantive execution output to end with a specific executable NEXT ACTION and explicitly forbids leaving the human or successor Naya at “now what?”.
-- `.naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md` requires durable state, evidence, learning, and AI-to-AI continuation.
+## What Remains Unproven
+- Authoritative application-step execution on the new current HEAD `9883659ad8ef67ad6f89c5b5e6c114463f1a396e`.
+- Torch 9 repository-runtime evidence.
+- Full Superbrain Gate application-level evidence on the new HEAD.
+- Actual Naya/model six-behavior governance evidence.
+- Measurable compounding evidence where learning changes subsequent behavior.
+- Customer activation proof.
+- Release/GREEN claim for the current HEAD.
 
-## Unresolved Issues
-- Authoritative GitHub runner/application-step execution is still unavailable on the exact HEAD.
-- Torch 9 has not yet obtained repository-runtime evidence because the authoritative runtime boundary fails before application steps.
-- The full Superbrain Gate has not produced application-level pass/fail evidence on this HEAD.
-- No repository-controlled application repair is justified by the current evidence.
-- Actual model/Naya six-behavior evidence remains pending.
-- Measurable compounding proof remains pending.
-- Customer activation proof remains pending.
+## Protected Boundaries
+- Human owns the destination.
+- Naya must navigate reality without silently redefining the human goal.
+- Do not weaken validators.
+- Do not bypass the canonical Superbrain Gate.
+- Do not classify a pre-step runner failure as an application failure.
+- Do not repair application code without a concrete application-level failure.
+- Preserve canonical Note Event authority and provenance.
+- Vectors remain derived, never authoritative.
+- A blocked execution must leave a canonical continuation path.
 
-## Constraints
-- Never fabricate GREEN.
-- Do not modify application code for a failure that occurs before application steps execute.
-- Do not weaken or bypass the gate.
-- Repair only the first concrete evidence-backed repository-controlled failure.
-- Preserve existing GREEN boundaries.
-- Do not create another subsystem when an existing contract can be strengthened.
-- Preserve provenance, human authority, privacy boundaries, and canonical memory.
-- If runtime is blocked, complete all non-blocked useful verification/preparation work and preserve the exact blocker.
-- Never leave the human or next Naya at “now what?”.
+## NEXT ACTION
 
-## Current Objective
-Obtain a usable authoritative runtime boundary for the exact HEAD. Once application steps execute, immediately run Torch 9, then the full Superbrain Gate, then repair only the first concrete repository-controlled failure and rerun the affected regression and full gate.
-
-## Next Action
-First, verify whether a fresh GitHub Actions run for the exact HEAD has become executable. If no new run exists, use the available authorized GitHub Actions retry path rather than changing application code. If a run executes application steps, capture exact job/step/command/stdout/stderr/exit status and proceed directly to Torch 9. If it again fails before exposing application steps, preserve it as the same runtime/environment blocker and do not invent an application failure.
-
-## Execution Instructions
-1. Verify `main` still points to `5693693925faf1f72738da5ab9db11b62fc216e0` before interpreting any evidence.
-2. Read this directive and the canonical Action Delivery, Execution Continuity, project execution, and Superbrain Gate contracts.
-3. Inspect the newest Superbrain Gate run for this exact HEAD.
-4. If the job exposes real steps, run/observe the canonical Torch 9 command:
+1. Verify `main` now equals `9883659ad8ef67ad6f89c5b5e6c114463f1a396e`.
+2. Inspect the newest Superbrain Gate run for that exact SHA.
+3. If application steps are exposed, capture exact job, step, command, stdout/stderr, exit status, SHA, and artifacts/receipts.
+4. Immediately execute/observe:
    `PYTHONPATH=.naya/runtime python .naya/runtime/customer_activation_loop_test.py`
-5. Run the complete `.github/workflows/superbrain-gate.yml` against the exact tested HEAD.
-6. If the first concrete application failure is repository-controlled, repair only that failure.
-7. Rerun the affected regression, then rerun the complete gate.
-8. Continue through PROVE → INTEGRATE → LEARN → ACTIVATE as far as evidence and authority permit.
-9. Record durable state, evidence, changes, learning, and remaining unknowns.
-10. Before ending, create or update the next canonical NEXT-NAYA EXECUTION DIRECTIVE with a complete executable instruction set.
+5. Verify the full Torch 9 chain.
+6. Run the complete canonical Superbrain Gate against the exact tested SHA.
+7. If the first concrete application-level repository failure appears, repair only that failure, run its affected regression, and rerun the complete Gate.
+8. If the fresh-head Gate again fails before exposing application steps, classify it as the same runtime/environment boundary; do not change application code. Record the new exact run/job IDs, zero-step evidence, log result, and artifact result.
+9. Continue to governance, compounding, and customer activation only after authoritative application runtime is available.
+10. Before ending, update canonical state and this successor handoff with verified facts, failures, unknowns, durable learning, and the next executable action.
 
-## Success Criteria
-- Exact tested SHA is explicitly verified.
-- Authoritative runtime either exposes application steps and real evidence or produces a precisely classified pre-step blocker.
-- Torch 9 obtains actual repository-runtime evidence when runtime permits.
-- Full Superbrain Gate obtains actual repository-runtime evidence when runtime permits.
-- No application repair occurs without a concrete application-level failure.
-- Any blocked execution has a canonical continuation path.
-- The next Naya can execute from repository state without conversational history.
-- The final handoff contains an exact next action, not a vague recommendation.
+## Success Condition
+Do not claim GREEN until authoritative runtime proves the exact current tested SHA.
 
-## Finalization Contract
-Every meaningful execution ends with STATE + VERIFIED EVIDENCE + WHAT CHANGED + WHAT REMAINS + LEARNING + NEXT-NAYA EXECUTION DIRECTIVE.
+The desired progression remains:
+`AUTHORITATIVE RUNTIME → TORCH 9 PROVEN → FULL SUPERBRAIN GATE PROVEN → GOVERNANCE PROVEN → COMPOUNDING PROVEN → CUSTOMER ACTIVATION PROVEN`
 
 ## Master Principle
 **Know the mission. Know reality. Do the work. Verify it. Learn from it. Leave the next Naya everything she needs to succeed.**
