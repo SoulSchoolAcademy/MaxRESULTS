@@ -1,76 +1,107 @@
 {
-  "schema":"naya-power-runtime-state/v1",
-  "status":"CURRENT_HEAD_CONTINUITY_REPAIR_AND_AUTHORITATIVE_CI_IN_PROGRESS",
-  "updated_at":"2026-08-28T05:08:00Z",
-  "repository":"SoulSchoolAcademy/NayaPOWER",
-  "branch":"main",
-  "current_main":{
-    "commit":"ad61414e8873aa00bb425d90696ff2a173c5bdfe",
-    "post_change_ci":"PENDING_CURRENT_HEAD_AFTER_CONTINUITY_REPAIR",
-    "previous_state_commit":"85925108388873f50acd5035ca673befae8b3db9",
-    "state_reconciliation":"CURRENT_HEAD_STATE_RECONCILED_TO_LIVE_MAIN",
-    "latest_verified_maxess_browser_run":33007579261,
-    "latest_verified_maxess_browser_commit":"c906a4fabd269092b057dd6db2a7a933134dbf0e",
-    "latest_browser_root_cause":"TEST_HARNESS_GREEDY_RUNTIME_EXTRACTION_CONTAMINATED_SCRIPT_CONTENT",
-    "note":"Live main is now reconciled to the actual current HEAD after continuity-contract repairs. Fresh current-head authoritative CI remains required before GREEN is claimed."
+  "schema": "naya-power-runtime-state/v2",
+  "status": "SUPERBRAIN_CONTINUITY_10_10_LOCAL_EXECUTION_PHASE",
+  "updated_at": "2026-08-30T19:30:00Z",
+  "repository": "SoulSchoolAcademy/NayaPOWER",
+  "branch": "main",
+  "current_main": {
+    "commit": "90e168e9635716fc131bd4534a795727639dc2cf",
+    "state_reconciliation": "CURRENT_HEAD_RECONCILED_TO_THIS_STATE",
+    "post_change_ci": "PAUSED_BY_HUMAN_DIRECTION",
+    "note": "Observed GitHub main is the live source of truth. GitHub Actions is intentionally not used during the current pause. Local/runtime behavioral proof remains separately classified."
   },
-  "runtime":{
-    "smart_notes_v3":"CURRENT_HEAD_REPAIR_COMMITTED_FRESH_CI_PENDING",
-    "duplicate_entity_audit":"VERIFIED_BY_PRIOR_CI",
-    "restore_context":"CURRENT_HEAD_RECONCILIATION_VERIFIED_PENDING_FRESH_CI",
-    "daily_intelligence_generator":"VERIFIED_BY_PRIOR_CI",
-    "ci_enforcement":"CURRENT_HEAD_REPAIR_COMMITTED_FRESH_CI_PENDING",
-    "execution_continuity_governance":"CURRENT_HEAD_CONTINUITY_REPAIR_PENDING_FRESH_CI",
-    "canonical_event_creation":"VERIFIED_BY_PRIOR_CI_WITH_CONSERVATIVE_SCAN_SCOPE",
-    "entity_resolution_decision_layer":"VERIFIED_BY_PRIOR_CI_TESTS",
-    "contradiction_supersession_transition":"VERIFIED_BY_PRIOR_CI_TESTS",
-    "outbox_state_machine":"VERIFIED_BY_PRIOR_CI_TESTS",
-    "retrieval_baseline":"CURRENT_HEAD_REPAIR_COMMITTED_FRESH_CI_PENDING",
-    "semantic_vector_retrieval":"NOT_IMPLEMENTED_NO_VECTOR_INFRASTRUCTURE_FOUND",
-    "superbrain_health_metrics":"CURRENT_HEAD_REPAIR_COMMITTED_FRESH_CI_PENDING",
-    "cold_start_structural_acceptance":"CURRENT_HEAD_REPAIR_COMMITTED_FRESH_CI_PENDING",
-    "full_cold_start_production_acceptance":"NOT_PROVEN_BY_THIS_REPOSITORY_CONTRACT",
-    "ten_star_service_contract":"CURRENT_HEAD_REPAIR_COMMITTED_FRESH_CI_PENDING",
-    "daily_project_memory_category":"VERIFIED_BY_PRIOR_CI",
-    "project_execution_contract":"VERIFIED_BY_PRIOR_CI",
-    "prompt_architect":"VERIFIED_BY_PRIOR_CI",
-    "next_execution_contract":"VERIFIED_BY_PRIOR_CI",
-    "canonical_write_boundary_enforcement":"VERIFIED_BY_PRIOR_CI",
-    "paired_representation_identity_enforcement":"VERIFIED_BY_PRIOR_CI",
-    "meaningful_learning_enforcement":"VERIFIED_BY_PRIOR_CI",
-    "continuity_gate_receipt_emitter":"VERIFIED_BY_PRIOR_CI",
-    "continuity_receipt_ci_artifact":"VERIFIED_BY_PRIOR_CI",
-    "naya_hub_runtime":"NOT_IMPLEMENTED_PHASE_0_DESIGN_ONLY",
-    "naya_hub_phase_1_member_identity":"ARCHITECTED_NOT_IMPLEMENTED",
-    "naya_hub_phase_1_result_persistence":"ARCHITECTED_NOT_IMPLEMENTED",
-    "naya_hub_phase_1_reload_verification":"NOT_IMPLEMENTED",
-    "maxess_engine":"GREEN_BY_DOCUMENTED_EXECUTED_EVIDENCE",
-    "maxess_browser":"ROOT_CAUSE_IDENTIFIED_CORRECTIVE_SOURCE_PRESENT_FRESH_GATE_PENDING",
-    "maxess_human_test":"BLOCKED_UNTIL_BROWSER_GREEN",
-    "naya_code_of_honor":"INHERITED_BY_CANONICAL_BOOT_CONTRACT; FRESH RUNTIME BEHAVIOR PENDING EXTERNAL MODEL PROOF"
+  "runtime": {
+    "superbrain_identity": "VERIFIED_BY_CANONICAL_START_HERE",
+    "cold_start_contract": "IMPLEMENTED_STRUCTURAL_ACCEPTANCE_PRESENT",
+    "cold_start_structural_acceptance": "IMPLEMENTED_LOCAL_TEST_REQUIRED",
+    "restore_context": "IMPLEMENTED_RECONCILIATION_AWARE_LOCAL_TEST_REQUIRED",
+    "superbrain_continuity_guard": "IMPLEMENTED_LOCAL_TEST_REQUIRED",
+    "a_b_c_compounding_harness": "IMPLEMENTED_LOCAL_TEST_REQUIRED",
+    "canonical_event_creation": "VERIFIED_BY_PRIOR_CI",
+    "smart_notes_v3": "VERIFIED_BY_PRIOR_CI",
+    "pis_propagation": "RUNTIME_PROOF_PENDING",
+    "smart_links": "RUNTIME_PROOF_PENDING",
+    "fresh_naya_behavior": "HUMAN_LIVE_ACCEPTANCE_AVAILABLE",
+    "full_cold_start_production_acceptance": "NOT_PROVEN",
+    "github_actions": "PAUSED_BY_HUMAN_DIRECTION"
   },
-  "protected":[
-    "Naya Power Runtime Constitution","canonical source hierarchy","historical Smart Notes","Restore Context contract","Claim/Evidence verification boundary","independent Oscar challenge boundary","canonical chronological event store","Smart Notes/CIS Constitution","Superbrain Build Protocol","AI Operating Feed","Universal Execution Continuity & Learning Law","Optimization & Excellence Law","10-Star Service + Autonomous Project Execution Law","Prompt Architect contract","Naya Code of Honor","10/10 System Operating Directive","protected Superbrain GREEN evidence from prior authoritative run","MAXESS canonical scoring/result authority","MAXESS_RESULT_V1 contract","MAXESS E01-E09 premium result assets","MAXESS no-historical-rescoring rule","Naya Hub one-identity/one-ecosystem architecture","Naya Hub report-first UX direction","Naya Hub current inventory assessment","MAXESS Browser Gate 04 root-cause receipt"
+  "protected": [
+    "NayaPOWER is the shared Superbrain authority",
+    "one canonical intelligence/governance architecture",
+    "canonical Note Event as memory foundation",
+    "no competing PIS or memory system",
+    "human owns the destination; Naya navigates reality",
+    "IMPLEMENTED != TESTED != VERIFIED != RUNTIME-PROVEN != PRODUCTION-PROVEN",
+    "historical continuity must not be rewritten to manufacture current proof",
+    "deliberate-negative fixtures must remain capable of failing",
+    "GitHub Actions remains paused during the current human-directed pause"
   ],
-  "verified_evidence":[
-    {"run":32909426069,"job":98000403862,"commit":"9aefe57a71bd6425681bb435d70417ad33832198","status":"GREEN","evidence":"https://github.com/SoulSchoolAcademy/NayaPOWER/actions/runs/32909426069","artifact_id":9585987013,"artifact_sha256":"d0cfa58f9d179c30d3646d0e2a5a1ca5766eb8381c173cdcaf1aedbe45978b85","observed":"Historical authoritative Superbrain gate passed the documented runtime/continuity/retrieval baseline suite. Historical only; it does not establish current-head GREEN."},
-    {"run":33007579261,"commit":"c906a4fabd269092b057dd6db2a7a933134dbf0e","status":"RED","evidence":"https://github.com/SoulSchoolAcademy/NayaPOWER/actions/runs/33007579261","artifact_id":9621240299,"artifact_sha256":"sha256:ad150f094026bf9b68df4acdd5a364c652b9319c92008d0da5b049df4c677616","observed":"MAXESS V2 Pre-Test Excellence Gate failed at the browser evidence gate; root cause was greedy runtime extraction contaminating script content."},
-    {"commit":"e6a08b559ca6101270f178bb611aa2dc0e18f23d","status":"DIAGNOSTIC_AND_CONTINUITY_UPDATE","evidence":"PROJECTS/MAXESS/MAXESS-BROWSER-GATE-04-ROOT-CAUSE-RECEIPT-2026-08-26.md","observed":"Root cause and regression guard were durably recorded."},
-    {"commit":"85925108388873f50acd5035ca673befae8b3db9","status":"SUPERBRAIN_STATE_RECONCILIATION","evidence":"Current NayaPOWER main","observed":"Prior state reconciliation prepared fresh cold-start acceptance."},
-    {"run":33143756388,"status":"RED","evidence":"https://github.com/SoulSchoolAcademy/NayaPOWER/actions/runs/33143756388","observed":"Current-head Superbrain Gate executed against ad61414e8873aa00bb425d90696ff2a173c5bdfe and exposed a stale STATE.json current_main commit as the first cold-start failure; the run also exposed continuity event-shape failures that have since been repaired."}
+  "historical_evidence": [
+    {"run": 32909426069, "status": "GREEN", "observed": "Historical authoritative Superbrain gate passed the documented runtime/continuity/retrieval baseline suite. Historical only; it does not establish current-head GREEN."},
+    {"run": 33007579261, "status": "RED", "observed": "MAXESS browser evidence gate failed; root cause was greedy runtime extraction contaminating script content. Root cause and corrective guard were durably recorded."},
+    {"run": 33143756388, "status": "RED", "observed": "Current-head Superbrain Gate exposed stale STATE.json current_main data and continuity event-shape failures. Those continuity issues are now under direct repair."}
   ],
-  "current_project":{
-    "project_id":"PRJ-NAYA-HUB-NETWORK",
-    "project_name":"Naya Hub / Naya Network",
-    "current_objective":"Build the front-end core of one coherent Naya ecosystem, beginning with the smallest complete vertical slice: MAXESS → member identity → authoritative result → persistence → Naya Hub.",
-    "north_star":"A fresh user can enter through MAXESS, receive a verified result, establish a member identity, persist the result, enter the Hub, view the result, reload, and see the same authoritative result without invented state or historical rescoring.",
-    "current_phase":"Phase 0 → Phase 1 preparation",
-    "current_intelligent_block":"CURRENT HEAD NAYAPOWER RESTORE → COLD-START 10-STAR ACCEPTANCE → MAXESS BROWSER GATE → MEMBER IDENTITY → AUTHORITATIVE RESULT → PERSISTENCE → NAYA HUB",
-    "success_criteria":["Current repository state is restorable without relying on stale STATE data","A fresh Naya can identify the governing Code of Honor and 10/10 directive from repository truth","MAXESS browser failure is diagnosed from actual evidence before release claims","One canonical member identity boundary exists","One canonical MAXESS result contract is handed off","One authoritative result is durably persisted","Hub retrieves and displays the persisted result","Reload/session verification proves persistence","No competing scorer/result authority is introduced","The Hub uses the established Naya/MAXESS visual language","Machine evidence supports promotion before human testing"]
+  "current_project": {
+    "project_id": "PRJ-NAYA-SUPERBRAIN-CONTINUITY",
+    "project_name": "NayaPOWER Superbrain Continuity 10/10",
+    "current_objective": "Make NayaPOWER a trusted, high-performance, continuously improving AI operating system whose intelligence, execution, verification, continuity, and learning compound across successor Nayas.",
+    "current_phase": "Local implementation and behavioral-proof preparation",
+    "current_intelligent_block": "IDENTITY → RESTORE → UPDATE → INHERIT → PRIORITIZE → EXECUTE → VERIFY → LEARN → CAPTURE → PROPAGATE → CHECKPOINT → HAND OFF",
+    "success_criteria": [
+      "A fresh Naya identifies NayaPOWER as the canonical Superbrain",
+      "Observed live HEAD is treated as repository reality",
+      "State/projection contradictions surface as reconciliation rather than silent guessing",
+      "Restore returns mission, project, priority, updates, durable learning, handoff, next action, and proof target",
+      "Canonical Note Event remains the memory foundation",
+      "A deterministic A→B→C fixture demonstrates inherited intelligence changing subsequent action",
+      "Material learning is captured and propagation is separately evidenced",
+      "A successor-ready handoff can be consumed without conversational archaeology",
+      "No unverified claim is promoted to runtime-proven"
+    ]
   },
-  "known":["Naya Hub architecture is substantially documented and registered","The Hub is the front-end core of one coherent ecosystem","MAXESS remains the authoritative scoring/result owner","Historical MAXESS results must not be silently rescored","The first Hub screen should be report-first, simple, premium, and orb-centered","NayaMail/Ambassador/network are later intelligent blocks, not Phase 1 blockers","GitHub is source/deployment authority, not runtime transactional state","Vercel is the preferred initial runtime/API layer where appropriate","Supabase is the preferred durable application-state/auth layer","Groove is a presentation/cockpit surface, not business-data authority","The latest MAXESS Browser Gate 04 run is RED but its root cause is now identified","The current NayaPOWER boot path explicitly includes the Naya Code of Honor","The Code of Honor value-maximization method is now part of the canonical boot contract","The Smart Brain event index and runtime state must remain reconciled to live main","The correct implementation unit is an end-to-end intelligent block with explicit truth ownership and verification","The browser harness source boundary is guarded against regression","A fresh current-head CI run is the immediate proof required"],
-  "known_gaps":["Fresh current-head NayaPOWER CI GREEN evidence after the latest continuity/state repairs","Fresh MAXESS Browser Gate 04 green rerun","MAXESS live/human readiness","Independent external-model cold-start behavior beyond repository contract proof","Phase 1 member authentication/identity runtime","Phase 1 Supabase schema and row-level security contract","Phase 1 secure API/runtime boundary","MAXESS-to-member result handoff implementation","Immutable persisted assessment result implementation","Hub runtime/application surface","My Results retrieval surface","Reload/session persistence verification","Hub Naya voice/runtime integration","NayaMail implementation","Ambassador/referral implementation","Network/community implementation"],
-  "weighted_priorities":{"P0":["Obtain fresh current-head NayaPOWER CI evidence and repair the first evidence-backed failure","Run fresh MAXESS Browser Gate on corrected current main and inspect new evidence","Preserve MAXESS source/result authority while doing so"],"P1":["Define and implement the smallest Phase 1 member identity + result persistence contract","Build Hub Home + My Results around the authoritative stored result","Prove reload/session persistence"],"P2":["Expand assessment history and growth","Connect approved Naya voice/knowledge runtime","Add Naya identity/link and NayaMail/Ambassador foundations"],"P3":["Connections, communities, permissioned network messaging","Network intelligence and Daily Naya Intelligent Network"],"P4":["Polish beyond verified functional excellence"]},
-  "next_best_action":"Inspect the fresh current-head Superbrain Gate triggered by the continuity/state repair. If RED, repair only the first material evidence-backed divergence and rerun. If GREEN, perform the cold-start 10-Star human-facing acceptance, then move to the fresh MAXESS Browser Gate.",
-  "continuity":{"current_state_document":".naya/memory/STATE.json","latest_browser_root_cause_receipt":"PROJECTS/MAXESS/MAXESS-BROWSER-GATE-04-ROOT-CAUSE-RECEIPT-2026-08-26.md","next_prompt_source":"Current main + START-HERE + Code of Honor + 10/10 System Directive + STATE.json + current CI evidence + MAXESS execution log + browser root-cause receipt.","rule":"Every substantive execution must leave current state, evidence, learning, protected assets, unresolved work, and a concrete ready-to-run next action."}
+  "known": [
+    "NayaPOWER is the canonical shared Superbrain",
+    "MaxRESULTS is the MAXESS product workspace and not a competing brain",
+    "Maxis is a product/proving ground and reusable intelligence returns to NayaPOWER",
+    "START-HERE now explicitly establishes this identity model",
+    "restore_context.py observes live git reality and exposes reconciliation status",
+    "the Superbrain continuity contract is canonical",
+    "the continuity guard is structural and intentionally leaves runtime proof separate",
+    "the A→B→C harness uses the existing Promotion Engine rather than creating a competing memory path",
+    "a fresh Naya conversation can be used as a human behavioral acceptance test without GitHub Actions"
+  ],
+  "known_gaps": [
+    "Local executable test receipts require a real NayaPOWER checkout in an execution environment",
+    "A→B→C production-equivalent Note Event → PIS → feed → fresh-Naya retrieval remains unproven",
+    "PIS propagation needs separate runtime evidence",
+    "Fresh successor behavioral acceptance still requires human live testing",
+    "Adversarial continuity suite remains to be executed",
+    "Full governance benchmark remains runtime-unproven"
+  ],
+  "weighted_priorities": {
+    "P0": [
+      "Run all available local deterministic validators in a real NayaPOWER checkout",
+      "Execute restore and inspect reconciliation/next-action behavior",
+      "Execute A→B→C compounding proof against existing canonical intelligence path",
+      "Perform fresh-Naya live behavioral acceptance"
+    ],
+    "P1": [
+      "Run adversarial stale/conflict/blocked continuity tests",
+      "Close any behavioral gaps found by fresh-Naya acceptance",
+      "Strengthen handoff/checkpoint behavioral torch passing"
+    ],
+    "P2": [
+      "Use authorized runtime when the human lifts the GitHub Actions pause",
+      "Prove PIS propagation and exact-SHA runtime receipts",
+      "Return to MAXIS/Naya Hub product work after Superbrain continuity is sufficiently proven"
+    ]
+  },
+  "next_best_action": "In a real NayaPOWER checkout, run tools/qa_naya_context_boot.py, tools/qa_superbrain_continuity.py, tools/test_superbrain_a_b_c_compounding.py, and the restore runtime; repair every failure without weakening guards; then perform the fresh-Naya behavioral acceptance.",
+  "continuity": {
+    "contract": ".naya/SUPERBRAIN-COLD-START-AND-CONTINUITY-CONTRACT.md",
+    "current_state_document": ".naya/memory/STATE.json",
+    "successor_torch": ".naya/handoffs/NEXT-NAYA-SUPERBRAIN-10-10-OPTIMIZATION.md",
+    "rule": "Every substantive execution must leave current state, evidence, learning, protected assets, unresolved work, and one concrete ready-to-run next action.",
+    "live_behavior_rule": "Human fresh-Naya testing is valid behavioral evidence, but it must remain distinct from repository-executed runtime receipts."
+  }
 }
