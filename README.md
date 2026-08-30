@@ -14,6 +14,24 @@ Make it dramatically easier for an ordinary human with a meaningful vision to ac
 
 **UNDERSTAND → PLAN → EXECUTE → VERIFY → LEARN → COMPRESS → PRESERVE → RESTORE → IMPROVE**
 
+## 🔱 Intelligent Hub — First-Class Architecture
+
+**Official Master Plan:** `SUPERBRAIN/INTELLIGENT-HUB-MASTER-PLAN.md`
+
+The Intelligent Hub is governed first by stable interfaces, before its UI is built:
+
+1. `SUPERBRAIN/INTELLIGENT-HUB-SUPERBRAIN-CONNECTION-CONTRACT.md`
+2. `SUPERBRAIN/WISDOM-CONTRIBUTION-PROTOCOL.md`
+3. `SUPERBRAIN/COLLECTIVE-INTELLIGENCE-EVENT-SCHEMA.md`
+
+The design principle is:
+
+> **Connect the Superbrain. Preserve sovereignty. Contribute wisdom. Compound intelligence.**
+
+A person's Superbrain remains sovereign/private. GitHub forking may be used to obtain an independently owned Superbrain, but collective intelligence is synchronized through explicitly authorized, generalized **Collective Intelligence Events**, not repositories. GitHub-backed Superbrains connect through a least-privilege GitHub App rather than pasted credentials or fork URLs.
+
+The running intelligence projection is called the **Intelligence Feed**. Canonical Note Events remain the underlying memory authority; feed surfaces communicate verified learning, decisions, changes, and next actions.
+
 ## 🔐 Deployment Governance — CANONICAL
 
 **A repository change is not a release.** NayaPOWER remains connected to Vercel, but repository activity MUST NOT automatically become publication.
