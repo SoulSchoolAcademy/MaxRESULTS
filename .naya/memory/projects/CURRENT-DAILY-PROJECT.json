@@ -8,21 +8,29 @@
   "vision": "A trustworthy Intelligence Operating System gives humans and AI agents continuity, governed memory, execution, verification, learning, and compounding intelligence while preserving human authority.",
   "mission": "PROVE → INTEGRATE → LEARN → ACTIVATE: obtain authoritative runtime proof, close Torch 9, pass the full Superbrain Gate, repair only evidence-backed failures, demonstrate governance and compounding, verify activation, and put the first humans through the system.",
   "north_star": "Leave the Superbrain materially more capable, reliable, recoverable, intelligent, accountable, and useful while preserving everything already proven GREEN.",
-  "current_objective": "Obtain authoritative runtime evidence on the exact current main HEAD, then close Torch 9 and drive the canonical Superbrain Gate through the first concrete evidence-backed failure.",
+  "current_objective": "Break the authoritative pre-step runtime boundary with evidence, then close Torch 9 and drive the canonical Superbrain Gate through the first concrete evidence-backed failure.",
   "success_criteria": ["Exact HEAD is identified before runtime claims are interpreted", "Authoritative runtime exposes real command, output, exit status, and exact HEAD or produces a precisely classified pre-step environment blocker", "Torch 9 has actual repository-runtime evidence", "Full Superbrain Gate runs against the exact tested HEAD", "Only concrete evidence-backed failures are repaired", "Actual Naya demonstrates obey, warn, challenge, recommend, confirm, and refuse behaviors", "A measurable learning loop changes subsequent behavior", "Customer activation is verified", "A fresh Naya can restore and execute from canonical state without conversational archaeology", "Every meaningful execution leaves a canonical Next-Naya execution directive"],
   "constraints": ["Preserve protected GREEN boundaries", "Never weaken validators", "Never delete historical knowledge", "Vectors are derived, never authoritative", "Do not claim current-head GREEN until authoritative runtime observes it", "The human owns the destination; Naya must not silently redefine it", "A blocked execution must carry a canonical continuation path", "Never leave the human or next Naya at 'now what?'"],
-  "current_state": "Verified main HEAD immediately before this canonical-state write was 0110f8245c949090ad09396d1bee538a90c222fd. Superbrain Gate run 33289883081 (run #875) tested that exact SHA and completed failure for system-health-master-node job 99199539004 and brain-gate job 99199539191. Both jobs exposed zero steps; both job-log endpoints returned BlobNotFound; no artifacts were exposed. This reproduces the established pre-step runtime/environment boundary and provides no application-level Torch 9 failure. No application code was changed. This state write itself advances main, so successors must verify refs/heads/main before interpreting any later runtime evidence.",
+  "current_state": "Verified main HEAD at execution start was 789a1b4f416978d7121fe33cea82b7620ead593d. Exact-head Superbrain Gate run 33289924051 (run #877) tested that SHA and completed failure for brain-gate job 99199649171 and system-health-master-node job 99199649258. Both jobs exposed zero steps; both job-log endpoints returned BlobNotFound; no artifacts were exposed. A separate workflow on the same exact SHA, Naya Power Memory + Restore Runtime run 33289924038, also failed with zero exposed steps, independently reproducing the pre-step runtime boundary. The Superbrain Gate workflow definition at that exact SHA contains explicit Checkout and Set up Python steps before all application commands, including Torch 9, so the observed zero-step failure occurs before any repository application command is observable. No application code was changed.",
   "last_verified_runtime": {
-    "run_id": 33289883081,
-    "run_number": 875,
+    "run_id": 33289924051,
+    "run_number": 877,
     "workflow": "Superbrain Gate",
-    "head_sha": "0110f8245c949090ad09396d1bee538a90c222fd",
+    "head_sha": "789a1b4f416978d7121fe33cea82b7620ead593d",
     "jobs": {
-      "system-health-master-node": {"job_id": 99199539004, "conclusion": "failure", "steps": 0, "logs": "BlobNotFound"},
-      "brain-gate": {"job_id": 99199539191, "conclusion": "failure", "steps": 0, "logs": "BlobNotFound"}
+      "system-health-master-node": {"job_id": 99199649258, "conclusion": "failure", "steps": 0, "logs": "BlobNotFound"},
+      "brain-gate": {"job_id": 99199649171, "conclusion": "failure", "steps": 0, "logs": "BlobNotFound"}
     },
     "artifacts": 0,
     "classification": "PRE-STEP RUNTIME/ENVIRONMENT BOUNDARY — APPLICATION EXECUTION NOT OBSERVED"
+  },
+  "cross_workflow_confirmation": {
+    "run_id": 33289924038,
+    "workflow": "Naya Power Memory + Restore Runtime",
+    "head_sha": "789a1b4f416978d7121fe33cea82b7620ead593d",
+    "job_id": 99199648902,
+    "conclusion": "failure",
+    "steps": 0
   },
   "next_execution_path": ".naya/handoffs/NEXT-EXECUTION-20260830-RUNTIME-RETRY-TORCH9.md"
 }
