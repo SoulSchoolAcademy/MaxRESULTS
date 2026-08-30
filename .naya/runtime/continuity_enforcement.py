@@ -49,10 +49,13 @@ def check_event(e,path,p):
     if parse_time(e.get('effective_at',e.get('created_at','')))>=parse_time(p.get('structured_handoff_effective_at',p['effective_at'])):
         ok,m=has_structured_handoff(e,p)
         if not ok:errors.append(f'{eid}: structured Future-Naya handoff missing required fields: {", ".join(m)}')
+    nex=e.get('next_execution');nex=nex.get('path') if isinstance(nex,dict) else nex
+    nex=nex or c.get('next_execution_path')
     if state=='COMPLETED':
-        nex=e.get('next_execution');nex=nex.get('path') if isinstance(nex,dict) else nex
-        nex=nex or c.get('next_execution_path')
         if not nex:errors.append(f'{eid}: completed execution requires a canonical NEXT-EXECUTION successor')
+        else:errors.extend(f'{eid}: {x}' for x in validate_next_execution_reference(nex))
+    if c.get('blocked') is True:
+        if not nex:errors.append(f'{eid}: blocked execution requires a canonical NEXT-EXECUTION continuation path')
         else:errors.extend(f'{eid}: {x}' for x in validate_next_execution_reference(nex))
     lessons=[];actions=[]
     for rep in (n,h):
@@ -68,14 +71,15 @@ def validate():
         if pe:errors.append(f'{path}: JSON parse error: {pe}');continue
         if not is_meaningful_execution(e,p):continue
         checked+=1;errors+=check_event(e,path,p)
-    report={'schema_version':3,'status':'GREEN' if not errors else 'RED','meaningful_execution_events_checked':checked,'error_count':len(errors),'errors':errors,'checks':['paired_naya_human_representation','verification_state_by_execution_state','durable_receipt','delivery_state','ai_to_ai_handoff','structured_future_naya_handoff','canonical_next_execution_gate','independent_consumability','actionable_execution_instructions','success_criteria','verification_requirements','learning','next_action']}
+    report={'schema_version':3,'status':'GREEN' if not errors else 'RED','meaningful_execution_events_checked':checked,'error_count':len(errors),'errors':errors,'checks':['paired_naya_human_representation','verification_state_by_execution_state','durable_receipt','delivery_state','ai_to_ai_handoff','structured_future_naya_handoff','canonical_next_execution_gate','blocked_continuation_gate','independent_consumability','actionable_execution_instructions','success_criteria','verification_requirements','learning','next_action']}
     REPORT.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n',encoding='utf-8');return (0 if not errors else 1),report
 def emit_receipt():
     code,report=validate();r={'schema_version':1,'receipt_type':'superbrain-continuity-gate','status':'VERIFIED' if code==0 else 'FAILED','created_at':datetime.now(timezone.utc).isoformat(),'commit_sha':os.environ.get('GITHUB_SHA'),'workflow_run_id':os.environ.get('GITHUB_RUN_ID'),'workflow_job':os.environ.get('GITHUB_JOB'),'repository':os.environ.get('GITHUB_REPOSITORY'),'report':report,'evidence':{'validation_report':str(REPORT.relative_to(ROOT))}};RECEIPT.write_text(json.dumps(r,indent=2,ensure_ascii=False)+'\n',encoding='utf-8');print(json.dumps(r,indent=2,ensure_ascii=False));return code
 def self_test():
     p=load_policy();orphan={'event_id':'SE-20260825-999999-orphan','effective_at':p['effective_at'],'continuity':{'execution_state':'COMPLETED'},'ready_to_run_execution':'THIS IS NOT EXECUTABLE'};oe=check_event(orphan,Path('orphan.json'),p);assert any('canonical NEXT-EXECUTION' in x for x in oe)
+    blocked={'event_id':'SE-20260825-999999-blocked','effective_at':p['effective_at'],'continuity':{'execution_state':'IN_PROGRESS','blocked':True,'next_action_status':'RECORDED'},'ready_to_run_execution':'THIS IS NOT EXECUTABLE'};be=check_event(blocked,Path('blocked.json'),p);assert any('blocked execution requires a canonical NEXT-EXECUTION continuation path' in x for x in be)
     good=ROOT/'.naya'/'handoffs'/'NEXT-EXECUTION-20260825-SUPERBRAIN-CONTRACT-ENFORCEMENT.md';assert validate_next_execution_reference(str(good.relative_to(ROOT)))==[]
-    print('INVALID ORPHAN → RED');print('CANONICAL SUCCESSOR → GREEN');print('PASS — continuity canonical successor behavioral gate GREEN');return 0
+    print('INVALID ORPHAN → RED');print('BLOCKED WITHOUT CONTINUATION → RED');print('CANONICAL SUCCESSOR → GREEN');print('PASS — continuity canonical successor and blocked-continuation behavioral gate GREEN');return 0
 def main():
     ap=argparse.ArgumentParser();s=ap.add_subparsers(dest='command',required=True);s.add_parser('validate');s.add_parser('self-test');s.add_parser('receipt');a=ap.parse_args()
     if a.command=='self-test':return self_test()
