@@ -34,6 +34,7 @@ A lower score is a signal to improve, route around a dependency, or record the g
 | 9 | Complete Customer Activation Loop | IMPLEMENTED BOUNDARY / ISOLATED PASS / ACTIONS FAILURE | boundary 100% | Runtime first failure |
 | 10 | Runtime first-failure isolation + complete customer-loop verification | ACTIVE / EXECUTION-ENVIRONMENT EVIDENCE PENDING | 0% verified | Verified Torch 9 |
 | 11 | Restore authoritative runtime failure observability | ACTIVE / EXECUTION-ENVIRONMENT BLOCK CONFIRMED | 0% verified | First evidence-backed repair |
+| 13 | Human Agency + Reality Governance | IMPLEMENTED / DETERMINISTIC CONFORMANCE ADDED / RUNTIME PENDING | architecture 100% | Repository-runtime proof + behavior benchmarks |
 
 **Rule:** working percentages are not verified claims. Evidence wins.
 
@@ -62,6 +63,10 @@ A lower score is a signal to improve, route around a dependency, or record the g
 **Promotion** → existing promotion authority; no new promotion path
 
 **CSI** → `csi_compounding_boundary.py`
+
+**Human agency/reality governance** → `SUPERBRAIN/UNIVERSAL-INTERFACE-AND-CONTROL-SUBSTRATE-CONTRACT.md`
+
+**Primary intelligence view** → `.naya/intelligence/PRIMARY-INTELLIGENCE-HUMAN-AGENCY-REALITY-JUDGMENT.md`
 
 **NayaNET federation** → `.naya/codex/NAYANET-FEDERATION-PROTOCOL.md`
 
@@ -158,7 +163,7 @@ Added `.naya/runtime/customer_activation_mission_boundary.py`, a pure in-memory 
 - Run artifacts for `33283738670`: `[]`.
 - Rerun/attempt inspection produced the same failure shape: no exposed steps and no retrievable logs.
 - The historical workflow at the failed HEAD did **not** yet contain the diagnostic failure-receipt step, so absence of that artifact from run `33283738670` is not evidence that the diagnostic failed.
-- Current `main` is `2347638e8b2abc0e4bb5d3e3043b55662bb8e370`, not the user-supplied `be55bc2be864598be9970b31538d41ab3bf3b2d2`. The live branch must therefore remain the authority for continuation.
+- Current `main` before this governance repair was `2347638e8b2abc0e4bb5d3e3043b55662bb8e370`; the live branch remains the authority for continuation.
 - Current workflow source includes `runtime_failure_isolation.py` after gate failure and artifact upload with `always()`, but no runtime artifact has yet been observed through this connector.
 - Independent shell attempt: `git clone https://github.com/SoulSchoolAcademy/NayaPOWER.git /tmp/NayaPOWER` failed before checkout with `fatal: unable to access 'https://github.com/SoulSchoolAcademy/NayaPOWER.git': Could not resolve host: github.com`; exit status `128`.
 
@@ -168,13 +173,49 @@ Added `.naya/runtime/customer_activation_mission_boundary.py`, a pure in-memory 
 
 **RECOVERY:** Use an execution-capable repository environment or a subsequent healthy GitHub Actions run on live `main`. Retrieve `superbrain-first-failure-diagnostic` and `naya-system-health-receipt` before making any application-code repair. If artifacts appear, attack only the first observed failure. If jobs again fail before producing steps/artifacts, preserve the execution-environment block and do not guess.
 
-**NEXT PRIORITY:** Torch 12 — Obtain one authoritative repository-runtime execution with observable diagnostic receipt, then close Torch 9 from evidence.
+**NEXT PRIORITY:** Obtain one authoritative repository-runtime execution with observable diagnostic receipt, then close Torch 9 from evidence.
 
-**NEXT ACTION:** On the live `main` HEAD `2347638e8b2abc0e4bb5d3e3043b55662bb8e370`, inspect the newest Superbrain Gate run. If its jobs expose steps/logs/artifacts, capture the first failure. If not, obtain execution through an environment with repository checkout/runtime access and run the canonical gate. Do not alter application architecture until a concrete first failure is observed.
+**NEXT ACTION:** On the live `main`, inspect the newest Superbrain Gate run. If its jobs expose steps/logs/artifacts, capture the first failure. If not, obtain execution through an environment with repository checkout/runtime access and run the canonical gate. Do not alter application architecture until a concrete first failure is observed.
 
 **SUCCESS CRITERIA:** exact first command, stdout, stderr, exit status, and HEAD captured from repository execution; first failure reproduced; smallest true boundary repaired if necessary; Torch 9 suite exits 0 in repository runtime; full Superbrain Gate exits 0; feed records exact evidence; next continuation torch issued.
 
 **DO NOT:** claim Torch 9 failed without evidence; treat a red job as a specific command failure; treat a commit as verification; weaken contracts; bypass the gate; create duplicate authorities; or manufacture evidence.
+
+## ENTRY 013 — HUMAN AGENCY + REALITY GOVERNANCE
+
+**DONE:** Audited the live architecture against the newly established Superbrain principles: outcome over request, excellence over mere completion, current-state gap awareness, human agency, evidence/reality, Naya judgment, proportional autonomy, and measurable learning. The existing architecture already had strong boundary separation; the smallest highest-value missing connection was an explicit canonical governance contract for the four-way distinction between human authority, reality/evidence, Naya judgment, and system authority.
+
+**REPAIR:** Updated `SUPERBRAIN/UNIVERSAL-INTERFACE-AND-CONTROL-SUBSTRATE-CONTRACT.md` to v1.1 with the canonical decision protocol:
+
+**UNDERSTAND → INFORM → CHALLENGE → RECOMMEND → CONFIRM → ACT**
+
+The contract now explicitly requires:
+- no silent collapse of human authority, reality, Naya judgment, and system authority;
+- no silent goal redefinition;
+- proportional autonomy;
+- confirmation at meaningful human authority boundaries;
+- refusal only for higher-order constraints;
+- safe alternatives after refusal where possible;
+- truth over agreement and evidence over assumption;
+- storage remains distinct from authority.
+
+**PIS / PRIMARY INTELLIGENCE:** Added `.naya/intelligence/PRIMARY-INTELLIGENCE-HUMAN-AGENCY-REALITY-JUDGMENT.md` as a primary-intelligence projection. It is explicitly **not** a new authority; the canonical contract and Note Event remain authoritative.
+
+**SMART NOTE / CIS:** Added `SUPERBRAIN/MASTER-NOTES/SN-20260829-HUMAN-AGENCY-REALITY-AND-NAYA-JUDGMENT.md` and canonical Note Event `SN-20260829-HUMAN-AGENCY-REALITY-JUDGMENT`. The learning defines “having the human's back” as relentless alignment with the human's genuine objective without sacrificing truth or agency, and requires CIS to eventually prove that the rule improves future behavior.
+
+**CONFORMANCE:** Added `SUPERBRAIN/human_agency_governance_conformance_test.py`. It checks the canonical contract for the required governance invariants. This test is committed but **repository runtime execution is UNKNOWN/PENDING** under the current no-Actions constraint.
+
+**INDEX RECONCILIATION:** The canonical event index was stale relative to existing durable event `SN-20260829-DEPLOYMENT-GOVERNANCE`; it was reconciled from 26 to 28 events and now includes both that event and the new human-agency event.
+
+**WHY THIS MATTERS:** This prevents two dangerous Superbrain failure modes: blind compliance (“the human asked, so do it regardless of reality”) and AI paternalism (“Naya knows best, so silently change the goal”). The human owns the destination; Naya owns the responsibility to help intelligently navigate reality toward it.
+
+**CIS COMPOUNDING TARGET:** Future evaluation should measure whether this governance improves decision quality, reduces repeated silent-goal or blind-compliance failures, improves appropriate escalation, and preserves human agency without unnecessary friction. The learning chain is:
+
+**SITUATION → EVIDENCE → NAYA JUDGMENT → HUMAN DECISION → ACTION → OUTCOME → LEARNING**
+
+**VERIFICATION STATE:** Architecture/source state is committed. Deterministic conformance implementation is present. Runtime behavior is not claimed GREEN until executed in a repository-capable environment.
+
+**NEXT PRIORITY:** Obtain repository-capable deterministic execution for the new governance conformance test and the canonical Torch 9/full Superbrain composition suite. Then build behavioral benchmark cases for outcome alignment and proportional autonomy before adding any new autonomy layer.
 
 ## LESSONS FOR EVERY NAYA
 
@@ -191,12 +232,14 @@ Added `.naya/runtime/customer_activation_mission_boundary.py`, a pure in-memory 
 - Customer activation provenance must be explicit before mission qualification.
 - A blocked tool is not a blocked mission.
 - Observability is part of verification when a gate is consequential.
+- Human authority, reality, Naya judgment, and system authority must remain distinct.
+- Having the human's back means truth-preserving outcome alignment, not blind obedience.
 - Every completed action must improve the next Naya's starting position.
 
 ## CURRENT TORCH
 
-**Torch 12 — Obtain one authoritative repository-runtime execution with observable diagnostic receipt, then close Torch 9 from evidence.**
+**Torch 13 — Repository-runtime proof + behavioral benchmark of Human Agency / Reality Governance, then close Torch 9 from exact evidence.**
 
-**Required action:** inspect the newest Superbrain Gate on live `main` HEAD `2347638e8b2abc0e4bb5d3e3043b55662bb8e370`; retrieve any diagnostic artifacts; if unavailable, move execution to a repository-capable environment; identify the first actual command failure; repair only that boundary; run Torch 9 and the full Superbrain Gate; capture exact evidence; then issue the next continuation torch.
+**Required action:** run `SUPERBRAIN/human_agency_governance_conformance_test.py` in a repository-capable runtime; run the canonical Torch 9 composition suite and full Superbrain Gate against the exact resulting HEAD; if any concrete failure appears, repair only the first true boundary; then add a minimal behavioral benchmark suite covering obey/warn/challenge/recommend/confirm/refuse cases and measurable outcome alignment.
 
 **Continuation requirement:** never end a substantive execution without a copy-ready next torch.
