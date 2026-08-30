@@ -45,6 +45,17 @@ def _require_promoted_activation(
 ) -> tuple[tuple[str, ...], tuple[str, ...]]:
     if not isinstance(activation, dict):
         raise ActivationMissionBindingError("activation result must be an object")
+
+    # A promotion list alone is insufficient: a caller must present a
+    # non-terminal activation state that the activation authority considers
+    # ready for the mission handoff. This prevents a conflicted/failed/partial
+    # package from smuggling one successful-looking promotion into Priority.
+    status = str(activation.get("status", "")).upper()
+    if status not in {"READY", "VERIFIED"}:
+        raise ActivationMissionBindingError(
+            "customer activation must be READY/VERIFIED before mission qualification"
+        )
+
     outcomes = activation.get("promotion")
     if not isinstance(outcomes, list) or not outcomes:
         raise ActivationMissionBindingError(
