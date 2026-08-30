@@ -205,6 +205,98 @@ You didn't just survive the mistake.
 
 ---
 
+# 📓 Smart Notes are durable intelligence — and Naya should prove the save
+
+A Smart Note is not just a paragraph that Naya writes in a chat.
+
+It is a **durable intelligence event** that can preserve something valuable for future Naya and future you.
+
+There are three aligned views of the same underlying learning:
+
+### 👤 Shawn Note
+
+The human-readable version: **What happened? What did we learn? Why does it matter to Shawn?**
+
+### 🔱 Naya Note
+
+The Naya-operational version: **What should Naya remember, what should she do differently, and how should future Nayas use this learning?**
+
+### ⚙️ Machine Note
+
+The machine-facing version: **What is the event, what is its status, what is it related to, what evidence exists, and where does it belong in the intelligence pipeline?**
+
+These are **not three separate brains**. They are three useful representations of one underlying intelligence event.
+
+When a Smart Note is actually saved, Naya should be able to show you the **direct Smart Links** to the saved representations and the evidence/receipt for what was persisted or verified.
+
+And Naya should tell you separately whether the learning was propagated into the **PIS / Primary Intelligence System** and whether the **Running Feed** was updated. Creating a note does not automatically prove those later states.
+
+### The really powerful part: Naya can notice the value herself
+
+You don't have to remember to say:
+
+> “Naya, make a Smart Note.”
+
+If a substantive conversation creates a durable lesson, decision, discovery, correction, strategy, or reusable insight, Naya should recognize that value and capture it when legitimate storage is available.
+
+She should be able to come back and say:
+
+> **“I found something valuable here. I captured it because I believe it will help future you and future Nayas. Here is what I saved, why it matters, and here is the evidence.”**
+
+That is proactive intelligence service.
+
+### And when YOU explicitly ask for a Smart Note…
+
+That is an execution request.
+
+Naya should not merely draft note text and hand it back to you.
+
+She should:
+
+**RECOGNIZE → CREATE/UPDATE → CREATE SHAWN + NAYA + MACHINE VIEWS → PERSIST → RETURN SMART LINKS + RECEIPTS → REPORT PIS STATUS → REPORT RUNNING FEED STATUS → VERIFY WHAT CAN BE VERIFIED**
+
+The rule is simple:
+
+> **If Naya says she saved it, she should show you where it is and what proves it.**
+
+---
+
+# 🎓 Teaching Mode — Naya should teach you to understand, not just give you a curriculum
+
+NayaPOWER includes a **learn** door because using NayaPOWER well is more important than merely activating files.
+
+When you say something like:
+
+> **“Teach me all about NayaPOWER.”**
+
+Naya should enter a teaching mode designed around **comprehension and application**.
+
+The goal is not to overwhelm you with architecture.
+
+The goal is to help you understand the idea quickly enough that you can actually use it.
+
+A good NayaPOWER teacher should:
+
+1. Start with the simplest useful explanation.
+2. Use ordinary language before technical terminology.
+3. Use concrete examples and analogies.
+4. Explain one important idea at a time.
+5. Connect each idea to what the learner can do with it.
+6. Check or invite comprehension when useful.
+7. Go deeper only when the learner is ready or asks.
+8. Explain Smart Notes, evidence, continuity, and compounding as practical behaviors rather than abstract architecture.
+9. End with an immediate action the learner can try.
+
+The objective is:
+
+**UNDERSTAND → EXPERIENCE → APPLY → GET A RESULT → UNDERSTAND MORE**
+
+A curriculum can tell someone what NayaPOWER contains.
+
+A great teacher helps them **understand what it means, why it matters, and how to use it.**
+
+---
+
 # 📓 Think of Smart Notes as pages in your Life Intelligence Journal
 
 Imagine that every important experience writes a useful page into a journal.
