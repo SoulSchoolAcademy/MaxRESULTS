@@ -3,8 +3,8 @@
 
 Restores repository reality, canonical orientation, current project state,
 durable learning, and successor continuity. Repository reality is primary;
-orientation documents are checked as projections and contradictions are never
-silently accepted.
+orientation documents are projections and contradictions are never silently
+accepted.
 
 Standard-library only. No network access is required.
 """
@@ -28,7 +28,6 @@ BRIEFING_PATH = MEMORY / "NAYAPOWER-RUNTIME-BRIEFING.md"
 FEED_PATH = NAYA / "SUPERBRAIN-COLLECTIVE-RUNNING-FEED.md"
 PROJECT_PATH = NAYA / "projects" / "CURRENT-PROJECT.md"
 START_PATH = ROOT / "START-HERE.md"
-NOTE_DIR = MEMORY / "notes"
 CHECKPOINT_DIR = NAYA / "checkpoints"
 HANDOFF_DIR = NAYA / "handoffs"
 
@@ -38,6 +37,9 @@ from memory_runtime import load_json, notes, retrieve, validate  # noqa: E402
 
 ISO_Z_RE = re.compile(r"Z$")
 SHA_RE = re.compile(r"\b[0-9a-f]{40}\b")
+CURRENT_HEAD_RE = re.compile(
+    r"(?im)^\s*(?:live|current|observed)\s+`?(?:main|head|git head)`?.{0,120}?\b([0-9a-f]{40})\b"
+)
 
 
 def parse_time(value: str | None) -> datetime | None:
@@ -103,22 +105,27 @@ def read_text(path: Path) -> str:
         return ""
 
 
-def declared_heads(text: str) -> list[str]:
-    return SHA_RE.findall(text)
+def current_head_declarations(text: str) -> list[str]:
+    """Return only SHAs presented as current/live/observed head declarations.
+
+    Historical SHA references are intentionally ignored. This prevents every
+    new commit from making the orientation layer falsely appear contradictory.
+    """
+    return CURRENT_HEAD_RE.findall(text)
 
 
 def orientation_projection(path: Path, actual_head: str | None) -> dict[str, Any]:
     body = read_text(path)
-    heads = declared_heads(body)
-    matches = bool(actual_head and actual_head in heads)
-    stale = bool(actual_head and heads and actual_head not in heads)
+    declarations = current_head_declarations(body)
+    matches = bool(actual_head and actual_head in declarations)
+    mismatch = bool(actual_head and declarations and actual_head not in declarations)
     return {
         "path": str(path.relative_to(ROOT)),
         "available": bool(body),
-        "declared_head_count": len(heads),
-        "declared_heads": heads[:20],
+        "current_head_declaration_count": len(declarations),
+        "declared_current_heads": declarations[:20],
         "matches_observed_head": matches,
-        "head_mismatch": stale,
+        "head_mismatch": mismatch,
     }
 
 
@@ -131,18 +138,27 @@ def extract_section(text: str, heading: str) -> str | None:
 
 
 def latest_handoff() -> dict[str, Any] | None:
-    candidates = []
+    """Select the latest tracked handoff deterministically.
+
+    Filesystem mtimes are not stable across Git checkout/clone operations, so
+    Git commit history is preferred. Filesystem mtime is only a fallback for
+    untracked/local handoffs.
+    """
     if not HANDOFF_DIR.exists():
         return None
-    for p in HANDOFF_DIR.rglob("*"):
-        if p.is_file() and p.suffix.lower() in {".md", ".json"}:
-            try:
-                candidates.append((p.stat().st_mtime_ns, p))
-            except OSError:
-                pass
-    if not candidates:
+    files = [p for p in HANDOFF_DIR.rglob("*") if p.is_file() and p.suffix.lower() in {".md", ".json"}]
+    if not files:
         return None
-    _, path = max(candidates, key=lambda item: (item[0], str(item[1])))
+    ranked: list[tuple[str, str, Path]] = []
+    for path in files:
+        rel = path.relative_to(ROOT).as_posix()
+        committed = run_git("log", "-1", "--format=%cI", "--", rel)
+        if committed:
+            ranked.append((committed, "git", path))
+    if ranked:
+        _, _, path = max(ranked, key=lambda item: (item[0], item[2].as_posix()))
+    else:
+        path = max(files, key=lambda p: (p.stat().st_mtime_ns, p.as_posix()))
     return {"path": str(path.relative_to(ROOT)), "content": read_text(path)}
 
 
@@ -169,8 +185,6 @@ def orientation_snapshot(repo: dict[str, Any], state: dict[str, Any]) -> dict[st
     if actual and mismatches:
         contradictions.append("current-head projection mismatch")
     if "MaxRESULTS" in start and "NayaPOWER" in briefing and "central" in briefing.lower():
-        # This is allowed only when START-HERE explicitly scopes MaxRESULTS to
-        # the MAXESS project and NayaPOWER to the shared Superbrain.
         if "central Superbrain" not in start and "central" not in start.lower():
             contradictions.append("START-HERE does not explicitly distinguish NayaPOWER Superbrain from MAXESS project authority")
     next_actions = []
@@ -236,6 +250,14 @@ def stale_memory() -> list[dict[str, Any]]:
     return out
 
 
+def proof_target(project_text: str, state: dict[str, Any]) -> str | None:
+    section = extract_section(project_text, "NEXT EXECUTION")
+    if section:
+        return section
+    value = state.get("proof_target")
+    return value if isinstance(value, str) else None
+
+
 def build_restore(query: str = "", at: str | None = None, limit: int = 10) -> dict[str, Any]:
     target = parse_time(at)
     state = load_state()
@@ -243,11 +265,12 @@ def build_restore(query: str = "", at: str | None = None, limit: int = 10) -> di
     structural_errors = validate()
     repo = repository_reality(target)
     orientation = orientation_snapshot(repo, state) if not target else {"historical": True}
+    project_text = read_text(PROJECT_PATH)
     memory = memory_snapshot(query, target, limit)
     reconciliation_required = bool(orientation.get("contradictions") or orientation.get("mismatches")) if not target else False
     status = "RECONCILIATION_REQUIRED" if reconciliation_required else ("VERIFIED" if not structural_errors and repo["available"] else "UNKNOWN")
     return {
-        "schema": "naya-power-restore-context/v2",
+        "schema": "naya-power-restore-context/v3",
         "status": status,
         "generated_at": now().isoformat(),
         "mode": "RESTORE-TIME" if target else "RESTORE-STANDARD",
@@ -265,7 +288,9 @@ def build_restore(query: str = "", at: str | None = None, limit: int = 10) -> di
         "unknown": state.get("unknown", []),
         "what_changed": state.get("recent_changes", []),
         "what_is_unfinished": state.get("unknown", []),
+        "current_project": state.get("current_project"),
         "next_best_action": state.get("next_best_action"),
+        "proof_target": proof_target(project_text, state),
         "latest_handoff": orientation.get("latest_handoff"),
         "reconciliation": {"required": reconciliation_required, "reasons": orientation.get("contradictions", []) + orientation.get("mismatches", [])},
     }
@@ -284,13 +309,13 @@ def write_artifact(directory: Path, prefix: str, payload: dict[str, Any]) -> Pat
 
 
 def checkpoint(restore: dict[str, Any]) -> dict[str, Any]:
-    payload = {"schema": "naya-power-checkpoint/v2", "created_at": now().isoformat(), "restore_status": restore["status"], "repository_reality": restore["repository_reality"], "orientation": restore["orientation"], "mission": restore["mission"], "current_state": restore["current_state"], "memory_summary": {"count_visible": restore["memory"]["count_visible"], "counts_by_status": restore["memory"]["counts_by_status"], "conflicts": restore["memory"]["conflicts"]}, "protected": restore["protected"], "unknown": restore["unknown"], "next_best_action": restore["next_best_action"], "reconciliation": restore["reconciliation"], "integrity_sha256": hashlib.sha256(canonical_json(restore).encode("utf-8")).hexdigest()}
+    payload = {"schema": "naya-power-checkpoint/v2", "created_at": now().isoformat(), "restore_status": restore["status"], "repository_reality": restore["repository_reality"], "orientation": restore["orientation"], "mission": restore["mission"], "current_state": restore["current_state"], "memory_summary": {"count_visible": restore["memory"]["count_visible"], "counts_by_status": restore["memory"]["counts_by_status"], "conflicts": restore["memory"]["conflicts"]}, "protected": restore["protected"], "unknown": restore["unknown"], "next_best_action": restore["next_best_action"], "proof_target": restore["proof_target"], "reconciliation": restore["reconciliation"], "integrity_sha256": hashlib.sha256(canonical_json(restore).encode("utf-8")).hexdigest()}
     path = write_artifact(CHECKPOINT_DIR, "checkpoint", payload)
     return {"path": str(path.relative_to(ROOT)), "checkpoint": payload}
 
 
 def handoff(restore: dict[str, Any]) -> dict[str, Any]:
-    payload = {"schema": "naya-power-handoff/v2", "created_at": now().isoformat(), "mission": restore["mission"], "current_state": restore["current_state"], "what_changed": restore["what_changed"], "verified": restore["status"] == "VERIFIED", "unknown": restore["unknown"], "protected_elements": restore["protected"], "repository": restore["repository_reality"], "orientation": restore["orientation"], "memory_conflicts": restore["memory"]["conflicts"], "next_best_action": restore["next_best_action"], "reconciliation": restore["reconciliation"]}
+    payload = {"schema": "naya-power-handoff/v3", "created_at": now().isoformat(), "mission": restore["mission"], "current_state": restore["current_state"], "what_changed": restore["what_changed"], "verified": restore["status"] == "VERIFIED", "unknown": restore["unknown"], "protected_elements": restore["protected"], "repository": restore["repository_reality"], "orientation": restore["orientation"], "memory_conflicts": restore["memory"]["conflicts"], "next_best_action": restore["next_best_action"], "proof_target": restore["proof_target"], "reconciliation": restore["reconciliation"]}
     path = write_artifact(HANDOFF_DIR, "handoff", payload)
     return {"path": str(path.relative_to(ROOT)), "handoff": payload}
 
