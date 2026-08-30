@@ -21,7 +21,7 @@ jobs:
   brain-gate:
     name: brain-gate
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -135,6 +135,23 @@ jobs:
           path: .naya/memory/CONTINUITY-GATE-RECEIPT.json
           if-no-files-found: error
 
+      # GitHub may expose a failed run without usable job logs to connected tooling.
+      # Capture a deterministic, machine-readable first-failure receipt as an artifact
+      # so the next Naya can diagnose the first observed divergence without guessing.
+      - name: Capture first runtime failure diagnostic
+        if: ${{ failure() && !cancelled() }}
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python .naya/runtime/runtime_failure_isolation.py --mode brain-gate --output .naya/runtime/RUNTIME-FIRST-FAILURE-RECEIPT.json
+
+      - name: Upload first runtime failure diagnostic
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: superbrain-first-failure-diagnostic
+          path: .naya/runtime/RUNTIME-FIRST-FAILURE-RECEIPT.json
+          if-no-files-found: ignore
+
   system-health:
     name: system-health-master-node
     if: always()
@@ -151,10 +168,18 @@ jobs:
       - name: Verify Naya System Health / Master Node
         run: python .naya/runtime/system_health.py --receipt .naya/runtime/SYSTEM-HEALTH-RECEIPT.json
 
+      - name: Capture system-health first failure diagnostic
+        if: ${{ failure() && !cancelled() }}
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python .naya/runtime/runtime_failure_isolation.py --mode system-health --output .naya/runtime/SYSTEM-HEALTH-FIRST-FAILURE-RECEIPT.json
+
       - name: Publish system health receipt
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: naya-system-health-receipt
-          path: .naya/runtime/SYSTEM-HEALTH-RECEIPT.json
+          path: |
+            .naya/runtime/SYSTEM-HEALTH-RECEIPT.json
+            .naya/runtime/SYSTEM-HEALTH-FIRST-FAILURE-RECEIPT.json
           if-no-files-found: ignore
