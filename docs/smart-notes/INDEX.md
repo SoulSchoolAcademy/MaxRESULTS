@@ -78,7 +78,7 @@ The filename is a locator, not the authority.
 - **DECISION** — explicit decision
 - **FACT** — important fact
 - **RESOURCE** — useful reference
-- **KNOWLEDGE** — durable product/domain knowledge
+- **KNOWLEDGE** — durable domain/product knowledge
 - **PROBLEM** — failure or issue
 - **SOLUTION** — solution/guardrail
 - **PERSON** — useful person information
@@ -87,6 +87,14 @@ The filename is a locator, not the authority.
 - **INSIGHT** — meaningful realization/pattern
 
 ## Current note inventory
+
+### 2026-08-30
+
+| Topic | Primary category | Useful retrieval terms | Note |
+|---|---|---|---|
+| **Cold-Start Intelligence Test — Shawn Note** | **LEARNING** | **cold start, NayaPOWER, intelligence test, scorecard, 9.1, continuity, operational understanding, fresh Naya** | `2026-08-30-cold-start-intelligence-test-shawn-note.md` |
+| **Cold-Start Intelligence Test — Naya Note** | **LEARNING** | **NayaPOWER, cold start, fresh Naya, 9.1, operational understanding, evidence, continuity, A-B-C compounding** | `2026-08-30-cold-start-intelligence-test-naya-note.md` |
+| **Cold-Start Intelligence Test — Machine Note** | **LEARNING** | **cold start, machine intelligence, 9.1, Smart Note, PIS, Running Feed, receipts, compounding** | `2026-08-30-cold-start-intelligence-test-machine-note.md` |
 
 ### 2026-08-23
 
@@ -145,7 +153,8 @@ The filename is a locator, not the authority.
 
 | If the user asks about… | Start with… | Then inspect… |
 |---|---|---|
-| **Naya Notes / Smart Notes / durable memory / activation / supersession** | **`docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md`** | `docs/NAYA-GOVERNANCE-REGISTRY.md`, `START-HERE.md`, `docs/NAYA-SMART-NOTES-SYSTEM.md`, `docs/smart-notes/INDEX.md` |
+| **Naya Notes / Smart Notes / durable memory / activation / supersession** | **`docs/NAYA-NOTES-MASTER-ACTIVATION-SPECIFICATION.md`** | `docs/NAYA-GOVERNANCE-REGISTRY.md`, `START-HERE.md`, `docs/NAYA-SMART-NOTES-SYSTEM.md`, `docs/NAYA-SMART-NOTE-DELIVERY-AND-PIS-TRIGGER-CONTRACT.md`, `docs/smart-notes/INDEX.md` |
+| **Smart Note delivery / receipts / Smart Links / PIS trigger** | **`docs/NAYA-SMART-NOTE-DELIVERY-AND-PIS-TRIGGER-CONTRACT.md`** | `MASTER-NOTES/PRIMARY-INTELLIGENCE-HUB.md`, current dated Shawn/Naya/Machine notes, trigger events |
 | **Operational Walk / No Dead Ends / automatic next action / complete delivery / take the lead** | **`docs/NAYA-OPERATIONAL-WALK-AND-NO-DEAD-END-LAW.md`** + `2026-08-23-operational-walk-and-no-dead-ends.md` | `docs/NAYA-LAW-MASTER-ACTIVATION-SPECIFICATION.md`, `docs/NAYA-EXECUTIVE-PLAN.md`, `docs/NAYA-NITRO-LEARNING-LOG.md` |
 | Naya Brain / intelligence / reasoning / judgment / problem solving / verification / learning | `2026-08-22-naya-brain-canonical-activation.md` | `docs/NAYA-BRAIN-MASTER-ACTIVATION-SPECIFICATION.md`, `START-HERE.md`, `docs/NAYA-GOVERNANCE-REGISTRY.md`, `NAYA-OS.md` |
 | Naya Email System / Communication Hub / CSV contacts / sending / Namecheap / replies / scheduling | `2026-08-22-naya-email-system.md` | current implementation repository, Vercel/Supabase/Namecheap configuration, relevant deployment state |
