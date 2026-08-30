@@ -56,7 +56,7 @@ def main() -> int:
             print(proc.stderr.rstrip(), file=sys.stderr)
         if proc.returncode != 0:
             overall = 1
-            break
+            print("CONTINUING — failure recorded; remaining checks will still execute.")
 
     receipt = {
         "schema": "naya-power-local-superbrain-suite/v1",
