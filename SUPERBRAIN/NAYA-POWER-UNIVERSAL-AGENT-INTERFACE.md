@@ -49,6 +49,7 @@ The interface is a bridge into that chain, not a replacement for it.
   "host": "host-system-name",
   "model": "optional-model-identity",
   "session_id": "session-identity",
+  "request_id": "unique-request-identity",
   "input": "human or agent request",
   "mission_ref": "optional opaque mission reference",
   "source_refs": ["optional provenance references"],
@@ -57,11 +58,15 @@ The interface is a bridge into that chain, not a replacement for it.
 }
 ```
 
+`request_id` binds a response to one request and provides the minimum correlation primitive needed for safe retries and duplicate-response handling. It is an identifier, not a persistence store.
+
 `mission_ref` is intentionally opaque. The interface does not qualify or authorize a mission.
 
 `source_refs` preserve provenance without making the interface a memory store.
 
 ## Result contract
+
+Every result must carry the originating `agent_id`, `session_id`, and `request_id` so consumers can reject cross-session or cross-request confusion.
 
 The interface may transport:
 
@@ -109,6 +114,7 @@ A compatible host must be able to connect without requiring Naya Power to know i
 The interface is successful when:
 
 - identity is preserved;
+- request correlation is preserved;
 - request meaning is preserved;
 - provenance is preserved;
 - constraints are preserved;
