@@ -2,7 +2,7 @@
   "version": "3.0.0",
   "status": "CANONICAL",
   "organization": "YEAR/MONTH/DAY/HOUR/EVENT",
-  "event_count": 29,
+  "event_count": 30,
   "events": [
     {"event_id":"SE-20260824-000001-maxess-execution-discipline","path":"2026/08/24/00/SE-20260824-000001-maxess-execution-discipline.json","subject":"MAXESS execution discipline","type":"execution-law","tags":["MAXESS","execution","batching","anti-loop","verification","cause-and-effect"]},
     {"event_id":"SE-20260824-000002-dynamic-any-subject-assessment","path":"2026/08/24/00/SE-20260824-000002-dynamic-any-subject-assessment.json","subject":"Dynamic Any-Subject Assessment","type":"architecture-principle","tags":["MAXESS","dynamic-assessment","universal","generation","scoring","schema","provider"]},
@@ -31,6 +31,7 @@
     {"event_id":"SE-20260828-022200-maxis-qmax-elite-frontdoor","path":"2026/08/27/19/SE-20260828-022200-maxis-qmax-elite-frontdoor.json","subject":"MAXIS QMAX Elite Craft Pass","type":"execution-milestone","tags":["MAXIS","QMAX","front-door","elite-craft","execution","verification","torch-pass"]},
     {"event_id":"SN-20260829-DEPLOYMENT-GOVERNANCE","path":"2026/08/29/12/SN-20260829-DEPLOYMENT-GOVERNANCE.json","subject":"Repository activity must not imply deployment","type":"master_lesson","tags":["deployment","vercel","governance","mpa","release-gate","cct","smart-notes"]},
     {"event_id":"SN-20260829-HUMAN-AGENCY-REALITY-JUDGMENT","path":"2026/08/29/19/SN-20260829-HUMAN-AGENCY-REALITY-JUDGMENT.json","subject":"Naya must protect human agency without sacrificing truth","type":"master_lesson","tags":["human-agency","reality","judgment","authority","outcome","excellence","CIS","PIS","universal-agent-interface"]},
-    {"event_id":"SN-20260830-ACTIVATION-PROGRAM-DESIGN","path":"2026/08/30/07/SN-20260830-ACTIVATION-PROGRAM-DESIGN.json","subject":"Activation must be a guided, incremental customer experience","type":"master_lesson","tags":["activation","customer-experience","continuation-prompt","Smart-Notes","PIS","Running-Feed","sales","onboarding","Naya"]}
+    {"event_id":"SN-20260830-ACTIVATION-PROGRAM-DESIGN","path":"2026/08/30/07/SN-20260830-ACTIVATION-PROGRAM-DESIGN.json","subject":"Activation must be a guided, incremental customer experience","type":"master_lesson","tags":["activation","customer-experience","continuation-prompt","Smart-Notes","PIS","Running-Feed","sales","onboarding","Naya"]},
+    {"event_id":"SE-20260830-080000-smart-note-smart-link-law","path":"2026/08/30/08/SE-20260830-080000-smart-note-smart-link-law.json","subject":"Smart Note delivery requires Smart Links and proactive value capture","type":"master-system-update","tags":["Smart-Notes","Smart-Links","evidence","receipt","PIS","proactive-service","learning","compounding","continuity","verification"]}
   ]
 }
