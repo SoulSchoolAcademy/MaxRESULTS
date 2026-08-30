@@ -3,23 +3,21 @@
 ## WHERE
 - **Canonical repository:** `SoulSchoolAcademy/NayaPOWER`
 - **Canonical branch:** `main`
-- **Last observed HEAD before this briefing update:** `68579061a1a2ee2beb2a736820607c06b457c8aa`; resolve live `main` again before every substantive execution because this update creates a new commit.
+- **Current live HEAD:** `d19b605bd9b6bcb61c70df29715d83f8042923f4`; resolve live `main` again before every substantive execution.
 - **MAXIS application repository:** `SoulSchoolAcademy/Maxis`
 - **MAXIS deployment path:** `SoulSchoolAcademy/Maxis` → Vercel project `maxis`.
 - **Canonical mission roadmap:** `.naya/MAXIS-NAYAPOWER-MASTER-MISSION-ROADMAP.md`
-- **Default cross-repository restore:** NayaPOWER first, then MAXIS when relevant, unless already operating inside an established MAXIS execution context; in that case preserve context and consult NayaPOWER before consequential changes.
+- **Default cross-repository restore:** NayaPOWER first, then MAXIS when relevant.
 
 ## WHY
-Build Naya into a trusted AI operating partner and complete MAXIS through a verified critical path while making the intelligence system itself continuously compound. NayaPOWER is the central SuperBrain/shared intelligence authority; MAXIS is the user-facing product and a major proving ground that returns material reusable learning to NayaPOWER.
+Build Naya into a trusted AI operating partner and complete MAXIS through a verified critical path while making the intelligence system itself continuously compound. NayaPOWER is the central SuperBrain/shared intelligence authority; MAXIS is the user-facing product and proving ground that returns reusable learning to NayaPOWER.
 
 ## BUILDING
-- **P1 ACTIVE:** establish a genuinely executable governance/intelligence runtime and close the remaining verification gap.
-- Promotion Engine V1 is implemented as a deterministic, dependency-free promotion pipeline with canonical event validation, fingerprinting, semantic duplicate detection, durable-home classification, approved non-governance note/feed promotion, receipts, and Hub writeback.
-- Current implementation is **not yet runtime-proven** because the authoritative runner has repeatedly failed before materializing executable steps, and the current environment cannot create a real private-repository checkout.
-- Active execution laws:
-  - `.naya/NAYA-EXECUTION-EFFICIENCY-LAW.md` — maximize the highest-value coherent, safe, verifiable work per execution cycle; batch related work when correctness and evidence are preserved.
-  - `.naya/NAYA-EXECUTION-LOOP-ESCALATION-LAW.md` — after three materially equivalent failed attempts, stop repeating the route, zoom out, and materially change strategy; ten equivalent attempts without strategy change is RED ALERT.
-- Priority execution loop: **RESTORE → PRIORITIZE → BATCH → EXECUTE → VERIFY → OSCAR → RECORD → PROMOTE LEARNING → CONTINUE**.
+- **P0 ACTIVE:** turn the existing NayaPOWER architecture into a customer-ready activation experience and commercial entry path while GitHub Actions is deliberately paused.
+- The activation package is designed as a guided sequence, not a document dump: discover the customer → activate one capability → explain the change → explain the benefit → verify what is verifiable → provide the exact next prompt → continue.
+- Six core activation artifacts are locked as the current design target: What You Activated, Activation Guide, Operating Guide, Intelligence & Learning Guide, Troubleshooting & Recovery Guide, and Activation Acceptance Checklist.
+- Sales and activation are one journey: **STRANGER → TALK TO NAYA → UNDERSTAND VALUE → PURCHASE → ACTIVATION → FIRST WIN**.
+- Promotion Engine V1, governance, continuity, evidence, learning, customer activation, and PIS architecture remain implemented but runtime proof is still pending.
 - Naya owns continuation determination and authors the human-facing continuation; the human is not required to author the next prompt.
 
 ## PROTECTED
@@ -32,43 +30,51 @@ Build Naya into a trusted AI operating partner and complete MAXIS through a veri
 - **MAXIS owns product implementation/runtime concerns; reusable cross-project learning returns to NayaPOWER.**
 - IMPLEMENTED ≠ TESTED ≠ VERIFIED ≠ RUNTIME-PROVEN ≠ PRODUCTION-PROVEN.
 - Historical continuity records must not be rewritten.
+- Activation documents must not promise capabilities that are not actually implemented or verified.
+- Every substantive customer-facing stage must provide a clear continuation/action prompt.
 
 ## BLOCKED
 - P1 Governance/operational GREEN is not yet proven.
 - Fresh current-head GitHub Actions governance runs have repeatedly concluded `failure` before any executable step is materialized.
-- Relevant recent jobs show the same pre-step signature: `completed → failure`, start/completion timestamps, `runner_id=0`, empty `runner_name`, and `steps=[]`.
-- Job-log retrieval remains unavailable/`BlobNotFound`; no executable test failure has been proven from those runs.
-- A direct local `git clone` attempt from the current execution environment failed because outbound GitHub DNS/network access is unavailable, so an actual private-repository checkout could not be created here.
-- The correct next route is therefore a materially different authorized execution plane capable of creating a real checkout and exposing executable test evidence; do not perform another equivalent zero-step workflow retry.
+- Relevant recent jobs show the same pre-step signature: `completed → failure`, `runner_id=0`, empty `runner_name`, and `steps=[]`.
+- Job-log retrieval remains unavailable/`BlobNotFound`; no executable application failure has been proven from those runs.
+- A direct local `git clone` attempt failed because outbound GitHub DNS/network access is unavailable, so a real private-repository checkout could not be created in that environment.
 - Full Promotion Engine V1 runtime proof remains blocked by the execution boundary, not proven broken by application evidence.
+- Full behavioral governance, measurable compounding, and end-to-end customer activation runtime proof remain open.
 
 ## VERIFIED
-- Live `main` resolved to `68579061a1a2ee2beb2a736820607c06b457c8aa` immediately before this briefing update.
-- The current control-plane map explicitly activates both the Three-Attempt Escalation Law and the Execution Efficiency Law before consequential execution.
-- The canonical cross-repository restore protocol establishes **NayaPOWER → MAXIS** and **MAXIS → NayaPOWER** awareness and the default NayaPOWER-first restore route.
+- Live `main` currently resolves to `d19b605bd9b6bcb61c70df29715d83f8042923f4`.
+- Canonical Runtime Briefing + Collective Running Feed are required at cold start, with the feed immediately after the briefing.
+- The canonical Running Feed now carries the current commercial P0 and guided activation design.
+- `SN-20260830-ACTIVATION-PROGRAM-DESIGN` is a canonical Note Event and is indexed in `.naya/memory/events/INDEX.json`.
+- The activation/sales priority was previously locked in `.naya/handoffs/NEXT-EXECUTION-20260830-ACTIVATION-AND-SALES.md` and is now further detailed by the canonical Note Event and Running Feed.
 - Promotion Engine V1 code and acceptance-test harness exist in `tools/promote_intelligence.py` and `tools/test_promote_intelligence.py`.
-- The Promotion Engine implementation distinguishes authority-gated homes from explicitly auto-promotable non-governance homes and never self-certifies verification from file writes.
-- The canonical intelligence-promotion workflow invokes the acceptance tests, promotion engine, structural receipt validation, and generated-state persistence.
-- The cold-start boot protocol requires the Runtime Briefing before substantive execution and its acceptance test requires Naya to identify both NayaPOWER and MAXIS when MAXIS is in scope.
-- MAXIS now has a mandatory repository-level cross-repository restore contract in `NAYA-REPO-LOCK.md` that explicitly identifies NayaPOWER as the central SuperBrain, establishes NayaPOWER-first default restore, and defines the learning return path.
+- The cold-start boot protocol requires the Runtime Briefing and Running Feed before substantive execution.
+- MAXIS has a repository-level cross-repository restore contract making NayaPOWER the central SuperBrain and requiring reusable learning to return there.
 
 ## UNKNOWN
 - The exact GitHub-side root cause of the pre-step job failures.
-- Whether the hosted runner service rejected/failed runner assignment or another provider-side execution boundary occurred before steps materialized.
-- The actual failure annotation contents for the zero-step jobs.
+- Whether an authorized alternate execution plane can create a real checkout and execute the canonical suites.
 - Whether the Promotion Engine acceptance suite executes successfully in a real checkout at the current SHA.
-- Whether the current repository-wide governance suite executes successfully in a real checkout at the current SHA.
+- Whether the repository-wide governance suite executes successfully in a real checkout at the current SHA.
 - Full runtime verification of Promotion Engine V1, continuous synthesis, task-aware retrieval, learning-effectiveness measurement, and the complete MAXIS two-way learning loop.
-- Governance is **NOT GREEN**.
+- Final ≥9/10 operational activation readiness.
+- Final production capability of customer-facing activation and sales features until those implementations are built and verified.
 
 ## THIS WEEK
-**ONE OBJECTIVE:** establish a trustworthy executable intelligence/governance foundation, prove Promotion Engine V1 end-to-end, then use NayaPOWER as the high-leverage intelligence engine for MAXIS while feeding verified MAXIS learning back into NayaPOWER.
+**Primary commercial objective:** produce the airtight customer activation package, then build the sales experience around it so NayaPOWER can be presented and purchased without waiting for MAXIS completion.
+
+**Technical objective remains:** when the authorized execution window returns, obtain exact-SHA runtime proof, close Torch 9, run the full Superbrain Gate, prove governance, compounding, and customer activation.
 
 ## NEXT ACTION
-**P0 / Execution plane:** obtain an authorized real checkout/runtime outside the current Naya network boundary. Resolve the exact live `main` SHA, execute the exact governed commands from the repository workflows, capture the first real result, and distinguish application failure from infrastructure failure. Do not perform another materially equivalent zero-step runner retry. If executable tests pass, preserve evidence and pursue authoritative GitHub runner evidence. If they fail, repair only the first proven defect, rerun, Oscar, and verify. Once the execution boundary is green, immediately resume the Promotion Engine V1 end-to-end proof: `CANONICAL EVENT → VALIDATE → DEDUPLICATE → CLASSIFY → AUTHORIZE → PROMOTE → RECEIPTS → VERIFY → FEED → PRIMARY HUB → SUCCESSOR RETRIEVAL`.
+**P0:** Build the six core customer activation artifacts as one coherent system. Keep each concise but airtight. Every document must define its scope, activation behavior, user benefit, verification boundary, and exact continuation prompt. Design the first activation interaction to discover the customer's identity, interests, vision, goals, mission, and desired outcomes. Then build the sales page around the same journey and use the Living Sun / Living Naya concept as the experiential centerpiece where technically supported.
+
+When GitHub Actions reaches its authorized resume point, return to the runtime proof track without treating commercial progress as a substitute for technical proof.
 
 ## PROOF
-P1 closes only when the exact tested SHA is known, applicable governance/intelligence workflows demonstrably execute, the relevant tests pass, deliberate-negative fixtures remain capable of failing, Promotion Engine V1 produces its end-to-end evidence, fresh authoritative CI is green at the exact tested SHA, and no material governance/intelligence regression exists. The final ≥9/10 gate must be earned independently by evidence across cold-start, authority, continuity, intelligence capture, deduplication, promotion, verification, synthesis, successor inheritance, failure learning, provenance, automation, observability, execution efficiency, escalation, usability, and MAXIS integration.
+P1 runtime closes only when the exact tested SHA is known, applicable governance/intelligence workflows demonstrably execute, relevant tests pass, deliberate-negative fixtures remain capable of failing, Promotion Engine V1 produces end-to-end evidence, fresh authoritative CI is green at the exact tested SHA, and no material governance/intelligence regression exists. Final ≥9/10 activation readiness must be earned independently by evidence.
+
+Commercial readiness closes only when the activation package is customer-executable, the sales experience accurately represents available capabilities, and the complete purchase → activation → first-win path is usable without Shawn having to reconstruct the system manually.
 
 ## LAST LEARNING
-The system has now converged on two complementary execution laws: **maximize verified value per cycle** and **change strategy after repeated equivalent failure**. The repository already contains the control-plane map, laws, cross-repository restore protocol, Promotion Engine V1 implementation, acceptance harness, and MAXIS repository boundary. The remaining leverage is not more prose or another equivalent CI retry; it is obtaining trustworthy executable evidence through a materially different execution plane, then letting the tests identify the first real defect. Once the runtime is real, batch all safe high-value verification and promotion work that shares the same execution boundary, preserve every material learning, and pass the torch forward.
+The key activation insight is: **activation must teach while it activates.** A sophisticated SuperBrain should not overwhelm a new customer with a giant document dump. Naya should progressively reveal capability, explain what changed and why it matters, distinguish verified from unverified behavior, show legitimate evidence, and always provide the next exact action prompt. This is the customer-facing application of the same continuity principle that produced the Running Feed.
