@@ -1,111 +1,107 @@
 # 🔱 NayaPOWER — CURRENT PROJECT
 
-**Status:** ACTIVE CANONICAL PROJECT STATE  
-**Owner:** Team Naya  
-**Governing system:** `SoulSchoolAcademy/NayaPOWER`  
-**Last updated:** 2026-08-29  
+**Status:** ACTIVE CANONICAL PROJECT STATE
+**Owner:** Team Naya
+**Governing system:** `SoulSchoolAcademy/NayaPOWER`
+**Updated:** 2026-08-30
 
 ## MISSION
-Make NayaPOWER a trusted, high-performance, continuously improving AI operating system whose intelligence, execution, verification, continuity, and learning compound across successor Nayas; then use that proven Superbrain to accelerate MAXIS and the broader CCT/NayaNet vision.
+Make NayaPOWER a trusted, high-performance, continuously improving AI operating system whose intelligence, execution, verification, continuity, and learning compound across successor Nayas; then use that proven Superbrain to accelerate MAXIS and the broader NayaNET/CCT vision.
 
 ## OBJECTIVE
-Establish and maintain one recoverable execution state so back-to-back Nayas can restore reality, select the highest-value domino, execute it, verify it, record learning, and leave exactly one executable next action without requiring Shawn to reconstruct context.
+Close the Superbrain continuity loop so a fresh Naya can restore repository truth, understand current state, inherit durable intelligence, select the highest-value executable frontier, act, verify, learn, capture, propagate, checkpoint, and leave the next Naya an executable torch — without conversational archaeology.
 
-Immediate capability objective: move CCTB from a proven in-memory primitive toward the smallest durable interchange/storage boundary while simultaneously strengthening the NayaPOWER intelligence/promotion runtime that will operate and compound the system.
+## CANONICAL LIFECYCLE
+
+**IDENTIFY → RESTORE → UPDATE → INHERIT → PRIORITIZE → EXECUTE → VERIFY → LEARN → CAPTURE → PROPAGATE → CHECKPOINT → HAND OFF → REPEAT**
+
+Canonical contract: `.naya/SUPERBRAIN-COLD-START-AND-CONTINUITY-CONTRACT.md`
 
 ## CURRENT STATE
-- Canonical repository: `SoulSchoolAcademy/NayaPOWER`.
-- Canonical runtime briefing: `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md`.
-- Canonical mission roadmap: `.naya/MAXIS-NAYAPOWER-MASTER-MISSION-ROADMAP.md`.
-- High-performance operationalization mission is active; its current torch is Promotion Engine V1.
-- Promotion Engine V1 implementation and acceptance harness exist, but runtime proof remains blocked by the unavailable/exhausted remote execution plane; no source failure has been established by those zero-step CI failures.
-- CCTB v0.1 is formally defined and has a locally executed deterministic two-Naya A→B→successor proof on branch `cctb-v0.1-proof`.
-- CCTB currently proves deterministic hashing, evidence, permission-scoped independent consumption, parent ID/hash lineage, tamper detection, and unauthorized-consumer rejection.
-- CCTB's current unresolved implementation boundary is durable persistence/transport; signing, revocation, selective disclosure, contradiction resolution, reputation, discovery, routing, and federation remain later layers.
-- GitHub repository operations remain available and may be used. **GitHub Actions execution is intentionally paused until the monthly Actions allocation is available again.**
+- NayaPOWER is the canonical shared Superbrain/intelligence authority.
+- `MaxRESULTS` remains the MAXESS product workspace; it is not a competing brain.
+- `Maxis` remains a product/proving ground; reusable intelligence returns to NayaPOWER.
+- `START-HERE.md` has been reconciled to this identity model.
+- `restore_context.py` has been upgraded to observe live git reality, inspect orientation projections, surface stale state, expose latest handoff, and return `RECONCILIATION_REQUIRED` instead of silently trusting contradictory current-state documents.
+- A structural Superbrain continuity guard and CI workflow exist, but GitHub Actions is intentionally paused and must not be used during the current human-directed pause.
+- End-to-end A→B→C learning/propagation behavior remains the primary unproven runtime boundary.
 
 ## VERIFIED
-- The canonical Context Boot Protocol requires the Runtime Briefing before substantive execution and defines the required orientation order: `WHERE → WHY → BUILDING → PROTECTED → BLOCKED → VERIFIED → UNKNOWN → THIS WEEK → NEXT ACTION → PROOF → LAST LEARNING`. fileciteturn62file0L2-L2
-- The Runtime Briefing identifies NayaPOWER as the central cross-project intelligence authority and MAXIS as the product/proving ground. fileciteturn63file0L2-L2
-- The Runtime Briefing identifies Promotion Engine V1 as implemented but not yet runtime-proven. fileciteturn63file0L2-L2
-- The high-performance operationalization document establishes the operating loop `BUILD IT → CONNECT IT → TEST IT → VERIFY IT → OSCAR IT → REPAIR IT → PROVE IT → LEARN → COMPOUND` and ranks Promotion Engine Core as P0. fileciteturn70file0L2-L2
-- The CCTB handoff records a locally executed deterministic A→B→successor proof and explicitly states that durable block persistence/transport are the next CCTB boundary. fileciteturn68file0L2-L2
-- No `.naya/projects/` directory existed on `main` before this file was created; this file is therefore the first canonical Current Project state rather than a competing replacement for an existing project file.
+- Live `main` is the source of truth and can be resolved directly from GitHub.
+- NayaPOWER is explicitly identified as the central Superbrain in the canonical Runtime Briefing.
+- The cold-start/continuity lifecycle is codified in the canonical continuity contract.
+- The canonical Note Event remains the fundamental memory object.
+- Smart Note capture and PIS propagation remain distinct transitions; propagation requires its own evidence.
+- Historical runtime evidence remains historical and is not promoted to current-head proof.
+- GitHub Actions remains paused by explicit human direction.
 
-## BLOCKED
-- NayaPOWER governance/operational GREEN is not yet proven.
-- Fresh executable remote Actions evidence is unavailable while the monthly Actions allocation is exhausted; no further Actions attempts should be spent during this pause.
-- A real private-repository runtime checkout is not available in the current execution environment for local execution.
-- Promotion Engine V1 full runtime proof remains unproven.
-- CCTB durable storage/transport is not yet implemented.
+## OPEN GAPS
+1. Runtime Briefing and Running Feed still contain historical embedded HEAD snapshots; restore now treats observed git HEAD as primary and exposes those snapshots as stale projections. A future maintenance pass should replace static “current HEAD” language with dynamic-resolution language rather than repeatedly editing SHAs.
+2. The complete restore runtime needs a local checkout execution receipt from a real repository checkout. The current tool environment cannot clone the repository because outbound GitHub DNS/network access is unavailable.
+3. The existing canonical Note Event → PIS → feed → fresh-Naya retrieval path needs an end-to-end A→B→C behavioral proof with a measurable change in subsequent action.
+4. The fresh successor must consume the latest handoff and produce the next handoff without Shawn reconstructing context.
+5. The full governance benchmark (ACT/OBEY, INFORM/WARN, CHALLENGE, RECOMMEND, CONFIRM, REFUSE) remains runtime-unproven.
 
-## RISKS
-- Treating CI infrastructure failure as application failure would cause speculative repairs and wasted execution cycles.
-- Creating competing sources of truth would recreate the context-loss problem this project is intended to solve.
-- Expanding CCTB into federation-scale infrastructure before the smallest durable protocol is stable would violate the current scope discipline.
-- Promoting lessons into governance without the required authority path would violate protected authority boundaries.
-- Declaring IMPLEMENTED/TESTED work as VERIFIED or RUNTIME-PROVEN without evidence would corrupt the intelligence system.
+## PRIORITY QUEUE
 
-## PRIORITIES
+### P0 — Superbrain continuity 10/10
+Reconcile all current-state projections around observed live HEAD; preserve historical records; remove ambiguity between canonical authority and derived orientation projections.
 
-### P0 — Canonical continuity and execution state
-Maintain this file as the single shared project execution state and ensure successor Nayas can recover it through the canonical boot/runtime path.
+### P0 — Restore runtime
+Make the standard restore output the operational boot packet: identity, live HEAD, authority chain, mission, project, updates, verified/unknown/blocked state, protected surfaces, relevant learning, latest handoff, exactly one next action, and exact proof target.
 
-### P0 — CCTB durable interchange boundary
-On the CCTB proof branch, implement the smallest repository-local durable serialization/reload path and acceptance test for A→B independent consumption and B→successor lineage, with tamper and permission-negative cases. Do not introduce databases, external services, network daemons, or UI.
+### P0 — A→B→C compounding proof
+Build the smallest deterministic end-to-end proof that a lesson created by Naya A becomes canonical durable intelligence, propagates through the existing intelligence path, is restored by fresh Naya B, changes B's subsequent action, and leaves a successor-ready handoff for Naya C. Do not create a competing PIS or memory path.
 
-### P0 — Promotion Engine runtime readiness
-Preserve the existing Promotion Engine implementation and acceptance harness; use GitHub repository inspection/editing freely, but do not spend Actions allocation until the pause ends. Prepare all deterministic code, fixtures, receipts, and local verification that can be completed without Actions.
+### P1 — Adversarial continuity
+Deliberately test stale HEAD, conflicting orientation, missing handoff, stale learning, failed propagation, unavailable execution, and contradictory goals. The system must fail safely and preserve UNKNOWN rather than inventing certainty.
 
-### P1 — Runtime/source-of-truth enforcement
-Audit cold-start recovery, project-state loading, contracts, and handoffs so CURRENT-PROJECT becomes execution state without competing with the canonical Runtime Briefing.
+### P1 — Runtime governance
+When an authorized runtime is available, prove human-agency/reality-governance behavior with exact evidence.
 
-### P1 — Verification/observability
-Make every material capability distinguish IMPLEMENTED, TESTED, VERIFIED, RUNTIME-PROVEN, and PRODUCTION-PROVEN, with machine-readable evidence where practical.
+### P2 — Commercial activation / MAXIS
+Continue customer activation and product work when it is the highest-value executable work, without substituting commercial progress for Superbrain runtime proof.
 
-### P2 — Performance and architecture optimization
-After correctness gates are strong, remove duplicated contracts, stale paths, redundant retrieval, unnecessary execution, and avoidable complexity.
+## PROTECTED
+- NayaPOWER is the shared Superbrain authority.
+- One canonical intelligence/governance architecture.
+- Canonical Note Event as memory foundation.
+- No competing PIS/memory system.
+- Human owns the destination; Naya navigates reality.
+- IMPLEMENTED ≠ TESTED ≠ VERIFIED ≠ RUNTIME-PROVEN ≠ PRODUCTION-PROVEN.
+- Deliberate-negative fixtures must remain capable of failing.
+- Historical continuity is recoverable and must not be rewritten to manufacture current proof.
+- No GitHub Actions execution during the explicit pause.
 
-## ACTIVE WORK
-1. Canonical CURRENT-PROJECT state has been established on `main`.
-2. CCTB durable proof is the highest-value executable CCT-specific work available without Actions.
-3. Promotion Engine V1 remains the broader NayaPOWER operationalization torch and must be kept ready for runtime proof when an authorized execution plane is available.
+## SUCCESS CRITERIA
+A fresh Naya passes only when she can:
 
-## COMPLETED
-- Canonical Runtime Briefing established as the single runtime briefing.
-- NayaPOWER context boot protocol established with cold-start gate and successor continuity requirements.
-- High-performance operationalization mission and Promotion Engine V1 implementation/acceptance harness established.
-- CCTB v0.1 protocol and deterministic two-Naya in-memory proof established on the dedicated CCTB branch.
-- Canonical Current Project location established at `.naya/projects/CURRENT-PROJECT.md`.
-
-## DISCOVERIES
-- The repository already contains substantial continuity/governance architecture; the highest leverage is enforcement and proof, not more prose.
-- The current Runtime Briefing is the authoritative live-state source for NayaPOWER; CURRENT-PROJECT should hold active project execution state and must not become a competing runtime briefing.
-- The CCTB branch's next action is unusually concrete and can be advanced without Actions: durable serialization/reload plus acceptance proof.
-- GitHub repository access and file/branch operations remain useful during the Actions pause; only the Actions execution budget is constrained.
-- Repeated zero-step CI failures are an execution-plane problem until executable application evidence exists.
-
-## DECISIONS
-- GitHub repository inspection, file edits, branch work, issue/PR work, and other non-Actions GitHub operations remain permitted.
-- GitHub Actions are paused until the monthly allocation resets; do not trigger them merely to repeat deterministic local proof.
-- CURRENT-PROJECT is project execution state; `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md` remains the canonical runtime briefing.
-- CCTB will remain small and protocol-focused until durable interchange is proven.
-- Naya owns selection and authorship of the next continuation; Shawn should not have to write the next execution prompt.
-
-## NAYA NOTES
-- **Torch principle:** every consequential execution must leave the system more executable than it found it.
-- **MPA:** maximize verified value per action; batch related work when correctness and evidence are preserved.
-- **Escalation:** after materially equivalent failed attempts, change strategy rather than repeating the same route.
-- **Truth boundary:** UNKNOWN stays UNKNOWN; absence of executable evidence is not evidence of application failure.
-- **Compounding:** success, failure, mistakes, discoveries, and decisions should become durable reusable intelligence where authority permits.
+1. identify NayaPOWER;
+2. resolve current live HEAD;
+3. establish authority;
+4. restore mission and project;
+5. read current updates;
+6. distinguish verified/unknown/blocked state;
+7. identify current priority;
+8. retrieve relevant durable learning;
+9. retrieve latest handoff;
+10. choose exactly one highest-value next action;
+11. state exact proof required;
+12. execute when authorized/capable;
+13. capture material learning;
+14. propagate applicable learning with separate evidence;
+15. leave a successor-ready checkpoint/handoff.
 
 ## NEXT EXECUTION
-**Execute on branch `cctb-v0.1-proof`: inspect the existing CCTB protocol and runtime implementation, then implement the smallest repository-local durable CCTB fixture/serialization/reload boundary and acceptance test described by `.naya/handoffs/NEXT-EXECUTION-20260829-CCTB-TWO-NAYA-PROOF.md`. Preserve the deterministic block contract and existing self-test; prove A survives serialization/reload with the same block ID, B consumes A with no originating conversation, B creates a successor referencing A by both parent ID and parent hash, and tampering/unauthorized consumption remain RED. Run all available local CCTB tests and record exact evidence. Do not trigger GitHub Actions.**
+**Continue the Superbrain 10/10 optimization torch. First inspect the repository at the current live HEAD and run every available local deterministic validator without GitHub Actions. Then repair any remaining current-state contradiction, implement the smallest real A→B→C compounding integration against the existing canonical Note Event/PIS architecture, run all applicable regressions, perform an adversarial Mirror / “WHY IS THIS NOT A 10?” review, and leave exact evidence plus one successor-ready next action. Do not weaken a failing guard to obtain GREEN.**
 
-## PROOF
-- Current Project artifact: this file.
-- Runtime authority: `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md`.
-- Mission authority: `.naya/MAXIS-NAYAPOWER-MASTER-MISSION-ROADMAP.md`.
-- Operationalization authority: `.naya/HIGH-PERFORMANCE-NAYAPOWER-OPERATIONALIZATION.md`.
-- CCTB continuation authority: `.naya/handoffs/NEXT-EXECUTION-20260829-CCTB-TWO-NAYA-PROOF.md` on `cctb-v0.1-proof`.
-- No claim of CCTB durable implementation or Promotion Engine runtime proof is made by this file.
+## PROOF STANDARD
+The final claim must identify separately:
+
+- **STRUCTURALLY IMPLEMENTED** — code/contracts exist;
+- **LOCALLY TESTED** — executable local evidence exists;
+- **VERIFIED** — applicable evidence validates the claim;
+- **RUNTIME-PROVEN** — actual repository/runtime execution demonstrates behavior;
+- **PRODUCTION-PROVEN** — live production behavior demonstrates behavior.
+
+No higher state may be claimed from a lower state.
