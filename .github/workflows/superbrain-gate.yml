@@ -100,6 +100,11 @@ jobs:
           PYTHONDONTWRITEBYTECODE: "1"
         run: PYTHONPATH=.naya/runtime python .naya/runtime/customer_activation_loop_test.py
 
+      - name: Run human agency behavioral benchmark harness
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python SUPERBRAIN/human_agency_behavioral_benchmark.py
+
       - name: Enforce execution continuity on meaningful events
         run: python .naya/runtime/continuity_enforcement.py validate
 
