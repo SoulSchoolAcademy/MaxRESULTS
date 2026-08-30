@@ -1,7 +1,7 @@
 # 🔱 PRIMARY INTELLIGENCE HUB — NAYAPOWER × MAXIS
 
 **Status:** CANONICAL NAVIGATION / SYNTHESIS LAYER
-**Date:** 2026-08-29
+**Date:** 2026-08-30
 
 ## PURPOSE
 
@@ -68,6 +68,35 @@ Major learning: context recovery, action delivery, torch passing, and reporting 
 
 Key durable change: canonical Runtime Briefing, cold-start gate, Action Delivery enforcement, CI guardrails, and Daily Intelligence System specification.
 
+## 2026-08-30 DAILY SYNTHESIS
+
+### Material changes
+
+- NayaPOWER `main` advanced to `d67b156ed93ae5a81ca6b57d411a2f3ba708653b` with current activation/sales priorities recorded.
+- Recent state work records self-orientation acceptance, alternate-runtime blocker handling, and project-state binding to continuity.
+- MAXIS remains at `cbe607ab7299f25e57b8eba9527f6b3fcbb99064`; its repository lock explicitly makes NayaPOWER the central intelligence authority and requires reusable learning to return there.
+- A dated Daily Intelligence Report and a durable Naya Note were added for this cycle.
+
+### Current conclusion
+
+The primary unresolved risk is still execution proof, not missing conceptual architecture. The hosted CI path repeatedly fails before executable steps materialize, and the current environment cannot create a real private-repository checkout. This remains UNKNOWN at root-cause level and must be recovered through a materially different authorized runtime.
+
+### Current highest-value action
+
+Obtain an authorized real checkout/runtime outside the failing opaque runner route and run the governed baseline plus Promotion Engine acceptance and corpus-processing commands in one evidence-bearing batch.
+
+### Exact proof target
+
+`EXACT SHA → CHECKOUT → RUNTIME → GOVERNED COMMAND → STDOUT/STDERR → EXIT CODE → PROMOTION TESTS → CORPUS RECEIPT → IDEMPOTENCY → VERIFIED STATE`
+
+### New durable lessons
+
+1. Resolve current heads before every daily synthesis; prior reports are context, not authority.
+2. Treat zero-step/pre-runner failures as execution-boundary evidence, not application failures.
+3. Apply Three-Attempt Escalation and Execution Efficiency together: change route, then batch safe verification work.
+4. Preserve one central intelligence authority across NayaPOWER and MAXIS.
+5. End each report with one exact next action and its proof requirement.
+
 ## CUMULATIVE LESSONS
 
 1. **Repository memory is institutional memory.** Material conversation knowledge must be promoted into the correct durable layer.
@@ -80,6 +109,8 @@ Key durable change: canonical Runtime Briefing, cold-start gate, Action Delivery
 8. **The report is a learning mechanism, not a diary.**
 9. **Every successor should inherit the previous Naya's lessons.**
 10. **Maximum value per interaction is the optimization target.**
+11. **Execution route changes must follow evidence, not hope.**
+12. **Cross-repository intelligence must have one canonical home.**
 
 ## REPEATED-MISTAKE WATCHLIST
 
@@ -91,6 +122,7 @@ Key durable change: canonical Runtime Briefing, cold-start gate, Action Delivery
 - competing authority documents
 - knowledge remaining only in conversation
 - acknowledging an executable next action without delivering it
+- repeating opaque zero-step CI routes after the boundary is known
 
 When a watchlist item recurs, escalate from fixing the instance to fixing the learning mechanism.
 
@@ -108,14 +140,11 @@ When a watchlist item recurs, escalate from fixing the instance to fixing the le
 
 - Any current CI gate still reported RED must be diagnosed from actual step-level evidence before GREEN is claimed.
 - The reporting architecture is specified and daily automation exists, but full automatic lesson promotion into every applicable guardrail/test/procedure remains an implementation program.
+- Full runtime verification of Promotion Engine V1 remains blocked by the execution boundary.
 
 ## CURRENT HIGHEST-VALUE ACTION
 
-**Close the current governance proof gap, then prove the MAXIS guest golden spine against the current source/deployment state.**
-
-Proof target:
-
-`NAME → SUPPORTED TOPIC → NAYA → Q1–Q15 → COMPLETE → AUTHORITATIVE SCORE → E01–E09 → GUEST HUB`
+**Close the current governance proof gap through a materially different authorized execution plane, then prove the MAXIS guest golden spine against current source/deployment state.**
 
 ## EVIDENCE RULE
 
