@@ -49,8 +49,8 @@ A lower score is not permission to stop. It is a signal to improve, route around
 | 1 | Collective Operating Model | COMPLETE | 100% | Priority Engine |
 | 2 | Priority Decision Boundary | VERIFIED LOCALLY / ACTIONS PENDING | 100% | Executable Torch |
 | 3 | Executable Torch | VERIFIED INDEPENDENT HARNESS / ACTIONS PENDING | 100% | Torch → Execution |
-| 4 | Torch → Execution | ACTIVE / VERIFY | 10% | Evidence |
-| 5 | Execution → Evidence | QUEUED | 0% | Smart Notes |
+| 4 | Torch → Execution | IMPLEMENTED / EXECUTION EVIDENCE PENDING | 100% implementation | Evidence |
+| 5 | Execution → Evidence | ACTIVE / IMPLEMENTED / RUNTIME EVIDENCE PENDING | 100% implementation | Smart Notes |
 | 6 | Smart Note Value Extraction | QUEUED | 0% | CSI |
 | 7 | CSI Compounding Loop | QUEUED | 0% | Human Service |
 | 8 | 10-Star Human Mission Loop | QUEUED | 0% | Customer Activation |
@@ -87,11 +87,9 @@ A lower score is not permission to stop. It is a signal to improve, route around
 
 **Does NOT own:** priority selection, authorization/claims, execution, verification, or learning persistence.
 
-**Evidence:** Exact seven-case `executable_torch_test.py` suite executed in an isolated Python/unittest harness: **Ran 7 tests — OK; exit status 0**.
+**Evidence:** Exact seven-case `executable_torch_test.py` suite previously executed in an isolated Python/unittest harness: **Ran 7 tests — OK; exit status 0**.
 
-**Important limitation:** This is independent execution evidence, not GitHub Actions evidence. Authoritative Actions remains the final verification layer.
-
-**Status:** CLOSED as independently verified; Actions verification pending.
+**Important limitation:** This is independent execution evidence, not GitHub Actions evidence. Authoritative Actions verification remains pending.
 
 ### Entry 004 — Torch → Canonical Execution Boundary
 **What was done:** Added `torch_execution_adapter.py` and adversarial coverage. The adapter validates an ExecutableTorch, delegates canonical successor validation to the existing `project_execution_contract.validate_next_execution`, and rejects divergence in next action, evidence requirements, constraints, and acceptance criteria.
@@ -100,11 +98,22 @@ A lower score is not permission to stop. It is a signal to improve, route around
 
 **Architectural separation preserved:** **Priority selects → Torch packages → Claim authorizes → Execution executes → Verification proves → Smart Notes extract value → CSI compounds.**
 
-**Current truth:** adapter and tests are committed; repository/CI execution evidence is still required. No claim of Torch 4 PASS is made from static presence.
+**Current truth:** adapter and tests are committed; actual repository execution evidence remains pending. A GitHub workflow lookup for the latest Torch 4 test commit returned no workflow runs, so no CI PASS is claimed.
 
-**Recovery if verification fails:** repair the smallest true boundary; do not weaken the canonical project execution contract.
+### Entry 005 — Execution → Evidence Boundary
+**What was done:** Added `execution_evidence_adapter.py` and `execution_evidence_adapter_test.py`. The adapter accepts only a completed, identified execution with an observed output/result and commit identity, then constructs the existing `naya-power-evidence/v1` record shape.
 
-**Next:** execute Torch 4 against the actual repository runtime and then run canonical successor-consumption tests.
+**Why:** Close the smallest missing boundary between execution facts and the existing canonical evidence runtime without creating a new evidence store or verification engine.
+
+**Authority preserved:** `evidence_runtime.py` remains the authority for evidence validation and Claim → Evidence → Verification. `canonical_event_store.py` remains the chronological event writer. The adapter only translates completed execution facts into canonical evidence shape.
+
+**Adversarial coverage:** unexecuted action rejection; missing observed result rejection; execution/action identity binding; no verification status invention; malformed evidence rejection; successor-consumable canonical shape; forbidden evidence method rejection.
+
+**Current truth:** implementation and test files are committed. This environment cannot execute an arbitrary repository shell command, so actual repository stdout/exit status for `execution_evidence_adapter_test.py` is **PENDING**. No PASS claim is made from source inspection.
+
+**Revelation:** the smallest useful boundary is a translator/guard between completed execution and the existing evidence schema—not another store, verifier, or event system.
+
+**Next:** obtain actual deterministic runtime evidence when an execution-capable runner is available, then continue to Smart Note value extraction.
 
 ## LESSONS FOR EVERY NAYA
 
@@ -119,6 +128,8 @@ A lower score is not permission to stop. It is a signal to improve, route around
 - If the current route is unavailable, find the highest-value executable route around it.
 - A PriorityDecision is not itself a Torch.
 - A Torch is not itself authorization or execution.
+- Execution facts are not automatically evidence until the evidence boundary accepts them.
+- Evidence is not verification; verification remains a separate authority.
 - Every substantive output must leave an executable continuation.
 
 ## REQUIRED SUCCESSOR ENTRY
@@ -157,10 +168,16 @@ This feed is an orientation and continuity layer. It does not silently override 
 
 ## CURRENT TORCH
 
-**Priority:** Torch 4 — connect the validated Executable Torch to the existing canonical execution authority.
+**Priority:** Torch 5 — Execution → Evidence.
 
-**Required action:** Run `.naya/runtime/torch_execution_adapter_test.py` against the actual repository runtime. Capture exact output, exit status, and tested commit SHA. Then run the existing canonical NEXT-EXECUTION validation/consumption tests. If a real defect appears, repair the smallest true contract boundary and rerun. If all pass, record evidence, close Torch 4, and immediately begin Torch 5 — Execution → Evidence.
+**Required action:** Execute `.naya/runtime/execution_evidence_adapter_test.py` in an execution-capable repository environment and capture exact stdout, exit status, and tested commit SHA. Then execute the canonical `evidence_runtime.py` deterministic validation/self-test coverage and verify that adapter output is consumable by the existing Claim → Evidence → Verification runtime.
 
-**Do not:** create a second execution engine, weaken canonical successor validation, or claim PASS without execution evidence.
+If a real defect appears, repair the smallest true boundary and rerun.
+
+If runtime execution remains unavailable, preserve that limitation as evidence and continue the highest-value independent architecture work without claiming PASS.
+
+After verified evidence exists, close Torch 5 and immediately advance to **Torch 6 — Smart Note Value Extraction**, beginning by inspecting existing Smart Note/Event authorities and implementing only the smallest missing value-extraction boundary.
+
+**Do not:** create a second evidence store, verification engine, event store, or Smart Note authority. Do not equate evidence with verification. Do not weaken canonical contracts. Do not claim PASS without execution evidence.
 
 **Continuation requirement:** end the execution with the next copy-ready torch.
