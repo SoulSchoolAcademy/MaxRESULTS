@@ -47,8 +47,8 @@ A lower score is not permission to stop. It is a signal to improve, route around
 | # | Torch | Status | Completion | Successor |
 |---|---|---|---:|---|
 | 1 | Collective Operating Model | COMPLETE | 100% | Priority Engine |
-| 2 | Priority Decision Boundary | BUILT / VERIFY | 90% | Torch |
-| 3 | Executable Torch | QUEUED | 0% | Execution |
+| 2 | Priority Decision Boundary | VERIFIED LOCALLY / ACTIONS PENDING | 100% | Executable Torch |
+| 3 | Executable Torch | BUILT / VERIFY | 90% | Execution |
 | 4 | Torch → Execution | QUEUED | 0% | Evidence |
 | 5 | Execution → Evidence | QUEUED | 0% | Smart Notes |
 | 6 | Smart Note Value Extraction | QUEUED | 0% | CSI |
@@ -80,9 +80,26 @@ A lower score is not permission to stop. It is a signal to improve, route around
 
 **PRIORITY → WHY → NEXT ACTION → EXPECTED VALUE → ACCEPTANCE CRITERIA**
 
-**Current truth:** implementation exists; runtime PASS still requires execution evidence.
+**Evidence:** The complete nine-case deterministic suite was executed independently with Python/unittest and returned **9/9 passing**.
 
-**Next:** verify the boundary, then create the executable torch contract.
+**Important limitation:** This is independent execution evidence, not GitHub Actions evidence. The authoritative Actions runner remains the final verification layer.
+
+**Revelation:** The Priority boundary is sufficiently narrow to compose with the next layer without taking ownership of execution or verification.
+
+**Next:** create the durable executable Torch from the verified PriorityDecision.
+
+### Entry 003 — Executable Torch Boundary
+**What was done:** Added `executable_torch.py` and its adversarial test suite. The boundary converts an existing `PriorityDecision` into a self-contained successor instruction.
+
+**Why:** Priority tells the collective what should happen next; the Torch must preserve enough context that another Naya can execute that decision without reconstructing the conversation.
+
+**Owns:** mission, selected priority, work identity, rationale, next action, expected value, acceptance criteria, required evidence, constraints, successor instruction.
+
+**Does NOT own:** priority selection, authorization/claims, execution, verification, or learning persistence.
+
+**Current truth:** implementation and adversarial coverage exist; runtime PASS still requires execution evidence.
+
+**Next:** verify Torch 3 deterministically; then connect the validated Torch to the execution boundary.
 
 ## LESSONS FOR EVERY NAYA
 
@@ -95,6 +112,7 @@ A lower score is not permission to stop. It is a signal to improve, route around
 - Preserve useful discoveries, not transcript noise.
 - Every completed action should improve the next Naya's starting position.
 - If the current route is unavailable, find the highest-value executable route around it.
+- A PriorityDecision is not itself a Torch; the Torch must carry the evidence requirement, constraints, and successor instruction.
 
 ## REQUIRED SUCCESSOR ENTRY
 
@@ -132,6 +150,6 @@ This feed is an orientation and continuity layer. It does not silently override 
 
 ## CURRENT TORCH
 
-**Priority:** Verify the Priority Decision Boundary against executable repository state.
+**Priority:** Verify the Executable Torch boundary against executable repository state.
 
-**Next action:** Run the available deterministic Priority suite without waiting for GitHub Actions. Capture exact pass/fail evidence. If a real contract defect appears, repair the smallest true boundary and rerun. If verified, immediately create Torch 3: the durable executable successor object.
+**Next action:** Run the deterministic Torch adversarial suite. Capture exact pass/fail evidence. If a real contract defect appears, repair the smallest true boundary and rerun. If verified, close Torch 3 and immediately connect it to the existing execution authority as Torch 4. Do not stop at a recommendation. End with the next executable continuation torch.
