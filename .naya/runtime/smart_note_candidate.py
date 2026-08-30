@@ -1,51 +1,75 @@
 #!/usr/bin/env python3
-"""Narrow boundary from valuable completed execution evidence to a Smart Note candidate.
+"""Small, non-persistent boundary from verified execution evidence to a Smart Note candidate.
 
-This module does not store notes, write Note Events, promote authority, or run CSI.
-It only filters and packages durable learning candidates with provenance.
+This module deliberately does not write memory, create Note Events, promote
+authority, or alter CCT. It only evaluates whether an execution/evidence result
+contains enough durable learning to be represented as a candidate Smart Note.
+The existing canonical Note Event store remains the only memory/event authority.
 """
 from __future__ import annotations
+
 from typing import Any
 
-ALLOWED_TYPES = {"insight", "lesson", "mistake", "breakthrough", "decision", "correction", "opportunity", "procedure", "goal", "win"}
-REQUIRED_SOURCE = {"execution_id", "evidence_id", "commit_sha"}
-REQUIRED_LEARNING = {"what_mattered", "what_was_learned", "future_action"}
+CANONICAL_EVIDENCE_SCHEMA = "naya-power-evidence/v1"
+ALLOWED_TYPES = {
+    "decision", "lesson", "discovery", "correction", "architecture",
+    "preference", "milestone", "failure", "fact", "strategy", "insight",
+}
+REQUIRED_LEARNING = ("what_mattered", "what_was_learned", "future_action")
 
 
-def _text(v: Any) -> bool:
-    return isinstance(v, str) and bool(v.strip())
+class SmartNoteCandidateRejected(ValueError):
+    """Raised when an execution result does not contain durable learning."""
 
 
-def build_candidate(execution_evidence: dict[str, Any], learning: dict[str, Any], *, note_type: str) -> dict[str, Any]:
-    """Create a candidate only when observed evidence has durable learning value."""
-    if not isinstance(execution_evidence, dict):
-        raise ValueError("execution evidence must be an object")
-    missing_source = REQUIRED_SOURCE - set(execution_evidence)
-    if missing_source:
-        raise ValueError(f"missing evidence provenance: {sorted(missing_source)}")
-    if not _text(execution_evidence.get("execution_id")) or not _text(execution_evidence.get("evidence_id")) or not _text(execution_evidence.get("commit_sha")):
-        raise ValueError("execution_id, evidence_id, and commit_sha are required")
-    if execution_evidence.get("schema") != "naya-power-evidence/v1":
-        raise ValueError("non-canonical evidence rejected")
+def _text(value: Any) -> str:
+    return value.strip() if isinstance(value, str) else ""
+
+
+def _source(evidence: dict[str, Any]) -> dict[str, str]:
+    fields = ("execution_id", "evidence_id", "commit_sha")
+    missing = [field for field in fields if not _text(evidence.get(field))]
+    if missing:
+        raise SmartNoteCandidateRejected("evidence missing provenance: " + ", ".join(missing))
+    return {field: _text(evidence[field]) for field in fields}
+
+
+def build_candidate(
+    evidence: dict[str, Any],
+    learning: dict[str, Any],
+    *,
+    note_type: str,
+) -> dict[str, Any]:
+    """Represent durable learning as an unpromoted Smart Note candidate.
+
+    The function is intentionally pure: callers receive a candidate object;
+    no note/event file is written and no canonical authority is changed.
+    """
+    if not isinstance(evidence, dict) or evidence.get("schema") != CANONICAL_EVIDENCE_SCHEMA:
+        raise SmartNoteCandidateRejected("canonical execution evidence is required")
     if not isinstance(learning, dict):
-        raise ValueError("learning must be an object")
-    missing_learning = REQUIRED_LEARNING - set(learning)
-    if missing_learning:
-        raise ValueError(f"missing durable learning: {sorted(missing_learning)}")
-    if any(not _text(learning.get(k)) for k in REQUIRED_LEARNING):
-        raise ValueError("durable learning fields must be non-empty")
+        raise SmartNoteCandidateRejected("learning must be an object")
     if note_type not in ALLOWED_TYPES:
-        raise ValueError("invalid Smart Note type")
+        raise SmartNoteCandidateRejected("invalid Smart Note candidate type")
+
+    source = _source(evidence)
+    values = {field: _text(learning.get(field)) for field in REQUIRED_LEARNING}
+    if any(not value for value in values.values()):
+        raise SmartNoteCandidateRejected(
+            "durable learning requires what_mattered, what_was_learned, and future_action"
+        )
+
+    transcript = _text(evidence.get("transcript"))
+    combined = " ".join(values.values())
+    if transcript and combined == transcript:
+        raise SmartNoteCandidateRejected("raw transcript cannot be promoted as durable learning")
+
     return {
-        "kind": "smart-note-candidate/v1",
-        "note_type": note_type,
-        "what_mattered": learning["what_mattered"].strip(),
-        "what_was_learned": learning["what_was_learned"].strip(),
-        "future_action": learning["future_action"].strip(),
-        "source": {
-            "execution_id": execution_evidence["execution_id"],
-            "evidence_id": execution_evidence["evidence_id"],
-            "commit_sha": execution_evidence["commit_sha"],
-        },
         "promotion_state": "CANDIDATE",
+        "type": note_type,
+        "summary": values["what_mattered"],
+        "what_we_learned": [values["what_was_learned"]],
+        "why_it_matters": values["what_mattered"],
+        "next_best_action": values["future_action"],
+        "source": source,
     }
