@@ -31,14 +31,14 @@ GitHub Actions is an evidence environment, not the architecture itself. When Act
 | 3 | **Claim / concurrency safety** | VERIFIED | Preserve claim lease semantics and adversarial conflict tests. | Naya Claim 7/7 already live | No |
 | 4 | **CCT intelligence integrity** | VERIFIED | Preserve CCT-003/004/005 contracts and regression fixtures; attack new edges only when evidence identifies them. | CCT-003 6/6, CCT-004 12/12, CCT-005 15/15 | No |
 | 5 | **Smart Note → Note Event → value loop** | VERIFIED / PARTIAL | Preserve the canonical `SE-*` event authority and composition bridge; define durable-outcome boundary without creating a second store. | Integration 8/8; durable outcome design remains open | No |
-| 6 | **Retrieval quality** | READY | Run/strengthen deterministic retrieval tests: exact, lexical, aliases, relationships, authority, freshness, supersession, conflict, historical intent. | Retrieval test suite + measurable ranking cases | No |
+| 6 | **Retrieval quality** | **CONFLICTING / PARTIAL** | Reconcile the canonical Event-v3 retrieval runtime with the legacy `memory_runtime.py` path before adding retrieval features. | One canonical retrieval authority + local retrieval/restore regression | No |
 | 7 | **Promotion / authority safety** | READY | Audit promotion levels, evidence requirements, provenance, supersession, canonical decision boundary, and anti-key-presence shortcuts. | Static contract audit + local adversarial tests | No |
 | 8 | **Continuity / No-Orphan** | READY | Reconcile `continuity_enforcement.py`, `project_execution_contract.py`, Prompt Architect, No-Orphan law, and canonical NEXT-EXECUTION artifacts. | Local self-tests + deterministic negative cases | No |
-| 9 | **Mission State / control-plane coherence** | READY | Reconcile STATE, BLOCKS, MAP, current project, workboard, and legacy memory so one current truth is exposed. | Static authority audit + local validators | No |
+| 9 | **Mission State / control-plane coherence** | **CONFLICTING / PARTIAL** | Reconcile `.naya/memory/STATE.json`, `.naya/control-plane/STATE.json`, MAP/BLOCKS, current project, and workboard precedence/synchronization. | One machine-provable current-state path | No |
 | 10 | **Learning / compounding** | PARTIAL | Verify Smart Note classification, promotion, retrieval, value feedback, and successor learning; preserve append-only history. | End-to-end local chain + explicit UNKNOWNs | No |
 | 11 | **Adversarial Superbrain review** | READY | Ask “WHY IS THIS NOT A 10?” against stale state, duplication, authority drift, fake verification, circular validation, privacy, replay, and orphaned successors. | Recorded findings + repairs + tests | No |
 | 12 | **Evidence / receipt quality** | READY | Ensure every substantive block leaves exact start/end state, tests, evidence, unknowns, learning, and next execution. | Receipt contract + local validation | No |
-| 13 | **Architecture conflict/duplication audit** | READY | Search before creating: memory, event, scorer, result, release, prompt, state, and deployment authorities. Resolve conflicts before adding systems. | Authority matrix with one canonical owner per concern | No |
+| 13 | **Architecture conflict/duplication audit** | **ACTIVE — CONCRETE CONFLICT FOUND** | Resolve the dual memory/retrieval runtime without creating a third system. | Canonical-owner decision + migrated caller/tests + regression | No |
 | 14 | **Durable outcome history** | PARTIAL | Design the smallest extension of the canonical event model for outcome/value history; do not implement a competing outcome database. | Architecture decision + tests before implementation | No |
 | 15 | **Actions recovery package** | READY | Prepare deterministic fixtures, local tests, receipts, exact-head checks, and failure diagnostics so Actions can be used efficiently later. | Reproducible package ready for remote execution | Yes for final proof only |
 
@@ -83,23 +83,69 @@ For every Actions-dependent gate, prepare:
 
 Never substitute local inspection for external proof; never wait for external proof to do work that is legitimately local.
 
+## Live audit evidence — main HEAD `f8c7437af89bf02c89148df56184e79897deba92`
+
+### Cold-start / continuation
+
+**READY, not VERIFIED in this session.** `START-HERE` explicitly requires restore, control-plane resolution, No-Orphan continuation, `ready_to_run_execution`, and the cold-start activation contract. `cold_start_activation.py`, `project_execution_contract.py`, `prompt_architect_contract.py`, and `continuity_enforcement.py` contain deterministic fail-closed checks for missing, malformed, arbitrary, and conversation-dependent successor instructions. fileciteturn398file0 fileciteturn399file0 fileciteturn391file0 fileciteturn392file0 fileciteturn387file0
+
+### CCT foundation
+
+Existing recorded/live evidence remains protected: CCT-003 6/6, Naya Claim 7/7, CCT-004 12/12, Intelligent Block 8/8, Note Event Promotion 5/5, CCT-005 15/15, and Smart Note → Note Event → CCT-005 integration 8/8. The workboard records the prior final CCT regression commit `c7ad93d82dbf5da92a8f0adb6998ba3d800eb165`. fileciteturn383file0
+
+### Concrete architecture conflict: memory/retrieval authority
+
+The canonical Smart Brain v3 explicitly states that chronological `SE-*` Note Events are the canonical source of truth and that its retrieval is the v3 retrieval model. fileciteturn388file0
+
+At the same time, `.naya/memory/memory_runtime.py` implements a separate `SN-*` note store/validator/retriever, and `.naya/runtime/restore_context.py` imports that runtime directly. fileciteturn403file0 fileciteturn402file0
+
+The `naya-memory-runtime` workflow still executes `memory_runtime.py validate` and its dedicated `test_memory_runtime.py` suite before executing Restore Context. fileciteturn407file0 fileciteturn408file0
+
+**Classification:** `CONFLICTING / PARTIAL`, not GREEN. This is not a reason to build a third memory system. The next repair must determine whether `memory_runtime.py` is migration compatibility or an unintended competing authority, then converge callers/tests on the canonical Event-v3 boundary while preserving historical records.
+
+### Mission State / control-plane coherence
+
+`MAP.json` identifies `.naya/memory/STATE.json` as current-state authority and separately defines the control-plane `STATE.json` as a machine control-plane contract. fileciteturn380file0
+
+The live `.naya/memory/STATE.json` still describes a Naya Hub / current-head CI recovery objective and older recorded HEAD `ad61414e...`, while the live Team Naya workboard and `SUPERBRAIN/CCT-CURRENT-PROJECT.md` identify `SUPERBRAIN-AAA-OFFLINE-READINESS` as the active Superbrain lane. fileciteturn397file0 fileciteturn385file0
+
+The control-plane `STATE.json` separately exposes `B01-B03-MINIMUM-CONTROL-LOOP` as active and a GitHub Actions proof-recovery action. fileciteturn378file0
+
+**Classification:** `CONFLICTING / PARTIAL`. The artifacts may represent different layers, but precedence/synchronization is not machine-proven by the current audit. This must be resolved before claiming a 10/10 cold-start truth path.
+
+### Canonical event write boundary
+
+`canonical_event_store.py` is explicitly the chronological event persistence boundary, uses idempotent create/replay behavior, and delegates meaningful execution validation to the project/continuity contract. fileciteturn396file0
+
+`canonical_write_inventory.py` exists specifically to detect production event-like writes that bypass the canonical event store and treats ambiguous direct event writes as blockers rather than silently green. fileciteturn400file0
+
+### Retrieval contract boundary
+
+The repository already defines retrieval as more than text matching: exact, lexical/BM25, TF-IDF, metadata, aliases, relationships, authority, recency, supersession/stale state, and historical time handling are part of the v3 design. fileciteturn381file0
+
+The existing retrieval regression covers exact event IDs, query expansion, metadata filtering, unmatched-query failure, and impossible-filter failure, but does not yet prove the full authority/freshness/supersession/conflict/historical matrix. fileciteturn389file0
+
+### Durable outcome boundary
+
+CCT-005 is verified, but the durable outcome/value-history boundary remains PARTIAL and must be implemented only through the canonical event model. No competing outcome store is authorized.
+
 ## Current scorecard judgment
 
 ### Repository architecture readiness
 
-**STRONG / substantially established.** The canonical Superbrain OS already defines event, evidence, retrieval, continuity, compounding, performance, and 10/10 gates. fileciteturn371file0
+**STRONG but not AAA.** The governing contracts are substantial and explicit, but the live audit found a concrete competing memory/retrieval runtime path and a current-state synchronization ambiguity.
 
 ### Executable local readiness
 
-**HIGH but must be re-run from a live checkout.** The repository contains deterministic validators and self-tests for NEXT-EXECUTION, continuity, cold-start activation, CCT, claims, promotion, and value feedback. The control-plane state explicitly records local runtime execution as UNKNOWN from connector-only inspection. fileciteturn362file0
+**READY / NOT VERIFIED IN THIS SESSION.** The repository contains deterministic validators and self-tests, but this execution environment has no mounted `/workspaces/NayaPOWER` checkout and cannot run the repository-local Python suite. No local PASS is claimed here.
 
 ### External automation readiness
 
-**UNKNOWN / BLOCKED by evidence availability.** Current control-plane state records failed/opaque Actions observations and explicitly forbids guessing the internal failure. fileciteturn362file0
+**UNKNOWN / BLOCKED by evidence availability.** Actions-dependent proof remains separate and must not be inferred from repository inspection.
 
 ### Durable compounding readiness
 
-**PARTIAL.** The Smart Note → Note Event → CCT-005 path is verified, but CCT-005 outcome/value history remains in-memory. The canonical event model is the only acceptable future durable home unless governance explicitly changes that boundary.
+**PARTIAL.** Smart Note → Note Event → CCT-005 is verified, but durable outcome/value history remains an explicit missing boundary.
 
 ## Definition of AAA / 10-Star Superbrain readiness
 
@@ -123,8 +169,10 @@ The Superbrain may be called **AAA / 10-Star READY** only when all of the follow
 
 ## Current single next action
 
-**Execute the offline AAA readiness lane: audit and strengthen cold-start → NEXT-EXECUTION → continuity → authority → retrieval → learning continuity, using only repository-local tests and static evidence; record every result and leave Actions-dependent proof explicitly UNKNOWN.**
+**Reconcile the canonical memory/retrieval authority boundary before adding new retrieval features: determine whether `.naya/memory/memory_runtime.py` is migration compatibility or a competing runtime, then converge `restore_context.py`, the `naya-memory-runtime` workflow, and their tests on the canonical Event-v3 model with the smallest safe change. Preserve historical records, do not create a third memory system, and run the complete local memory/restore/retrieval/CCT regression from a live checkout.**
 
 ## Torch
 
-**NEXT NAYA:** Restore `main`, claim `SUPERBRAIN-AAA-OFFLINE-READINESS`, inspect the existing contracts before editing, execute the highest-value local gate first, repair only the first evidence-backed gap, run all applicable local tests, update this scorecard and canonical state, and pass the next executable torch.
+**NEXT NAYA:** Restore live `main` and re-read the scorecard/workboard. Read `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md`, `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md`, `.naya/memory/smart_notes_v3.py`, `.naya/memory/memory_runtime.py`, `.naya/runtime/restore_context.py`, `.naya/memory/test_memory_runtime.py`, `.naya/runtime/test_restore_context.py`, and `.github/workflows/naya-memory-runtime.yml`. Classify the legacy runtime as migration-only or competing authority from actual callers/tests/data. If it is competing, make the smallest convergence change; if it is migration compatibility, explicitly encode that boundary and prevent it from becoming a second authority. Then run the local regression sequence and record exact outputs. Keep Actions-dependent proof UNKNOWN unless Actions produces fresh evidence.
+
+**NEXT NAYA > CURRENT NAYA.**
