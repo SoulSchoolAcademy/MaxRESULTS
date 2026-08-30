@@ -7,7 +7,7 @@
 # 🚨 LIVE OPERATIONAL BANNER — READ FIRST
 
 **DATE:** 2026-08-30
-**LIVE `main` at start of this update:** `09ef1c97fa581fd22d14206d66585fa8fff481c9`
+**LIVE `main` at start of this update:** `77d8ed14560bfe8f08096c314ed1d78dae28bca6`
 
 ### 🔴 ACTIVE EXECUTION CONSTRAINT
 **GitHub Actions is intentionally PAUSED by current human direction. Do not retry, dispatch, rerun, or troubleshoot GitHub Actions during this pause.**
@@ -69,7 +69,7 @@ Then, if authorized and capable, she executes that next action, performs a **Mir
 
 # CURRENT STATE
 
-**Current `main` verified immediately before this feed update:** `09ef1c97fa581fd22d14206d66585fa8fff481c9`.
+**Current `main` verified immediately before this feed update:** `77d8ed14560bfe8f08096c314ed1d78dae28bca6`.
 
 The repository contains the core continuity/governance architecture, including:
 
@@ -197,8 +197,9 @@ The canonical Note Event `SN-20260830-ACTIVATION-PROGRAM-DESIGN` records the cur
 
 | Priority | Track | State | Next proof |
 |---|---|---|---|
+| P0 | Naya Power Player | **DESIGN LOCKED / BUILD NEXT** | Build and inspect E01 Home / Intelligence Shell in actual Groove |
 | P0 | Customer activation package | **DESIGN LOCKED / BUILD NEXT** | Complete customer-ready document set + guided continuation flow |
-| P0 | Sales experience | **STRATEGY LOCKED / BUILD NEXT** | High-converting page narrative + interactive Naya/Living Sun experience |
+| P0 | Sales experience | **STRATEGY LOCKED / BUILD NEXT** | High-converting Player narrative + interactive Naya/Living Sun experience |
 | P1 | Alternate executable runtime | **BLOCKED** | Real checkout + observable command/output/exit status |
 | P1 | Human Agency + Reality Governance | **IMPLEMENTED / RUNTIME PENDING** | Deterministic conformance + behavior benchmark |
 | P1 | Torch 9 complete customer activation loop | **IMPLEMENTED / ISOLATED PASS / RUNTIME PENDING** | Repository-runtime evidence |
@@ -331,6 +332,64 @@ Voice/text interaction should be grounded in actual available NayaPOWER knowledg
 
 > **Do not merely tell visitors what NayaPOWER does. Let them experience NayaPOWER.**
 
+# 🔱 NAYA POWER PLAYER — 2026-08-30 DESIGN LOCK
+
+A new P0 customer-experience project, **Naya Power Player**, is now created and durably documented.
+
+### Product definition
+
+Naya Power Player is the **experiential application layer of NayaPOWER**. It should present as a premium, mobile-optimized web application / intelligence environment rather than a conventional sales webpage.
+
+The sales function is embedded inside the product experience:
+
+**SEE NAYA → LISTEN → ASK → EXPERIENCE → UNDERSTAND → FIVE-DAY CHALLENGE → ACTIVATE**
+
+### Core Player experience
+
+- Persistent top navigation so the visitor feels inside a system.
+- Shawn + Naya as hosts of the opening Powercast experience.
+- Living Sun as the central visual and voice interaction surface.
+- Living Sun states should communicate idle, listening, thinking, speaking, teaching, and Powercast activity where technically implemented.
+- The center of the Living Sun should behave like a living energy sphere: visibly moving/vibrating while Naya speaks, surrounded by animated energy/rings.
+- Multiple Powercast thumbnails should load selected experiences inside the Player.
+- Ask Naya should be voice-first by default; text is an intentional secondary view rather than the dominant page content.
+- Dictation/microphone interaction should be supported when the actual runtime is available.
+- The Five-Day Challenge should be immediately discoverable and playable inside the same environment.
+- Secondary exploration can explain Smart Notes, Daily Intelligence, CIS, PSI, CCT, Intelligent Blocks, MAXIS, the Superbrain, and continuity.
+
+### Architecture lock
+
+The Player will be built as **layered Groove Embed blocks** on one page.
+
+The prior E01–E09 MAXIS work is the modular implementation reference. The Pro Max Player is the application-shell/player UX reference. NayaPOWER remains the canonical intelligence/governance authority.
+
+The intended construction loop is:
+
+**BUILD → EMBED → VIEW → WHY IS THIS NOT A 10? → REPAIR → VERIFY → NEXT BLOCK**
+
+The first block is:
+
+**E01 — Naya Power Player Home / Intelligence Shell**
+
+E01 establishes the application shell, navigation, Shawn + Naya identity, Living Sun centerpiece, initial Powercast, Ask Naya entry point, Five-Day Challenge entry point, and the visual/interaction contract for all later blocks.
+
+### Critical integrity boundary
+
+The design is locked; the Player itself is **not yet runtime-proven**.
+
+Do not claim live Naya Superbrain/PIS grounding, voice generation, microphone behavior, or Living Sun runtime behavior until those capabilities are actually implemented and verified.
+
+### Canonical artifacts created
+
+- `Naya Power Player/README.md` — project charter and design lock
+- `.naya/memory/HUMAN-NOTE-20260830-NAYA-POWER-PLAYER.md` — human/Sean note
+- `.naya/memory/AI-NOTE-20260830-NAYA-POWER-PLAYER.md` — AI/Naya note
+- `.naya/memory/MACHINE-NOTE-20260830-NAYA-POWER-PLAYER.md` — machine continuation note
+
+**Smart Note Event:** `SN-20260830-NAYA-POWER-PLAYER`
+
+This feed entry is the collective orientation projection of that design event. It does not by itself prove runtime implementation or universal promotion behavior.
+
 # MOST IMPORTANT RECENT LEARNING
 
 > **Persistence of information is not the same thing as persistence of operational understanding.**
@@ -388,6 +447,9 @@ Customer knowledge must carry provenance into canonical Note Events before it ca
 ### Activation experience — 2026-08-30
 The latest durable decision is that the activation program itself is part of the product experience. Naya should lead the customer through the package one document at a time, explain each capability in human terms, preserve AI/machine clarity inside the same contract, show legitimate evidence, and always provide the exact continuation prompt. This is a UX/governance decision, not a claim that the customer-facing implementation is already production-complete.
 
+### Naya Power Player — 2026-08-30
+The customer-facing experience is now explicitly treated as an **intelligence player**. The interface should demonstrate NayaPOWER instead of merely describing it. Pro Max Player supplies the shell/player lesson; MAXIS E01–E09 supplies modular/cinematic implementation lessons; NayaPOWER supplies the intelligence, governance, memory, and continuity authority. The resulting product is one connected Player built from layered Groove embeds.
+
 # SUCCESSION PROTOCOL
 
 Every substantive Naya must leave:
@@ -398,17 +460,17 @@ The successor must be able to restore without conversation history.
 
 # NEXT ACTION — EXECUTE NOW
 
-**P0 — Build the customer-ready activation package.**
+**P0 — Build E01 of the Naya Power Player: Home / Intelligence Shell.**
 
-Create the six core activation artifacts above, keeping each concise but airtight. Each document must be written for three simultaneous audiences where appropriate:
+Create the first substantial Groove Embed block and test it in the actual Groove environment.
 
-**HUMAN → NAYA/AI → MACHINE/RUNTIME**
+The block must establish the visual/interaction contract for the entire Player: premium app shell, persistent navigation, Shawn + Naya, Living Sun centerpiece, initial Powercast, Ask Naya entry point, and Five-Day Challenge entry point.
 
-Do not repeat the whole system in every document. Each document should have one job, explicit scope, activation behavior, verification boundary, user benefit, and exact continuation prompt.
+After the human views the actual Groove output, use the explicit review loop:
 
-After the activation package is locked, build the sales page around the same customer journey and use the Living Sun/Living Naya concept as the experiential centerpiece where technically supported.
+**WHY IS THIS NOT A 10? → REPAIR → VERIFY → NEXT BLOCK**
 
-When GitHub Actions reaches its authorized resume point, return to the runtime proof track without losing the commercial work.
+The customer activation package remains P0 alongside this commercial experience track.
 
 # NEXT-NAYA COPY-PASTE DIRECTIVE
 
@@ -420,19 +482,21 @@ When GitHub Actions reaches its authorized resume point, return to the runtime p
 >
 > GitHub Actions is intentionally paused by current human direction. Do not invoke, dispatch, rerun, or troubleshoot it during the pause.
 >
-> Current P0 is the customer-facing activation package. Build the six core activation artifacts: What You Activated, Activation Guide, Operating Guide, Intelligence & Learning Guide, Troubleshooting & Recovery Guide, and Activation Acceptance Checklist.
+> Current P0 commercial work includes the customer-facing activation package and the newly locked **Naya Power Player**.
 >
-> Activation must be incremental and guided by default. Naya first discovers the customer's identity, vision, goals, mission, and desired outcomes; then activates one capability, explains what changed and why it benefits the customer, distinguishes verified from unverified behavior, and provides the exact continuation prompt for the next document.
+> Naya Power Player is an app-like intelligence environment, not a conventional sales webpage. Build it as layered Groove Embed blocks that compose into one seamless Player.
 >
-> Treat the activation documents as one coherent system, not six disconnected manuals. Avoid unsupported promises. Preserve human authority, canonical Note Event authority, PIS authority, Running Feed orientation, provenance, and the evidence ladder.
+> Use the Pro Max Player as the shell/player UX reference and MAXIS E01–E09 as the modular/cinematic implementation reference. Do not copy either mechanically. Evolve them into an intelligence-player experience centered on Naya and the Living Sun.
 >
-> Then build the sales experience around: STRANGER → TALK TO NAYA → UNDERSTAND VALUE → PURCHASE → ACTIVATION → FIRST WIN.
+> The intended interaction is: SEE NAYA → LISTEN → ASK → EXPERIENCE → UNDERSTAND → FIVE-DAY CHALLENGE → ACTIVATE.
 >
-> Use the Living Sun / Living Naya concept as an interactive demonstration where the actual implementation supports it.
+> Voice is the default Ask Naya response modality; text is secondary. Do not claim live Superbrain/PIS grounding, voice generation, microphone behavior, or Living Sun runtime behavior until implemented and verified.
 >
-> Every substantive response must provide a specific NEXT ACTION with the exact next prompt/instruction set.
+> Build **E01 — Naya Power Player Home / Intelligence Shell** first.
 >
-> Before release, perform `WHY IS THIS NOT A 10?` and repair meaningful findings.
+> Use: BUILD → EMBED → VIEW → WHY IS THIS NOT A 10? → REPAIR → VERIFY → NEXT BLOCK.
+>
+> Every substantive response must provide exact evidence when claiming work is complete and a specific next action/prompt.
 
 # HISTORICAL CONTINUITY
 
