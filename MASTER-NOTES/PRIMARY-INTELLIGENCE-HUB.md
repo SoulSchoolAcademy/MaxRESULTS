@@ -19,6 +19,16 @@ The reporting system exists to make that statement operationally true.
 
 **EVERY ACTION CREATES AN OPPORTUNITY TO LEARN. EVERY MATERIAL LESSON MUST BECOME DURABLE KNOWLEDGE OR A SYSTEM CONTROL WHEN APPROPRIATE. EVERY SUCCESSOR MUST INHERIT THE IMPROVEMENT.**
 
+## SMART NOTE EVIDENCE LAW
+
+**SMART NOTE = SHAWN NOTE + NAYA NOTE + MACHINE NOTE + SMART LINKS.**
+
+Every canonical Smart Note must preserve one underlying intelligence event while providing aligned representations for the human, Naya, and machine. Each persisted representation requires a direct **Smart Link** to the actual artifact, returned in the same response as the Smart Note delivery. A Smart Note without its Smart Links is an incomplete delivery.
+
+When applicable, the Naya Note propagates into PIS through the canonical intelligence lifecycle. Propagation is a separate state transition and requires separate verification/evidence. The existence of a note is not proof of PIS propagation.
+
+Naya should proactively recognize durable value—lessons, corrections, decisions, discoveries, strategies, principles, and reusable insights—and capture it when legitimately authorized rather than waiting for an explicit request. Proactive capture does not permit invented memory or silent authority promotion.
+
 ## LEARNING LOOP
 
 **OBSERVE → REPORT → LEARN → UPDATE SYSTEM → VERIFY → CARRY FORWARD**
@@ -73,12 +83,14 @@ Key durable change: canonical Runtime Briefing, cold-start gate, Action Delivery
 
 ### Material changes
 
-- NayaPOWER `main` advanced through the current continuity/state writes and now resolves to `d19b605bd9b6bcb61c70df29715d83f8042923f4`.
+- NayaPOWER `main` advanced through the current continuity/state writes.
 - The canonical Running Feed was updated to make the commercial activation path a current P0 during the deliberate GitHub Actions pause.
 - A canonical Note Event `SN-20260830-ACTIVATION-PROGRAM-DESIGN` was created and indexed.
 - The activation design is now explicitly guided and incremental: Naya discovers the customer, activates one capability, explains what changed and why it matters, distinguishes verified from unverified behavior, shows legitimate evidence, and provides the exact continuation prompt for the next stage.
 - The six-core activation package is now the locked build target: What You Activated, Activation Guide, Operating Guide, Intelligence & Learning Guide, Troubleshooting & Recovery Guide, and Activation Acceptance Checklist.
 - Sales and activation are explicitly coupled as one journey: `STRANGER → TALK TO NAYA → UNDERSTAND VALUE → PURCHASE → ACTIVATION → FIRST WIN`.
+- **New Smart Note evidence rule:** a Smart Note is not complete without direct Smart Links to the Shawn, Naya, and Machine representations. PIS propagation is separately evidenced.
+- **New proactive-service rule:** Naya should recognize durable value in substantive work and capture it when legitimately authorized, rather than relying on the human to remember to ask.
 
 ### Current conclusion
 
@@ -100,7 +112,9 @@ Build the six-core customer activation package as one coherent, concise, airtigh
 
 ### New durable lesson
 
-**Activation must teach while it activates.** The customer should not receive a giant document dump and be expected to reconstruct how the system works. The activation experience itself should progressively reveal capability, meaning, benefit, evidence, and the next action.
+**Activation must teach while it activates.** The customer should not receive a giant document dump and be expected to reconstruct how the system works. It should progressively reveal capability, meaning, benefit, evidence, and the next action.
+
+**Second durable lesson:** **Value that is recognized but not captured is value at risk. Proactive capture turns useful conversation into reusable intelligence; Smart Links turn the capture claim into inspectable evidence.**
 
 ## CUMULATIVE LESSONS
 
@@ -117,6 +131,8 @@ Build the six-core customer activation package as one coherent, concise, airtigh
 11. **Execution route changes must follow evidence, not hope.**
 12. **Cross-repository intelligence must have one canonical home.**
 13. **Activation must teach while it activates.**
+14. **A Smart Note is incomplete without Smart Links to its persisted representations.**
+15. **Proactive value capture is part of ten-star service when durable value is clear and legitimately capturable.**
 
 ## REPEATED-MISTAKE WATCHLIST
 
@@ -130,6 +146,9 @@ Build the six-core customer activation package as one coherent, concise, airtigh
 - acknowledging an executable next action without delivering it
 - repeating opaque zero-step CI routes after the boundary is known
 - overwhelming a customer with activation material without a guided continuation path
+- claiming Smart Note creation without returning direct Smart Links
+- treating note creation as proof of PIS propagation
+- capturing valuable lessons only when the human explicitly asks for them
 
 When a watchlist item recurs, escalate from fixing the instance to fixing the learning mechanism.
 
@@ -148,6 +167,8 @@ When a watchlist item recurs, escalate from fixing the instance to fixing the le
 - Any current CI gate still reported RED must be diagnosed from actual step-level evidence before GREEN is claimed.
 - The reporting architecture is specified and daily automation exists, but full automatic lesson promotion into every applicable guardrail/test/procedure remains an implementation program.
 - Full runtime verification of Promotion Engine V1 remains blocked by the execution boundary.
+- Runtime enforcement that every Smart Note delivery returns three Smart Links is not yet proven.
+- Automatic PIS propagation and its separate Smart Link evidence are not yet runtime-proven in this session.
 - Final production readiness of the customer activation and sales experience remains unproven until those customer-facing artifacts are actually built and reviewed.
 
 ## CURRENT HIGHEST-VALUE ACTION
