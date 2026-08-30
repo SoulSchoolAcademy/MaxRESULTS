@@ -96,7 +96,7 @@ def full_chain():
         "next_action": decision.next_action,
         "execution_instructions": "Run workflow acceptance test and record exact evidence",
         "success_criteria": [decision.acceptance_criteria],
-        "verification_requirements": ["Observed output", "commit SHA"],
+        "verification_requirements": ["Observed test output + commit SHA"],
     }
     bind_torch_to_canonical_execution(torch, successor)
 
