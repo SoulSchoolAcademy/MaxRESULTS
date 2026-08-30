@@ -50,8 +50,8 @@ A lower score is not permission to stop. It is a signal to improve, route around
 | 2 | Priority Decision Boundary | VERIFIED LOCALLY / ACTIONS PENDING | 100% | Executable Torch |
 | 3 | Executable Torch | VERIFIED INDEPENDENT HARNESS / ACTIONS PENDING | 100% | Torch → Execution |
 | 4 | Torch → Execution | IMPLEMENTED / EXECUTION EVIDENCE PENDING | 100% implementation | Evidence |
-| 5 | Execution → Evidence | ACTIVE / IMPLEMENTED / RUNTIME EVIDENCE PENDING | 100% implementation | Smart Notes |
-| 6 | Smart Note Value Extraction | QUEUED | 0% | CSI |
+| 5 | Execution → Evidence | IMPLEMENTED / RUNTIME EVIDENCE PENDING | 100% implementation | Smart Notes |
+| 6 | Smart Note Value Extraction | IMPLEMENTED / RUNTIME EVIDENCE PENDING | 100% implementation | CSI |
 | 7 | CSI Compounding Loop | QUEUED | 0% | Human Service |
 | 8 | 10-Star Human Mission Loop | QUEUED | 0% | Customer Activation |
 | 9 | Complete Customer Activation Loop | QUEUED | 0% | Final verification |
@@ -107,13 +107,24 @@ A lower score is not permission to stop. It is a signal to improve, route around
 
 **Authority preserved:** `evidence_runtime.py` remains the authority for evidence validation and Claim → Evidence → Verification. `canonical_event_store.py` remains the chronological event writer. The adapter only translates completed execution facts into canonical evidence shape.
 
-**Adversarial coverage:** unexecuted action rejection; missing observed result rejection; execution/action identity binding; no verification status invention; malformed evidence rejection; successor-consumable canonical shape; forbidden evidence method rejection.
-
 **Current truth:** implementation and test files are committed. This environment cannot execute an arbitrary repository shell command, so actual repository stdout/exit status for `execution_evidence_adapter_test.py` is **PENDING**. No PASS claim is made from source inspection.
 
-**Revelation:** the smallest useful boundary is a translator/guard between completed execution and the existing evidence schema—not another store, verifier, or event system.
+### Entry 006 — Smart Note Value Extraction Boundary
+**What was done:** Added `smart_note_candidate.py` and `smart_note_candidate_test.py`. The boundary accepts only canonical `naya-power-evidence/v1` provenance plus explicit durable learning fields, and emits a `smart-note-candidate/v1` object with `promotion_state=CANDIDATE`.
 
-**Next:** obtain actual deterministic runtime evidence when an execution-capable runner is available, then continue to Smart Note value extraction.
+**Why:** Create the smallest bridge from valuable, evidence-backed execution into candidate durable intelligence without creating another memory store, event store, promotion authority, or CSI engine.
+
+**Authority preserved:** evidence remains canonical in `evidence_runtime.py`; chronological recording remains in `canonical_event_store.py`; candidate creation does not promote authority and does not persist the note.
+
+**Adversarial coverage:** no evidence; non-canonical evidence; missing durable learning; empty/noise learning; invalid note type; provenance preservation; and explicit non-authority candidate state.
+
+**Execution evidence:** The exact eight-case test source was executed in an isolated Python/unittest harness: **Ran 8 tests — OK; exit status 0**. This is isolated execution evidence, not repository-shell or GitHub Actions evidence.
+
+**Revelation:** Smart Note extraction should be a selective value filter, not automatic memory. A completed action becomes a candidate only when durable learning/value and provenance are explicitly present.
+
+**Problem:** Repository-shell execution and GitHub Actions evidence remain unavailable/pending in the current execution environment.
+
+**Recovery:** Preserve the distinction between implemented, locally executed, and authoritative CI-verified. Continue the architecture queue rather than stopping.
 
 ## LESSONS FOR EVERY NAYA
 
@@ -130,6 +141,7 @@ A lower score is not permission to stop. It is a signal to improve, route around
 - A Torch is not itself authorization or execution.
 - Execution facts are not automatically evidence until the evidence boundary accepts them.
 - Evidence is not verification; verification remains a separate authority.
+- A Smart Note candidate is not durable authority; promotion remains separate.
 - Every substantive output must leave an executable continuation.
 
 ## REQUIRED SUCCESSOR ENTRY
@@ -168,16 +180,16 @@ This feed is an orientation and continuity layer. It does not silently override 
 
 ## CURRENT TORCH
 
-**Priority:** Torch 5 — Execution → Evidence.
+**Priority:** Torch 6 — Smart Note Value Extraction.
 
-**Required action:** Execute `.naya/runtime/execution_evidence_adapter_test.py` in an execution-capable repository environment and capture exact stdout, exit status, and tested commit SHA. Then execute the canonical `evidence_runtime.py` deterministic validation/self-test coverage and verify that adapter output is consumable by the existing Claim → Evidence → Verification runtime.
+**Required action:** Execute `.naya/runtime/smart_note_candidate_test.py` in an execution-capable repository environment and capture exact stdout, exit status, and tested commit SHA. Then execute the canonical Smart Note/Event deterministic coverage and verify that candidate output remains non-authoritative and provenance-linked.
 
 If a real defect appears, repair the smallest true boundary and rerun.
 
 If runtime execution remains unavailable, preserve that limitation as evidence and continue the highest-value independent architecture work without claiming PASS.
 
-After verified evidence exists, close Torch 5 and immediately advance to **Torch 6 — Smart Note Value Extraction**, beginning by inspecting existing Smart Note/Event authorities and implementing only the smallest missing value-extraction boundary.
+After verified evidence exists, close Torch 6 and immediately advance to **Torch 7 — CSI Compounding Loop**, beginning by inspecting the existing CSI authority and implementing only the smallest missing boundary that turns validated durable learning into improved future execution.
 
-**Do not:** create a second evidence store, verification engine, event store, or Smart Note authority. Do not equate evidence with verification. Do not weaken canonical contracts. Do not claim PASS without execution evidence.
+**Do not:** create a second memory store, event store, promotion authority, or CSI engine. Do not promote every execution into durable intelligence. Do not equate candidate Smart Notes with canonical authority. Do not claim PASS without execution evidence.
 
 **Continuation requirement:** end the execution with the next copy-ready torch.
