@@ -15,6 +15,31 @@ This is the shared operational handoff stream for every AI/session entering the 
 
 ---
 
+## 2026-08-29 — Universal Naya Power agent interface baseline + repository-only execution mode
+
+**Status:** IMPLEMENTED / ISOLATED CONTRACT TESTED / REPOSITORY RUNTIME PENDING
+
+**Event:** `NAYA-UNIVERSAL-AGENT-INTERFACE-20260829`
+
+**What changed:** Established a vendor-neutral `naya-power-agent-interface/v1` boundary so external AI models and agents can use Naya Power as a Superbrain operating layer without Naya Power becoming coupled to a particular model vendor or storage substrate. The boundary normalizes agent identity, host, session, request, optional opaque mission reference, provenance references, capabilities, and constraints. It transports `ACCEPTED`, `COMPLETED`, `FAILED`, and `UNKNOWN` results without treating `COMPLETED` as `VERIFIED`.
+
+**Architectural boundary:** The interface is transport/normalization only. It does not create a mission authority, priority authority, execution authority, evidence authority, Note Event store, promotion authority, CSI authority, or NayaNET federation authority. Existing canonical authorities remain authoritative.
+
+**Storage neutrality:** GitHub remains a strong canonical substrate for versioned code, laws, protocols, receipts, and control state, but Naya Power is not GitHub-bound. Google Drive, databases, object stores, and other authorized sources may be connected through adapters while canonical intelligence/provenance rules remain unchanged.
+
+**Customer activation:** The planned 20 customer activation documents remain deliberately deferred until the activation contract and kernel interfaces stabilize. This prevents customer-facing documentation churn while the kernel is still being hardened. The universal agent interface is an internal kernel contract, not one of the 20 activation documents.
+
+**Canonical paths:**
+- `.naya/runtime/naya_agent_interface.py`
+- `.naya/runtime/naya_agent_interface_test.py`
+- `SUPERBRAIN/NAYA-POWER-UNIVERSAL-AGENT-INTERFACE.md`
+
+**Verification:** The new runtime module passed an isolated syntax/import-equivalent check in the available execution environment. The repository's nine adversarial interface cases are committed. This is NOT repository runtime evidence; the connected environment cannot currently execute the repository checkout directly. GitHub Actions is intentionally treated as unavailable for the current execution window, so no Actions-based GREEN claim is made.
+
+**Next action:** Continue repository work that does not require Actions: map the universal interface against the existing Human Mission → Priority → Torch → Execution chain, identify the smallest integration boundary without creating a competing authority, and harden that boundary with conformance tests. When a repository-capable runtime is available, execute the committed tests and then run the canonical Torch 9 composition suite and full Superbrain Gate.
+
+---
+
 ## 2026-08-28 — MAXIS guest Hub continuity repair + execution control-plane activation
 
 **Status:** SOURCE REPAIRED / PRODUCTION DEPLOYMENT PENDING / INTERACTIVE RUNTIME PROOF PENDING
@@ -77,7 +102,7 @@ This is the shared operational handoff stream for every AI/session entering the 
 
 ## 2026-08-27 — Human Capability & Mastery protocol wired into Naya boot state
 
-**Status:** IMPLEMENTED / POST-CHANGE CI PENDING
+**STATUS:** IMPLEMENTED / POST-CHANGE CI PENDING
 
 **Event:** `NAYA-BOOT-HUMAN-CAPABILITY-MASTERY-20260827`
 
@@ -104,7 +129,7 @@ This is the shared operational handoff stream for every AI/session entering the 
 
 ## 2026-08-26  — MAXESS E118/E0796 engine recovery North Star locked
 
-**Status:** ACTIVE / DIAGNOSIS PENDING
+**STATUS:** ACTIVE / DIAGNOSIS PENDING
 
 **Event:** `SE-20260826-MAXESS-E118-E0796-ENGINE-RECOVERY`
 
@@ -124,7 +149,7 @@ This is the shared operational handoff stream for every AI/session entering the 
 
 ## 2026-08-25 — Personal Superbrain seed-first optimization
 
-**Status:** CREATED / CI VERIFICATION PENDING
+**STATUS:** CREATED / CI VERIFICATION PENDING
 
 **Event:** `SE-20260825-122600-superbrain-seed-optimization`
 
@@ -154,7 +179,7 @@ This is the shared operational handoff stream for every AI/session entering the 
 
 ## 2026-08-25 — NayaNET federation + mobile Superbrain architecture
 
-**Status:** VERIFIED DESIGN / IMPLEMENTATION NOT YET PRODUCTION
+**STATUS:** VERIFIED DESIGN / IMPLEMENTATION NOT YET PRODUCTION
 
 **Event:** `SE-20260825-201500-nayanet-personal-superbrain-federation`
 
@@ -177,43 +202,3 @@ This is the shared operational handoff stream for every AI/session entering the 
 **Next action:** Continue the personal Superbrain hardening sequence: green post-repair CI → duplicate/entity resolution → true semantic/vector retrieval → automated CIS → then implement the secure federation bridge.
 
 ---
-
-## 2026-08-25 — Superbrain federation/boot architecture
-
-**Status:** IMPLEMENTED IN REPOSITORY
-
-**What changed:** Established a mandatory AI boot entry point and an append-only AI Operating Feed. The boot file defines the source-of-truth hierarchy, object routing, human-service receipt requirement, privacy boundary, and perpetual operating loop.
-
-**Why:** A new chat/model/session must be able to enter the repository without prior conversational context and become operationally current quickly. The system must behave like a continuously maintained AI handoff layer, not a collection of disconnected documents.
-
-**Canonical entry:** `SUPERBRAIN/AI-BOOT/START-HERE.md`
-
-**Build protocol:** `SUPERBRAIN/SUPERBRAIN-BUILD-PROTOCOL.md`
-
-**Current design decision:** Each personal Naya Power remains private. Future NayaNET connectivity is federation, not automatic pooling of raw personal memory.
-
-**Next:** Build automated feed/index refresh and then implement controlled federation contracts for explicit knowledge exchange.
-
----
-
-## Entry template
-
-### YYYY-MM-DD HH:MM — <change title>
-
-**Status:** VERIFIED / PENDING / FAILED
-
-**Event:** `<event_id>`
-
-**What changed:**
-
-**Why it changed:**
-
-**Verified by:**
-
-**Canonical paths:**
-
-**Readable note:**
-
-**Receipt:**
-
-**Next action:**
