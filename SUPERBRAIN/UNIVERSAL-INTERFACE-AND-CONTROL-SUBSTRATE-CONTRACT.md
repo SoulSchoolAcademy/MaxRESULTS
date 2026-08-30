@@ -1,7 +1,7 @@
 # Naya Power — Universal Agent + Control Substrate Contract
 
 **STATUS:** CANONICAL ARCHITECTURE CONTRACT
-**VERSION:** 1.0
+**VERSION:** 1.1
 **PURPOSE:** Define the vendor-neutral boundary between Naya Power, AI models/agents, persistent control state, and external storage systems without creating competing authorities.
 
 ## 1. Product Definition
@@ -37,7 +37,34 @@ Authority is assigned by **information class and contract**, not by storage vend
 
 Adapters MUST preserve the originating authority and MUST NOT silently promote imported data into Naya Power canonical intelligence.
 
-## 4. Control Substrate Contract
+## 4. Human Agency + Reality Decision Protocol
+
+Naya Power must distinguish four things that must never silently collapse into one:
+
+1. **Human authority** — what the human wants and is authorized to decide.
+2. **Reality** — what the available evidence supports as true, possible, uncertain, or contested.
+3. **Naya judgment** — the best current recommendation based on evidence, knowledge, and the defined outcome.
+4. **System authority** — what Naya is actually permitted to do under governing law, authorization, scope, and safety constraints.
+
+The canonical interaction hierarchy is:
+
+**UNDERSTAND → INFORM → CHALLENGE → RECOMMEND → CONFIRM → ACT**
+
+This is proportional, not mandatory in every case:
+
+- If the outcome is clear, legitimate, feasible, and the action is within authority, Naya may act without unnecessary confirmation.
+- If material risk or uncertainty appears, Naya must inform the human rather than silently changing course.
+- If a requested action conflicts with the established underlying outcome, Naya should challenge the approach and explain the conflict.
+- If new evidence materially changes feasibility or desirability, Naya may recommend changing the goal but must not silently redefine the mission.
+- Meaningful human authority boundaries require confirmation before action, including irreversible consequences, major financial commitments, fundamental mission/value changes, consequential actions affecting others, sensitive disclosure, or actions outside granted permissions.
+- Naya may refuse only when a higher-order constraint prevents responsible execution, such as governing law, lack of authorization, unacceptable safety/ethical risk, deliberate deception/evidence corruption, or inability to execute responsibly under the constraints.
+- A refusal should preserve forward motion by explaining the boundary and offering safe alternatives toward the underlying objective where possible.
+
+The human owns the destination. Naya owns the responsibility to help intelligently navigate reality toward it.
+
+Naya must never silently substitute its judgment for human authority, and must never sacrifice truth merely to satisfy human authority.
+
+## 5. Control Substrate Contract
 
 Every Naya Power installation MUST have a trustworthy persistent control substrate capable of preserving, at minimum:
 
@@ -60,7 +87,7 @@ The required guarantees are:
 
 GitHub is one valid implementation for software-oriented deployments. It is not a product requirement.
 
-## 5. Universal Agent Interface
+## 6. Universal Agent Interface
 
 The Universal Agent Interface is the vendor-neutral contract through which a compatible model or agent uses Naya Power.
 
@@ -79,7 +106,7 @@ The interface MUST expose the semantic operations needed to:
 
 The interface MUST NOT make any particular model, framework, vector database, repository, or cloud provider authoritative.
 
-## 6. Storage Adapter Contract
+## 7. Storage Adapter Contract
 
 A storage adapter connects an external system to Naya Power without replacing Naya Power authorities.
 
@@ -103,7 +130,7 @@ Adapter prohibitions:
 - bypassing verification;
 - treating retrieved content as current truth without authority/evidence evaluation.
 
-## 7. Activation of External Knowledge
+## 8. Activation of External Knowledge
 
 The canonical path is:
 
@@ -117,7 +144,7 @@ The customer does not need to understand this internal pipeline. The product exp
 
 > **CONNECT YOUR KNOWLEDGE.**
 
-## 8. Agent Independence
+## 9. Agent Independence
 
 Any capable AI model or agent may operate as the model/execution layer if it can satisfy the Universal Agent Interface and honor Naya Power authority contracts.
 
@@ -125,7 +152,7 @@ Examples include hosted models, coding agents, local models, custom agents, and 
 
 Changing the model MUST NOT require rebuilding canonical memory, provenance, mission state, or network intelligence.
 
-## 9. CCT / CIS / NayaNET Boundary
+## 10. CCT / CIS / NayaNET Boundary
 
 NayaNET connects independent Naya Power Superbrains through permissioned exchange.
 
@@ -137,7 +164,7 @@ Federation operates on authorized **knowledge/intelligence**, not unrestricted r
 
 A network adapter MUST NOT make a remote node authoritative over another node's private mission, control state, or canonical memory.
 
-## 10. Conformance Requirements
+## 11. Conformance Requirements
 
 A compatible implementation is conformant only if it can demonstrate:
 
@@ -154,9 +181,13 @@ A compatible implementation is conformant only if it can demonstrate:
 11. CSI compounds only validated learning;
 12. successor state can be restored without reconstructing conversation history;
 13. permissions are explicit and revocable at federation boundaries;
-14. derived indexes remain rebuildable from canonical authority.
+14. derived indexes remain rebuildable from canonical authority;
+15. human authority, reality/evidence, Naya judgment, and system authority remain distinguishable;
+16. material risk/uncertainty cannot cause silent goal or strategy changes;
+17. meaningful irreversible or out-of-scope actions require the appropriate human/system authorization;
+18. prohibited actions fail closed without becoming a dead-end when safe alternatives exist.
 
-## 11. Non-Goals
+## 12. Non-Goals
 
 This contract does NOT define:
 
@@ -174,8 +205,8 @@ This contract does NOT define:
 
 It composes the authorities already defined by Naya Power.
 
-## 12. North Star
+## 13. North Star
 
 The purpose is not to make every system look like GitHub.
 
-The purpose is to make the **Naya Power intelligence contract portable across models, agents, storage systems, and organizations while preserving authority, provenance, verification, continuity, and compounding intelligence.**
+The purpose is to make the **Naya Power intelligence contract portable across models, agents, storage systems, and organizations while preserving authority, provenance, verification, continuity, human agency, and compounding intelligence.**
