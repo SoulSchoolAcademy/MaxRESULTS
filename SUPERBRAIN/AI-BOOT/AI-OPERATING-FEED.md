@@ -40,6 +40,27 @@ This is the shared operational handoff stream for every AI/session entering the 
 
 ---
 
+## 2026-08-29 — Agent request/result correlation hardened
+
+**Status:** IMPLEMENTED / ISOLATED SYNTAX CHECKED / REPOSITORY RUNTIME PENDING
+
+**Event:** `NAYA-UNIVERSAL-AGENT-CORRELATION-20260829`
+
+**What changed:** Hardened the v1 interface so every request carries a required `request_id`, and every result carries `agent_id`, `session_id`, and `request_id`. This closes a concrete reliability gap for duplicate, replayed, delayed, or cross-session responses without turning the boundary into a persistence or idempotency authority.
+
+**Why:** A universal agent interface must preserve correlation before multiple hosts and retries are introduced. Correlation is the smallest safe primitive; durable retry/idempotency policy remains outside this transport boundary.
+
+**Canonical paths:**
+- `.naya/runtime/naya_agent_interface.py`
+- `.naya/runtime/naya_agent_interface_test.py`
+- `SUPERBRAIN/NAYA-POWER-UNIVERSAL-AGENT-INTERFACE.md`
+
+**Verification:** The updated implementation was syntax/import-equivalent checked in the available execution environment. The adversarial suite was expanded to 10 tests. This remains isolated evidence, not repository runtime evidence.
+
+**Next action:** Map the interface into the existing Human Mission → Priority → Torch chain without importing authority into the adapter. Keep the 20 customer activation documents deferred until the customer-facing activation contract is stable.
+
+---
+
 ## 2026-08-28 — MAXIS guest Hub continuity repair + execution control-plane activation
 
 **Status:** SOURCE REPAIRED / PRODUCTION DEPLOYMENT PENDING / INTERACTIVE RUNTIME PROOF PENDING
