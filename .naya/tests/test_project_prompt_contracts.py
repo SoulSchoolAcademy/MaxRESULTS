@@ -19,7 +19,11 @@ def test_project_contract(): assert project.self_test()==0
 def test_prompt_contract(): assert prompt.self_test()==0
 
 def test_current_project_state():
-    errors=project.validate_project(project.load(project.PROJECT));assert errors==[],errors
+    state=project.load(project.PROJECT)
+    errors=project.validate_project(state);assert errors==[],errors
+    successor_errors=project.validate_next_execution_reference(state.get('next_execution_path'))
+    assert successor_errors==[],successor_errors
+    print('CURRENT DAILY PROJECT → canonical successor GREEN')
 
 def test_behavioral_matrix():
     valid=valid_successor();assert project.validate_next_execution(valid)==[]
