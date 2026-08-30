@@ -37,6 +37,7 @@ Higher-level reports synthesize lower-level reports. They never silently overwri
 - Canonical Daily Intelligence System: `MASTER-NOTES/DAILY-INTELLIGENCE-SYSTEM.md`
 - Canonical Runtime Briefing: `.naya/memory/NAYAPOWER-RUNTIME-BRIEFING.md`
 - Canonical laws and machine guardrails: `.naya/`
+- Canonical Running Feed: `.naya/SUPERBRAIN-COLLECTIVE-RUNNING-FEED.md`
 
 ### MAXIS
 
@@ -72,30 +73,34 @@ Key durable change: canonical Runtime Briefing, cold-start gate, Action Delivery
 
 ### Material changes
 
-- NayaPOWER `main` advanced to `d67b156ed93ae5a81ca6b57d411a2f3ba708653b` with current activation/sales priorities recorded.
-- Recent state work records self-orientation acceptance, alternate-runtime blocker handling, and project-state binding to continuity.
-- MAXIS remains at `cbe607ab7299f25e57b8eba9527f6b3fcbb99064`; its repository lock explicitly makes NayaPOWER the central intelligence authority and requires reusable learning to return there.
-- A dated Daily Intelligence Report and a durable Naya Note were added for this cycle.
+- NayaPOWER `main` advanced through the current continuity/state writes and now resolves to `d19b605bd9b6bcb61c70df29715d83f8042923f4`.
+- The canonical Running Feed was updated to make the commercial activation path a current P0 during the deliberate GitHub Actions pause.
+- A canonical Note Event `SN-20260830-ACTIVATION-PROGRAM-DESIGN` was created and indexed.
+- The activation design is now explicitly guided and incremental: Naya discovers the customer, activates one capability, explains what changed and why it matters, distinguishes verified from unverified behavior, shows legitimate evidence, and provides the exact continuation prompt for the next stage.
+- The six-core activation package is now the locked build target: What You Activated, Activation Guide, Operating Guide, Intelligence & Learning Guide, Troubleshooting & Recovery Guide, and Activation Acceptance Checklist.
+- Sales and activation are explicitly coupled as one journey: `STRANGER → TALK TO NAYA → UNDERSTAND VALUE → PURCHASE → ACTIVATION → FIRST WIN`.
 
 ### Current conclusion
 
-The primary unresolved risk is still execution proof, not missing conceptual architecture. The hosted CI path repeatedly fails before executable steps materialize, and the current environment cannot create a real private-repository checkout. This remains UNKNOWN at root-cause level and must be recovered through a materially different authorized runtime.
+The primary unresolved technical risk is still execution proof, not missing conceptual architecture. The hosted CI path repeatedly fails before executable steps materialize, and the current environment cannot create a real private-repository checkout. This remains an execution-boundary problem until real application execution proves otherwise.
+
+Commercial work can and should advance during the deliberate Actions pause without pretending that runtime proof has been achieved.
 
 ### Current highest-value action
 
-Obtain an authorized real checkout/runtime outside the failing opaque runner route and run the governed baseline plus Promotion Engine acceptance and corpus-processing commands in one evidence-bearing batch.
+Build the six-core customer activation package as one coherent, concise, airtight system. Then build the sales experience around the same guided customer journey and make Naya itself the demonstration where technically supported.
 
-### Exact proof target
+### Exact commercial proof target
 
-`EXACT SHA → CHECKOUT → RUNTIME → GOVERNED COMMAND → STDOUT/STDERR → EXIT CODE → PROMOTION TESTS → CORPUS RECEIPT → IDEMPOTENCY → VERIFIED STATE`
+`CUSTOMER DISCOVERY → DOCUMENT 1 → ACTIVATION → BENEFIT → VERIFICATION → NEXT PROMPT → DOCUMENT 2 → ... → ACTIVATION ACCEPTANCE → PURCHASE/ACTIVATION JOURNEY → FIRST WIN`
 
-### New durable lessons
+### Exact technical proof target
 
-1. Resolve current heads before every daily synthesis; prior reports are context, not authority.
-2. Treat zero-step/pre-runner failures as execution-boundary evidence, not application failures.
-3. Apply Three-Attempt Escalation and Execution Efficiency together: change route, then batch safe verification work.
-4. Preserve one central intelligence authority across NayaPOWER and MAXIS.
-5. End each report with one exact next action and its proof requirement.
+`EXACT SHA → CHECKOUT → RUNTIME → GOVERNED COMMAND → STDOUT/STDERR → EXIT CODE → PROMOTION TESTS → RECEIPT → IDEMPOTENCY → VERIFIED STATE`
+
+### New durable lesson
+
+**Activation must teach while it activates.** The customer should not receive a giant document dump and be expected to reconstruct how the system works. The activation experience itself should progressively reveal capability, meaning, benefit, evidence, and the next action.
 
 ## CUMULATIVE LESSONS
 
@@ -111,6 +116,7 @@ Obtain an authorized real checkout/runtime outside the failing opaque runner rou
 10. **Maximum value per interaction is the optimization target.**
 11. **Execution route changes must follow evidence, not hope.**
 12. **Cross-repository intelligence must have one canonical home.**
+13. **Activation must teach while it activates.**
 
 ## REPEATED-MISTAKE WATCHLIST
 
@@ -123,6 +129,7 @@ Obtain an authorized real checkout/runtime outside the failing opaque runner rou
 - knowledge remaining only in conversation
 - acknowledging an executable next action without delivering it
 - repeating opaque zero-step CI routes after the boundary is known
+- overwhelming a customer with activation material without a guided continuation path
 
 When a watchlist item recurs, escalate from fixing the instance to fixing the learning mechanism.
 
@@ -141,10 +148,11 @@ When a watchlist item recurs, escalate from fixing the instance to fixing the le
 - Any current CI gate still reported RED must be diagnosed from actual step-level evidence before GREEN is claimed.
 - The reporting architecture is specified and daily automation exists, but full automatic lesson promotion into every applicable guardrail/test/procedure remains an implementation program.
 - Full runtime verification of Promotion Engine V1 remains blocked by the execution boundary.
+- Final production readiness of the customer activation and sales experience remains unproven until those customer-facing artifacts are actually built and reviewed.
 
 ## CURRENT HIGHEST-VALUE ACTION
 
-**Close the current governance proof gap through a materially different authorized execution plane, then prove the MAXIS guest golden spine against current source/deployment state.**
+**Build the six-core customer activation package as one coherent, customer-executable system, then build the sales experience around the same guided journey.**
 
 ## EVIDENCE RULE
 
