@@ -48,6 +48,20 @@ def test_completed_execution_requires_durable_successor():
     print("EMBEDDED NON-DURABLE SUCCESSOR → RED")
 
 
+def test_blocked_execution_requires_continuation():
+    policy = module.load_policy()
+    blocked = {
+        "event_id": "SE-20260825-999999-continuity-blocked",
+        "effective_at": policy["effective_at"],
+        "event_type": "execution-milestone",
+        "continuity": {"execution_state": "IN_PROGRESS", "blocked": True, "next_action_status": "RECORDED"},
+        "ready_to_run_execution": "THIS IS NOT EXECUTABLE",
+    }
+    errors = module.check_event(blocked, Path("blocked.json"), policy)
+    assert any("blocked execution requires a canonical NEXT-EXECUTION continuation path" in error for error in errors), errors
+    print("BLOCKED WITHOUT CONTINUATION → RED")
+
+
 def test_current_canonical_corpus():
     code, report = module.validate()
     assert code == 0, report
