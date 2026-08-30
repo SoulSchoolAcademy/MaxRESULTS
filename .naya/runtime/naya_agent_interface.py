@@ -17,7 +17,7 @@ from dataclasses import dataclass
 from typing import Any
 
 PROTOCOL = "naya-power-agent-interface/v1"
-REQUIRED = {"agent_id", "host", "session_id", "input"}
+REQUIRED = {"agent_id", "host", "session_id", "request_id", "input"}
 
 
 class AgentInterfaceError(ValueError):
@@ -51,6 +51,7 @@ class NayaAgentEnvelope:
     agent_id: str
     host: str
     session_id: str
+    request_id: str
     input: str
     model: str | None
     mission_ref: str | None
@@ -68,6 +69,7 @@ class NayaAgentEnvelope:
                 "model": self.model,
                 "session_id": self.session_id,
             },
+            "request_id": self.request_id,
             "request": self.input,
             "mission_ref": self.mission_ref,
             "source_refs": list(self.source_refs),
@@ -92,6 +94,7 @@ def normalize_agent_input(raw: dict[str, Any]) -> NayaAgentEnvelope:
         agent_id=_required_text(raw.get("agent_id"), "agent_id"),
         host=_required_text(raw.get("host"), "host"),
         session_id=_required_text(raw.get("session_id"), "session_id"),
+        request_id=_required_text(raw.get("request_id"), "request_id"),
         input=_required_text(raw.get("input"), "input"),
         model=_optional_text(raw.get("model"), "model"),
         mission_ref=_optional_text(raw.get("mission_ref"), "mission_ref"),
@@ -105,12 +108,17 @@ def validate_agent_result(result: dict[str, Any]) -> dict[str, Any]:
     """Validate a host response envelope without declaring work successful."""
     if not isinstance(result, dict):
         raise AgentInterfaceError("agent result must be an object")
+    for field in ("agent_id", "session_id", "request_id"):
+        _required_text(result.get(field), field)
     status = result.get("status")
     if status not in {"ACCEPTED", "COMPLETED", "FAILED", "UNKNOWN"}:
         raise AgentInterfaceError("status must be ACCEPTED, COMPLETED, FAILED, or UNKNOWN")
     evidence_refs = _string_list(result.get("evidence_refs"), "evidence_refs")
     return {
         "schema": PROTOCOL,
+        "agent_id": result["agent_id"].strip(),
+        "session_id": result["session_id"].strip(),
+        "request_id": result["request_id"].strip(),
         "status": status,
         "output": result.get("output"),
         "evidence_refs": evidence_refs,
