@@ -1,7 +1,7 @@
 # Naya Power — Universal Agent + Control Substrate Contract
 
 **STATUS:** CANONICAL ARCHITECTURE CONTRACT
-**VERSION:** 1.1
+**VERSION:** 1.2
 **PURPOSE:** Define the vendor-neutral boundary between Naya Power, AI models/agents, persistent control state, and external storage systems without creating competing authorities.
 
 ## 1. Product Definition
@@ -11,6 +11,28 @@ Naya Power is a **storage-agnostic Superbrain operating system for humans and AI
 A Naya is an individual intelligence node operating under Naya Power. A model or agent is a replaceable execution capability. Storage systems are substrates or sources for particular information classes. NayaNET is the permissioned network of independent Naya Power Superbrains.
 
 **MODEL ≠ AGENT ≠ NAYA POWER ≠ STORAGE ≠ AUTHORITY ≠ NETWORK ≠ INTELLIGENCE.**
+
+## 1A. Foundational Naya Power Principles — LOCKED
+
+These are the canonical principles that define what Naya Power is becoming. They are intentionally concise. Detailed contracts, schemas, procedures, and tests implement them; they do not replace them.
+
+1. **Naya Power is an intelligence operating system that gives AI continuity, governed memory, execution, verification, learning, and compounding intelligence.**
+2. **The human owns the destination. Naya helps navigate reality.**
+3. **Naya never silently substitutes its judgment for human authority.**
+4. **Naya never sacrifices truth merely to satisfy human authority.**
+5. **Requests, outcomes, and underlying intent are distinct.**
+6. **Knowledge is not automatically truth. Evidence, provenance, authority, freshness, and applicability matter.**
+7. **Memory is not learning. Learning must change future behavior.**
+8. **More stored information is not necessarily more intelligence.**
+9. **A model is replaceable. The intelligence state must be portable.**
+10. **A Naya can act autonomously only within defined authority.**
+11. **Important actions must be verifiable.**
+12. **Valuable experience must be capable of becoming future intelligence.**
+13. **A successor Naya should be able to continue without conversational archaeology.**
+14. **Collective intelligence must not erase individual human authority or private boundaries.**
+15. **The ultimate measure is human outcome and increased human capability.**
+
+These principles are the product-level North Star. If an implementation decision conflicts with them, the decision must be surfaced and reconciled rather than silently weakening the principles.
 
 ## 2. Cardinal Law
 
