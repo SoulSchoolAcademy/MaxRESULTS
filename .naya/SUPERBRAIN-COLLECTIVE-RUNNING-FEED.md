@@ -51,8 +51,8 @@ A lower score is not permission to stop. It is a signal to improve, route around
 | 3 | Executable Torch | VERIFIED INDEPENDENT HARNESS / ACTIONS PENDING | 100% | Torch → Execution |
 | 4 | Torch → Execution | IMPLEMENTED / EXECUTION EVIDENCE PENDING | 100% implementation | Evidence |
 | 5 | Execution → Evidence | IMPLEMENTED / RUNTIME EVIDENCE PENDING | 100% implementation | Smart Notes |
-| 6 | Smart Note Value Extraction | IMPLEMENTED / RUNTIME EVIDENCE PENDING | 100% implementation | CSI |
-| 7 | CSI Compounding Loop | QUEUED | 0% | Human Service |
+| 6 | Smart Note Value Extraction | IMPLEMENTED / ISOLATED TEST PASS / REPOSITORY RUNTIME EVIDENCE PENDING | 100% implementation | CSI |
+| 7 | CSI Compounding Loop | IMPLEMENTED / ISOLATED TEST PASS / REPOSITORY RUNTIME EVIDENCE PENDING | 100% implementation | Human Service |
 | 8 | 10-Star Human Mission Loop | QUEUED | 0% | Customer Activation |
 | 9 | Complete Customer Activation Loop | QUEUED | 0% | Final verification |
 
@@ -107,7 +107,7 @@ A lower score is not permission to stop. It is a signal to improve, route around
 
 **Authority preserved:** `evidence_runtime.py` remains the authority for evidence validation and Claim → Evidence → Verification. `canonical_event_store.py` remains the chronological event writer. The adapter only translates completed execution facts into canonical evidence shape.
 
-**Current truth:** implementation and test files are committed. This environment cannot execute an arbitrary repository shell command, so actual repository stdout/exit status for `execution_evidence_adapter_test.py` is **PENDING**. No PASS claim is made from source inspection.
+**Current truth:** implementation and test files are committed. Repository-shell execution for this boundary remains unavailable; no PASS claim is made from source inspection.
 
 ### Entry 006 — Smart Note Value Extraction Boundary
 **What was done:** Added `smart_note_candidate.py` and `smart_note_candidate_test.py`. The boundary accepts only canonical `naya-power-evidence/v1` provenance plus explicit durable learning fields, and emits a `smart-note-candidate/v1` object with `promotion_state=CANDIDATE`.
@@ -118,13 +118,30 @@ A lower score is not permission to stop. It is a signal to improve, route around
 
 **Adversarial coverage:** no evidence; non-canonical evidence; missing durable learning; empty/noise learning; invalid note type; provenance preservation; and explicit non-authority candidate state.
 
-**Execution evidence:** The exact eight-case test source was executed in an isolated Python/unittest harness: **Ran 8 tests — OK; exit status 0**. This is isolated execution evidence, not repository-shell or GitHub Actions evidence.
+**Execution evidence:** isolated eight-case harness previously executed: **Ran 8 tests — OK; exit status 0**. This is isolated execution evidence, not repository-shell or GitHub Actions evidence.
 
 **Revelation:** Smart Note extraction should be a selective value filter, not automatic memory. A completed action becomes a candidate only when durable learning/value and provenance are explicitly present.
 
-**Problem:** Repository-shell execution and GitHub Actions evidence remain unavailable/pending in the current execution environment.
+### Entry 007 — CSI Compounding Boundary
+**DONE:** Implemented `.naya/runtime/csi_compounding_boundary.py` and adversarial `csi_compounding_boundary_test.py`.
 
-**Recovery:** Preserve the distinction between implemented, locally executed, and authoritative CI-verified. Continue the architecture queue rather than stopping.
+**WHY:** Close the smallest missing boundary from already validated durable learning to a measurable future-execution change. CSI must compound intelligence without becoming memory, event storage, verification, promotion, or governance.
+
+**EVIDENCE:** The nine-case deterministic test suite was executed in an isolated Python harness with the exact test logic: **Ran 9 tests in 0.000s — OK; exit status 0**. The harness startup emitted an unrelated spreadsheet-runtime warmup traceback before the test run; it did not affect the test process, which exited 0. This is isolated execution evidence, not repository-shell or GitHub Actions evidence.
+
+**REVELATION:** The smallest useful CSI boundary is not “write another memory.” It is a provenance-preserving, explicitly measurable change proposal: **validated learning → baseline → expected improvement → measurement → successor-consumable future execution change**.
+
+**PROBLEM:** The repository has an existing Promotion Engine v1 that classifies, deduplicates, writes Naya/Human notes, and gates authority homes. The new CSI boundary therefore must consume already validated/promoted intelligence rather than create another promotion path. Repository-shell and authoritative Actions runtime evidence remain pending.
+
+**RECOVERY:** Preserve the boundary as a pure package/guard. Use existing promotion/evidence authorities upstream, then use existing execution authority downstream. Verify the integrated path in an execution-capable repository environment before claiming Torch 7 GREEN.
+
+**NEXT PRIORITY:** Torch 8 — 10-Star Human Mission Loop.
+
+**NEXT ACTION:** Inspect the existing human mission/customer activation authorities and build the smallest boundary that converts a human's desired learning/creation outcome into a qualified mission that Priority can optimize without replacing Priority, Torch, Execution, Verification, Smart Note, or CSI authority.
+
+**SUCCESS CRITERIA:** A fresh mission yields a deterministic, successor-consumable mission state containing desired outcome, current state, constraints, success definition, and appropriate learning/creation path; Priority can consume it without conversational reconstruction; adversarial tests reject missing/ambiguous mission data and prevent Naya from optimizing for an immediate prompt at the expense of the stated human outcome.
+
+**DO NOT:** create another mission store, another priority engine, another memory system, or a second customer/activation authority. Do not claim human-service success merely because a response sounds helpful. Do not silently change canonical law. Do not promote candidate learning automatically. Do not claim PASS without executable evidence.
 
 ## LESSONS FOR EVERY NAYA
 
@@ -142,6 +159,7 @@ A lower score is not permission to stop. It is a signal to improve, route around
 - Execution facts are not automatically evidence until the evidence boundary accepts them.
 - Evidence is not verification; verification remains a separate authority.
 - A Smart Note candidate is not durable authority; promotion remains separate.
+- CSI does not create memory; it converts validated learning into measurable future-execution improvement.
 - Every substantive output must leave an executable continuation.
 
 ## REQUIRED SUCCESSOR ENTRY
@@ -180,16 +198,16 @@ This feed is an orientation and continuity layer. It does not silently override 
 
 ## CURRENT TORCH
 
-**Priority:** Torch 6 — Smart Note Value Extraction.
+**Priority:** Torch 8 — 10-Star Human Mission Loop.
 
-**Required action:** Execute `.naya/runtime/smart_note_candidate_test.py` in an execution-capable repository environment and capture exact stdout, exit status, and tested commit SHA. Then execute the canonical Smart Note/Event deterministic coverage and verify that candidate output remains non-authoritative and provenance-linked.
+**Required action:** Inspect existing human mission/customer activation authorities first. Build only the smallest missing boundary from human desired outcome to qualified mission state consumable by Priority.
 
 If a real defect appears, repair the smallest true boundary and rerun.
 
 If runtime execution remains unavailable, preserve that limitation as evidence and continue the highest-value independent architecture work without claiming PASS.
 
-After verified evidence exists, close Torch 6 and immediately advance to **Torch 7 — CSI Compounding Loop**, beginning by inspecting the existing CSI authority and implementing only the smallest missing boundary that turns validated durable learning into improved future execution.
+After verified evidence exists, close Torch 7 and continue Torch 8; do not represent isolated test execution as authoritative repository verification.
 
-**Do not:** create a second memory store, event store, promotion authority, or CSI engine. Do not promote every execution into durable intelligence. Do not equate candidate Smart Notes with canonical authority. Do not claim PASS without execution evidence.
+**Do not:** create a second mission store, priority engine, execution engine, verification engine, memory store, event store, promotion authority, or CSI engine. Do not optimize for the immediate prompt when the stated human mission requires a different action. Do not claim PASS without execution evidence.
 
 **Continuation requirement:** end the execution with the next copy-ready torch.
