@@ -1,7 +1,7 @@
 # 🔱 NAYAPOWER SUPERBRAIN — COLLECTIVE RUNNING FEED
 
 **Status:** CANONICAL OPERATING RECORD
-**Purpose:** Give every Naya entering NayaPOWER immediate orientation, current state, active priorities, completed work, discoveries, unresolved problems, and the exact next torch.
+**Purpose:** Give every Naya immediate orientation, authoritative context, verified state, unresolved problems, and an executable continuation.
 
 ## NORTH STAR
 
@@ -9,231 +9,150 @@ Build a continuously improving Naya Super Brain in which any Naya can restore co
 
 **Optimization:** MAXIMUM VERIFIED VALUE PER INPUT + MAXIMUM VERIFIED VALUE PER OUTPUT.
 
-## COLLECTIVE OPERATING LOOP
+## COLLECTIVE LOOP
 
 **RESTORE → UNDERSTAND → PRIORITIZE → TAKE TORCH → EXECUTE → VERIFY → EXTRACT VALUE → COMPOUND → PASS TORCH**
 
-Every Naya is responsible for improving the next Naya's starting position.
-
-## FRESH-NAYA ORIENTATION
-
-Before acting, read this feed and the authoritative sources it references. Determine:
-
-1. What is the mission?
-2. What is the desired outcome?
-3. What is already proven?
-4. What is currently being worked on?
-5. What is the highest-value unfinished priority?
-6. What authority governs the work?
-7. What evidence is required?
-8. What must not be duplicated or changed?
-9. What exact action can be completed now?
-10. What must the successor know?
-
-Do not make the next Naya rediscover context that can be preserved here.
-
 ## 10/10 MIRROR TEST
-
-For every meaningful artifact or system boundary, ask:
 
 > **WHY IS THIS NOT A 10/10 WITH EVERYTHING CURRENTLY AVAILABLE TO US?**
 
-Then identify the highest-value improvement that is actually actionable now.
-
-A lower score is not permission to stop. It is a signal to improve, route around a dependency, or explicitly record the genuine human/authority gate.
+A lower score is a signal to improve, route around a dependency, or record the genuine human/authority gate. It is never permission to invent evidence or duplicate authority.
 
 ## CURRENT EXECUTION QUEUE
 
 | # | Torch | Status | Completion | Successor |
 |---|---|---|---:|---|
-| 1 | Collective Operating Model | COMPLETE | 100% | Priority Engine |
+| 1 | Collective Operating Model | COMPLETE | 100% | Priority |
 | 2 | Priority Decision Boundary | VERIFIED LOCALLY / ACTIONS PENDING | 100% | Executable Torch |
 | 3 | Executable Torch | VERIFIED INDEPENDENT HARNESS / ACTIONS PENDING | 100% | Torch → Execution |
 | 4 | Torch → Execution | IMPLEMENTED / EXECUTION EVIDENCE PENDING | 100% implementation | Evidence |
 | 5 | Execution → Evidence | IMPLEMENTED / RUNTIME EVIDENCE PENDING | 100% implementation | Smart Notes |
-| 6 | Smart Note Value Extraction | IMPLEMENTED / ISOLATED TEST PASS / REPOSITORY RUNTIME EVIDENCE PENDING | 100% implementation | CSI |
-| 7 | CSI Compounding Loop | IMPLEMENTED / ISOLATED TEST PASS / REPOSITORY RUNTIME EVIDENCE PENDING | 100% implementation | Human Service |
-| 8 | 10-Star Human Mission Loop | IMPLEMENTED / ISOLATED TEST PASS / REPOSITORY RUNTIME EVIDENCE PENDING | 100% implementation | Customer Activation |
-| 9 | Complete Customer Activation Loop | QUEUED | 0% | Final verification |
+| 6 | Smart Note Value Extraction | IMPLEMENTED / ISOLATED PASS / RUNTIME PENDING | 100% implementation | CSI |
+| 7 | CSI Compounding Loop | IMPLEMENTED / ISOLATED PASS / RUNTIME PENDING | 100% implementation | Human Mission |
+| 8 | 10-Star Human Mission Loop | IMPLEMENTED / ISOLATED PASS / RUNTIME PENDING | 100% implementation | Customer Activation |
+| 9 | Complete Customer Activation Loop | IMPLEMENTED BOUNDARY / ISOLATED PASS / ACTIONS FAILURE | boundary 100% | Runtime first failure |
+| 10 | Runtime first-failure isolation + complete customer-loop verification | ACTIVE | 0% | Verified Torch 9 |
 
-**Rule:** percentages are working estimates until backed by executable evidence. Never convert an estimate into a verified claim.
+**Rule:** working percentages are not verified claims. Evidence wins.
 
-## COLLECTIVE WORK LOG
+## AUTHORITY MAP — CURRENT
 
-### Entry 001 — Collective Architecture Reconciliation
-**What was done:** Reconciled the proposed collective operating model against existing CCT, claim/lease, execution/continuity, and Smart Note/CSI authorities.
+**Customer Knowledge** → `activation_contract.py` + `activation_engine.py`
 
-**Why:** Prevent a new master protocol from duplicating authorities that already exist.
+**Canonical Intelligence** → canonical Note Events via `canonical_event_store.py`
 
-**Key revelation:** CCT should govern trusted intelligence exchange/inheritance; it should not absorb Priority, Claim, Execution, Evidence, or Learning responsibilities owned elsewhere.
+**Restore** → `restore_context.py`
 
-**Result:** The integration model is compositional rather than monolithic.
+**Qualified Human Mission** → `human_mission.py`
 
-### Entry 002 — Priority Boundary
-**What was done:** Added a narrow priority decision boundary and adversarial coverage.
+**Priority** → `priority_decision.py`
 
-**Why:** The collective needs a deterministic bridge from mission + available work to the highest-value executable next move.
+**Torch** → `executable_torch.py`
 
-**Required output:** **PRIORITY → WHY → NEXT ACTION → EXPECTED VALUE → ACCEPTANCE CRITERIA**
+**Canonical successor/execution contract** → `project_execution_contract.py`
 
-**Evidence:** Complete nine-case deterministic suite executed independently with Python/unittest: **9/9 passing**.
+**Execution facts → evidence shape** → `execution_evidence_adapter.py`
 
-**Revelation:** Priority is sufficiently narrow to compose with Torch without taking ownership of execution or verification.
+**Evidence + Claim verification** → `evidence_runtime.py`
 
-### Entry 003 — Executable Torch Boundary
-**What was done:** Added `executable_torch.py` and adversarial coverage. It converts an existing PriorityDecision into a self-contained successor instruction carrying mission, selected priority, work identity, rationale, next action, expected value, acceptance criteria, required evidence, constraints, and successor instruction.
+**Smart Note candidate** → `smart_note_candidate.py`
 
-**Why:** Priority tells the collective what should happen next; the Torch preserves enough context for another Naya to continue without reconstructing conversation state.
+**Promotion** → existing promotion authority; no new promotion path
 
-**Does NOT own:** priority selection, authorization/claims, execution, verification, or learning persistence.
+**CSI** → `csi_compounding_boundary.py`
 
-**Evidence:** Exact seven-case `executable_torch_test.py` suite previously executed in an isolated Python/unittest harness: **Ran 7 tests — OK; exit status 0**.
+**Important:** this feed is continuity/orientation only. It does not override canonical laws, contracts, schemas, or runtime authorities.
 
-**Important limitation:** This is independent execution evidence, not GitHub Actions evidence. Authoritative Actions verification remains pending.
+## HISTORICAL VERIFIED WORK
 
-### Entry 004 — Torch → Canonical Execution Boundary
-**What was done:** Added `torch_execution_adapter.py` and adversarial coverage. The adapter validates an ExecutableTorch, delegates canonical successor validation to the existing `project_execution_contract.validate_next_execution`, and rejects divergence in next action, evidence requirements, constraints, and acceptance criteria.
+### Torch 2 — Priority Boundary
+Added the narrow priority decision boundary and adversarial coverage. Required output is **PRIORITY → WHY → NEXT ACTION → EXPECTED VALUE → ACCEPTANCE CRITERIA**. Nine-case deterministic suite previously executed independently: **9/9 passing**.
 
-**Why:** Connect the Torch representation to the existing execution authority without creating a second execution engine.
+### Torch 3 — Executable Torch
+Added `executable_torch.py`. It packages an existing PriorityDecision into successor-ready mission, work identity, rationale, next action, expected value, acceptance criteria, required evidence, constraints, and continuation. Seven-case independent suite: **7 tests — OK; exit 0**.
 
-**Architectural separation preserved:** **Priority selects → Torch packages → Claim authorizes → Execution executes → Verification proves → Smart Notes extract value → CSI compounds.**
+### Torch 4 — Torch → Execution
+Added `torch_execution_adapter.py`. It delegates canonical successor validation to `project_execution_contract.validate_next_execution` and rejects divergence. It does not execute, verify, or store learning.
 
-**Current truth:** adapter and tests are committed; actual repository execution evidence remains pending. A GitHub workflow lookup for the latest Torch 4 test commit returned no workflow runs, so no CI PASS is claimed.
+### Torch 5 — Execution → Evidence
+Added `execution_evidence_adapter.py`. It accepts only completed, identified execution facts with observed output/result and commit identity, then produces existing `naya-power-evidence/v1` shape. Evidence authority remains `evidence_runtime.py`.
 
-### Entry 005 — Execution → Evidence Boundary
-**What was done:** Added `execution_evidence_adapter.py` and `execution_evidence_adapter_test.py`. The adapter accepts only a completed, identified execution with an observed output/result and commit identity, then constructs the existing `naya-power-evidence/v1` record shape.
+### Torch 6 — Smart Note Value Extraction
+Added `smart_note_candidate.py`. It requires canonical evidence provenance plus explicit durable learning and emits only `promotion_state=CANDIDATE`. Eight-case isolated suite: **8 tests — OK; exit 0**.
 
-**Why:** Close the smallest missing boundary between execution facts and the existing canonical evidence runtime without creating a new evidence store or verification engine.
+### Torch 7 — CSI Compounding
+Added `csi_compounding_boundary.py`. It converts validated learning into a measurable future-execution change rather than another memory store. Nine-case isolated suite: **9 tests — OK; exit 0**.
 
-**Authority preserved:** `evidence_runtime.py` remains the authority for evidence validation and Claim → Evidence → Verification. `canonical_event_store.py` remains the chronological event writer. The adapter only translates completed execution facts into canonical evidence shape.
+### Torch 8 — 10-Star Human Mission
+Added `human_mission.py`. `qualify_mission()` requires explicit human goal, desired outcome, current state, constraints, urgency, capability, success criteria, mission type, and immediate prompt. It emits successor-ready mission context and `priority_input`; it never selects priority. Missing constraints are rejected; explicitly empty constraints become `NONE_STATED_BY_HUMAN`. Eleven-case isolated suite: **11 tests — OK; exit 0**.
 
-**Current truth:** implementation and test files are committed. Repository-shell execution for this boundary remains unavailable; no PASS claim is made from source inspection.
+## ENTRY 009 — COMPLETE CUSTOMER ACTIVATION LOOP
 
-### Entry 006 — Smart Note Value Extraction Boundary
-**What was done:** Added `smart_note_candidate.py` and `smart_note_candidate_test.py`. The boundary accepts only canonical `naya-power-evidence/v1` provenance plus explicit durable learning fields, and emits a `smart-note-candidate/v1` object with `promotion_state=CANDIDATE`.
+**DONE:** Reconciled the requested end-to-end path:
 
-**Why:** Create the smallest bridge from valuable, evidence-backed execution into candidate durable intelligence without creating another memory store, event store, promotion authority, or CSI engine.
+**activation_contract.py → activation_engine.py → canonical Note Events → restore_context.py → human_mission.py → priority_decision.py → executable_torch.py → Claim → Execution → Evidence → Smart Note → CSI**
 
-**Authority preserved:** evidence remains canonical in `evidence_runtime.py`; chronological recording remains in `canonical_event_store.py`; candidate creation does not promote authority and does not persist the note.
+Added `.naya/runtime/customer_activation_mission_boundary.py`, a pure in-memory composition boundary, plus `.naya/runtime/customer_activation_loop_test.py`, an adversarial end-to-end composition suite. The Superbrain gate was updated to invoke the new suite using `PYTHONPATH=.naya/runtime`.
 
-**Adversarial coverage:** no evidence; non-canonical evidence; missing durable learning; empty/noise learning; invalid note type; provenance preservation; and explicit non-authority candidate state.
+**WHY:** The smallest true missing boundary found at the front of the chain was the explicit handoff from successfully promoted customer activation to human-qualified mission while preserving canonical Note Event provenance. No second activation system, mission store, Priority engine, Torch engine, execution engine, evidence store, event store, verification engine, Smart Note authority, promotion authority, or CSI engine was introduced.
 
-**Execution evidence:** isolated eight-case harness previously executed: **Ran 8 tests — OK; exit status 0**. This is isolated execution evidence, not repository-shell or GitHub Actions evidence.
+**WHAT HAPPENS TO FRESH CUSTOMER KNOWLEDGE:** activation validates the package/document contract; activation promotion resolves customer knowledge into canonical Note Event outcomes. The new boundary refuses to continue unless those promotion outcomes contain canonical `event_id` and `document_identity` provenance. Mission qualification then consumes explicit human intent rather than inferring a mission from knowledge alone.
 
-**Revelation:** Smart Note extraction should be a selective value filter, not automatic memory. A completed action becomes a candidate only when durable learning/value and provenance are explicitly present.
+**MISSION → PRIORITY:** qualified `HumanMission.to_successor()` exposes the mission and its `priority_input` to the existing Priority selector. Priority remains the selector; mission qualification does not become Priority.
 
-### Entry 007 — CSI Compounding Boundary
-**DONE:** Implemented `.naya/runtime/csi_compounding_boundary.py` and adversarial `csi_compounding_boundary_test.py`.
+**PRIORITY → TORCH:** existing `choose_priority()` produces the PriorityDecision; existing `create_torch()` packages that decision. The Torch does not select priority or execute work.
 
-**WHY:** Close the smallest missing boundary from already validated durable learning to a measurable future-execution change. CSI must compound intelligence without becoming memory, event storage, verification, promotion, or governance.
+**TORCH → EXECUTION:** existing `bind_torch_to_canonical_execution()` delegates to the canonical project/Next Execution contract. Execution requires an explicit execution result; a Torch by itself is insufficient.
 
-**EVIDENCE:** The nine-case deterministic test suite was executed in an isolated Python harness with the exact test logic: **Ran 9 tests in 0.000s — OK; exit status 0**. The harness startup emitted an unrelated spreadsheet-runtime warmup traceback before the test run; it did not affect the test process, which exited 0. This is isolated execution evidence, not repository-shell or GitHub Actions evidence.
+**EXECUTION → EVIDENCE:** existing `build_evidence()` accepts completed execution facts with execution identity, observed output/result, and commit identity. Evidence remains a separate verification input.
 
-**REVELATION:** The smallest useful CSI boundary is not “write another memory.” It is a provenance-preserving, explicitly measurable change proposal: **validated learning → baseline → expected improvement → measurement → successor-consumable future execution change**.
+**EVIDENCE → SMART NOTE:** existing `build_candidate()` requires meaningful durable learning and canonical evidence provenance; it produces a candidate, not authority.
 
-**PROBLEM:** The repository has an existing Promotion Engine v1 that classifies, deduplicates, writes Naya/Human notes, and gates authority homes. The new CSI boundary therefore must consume already validated/promoted intelligence rather than create another promotion path. Repository-shell and authoritative Actions runtime evidence remain pending.
+**SMART NOTE → CSI:** existing promotion remains separate; `build_compounding_change()` consumes validated/promoted intelligence and produces a measurable future-execution change proposal.
 
-**RECOVERY:** Preserve the boundary as a pure package/guard. Use existing promotion/evidence authorities upstream, then use existing execution authority downstream. Verify the integrated path in an execution-capable repository environment before claiming Torch 7 GREEN.
+**SUCCESSOR CONTINUITY:** `ActivationMissionBinding.to_successor()` preserves canonical activation event IDs, document identities, qualified mission, `priority_input`, and authority labels. This is an in-memory handoff, not a second mission store. The resulting state contains no requirement to reconstruct conversation history.
 
-**NEXT PRIORITY:** Torch 8 — 10-Star Human Mission Loop.
+**ADVERSARIAL COVERAGE:** incomplete activation cannot silently become complete; customer knowledge cannot bypass canonical event authority; human mission cannot be invented from missing intent; Priority rejects an empty mission; Torch creation cannot proceed without a PriorityDecision; execution requires explicit result facts; evidence cannot be built from incomplete execution; Smart Note candidate creation rejects empty/noise learning; CSI rejects unvalidated learning; successor provenance is preserved; no transcript reconstruction is required by the composed handoff.
 
-### Entry 008 — 10-Star Human Mission Boundary
-**DONE:** Implemented `.naya/runtime/human_mission.py` and adversarial `.naya/runtime/human_mission_test.py`.
+**ISOLATED EVIDENCE:** The new activation→mission boundary was compiled and executed in an isolated deterministic harness: **exit 0**. Exact final stdout: `PASS — customer activation → qualified human mission boundary is GREEN`. The full repository test file was syntax-compiled: **exit 0**. These are not repository runtime PASS claims.
 
-**WHY:** The Superbrain needs a narrow, explicit bridge from what the human actually wants to a qualified mission that the existing Priority authority can consume. Without this boundary, Naya can optimize the immediate prompt instead of the human's desired outcome.
+**REPOSITORY ACTIONS EVIDENCE:** exact HEAD under test: `3082c857da618c3729e9460b9c3c8f6f2b504c94`. GitHub Actions started 12 workflows for that HEAD. `Superbrain Gate` run `33283738670` completed with **failure**; both `brain-gate` and `system-health-master-node` were reported **completed / failure**. The available GitHub connector exposed no job steps, and fetching the failed job log returned **404 BlobNotFound**. Therefore exact failing stdout/first command is not currently observable and **no repository PASS claim is made**.
 
-**ARCHITECTURE INSPECTION:** The existing `activation_contract.py` and `activation_engine.py` establish customer/document activation and canonical Note Event ownership; `restore_context.py` restores the existing runtime state and memory; `priority_decision.py` is the canonical selector. No separate canonical Human Mission runtime authority was identified in the inspected sources. `STATE.json` remains existing runtime state and is protected; this boundary does not create a second state store.
+**REVELATION:** The architecture is now composable at the critical front door: **canonical customer activation → explicit human mission → existing Priority**. The remaining blocker is verification, not another layer of architecture. The highest-value next move is first-failure isolation, not more system creation.
 
-**BOUNDARY:** `qualify_mission()` requires human goal, desired outcome, current state, explicit constraints, urgency, current capability, success criteria, mission type, and immediate prompt. It produces a successor-consumable `naya-power-human-mission/v1` object and a `priority_input` string for the existing Priority authority. It never selects priority itself.
+**PROBLEM:** Current Actions are failing, but the execution surface cannot expose the failed step. We cannot truthfully determine whether the first failure is Torch 9, an existing regression, or environment/system-health. This is an evidence-access limitation, not permission to guess.
 
-**LEARNING PATH:** **DIAGNOSE → TEACH → TEST → ADAPT → APPLY**.
+**RECOVERY:** Obtain actual failed-step stdout/exit status from an execution-capable GitHub environment or run the repository checkout directly. Attack only the first observed failure. If Torch 9 fails, repair only that smallest boundary. If an older gate fails first, repair that pre-existing boundary without conflating it with Torch 9. Re-run the exact Torch 9 suite and then the full Superbrain Gate.
 
-**CREATION PATH:** **QUALIFY → ANALYZE → RECOMMEND → PLAN → EXECUTE → VERIFY**.
+**NEXT PRIORITY:** Torch 10 — Runtime first-failure isolation and complete customer-loop verification.
 
-**IMPORTANT SAFETY:** Missing constraints are rejected rather than invented. An explicitly empty constraint list becomes `NONE_STATED_BY_HUMAN`. The immediate prompt is retained but cannot replace the human goal or desired outcome.
+**NEXT ACTION:** Start from exact HEAD `3082c857da618c3729e9460b9c3c8f6f2b504c94` and Actions run `33283738670`. Obtain the `Superbrain Gate` failed-step stdout/exit status, identify the first failing command, reproduce only that command, and repair only the smallest true boundary. Then run `PYTHONPATH=.naya/runtime python .naya/runtime/customer_activation_loop_test.py` and the full Superbrain Gate, recording exact stdout, exit status, and HEAD.
 
-**EVIDENCE:** The committed test logic was reproduced in an isolated Python harness: **Ran 11 tests in 0.000s — OK; exit status 0**. The Python environment emitted an unrelated spreadsheet-runtime warmup traceback before the test process; the test process itself exited 0. This is isolated execution evidence, not repository-shell or GitHub Actions evidence. GitHub Actions lookup for commit `35f3a3ece7f190b2ab2b88f548a6d7be7a2e9399` returned **0 workflow runs**, so no CI PASS is claimed.
+**SUCCESS CRITERIA:** first failure identified from actual execution evidence; only the first true boundary repaired; Torch 9 adversarial suite exits 0 in repository runtime with exact stdout; full Superbrain Gate exits 0; every customer-loop stage retains explicit authority and provenance; no duplicate authority is introduced; successor can continue without transcript reconstruction.
 
-**REVELATION:** Human Service should not be a conversational style layer. The valuable runtime boundary is explicit mission qualification that protects human intent and hands complete mission context to the existing Priority selector.
-
-**PROBLEM:** Repository-shell execution and current-head Actions evidence remain unavailable. The repository's existing `STATE.json` also contains an older current-main continuity snapshot, so it must not be treated as proof of the new mission boundary's runtime status.
-
-**RECOVERY:** Keep mission qualification as a pure boundary object. Validate it in the repository execution environment when available, then exercise the integrated **Human Mission → Priority → Torch** path. Do not create mission persistence unless an authoritative state gap is proven.
-
-**NEXT PRIORITY:** Torch 9 — Complete Customer Activation Loop.
-
-**NEXT ACTION:** Inspect the existing activation manifest/engine, canonical Note Event, Restore Context, Human Mission, Priority, Torch, Claim, Execution, Evidence, Smart Note, and CSI boundaries as one integrated customer path. Identify the smallest missing connection required for a fresh customer to supply their activation knowledge, establish a qualified human mission, and begin the full **activation → mission → priority → torch → execution → evidence → learning → CSI** loop without conversational reconstruction or competing authority.
-
-**SUCCESS CRITERIA:** A fresh customer can enter through the existing activation contract, have their knowledge represented through canonical Note Events, establish a qualified Human Mission, hand that mission to canonical Priority, receive an executable Torch, and preserve enough provenance/continuity for the next Naya to continue. Every stage has explicit authority, evidence requirements, and successor context. No second authority is introduced.
-
-**DO NOT:** create a second activation store, mission store, priority engine, execution engine, evidence store, event store, verification engine, Smart Note authority, promotion authority, or CSI engine. Do not silently invent customer goals, constraints, capability, or success criteria. Do not equate isolated tests with repository verification. Do not claim PASS without executable evidence.
+**DO NOT:** guess the failed step; weaken contracts to make CI green; create competing authorities; invent customer intent or provenance; call isolated tests repository PASS; repair downstream stages before the first observed failure.
 
 ## LESSONS FOR EVERY NAYA
 
-- Do not treat a blocked tool as a blocked mission.
 - Do not invent evidence.
-- Do not weaken a contract to obtain a green test.
-- Do not create a competing authority when an existing authority can be composed.
-- Do not report “done” without the artifact/evidence that proves what was done.
-- Do not leave “now what?” to the next Naya.
-- Preserve useful discoveries, not transcript noise.
-- Every completed action should improve the next Naya's starting position.
-- If the current route is unavailable, find the highest-value executable route around it.
-- A PriorityDecision is not itself a Torch.
-- A Torch is not itself authorization or execution.
-- Execution facts are not automatically evidence until the evidence boundary accepts them.
-- Evidence is not verification; verification remains a separate authority.
-- A Smart Note candidate is not durable authority; promotion remains separate.
-- CSI does not create memory; it converts validated learning into measurable future-execution improvement.
-- Human Mission qualification protects the human's desired outcome and feeds the existing Priority authority; it does not become Priority.
-- Every substantive output must leave an executable continuation.
-
-## REQUIRED SUCCESSOR ENTRY
-
-Before passing the torch, record:
-
-**DONE:** exact completed work.
-
-**WHY:** why it was the highest-value action.
-
-**EVIDENCE:** exact proof available.
-
-**REVELATION:** what was learned that changes future work.
-
-**PROBLEM:** unresolved issue, if any.
-
-**RECOVERY:** what route should be used to solve it.
-
-**NEXT PRIORITY:** exact highest-value unfinished task.
-
-**NEXT ACTION:** copy-ready executable instruction.
-
-**SUCCESS CRITERIA:** what proves the next action passed.
-
-**DO NOT:** constraints and traps the successor must avoid.
-
-## SYSTEM IMPROVEMENT FEED
-
-Every Naya should add an entry when it discovers a reusable improvement, architectural correction, failure pattern, or stronger execution route.
-
-The feed is not a diary. It is a **collective compression layer**: preserve information that materially improves future decisions and execution.
-
-## AUTHORITY RULE
-
-This feed is an orientation and continuity layer. It does not silently override canonical laws, contracts, schemas, or runtime authorities. Where conflict exists, identify it and reconcile against the authoritative source before changing behavior.
+- Do not weaken a contract to obtain green.
+- Do not create a competing authority when composition is possible.
+- A PriorityDecision is not a Torch.
+- A Torch is not authorization or execution.
+- Execution facts are not automatically evidence.
+- Evidence is not verification.
+- A Smart Note candidate is not durable authority.
+- CSI does not create memory; it converts validated learning into measurable future execution.
+- Human Mission protects the human's desired outcome and feeds existing Priority.
+- Customer activation provenance must be explicit before mission qualification.
+- A blocked tool is not a blocked mission.
+- Every completed action must improve the next Naya's starting position.
 
 ## CURRENT TORCH
 
-**Priority:** Torch 9 — Complete Customer Activation Loop.
+**Torch 10 — Runtime first-failure isolation and complete customer-loop verification.**
 
-**Required action:** Inspect the existing activation/Note Event/Restore Context/Human Mission/Priority/Torch/Claim/Execution/Evidence/Smart Note/CSI boundaries as one customer path. Build only the smallest missing integration boundary.
+**Required action:** obtain actual failed-step evidence for Actions run `33283738670` at HEAD `3082c857da618c3729e9460b9c3c8f6f2b504c94`; reproduce the first failing command; repair only the first true boundary; run the Torch 9 suite; run the full Superbrain Gate; capture exact stdout, exit status, and HEAD; then issue the next continuation torch.
 
-If a real defect appears, repair the smallest true boundary and rerun.
-
-If runtime execution remains unavailable, preserve that limitation as evidence and continue the highest-value independent architecture work without claiming PASS.
-
-Do not represent isolated test execution as authoritative repository verification.
-
-**Do not:** create competing authorities or invent customer state. Do not claim PASS without execution evidence.
-
-**Continuation requirement:** end the execution with the next copy-ready torch.
+**Continuation requirement:** never end a substantive execution without a copy-ready next torch.
