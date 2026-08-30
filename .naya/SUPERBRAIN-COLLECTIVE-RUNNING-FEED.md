@@ -33,6 +33,7 @@ A lower score is a signal to improve, route around a dependency, or record the g
 | 8 | 10-Star Human Mission Loop | IMPLEMENTED / ISOLATED PASS / RUNTIME PENDING | 100% implementation | Customer Activation |
 | 9 | Complete Customer Activation Loop | IMPLEMENTED BOUNDARY / ISOLATED PASS / ACTIONS FAILURE | boundary 100% | Runtime first failure |
 | 10 | Runtime first-failure isolation + complete customer-loop verification | ACTIVE / EXECUTION-ENVIRONMENT EVIDENCE PENDING | 0% verified | Verified Torch 9 |
+| 11 | Restore authoritative runtime failure observability | ACTIVE / EXECUTION-ENVIRONMENT BLOCK CONFIRMED | 0% verified | First evidence-backed repair |
 
 **Rule:** working percentages are not verified claims. Evidence wins.
 
@@ -123,14 +124,14 @@ Added `.naya/runtime/customer_activation_mission_boundary.py`, a pure in-memory 
 
 **DONE:** Reconciled live repository state and advanced the active work from the stale Torch 8 context to the actual live Torch 10. Added `.naya/runtime/runtime_failure_isolation.py`, a non-authoritative diagnostic that reproduces the canonical gate order and records exact command, stdout/stderr, exit code, HEAD, workflow, and run ID. Updated `.github/workflows/superbrain-gate.yml` to run the diagnostic only after a gate failure and to upload its receipt without weakening the authoritative gate. Added equivalent system-health diagnostic capture. Updated control-plane state to bind the active block to Torch 10 and preserve the live-HEAD rule.
 
-**WHY:** The actual blocker is no longer architecture. The latest repository Actions executions are failing without exposed job steps or retrievable logs. GitHub's normal model provides step/log evidence for workflow failures; our connected execution surface currently returns no steps and `BlobNotFound` for logs. A deterministic artifact is therefore the highest-value way to turn an evidence-access failure into machine-readable repository evidence on the next runner execution. citeturn4search0turn3search2
+**WHY:** The actual blocker is no longer architecture. The latest repository Actions executions are failing without exposed job steps or retrievable logs. GitHub's normal model provides step/log evidence for workflow failures; our connected execution surface currently returns no steps and `BlobNotFound` for logs. A deterministic artifact is therefore the highest-value way to turn an evidence-access failure into machine-readable repository evidence on the next runner execution.
 
 **OBSERVED REPOSITORY EVIDENCE:**
 - Previous Superbrain Gate: run `33283738670`, HEAD `3082c857da618c3729e9460b9c3c8f6f2b504c94`, failed; jobs `brain-gate` and `system-health-master-node` both failed; no steps exposed; job logs returned `BlobNotFound`.
 - After diagnostic infrastructure commit `c89125c6b4ebe8bc6fad2b1ef3ee55cb5dd76a8b`, Superbrain Gate run `33283830828` failed at HEAD `c89125c6b4ebe8bc6fad2b1ef3ee55cb5dd76a8b`; again both jobs failed with no steps exposed and no artifacts.
 - Multiple unrelated repository workflows for that same HEAD also failed within the same short execution window with no exposed steps. This materially reduces the likelihood that Torch 9 alone is the cause, but it does **not** prove the external root cause.
 - The diagnostic workflow update landed at HEAD `08a979b60ca1f1430f1f0e49f2cb973a8ade5ae3`. Its newest observed push-triggered run for `patch-e00-continue.yml` also failed, showing that Actions are still not yet producing usable runtime evidence through the current connected surface.
-- GitHub Status currently reports Actions operational and no current Actions incident, so the repository records this as an **execution-environment UNKNOWN**, not as a claimed GitHub outage. citeturn5search0
+- GitHub Status currently reports Actions operational and no current Actions incident, so the repository records this as an **execution-environment UNKNOWN**, not as a claimed GitHub outage.
 
 **VERIFICATION STATE:** `UNKNOWN` for exact first failing command. The diagnostic infrastructure itself is implemented but not yet runtime-proven because the new runs failed without producing the expected diagnostic artifact.
 
@@ -143,6 +144,37 @@ Added `.naya/runtime/customer_activation_mission_boundary.py`, a pure in-memory 
 **SUCCESS CRITERIA:** exact first failure identified or explicitly UNKNOWN; no speculative code repair; diagnostic artifact is observed on a healthy runner; Torch 9 deterministic suite passes in repository runtime; full Superbrain Gate passes on the new exact HEAD before any GREEN claim.
 
 **DO NOT:** weaken contracts, bypass gates, treat external-status pages as proof of repository health, claim runtime GREEN from source inspection, or create another authority.
+
+## ENTRY 011 — TORCH 11 AUTHORITATIVE RUNTIME FAILURE OBSERVABILITY
+
+**DONE:** Re-ran the complete available GitHub evidence path for Superbrain Gate `33283738670`, including both failed jobs, step summaries, logs, and artifacts. Also inspected the exact historical workflow definition at the failed HEAD and the current workflow definition containing the diagnostic receipt mechanism. Attempted repository-shell execution; the environment cannot resolve `github.com`, so an independent checkout could not be performed.
+
+**WHY:** The requested first-failure isolation requires actual runtime stdout/stderr and exit status. Those facts are not exposed by the connected GitHub execution surface for the failed jobs, and local repository execution is blocked by the execution environment's lack of network/DNS access. Guessing the failing command would violate the evidence contract.
+
+**EVIDENCE:**
+- Superbrain Gate `33283738670`: completed / failure; HEAD `3082c857da618c3729e9460b9c3c8f6f2b504c94`; run attempt 2.
+- `brain-gate` job `99183402798`: completed / failure; step summaries returned `[]`; log retrieval returned GitHub `404 BlobNotFound`.
+- `system-health-master-node` job `99183403349`: completed / failure; step summaries returned `[]`; log retrieval returned GitHub `404 BlobNotFound`.
+- Run artifacts for `33283738670`: `[]`.
+- Rerun/attempt inspection produced the same failure shape: no exposed steps and no retrievable logs.
+- The historical workflow at the failed HEAD did **not** yet contain the diagnostic failure-receipt step, so absence of that artifact from run `33283738670` is not evidence that the diagnostic failed.
+- Current `main` is `2347638e8b2abc0e4bb5d3e3043b55662bb8e370`, not the user-supplied `be55bc2be864598be9970b31538d41ab3bf3b2d2`. The live branch must therefore remain the authority for continuation.
+- Current workflow source includes `runtime_failure_isolation.py` after gate failure and artifact upload with `always()`, but no runtime artifact has yet been observed through this connector.
+- Independent shell attempt: `git clone https://github.com/SoulSchoolAcademy/NayaPOWER.git /tmp/NayaPOWER` failed before checkout with `fatal: unable to access 'https://github.com/SoulSchoolAcademy/NayaPOWER.git': Could not resolve host: github.com`; exit status `128`.
+
+**REVELATION:** The evidence boundary itself is now proven to be the limiting factor. The connected GitHub surface can establish that jobs failed, but cannot expose the command that failed. The local execution environment cannot independently obtain the repository. Therefore the correct state is **EXECUTION EVIDENCE UNAVAILABLE / FIRST FAILURE UNKNOWN**, not code failure.
+
+**PROBLEM:** Torch 11 cannot truthfully satisfy criteria 1–5 or close Torch 9 because the first runtime command remains unobservable. The current diagnostic infrastructure is the correct architectural response, but it needs a runner execution that actually reaches the diagnostic and publishes its receipt.
+
+**RECOVERY:** Use an execution-capable repository environment or a subsequent healthy GitHub Actions run on live `main`. Retrieve `superbrain-first-failure-diagnostic` and `naya-system-health-receipt` before making any application-code repair. If artifacts appear, attack only the first observed failure. If jobs again fail before producing steps/artifacts, preserve the execution-environment block and do not guess.
+
+**NEXT PRIORITY:** Torch 12 — Obtain one authoritative repository-runtime execution with observable diagnostic receipt, then close Torch 9 from evidence.
+
+**NEXT ACTION:** On the live `main` HEAD `2347638e8b2abc0e4bb5d3e3043b55662bb8e370`, inspect the newest Superbrain Gate run. If its jobs expose steps/logs/artifacts, capture the first failure. If not, obtain execution through an environment with repository checkout/runtime access and run the canonical gate. Do not alter application architecture until a concrete first failure is observed.
+
+**SUCCESS CRITERIA:** exact first command, stdout, stderr, exit status, and HEAD captured from repository execution; first failure reproduced; smallest true boundary repaired if necessary; Torch 9 suite exits 0 in repository runtime; full Superbrain Gate exits 0; feed records exact evidence; next continuation torch issued.
+
+**DO NOT:** claim Torch 9 failed without evidence; treat a red job as a specific command failure; treat a commit as verification; weaken contracts; bypass the gate; create duplicate authorities; or manufacture evidence.
 
 ## LESSONS FOR EVERY NAYA
 
@@ -163,8 +195,8 @@ Added `.naya/runtime/customer_activation_mission_boundary.py`, a pure in-memory 
 
 ## CURRENT TORCH
 
-**Torch 10 — Runtime first-failure isolation and complete customer-loop verification.**
+**Torch 12 — Obtain one authoritative repository-runtime execution with observable diagnostic receipt, then close Torch 9 from evidence.**
 
-**Required action:** Resolve live main HEAD; inspect the newest Superbrain Gate and related gate runs; retrieve the machine-readable first-failure diagnostic artifact if produced; repair only the first evidence-backed repository divergence; if no runtime evidence is produced, preserve UNKNOWN and classify the blocker as execution-environment evidence rather than code failure.
+**Required action:** inspect the newest Superbrain Gate on live `main` HEAD `2347638e8b2abc0e4bb5d3e3043b55662bb8e370`; retrieve any diagnostic artifacts; if unavailable, move execution to a repository-capable environment; identify the first actual command failure; repair only that boundary; run Torch 9 and the full Superbrain Gate; capture exact evidence; then issue the next continuation torch.
 
 **Continuation requirement:** never end a substantive execution without a copy-ready next torch.
