@@ -70,7 +70,7 @@ No competing memory/event authority was introduced. Durable outcome/value histor
 **WORK ID:** `SUPERBRAIN-AAA-OFFLINE-READINESS`
 **STATUS:** CLAIMED / IN_PROGRESS
 **OWNER:** Team Naya
-**BASE COMMIT:** `e6949f409e089840bd2bffcbb4e3ab2dab09f78a`
+**BASE COMMIT:** `f8c7437af89bf02c89148df56184e79897deba92`
 **SCOPE:** `SUPERBRAIN/AAA-SUPERBRAIN-OFFLINE-READINESS-SCORECARD.md`; cold-start/NEXT-EXECUTION/continuity contracts; retrieval/promotion/authority audits; canonical state/workboard updates.
 **ACTIONS POLICY:** No GitHub Actions execution is required for this lane. Actions-dependent proof remains explicitly UNKNOWN and is not replaced by prose.
 
@@ -80,6 +80,15 @@ Raise the Superbrain as far toward AAA/10-Star readiness as can legitimately be 
 
 **verified useful value / unit of effort**.
 
+### Static audit completed against live `main` HEAD `f8c7437af89bf02c89148df56184e79897deba92`
+
+- **Cold-start / NEXT-EXECUTION:** READY by repository contract; `START-HERE`, `cold_start_activation.py`, `project_execution_contract.py`, `prompt_architect_contract.py`, and `continuity_enforcement.py` contain explicit fail-closed successor and conversation-independence checks.
+- **CCT / claim / promotion:** existing verified foundation remains protected; no duplicate CCT authority identified in this audit.
+- **Retrieval:** **CONFLICTING / PARTIAL.** `.naya/memory/smart_notes_v3.py` defines canonical chronological Note Event retrieval, while `.naya/memory/memory_runtime.py` still implements a separate legacy `SN-*` note validator/retriever. `.naya/runtime/restore_context.py` imports `memory_runtime`, and `.github/workflows/naya-memory-runtime.yml` explicitly validates/tests `memory_runtime.py`. This is a live competing retrieval/memory runtime path and must be reconciled before AAA can be claimed.
+- **Authority/state:** **CONFLICTING / PARTIAL.** `MAP.json` names `.naya/memory/STATE.json` as current-state authority, while `.naya/control-plane/STATE.json` separately exposes an active block and next action; the live workboard and Superbrain current-project lane expose `SUPERBRAIN-AAA-OFFLINE-READINESS`. These artifacts can coexist at different layers, but their precedence and synchronization are not yet machine-proven in this audit.
+- **Durable outcome history:** **PARTIAL.** CCT-005 value feedback is verified, but outcome/value history remains in-memory and must be attached to the canonical event model rather than a second store.
+- **Local execution:** **UNKNOWN in this session.** The repository is accessible through GitHub inspection but no live checkout/runtime is mounted in the execution environment, so no repository-local Python test result is being fabricated.
+
 ### Execution sequence
 
 1. Restore current `main` and canonical control-plane state.
@@ -87,11 +96,12 @@ Raise the Superbrain as far toward AAA/10-Star readiness as can legitimately be 
 3. Audit canonical NEXT-EXECUTION semantics and conversation independence.
 4. Audit No-Orphan / continuity / receipt / handoff requirements.
 5. Audit authority and duplication boundaries across memory, events, promotion, release, and deployment.
-6. Strengthen deterministic retrieval acceptance cases where gaps are evidenced.
-7. Audit compounding continuity from Smart Note through value feedback.
-8. Attack stale state, replay, fake verification, circular validation, privacy leakage, orphaned successors, and key-presence shortcuts.
-9. Run every applicable repository-local test available in the live checkout.
-10. Record exact evidence and leave Actions-dependent gates UNKNOWN.
+6. Reconcile the dual memory/retrieval runtime before adding retrieval features or a third implementation.
+7. Audit retrieval acceptance cases after the canonical owner is resolved.
+8. Audit compounding continuity from Smart Note through value feedback.
+9. Attack stale state, replay, fake verification, circular validation, privacy leakage, orphaned successors, and key-presence shortcuts.
+10. Run every applicable repository-local test available in the live checkout.
+11. Record exact evidence and leave Actions-dependent proof UNKNOWN.
 
 ### PASS GATE
 
@@ -108,14 +118,14 @@ Current high-value lanes:
 3. Claim/concurrency — VERIFIED.
 4. CCT integrity — VERIFIED.
 5. Smart Note → Note Event → value — VERIFIED / durable history PARTIAL.
-6. Retrieval quality — READY for local audit.
+6. Retrieval quality — **CONFLICTING / PARTIAL: dual runtime paths identified.**
 7. Promotion/authority safety — READY for local audit.
 8. Continuity/No-Orphan — READY for local audit.
-9. Mission State/control-plane coherence — READY for local audit.
+9. Mission State/control-plane coherence — **CONFLICTING / PARTIAL: precedence/synchronization requires machine proof.**
 10. Learning/compounding — PARTIAL.
 11. Adversarial Superbrain review — READY.
 12. Evidence/receipt quality — READY.
-13. Architecture conflict/duplication audit — READY.
+13. Architecture conflict/duplication audit — **ACTIVE: retrieval/memory authority conflict identified.**
 14. Durable outcome history — PARTIAL.
 15. Actions recovery package — READY; external proof remains Actions-dependent.
 
@@ -124,17 +134,17 @@ Current high-value lanes:
 ### NEXT EXTERNAL PROOF
 Current control-plane state records opaque/failed automation observations and requires exact-head Actions evidence before any external proof claim. Do not guess an internal CI failure when job/step/log evidence is unavailable.
 
-### AFTER OFFLINE LANE
-- Reconcile full Naya runtime/release gate against fresh evidence.
-- Close current red CI/Actions surface by root cause.
-- Lock Naya v3 architecture contract.
-- Verify automatic torch/prompt delivery.
+### AFTER OFFLINE RECONCILIATION
+- Establish one canonical retrieval/memory execution path.
+- Re-run local memory/restore/retrieval acceptance from a live checkout.
+- Reconcile Mission State/control-plane precedence and synchronization.
+- Reconcile full Naya runtime/release gate against fresh external evidence.
 - Establish durable outcome history through the canonical event model only.
 
 ## TORCH
 
-**CURRENT NAYA:** Execute `SUPERBRAIN-AAA-OFFLINE-READINESS` from the scorecard and this workboard. Do not trigger or depend on GitHub Actions. Use repository-local tests/static evidence. Make only the smallest evidence-backed change. Record exact evidence. Keep external proof UNKNOWN where necessary.
+**CURRENT NAYA:** The live-main audit found a concrete architecture conflict: canonical Event-v3 retrieval exists in `smart_notes_v3.py`, but `restore_context.py` and the `naya-memory-runtime` workflow still execute the legacy `memory_runtime.py` note/retrieval path. Do not add another retrieval or memory system. First reconcile the canonical owner and migrate the existing caller/test boundary with the smallest safe change. Then run the local memory/restore/retrieval regression sequence from a live checkout.
 
-**NEXT NAYA:** Continue from the resulting durable state; re-read the scorecard and workboard, recheck live HEAD, verify the first unfinished lane, and do not assume a recorded result is current.
+**NEXT NAYA:** Resolve the canonical memory/retrieval authority conflict. Read `.naya/codex/SMART-BRAIN-OPERATING-SYSTEM.md`, `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md`, `.naya/memory/smart_notes_v3.py`, `.naya/memory/memory_runtime.py`, `.naya/runtime/restore_context.py`, `.naya/memory/test_memory_runtime.py`, `.naya/runtime/test_restore_context.py`, and `.github/workflows/naya-memory-runtime.yml`. Determine whether `memory_runtime.py` is migration compatibility, legacy, or an unintended competing authority. Do not delete history. Do not create a third runtime. Define the smallest migration boundary, add only the necessary regression tests, run the full local memory/restore/CCT sequence, and record exact evidence. If local execution is unavailable, record UNKNOWN and do not claim GREEN.
 
 **NEXT NAYA > CURRENT NAYA.**
