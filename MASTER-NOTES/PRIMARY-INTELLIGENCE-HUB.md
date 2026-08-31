@@ -1,7 +1,7 @@
 # 🔱 PRIMARY INTELLIGENCE HUB — NAYAPOWER × MAXIS
 
 **Status:** CANONICAL NAVIGATION / SYNTHESIS LAYER
-**Date:** 2026-08-30
+**Date:** 2026-08-31
 
 ## PURPOSE
 
@@ -116,6 +116,41 @@ Build the six-core customer activation package as one coherent, concise, airtigh
 
 **Second durable lesson:** **Value that is recognized but not captured is value at risk. Proactive capture turns useful conversation into reusable intelligence; Smart Links turn the capture claim into inspectable evidence.**
 
+## 2026-08-31 DAILY SYNTHESIS
+
+### Material changes
+
+- The latest NayaPOWER current state now makes guided customer activation and the commercial entry path the active P0 during the deliberate GitHub Actions pause.
+- The six-core activation package remains the locked build target, while the alternate-runtime technical proof track remains preserved as P1.
+- The current state now explicitly distinguishes commercial readiness from technical/runtime readiness so one cannot be used to falsely close the other.
+- The reporting system now has a dated 2026-08-31 Daily Intelligence Report and durable Naya Note.
+
+### Compounding delta from 2026-08-30
+
+- No technical runtime breakthrough occurred; the technical blocker is unchanged and remains UNKNOWN at provider root-cause level.
+- The strategic priority changed: immediate work is customer activation/sales, not another opaque CI retry.
+- The report now treats the unchanged technical blocker as a known persistent boundary and carries its recovery action forward instead of re-explaining it as new.
+
+### Current conclusion
+
+NayaPOWER is more commercially actionable and successor-readable, but the operating system is not fully runtime-proven. MAXIS remains aligned to the one-brain/many-executors model, while fresh source-to-production parity and full guest-path runtime evidence remain open.
+
+### Current highest-value action
+
+Build the six core customer activation artifacts as one coherent, customer-executable system, then build the sales experience around the same guided journey. Preserve the P1 alternate-runtime proof track and resume it only through a materially different authorized execution plane.
+
+### Exact proof target
+
+Commercial: `DISCOVERY → ACTIVATION → BENEFIT → EVIDENCE → NEXT PROMPT → FIRST WIN`.
+
+Technical: `EXACT SHA → CHECKOUT → RUNTIME → GOVERNED COMMAND → STDOUT/STDERR → EXIT CODE → PROMOTION TESTS → CANONICAL RECEIPT → IDEMPOTENCY → VERIFIED STATE`.
+
+### New durable lesson
+
+**Strategic reprioritization is not technical closure.** A blocked technical route can coexist with real commercial progress, but reporting must preserve the boundary between what advanced and what was actually proven.
+
+**Activation is a learning interface.** The activation experience should progressively reveal capability, meaning, benefit, evidence, and next action rather than dumping documentation.
+
 ## CUMULATIVE LESSONS
 
 1. **Repository memory is institutional memory.** Material conversation knowledge must be promoted into the correct durable layer.
@@ -133,6 +168,8 @@ Build the six-core customer activation package as one coherent, concise, airtigh
 13. **Activation must teach while it activates.**
 14. **A Smart Note is incomplete without Smart Links to its persisted representations.**
 15. **Proactive value capture is part of ten-star service when durable value is clear and legitimately capturable.**
+16. **Commercial progress and technical proof are separate state dimensions.**
+17. **A daily report must explain the delta from the prior report, including unchanged blockers.**
 
 ## REPEATED-MISTAKE WATCHLIST
 
@@ -149,6 +186,7 @@ Build the six-core customer activation package as one coherent, concise, airtigh
 - claiming Smart Note creation without returning direct Smart Links
 - treating note creation as proof of PIS propagation
 - capturing valuable lessons only when the human explicitly asks for them
+- using commercial progress to blur technical verification state
 
 When a watchlist item recurs, escalate from fixing the instance to fixing the learning mechanism.
 
