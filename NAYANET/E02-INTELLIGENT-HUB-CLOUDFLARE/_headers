@@ -1,4 +1,5 @@
 /* NayaNET Living Intelligence static delivery headers */
+/* Final release contract: the Cloudflare ZIP contains only index.html and _headers at its root. */
 /* Keep the deployment artifact self-contained; no runtime service is implied. */
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
