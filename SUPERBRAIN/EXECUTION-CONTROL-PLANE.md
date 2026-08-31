@@ -11,6 +11,12 @@ Each governed product repository retains its own canonical Mission State, archit
 
 This control plane records execution metadata and validates consistency. It does **not** become a second product or project truth source.
 
+The canonical continuity rule is:
+
+> **NEVER RESET EARNED INTELLIGENCE.**
+
+See `SUPERBRAIN/NAYA-CONTINUITY-LAW.md`.
+
 ## 2. Required State Object
 
 Every active execution must be representable by one machine-readable state object containing:
@@ -29,13 +35,18 @@ start_head
 target_state
 dependencies
 protected_scope
-evidence
+current_state
+rejected_scope
+delta
+ evidence
 checkpoint
 unknowns
 failures
 next_action
 updated_at
 ```
+
+`protected_scope`, `current_state`, `rejected_scope`, and `delta` are continuity-critical. They prevent a successor from treating earned project state as disposable context.
 
 ## 3. Allowed Block States
 
@@ -56,12 +67,42 @@ The state must contain exactly one `next_action` for the active execution.
 
 If multiple candidates exist, the execution owner must rank them and retain only the highest-value executable move as the primary action. Other work remains in the block plan, not as competing next actions.
 
-## 5. Evidence Contract
+The next action should normally be the smallest highest-value delta against the current state, not an unnecessary replacement of the current implementation.
+
+## 5. Continuity / Edit Contract
+
+For an existing artifact:
+
+```text
+CURRENT = BASELINE
+REQUEST = DELTA
+APPROVED / PROTECTED = PRESERVE
+REJECTED = DO NOT REINTRODUCE
+```
+
+When a human requests an edit, the default operation is **EDIT**, not **RESET** or **REDESIGN**.
+
+A successor must:
+
+1. inspect the actual current artifact;
+2. recover protected/approved scope;
+3. recover rejected/failed scope;
+4. identify the requested delta;
+5. modify only the necessary scope;
+6. regression-check protected scope;
+7. verify the delta;
+8. document the resulting state.
+
+If a redesign is necessary, the reason and impact must be made explicit and unrelated approved work must remain protected.
+
+## 6. Evidence Contract
 
 Material claims follow:
 
 ```text
 REQUIREMENT
+→ CURRENT BASELINE
+→ DELTA
 → IMPLEMENTATION
 → TEST
 → OBSERVED RESULT
@@ -82,7 +123,7 @@ Minimum evidence fields should identify:
 - timestamp;
 - verification state.
 
-## 6. Drift Rules
+## 7. Drift Rules
 
 The control plane must flag:
 
@@ -94,11 +135,15 @@ The control plane must flag:
 - stale owner/lease;
 - unresolved contradiction;
 - deployment marked production without a real READY deployment;
-- runtime evidence attached to a different commit than the claimed execution state.
+- runtime evidence attached to a different commit than the claimed execution state;
+- protected scope missing from an active state;
+- requested delta missing from the resulting artifact;
+- rejected pattern reintroduced without an explicit supersession record;
+- unrelated approved scope changed without documented reason.
 
 A drift finding becomes `UNKNOWN`, `STALE`, or `FAILED` according to the evidence. It never becomes green automatically.
 
-## 7. Ownership / Concurrency
+## 8. Ownership / Concurrency
 
 For shared execution scope:
 
@@ -113,7 +158,7 @@ CLAIM
 
 A stale claim must not silently overwrite a newer verified execution.
 
-## 8. Contradiction / Supersession
+## 9. Contradiction / Supersession
 
 Durable contradictions must be resolved through:
 
@@ -129,7 +174,9 @@ DETECT
 
 Historical evidence remains discoverable; obsolete authority does not remain ambiguous.
 
-## 9. Cold-Naya Acceptance Contract
+A protected decision may change only through an explicit supersession record containing the old decision, reason, new decision, authority, impact, and verification.
+
+## 10. Cold-Naya Acceptance Contract
 
 A cold Naya must independently recover:
 
@@ -140,13 +187,17 @@ WHERE
 AUTHORITY
 PROTECTED
 CURRENT STATE
+REJECTED
 CURRENT GAP
+NEXT DELTA
 NEXT ACTION
 PROOF METHOD
 HANDOFF METHOD
 ```
 
-Then execute one low-risk repository task and leave a verified handoff.
+For NayaNET E02, the current continuity ledger is:
+
+`SUPERBRAIN/NAYANET-E02-CURRENT-STATE.md`
 
 Acceptance:
 
@@ -154,7 +205,7 @@ Acceptance:
 RESTORE → IDENTIFY → EXECUTE → TEST → VERIFY → RECORD → HANDOFF
 ```
 
-## 10. Completion Law
+## 11. Completion Law
 
 A block is not complete because code exists.
 
@@ -172,10 +223,26 @@ DOCUMENTED
 INTEGRATED
 ```
 
-## 11. Project Adapter Rule
+Continuity is part of completion: the resulting current state must be recorded so the next Naya can continue without rediscovery.
+
+## 12. Project Adapter Rule
 
 Project repositories should keep their own canonical Mission State and product architecture.
 
 NayaPOWER supplies the execution grammar; the project supplies the product truth.
 
 This prevents the Superbrain from becoming a second source of truth for MAXIS, NayaNET, or any future governed product.
+
+## 13. Continuity Principle
+
+The objective is not merely preserving code. It is preserving **earned human intent**.
+
+Human approvals, corrections, discoveries, rejected patterns, design judgments, and verification evidence are project state.
+
+Naya must reduce repeated explanation, not increase it.
+
+> **The human directs the work. The intelligence system carries the continuity.**
+
+Every successor Naya leaves the system more intelligent, more coherent, and more complete than she found it — without destroying what was already earned.
+
+**Progress must compound.** 🔱☀️
