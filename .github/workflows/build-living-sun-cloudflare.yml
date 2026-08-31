@@ -1,0 +1,29 @@
+name: Build Living Sun Cloudflare Upload
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Create standalone Cloudflare ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd E02-LIVING-SUN-HUB
+          zip -j ../NAYANET-LIVING-SUN-CLOUDFLARE.zip index.html _headers
+      - name: Upload standalone ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: NAYANET-LIVING-SUN-CLOUDFLARE
+          path: NAYANET-LIVING-SUN-CLOUDFLARE.zip
+          if-no-files-found: error
