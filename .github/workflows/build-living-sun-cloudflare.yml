@@ -15,15 +15,26 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+      - name: Verify current NayaNET release source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html
+          test -s NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/_headers
       - name: Create standalone Cloudflare ZIP
         shell: bash
         run: |
           set -euo pipefail
-          cd E02-LIVING-SUN-HUB
-          zip -j ../NAYANET-LIVING-SUN-CLOUDFLARE.zip index.html _headers
+          cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
+          zip -j ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip index.html _headers
+      - name: Verify exact ZIP contents
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | sort | tr '\n' ' ')" = "_headers index.html "
       - name: Upload standalone ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: NAYANET-LIVING-SUN-CLOUDFLARE
-          path: NAYANET-LIVING-SUN-CLOUDFLARE.zip
+          name: NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE
+          path: NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
           if-no-files-found: error
