@@ -1,6 +1,9 @@
 name: Build Cloudflare Upload ZIP
 
 on:
+  push:
+    branches:
+      - nayanet/living-sun-hub-v2
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
@@ -18,7 +21,7 @@ jobs:
           test "$(find CLOUDFLARE-LIVING-SUN -maxdepth 1 -type f | wc -l)" -eq 2
           grep -q "LIVING INTELLIGENCE" CLOUDFLARE-LIVING-SUN/index.html
           grep -q "Compounding Intelligence System" CLOUDFLARE-LIVING-SUN/index.html
-          grep -q "What Is Naya Power" CLOUDFLARE-LIVING-SUN/index.html || grep -q "WHAT IS NAYA POWER" CLOUDFLARE-LIVING-SUN/index.html
+          grep -q "WHAT IS NAYA POWER" CLOUDFLARE-LIVING-SUN/index.html
       - name: Package Cloudflare artifact
         run: |
           cd CLOUDFLARE-LIVING-SUN
