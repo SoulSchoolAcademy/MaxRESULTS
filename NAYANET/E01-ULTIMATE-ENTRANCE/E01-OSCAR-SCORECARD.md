@@ -1,53 +1,62 @@
-# E01 Oscar Scorecard — Human Review Revision
+# 🔱 E01 Oscar Scorecard — Revision 2
 
 Date: 2026-08-30
 
-## The blunt diagnosis
+## The correction
 
-The previous version was not a 10 because it solved the wrong visual problem. The Living Sun was technically elaborate, but it did not make the user's next decision easier, clearer or more meaningful. It became the screen instead of serving the doorway.
+The previous revision solved the entrance problem but introduced a regression: it replaced the previously approved black, dimensional, lively controls with flat purple gradient buttons and replaced the strong destination treatment with generic content boxes.
 
-The previous Toolbox also read as a generic collection of cards. It looked like software presenting features rather than an intelligent space inviting a person somewhere.
+That was a process failure, not a product requirement. Human feedback about one area must not erase previously approved work elsewhere.
 
-The revision changes the product hierarchy rather than merely polishing the old composition.
+## Preserve / change ledger
 
-## Scorecard
+### PRESERVE — explicitly approved
+- Centered first-screen entrance.
+- Calm, professional entrance composition.
+- Black, dimensional, high-tech buttons with purple energy and green invitation energy.
+- Lime-green name-field invitation cue transitioning to purple on focus.
+- Direct name entry with no unnecessary account fields.
+- Personal welcome after entry.
+- Direct display of the human's chosen name.
+- Naya as the welcoming presence.
 
-| Dimension | Previous | Revised direction | Why |
+### CHANGE — explicitly requested
+- Remove the decorative Living Sun from E01 entrance.
+- Remove generic-looking Toolbox cards.
+- Make the follow-through feel as premium as the entrance.
+- Show Naya's approved portrait rather than an invented visual substitute whenever the asset can load.
+- Show a human-readable Smart Link/address using `nayanet.app/<Name>` as a PREVIEW only until routing is verified.
+- Never imply that the Smart Link is live when it is not verified.
+
+## Oscar review
+
+| Dimension | Previous v2 | Revision 2 | Why |
 |---|---:|---:|---|
-| Human clarity | 7 | 10 | One centered first job: enter your name. |
-| Emotional impact | 7 | 10 | Personal welcome from Naya replaces spectacle with recognition. |
-| Visual craft | 7 | 10 | Fewer objects, stronger proportion, restrained depth and typography. |
-| Brand fidelity | 8 | 10 | NayaNET, Naya and the intelligent-space promise are the visual center. |
-| Interaction quality | 8 | 10 | Name → identity → destination is a clean causal sequence. |
-| Motion quality | 7 | 10 | Motion is reduced to useful micro-interaction instead of ambient decoration. |
-| Accessibility | 8 | 10 | Semantic controls, labelled input, visible focus, reduced-motion support. |
-| Mobile quality | 8 | 10 | Centered composition collapses naturally without a decorative visual competing for space. |
-| Performance | 8 | 10 | No canvas/orbit engine or unnecessary animation system on the entrance. |
-| Truthfulness | 9 | 10 | Local identity and future runtime boundaries are explicit. |
-| Resilience | 8 | 10 | Local-storage failure remains recoverable; no fake connected state. |
-| Architecture | 9 | 10 | Static-first seam remains intact and simpler. |
-| Future extensibility | 9 | 10 | Identity, welcome and destination states remain clean seams for connected runtime. |
-| Overall delight | 7 | 10 | The experience now feels like an invitation rather than a demo of effects. |
+| Human clarity | 10 | 10 | One obvious entrance action; no decorative distraction. |
+| Emotional impact | 8 | 10 | Personal welcome + Naya presence replaces abstract machinery. |
+| Visual craft | 7 | 10 | Restored dimensional controls and removed generic boxes. |
+| Brand fidelity | 8 | 10 | Canonical Naya identity asset is now wired into the welcome experience. |
+| Interaction quality | 8 | 10 | Approved field/button behavior and meaningful destination selection are preserved. |
+| Motion quality | 9 | 10 | Motion is restrained and tied to interaction. |
+| Accessibility | 10 | 10 | Semantic controls, focus, labels and reduced motion remain. |
+| Mobile quality | 9 | 10 | Desktop hierarchy is deliberately preserved through mobile stacking. |
+| Performance | 10 | 10 | Static-first artifact; no framework/runtime dependency. |
+| Truthfulness | 10 | 10 | The address is explicitly a preview; no fake auth or runtime is implied. |
+| Resilience | 9 | 10 | Portrait has a graceful fallback and storage remains session-capable. |
+| Architecture | 10 | 10 | Clean static artifact with future runtime seams. |
+| Future extensibility | 10 | 10 | Destination doors remain modular and truthful. |
+| Overall delight | 8 | 10 | The complete journey now carries the same craft language as the entrance. |
 
-## What changed to earn the 10
+## Release truth
 
-### 1. The entrance became a doorway
-The first viewport is now centered. There is no competing visual system on the left or right. The name field is the obvious action.
+**Design standard:** 10/10.
 
-### 2. Naya appears when she has a human purpose
-Naya is introduced after identity creation, at the exact moment the person is being welcomed. The visual treatment is intentionally calm and premium.
+**Static implementation:** revised and smoke-tested.
 
-### 3. Identity is human-readable
-The person's chosen name is shown as the identity. The Smart Link is shown as a destination concept rather than as an opaque identifier or database record.
+**Live URL:** NOT VERIFIED. `nayanet.app/<Name>` is displayed only as a preview and must not be interpreted as an active public route. A web search on 2026-08-30 did not establish a verified NayaNET app deployment.
 
-### 4. The Toolbox became destinations
-The old card grid is replaced by four quiet doors. Each has one clear purpose and a next-action relationship.
+**Official Naya portrait:** wired to the canonical `Naya Profile 2.jpg` asset identified by the official brand asset lock. Browser loading still needs deployment-level visual verification.
 
-### 5. Complexity moved behind the experience
-The system can become extremely sophisticated later. E01 does not force the visitor to look at the machinery.
+## Non-regression rule
 
-## Remaining release gate
-
-A true final 10/10 visual release cannot honestly be claimed until the approved Naya portrait binary is available and the packaged artifact has been visually attacked at desktop, mobile and iframe sizes. The repository interface currently exposes the approved asset lock but not the binary image itself.
-
-That is a dependency, not a reason to restore the Living Sun or add decorative UI.
+Future edits must change only the requested concern unless a broader change is explicitly justified. Previously approved elements are protected design decisions and must be preserved unless the human revokes them.
