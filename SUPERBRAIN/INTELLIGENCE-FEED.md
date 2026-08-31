@@ -18,6 +18,31 @@ It is **not** a replacement for the canonical Note Event store and is not a seco
 
 ---
 
+## 2026-08-31 — NayaNET Human Capability + Maximum Impact became governing product doctrine
+
+**Status:** LOCKED DOCTRINE / IMPLEMENTATION NEXT
+
+**Canonical event:** `SN-20260831-NAYANET-HUMAN-CAPABILITY-IMPACT`
+
+**Intelligence gained:** NayaNET is explicitly governed as a HUMAN CAPABILITY AMPLIFIER. Its purpose is to maximize positive human impact through smart systems designed intelligently: extraordinary to experience while remaining push-button simple, effective, helpful, real, useful, and impactful. Human Impact is the ultimate outcome; Human Capability is the primary mechanism. The human is the Center, Naya is the Living Sun and guide, and the Intelligent Hub must turn intent into clarity, action, verification, memory, compounding, contribution, and impact.
+
+**Core law:** `NayaNET → HUMAN CAPABILITY → ACTION → CHANGE → IMPACT`
+
+**Experience law:** `CENTER → FLOW → EXPANSION → DISCOVERY → INFINITY`
+
+**Capability loop:** `INTENT → UNDERSTAND → DISCOVER → LEARN → CREATE → CONNECT → ACT → VERIFY → REMEMBER → COMPOUND → CONTRIBUTE → IMPACT`
+
+**Human principle:** Complexity belongs in the system. Simplicity belongs with the human. Usefulness comes before spectacle. Truth comes before hype.
+
+**Canonical artifacts:**
+- `SUPERBRAIN/NAYANET-HUMAN-CAPABILITY-IMPACT-CONSTITUTION.md`
+- `SUPERBRAIN/MASTER-NOTES/SN-20260831-NAYANET-HUMAN-CAPABILITY-IMPACT.md`
+- `.naya/memory/events/2026/08/31/16/SN-20260831-NAYANET-HUMAN-CAPABILITY-IMPACT.json`
+
+**Next action:** Build and validate the first real NayaNET Front Door + Intelligent Hub vertical slice from authoritative NayaPOWER context; reconcile the Master Object Map and actual E02 source; establish Naya as the Living Sun; deploy through the authorized Cloudflare path; experience, critique, fix, verify, and only then deliver the actual final Cloudflare ZIP.
+
+---
+
 ## 2026-08-30 — Intelligent Hub connection architecture became first-class
 
 **Status:** CONTRACTS ESTABLISHED / IMPLEMENTATION NEXT
