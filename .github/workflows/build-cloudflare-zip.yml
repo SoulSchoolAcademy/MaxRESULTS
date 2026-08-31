@@ -21,3 +21,4 @@ jobs:
           name: NAYANET-LIVING-SUN-CLOUDFLARE
           path: NAYANET-LIVING-SUN-CLOUDFLARE.zip
           if-no-files-found: error
+# Standalone deployment artifact: index.html + _headers only.
