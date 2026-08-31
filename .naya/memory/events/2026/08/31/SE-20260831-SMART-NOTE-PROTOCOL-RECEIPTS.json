@@ -1,0 +1,20 @@
+{
+  "event_id": "SE-20260831-SMART-NOTE-PROTOCOL-RECEIPTS",
+  "date": "2026-08-31",
+  "event_type": "smart_note_protocol_correction",
+  "summary": "Human identified that Smart Note requests must execute the complete established delivery contract and always return receipts.",
+  "required_outputs": [
+    "Shawn Note",
+    "Naya Note",
+    "Machine Note",
+    "Intelligent Feed update",
+    "PIS update",
+    "Direct Smart Links",
+    "Exact receipts",
+    "Verification boundary"
+  ],
+  "source_of_truth": "MASTER-NOTES/INTELLIGENCE-FEED/2026-08-30-SMART-NOTE-DELIVERY-TEACHING.md",
+  "source_commit": "3af7f8da537a447221b086e32422c0f72a2db91d",
+  "lesson": "A useful project note is not equivalent to a completed Smart Note operation.",
+  "next_action": "Use the canonical Smart Note protocol for every future substantive Smart Note/Naya Note request and provide receipts in the response."
+}
