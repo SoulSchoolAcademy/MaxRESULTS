@@ -9,6 +9,44 @@ Create a beautiful, privacy-first Intelligent Hub through which a human can conn
 
 > **Connect the Superbrain. Preserve sovereignty. Contribute wisdom. Compound intelligence.**
 
+## NayaNET Level 1 integration contract
+
+**CANONICAL:** `SUPERBRAIN/NAYANET-LEVEL-1-IDENTITY-HUB-COMMUNICATION-PSI-CONTRACTS.md`
+
+NayaNET Level 1 is the intelligence-first product/network layer around the Intelligent Hub. It defines the semantic contracts for:
+
+- canonical NayaNET Identity;
+- private real identity vs network-facing Smart Name/Alias;
+- Smart Link, Intelligent Hub ID, Smart Mail ID, and ambassador attribution as derived identity projections;
+- personal Naya sovereignty and cross-Naya boundaries;
+- Human↔Naya, Human↔Human, Naya↔Naya, and multi-Naya Intelligence Spaces;
+- canonical Note Event usage;
+- Intelligent Feed as a distribution/projection surface rather than memory authority;
+- PSI as the intelligence authority/projection layer where established by NayaPOWER;
+- authorized collective propagation;
+- privacy, provenance, authorization, idempotency, and truth boundaries;
+- the Level 1 scope boundary excluding media/social publishing infrastructure by default.
+
+This contract is intentionally an integration layer. Existing NayaPOWER canonical Note Event, Smart Notes/CIS, Intelligent Hub, and Collective Intelligence contracts remain authoritative for their specific implementation schemas.
+
+### Identity law
+
+> **One canonical identity → multiple authorized representations.**
+
+A user's private real name is never the default network identity. The Smart Name/Alias is the default network-facing identity. Smart Link, Intelligent Hub ID, Smart Mail ID, and ambassador attribution derive from the same canonical identity and must not become competing identities.
+
+### Intelligence law
+
+> **ONE SMART NOTE ACTION → ONE CANONICAL EVENT → MULTIPLE AUTOMATIC PROJECTIONS.**
+
+Human, Naya, Machine, Intelligent Feed, PSI, and collective representations are projections/consequences of the canonical event, not independent memory silos. Downstream failure must not create a duplicate canonical event.
+
+### Level 1 product law
+
+> **NayaNET Level 1 connects, preserves, organizes, exchanges, and compounds intelligence. It does not require a media-sharing network.**
+
+Public image/video publishing may be introduced as a later NayaNET level without becoming a Level 1 dependency.
+
 ## Architecture decision
 
 The Intelligent Hub is a first-class NayaPOWER system. Its stable interfaces are defined before the Hub UI so Naya Power Player, MAXIS, future Superbrains, and the Collective can integrate without rebuilding the foundation.
