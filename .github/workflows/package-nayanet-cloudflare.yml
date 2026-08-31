@@ -1,0 +1,39 @@
+name: Package NayaNET Cloudflare Artifact
+
+on:
+  push:
+    branches: ["nayanet/living-intelligence-final-execution"]
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify release files
+        run: |
+          set -euo pipefail
+          test -s NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html
+          test -s NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/_headers
+          test "$(find NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE -maxdepth 1 -type f | wc -l)" -eq 2
+          grep -q "NayaNET" NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html
+          grep -q "Living Intelligence" NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html
+          grep -q "Smart ID" NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html
+          grep -q "Daily Intelligence" NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html
+          grep -q "ChatGPT vs Naya" NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html
+          grep -q "Five-Day Challenge" NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html
+      - name: Build exact Cloudflare ZIP
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          cp NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html release/index.html
+          cp NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/_headers release/_headers
+          (cd release && zip -X ../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip index.html _headers)
+          unzip -l NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
+      - name: Upload Cloudflare ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE
+          path: NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
+          if-no-files-found: error
