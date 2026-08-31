@@ -1,83 +1,79 @@
-# 🔱 NayaNET E01 — Identity Doorway
+# NayaNET E01 — Elite Doorway v3
 
-**Status:** IMPLEMENTED / STATIC-FIRST REVIEW BUILD
-**Architecture:** NayaNET Level 1 Identity + Intelligent Hub + Communication + Smart Note/PSI compatible
+**Review build:** NayaNET Level 1 — The Intelligent Doorway.
 
-## Purpose
+## Intent
 
-E01 is the first real doorway into NayaNET. It intentionally does not attempt to build the whole network. It establishes the human journey:
+E01 is intentionally built as an **app-like doorway**, not a marketing webpage. The human moves through focused rooms without page reloads:
 
-`SEE NAYA → ENTER NAME → CREATE/REVEAL NETWORK IDENTITY → ENTER INTELLIGENT HUB → DISCOVER FIRST EXPERIENCES`
+1. **Doorway** — Welcome to NayaNET → enter name.
+2. **Identity** — private real name + editable Smart Name.
+3. **Reveal** — Smart Name + Smart Link representation, explicitly marked Preview.
+4. **Intelligent Hub** — personal Naya + first truthful experiences.
+5. **Naya Power** — verified introduction video + five-day challenge navigation.
 
-The experience is built against the canonical NayaNET Level 1 contract: one canonical identity with private and network-facing representations, a private-by-default Intelligent Hub, personal Naya, scoped future communication, and compatibility with the existing Note Event / PSI architecture.
+The approved entrance is preserved as the emotional anchor: deep black, minimal copy, lime-edged name input, and a physically dimensional black Naya button.
 
-## Included experience
+## The button system
 
-1. **Door** — Welcome to NayaNET, name-first entry, dimensional controls.
-2. **Identity** — private real name + editable Smart Name, Smart Link preview.
-3. **Reveal** — Smart Name + Smart Link preview and Hub handoff.
-4. **Intelligent Hub** — minimal personal Naya space and truthful first-experience choices.
-5. **MAXESS handoff** — honest destination boundary; no fabricated score.
-6. **Naya Power** — supplied introduction video embedded from YouTube privacy-enhanced mode.
-7. **Five-Day Challenge** — canonical Day 1–5 lesson structure and outcomes, with an in-session “what day did you feel Naya Power?” interaction.
+The primary Naya button is intentionally engineered as a physical control rather than a flat rectangle:
 
-## Truth boundaries
+- layered black body
+- lower physical shadow/edge
+- restrained purple underglow
+- internal highlight
+- hover elevation
+- press compression
+- focus ring
+- active-state icon energy
+- pointer ripple
+- reduced-motion support
 
-This is a static-first review artifact. The following are deliberately **not** claimed as live:
+The visual target is **rich black + electric lime + controlled Naya purple**, with purple used as energy rather than as the page background.
 
-- persistent production account/authentication;
-- production identity database record;
-- provisioned Smart Link route;
-- Smart Mail address;
-- live communication;
-- live Naya memory backend;
-- PSI ingestion;
-- MAXESS scoring/runtime;
-- server-side Five-Day Challenge progress.
+## Identity contract
 
-The browser creates a temporary review identity state and explicitly labels the Smart Link as **Preview · not provisioned**.
+The review build establishes the conceptual architecture:
 
-## Privacy invariant
+`ONE CANONICAL NAYANET IDENTITY → AUTHORIZED REPRESENTATIONS`
 
-The entered real name is treated as private identity data. After the identity step, network-facing views use the Smart Name. E01 does not expose the real name in the reveal, Hub, MAXESS handoff, Naya Power, or challenge views.
+The private real name is kept separate from the network-facing Smart Name. The Hub and network-facing surfaces use the Smart Name.
 
-## Smart Note / PSI compatibility
+This build is **session-local**. It does not claim production account persistence, database writes, live Smart Link provisioning, Smart Mail, ambassador attribution, profile routing, PSI ingestion, or Naya-to-Naya communication.
 
-E01 does not create a competing note store or memory object. It is only an experience layer over the canonical Note Event architecture. No Smart Note, Feed publication, PSI update, or collective propagation is claimed by this static build.
+## Naya Power contract
 
-## Media
-
-The Naya Power introduction is the user-supplied reference video:
+The embedded introduction is the exact video reference supplied for the build:
 
 `https://www.youtube.com/watch?v=wnjvDqEhBCY`
 
-The five-day lesson titles and outcomes are derived from the canonical `5 Day Challenge` repository material. No unverified individual lesson-video URLs are invented.
+The five-day navigation follows the repository's canonical challenge material:
 
-## Embedding
+- Day 1 — Meet Naya
+- Day 2 — Think With Naya
+- Day 3 — Start CIS
+- Day 4 — Master Excellence
+- Day 5 — Compound Your Life
 
-The artifact is static HTML/CSS/JS and does not require a framework or Wrangler. It is suitable for a static host and can be embedded in a parent experience. No postMessage contract is introduced because E01 has no demonstrated parent/child messaging requirement yet.
+Only the introduction video is treated as connected. Individual lesson-video URLs are intentionally not invented.
 
-## Accessibility
+## Smart Note / PSI compatibility
 
-- semantic headings, sections, forms, buttons and tablist semantics;
-- labelled name fields;
-- keyboard-operable controls;
-- visible focus states;
-- live status messages for validation and the in-session Day selection;
-- no state conveyed by color alone;
-- reduced-motion support via `prefers-reduced-motion`;
-- responsive touch-friendly controls.
+E01 does not create a competing memory model. It remains compatible with the canonical architecture:
 
-## Review entry point
+`Human experience → Smart Note action → one canonical Note Event → Human/Naya/Machine projections → Intelligent Feed → PSI → authorized propagation`
 
-Open `index.html` directly. No build step is required.
+## External assets
 
-## Evidence classification
+The official Naya icon and Naya portrait are loaded from the canonical repository assets at runtime. This review artifact keeps the source references rather than duplicating binary assets locally. YouTube is an external media dependency.
 
-- **DESIGNED:** E01 architecture and visual system alignment.
-- **IMPLEMENTED:** complete static interaction flow in `index.html`.
-- **TESTED:** static/syntax checks in `tests/smoke-test.sh`.
-- **VERIFIED:** repository content and code inspection performed during this execution.
-- **DEPLOYED:** not claimed.
-- **GROOVE-VERIFIED:** not claimed.
-- **PRODUCTION-PROVEN:** not claimed.
+## Review states
+
+- **AVAILABLE / CONNECTED:** Naya Power introduction video.
+- **PREVIEW:** Smart Link representation.
+- **COMING NEXT:** MAXESS assessment handoff.
+- **NOT CLAIMED:** production persistence, mail, PSI ingestion, Naya-to-Naya communication, individual lesson media.
+
+## Local review
+
+Open `index.html` in a modern browser. Internet access is needed for the official Naya assets and YouTube embed.
