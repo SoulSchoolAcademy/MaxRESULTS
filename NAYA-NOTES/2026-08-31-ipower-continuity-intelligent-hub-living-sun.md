@@ -3,43 +3,78 @@
 **Date:** 2026-08-31  
 **State:** IMPLEMENTED / CURRENT CONTINUITY
 
-Naya Power continuity now recognizes the NayaNET Intelligent Hub as a real implemented experience layer, not only a concept.
+Naya Power continuity now recognizes the NayaNET Living Intelligence Front Door + Intelligent Hub as a real implemented experience layer, not only a concept.
 
 ## Implementation receipt
 
 Authoritative repository:
 `SoulSchoolAcademy/NayaPOWER`
 
-Experience:
-`NAYANET/E02-INTELLIGENT-HUB/index.html`
+Current experience:
+`NAYANET/E02-INTELLIGENT-HUB-AAA/index.html`
+
+Cloudflare deployment artifact:
+`NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/`
+
+Artifact contract:
+- `index.html` at root
+- `_headers` at root
+- exactly two files in the artifact directory
 
 Implementation commit:
-`f56533d84f7861928ef749690cbe43107c93b829`
+`00db2c958b71a36f6d5180b5547e96fc94ed6a92`
 
-## What this means
+Cloudflare packaging commit:
+`657f1de9087cbe72eb3f3c61239c5a6ca041a9af`
 
-The Hub is the bridge between NayaNET identity and the network's worlds. Naya / the Living Sun is the center; orbital destinations expose the ecosystem; the persistent identity rail keeps Smart Name, Smart ID, Smart Link, Smart Mail and Naya Power visible.
+## Master Object Map reconciliation
 
-The first implementation is deliberately static-first and Cloudflare-compatible. It creates the experience layer without inventing a backend voice or knowledge service that has not yet been connected and verified.
+The build was reconciled against the 2026-08-31 NayaNET Intelligent Universe Master Object Map before implementation.
 
-## Naya Power relationship
+The implementation preserves the authoritative relationship:
 
-Naya Power is represented as a foundational identity jewel and as a primary NayaNET destination. The Hub's purpose is to make Naya Power feel like an intelligence system people enter and use, not merely a course or webpage.
+**NAYA = THE LIVING SUN**  
+**NAYANET = THE ENVIRONMENT**  
+**INTELLIGENCE OBJECTS = THE WORLDS / STARS / ORBITING KNOWLEDGE**
+
+Object count remains open. Meaning drives geometry. Priority drives spatial emphasis.
+
+## What was built
+
+- cinematic front-door arrival
+- name-only threshold entry
+- local identity continuity for the experience
+- Naya Living Sun center
+- generated object registry
+- priority-driven spatial hierarchy
+- inner / middle / outer / vision worlds
+- center-stage world viewer
+- WHAT / WHY / HOW / DO / CONNECT / STATUS mini-report contract
+- Ask Naya local navigation shell
+- searchable universe
+- explicit truth/status boundaries
+- responsive constellation mode
+- keyboard/focus support
+- reduced-motion support
+- mobile touch-oriented world cards
+- CSS-first spatial rendering with restrained motion
 
 ## Truth boundary
 
-The current E02 page honestly distinguishes live routing from conceptual network worlds. Naya Power Academy is wired to its verified live destination. MAXIS and the other network worlds are represented without fabricated production URLs. TALK TO NAYA and LISTEN TO NAYA are visible interaction surfaces, while the actual knowledge/voice bridge remains a future verified connection.
+The Hub does not claim a backend voice, live Naya knowledge service, authentication, GitHub connection, persistence beyond the local browser identity, or network capability merely because a world is visible.
 
-## Continuity references
+MAXIS is the currently verified external destination represented in the artifact: `https://aiscore.nayanet.app/`.
 
-- Master concept: `NAYA-NOTES/2026-08-31-intelligent-hub-living-sun-master-concept.md`
-- Note Event: `NAYA-NOTES/2026-08-31-note-event-intelligent-hub-living-sun.md`
-- Intelligent Feed: `NAYA-NOTES/2026-08-31-intelligent-feed-intelligent-hub-living-sun.md`
-- Smart Node: `NAYA-NOTES/2026-08-31-smart-node-intelligent-hub-living-sun.md`
-- Naya Node: `NAYA-NOTES/2026-08-31-naya-node-intelligent-hub-living-sun.md`
-- Shawn Node: `NAYA-NOTES/2026-08-31-shawn-node-intelligent-hub-living-sun.md`
-- Machine Node: `NAYA-NOTES/2026-08-31-machine-node-intelligent-hub-living-sun.md`
+Other worlds remain explanation, mapped, future/build, or integration-dependent until their authoritative runtime evidence is connected.
+
+## Continuity chain
+
+This implementation continues the existing:
+
+`BUILD → COMMIT → VERIFICATION → NOTE EVENT → INTELLIGENT FEED → NAYA POWER CONTINUITY`
+
+Evidence already exists in the preceding Note Event, Intelligent Feed, Smart Node, Naya Node, Shawn Node and Machine Node artifacts. This receipt updates the Naya Power continuity layer with the new implementation and Cloudflare artifact commits.
 
 ## Next move
 
-Review the real E02 experience visually. Then connect the verified MAXIS route and the real Naya knowledge/voice bridge. Preserve the Academy and the existing NayaNET experience while expanding the network one verified world at a time.
+The next meaningful step is human review of the actual experience in a browser. Then fix every meaningful sub-10 finding before adding deeper runtime integrations. Production deployment must be verified through the connected Cloudflare control plane; this repository build does not pretend that deployment occurred merely because the artifact exists.
