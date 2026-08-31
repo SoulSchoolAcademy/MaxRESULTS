@@ -11,14 +11,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Verify deployment artifact
+        run: |
+          test -f CLOUDFLARE-LIVING-SUN/index.html
+          test -f CLOUDFLARE-LIVING-SUN/_headers
+          test "$(find CLOUDFLARE-LIVING-SUN -maxdepth 1 -type f | wc -l)" -eq 2
+          grep -q "LIVING INTELLIGENCE" CLOUDFLARE-LIVING-SUN/index.html
+          grep -q "Compounding Intelligence System" CLOUDFLARE-LIVING-SUN/index.html
+          grep -q "What Is Naya Power" CLOUDFLARE-LIVING-SUN/index.html || grep -q "WHAT IS NAYA POWER" CLOUDFLARE-LIVING-SUN/index.html
       - name: Package Cloudflare artifact
         run: |
-          cd E02-LIVING-SUN-HUB
-          zip -j ../NAYANET-LIVING-SUN-CLOUDFLARE.zip index.html _headers
+          cd CLOUDFLARE-LIVING-SUN
+          zip -j ../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip index.html _headers
+      - name: Verify ZIP contents
+        run: |
+          test "$(unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | wc -l)" -eq 2
+          unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | grep -qx 'index.html'
+          unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | grep -qx '_headers'
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: NAYANET-LIVING-SUN-CLOUDFLARE
-          path: NAYANET-LIVING-SUN-CLOUDFLARE.zip
+          name: NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE
+          path: NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
           if-no-files-found: error
-# Standalone deployment artifact: index.html + _headers only.
+# Locked Cloudflare deployment artifact: root contains ONLY index.html + _headers.
