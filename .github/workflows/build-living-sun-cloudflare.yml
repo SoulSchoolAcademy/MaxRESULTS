@@ -1,8 +1,11 @@
 name: Build Living Sun Cloudflare Upload
 
 on:
+  push:
+    branches: [main]
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -11,10 +14,8 @@ jobs:
   package:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout exact PR head
+      - name: Checkout exact source
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
       - name: Verify current NayaNET release source
         shell: bash
         run: |
