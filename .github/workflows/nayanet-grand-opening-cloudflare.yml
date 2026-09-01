@@ -1,0 +1,61 @@
+name: NayaNET Grand Opening Cloudflare Build
+
+on:
+  push:
+    branches: [nayanet-grand-opening-build-20260831]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout authoritative NayaPOWER
+        uses: actions/checkout@v4
+
+      - name: Evolve the real E02 experience
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          p = Path('NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html')
+          s = p.read_text()
+          premium_css = r'''\n/* NAYANET GRAND OPENING EXPERIENCE PASS — additive, non-destructive */
+#app::before{content:"";position:absolute;inset:-15%;z-index:1;pointer-events:none;background:conic-gradient(from 0deg at 50% 50%,transparent 0 12%,rgba(169,107,255,.055) 16%,transparent 25%,rgba(98,167,255,.045) 36%,transparent 48%,rgba(255,84,199,.04) 61%,transparent 74%,rgba(255,216,106,.035) 86%,transparent);filter:blur(32px);animation:grand-aurora 38s linear infinite;mix-blend-mode:screen}.topbar,.screen{z-index:2}@keyframes grand-aurora{to{transform:rotate(360deg)}}
+.hub-shell{background:radial-gradient(circle at 50% 50%,rgba(169,107,255,.22),transparent 19%),radial-gradient(circle at 50% 48%,rgba(98,167,255,.09),transparent 34%),radial-gradient(circle at 50% 52%,rgba(255,84,199,.07),transparent 47%),linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.008));box-shadow:0 55px 150px rgba(0,0,0,.72),inset 0 1px rgba(255,255,255,.12),inset 0 0 80px rgba(169,107,255,.035)}
+.hub-shell::before{content:"";position:absolute;inset:7%;border-radius:50%;border:1px solid rgba(255,255,255,.045);box-shadow:0 0 120px rgba(169,107,255,.08),inset 0 0 100px rgba(169,107,255,.035);pointer-events:none;animation:grand-breathe 7s ease-in-out infinite}.hub-shell::after{content:"";position:absolute;left:50%;top:50%;width:72%;height:72%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.035),transparent 58%);filter:blur(3px);pointer-events:none}@keyframes grand-breathe{50%{transform:scale(1.015);opacity:.8}}
+.ring{animation:orbit-slow 28s linear infinite}.ring:nth-child(2){animation-duration:36s}.ring:nth-child(3){animation-duration:44s;animation-direction:reverse}.ring:nth-child(4){animation-duration:52s}@keyframes orbit-slow{to{transform:rotateX(64deg) rotateZ(360deg)}}
+.ray{animation:ray-breathe 5s ease-in-out infinite}.ray:nth-child(2){animation-delay:-1.25s}.ray:nth-child(3){animation-delay:-2.5s}.ray:nth-child(4){animation-delay:-3.75s}@keyframes ray-breathe{50%{opacity:.9;filter:brightness(1.8)}}
+.node{isolation:isolate;background:radial-gradient(circle at 32% 19%,rgba(255,255,255,.55) 0 2%,rgba(255,255,255,.14) 5%,transparent 18%),radial-gradient(circle at 65% 68%,color-mix(in srgb,var(--accent) 52%,transparent),rgba(7,5,15,.93) 57%,rgba(3,2,8,.98) 74%);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 2px 5px rgba(255,255,255,.22),inset 0 -16px 28px rgba(0,0,0,.34),0 0 0 1px rgba(255,255,255,.025),0 0 36px color-mix(in srgb,var(--accent) 30%,transparent),0 20px 60px rgba(0,0,0,.62);animation:node-float 6s ease-in-out infinite}.node:nth-child(2n){animation-delay:-1.4s;animation-duration:7s}.node:nth-child(3n){animation-delay:-2.7s;animation-duration:8s}.node:nth-child(4n){animation-delay:-3.6s;animation-duration:6.8s}.node::before{inset:6%;border:1px solid color-mix(in srgb,var(--accent) 48%,transparent);box-shadow:inset 0 0 18px color-mix(in srgb,var(--accent) 20%,transparent),0 0 18px color-mix(in srgb,var(--accent) 16%,transparent)}.node::after{inset:-24%;opacity:.72;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 28%,transparent) 0,transparent 62%);filter:blur(5px)}.node .glyph{font-size:25px;color:#fff;text-shadow:0 0 8px #fff,0 0 28px color-mix(in srgb,var(--accent) 65%,transparent);transform:translateY(-1px)}.node .label{font-size:8.5px;text-shadow:0 1px 12px #000}.node .group{opacity:.8}@keyframes node-float{0%,100%{margin-top:0}50%{margin-top:-4px}}
+.node:hover,.node:focus-visible{filter:saturate(1.25) brightness(1.1);box-shadow:inset 0 2px 5px rgba(255,255,255,.28),inset 0 -18px 30px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.06),0 0 65px color-mix(in srgb,var(--accent) 55%,transparent),0 28px 70px rgba(0,0,0,.62)}.node.active{filter:saturate(1.4) brightness(1.16);box-shadow:inset 0 2px 5px rgba(255,255,255,.3),inset 0 -18px 30px rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.08),0 0 90px color-mix(in srgb,var(--accent) 70%,transparent),0 30px 80px rgba(0,0,0,.66)}
+#naya{filter:drop-shadow(0 25px 50px rgba(0,0,0,.45))}.naya-halo{inset:-72%;background:radial-gradient(circle,rgba(255,216,106,.18),rgba(169,107,255,.3) 17%,rgba(169,107,255,.1) 38%,transparent 68%);filter:blur(22px);animation:naya-sun-breathe 5.5s ease-in-out infinite}.naya-core{inset:15%;background:radial-gradient(circle at 48% 36%,#fff 0 3%,#fff8d0 6%,#ffd86a 12%,#ffb52f 19%,rgba(169,107,255,.92) 36%,rgba(112,57,255,.42) 54%,transparent 75%);box-shadow:0 0 45px rgba(255,216,106,.72),0 0 105px rgba(169,107,255,.5),0 0 190px rgba(169,107,255,.2);animation:naya-sun-breathe 4.8s ease-in-out infinite}.naya-ring{border-color:rgba(255,255,255,.25);box-shadow:0 0 55px rgba(169,107,255,.16) inset,0 0 30px rgba(255,255,255,.05)}.naya-pulse{border-color:rgba(255,216,106,.22)}@keyframes naya-sun-breathe{50%{transform:scale(1.035);filter:brightness(1.12)}}
+.panel{border-color:rgba(255,255,255,.2);background:radial-gradient(circle at 80% 0%,rgba(169,107,255,.18),transparent 35%),linear-gradient(155deg,rgba(26,19,44,.98),rgba(5,4,10,.985));box-shadow:0 45px 140px rgba(0,0,0,.75),0 0 100px rgba(169,107,255,.12),inset 0 1px rgba(255,255,255,.16)}.panel::before{content:"";position:absolute;inset:1px;border-radius:27px;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.07),transparent 30%,transparent 70%,rgba(169,107,255,.05));mix-blend-mode:screen}.panel-close{box-shadow:inset 0 1px rgba(255,255,255,.12),0 8px 22px rgba(0,0,0,.25)}.cta{min-height:54px;border-radius:16px;background:linear-gradient(135deg,rgba(169,107,255,.55),rgba(104,51,255,.28) 52%,rgba(255,84,199,.2));border-color:rgba(238,223,255,.75);box-shadow:inset 0 1px rgba(255,255,255,.28),0 16px 38px rgba(0,0,0,.35),0 0 35px rgba(169,107,255,.14)}.cta.secondary{background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border-color:rgba(255,255,255,.16)}.facet{background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.018));border-color:rgba(255,255,255,.12);box-shadow:inset 0 1px rgba(255,255,255,.06)}
+.dock{border-color:rgba(255,255,255,.18);background:linear-gradient(145deg,rgba(18,14,29,.86),rgba(5,4,10,.82));box-shadow:0 22px 70px rgba(0,0,0,.62),0 0 40px rgba(169,107,255,.08),inset 0 1px rgba(255,255,255,.1)}.dock-btn{transition:.3s var(--ease)}.dock-btn.primary{background:linear-gradient(135deg,rgba(169,107,255,.5),rgba(255,84,199,.22));border:1px solid rgba(238,223,255,.18);box-shadow:inset 0 1px rgba(255,255,255,.16),0 0 28px rgba(169,107,255,.12)}
+@media(prefers-reduced-motion:reduce){#app::before,.ring,.ray,.node,.naya-halo,.naya-core{animation:none!important}.hub-shell::before{animation:none!important}}
+'''
+          if 'NAYANET GRAND OPENING EXPERIENCE PASS' not in s:
+              s=s.replace('</style>', premium_css+'\n</style>',1)
+          p.write_text(s)
+          PY
+
+      - name: Create Cloudflare package
+        run: |
+          mkdir -p /tmp/nayanet-package
+          cp NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html /tmp/nayanet-package/index.html
+          cat > /tmp/nayanet-package/_headers <<'EOF'
+          /*
+            X-Content-Type-Options: nosniff
+            Referrer-Policy: strict-origin-when-cross-origin
+            Permissions-Policy: camera=(), microphone=(), geolocation=()
+          EOF
+          cd /tmp/nayanet-package
+          zip -q /tmp/NayaNET-Grand-Opening-Cloudflare.zip index.html _headers
+          unzip -l /tmp/NayaNET-Grand-Opening-Cloudflare.zip
+
+      - name: Upload Cloudflare ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: NayaNET-Grand-Opening-Cloudflare
+          path: /tmp/NayaNET-Grand-Opening-Cloudflare.zip
+          if-no-files-found: error
+          retention-days: 14
