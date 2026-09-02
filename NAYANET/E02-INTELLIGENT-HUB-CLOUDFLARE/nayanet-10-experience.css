@@ -2,7 +2,6 @@
    The current elite visual system is intentionally kept as the implementation
    module so the release contract has one stable stylesheet address.
 */
-@import url('/nayanet-10-experience.css');
 @import url('/nayanet-elite.css');
 @import url('/nayanet-mobile-overflow.css');
 @import url('/nayanet-intelligence-feed.css');
