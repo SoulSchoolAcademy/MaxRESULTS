@@ -18,11 +18,11 @@ jobs:
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
-          for f in index.html nayanet-10-experience.css nayanet-elite.css nayanet-mobile-overflow.css nayanet-intelligence-feed.css nayanet-living-entrance.css nayanet-app-experience-polish.css nayanet-10.js naya-data.js nayanet-intelligence-feed.js powercasts.json _headers 404.html worker.js wrangler.jsonc; do test -s "$f"; done
+          for f in index.html nayanet-10-experience.css nayanet-elite.css nayanet-mobile-overflow.css nayanet-intelligence-feed.css nayanet-living-entrance.css nayanet-app-experience-polish.css nayanet-visual-reconstruction.css nayanet-visual-final.css nayanet-experience-rebuild.css nayanet-elite-execution.css nayanet-entrance-command.css nayanet-10.js naya-data.js nayanet-intelligence-feed.js powercasts.json _headers 404.html worker.js wrangler.jsonc; do test -s "$f"; done
           grep -Fq 'href="/nayanet-10-experience.css"' index.html
           grep -Fq 'src="/naya-data.js"' index.html
           ! grep -Fq 'src="/nayanet-10.js"' index.html
-          for css in nayanet-elite.css nayanet-mobile-overflow.css nayanet-intelligence-feed.css nayanet-living-entrance.css nayanet-app-experience-polish.css; do grep -Fq "@import url('/$css');" nayanet-10-experience.css; done
+          for css in nayanet-elite.css nayanet-mobile-overflow.css nayanet-intelligence-feed.css nayanet-living-entrance.css nayanet-app-experience-polish.css nayanet-visual-reconstruction.css nayanet-visual-final.css nayanet-experience-rebuild.css nayanet-elite-execution.css nayanet-entrance-command.css; do grep -Fq "@import url('/$css');" nayanet-10-experience.css; done
           node --check nayanet-10.js
           node --check naya-data.js
           node --check nayanet-intelligence-feed.js
@@ -52,7 +52,7 @@ jobs:
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
           rm -rf release-package
           mkdir -p release-package/public
-          cp index.html nayanet-10-experience.css nayanet-elite.css nayanet-mobile-overflow.css nayanet-intelligence-feed.css nayanet-living-entrance.css nayanet-app-experience-polish.css nayanet-10.js naya-data.js nayanet-intelligence-feed.js powercasts.json _headers 404.html release-package/public/
+          cp index.html nayanet-10-experience.css nayanet-elite.css nayanet-mobile-overflow.css nayanet-intelligence-feed.css nayanet-living-entrance.css nayanet-app-experience-polish.css nayanet-visual-reconstruction.css nayanet-visual-final.css nayanet-experience-rebuild.css nayanet-elite-execution.css nayanet-entrance-command.css nayanet-10.js naya-data.js nayanet-intelligence-feed.js powercasts.json _headers 404.html release-package/public/
           cp worker.js wrangler.jsonc release-package/
           cat > release-package/DEPLOY.md <<'EOF'
           # NayaNET Cloudflare Worker Release
@@ -76,9 +76,10 @@ jobs:
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
           test -s release-package/public/index.html
           test -s release-package/public/nayanet-app-experience-polish.css
+          test -s release-package/public/nayanet-entrance-command.css
           test -s release-package/worker.js
           test -s release-package/wrangler.jsonc
-          test "$(find release-package/public -maxdepth 1 -type f | wc -l | tr -d ' ')" -ge 13
+          test "$(find release-package/public -maxdepth 1 -type f | wc -l | tr -d ' ')" -ge 14
           cd release-package
           zip -qr ../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip .
           cd ..
