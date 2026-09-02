@@ -239,3 +239,51 @@ For every sub-10 finding, either:
 1. repair it now when within authority and scope;
 2. intentionally accept it and document why;
 3. prove it is irrelevant to the objective.
+
+## 11. 🔱☀️ NAYANET NORTH-STAR BUILD LAW — MANDATORY
+
+For **all NayaNET work**, activate and obey `.naya/NAYANET-NORTH-STAR-BUILD-LAW.md` before conceptual or implementation decisions.
+
+> **NAYANET IS NOT A REFACTOR. NAYANET IS A NORTH-STAR BUILD.**
+
+The NayaNET North-Star Build Law establishes the product/experience authority for NayaNET. Its governing hierarchy is:
+
+**1. NayaNET North Star / Product Vision** — what the experience must be.  
+**2. Locked Design + Product Laws** — how it must feel, behave, communicate, and function.  
+**3. Build Directives / Quality / QA Gates** — how it must be built and verified.  
+**4. Existing Repository** — what may be reused, learned from, salvaged, adapted, replaced, or deleted.  
+**5. Existing Deployed Application** — evidence only; never conceptual authority.
+
+Therefore, a NayaNET builder MUST NOT treat the existing application as the conceptual starting point. The builder must first ask:
+
+> **“If NayaNET did not exist yet, and we were given this mission today, what would we build?”**
+
+Then build that.
+
+The existing repository is an **asset library, archaeological record, and engineering substrate**. It is not the conceptual constraint. Existing implementation has no authority merely because it already exists, is familiar, is difficult to replace, was previously approved, or is currently deployed.
+
+When evaluating existing work:
+
+- **KEEP** what is excellent, aligned, useful, maintainable, and proven.
+- **ADAPT** what has valuable underlying capability but needs a better implementation or experience.
+- **REPLACE** what materially prevents or weakens the North-Star experience.
+- **DELETE** what is obsolete, contradictory, unnecessary, unsafe, or historical baggage.
+- **INVESTIGATE** what cannot responsibly be classified from available evidence.
+
+### NAYANET NORTH-STAR ACCEPTANCE GATE
+
+NayaNET is not complete merely because the old application was modified successfully or technical requirements pass.
+
+The final experience must pass this human recognition test:
+
+> **“If Shawn had never seen the old app, and we showed him the finished NayaNET for the first time, would he immediately recognize: YES. This is what I have been trying to explain.”**
+
+If the answer is not an unequivocal **YES**, the NayaNET experience is not finished.
+
+The mandatory execution posture is:
+
+**NORTH STAR FIRST → DESIGN LAWS → BUILD/QA LAWS → REPOSITORY ARCHAEOLOGY → ASSET MAPPING → FIRST-PRINCIPLES BUILD → NORTH-STAR VERIFICATION → REPAIR → VERIFY → ACCEPT/REJECT.**
+
+**Do not let archaeology become architecture.**
+
+This law is binding for NayaNET work unless a later, explicitly governed canonical artifact supersedes it.
