@@ -1,0 +1,122 @@
+name: NayaNET Browser Runtime QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/**'
+      - '.github/workflows/nayanet-browser-runtime-qa.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/**'
+      - '.github/workflows/nayanet-browser-runtime-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-runtime:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright
+        working-directory: .
+        run: npm exec --yes --package=@playwright/test playwright install --with-deps chromium
+
+      - name: Start static server
+        working-directory: .
+        run: |
+          python3 -m http.server 4173 --directory NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE >/tmp/nayanet-http.log 2>&1 &
+          echo $! >/tmp/nayanet-http.pid
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:4173/index.html >/dev/null && exit 0; sleep 1; done
+          cat /tmp/nayanet-http.log
+          exit 1
+
+      - name: Run browser smoke and interaction contract
+        working-directory: .
+        run: |
+          cat > /tmp/nayanet-runtime.spec.js <<'JS'
+          const { test, expect } = require('@playwright/test');
+
+          test.use({ baseURL: 'http://127.0.0.1:4173', viewport: { width: 1440, height: 1000 } });
+
+          test('front door renders and entry is functional', async ({ page }) => {
+            const errors = [];
+            page.on('pageerror', e => errors.push(String(e)));
+            await page.goto('/index.html', { waitUntil: 'networkidle' });
+            await expect(page.locator('#frontDoor')).toBeVisible();
+            await expect(page.locator('#nameInput')).toBeVisible();
+            await expect(page.locator('#entryForm button[type="submit"]')).toBeVisible();
+            await page.locator('#nameInput').fill('Runtime Tester');
+            await page.locator('#entryForm').evaluate(form => form.requestSubmit());
+            await expect(page.locator('#hub')).toBeVisible({ timeout: 10000 });
+            await expect(page.locator('#frontDoor')).toBeHidden();
+            expect(errors, errors.join('\n')).toEqual([]);
+          });
+
+          test('hub renders nine worlds and power player', async ({ page }) => {
+            await page.goto('/index.html', { waitUntil: 'networkidle' });
+            await page.evaluate(() => localStorage.clear());
+            await page.reload({ waitUntil: 'networkidle' });
+            await page.locator('#nameInput').fill('Runtime Tester');
+            await page.locator('#entryForm').evaluate(form => form.requestSubmit());
+            await expect(page.locator('#hub')).toBeVisible({ timeout: 10000 });
+            await expect(page.locator('#worldMap .world')).toHaveCount(9);
+            await expect(page.locator('#castGrid .cast')).toHaveCount(18);
+            await expect(page.locator('#audio')).toBeAttached();
+            await expect(page.locator('#seek')).toHaveAttribute('role', 'slider');
+          });
+
+          test('world navigation, Smart ID, note and challenge controls work', async ({ page }) => {
+            await page.goto('/index.html', { waitUntil: 'networkidle' });
+            await page.evaluate(() => localStorage.clear());
+            await page.reload({ waitUntil: 'networkidle' });
+            await page.locator('#nameInput').fill('Runtime Tester');
+            await page.locator('#entryForm').evaluate(form => form.requestSubmit());
+            await expect(page.locator('#hub')).toBeVisible({ timeout: 10000 });
+
+            await page.locator('[data-world="2"]').first().click();
+            await expect(page.locator('#worldView')).toBeVisible();
+            await expect(page.locator('#worldContent')).toContainText('SMART ID');
+            await page.locator('#returnToSun').click();
+            await expect(page.locator('#hub')).toBeVisible();
+
+            await page.locator('[data-world="3"]').first().click();
+            await page.locator('#destinationNote').fill('Browser QA note');
+            await page.locator('[data-action="note"]').click();
+            await expect(page.locator('#noteHistory')).toContainText('Browser QA note');
+            await page.locator('#returnToSun').click();
+
+            await page.locator('[data-world="6"]').first().click();
+            await page.locator('#challengeGoal').fill('Browser QA goal');
+            await page.locator('[data-action="goal"]').click();
+            await expect(page.locator('#challengeGoal')).toHaveValue('Browser QA goal');
+          });
+
+          test('responsive layouts have no horizontal overflow', async ({ page }) => {
+            for (const viewport of [{width: 390, height: 844}, {width: 768, height: 1024}, {width: 1440, height: 1000}]) {
+              await page.setViewportSize(viewport);
+              await page.goto('/index.html', { waitUntil: 'networkidle' });
+              const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+              expect(overflow, `horizontal overflow at ${viewport.width}px`).toBeLessThanOrEqual(1);
+            }
+          });
+          JS
+          npm exec --yes --package=@playwright/test playwright test /tmp/nayanet-runtime.spec.js --reporter=line
+
+      - name: Stop static server
+        if: always()
+        working-directory: .
+        run: kill "$(cat /tmp/nayanet-http.pid 2>/dev/null)" 2>/dev/null || true
