@@ -2,6 +2,8 @@
 /* Canonical E02 runtime only. */
 /nayanet-10-experience.css
   Cache-Control: public, max-age=31536000, immutable
+/nayanet-elite.css
+  Cache-Control: public, max-age=31536000, immutable
 /nayanet-10.js
   Cache-Control: public, max-age=31536000, immutable
 /naya-data.js
