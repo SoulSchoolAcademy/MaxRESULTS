@@ -60,8 +60,8 @@ jobs:
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
-          rm -f ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
-          zip -j ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip \
+          rm -f NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
+          zip -j NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip \
             index.html nayanet-10-experience.css nayanet-10.js naya-data.js powercasts.json _headers 404.html
       - name: Verify exact ZIP contents
         shell: bash
@@ -69,12 +69,12 @@ jobs:
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
           expected="404.html _headers index.html naya-data.js nayanet-10-experience.css nayanet-10.js powercasts.json "
-          actual="$(unzip -Z1 ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | sort | tr '\n' ' ')"
+          actual="$(unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | sort | tr '\n' ' ')"
           test "$actual" = "$expected"
-          unzip -t ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
+          unzip -t NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
       - name: Upload standalone ZIP
         uses: actions/upload-artifact@v4
         with:
           name: NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE
-          path: NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
+          path: NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
           if-no-files-found: error
