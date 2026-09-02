@@ -29,6 +29,7 @@ jobs:
           node --check worker.js
           node --check naya-data.js
           node --check nayanet-10.js
+          node --check nayanet-intelligence-feed.js
           node - <<'NODE'
           const fs=require('fs');
           const casts=JSON.parse(fs.readFileSync('powercasts.json','utf8'));
@@ -38,6 +39,7 @@ jobs:
           grep -Fq '"main": "worker.js"' wrangler.jsonc
           grep -Fq '"directory": "./public"' wrangler.jsonc
           grep -Fq '"binding": "ASSETS"' wrangler.jsonc
+          grep -Fq 'nayanet-elite-execution.css' nayanet-10-experience.css
 
       - name: Assemble exact Worker release package
         shell: bash
@@ -45,12 +47,13 @@ jobs:
           set -euo pipefail
           rm -rf release-package
           mkdir -p release-package/public
-          cp index.html nayanet-10-experience.css nayanet-elite.css nayanet-mobile-overflow.css nayanet-intelligence-feed.css nayanet-living-entrance.css nayanet-app-experience-polish.css nayanet-10.js naya-data.js nayanet-intelligence-feed.js powercasts.json _headers 404.html release-package/public/
+          cp index.html *.css *.js powercasts.json _headers 404.html release-package/public/
           cp worker.js wrangler.jsonc release-package/
           test -s release-package/public/index.html
           test -s release-package/worker.js
           test -s release-package/wrangler.jsonc
-          test "$(find release-package/public -maxdepth 1 -type f | wc -l | tr -d ' ')" -ge 13
+          test "$(find release-package/public -maxdepth 1 -type f | wc -l | tr -d ' ')" -ge 15
+          for f in nayanet-10-experience.css nayanet-elite-execution.css nayanet-visual-reconstruction.css nayanet-visual-final.css nayanet-experience-rebuild.css nayanet-elite.css nayanet-mobile-overflow.css nayanet-intelligence-feed.css nayanet-living-entrance.css nayanet-app-experience-polish.css nayanet-10.js naya-data.js nayanet-intelligence-feed.js powercasts.json; do test -s "release-package/public/$f"; done
 
       - name: Deploy exact commit to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
