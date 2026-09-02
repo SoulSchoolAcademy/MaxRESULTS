@@ -1,1 +1,157 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#05030a"><title>NayaNET — Create. Connect. Grow with US.</title><meta name="description" content="NayaNET — the intelligent network where humans and AI connect, create, and grow together."><link rel="preconnect" href="https://drive.google.com"><link rel="stylesheet" href="/nayanet-10-experience.css"></head><body><div class="cosmos" aria-hidden="true"><div class="aurora a1"></div><div class="aurora a2"></div><div class="aurora a3"></div><div class="starfield" id="starfield"></div></div><main id="app"><section id="frontDoor" class="door-scene" aria-label="Enter NayaNET"><header class="top-brand"><span class="brand-mark">N</span><strong>NayaNET</strong><span>THE INTELLIGENT NETWORK</span></header><div class="portal-stage"><div class="portal-art" aria-hidden="true"><div class="portal-rings"></div><div class="portal-light"></div><div class="portal-eye"><i></i></div></div><div class="door-copy"><p class="eyebrow">INTELLIGENT INTERNET BEGINS HERE</p><h1>Naya<span>NET</span></h1><p class="hero-line">Create. Connect. Grow <em>with US.</em></p><p class="hero-sub">A living intelligent network where humans and AI connect, create, and grow together.</p><form id="entryForm" class="entry-form"><label for="nameInput">YOUR SMART ID</label><div class="entry-control"><input id="nameInput" name="name" autocomplete="name" placeholder="Enter your name" required maxlength="80"><button type="submit">ENTER NayaNET <span>→</span></button></div><small><b>●</b> Your name is your first identity. Your intelligence remains yours.</small></form></div></div><section class="intro-doors" aria-label="Inside NayaNET"><button data-preview="naya"><span>01</span><b>Naya Power</b><small>Your personal intelligence system</small></button><button data-preview="brain"><span>02</span><b>Super Brain</b><small>Your private intelligence context</small></button><button data-preview="identity"><span>03</span><b>Smart Identity</b><small>Your name, ID, link and mail</small></button><button data-preview="player"><span>04</span><b>Power Player</b><small>18 ideas · one living story</small></button><button data-preview="network"><span>05</span><b>Your Intelligence</b><small>Connect by permission</small></button></section><div class="door-footer"><span>THE INTERNET CONNECTED INFORMATION</span><b>NayaNET CONNECTS INTELLIGENCE</b></div></section><section id="hub" class="hub-scene" aria-label="NayaNET Intelligent Hub" hidden><header class="hub-header"><button id="hubBrand" class="hub-brand" aria-label="Return to NayaNET"><span class="brand-mark">N</span><strong>NayaNET</strong></button><div class="identity-status"><i></i><span id="userName">CONNECTED</span><small>PRIVATE INTELLIGENCE</small></div><button id="askNaya" class="naya-command" aria-label="Ask Naya what to do"><span>◉</span><b>ASK NAYA</b></button></header><div class="hub-stage" id="hubStage"><div class="sun-aura" aria-hidden="true"><span></span><span></span><span></span></div><div class="orbit orbit-outer" aria-hidden="true"></div><div class="orbit orbit-inner" aria-hidden="true"></div><div class="energy energy-1" aria-hidden="true"></div><div class="energy energy-2" aria-hidden="true"></div><div class="energy energy-3" aria-hidden="true"></div><div id="worldMap" class="world-map" aria-label="Nine NayaNET worlds"></div><button id="nayaCore" class="naya-core" aria-label="Focus the Naya Power Player"><span class="naya-field"></span><span class="naya-iris"><i></i><b>NAYA</b></span><span class="naya-state">YOUR INTELLIGENCE PARTNER</span></button><div class="sun-caption"><span>LIVING SUN</span><b>One intelligent network.</b><small id="welcomeLine">You’re in.</small></div></div><section id="player" class="power-player" aria-label="Naya Power Player"><div class="player-art"><img id="playerImage" alt="Current Powercast artwork"></div><div class="player-info"><div class="player-meta"><span>NOW PLAYING</span><i></i><small>POWERCAST <b id="playerNumber">01</b></small></div><h2 id="playerTitle">WHAT IS NAYA POWER</h2><p id="playerSubtitle">A new way to work with intelligence</p><div class="waveform" id="waveform" aria-hidden="true"></div><div class="timeline"><span id="elapsed">0:00</span><button id="seek" aria-label="Seek in Powercast"><i id="seekFill"></i></button><span id="length">0:00</span></div></div><div class="player-actions"><button id="prevCast" aria-label="Previous Powercast">‹</button><button id="playCast" class="play-button" aria-label="Play Powercast">▶</button><button id="nextCast" aria-label="Next Powercast">›</button></div></section><section class="world-strip"><div><span>NINE WORLDS</span><h2>Explore your intelligent network.</h2></div><p>Touch a world. Enter it. Return with context.</p></section><section id="worldCards" class="world-cards" aria-label="NayaNET worlds"></section><section class="story"><header><div><span>THE STORY OF NAYA POWER</span><h2>18 Powercasts</h2></div><p>Listen, learn, capture what matters.<br><b>Let intelligence compound.</b></p></header><div id="castGrid" class="cast-grid"></div></section></section><section id="worldView" class="world-view" aria-label="NayaNET world destination" hidden><header class="world-header"><button id="returnToSun" class="return-button">← <span>RETURN TO NAYA</span></button><div id="worldHeaderLabel">WORLD 01</div><button id="worldAsk" class="naya-command"><span>◉</span><b>ASK NAYA</b></button></header><div id="worldContent" class="world-content"></div></section><aside id="miniPlayer" class="mini-player" aria-label="Persistent Power Player"><img id="miniImage" alt=""><div><small>POWER PLAYER</small><b id="miniTitle">WHAT IS NAYA POWER</b></div><button id="miniPlay" aria-label="Play or pause">▶</button><button id="miniNext" aria-label="Next Powercast">›</button></aside><div id="toast" role="status" aria-live="polite"></div><audio id="audio" preload="metadata"></audio></main><script src="/naya-data.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#05030a">
+  <meta name="color-scheme" content="dark">
+  <title>NayaNET — Create. Connect. Grow with US.</title>
+  <meta name="description" content="NayaNET — the intelligent network where humans and AI connect, create, and grow together.">
+  <link rel="preconnect" href="https://drive.google.com">
+  <link rel="stylesheet" href="/nayanet-10-experience.css">
+</head>
+<body>
+  <div class="cosmos" aria-hidden="true">
+    <div class="cosmic-grid"></div>
+    <div class="aurora a1"></div><div class="aurora a2"></div><div class="aurora a3"></div>
+    <div class="starfield" id="starfield"></div>
+  </div>
+
+  <main id="app">
+    <!-- FRONT DOOR -->
+    <section id="frontDoor" class="door-scene" aria-label="Enter NayaNET">
+      <header class="top-brand">
+        <span class="brand-mark" aria-hidden="true">N</span>
+        <strong>NayaNET</strong>
+        <span>THE INTELLIGENT NETWORK</span>
+      </header>
+
+      <div class="door-layout">
+        <div class="door-copy">
+          <p class="eyebrow"><span></span> INTELLIGENT INTERNET BEGINS HERE</p>
+          <h1>Naya<span>NET</span></h1>
+          <p class="hero-line">Create. Connect. Grow <em>with US.</em></p>
+          <p class="hero-sub">A living intelligent network where humans and AI connect, create, learn and grow together — with your intelligence remaining yours.</p>
+
+          <form id="entryForm" class="entry-form">
+            <label for="nameInput">YOUR SMART ID</label>
+            <div class="entry-control">
+              <input id="nameInput" name="name" autocomplete="name" placeholder="Enter your name" required maxlength="80">
+              <button type="submit">ENTER NayaNET <span>↗</span></button>
+            </div>
+            <small><b>●</b> Your name is your first identity. Your intelligence remains yours.</small>
+          </form>
+        </div>
+
+        <div class="portal-art" aria-hidden="true">
+          <div class="portal-orbit p1"></div><div class="portal-orbit p2"></div><div class="portal-orbit p3"></div>
+          <div class="portal-light"></div>
+          <div class="portal-eye"><i></i><b>NAYA</b></div>
+          <div class="portal-label">A DIFFERENT KIND OF INTERNET</div>
+        </div>
+      </div>
+
+      <section class="intro-doors" aria-label="What is inside NayaNET">
+        <button data-preview="naya"><span>01</span><b>Naya Power</b><small>Your personal intelligence partner</small><i>↗</i></button>
+        <button data-preview="brain"><span>02</span><b>Super Brain</b><small>Context that compounds with you</small><i>↗</i></button>
+        <button data-preview="identity"><span>03</span><b>Smart Identity</b><small>Your name, ID, link and presence</small><i>↗</i></button>
+        <button data-preview="player"><span>04</span><b>Power Player</b><small>18 ideas. One living story.</small><i>↗</i></button>
+        <button data-preview="network"><span>05</span><b>Your Intelligence</b><small>Connect by permission</small><i>↗</i></button>
+      </section>
+
+      <div class="door-footer">
+        <span>THE INTERNET CONNECTED INFORMATION</span>
+        <b>NayaNET CONNECTS INTELLIGENCE</b>
+        <span>CREATE · CONNECT · GROW</span>
+      </div>
+    </section>
+
+    <!-- INTELLIGENT HUB -->
+    <section id="hub" class="hub-scene" aria-label="NayaNET Intelligent Hub" hidden>
+      <header class="hub-header">
+        <button id="hubBrand" class="hub-brand" aria-label="Return to NayaNET">
+          <span class="brand-mark" aria-hidden="true">N</span><strong>NayaNET</strong>
+        </button>
+        <div class="hub-location"><span>INTELLIGENT HUB</span><i></i><b>ONE NETWORK · MANY WORLDS</b></div>
+        <div class="hub-right">
+          <div class="identity-status"><i></i><span id="userName">CONNECTED</span><small>PRIVATE INTELLIGENCE</small></div>
+          <button id="askNaya" class="naya-command" aria-label="Ask Naya what to do"><span>◉</span><b>ASK NAYA</b></button>
+        </div>
+      </header>
+
+      <div class="hub-intro">
+        <div><span>YOU'RE IN.</span><h1>Your intelligence,<br><em>in one place.</em></h1></div>
+        <p>Naya is here to help you notice what matters, make the next move, capture what you learn and let it compound.</p>
+      </div>
+
+      <div class="hub-stage" id="hubStage">
+        <div class="sun-aura" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="orbit orbit-outer" aria-hidden="true"></div><div class="orbit orbit-inner" aria-hidden="true"></div>
+        <div class="energy energy-1" aria-hidden="true"></div><div class="energy energy-2" aria-hidden="true"></div><div class="energy energy-3" aria-hidden="true"></div>
+        <div class="hub-axis" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div id="worldMap" class="world-map" aria-label="Nine NayaNET worlds"></div>
+        <button id="nayaCore" class="naya-core" aria-label="Focus the Naya Power Player">
+          <span class="naya-field"></span><span class="naya-iris"><i></i><b>NAYA</b></span>
+          <span class="naya-state">YOUR INTELLIGENCE PARTNER</span>
+        </button>
+        <div class="sun-caption"><span>LIVING SUN</span><b>One intelligent network.</b><small id="welcomeLine">You’re in.</small></div>
+      </div>
+
+      <section class="hub-bridge" aria-label="How NayaNET works">
+        <div><span>THE LOOP</span><b>Experience becomes intelligence.</b></div>
+        <div class="bridge-flow"><i>NOTICE</i><span>→</span><i>UNDERSTAND</i><span>→</span><i>ACT</i><span>→</span><i>CAPTURE</i><span>→</span><i>COMPOUND</i></div>
+      </section>
+
+      <section id="player" class="power-player" aria-label="Naya Power Player">
+        <div class="player-art"><img id="playerImage" alt="Current Powercast artwork"></div>
+        <div class="player-info">
+          <div class="player-meta"><span>NOW PLAYING</span><i></i><small>POWERCAST <b id="playerNumber">01</b></small></div>
+          <h2 id="playerTitle">WHAT IS NAYA POWER</h2>
+          <p id="playerSubtitle">A new way to work with intelligence</p>
+          <div class="waveform" id="waveform" aria-hidden="true"></div>
+          <div class="timeline"><span id="elapsed">0:00</span><button id="seek" aria-label="Seek in Powercast"><i id="seekFill"></i></button><span id="length">0:00</span></div>
+        </div>
+        <div class="player-actions">
+          <button id="prevCast" aria-label="Previous Powercast">‹</button>
+          <button id="playCast" class="play-button" aria-label="Play Powercast">▶</button>
+          <button id="nextCast" aria-label="Next Powercast">›</button>
+        </div>
+      </section>
+
+      <section class="world-strip">
+        <div><span>NINE WORLDS</span><h2>Everything connects back to Naya.</h2></div>
+        <p>Touch a world. Enter it.<br>Return with context.</p>
+      </section>
+      <section id="worldCards" class="world-cards" aria-label="NayaNET worlds"></section>
+
+      <section class="story">
+        <header>
+          <div><span>THE STORY OF NAYA POWER</span><h2>18 Powercasts</h2></div>
+          <p>Listen. Learn. Capture what matters.<br><b>Let intelligence compound.</b></p>
+        </header>
+        <div id="castGrid" class="cast-grid"></div>
+      </section>
+    </section>
+
+    <!-- WORLD DESTINATION -->
+    <section id="worldView" class="world-view" aria-label="NayaNET world destination" hidden>
+      <header class="world-header">
+        <button id="returnToSun" class="return-button">← <span>RETURN TO NAYA</span></button>
+        <div id="worldHeaderLabel">WORLD 01</div>
+        <button id="worldAsk" class="naya-command"><span>◉</span><b>ASK NAYA</b></button>
+      </header>
+      <div id="worldContent" class="world-content"></div>
+    </section>
+
+    <aside id="miniPlayer" class="mini-player" aria-label="Persistent Power Player">
+      <img id="miniImage" alt="">
+      <div><small>POWER PLAYER</small><b id="miniTitle">WHAT IS NAYA POWER</b></div>
+      <button id="miniPlay" aria-label="Play or pause">▶</button><button id="miniNext" aria-label="Next Powercast">›</button>
+    </aside>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <audio id="audio" preload="metadata"></audio>
+  </main>
+
+  <script src="/naya-data.js"></script>
+</body>
+</html>
