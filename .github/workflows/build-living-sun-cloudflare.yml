@@ -22,11 +22,12 @@ jobs:
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
-          for file in index.html nayanet-10-experience.css nayanet-10.js naya-data.js powercasts.json _headers 404.html; do test -s "$file"; done
+          for file in index.html nayanet-10-experience.css nayanet-elite.css nayanet-10.js naya-data.js powercasts.json _headers 404.html; do test -s "$file"; done
           grep -Fq 'href="/nayanet-10-experience.css"' index.html
           grep -Fq 'src="/naya-data.js"' index.html
           ! grep -Fq 'src="/nayanet-10.js"' index.html
           grep -Fq 'const RUNTIME_SRC = "/nayanet-10.js"' naya-data.js
+          grep -Fq '@import url('\''/nayanet-elite.css'\'');' nayanet-10-experience.css
           ! grep -Fq 'href="/styles.css"' index.html
           ! grep -Fq 'src="/app.js"' index.html
           ! grep -Fq 'src="/naya-runtime.js"' index.html
@@ -64,20 +65,29 @@ jobs:
           from pathlib import Path
           html=Path('index.html').read_text(encoding='utf-8')
           data=Path('naya-data.js').read_text(encoding='utf-8')
+          css=Path('nayanet-10-experience.css').read_text(encoding='utf-8')
+          elite=Path('nayanet-elite.css').read_text(encoding='utf-8')
           required=['/nayanet-10-experience.css','/naya-data.js']
           missing=[x for x in required if x not in html]
           if missing: raise SystemExit('Missing canonical shell references: '+', '.join(missing))
           if '/nayanet-10.js' in html: raise SystemExit('Runtime must boot after persistence hydration; direct runtime script is obsolete')
           if 'const RUNTIME_SRC = "/nayanet-10.js"' not in data: raise SystemExit('Persistence bridge does not own canonical runtime boot')
-          for path in ['index.html','nayanet-10-experience.css','nayanet-10.js','naya-data.js','powercasts.json','_headers','404.html']:
+          if '@import url(\'/nayanet-elite.css\');' not in css: raise SystemExit('Canonical stylesheet does not import elite visual system')
+          if not elite.strip(): raise SystemExit('Elite visual system is empty')
+          for path in ['index.html','nayanet-10-experience.css','nayanet-elite.css','nayanet-10.js','naya-data.js','powercasts.json','_headers','404.html']:
             p=Path(path)
             if not p.is_file() or p.stat().st_size==0: raise SystemExit('Missing asset: '+path)
           headers=Path('_headers').read_text(encoding='utf-8')
           for stale in ['/styles.css','/compat.css','/app.js','/naya-runtime.js','/naya-experience.js','/naya-final.js']:
             if stale in headers: raise SystemExit('Stale asset remains in _headers: '+stale)
-          for canonical in ['/nayanet-10-experience.css','/nayanet-10.js','/naya-data.js','/powercasts.json']:
+          for canonical in ['/nayanet-10-experience.css','/nayanet-elite.css','/nayanet-10.js','/naya-data.js','/powercasts.json']:
             if canonical not in headers: raise SystemExit('Canonical asset missing from _headers: '+canonical)
-          print('Canonical hydrated HTML/assets/headers: OK')
+          required_ids=['frontDoor','entryForm','nameInput','hub','hubBrand','userName','askNaya','hubStage','nayaCore','worldMap','player','playerImage','playerNumber','playerTitle','playerSubtitle','waveform','seek','seekFill','elapsed','length','prevCast','playCast','nextCast','worldCards','castGrid','worldView','returnToSun','worldHeaderLabel','worldContent','worldAsk','miniPlayer','miniImage','miniTitle','miniPlay','miniNext','toast','audio']
+          missing_ids=[i for i in required_ids if f'id="{i}"' not in html]
+          if missing_ids: raise SystemExit('Missing required DOM IDs: '+', '.join(missing_ids))
+          for required in ['role="slider"','aria-valuemin="0"','aria-valuemax="100"','aria-valuenow="0"','aria-live="polite"']:
+            if required not in html: raise SystemExit('Missing accessibility contract: '+required)
+          print('Canonical hydrated HTML/assets/headers/DOM/accessibility: OK')
           PY
 
       - name: Create exact standalone Cloudflare ZIP
@@ -87,14 +97,14 @@ jobs:
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
           rm -f NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
           zip -j NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip \
-            index.html nayanet-10-experience.css nayanet-10.js naya-data.js powercasts.json _headers 404.html
+            index.html nayanet-10-experience.css nayanet-elite.css nayanet-10.js naya-data.js powercasts.json _headers 404.html
 
       - name: Prove exact release artifact
         shell: bash
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
-          expected="404.html _headers index.html naya-data.js nayanet-10-experience.css nayanet-10.js powercasts.json "
+          expected="404.html _headers index.html naya-data.js nayanet-10-experience.css nayanet-10.js nayanet-elite.css powercasts.json "
           actual="$(unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | sort | tr '\n' ' ')"
           test "$actual" = "$expected"
           unzip -t NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
