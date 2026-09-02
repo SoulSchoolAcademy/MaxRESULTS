@@ -6,15 +6,21 @@
   const NAME = 'nayanetName';
   const LEGACY = 'nayanet_name';
   const STATE = 'nayanet:intelligence:v1';
+  const frontDoor = document.getElementById('frontDoor');
   const form = document.getElementById('entryForm');
   const input = document.getElementById('nameInput');
-  if (!form || !input) return;
+  if (!frontDoor || !form || !input) return;
 
   const clean = value => String(value || '').replace(/\s+/g, ' ').trim().slice(0, 80);
   const portal = form.querySelector('.portal-input');
   const button = form.querySelector('button[type="submit"]');
   const saved = clean(localStorage.getItem(NAME) || localStorage.getItem(LEGACY));
   if (saved) input.value = saved;
+
+  const setEnvironmentState = state => {
+    frontDoor.dataset.nnState = state;
+    frontDoor.setAttribute('data-state', state);
+  };
 
   const syncState = () => {
     const name = clean(input.value);
@@ -24,12 +30,19 @@
       button.disabled = !ready;
       button.setAttribute('aria-disabled', String(!ready));
     }
+    if (!ready) setEnvironmentState('idle');
+    else if (document.activeElement === input) setEnvironmentState('active');
+    else setEnvironmentState('ready');
   };
 
+  input.addEventListener('focus', () => {
+    setEnvironmentState(clean(input.value) ? 'active' : 'active');
+  });
   input.addEventListener('input', () => {
     const name = clean(input.value);
     if (portal) portal.dataset.state = name ? 'active' : 'idle';
     syncState();
+    if (name) setEnvironmentState('active');
   });
   input.addEventListener('blur', syncState);
   syncState();
@@ -49,6 +62,7 @@
     } catch (_) {}
 
     document.body.classList.add('nayanet-entering');
+    setEnvironmentState('entering');
     if (portal) portal.dataset.state = 'entering';
     if (button) {
       button.setAttribute('aria-busy', 'true');
