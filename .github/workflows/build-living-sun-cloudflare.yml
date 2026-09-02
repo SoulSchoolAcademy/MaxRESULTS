@@ -21,19 +21,19 @@ jobs:
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
-          for file in index.html styles.css compat.css app.js living.js powercasts.json _headers 404.html; do test -s "$file"; done
+          for file in index.html styles.css living.css compat.css app.js living.js powercasts.json _headers 404.html; do test -s "$file"; done
       - name: Create complete standalone Cloudflare ZIP
         shell: bash
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
           zip -j ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip \
-            index.html styles.css compat.css app.js living.js powercasts.json _headers 404.html
+            index.html styles.css living.css compat.css app.js living.js powercasts.json _headers 404.html
       - name: Verify exact ZIP contents
         shell: bash
         run: |
           set -euo pipefail
-          expected="404.html _headers app.js compat.css index.html living.js powercasts.json styles.css "
+          expected="404.html _headers app.js compat.css index.html living.css living.js powercasts.json styles.css "
           actual="$(unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | sort | tr '\n' ' ')"
           test "$actual" = "$expected"
       - name: Upload standalone ZIP
