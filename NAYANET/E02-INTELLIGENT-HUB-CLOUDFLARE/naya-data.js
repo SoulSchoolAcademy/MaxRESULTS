@@ -72,6 +72,8 @@
       ready = false;
       console.warn("NayaNET persistence bridge unavailable; local continuity remains active.", error);
       notify();
+    } finally {
+      startRuntime();
     }
   }
 
@@ -150,10 +152,5 @@
   };
 
   window.addEventListener("naya:data-save", () => sync());
-
-  // Static-first law: the product runtime must remain usable even when
-  // the optional persistence bridge is slow, unavailable, or blocked.
-  // Start the experience immediately; persistence hydrates opportunistically.
-  startRuntime();
   boot();
 })();
