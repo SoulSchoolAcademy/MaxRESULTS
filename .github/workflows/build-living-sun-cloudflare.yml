@@ -21,24 +21,21 @@ jobs:
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
-          test -s index.html
-          test -s styles.css
-          test -s compat.css
-          test -s app.js
-          test -s _headers
-          test -s 404.html
+          for file in index.html styles.css compat.css app.js living.js _headers 404.html; do test -s "$file"; done
       - name: Create complete standalone Cloudflare ZIP
         shell: bash
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
           zip -j ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip \
-            index.html styles.css compat.css app.js _headers 404.html
+            index.html styles.css compat.css app.js living.js _headers 404.html
       - name: Verify exact ZIP contents
         shell: bash
         run: |
           set -euo pipefail
-          test "$(unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | sort | tr '\n' ' ')" = "404.html _headers app.js compat.css index.html styles.css "
+          expected="404.html _headers app.js compat.css index.html living.js styles.css "
+          actual="$(unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | sort | tr '\n' ' ')"
+          test "$actual" = "$expected"
       - name: Upload standalone ZIP
         uses: actions/upload-artifact@v4
         with:
