@@ -29,13 +29,16 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           html=Path('index.html').read_text()
-          required=['/nayanet-10-experience.css','/nayanet-10.js','/naya-data.js']
+          data=Path('naya-data.js').read_text()
+          required=['/nayanet-10-experience.css','/naya-data.js']
           missing=[x for x in required if x not in html]
-          if missing: raise SystemExit('Missing canonical runtime references: '+', '.join(missing))
+          if missing: raise SystemExit('Missing canonical shell references: '+', '.join(missing))
+          if '/nayanet-10.js' in html: raise SystemExit('Runtime must boot after persistence hydration; direct runtime script is obsolete')
           if '/styles.css' in html or '/app.js' in html: raise SystemExit('Obsolete runtime referenced by canonical shell')
+          if 'const RUNTIME_SRC = "/nayanet-10.js"' not in data: raise SystemExit('Persistence bridge does not own canonical runtime boot')
           for path in ['index.html','nayanet-10-experience.css','nayanet-10.js','naya-data.js','powercasts.json','_headers','404.html']:
             if not Path(path).is_file() or Path(path).stat().st_size==0: raise SystemExit('Missing asset: '+path)
-          print('Canonical HTML/assets: OK')
+          print('Canonical hydrated shell/assets: OK')
           PY
       - name: Validate nine-world contract
         run: |
@@ -50,5 +53,7 @@ jobs:
           PY
       - name: Verify canonical CSS is referenced exactly once
         run: test "$(grep -o '/nayanet-10-experience.css' index.html | wc -l)" -eq 1
-      - name: Verify canonical JS is referenced exactly once
-        run: test "$(grep -o '/nayanet-10.js' index.html | wc -l)" -eq 1
+      - name: Verify persistence bridge is referenced exactly once
+        run: test "$(grep -o '/naya-data.js' index.html | wc -l)" -eq 1
+      - name: Verify runtime boot contract is present exactly once
+        run: test "$(grep -o 'const RUNTIME_SRC = \"/nayanet-10.js\"' naya-data.js | wc -l)" -eq 1
