@@ -8,6 +8,34 @@ Naya Power is a model-independent runtime architecture for making human–AI col
 
 > **You bring the vision. Naya Power helps your AI carry the mission.**
 
+## 🔱☀️ UNIVERSAL APP BUILD GATE — START HERE
+
+**Every substantive app, website, interface, product, feature, repair, refactor, redesign, or build performed under Naya Power MUST activate the canonical Universal App Build Gate before substantive implementation.**
+
+### `.naya/NAYAPOWER-UNIVERSAL-APP-BUILD-GATE.md`
+
+**READ → UNDERSTAND → OBEY → APPLY → VERIFY**
+
+The gate is the compression/activation layer for the reusable build intelligence accumulated in Naya Power. It contains the canonical required-reading set, tells the builder what applies to the task, and establishes the default elite build DNA so the human does not have to repeatedly paste or explain the same standards before every build.
+
+**[Open the Universal App Build Gate](./.naya/NAYAPOWER-UNIVERSAL-APP-BUILD-GATE.md)**
+
+### Required NayaNET build set
+
+The current canonical set includes:
+
+1. [ABOUT NAYANET](./ABOUT%20NAYANET)
+2. [NAYA POWER SMART APP](./NAYA%20POWER%20SMART%20APP)
+3. [NAYANET Living Interface Design Law](./.naya/NAYANET-LIVING-INTERFACE-DESIGN-LAW.md)
+4. [NAYANET Elite Interface Standard](./%F0%9F%94%B1%20THE%20NAYANET%20ELITE%20INTERFACE%20STANDARD)
+5. [NAYA POWER PLAYER IMAGES AND LINKS](./NAYA%20POWER%20PLAYER%20IMAGES%20AND%20LINKS)
+6. [NAYANET AI Build Quality Standard — Part 1](./.naya/NAYANET-AI-BUILD-QUALITY-STANDARD-PART-1.md)
+7. [NAYANET AI Build Bootstrap & Operating Instruction](./.naya/NAYANET-AI-BUILD-BOOTSTRAP-AND-OPERATING-INSTRUCTION.md)
+8. [NAYANET Build System Manifest](./.naya/NAYANET-BUILD-SYSTEM-MANIFEST.md)
+9. [NAYANET QA and Release Gate](./.naya/NAYANET-QA-AND-RELEASE-GATE.md)
+
+The detailed documents remain authoritative. The Universal App Build Gate makes them discoverable and operationally mandatory rather than dependent on the human remembering to paste them into each conversation.
+
 ## North Star
 
 Make it dramatically easier for an ordinary human with a meaningful vision to accomplish extraordinary things with AI — without requiring the human to become an AI project manager.
@@ -39,8 +67,6 @@ The running intelligence projection is called the **Intelligence Feed**. Canonic
 - `vercel.json` disables automatic Git deployments.
 - `.naya/control-plane/DEPLOYMENT-GOVERNANCE.json` defines the fail-closed policy.
 - `.naya/control-plane/RELEASE-AUTHORIZATION.json` is the canonical release authorization contract/template.
-- `.naya/runtime/deployment_governance_test.py` provides regression coverage.
-- `.github/workflows/deployment-governance.yml` continuously checks the repository-side gate and rejects direct Vercel deployment commands in GitHub workflows.
 - `SUPERBRAIN/DEPLOYMENT-GOVERNANCE.md` is the human-readable governing specification.
 
 **CONNECTED ≠ DEPLOYABLE. COMMITTED ≠ RELEASED. VERIFIED ≠ PRODUCTION-PROVEN.**
