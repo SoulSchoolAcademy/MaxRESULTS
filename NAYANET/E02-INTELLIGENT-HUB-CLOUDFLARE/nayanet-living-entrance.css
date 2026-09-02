@@ -2,52 +2,53 @@
    The threshold is an environment: illuminated intelligent boards, identity portal,
    and one unmistakable physical-feeling entrance control. */
 
-.threshold{min-height:100svh;overflow:hidden;background:radial-gradient(circle at 50% 26%,rgba(132,45,185,.16),transparent 34%),radial-gradient(circle at 50% 82%,rgba(255,43,104,.08),transparent 38%)}
+.threshold{min-height:100svh;overflow:auto;background:radial-gradient(circle at 50% 26%,rgba(132,45,185,.16),transparent 34%),radial-gradient(circle at 50% 82%,rgba(255,43,104,.08),transparent 38%)}
 .threshold-bar{height:70px;background:rgba(3,3,9,.26);border-bottom-color:rgba(255,255,255,.065)}
 .threshold-stage{width:min(1180px,92vw);min-height:calc(100svh - 340px);display:flex;align-items:center;justify-content:center;padding:44px 0 24px}
 .threshold-copy{width:100%;max-width:1080px;text-align:center}
 .signal-line{display:none}
 .threshold-copy h1{font-size:clamp(70px,11vw,158px);line-height:.8;letter-spacing:-.09em;margin:0 0 26px;font-weight:800;text-shadow:0 0 80px rgba(190,69,255,.16)}
 .threshold-copy h1 span{display:none}
-.threshold-lead{max-width:700px;margin:0 auto 34px;color:#b7acbb;font-size:15px;line-height:1.6}
-.threshold-lead strong{color:#fff;font-weight:650}
-
-/* Identity is a living portal, not a form row. */
-.identity-portal{max-width:760px;margin:0 auto;position:relative;padding-bottom:82px}
-.portal-label{margin-bottom:9px;color:#c1b3c3}
-.portal-label b{color:var(--green);text-shadow:0 0 14px rgba(118,232,176,.35)}
+.threshold-lead{max-width:700px;margin:0 auto 34px;color:#b7acbb;font-size:15px;line-height:1.6}.threshold-lead strong{color:#fff;font-weight:650}
+.identity-portal{max-width:760px;margin:0 auto;position:relative;padding-bottom:82px}.portal-label{margin-bottom:9px;color:#c1b3c3}.portal-label b{color:var(--green);text-shadow:0 0 14px rgba(118,232,176,.35)}
 .portal-input{height:72px;padding:5px 6px;border:1px solid rgba(118,232,176,.48);border-radius:21px;background:rgba(4,4,10,.9);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 0 1px rgba(118,232,176,.04),0 22px 80px rgba(0,0,0,.4);transition:.3s}
-.portal-input:focus-within{border-color:#76e8b0;box-shadow:0 0 0 5px rgba(118,232,176,.08),0 0 65px rgba(118,232,176,.17),0 26px 90px rgba(0,0,0,.48)}
-.portal-prefix i{border-color:var(--green);box-shadow:0 0 18px rgba(118,232,176,.65)}
-.portal-input input{font-size:17px}
-.portal-input button{display:flex;position:absolute;left:50%;top:96px;transform:translateX(-50%);height:62px;width:min(310px,100%);align-items:center;justify-content:center;gap:10px;border-radius:18px;border:1px solid rgba(255,255,255,.34);background:linear-gradient(135deg,#ffffff 0%,#f5d5ff 15%,#bf54df 50%,#ff4e79 100%);color:#170719;font-size:11px;font-weight:900;letter-spacing:.16em;box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 0 0 1px rgba(255,255,255,.08),0 18px 58px rgba(205,66,190,.34),0 0 80px rgba(255,63,116,.16);transition:transform .25s,filter .25s,box-shadow .25s}
-.portal-input button:hover,.portal-input button:focus-visible{transform:translateX(-50%) translateY(-4px);filter:brightness(1.08);box-shadow:inset 0 1px 0 #fff,0 0 0 1px rgba(255,255,255,.16),0 24px 70px rgba(205,66,190,.45),0 0 95px rgba(255,63,116,.25)}
-.portal-input button:active{transform:translateX(-50%) translateY(1px) scale(.985);box-shadow:inset 0 3px 14px rgba(70,0,70,.25),0 0 55px rgba(255,63,116,.3)}
-.portal-input button span{font-size:17px}
-.portal-foot{justify-content:center;margin-top:13px;color:#817587}.portal-foot b{color:#a99aac}
+.portal-input:focus-within{border-color:#76e8b0;box-shadow:0 0 0 5px rgba(118,232,176,.08),0 0 65px rgba(118,232,176,.17),0 26px 90px rgba(0,0,0,.48)}.portal-prefix i{border-color:var(--green);box-shadow:0 0 18px rgba(118,232,176,.65)}.portal-input input{font-size:17px}
+.portal-input button{display:flex;position:absolute;left:50%;top:96px;transform:translateX(-50%);height:62px;width:min(310px,100%);align-items:center;justify-content:center;gap:10px;border-radius:18px;border:1px solid rgba(255,255,255,.34);background:linear-gradient(135deg,#ffffff 0%,#f5d5ff 15%,#bf54df 50%,#ff4e79 100%);color:#170719;font-size:11px;font-weight:900;letter-spacing:.16em;box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 0 0 1px rgba(255,255,255,.08),0 18px 58px rgba(205,66,190,.34),0 0 80px rgba(255,63,116,.16);transition:transform .25s,filter .25s,box-shadow .25s}.portal-input button:hover,.portal-input button:focus-visible{transform:translateX(-50%) translateY(-4px);filter:brightness(1.08);box-shadow:inset 0 1px 0 #fff,0 0 0 1px rgba(255,255,255,.16),0 24px 70px rgba(205,66,190,.45),0 0 95px rgba(255,63,116,.25)}.portal-input button:active{transform:translateX(-50%) translateY(1px) scale(.985);box-shadow:inset 0 3px 14px rgba(70,0,70,.25),0 0 55px rgba(255,63,116,.3)}.portal-input button span{font-size:17px}.portal-foot{justify-content:center;margin-top:13px;color:#817587}.portal-foot b{color:#a99aac}
 
-/* Five intelligent boards: green is the calm REST state; the spectrum carries through cyan,
-   blue, violet, magenta and red. Every board is visibly alive before interaction. */
 .threshold-doors{width:min(1180px,92vw);grid-template-columns:repeat(5,1fr);gap:9px;padding:0 0 28px}
-.threshold-doors button{--a:#76e8b0;--b:#20f0a0;min-height:124px;padding:19px 18px 17px;border:1px solid color-mix(in srgb,var(--a) 58%,white 6%);border-radius:17px;background:linear-gradient(145deg,color-mix(in srgb,var(--a) 15%,#05050b),rgba(255,255,255,.028) 48%,rgba(2,2,7,.82));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -22px 42px rgba(0,0,0,.28),0 10px 38px rgba(0,0,0,.28),0 0 22px color-mix(in srgb,var(--a) 10%,transparent);transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease,filter .28s ease}
+.threshold-doors button{--a:#76e8b0;--b:#20f0a0;min-height:124px;padding:19px 18px 17px;border:1px solid color-mix(in srgb,var(--a) 58%,white 6%);border-radius:17px;background:linear-gradient(145deg,color-mix(in srgb,var(--a) 15%,#05050b),rgba(255,255,255,.028) 48%,rgba(2,2,7,.82));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -22px 42px rgba(0,0,0,.28),0 10px 38px rgba(0,0,0,.28),0 0 22px color-mix(in srgb,var(--a) 10%,transparent);transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease,filter .28s ease;position:relative;overflow:hidden}
 .threshold-doors button:nth-child(1){--a:#76e8b0;--b:#25f0a1}.threshold-doors button:nth-child(2){--a:#45e6bd;--b:#31d9ff}.threshold-doors button:nth-child(3){--a:#60d9ff;--b:#6e87ff}.threshold-doors button:nth-child(4){--a:#aa6cff;--b:#ee4eff}.threshold-doors button:nth-child(5){--a:#ed5cff;--b:#ff4e72}
 .threshold-doors button:before{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--a),var(--b),#ff4e72);box-shadow:0 0 18px var(--a),0 0 32px var(--b)}
 .threshold-doors button:after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 16% 12%,rgba(255,255,255,.17),transparent 27%),linear-gradient(110deg,transparent 35%,color-mix(in srgb,var(--a) 6%,transparent),transparent 72%);pointer-events:none}
 .threshold-doors button:hover,.threshold-doors button:focus-visible,.threshold-doors button:focus{transform:translateY(-6px);filter:brightness(1.15);border-color:var(--a);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 0 0 1px color-mix(in srgb,var(--a) 35%,transparent),0 0 45px color-mix(in srgb,var(--a) 25%,transparent),0 24px 58px rgba(0,0,0,.38)}
 .threshold-doors button:active{transform:translateY(-1px) scale(.988);filter:brightness(1.24);box-shadow:inset 0 4px 16px rgba(0,0,0,.34),0 0 45px color-mix(in srgb,var(--a) 36%,transparent)}
-.threshold-doors span{color:var(--a);font-weight:850;text-shadow:0 0 15px color-mix(in srgb,var(--a) 55%,transparent)}
-.threshold-doors strong{color:#fff;font-size:13px;text-shadow:0 1px 12px rgba(0,0,0,.7)}
-.threshold-doors small{color:#b4a8b7}
-.threshold-doors i{color:var(--b);text-shadow:0 0 16px var(--b)}
-
-/* The old side-oracle is removed from the visual composition. */
+.threshold-doors span{color:var(--a);font-weight:850;text-shadow:0 0 15px color-mix(in srgb,var(--a) 55%,transparent)}.threshold-doors strong{color:#fff;font-size:13px;text-shadow:0 1px 12px rgba(0,0,0,.7)}.threshold-doors small{color:#b4a8b7}.threshold-doors i{color:var(--b);text-shadow:0 0 16px var(--b)}
 .threshold-oracle{display:none!important}
+.threshold-proof{width:min(1180px,92vw);opacity:.78;border-color:rgba(255,255,255,.065)}.proof-statement strong{color:#938798}.proof-statement.active strong{color:#f0dff6}.proof-arrow{color:#ff5a89}
 
-/* The proof strip becomes atmospheric rather than brochure-like. */
-.threshold-proof{width:min(1180px,92vw);opacity:.78;border-color:rgba(255,255,255,.065)}
-.proof-statement strong{color:#938798}.proof-statement.active strong{color:#f0dff6}.proof-arrow{color:#ff5a89}
+/* APP THRESHOLD OVERRIDES — no brochure rhythm, no dead controls. */
+.threshold{height:100svh;min-height:100svh;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;overflow:auto;overscroll-behavior:contain}
+.threshold-bar{position:relative;z-index:20}
+.threshold-stage{width:min(1240px,92vw);min-height:0;margin:auto;padding:20px 0 16px}
+.threshold-copy h1{font-size:clamp(76px,10.6vw,164px);text-wrap:balance}
+.threshold-lead{margin-bottom:27px}
+.identity-portal{padding-bottom:76px}
+.portal-input button{top:91px;width:min(320px,100%);height:64px}
+.threshold-proof{padding:12px 0}
+.threshold-doors{padding-bottom:18px}
+.threshold-doors button{min-height:112px}
+.threshold-doors button{animation:thresholdBoardBreath 5.5s ease-in-out infinite;animation-delay:calc(var(--i,0) * -0.7s)}
+.threshold-doors button:nth-child(1){--i:1}.threshold-doors button:nth-child(2){--i:2}.threshold-doors button:nth-child(3){--i:3}.threshold-doors button:nth-child(4){--i:4}.threshold-doors button:nth-child(5){--i:5}
+.threshold-doors button.is-selected{--a:#c48aff;--b:#8e4dff;background:linear-gradient(145deg,rgba(171,91,255,.30),rgba(91,41,150,.18) 48%,rgba(7,3,17,.94));border-color:#d5b0ff;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 0 0 1px rgba(192,126,255,.45),0 0 55px rgba(154,76,255,.46),0 24px 65px rgba(0,0,0,.45);filter:brightness(1.2)}
+.threshold-doors button.is-selected span,.threshold-doors button.is-selected strong{color:#fff;text-shadow:0 0 18px rgba(211,177,255,.65)}
+.threshold-doors button.is-selected i{color:#e6ccff}
+.threshold-doors button:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.portal-input button{background:linear-gradient(110deg,#ffffff 0%,#f7dcff 16%,#c35be6 46%,#a34bff 67%,#ff466e 100%);background-size:180% 100%;animation:enterSpectrum 5s ease-in-out infinite;box-shadow:inset 0 1px 0 #fff,0 0 0 1px rgba(255,255,255,.14),0 18px 58px rgba(179,74,226,.42),0 0 90px rgba(255,59,116,.20)}
+.portal-input button:hover,.portal-input button:focus-visible{filter:brightness(1.16);box-shadow:inset 0 1px 0 #fff,0 0 0 2px rgba(255,255,255,.18),0 25px 80px rgba(179,74,226,.52),0 0 115px rgba(255,59,116,.30)}
+.portal-input button:active{filter:brightness(1.28);box-shadow:inset 0 4px 18px rgba(74,0,80,.24),0 0 70px rgba(174,73,255,.55),0 0 110px rgba(255,59,116,.35)}
+@keyframes thresholdBoardBreath{0%,100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -22px 42px rgba(0,0,0,.28),0 10px 38px rgba(0,0,0,.28),0 0 22px color-mix(in srgb,var(--a) 10%,transparent)}50%{box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -22px 42px rgba(0,0,0,.25),0 12px 42px rgba(0,0,0,.30),0 0 34px color-mix(in srgb,var(--a) 18%,transparent)}}
+@keyframes enterSpectrum{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 
-@media(max-width:900px){.threshold-stage{min-height:auto;padding:62px 0 30px}.threshold-doors{grid-template-columns:repeat(2,1fr)}.threshold-doors button:last-child{grid-column:1/-1}.threshold-proof{grid-template-columns:1fr 28px 1fr}.proof-meta{display:none}}
-@media(max-width:700px){.threshold-stage{width:calc(100vw - 32px);padding:50px 0 24px}.threshold-copy h1{font-size:clamp(62px,19vw,96px)}.threshold-lead{font-size:13px;margin-bottom:28px}.identity-portal{width:100%;padding-bottom:78px}.portal-input{height:64px;border-radius:18px}.portal-input button{top:87px;height:58px;width:min(330px,100%);border-radius:16px;font-size:10px}.threshold-doors{width:calc(100vw - 32px);grid-template-columns:1fr;gap:8px}.threshold-doors button,.threshold-doors button:last-child{grid-column:auto;min-height:96px}.threshold-proof{width:calc(100vw - 32px);grid-template-columns:1fr;gap:8px;padding:12px 0}.proof-arrow,.proof-statement.active{display:none}}
-
-@media(prefers-reduced-motion:reduce){.threshold-doors button,.portal-input,.portal-input button{transition:none}.threshold-doors button:hover,.threshold-doors button:focus-visible{transform:none}}
+@media(max-width:900px){.threshold{grid-template-rows:auto auto auto auto;overflow:auto}.threshold-stage{min-height:auto;padding:44px 0 22px}.threshold-doors{grid-template-columns:repeat(2,1fr)}.threshold-doors button:last-child{grid-column:1/-1}.threshold-proof{grid-template-columns:1fr 28px 1fr}.proof-meta{display:none}}
+@media(max-width:700px){.threshold{height:100svh;min-height:100svh}.threshold-stage{width:calc(100vw - 32px);padding:42px 0 22px}.threshold-copy h1{font-size:clamp(62px,19vw,96px)}.threshold-lead{font-size:13px;margin-bottom:28px}.identity-portal{width:100%;padding-bottom:78px}.portal-input{height:64px;border-radius:18px}.portal-input button{top:87px;height:58px;width:min(330px,100%);border-radius:16px;font-size:10px}.threshold-doors{width:calc(100vw - 32px);grid-template-columns:1fr;gap:8px}.threshold-doors button,.threshold-doors button:last-child{grid-column:auto;min-height:96px}.threshold-proof{width:calc(100vw - 32px);grid-template-columns:1fr;gap:8px;padding:12px 0}.proof-arrow,.proof-statement.active{display:none}}
+@media(prefers-reduced-motion:reduce){.threshold-doors button,.portal-input,.portal-input button{transition:none;animation:none}.threshold-doors button:hover,.threshold-doors button:focus-visible{transform:none}}
