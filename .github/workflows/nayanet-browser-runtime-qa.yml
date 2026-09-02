@@ -61,11 +61,19 @@ jobs:
             await expect(page.locator('.threshold-doors button')).toHaveCount(5);
             await expect(page.locator('.portal-input button[type="submit"]')).toBeVisible();
             await expect(page.locator('.portal-input button[type="submit"]')).toContainText('ENTER');
+            const appMetrics = await page.evaluate(() => ({
+              thresholdHeight: getComputedStyle(document.querySelector('.threshold')).height,
+              overflowX: getComputedStyle(document.documentElement).overflowX,
+              boardCount: document.querySelectorAll('.threshold-doors button').length
+            }));
+            expect(appMetrics.boardCount).toBe(5);
+            expect(appMetrics.overflowX).not.toBe('visible');
             const boardStates = await page.locator('.threshold-doors button').evaluateAll(buttons => buttons.map(b => {
               const s = getComputedStyle(b);
-              return { border: s.borderTopColor, background: s.backgroundImage };
+              return { border: s.borderTopColor, background: s.backgroundImage, color: getComputedStyle(b.querySelector('span')).color };
             }));
             expect(boardStates.every(x => x.border !== 'rgba(0, 0, 0, 0)')).toBeTruthy();
+            expect(boardStates.every(x => x.background && x.background !== 'none')).toBeTruthy();
             await page.locator('.threshold-doors button').nth(3).focus();
             await expect(page.locator('.threshold-doors button').nth(3)).toBeFocused();
             await page.locator('#nameInput').fill('Runtime Tester');
@@ -73,6 +81,19 @@ jobs:
             await expect(page.locator('#hub')).toBeVisible({ timeout: 10000 });
             await expect(page.locator('#frontDoor')).toBeHidden();
             expect(errors, errors.join('\n')).toEqual([]);
+          });
+          test('entrance board activation has a high-contrast purple selected state', async ({ page }) => {
+            await page.goto('/index.html', { waitUntil: 'networkidle' });
+            await page.locator('#nameInput').fill('Runtime Tester');
+            await page.locator('.threshold-doors button').nth(3).click();
+            await expect(page.locator('.threshold-doors button').nth(3)).toHaveClass(/is-selected/);
+            const selected = await page.locator('.threshold-doors button').nth(3).evaluate(b => {
+              const s = getComputedStyle(b);
+              return { border: s.borderTopColor, shadow: s.boxShadow, text: getComputedStyle(b.querySelector('strong')).color };
+            });
+            expect(selected.border).not.toBe('rgba(0, 0, 0, 0)');
+            expect(selected.shadow).not.toBe('none');
+            expect(selected.text).toBe('rgb(255, 255, 255)');
           });
           test('hub renders nine worlds, 18 Powercasts, player and Current Intelligence Feed', async ({ page }) => {
             await page.goto('/index.html', { waitUntil: 'networkidle' });
