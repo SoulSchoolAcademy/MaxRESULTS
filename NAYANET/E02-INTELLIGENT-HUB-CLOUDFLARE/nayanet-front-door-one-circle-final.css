@@ -1,0 +1,168 @@
+/* NayaNET FRONT DOOR — ONE CIRCLE FINAL
+   One architectural chamber. One centered identity action.
+   No nested login circle. No drifting controls.
+*/
+
+#frontDoor.north-star-front-door .threshold-chamber{
+  position:relative!important;
+  width:min(980px,92svh,94vw)!important;
+  aspect-ratio:1!important;
+  border-radius:50%!important;
+  overflow:visible!important;
+}
+
+/* Kill the visual second-circle treatment introduced by the login shell. */
+#frontDoor.north-star-front-door .identity-portal{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  transform:none!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+  overflow:visible!important;
+}
+#frontDoor.north-star-front-door .identity-portal:before,
+#frontDoor.north-star-front-door .identity-portal:after{display:none!important}
+
+/* The identity control is the physical object emerging from the exact center of the chamber. */
+#frontDoor.north-star-front-door .portal-input{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  width:min(440px,70%)!important;
+  height:72px!important;
+  margin:0!important;
+  padding:5px!important;
+  transform:translate(-50%,-50%)!important;
+  border-radius:20px!important;
+  box-sizing:border-box!important;
+  background:linear-gradient(155deg,rgba(40,37,52,.99),rgba(4,4,10,.995))!important;
+  border:1px solid rgba(114,231,173,.82)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.20),inset 0 -22px 36px rgba(0,0,0,.62),0 34px 80px rgba(0,0,0,.78),0 0 48px rgba(114,231,173,.07)!important;
+}
+#frontDoor.north-star-front-door .portal-input:focus-within{
+  transform:translate(-50%,-50%)!important;
+  border-color:rgba(167,122,255,.98)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -22px 36px rgba(0,0,0,.60),0 34px 80px rgba(0,0,0,.80),0 0 70px rgba(167,122,255,.18)!important;
+}
+
+/* Keep the prompt visually stable and unmistakably centered. */
+#frontDoor.north-star-front-door .portal-input input{
+  min-width:0!important;
+  color:#fff!important;
+  font-size:17px!important;
+  font-weight:450!important;
+  letter-spacing:.02em!important;
+  text-align:left!important;
+  caret-color:#a77aff!important;
+}
+#frontDoor.north-star-front-door .portal-input input::placeholder{
+  color:rgba(255,255,255,.96)!important;
+  opacity:1!important;
+}
+
+/* White at rest. Green only when the user has actually activated the power object. */
+#frontDoor.north-star-front-door .portal-input button{
+  left:50%!important;
+  top:calc(100% + 24px)!important;
+  width:256px!important;
+  height:58px!important;
+  transform:translateX(-50%)!important;
+  border-radius:15px!important;
+  background:#fff!important;
+  color:#07070b!important;
+  border:1px solid rgba(255,255,255,.95)!important;
+  box-shadow:inset 0 1px 0 #fff,0 20px 48px rgba(0,0,0,.68),0 2px 0 rgba(255,255,255,.32)!important;
+  font-size:10px!important;
+  font-weight:850!important;
+  letter-spacing:.20em!important;
+}
+#frontDoor.north-star-front-door .portal-input button:not(:disabled):hover{
+  transform:translateX(-50%) translateY(-5px)!important;
+  background:#fff!important;
+  color:#050508!important;
+  border-color:#fff!important;
+  box-shadow:inset 0 1px 0 #fff,0 28px 58px rgba(0,0,0,.76),0 0 28px rgba(255,255,255,.10)!important;
+}
+#frontDoor.north-star-front-door .portal-input button:not(:disabled):active,
+#frontDoor.north-star-front-door .portal-input button[data-state="active"]{
+  transform:translateX(-50%) translateY(3px) scale(.965)!important;
+  background:#63d99d!important;
+  color:#03130b!important;
+  border-color:#dcffeb!important;
+  box-shadow:inset 0 5px 16px rgba(0,0,0,.24),0 8px 20px rgba(0,0,0,.60),0 0 54px rgba(114,231,173,.34)!important;
+}
+
+/* Put the supporting sentence under the power object, not on a separate floating layer. */
+#frontDoor.north-star-front-door .threshold-subline{
+  position:absolute!important;
+  left:50%!important;
+  top:calc(50% + 112px)!important;
+  width:100%!important;
+  margin:0!important;
+  transform:translateX(-50%)!important;
+  text-align:center!important;
+  color:rgba(255,255,255,.60)!important;
+  font-size:11px!important;
+  letter-spacing:.08em!important;
+}
+
+/* Improve the welcome hierarchy: calm, centered, premium—not oversized radio text. */
+#frontDoor.north-star-front-door .threshold-copy{
+  padding-top:25%!important;
+  text-align:center!important;
+}
+#frontDoor.north-star-front-door .threshold-eyebrow{
+  margin-bottom:10px!important;
+  color:rgba(255,255,255,.48)!important;
+  font-size:8px!important;
+  letter-spacing:.68em!important;
+  text-indent:.68em!important;
+}
+#frontDoor.north-star-front-door .threshold-copy>h1{
+  margin:0!important;
+  color:#fff!important;
+  font-size:clamp(40px,4.8vw,64px)!important;
+  font-weight:500!important;
+  line-height:1.02!important;
+  letter-spacing:-.055em!important;
+  text-align:center!important;
+  text-shadow:0 22px 60px rgba(0,0,0,.78)!important;
+}
+#frontDoor.north-star-front-door .threshold-lead{
+  margin:13px 0 0!important;
+  color:rgba(255,255,255,.72)!important;
+  font-size:12px!important;
+  font-weight:450!important;
+  letter-spacing:.12em!important;
+  line-height:1.4!important;
+  text-align:center!important;
+}
+
+/* Logo remains the identity anchor, with no fake orb replacing it. */
+#frontDoor.north-star-front-door .threshold-naya-aura,
+#frontDoor.north-star-front-door .threshold-naya-ring,
+#frontDoor.north-star-front-door .threshold-naya-core{display:none!important}
+#frontDoor.north-star-front-door .nayanet-logo-mark img{
+  object-fit:contain!important;
+  object-position:center!important;
+}
+
+@media (max-width:760px){
+  #frontDoor.north-star-front-door .threshold-chamber{width:min(94vw,88svh)!important}
+  #frontDoor.north-star-front-door .threshold-copy{padding-top:27%!important}
+  #frontDoor.north-star-front-door .threshold-copy>h1{font-size:clamp(35px,8.8vw,52px)!important}
+  #frontDoor.north-star-front-door .portal-input{width:80%!important}
+}
+@media (max-width:520px){
+  #frontDoor.north-star-front-door .threshold-copy{padding-top:28%!important}
+  #frontDoor.north-star-front-door .threshold-copy>h1{font-size:35px!important}
+  #frontDoor.north-star-front-door .portal-input{width:88%!important;height:66px!important}
+  #frontDoor.north-star-front-door .portal-input button{width:220px!important;height:54px!important}
+  #frontDoor.north-star-front-door .threshold-subline{top:calc(50% + 105px)!important;font-size:10px!important}
+}
