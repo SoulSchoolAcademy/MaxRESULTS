@@ -199,7 +199,7 @@
   background:linear-gradient(90deg,var(--naya-green),var(--naya-cyan),var(--naya-violet),var(--naya-magenta),var(--naya-red));
   box-shadow:0 0 14px rgba(118,232,176,.55);
 }
-.world:hover,.world:focus-visible{
+.world:hover,.world:focus-visible,.world:active{
   border-color:rgba(184,108,255,.86);
   background:
     radial-gradient(circle at 12% 0%,rgba(184,108,255,.22),transparent 48%),
@@ -250,7 +250,7 @@
   .threshold-doors small{font-size:8px}
   .living-field{height:auto;min-height:780px;width:100%;overflow:hidden}
   .world-map{inset:0 0 8px}
-  .world{width:126px;min-height:92px;padding:12px;border-radius:18px}
+  .world{width:126px;min-height:92px;padding:12px;border-radius:18px;transform:translate(-50%,-50%) rotate(var(--rot,0deg)) translateY(-210px) rotate(calc(var(--rot,0deg)*-1))}
   .world b{font-size:10px}
   .world small{font-size:7px}
   .world i{font-size:5px}
@@ -271,8 +271,8 @@
   .threshold-lead{font-size:12px}
   .threshold-doors{grid-template-columns:1fr}
   .threshold-doors button,.threshold-doors button:last-child{min-height:84px}
-  .living-field{min-height:920px}
-  .world{width:116px;min-height:82px}
+  .living-field{min-height:720px}
+  .world{width:116px;min-height:82px;transform:translate(-50%,-50%) rotate(var(--rot,0deg)) translateY(-168px) rotate(calc(var(--rot,0deg)*-1))}
   .naya-core{width:196px}
 }
 @media(prefers-reduced-motion:reduce){
