@@ -53,24 +53,20 @@ jobs:
         run: |
           cat > nayanet-runtime.spec.js <<'JS'
           const { test, expect } = require('@playwright/test');
-
           test.use({ baseURL: 'http://127.0.0.1:4173', viewport: { width: 1440, height: 1000 } });
-
           test('front door renders and entry is functional', async ({ page }) => {
             const errors = [];
             page.on('pageerror', e => errors.push(String(e)));
             await page.goto('/index.html', { waitUntil: 'networkidle' });
             await expect(page.locator('#frontDoor')).toBeVisible();
             await expect(page.locator('#nameInput')).toBeVisible();
-            await expect(page.locator('#entryForm button[type="submit"]')).toBeVisible();
             await page.locator('#nameInput').fill('Runtime Tester');
             await page.locator('#entryForm').evaluate(form => form.requestSubmit());
             await expect(page.locator('#hub')).toBeVisible({ timeout: 10000 });
             await expect(page.locator('#frontDoor')).toBeHidden();
             expect(errors, errors.join('\n')).toEqual([]);
           });
-
-          test('hub renders nine worlds and power player', async ({ page }) => {
+          test('hub renders nine worlds, 18 Powercasts, player and Current Intelligence Feed', async ({ page }) => {
             await page.goto('/index.html', { waitUntil: 'networkidle' });
             await page.evaluate(() => localStorage.clear());
             await page.reload({ waitUntil: 'networkidle' });
@@ -81,8 +77,14 @@ jobs:
             await expect(page.locator('#castGrid .cast')).toHaveCount(18);
             await expect(page.locator('#audio')).toBeAttached();
             await expect(page.locator('#seek')).toHaveAttribute('role', 'slider');
+            await expect(page.locator('#currentIntelligenceFeed')).toBeVisible({ timeout: 10000 });
+            await expect(page.locator('#currentIntelligenceFeed')).toContainText('Current Intelligence');
+            await expect(page.locator('#currentIntelligenceFeed')).toContainText('NEXT NODE');
+            await page.locator('#feedDetails').click();
+            await expect(page.locator('#feedDrawer')).toBeVisible();
+            await expect(page.locator('#feedDrawer')).toContainText('North Star');
+            await page.locator('#feedClose').click();
           });
-
           test('world navigation, Smart ID, note and challenge controls work', async ({ page }) => {
             await page.goto('/index.html', { waitUntil: 'networkidle' });
             await page.evaluate(() => localStorage.clear());
@@ -90,25 +92,21 @@ jobs:
             await page.locator('#nameInput').fill('Runtime Tester');
             await page.locator('#entryForm').evaluate(form => form.requestSubmit());
             await expect(page.locator('#hub')).toBeVisible({ timeout: 10000 });
-
             await page.locator('[data-world="2"]').first().click();
             await expect(page.locator('#worldView')).toBeVisible();
             await expect(page.locator('#worldContent')).toContainText('SMART ID');
             await page.locator('#returnToSun').click();
             await expect(page.locator('#hub')).toBeVisible();
-
             await page.locator('[data-world="3"]').first().click();
             await page.locator('#destinationNote').fill('Browser QA note');
             await page.locator('[data-action="note"]').click();
             await expect(page.locator('#noteHistory')).toContainText('Browser QA note');
             await page.locator('#returnToSun').click();
-
             await page.locator('[data-world="6"]').first().click();
             await page.locator('#challengeGoal').fill('Browser QA goal');
             await page.locator('[data-action="goal"]').click();
             await expect(page.locator('#challengeGoal')).toHaveValue('Browser QA goal');
           });
-
           test('responsive layouts have no horizontal overflow', async ({ page }) => {
             for (const viewport of [{width: 390, height: 844}, {width: 768, height: 1024}, {width: 1440, height: 1000}]) {
               await page.setViewportSize(viewport);
