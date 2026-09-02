@@ -1,10 +1,10 @@
-name: Deploy NayaNET to Cloudflare
+name: Deploy NayaNET E02 to Cloudflare Review
 
 on:
   push:
     branches: [main]
     paths:
-      - 'NAYANET/NAYA-FUTURE/**'
+      - 'NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/**'
       - '.github/workflows/deploy-nayanet.yml'
   workflow_dispatch:
 
@@ -16,14 +16,14 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: NAYANET/NAYA-FUTURE
+        working-directory: NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Deploy Pages project
+      - name: Deploy E02 to Cloudflare Pages review project
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: NAYANET/NAYA-FUTURE
+          workingDirectory: NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
           command: pages deploy . --project-name nayanet
