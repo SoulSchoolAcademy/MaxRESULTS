@@ -23,3 +23,22 @@ body.nayanet-entering #frontDoor.north-star-front-door .threshold-chamber{animat
 @media(max-width:700px){#frontDoor.north-star-front-door .threshold-chamber{width:min(88vw,76svh)!important}.threshold-chamber .threshold-copy{width:72%!important}.threshold-chamber .threshold-copy>h1{font-size:clamp(29px,7vw,43px)!important}.threshold-chamber .threshold-lead{margin-bottom:27px!important}.threshold-chamber .portal-input{height:56px!important}.threshold-chamber .portal-input button{top:69px!important;height:55px!important}.threshold-chamber .threshold-subline{margin-top:96px!important;font-size:8px!important}}
 @media(max-width:430px){#frontDoor.north-star-front-door .threshold-chamber{width:91vw!important;aspect-ratio:1/1!important}.threshold-chamber .threshold-naya{top:9%!important}.threshold-chamber .threshold-copy{width:74%!important;margin-top:10%!important}.threshold-chamber .threshold-copy>h1{font-size:31px!important}.threshold-chamber .threshold-lead strong{font-size:12px!important}.threshold-chamber .identity-portal{width:100%!important}.threshold-chamber .portal-input{height:54px!important}.threshold-chamber .portal-input button{top:66px!important;height:54px!important}.threshold-chamber .threshold-subline{margin-top:92px!important}}
 @media(prefers-reduced-motion:reduce){#frontDoor.north-star-front-door .threshold-chamber::before,#frontDoor.north-star-front-door .threshold-chamber::after{animation:none!important}}
+
+/* Presentation polish: make the identity action the true visual center. */
+#frontDoor.north-star-front-door .threshold-chamber{animation:ndChamberLife 10s ease-in-out infinite}
+#frontDoor.north-star-front-door .threshold-chamber:has(.portal-input:focus-within),#frontDoor.north-star-front-door .threshold-chamber:has(.portal-input[data-state="ready"]),body.nayanet-entering #frontDoor.north-star-front-door .threshold-chamber{animation:none!important}
+#frontDoor.north-star-front-door .threshold-chamber .threshold-copy{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;padding-top:21%!important;box-sizing:border-box!important}
+#frontDoor.north-star-front-door .threshold-chamber .threshold-eyebrow{margin:0 0 8px!important}
+#frontDoor.north-star-front-door .threshold-chamber .threshold-copy>h1{margin:0 0 9px!important}
+#frontDoor.north-star-front-door .threshold-chamber .threshold-lead{margin:0!important}
+#frontDoor.north-star-front-door .threshold-chamber .identity-portal{position:absolute!important;left:50%!important;top:50%!important;width:min(390px,64%)!important;margin:0!important;transform:translate(-50%,-50%)!important;z-index:12!important}
+#frontDoor.north-star-front-door .threshold-chamber .identity-portal .portal-input{height:62px!important}
+#frontDoor.north-star-front-door .threshold-chamber .identity-portal .portal-input button{top:75px!important}
+#frontDoor.north-star-front-door .threshold-chamber .threshold-subline{position:absolute!important;left:50%!important;top:calc(50% + 111px)!important;width:min(390px,64%)!important;margin:0!important;transform:translateX(-50%)!important}
+#frontDoor.north-star-front-door .threshold-chamber:focus-within::after{border-color:rgba(180,144,255,.07)!important;box-shadow:inset 0 0 100px rgba(139,87,255,.075)!important}
+#frontDoor.north-star-front-door .threshold-chamber:has(.portal-input[data-state="ready"])::after{border-color:rgba(84,220,199,.08)!important;box-shadow:inset 0 0 100px rgba(84,220,199,.065)!important}
+#frontDoor.north-star-front-door .threshold-chamber::after{transition:border-color .6s,box-shadow .6s}
+@keyframes ndChamberLife{0%,100%{transform:translateZ(0) scale(1);filter:brightness(1)}50%{transform:translateZ(0) scale(1.004);filter:brightness(1.025)}}
+@media(max-width:700px){#frontDoor.north-star-front-door .threshold-chamber .threshold-copy{padding-top:20%!important}.threshold-chamber .identity-portal{width:72%!important}.threshold-chamber .threshold-subline{top:calc(50% + 101px)!important;width:72%!important}}
+@media(max-width:430px){#frontDoor.north-star-front-door .threshold-chamber .threshold-copy{padding-top:18%!important}.threshold-chamber .identity-portal{width:74%!important}.threshold-chamber .threshold-subline{top:calc(50% + 94px)!important;width:74%!important}}
+@media(prefers-reduced-motion:reduce){#frontDoor.north-star-front-door .threshold-chamber{animation:none!important}}
