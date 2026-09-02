@@ -4,7 +4,18 @@
   const STORAGE_NAME = 'nayanetName';
   const STORAGE_NAME_LEGACY = 'nayanet_name';
   const INTELLIGENCE_KEY = 'nayanet:intelligence:v1';
+  const FRONT_DOOR_STYLE = '/nayanet-front-door-overhaul.css';
+
+  const loadStyle = () => {
+    if (document.querySelector(`link[href="${FRONT_DOOR_STYLE}"]`)) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = FRONT_DOOR_STYLE;
+    document.head.appendChild(link);
+  };
+
   const boot = () => {
+    loadStyle();
     const form = document.getElementById('entryForm');
     const input = document.getElementById('nameInput');
     const frontDoor = document.getElementById('frontDoor');
@@ -72,8 +83,6 @@
       document.body.classList.add('nayanet-entering');
       frontDoor.setAttribute('aria-hidden', 'true');
       window.setTimeout(() => {
-        // The canonical entrance stylesheet intentionally owns the visual shell,
-        // so use an explicit display state here as a hard DOM-level exit guard.
         frontDoor.hidden = true;
         frontDoor.style.display = 'none';
         hub.hidden = false;
