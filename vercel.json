@@ -1,6 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "git": {
-    "deploymentEnabled": false
-  }
+    "deploymentEnabled": true
+  },
+  "rewrites": [
+    { "source": "/", "destination": "/NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html" },
+    { "source": "/:path*", "destination": "/NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/:path*" }
+  ]
 }
