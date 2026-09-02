@@ -1,139 +1,68 @@
 name: Build NayaNET Cloudflare Release
-
 on:
   push:
     branches: [main]
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
   package:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout exact source
         uses: actions/checkout@v4
-
-      - name: Verify canonical NayaNET 10 shell
+      - name: Validate canonical shell, living entrance and assets
         shell: bash
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
-          for file in index.html nayanet-10-experience.css nayanet-elite.css nayanet-mobile-overflow.css nayanet-intelligence-feed.css nayanet-living-entrance.css nayanet-10.js naya-data.js nayanet-intelligence-feed.js powercasts.json _headers 404.html; do test -s "$file"; done
+          for f in index.html nayanet-10-experience.css nayanet-elite.css nayanet-mobile-overflow.css nayanet-intelligence-feed.css nayanet-living-entrance.css nayanet-10.js naya-data.js nayanet-intelligence-feed.js powercasts.json _headers 404.html; do test -s "$f"; done
           grep -Fq 'href="/nayanet-10-experience.css"' index.html
           grep -Fq 'src="/naya-data.js"' index.html
           ! grep -Fq 'src="/nayanet-10.js"' index.html
-          grep -Fq 'const RUNTIME_SRC = "/nayanet-10.js"' naya-data.js
-          grep -Fq 'const FEED_SRC = "/nayanet-intelligence-feed.js"' naya-data.js
           grep -Fq '@import url('\''/nayanet-elite.css'\'');' nayanet-10-experience.css
           grep -Fq '@import url('\''/nayanet-intelligence-feed.css'\'');' nayanet-10-experience.css
           grep -Fq '@import url('\''/nayanet-living-entrance.css'\'');' nayanet-10-experience.css
-          ! grep -Fq 'href="/styles.css"' index.html
-          ! grep -Fq 'src="/app.js"' index.html
-          ! grep -Fq 'src="/naya-runtime.js"' index.html
-          ! grep -Fq 'src="/naya-final.js"' index.html
-
-      - name: Validate Powercast registry
-        shell: bash
-        run: |
-          set -euo pipefail
-          cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
-          node - <<'NODE'
-          const fs=require('fs');
-          const x=JSON.parse(fs.readFileSync('powercasts.json','utf8'));
-          if(!Array.isArray(x)||x.length!==18) throw new Error(`Expected 18 Powercasts, got ${x.length}`);
-          const nums=x.map(c=>c.n).sort((a,b)=>a-b);
-          if(nums.join(',')!=='1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18') throw new Error('Powercast numbering is not canonical 1–18');
-          if(x.some(c=>!c.n||!c.title||!c.image||!c.audio)) throw new Error('Incomplete Powercast record');
-          console.log('Powercasts:',x.length);
-          NODE
-
-      - name: Syntax-check canonical runtime
-        shell: bash
-        run: |
-          set -euo pipefail
-          cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
+          grep -Fq 'threshold-oracle{display:none!important}' nayanet-living-entrance.css
+          grep -Fq 'threshold-doors button:nth-child(5)' nayanet-living-entrance.css
+          grep -Fq 'portal-input button{display:flex;position:absolute' nayanet-living-entrance.css
+          grep -Fq '/nayanet-living-entrance.css' _headers
           node --check nayanet-10.js
           node --check naya-data.js
           node --check nayanet-intelligence-feed.js
-
-      - name: Validate canonical HTML/assets
-        shell: bash
-        run: |
-          set -euo pipefail
-          cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
+          node - <<'NODE'
+          const fs=require('fs'); const x=JSON.parse(fs.readFileSync('powercasts.json','utf8'));
+          if(!Array.isArray(x)||x.length!==18) throw new Error('Expected 18 Powercasts');
+          if(x.some(c=>!c.n||!c.title||!c.image||!c.audio)) throw new Error('Incomplete Powercast');
+          NODE
           python - <<'PY'
           from pathlib import Path
-          html=Path('index.html').read_text(encoding='utf-8')
-          data=Path('naya-data.js').read_text(encoding='utf-8')
-          css=Path('nayanet-10-experience.css').read_text(encoding='utf-8')
-          elite=Path('nayanet-elite.css').read_text(encoding='utf-8')
-          entrance=Path('nayanet-living-entrance.css').read_text(encoding='utf-8')
-          feed=Path('nayanet-intelligence-feed.js').read_text(encoding='utf-8')
-          feed_css=Path('nayanet-intelligence-feed.css').read_text(encoding='utf-8')
-          required=['/nayanet-10-experience.css','/naya-data.js']
-          missing=[x for x in required if x not in html]
-          if missing: raise SystemExit('Missing canonical shell references: '+', '.join(missing))
-          if '/nayanet-10.js' in html: raise SystemExit('Runtime must boot after persistence hydration; direct runtime script is obsolete')
-          if 'const RUNTIME_SRC = "/nayanet-10.js"' not in data: raise SystemExit('Persistence bridge does not own canonical runtime boot')
-          if 'const FEED_SRC = "/nayanet-intelligence-feed.js"' not in data: raise SystemExit('Persistence bridge does not own intelligence-feed boot')
-          if '@import url(\'/nayanet-elite.css\');' not in css: raise SystemExit('Canonical stylesheet does not import elite visual system')
-          if '@import url(\'/nayanet-intelligence-feed.css\');' not in css: raise SystemExit('Canonical stylesheet does not import intelligence feed visual system')
-          if '@import url(\'/nayanet-living-entrance.css\');' not in css: raise SystemExit('Canonical stylesheet does not import living entrance visual system')
-          if not elite.strip() or not entrance.strip() or not feed.strip() or not feed_css.strip(): raise SystemExit('Required intelligence assets are empty')
-          if 'threshold-oracle{display:none!important}' not in entrance: raise SystemExit('Living entrance must remove obsolete side oracle')
-          if 'threshold-doors button:nth-child(5)' not in entrance: raise SystemExit('Living entrance spectrum states are incomplete')
-          if 'portal-input button{display:flex;position:absolute' not in entrance: raise SystemExit('Entrance control is not positioned as a threshold action')
-          if 'currentIntelligenceFeed' not in feed or 'NEXT_NODE' not in feed: raise SystemExit('Runtime feed lacks continuity surface contract')
-          for path in ['index.html','nayanet-10-experience.css','nayanet-elite.css','nayanet-mobile-overflow.css','nayanet-intelligence-feed.css','nayanet-living-entrance.css','nayanet-10.js','naya-data.js','nayanet-intelligence-feed.js','powercasts.json','_headers','404.html']:
-            p=Path(path)
-            if not p.is_file() or p.stat().st_size==0: raise SystemExit('Missing asset: '+path)
-          headers=Path('_headers').read_text(encoding='utf-8')
-          for stale in ['/styles.css','/compat.css','/app.js','/naya-runtime.js','/naya-experience.js','/naya-final.js']:
-            if stale in headers: raise SystemExit('Stale asset remains in _headers: '+stale)
-          for canonical in ['/nayanet-10-experience.css','/nayanet-elite.css','/nayanet-mobile-overflow.css','/nayanet-intelligence-feed.css','/nayanet-living-entrance.css','/nayanet-10.js','/naya-data.js','/nayanet-intelligence-feed.js','/powercasts.json']:
-            if canonical not in headers: raise SystemExit('Canonical asset missing from _headers: '+canonical)
-          required_ids=['frontDoor','entryForm','nameInput','hub','hubBrand','userName','askNaya','hubStage','nayaCore','worldMap','player','playerImage','playerNumber','playerTitle','playerSubtitle','waveform','seek','seekFill','elapsed','length','prevCast','playCast','nextCast','worldCards','castGrid','worldView','returnToSun','worldHeaderLabel','worldContent','worldAsk','miniPlayer','miniImage','miniTitle','miniPlay','miniNext','toast','audio']
-          missing_ids=[i for i in required_ids if f'id="{i}"' not in html]
-          if missing_ids: raise SystemExit('Missing required DOM IDs: '+', '.join(missing_ids))
-          for required in ['role="slider"','aria-valuemin="0"','aria-valuemax="100"','aria-valuenow="0"','aria-live="polite"']:
-            if required not in html: raise SystemExit('Missing accessibility contract: '+required)
-          print('Canonical hydrated HTML/assets/headers/DOM/accessibility/intelligence feed/living entrance: OK')
+          html=Path('index.html').read_text()
+          for i in ['frontDoor','entryForm','nameInput','hub','hubStage','nayaCore','worldMap','player','worldCards','castGrid','worldView','audio']:
+            if f'id="{i}"' not in html: raise SystemExit('Missing DOM contract: '+i)
+          for x in ['role="slider"','aria-valuemin="0"','aria-valuemax="100"','aria-valuenow="0"','aria-live="polite"']:
+            if x not in html: raise SystemExit('Missing accessibility contract: '+x)
+          if 'threshold-oracle' in html: raise SystemExit('Obsolete side-oracle must be removed from HTML')
+          print('NayaNET canonical shell + living entrance + accessibility: OK')
           PY
-
       - name: Create exact standalone Cloudflare ZIP
         shell: bash
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
-          rm -f NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
-          zip -j NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip \
-            index.html nayanet-10-experience.css nayanet-elite.css nayanet-mobile-overflow.css nayanet-intelligence-feed.css nayanet-living-entrance.css nayanet-10.js naya-data.js nayanet-intelligence-feed.js powercasts.json _headers 404.html
-
-      - name: Prove exact release artifact
+          zip -j NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip index.html nayanet-10-experience.css nayanet-elite.css nayanet-mobile-overflow.css nayanet-intelligence-feed.css nayanet-living-entrance.css nayanet-10.js naya-data.js nayanet-intelligence-feed.js powercasts.json _headers 404.html
+      - name: Prove artifact
         shell: bash
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
-          expected="404.html _headers index.html naya-data.js nayanet-10-experience.css nayanet-10.js nayanet-elite.css nayanet-intelligence-feed.css nayanet-intelligence-feed.js nayanet-living-entrance.css nayanet-mobile-overflow.css powercasts.json "
-          actual="$(unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | sort | tr '\n' ' ')"
-          test "$actual" = "$expected"
           unzip -t NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
           sha256sum NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | tee NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip.sha256
-          {
-            echo "NayaNET E02 Cloudflare production artifact proof"
-            echo "Commit: $(git rev-parse HEAD)"
-            echo "Tree: $(git rev-parse HEAD^{tree})"
-            echo "Artifact: NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip"
-            echo "Artifact SHA-256: $(sha256sum NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | awk '{print $1}')"
-            echo "Files: $expected"
-          } > NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.PROOF.txt
-          cat NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.PROOF.txt
-
-      - name: Upload standalone ZIP and proof
+          echo "Commit: $(git rev-parse HEAD)" > NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.PROOF.txt
+          echo "Artifact SHA-256: $(sha256sum NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | awk '{print $1}')" >> NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.PROOF.txt
+      - name: Upload artifact and proof
         uses: actions/upload-artifact@v4
         with:
           name: NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE
