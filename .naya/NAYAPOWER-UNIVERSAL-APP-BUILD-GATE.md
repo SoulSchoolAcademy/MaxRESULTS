@@ -28,6 +28,7 @@ Required operating authority:
 
 - `.naya/NIPOWER-MASTERY-OPERATING-PROTOCOL.md`
 - `.naya/NIPOWER-ELITE-DESIGN-PROTOCOL.md`
+- `.naya/NAYANET-DESIGN-BOOTSTRAP.md`
 - `NAYA/INTELLIGENCE/MASTERS-OF-MASTERS-CORPUS.md`
 
 These are not optional reference documents for substantive work. They are the reusable judgment and execution substrate.
