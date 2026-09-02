@@ -5,6 +5,7 @@
   const LOCAL_KEY = "nayanet:intelligence:v1";
   const RUNTIME_SRC = "/nayanet-10.js";
   const FEED_SRC = "/nayanet-intelligence-feed.js";
+  const FRONT_DOOR_SRC = "/nayanet-front-door.js";
   let client = null, memberId = null, ready = false, internalWrite = false;
   let runtimeStarted = false;
 
@@ -33,6 +34,13 @@
     script.onload = loadFeed;
     document.body.appendChild(script);
   }
+  function loadFrontDoor() {
+    if (document.querySelector(`script[src="${FRONT_DOOR_SRC}"]`)) return;
+    const script = document.createElement("script");
+    script.src = FRONT_DOOR_SRC;
+    script.async = false;
+    document.body.appendChild(script);
+  }
   async function boot() {
     try {
       const mod = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
@@ -53,7 +61,7 @@
       ready = false;
       console.warn("NayaNET persistence bridge unavailable; local continuity remains active.", error);
       notify();
-    } finally { startRuntime(); }
+    } finally { loadFrontDoor(); startRuntime(); }
   }
   async function hydrate() {
     if (!client || !memberId) return;
