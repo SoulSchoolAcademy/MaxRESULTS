@@ -12,30 +12,34 @@
   <link rel="stylesheet" href="/nayanet-entrance-page.css">
   <link rel="stylesheet" href="/nayanet-front-door-north-star-final.css">
   <link rel="stylesheet" href="/nayanet-front-door-elite-final.css">
+  <link rel="stylesheet" href="/nayanet-front-door-chamber-final.css">
   <link rel="stylesheet" href="/nayanet-component-physics.css">
 </head>
 <body>
   <main id="app">
     <section id="frontDoor" class="threshold standalone-entrance north-star-front-door" aria-label="Enter NayaNET">
       <div class="threshold-stage">
-        <div class="threshold-naya" aria-hidden="true">
-          <span class="threshold-naya-aura"></span>
-          <span class="threshold-naya-ring threshold-naya-ring-a"></span>
-          <span class="threshold-naya-ring threshold-naya-ring-b"></span>
-          <span class="threshold-naya-core"><i></i></span>
-        </div>
-        <div class="threshold-copy">
-          <div class="threshold-eyebrow">NayaNET</div>
-          <h1>Welcome to NayaNET.</h1>
-          <p class="threshold-lead"><strong>Learn. Create. Grow. Together.</strong><br><span>A private, new intelligent network.</span></p>
-          <form id="entryForm" class="identity-portal" novalidate>
-            <div class="portal-input" data-state="idle">
-              <span class="portal-prefix" aria-hidden="true"><i></i></span>
-              <label class="sr-only" for="nameInput">Your name</label>
-              <input id="nameInput" name="name" autocomplete="name" maxlength="80" placeholder="Enter your name" required aria-label="Enter your name">
-              <button type="submit" aria-label="Enter NayaNET" disabled aria-disabled="true">ENTER NAYANET <span aria-hidden="true">→</span></button>
-            </div>
-          </form>
+        <div class="threshold-chamber" aria-label="NayaNET entry chamber">
+          <div class="threshold-naya" aria-hidden="true">
+            <span class="threshold-naya-aura"></span>
+            <span class="threshold-naya-ring threshold-naya-ring-a"></span>
+            <span class="threshold-naya-ring threshold-naya-ring-b"></span>
+            <span class="threshold-naya-core"><i></i></span>
+          </div>
+          <div class="threshold-copy">
+            <div class="threshold-eyebrow">NayaNET</div>
+            <h1>Welcome to NayaNET.</h1>
+            <p class="threshold-lead"><strong>Learn. Create. Grow. Together.</strong></p>
+            <form id="entryForm" class="identity-portal" novalidate>
+              <div class="portal-input" data-state="idle">
+                <span class="portal-prefix" aria-hidden="true"><i></i></span>
+                <label class="sr-only" for="nameInput">Your name</label>
+                <input id="nameInput" name="name" autocomplete="name" maxlength="80" placeholder="Enter your name" required aria-label="Enter your name">
+                <button type="submit" aria-label="Enter NayaNET" disabled aria-disabled="true">ENTER NAYANET <span aria-hidden="true">→</span></button>
+              </div>
+            </form>
+            <p class="threshold-subline">A private, new intelligent network.</p>
+          </div>
         </div>
       </div>
     </section>
