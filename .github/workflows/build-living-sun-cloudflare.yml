@@ -20,19 +20,25 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -s NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/index.html
-          test -s NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/_headers
-      - name: Create standalone Cloudflare ZIP
+          cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
+          test -s index.html
+          test -s styles.css
+          test -s compat.css
+          test -s app.js
+          test -s _headers
+          test -s 404.html
+      - name: Create complete standalone Cloudflare ZIP
         shell: bash
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
-          zip -j ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip index.html _headers
+          zip -j ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip \
+            index.html styles.css compat.css app.js _headers 404.html
       - name: Verify exact ZIP contents
         shell: bash
         run: |
           set -euo pipefail
-          test "$(unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | sort | tr '\n' ' ')" = "_headers index.html "
+          test "$(unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | sort | tr '\n' ' ')" = "404.html _headers app.js compat.css index.html styles.css "
       - name: Upload standalone ZIP
         uses: actions/upload-artifact@v4
         with:
