@@ -117,10 +117,6 @@ The next Naya should understand immediately:
 
 ## 6. NON-NEGOTIABLE COMPLETION CHAIN
 
-**SHawn/USER INPUT → SHAWN NOTE → NAYA NOTE → MACHINE NOTE → INTELLIGENT FEED → VERIFY → RECEIPTS → RESTOREABLE STATE**
-
-Correct capitalization of the first term is **SHAWN**; this line is intentionally normalized below for implementation use:
-
 **USER INPUT → SHAWN NOTE → NAYA NOTE → MACHINE NOTE → INTELLIGENT FEED → VERIFY → RECEIPTS → RESTOREABLE STATE**
 
 ---
