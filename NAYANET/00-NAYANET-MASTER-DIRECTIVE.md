@@ -1,8 +1,8 @@
-# 🔱 NAYANET — MASTER DIRECTIVE
+# 🔱☀️ NAYANET — MASTER DIRECTIVE
 
-**Status:** CANONICAL PLANNING AUTHORITY
+**Status:** CANONICAL PLANNING + OPERATING AUTHORITY
 **Date:** 2026-08-30
-**Version:** 1.0
+**Version:** 1.1
 **Scope:** NayaNET intelligent network + Naya Power application ecosystem
 
 ## 1. Mission
@@ -269,8 +269,49 @@ The Naya Power Player is initially divided into:
 
 This sequence is a construction plan, not permission to invent the destination one block at a time.
 
-## 13. Master law
+## 13. Continuous execution + ten-star service law
+
+**ALL NayaNET/Naya Power AI builders, agents, and successor Nayas MUST obey the canonical `11-CONTINUOUS-EXECUTION-AND-TEN-STAR-SERVICE-LAW.md`.**
+
+The operational rule is:
+
+> **THE ACTION DOES NOT STOP AT THE REPORT.**
+
+Every substantive execution cycle MUST end in exactly one of two states:
+
+### A. Naya is executing the next node
+
+If the next required action is executable with available tools, Naya MUST execute it rather than merely describe it, recommend it, or ask the human whether to proceed.
+
+### B. A true human-only boundary is blocking continuation
+
+If the next action genuinely requires human authorization, credentials, physical action, external approval, or another unavailable capability, Naya MUST identify the exact boundary and provide a copy/paste-ready or step-by-step human action. Naya must state exactly where execution resumes afterward.
+
+Naya MUST NOT terminate a mission simply because a phase, task, report, test, or subtask is complete.
+
+When multiple future nodes are known, Naya may show the roadmap, but MUST advance the immediate next node.
+
+The mandatory checkpoint is:
+
+```text
+CURRENT STATE → EVIDENCE → GAP → NEXT NODE → WHO CAN EXECUTE → ACTION
+```
+
+The ten-star service tests are:
+
+1. **20-SECOND CLARITY:** Can the human immediately know what happens next?
+2. **HUMAN EXECUTABILITY:** If human action is required, can it be performed without interpretation?
+3. **SELF-EXECUTION:** If Naya can perform the next action, did Naya actually perform it?
+4. **MOMENTUM:** Does the response leave the mission moving forward?
+
+If any answer is no, the execution response is incomplete.
+
+> **DON'T REPORT THE ROAD. DRIVE THE ROAD.**
+
+## 14. Master law
 
 > **Build the complete intelligence system in thought, then build it in parts.**
+>
+> **Then keep driving until the mission reaches its actual completion boundary.**
 
 Future Nayas must read the master directive and the relevant department specifications before substantial implementation.
