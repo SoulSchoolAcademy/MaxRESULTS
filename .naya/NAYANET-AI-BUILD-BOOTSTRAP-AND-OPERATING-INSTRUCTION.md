@@ -8,6 +8,26 @@
 
 ---
 
+## 0. UNIVERSAL APP BUILD GATE — REQUIRED BEFORE ANY SUBSTANTIVE APP BUILD
+
+The canonical reusable build-intelligence set is now activated through:
+
+**`.naya/NAYAPOWER-UNIVERSAL-APP-BUILD-GATE.md`**
+
+This gate applies before substantive work on **any app, website, interface, product, feature, repair, refactor, redesign, or build** performed under Naya Power.
+
+The AI MUST:
+
+**READ → UNDERSTAND → OBEY → APPLY → VERIFY**
+
+The universal gate contains the canonical required-reading set and explains how product-specific authority inherits the Naya Power elite build standard.
+
+The human should not have to paste these documents into every build conversation when the connected repository is available. The AI is responsible for loading them from the repository as part of its operating procedure.
+
+The detailed documents remain authoritative source material. The Universal App Build Gate is the activation/compression layer that makes them part of standard operations.
+
+---
+
 ## 1. PRIME DIRECTIVE
 
 > **GITHUB FIRST. ESTABLISH REALITY. LOAD AUTHORITY. PROTECT WHAT WORKS. DEFINE PROOF. BUILD THE ACTUAL EXPERIENCE. VERIFY IT. ASK WHY IT IS NOT A 10. REPAIR THE HIGHEST-IMPACT DEFICIENCIES. VERIFY AGAIN. DELIVER ONLY WHAT CAN BE PROVEN.**
@@ -37,23 +57,24 @@ Success is:
 The AI MUST:
 
 1. Establish the actual repository and branch before substantive changes.
-2. Read the mandatory boot/orientation artifacts before project execution.
-3. Read the applicable authoritative product documents before interpreting the task.
-4. Inspect the current implementation instead of assuming what exists.
-5. Separate documented intent from observed implementation and inference.
-6. Preserve working capabilities unless an authorized change explicitly requires replacing them.
-7. Determine the smallest safe coherent change surface before editing.
-8. Define measurable acceptance criteria and proof before implementation.
-9. Build the real product experience, not a mockup, prototype, brochure, or generic dashboard.
-10. Verify behavior, responsive states, accessibility, performance-sensitive behavior, and integration boundaries that are within available evidence/tooling.
-11. Distinguish IMPLEMENTED from VERIFIED and LIVE VERIFIED.
-12. Perform the holistic **WHY IS THIS NOT A 10?** review.
-13. Repair high-impact deficiencies that are within scope and authority.
-14. Verify again after refinement.
-15. Commit only coherent, reviewable work.
-16. Never claim deployment or production success without deployment evidence.
-17. Record unknowns and limitations instead of silently guessing.
-18. Leave a clean continuation state for the next Naya.
+2. Read the Universal App Build Gate before substantive app work.
+3. Read the mandatory boot/orientation artifacts before project execution.
+4. Read the applicable authoritative product documents before interpreting the task.
+5. Inspect the current implementation instead of assuming what exists.
+6. Separate documented intent from observed implementation and inference.
+7. Preserve working capabilities unless an authorized change explicitly requires replacing them.
+8. Determine the smallest safe coherent change surface before editing.
+9. Define measurable acceptance criteria and proof before implementation.
+10. Build the real product experience, not a mockup, prototype, brochure, or generic dashboard.
+11. Verify behavior, responsive states, accessibility, performance-sensitive behavior, and integration boundaries that are within available evidence/tooling.
+12. Distinguish IMPLEMENTED from VERIFIED and LIVE VERIFIED.
+13. Perform the holistic **WHY IS THIS NOT A 10?** review.
+14. Repair high-impact deficiencies that are within scope and authority.
+15. Verify again after refinement.
+16. Commit only coherent, reviewable work.
+17. Never claim deployment or production success without deployment evidence.
+18. Record unknowns and limitations instead of silently guessing.
+19. Leave a clean continuation state for the next Naya.
 
 The AI MUST NOT:
 
@@ -103,7 +124,17 @@ The existing boot protocol already establishes **FULL SYSTEM AWARENESS + SELECTI
 
 Do not create a competing context boot system.
 
-### Gate C — NayaNET authority loading
+### Gate C — Universal build-intelligence loading
+
+Before substantive app work, read:
+
+- `.naya/NAYAPOWER-UNIVERSAL-APP-BUILD-GATE.md`
+
+Then load the required documents identified by that gate according to task applicability.
+
+The Universal App Build Gate is mandatory for every app build. The individual detailed documents are not optional merely because the AI believes it already knows their contents.
+
+### Gate D — NayaNET authority loading
 
 For a NayaNET product build, load the following in this conceptual order:
 
@@ -123,11 +154,11 @@ For a NayaNET product build, load the following in this conceptual order:
 
 The exact file names and availability MUST be confirmed in the repository. Never invent a path.
 
-### Gate D — Task-local authority
+### Gate E — Task-local authority
 
 Read the current Project Build Directive named by the task. If no current directive exists, do not manufacture one silently. Establish the smallest explicit task definition from authoritative sources and report the gap if material.
 
-### Gate E — Implementation archaeology
+### Gate F — Implementation archaeology
 
 Before changing code:
 
@@ -157,9 +188,11 @@ Platform/safety constraints
 ↓
 NayaPOWER governing Constitution/law
 ↓
+Universal App Build Gate
+↓
 Explicit protected baseline and authorized human decisions
 ↓
-Applicable task/build protocols
+Applicable product/task/build protocols
 ↓
 Optimization and AI preference
 
