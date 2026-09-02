@@ -1,4 +1,4 @@
-name: Build Living Sun Cloudflare Upload
+name: Build NayaNET Cloudflare Release
 
 on:
   push:
@@ -16,27 +16,62 @@ jobs:
     steps:
       - name: Checkout exact source
         uses: actions/checkout@v4
-      - name: Verify current NayaNET release source
+      - name: Verify canonical NayaNET 10 shell
         shell: bash
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
-          for file in index.html styles.css living.css compat.css app.js living.js powercasts.json _headers 404.html naya-runtime.js naya-experience.js naya-final.js naya-data.js; do test -s "$file"; done
+          for file in index.html nayanet-10-experience.css nayanet-10.js naya-data.js powercasts.json _headers 404.html; do test -s "$file"; done
+          grep -Fq 'href="/nayanet-10-experience.css"' index.html
+          grep -Fq 'src="/nayanet-10.js"' index.html
+          grep -Fq 'src="/naya-data.js"' index.html
+          ! grep -Fq 'href="/styles.css"' index.html
+          ! grep -Fq 'src="/app.js"' index.html
+      - name: Validate Powercast registry
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
+          node -e "const fs=require('fs'); const x=JSON.parse(fs.readFileSync('powercasts.json','utf8')); if(!Array.isArray(x)||x.length!==18) process.exit(1); if(x.some(c=>!c.n||!c.title||!c.image||!c.audio)) process.exit(1); console.log('Powercasts:',x.length)"
+      - name: Syntax-check canonical runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
+          node --check nayanet-10.js
+          node --check naya-data.js
+      - name: Validate canonical HTML/assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
+          python - <<'PY'
+          from pathlib import Path
+          html=Path('index.html').read_text()
+          required=['/nayanet-10-experience.css','/nayanet-10.js','/naya-data.js']
+          missing=[x for x in required if x not in html]
+          if missing: raise SystemExit('Missing canonical runtime references: '+', '.join(missing))
+          for path in ['index.html','nayanet-10-experience.css','nayanet-10.js','naya-data.js','powercasts.json','_headers','404.html']:
+            if not Path(path).is_file() or Path(path).stat().st_size==0: raise SystemExit('Missing asset: '+path)
+          print('Canonical HTML/assets: OK')
+          PY
       - name: Create complete standalone Cloudflare ZIP
         shell: bash
         run: |
           set -euo pipefail
           cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
+          rm -f ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
           zip -j ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip \
-            index.html styles.css living.css compat.css app.js living.js powercasts.json _headers 404.html \
-            naya-runtime.js naya-experience.js naya-final.js naya-data.js
+            index.html nayanet-10-experience.css nayanet-10.js naya-data.js powercasts.json _headers 404.html
       - name: Verify exact ZIP contents
         shell: bash
         run: |
           set -euo pipefail
-          expected="404.html _headers app.js compat.css index.html living.css living.js naya-data.js naya-experience.js naya-final.js naya-runtime.js powercasts.json styles.css "
-          actual="$(unzip -Z1 NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | sort | tr '\n' ' ')"
+          cd NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
+          expected="404.html _headers index.html naya-data.js nayanet-10-experience.css nayanet-10.js powercasts.json "
+          actual="$(unzip -Z1 ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip | sort | tr '\n' ' ')"
           test "$actual" = "$expected"
+          unzip -t ../../../NAYANET-LIVING-INTELLIGENCE-CLOUDFLARE.zip
       - name: Upload standalone ZIP
         uses: actions/upload-artifact@v4
         with:
