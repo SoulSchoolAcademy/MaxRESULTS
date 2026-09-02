@@ -65,12 +65,19 @@
       }
       input.setAttribute('aria-invalid', 'false');
       const submit = form.querySelector('button[type="submit"]');
-      if (submit) submit.setAttribute('data-state', 'entering');
+      if (submit) {
+        submit.setAttribute('data-state', 'entering');
+        submit.setAttribute('aria-busy', 'true');
+      }
       document.body.classList.add('nayanet-entering');
       frontDoor.setAttribute('aria-hidden', 'true');
       window.setTimeout(() => {
+        // The canonical entrance stylesheet intentionally owns the visual shell,
+        // so use an explicit display state here as a hard DOM-level exit guard.
         frontDoor.hidden = true;
+        frontDoor.style.display = 'none';
         hub.hidden = false;
+        hub.style.removeProperty('display');
         hub.setAttribute('aria-hidden', 'false');
         if (greeting) greeting.textContent = `Welcome, ${name}. Your intelligence has a home.`;
         if (userName) userName.textContent = name.toUpperCase();
@@ -88,6 +95,8 @@
       button.addEventListener('click', () => {
         document.querySelectorAll('.threshold-doors [data-preview]').forEach((item) => item.classList.remove('is-selected'));
         button.classList.add('is-selected');
+        const selectedText = button.querySelector('strong');
+        if (selectedText) selectedText.style.color = '#fff';
         const key = button.dataset.preview;
         const messages = {
           naya: 'Naya is the intelligence partner at the center.',
