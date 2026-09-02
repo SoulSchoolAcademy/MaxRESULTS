@@ -54,12 +54,24 @@ jobs:
           cat > nayanet-runtime.spec.js <<'JS'
           const { test, expect } = require('@playwright/test');
           test.use({ baseURL: 'http://127.0.0.1:4173', viewport: { width: 1440, height: 1000 } });
-          test('front door renders and entry is functional', async ({ page }) => {
+          test('front door renders and living entrance is functional', async ({ page }) => {
             const errors = [];
             page.on('pageerror', e => errors.push(String(e)));
             await page.goto('/index.html', { waitUntil: 'networkidle' });
             await expect(page.locator('#frontDoor')).toBeVisible();
             await expect(page.locator('#nameInput')).toBeVisible();
+            await expect(page.locator('.threshold-oracle')).toBeHidden();
+            await expect(page.locator('.threshold-doors')).toBeVisible();
+            await expect(page.locator('.threshold-doors button')).toHaveCount(5);
+            await expect(page.locator('.portal-input button[type="submit"]')).toBeVisible();
+            await expect(page.locator('.portal-input button[type="submit"]')).toContainText('ENTER');
+            const boardStates = await page.locator('.threshold-doors button').evaluateAll(buttons => buttons.map(b => {
+              const s = getComputedStyle(b);
+              return { border: s.borderTopColor, background: s.backgroundImage };
+            }));
+            expect(boardStates.every(x => x.border !== 'rgba(0, 0, 0, 0)')).toBeTruthy();
+            await page.locator('.threshold-doors button').nth(3).focus();
+            await expect(page.locator('.threshold-doors button').nth(3)).toBeFocused();
             await page.locator('#nameInput').fill('Runtime Tester');
             await page.locator('#entryForm').evaluate(form => form.requestSubmit());
             await expect(page.locator('#hub')).toBeVisible({ timeout: 10000 });
