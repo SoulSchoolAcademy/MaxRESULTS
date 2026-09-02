@@ -25,18 +25,15 @@ jobs:
     steps:
       - name: Checkout exact source
         uses: actions/checkout@v4
-
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
       - name: Install Playwright and Chromium
         working-directory: .
         run: |
           npm install --no-save --no-package-lock @playwright/test
           npx playwright install --with-deps chromium
-
       - name: Start static server
         working-directory: .
         run: |
@@ -45,7 +42,6 @@ jobs:
           for i in $(seq 1 30); do curl -fsS http://127.0.0.1:4173/index.html >/dev/null && exit 0; sleep 1; done
           cat /tmp/nayanet-http.log
           exit 1
-
       - name: Run browser smoke and interaction contract
         working-directory: .
         env:
@@ -130,7 +126,6 @@ jobs:
           JS
           npx playwright test nayanet-runtime.spec.js --reporter=line
           rm -f nayanet-runtime.spec.js
-
       - name: Stop static server
         if: always()
         working-directory: .
