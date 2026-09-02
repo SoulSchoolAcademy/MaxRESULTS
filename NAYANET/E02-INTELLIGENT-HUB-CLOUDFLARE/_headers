@@ -4,9 +4,15 @@
   Cache-Control: public, max-age=31536000, immutable
 /nayanet-elite.css
   Cache-Control: public, max-age=31536000, immutable
+/nayanet-mobile-overflow.css
+  Cache-Control: public, max-age=31536000, immutable
+/nayanet-intelligence-feed.css
+  Cache-Control: public, max-age=31536000, immutable
 /nayanet-10.js
   Cache-Control: public, max-age=31536000, immutable
 /naya-data.js
+  Cache-Control: public, max-age=300, must-revalidate
+/nayanet-intelligence-feed.js
   Cache-Control: public, max-age=300, must-revalidate
 /powercasts.json
   Cache-Control: public, max-age=3600, must-revalidate
