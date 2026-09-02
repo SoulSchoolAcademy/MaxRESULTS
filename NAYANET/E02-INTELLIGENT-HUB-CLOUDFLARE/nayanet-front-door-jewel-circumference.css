@@ -1,0 +1,85 @@
+/* NayaNET Front Door — JEWEL CIRCUMFERENCE
+   A continuous ring of dormant jewel facets + moving electric illumination.
+   The ring is the object; the light is the event.
+*/
+
+#frontDoor .threshold-chamber{overflow:visible!important;}
+
+#frontDoor .threshold-chamber::before{display:none!important;}
+
+#frontDoor .jewel-ring{
+  position:absolute!important;
+  inset:-7px!important;
+  z-index:3!important;
+  border-radius:50%!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(255,255,255,.95) 0 1.5px,rgba(139,92,255,.75) 2px,transparent 4px),
+    radial-gradient(circle at 71% 7%,rgba(255,159,92,.95) 0 1.5px,rgba(245,215,142,.65) 2px,transparent 4px),
+    radial-gradient(circle at 88% 29%,rgba(255,70,104,.95) 0 1.4px,rgba(255,159,92,.62) 2px,transparent 4px),
+    radial-gradient(circle at 95% 54%,rgba(85,242,139,.95) 0 1.5px,rgba(79,227,255,.60) 2px,transparent 4px),
+    radial-gradient(circle at 79% 82%,rgba(79,227,255,.95) 0 1.5px,rgba(79,140,255,.62) 2px,transparent 4px),
+    radial-gradient(circle at 50% 96%,rgba(231,92,255,.95) 0 1.5px,rgba(139,92,255,.62) 2px,transparent 4px),
+    radial-gradient(circle at 21% 82%,rgba(139,92,255,.95) 0 1.5px,rgba(231,92,255,.62) 2px,transparent 4px),
+    radial-gradient(circle at 5% 54%,rgba(245,215,142,.95) 0 1.5px,rgba(255,159,92,.62) 2px,transparent 4px),
+    radial-gradient(circle at 12% 29%,rgba(85,242,139,.95) 0 1.5px,rgba(79,227,255,.62) 2px,transparent 4px),
+    radial-gradient(circle at 29% 7%,rgba(79,227,255,.95) 0 1.5px,rgba(85,242,139,.62) 2px,transparent 4px),
+    conic-gradient(from -90deg,#e75cff,#8b5cff,#4f8cff,#4fe3ff,#55f28b,#f5d78e,#ff9f5c,#ff4668,#e75cff)!important;
+  -webkit-mask:radial-gradient(circle,transparent calc(100% - 8px),#000 calc(100% - 6px),#000 100%)!important;
+  mask:radial-gradient(circle,transparent calc(100% - 8px),#000 calc(100% - 6px),#000 100%)!important;
+  opacity:.34!important;
+  filter:saturate(.9)!important;
+}
+
+/* Many fine facets make the entire circumference read as a jewel setting. */
+#frontDoor .jewel-ring::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  border-radius:50%!important;
+  background:repeating-conic-gradient(
+    from -90deg,
+    rgba(255,255,255,.55) 0deg 1deg,
+    transparent 1deg 7.5deg
+  )!important;
+  -webkit-mask:radial-gradient(circle,transparent calc(100% - 6px),#000 calc(100% - 4px),#000 100%)!important;
+  mask:radial-gradient(circle,transparent calc(100% - 6px),#000 calc(100% - 4px),#000 100%)!important;
+  opacity:.24!important;
+}
+
+/* The moving excitation is a narrow spectrum window, not a three-color cluster. */
+#frontDoor .jewel-ring::after{
+  content:""!important;
+  position:absolute!important;
+  left:50%!important;
+  top:-11px!important;
+  width:150px!important;
+  height:34px!important;
+  transform:translateX(-50%)!important;
+  border-radius:50%!important;
+  background:linear-gradient(90deg,transparent 0%,rgba(231,92,255,.08) 14%,rgba(139,92,255,.22) 27%,rgba(79,227,255,.48) 43%,rgba(255,255,255,.96) 50%,rgba(85,242,139,.48) 58%,rgba(245,215,142,.24) 74%,rgba(255,70,104,.08) 88%,transparent)!important;
+  filter:blur(4px)!important;
+  mix-blend-mode:screen!important;
+  animation:nnJewelExcitation 5.8s linear infinite!important;
+  transform-origin:50% calc(50% + 11px)!important;
+  pointer-events:none!important;
+}
+
+#frontDoor .orbital-energy{display:none!important;}
+
+@keyframes nnJewelExcitation{
+  from{transform:translateX(-50%) rotate(0deg)}
+  to{transform:translateX(-50%) rotate(360deg)}
+}
+
+/* A crisp traveling star is layered over the excitation so the eye can track the light. */
+#frontDoor .jewel-ring + .identity-portal::before{content:none!important;}
+
+@media (prefers-reduced-motion:reduce){
+  #frontDoor .jewel-ring::after{animation:none!important}
+}
+
+@media (max-width:700px){
+  #frontDoor .jewel-ring{inset:-6px!important;}
+  #frontDoor .jewel-ring::after{width:110px!important;height:28px!important;top:-9px!important;}
+}
