@@ -1,0 +1,24 @@
+/* NayaNET Standalone Entrance — one job: make the first screen unforgettable. */
+#frontDoor.standalone-entrance{height:100svh;min-height:100svh;overflow:hidden;background:#020207}
+#frontDoor.standalone-entrance .threshold-stage{position:absolute;inset:0;height:100%;padding:0;display:block}
+#frontDoor.standalone-entrance .threshold-naya{top:10%;width:clamp(148px,16vw,218px);height:clamp(148px,16vw,218px)}
+#frontDoor.standalone-entrance .threshold-copy{top:47%;width:min(760px,92vw);transform:translate(-50%,-24%);display:flex;flex-direction:column;align-items:center}
+#frontDoor.standalone-entrance .threshold-eyebrow{display:block;margin:0 0 12px;font-size:9px!important;letter-spacing:.42em!important;color:rgba(255,255,255,.52)!important}
+#frontDoor.standalone-entrance .threshold-copy>h1{display:block;margin:0 0 13px;font-size:clamp(62px,8vw,112px);line-height:.88;font-weight:900;letter-spacing:-.085em;color:#fff;text-shadow:0 0 1px #fff,0 20px 90px rgba(0,0,0,.82),0 0 65px rgba(139,83,255,.12)}
+#frontDoor.standalone-entrance .threshold-lead{display:block;margin:0 0 17px;font-size:13px!important;line-height:1.55;letter-spacing:.08em!important;color:rgba(255,255,255,.56)!important}
+#frontDoor.standalone-entrance .threshold-lead strong{display:inline-block;margin-bottom:3px;font-size:16px!important;letter-spacing:.035em!important;color:rgba(255,255,255,.96)!important}
+#frontDoor.standalone-entrance .threshold-invitation{position:static;transform:none;width:auto;margin:0 0 24px;font-size:11px!important;letter-spacing:.12em!important;color:rgba(255,255,255,.48)!important;text-transform:none}
+#frontDoor.standalone-entrance .identity-portal{width:min(610px,92vw);margin:0}
+#frontDoor.standalone-entrance .portal-label{display:none}
+#frontDoor.standalone-entrance .portal-input{height:76px;border-radius:24px;padding:5px 6px}
+#frontDoor.standalone-entrance .portal-input input{font-size:17px!important;color:#fff}
+#frontDoor.standalone-entrance .portal-input button{min-width:184px;height:64px;border-radius:19px;font-size:8px;letter-spacing:.16em}
+#frontDoor.standalone-entrance .portal-foot{display:flex;justify-content:space-between;gap:14px;margin:10px 8px 0;font-size:7px;letter-spacing:.11em;color:rgba(255,255,255,.28)}
+#frontDoor.standalone-entrance .portal-foot b{color:rgba(118,232,176,.48)}
+#frontDoor.standalone-entrance .threshold-doors{position:absolute;left:50%;bottom:clamp(22px,4vh,48px);transform:translateX(-50%);z-index:30}
+#frontDoor.standalone-entrance .threshold-doors button small,#frontDoor.standalone-entrance .threshold-doors button>span,#frontDoor.standalone-entrance .threshold-doors button>i{display:none!important}
+#frontDoor.standalone-entrance .threshold-doors button strong{font-size:7px!important;max-width:90px}
+#frontDoor.standalone-entrance .threshold-doors button{backdrop-filter:blur(12px)}
+@media(max-width:760px){#frontDoor.standalone-entrance .threshold-naya{top:8%;width:128px;height:128px}#frontDoor.standalone-entrance .threshold-copy{top:43%;width:94vw}.standalone-entrance .threshold-copy>h1{font-size:clamp(54px,16vw,82px)!important}.standalone-entrance .threshold-lead strong{font-size:12px!important}.standalone-entrance .threshold-lead{font-size:10px!important}.standalone-entrance .threshold-invitation{font-size:9px!important;margin-bottom:17px!important}.standalone-entrance .portal-input{height:60px}.standalone-entrance .portal-input button{height:50px;min-width:128px}.standalone-entrance .portal-foot{display:none}.standalone-entrance .threshold-doors{bottom:14px}}
+@media(max-width:430px){#frontDoor.standalone-entrance .threshold-naya{top:6%;width:106px;height:106px}.standalone-entrance .threshold-copy{top:38%}.standalone-entrance .threshold-copy>h1{font-size:54px!important}.standalone-entrance .threshold-lead{margin-bottom:10px!important}.standalone-entrance .threshold-invitation{margin-bottom:12px!important}.standalone-entrance .threshold-doors{gap:3px!important}.standalone-entrance .threshold-doors button{width:18vw!important;height:18vw!important}.standalone-entrance .threshold-doors button:before{width:25px!important;height:25px!important}.standalone-entrance .threshold-doors button strong{font-size:4px!important}}
+@media(prefers-reduced-motion:reduce){#frontDoor.standalone-entrance *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
