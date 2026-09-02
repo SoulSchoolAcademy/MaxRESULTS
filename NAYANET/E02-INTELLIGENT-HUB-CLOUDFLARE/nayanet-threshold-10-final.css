@@ -1,0 +1,94 @@
+/* NayaNET 10 — final threshold / living-network finish.
+   Intent: remove the last traces of "web page" behavior without changing
+   the canonical runtime, nine-world model, Power Player, or data bridge.
+*/
+
+/* The threshold should read as one composed instrument, not stacked sections. */
+.threshold{min-height:100svh;overflow:hidden;background:radial-gradient(circle at 50% 42%,rgba(118,232,176,.045),transparent 22%),radial-gradient(circle at 50% 55%,rgba(184,108,255,.065),transparent 42%),#030308}
+.threshold-bar{position:relative;z-index:8;height:54px;flex-basis:54px;border-bottom:1px solid rgba(255,255,255,.055);background:linear-gradient(180deg,rgba(4,4,10,.72),rgba(4,4,10,.20));backdrop-filter:blur(18px)}
+.threshold-bar .brand-lockup{opacity:.82;transition:opacity .2s ease,transform .2s ease}
+.threshold-bar .brand-lockup:hover,.threshold-bar .brand-lockup:focus-visible{opacity:1;transform:translateY(-1px)}
+.threshold-status{font-size:7px;letter-spacing:.16em}
+.threshold-status b{font-size:7px}
+
+.threshold-stage{width:min(1160px,calc(100vw - 32px));padding:clamp(10px,2vh,24px) 0 10px;justify-content:center}
+.threshold-stage:after{content:"";position:absolute;left:50%;top:42%;width:min(980px,92vw);height:1px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,rgba(118,232,176,.16),rgba(79,231,255,.14),rgba(184,108,255,.16),transparent);filter:blur(.3px);opacity:.8;pointer-events:none}
+.threshold-naya{width:clamp(132px,12vw,174px);height:clamp(132px,12vw,174px);margin-bottom:0;z-index:2}
+.threshold-naya-aura{box-shadow:0 0 55px rgba(118,232,176,.16),0 0 110px rgba(184,108,255,.10)}
+.threshold-naya-label{font-size:10px;letter-spacing:.30em}
+.threshold-naya small{font-size:6px;letter-spacing:.20em;color:#c8c1cb}
+.threshold-naya em{font-size:5px;letter-spacing:.16em}
+
+.threshold-copy{display:flex;flex-direction:column;align-items:center;max-width:860px;margin-top:-3px}
+.threshold-eyebrow{margin-bottom:5px;font-size:7px;letter-spacing:.30em}
+.threshold-copy h1{font-size:clamp(48px,6.5vw,86px);line-height:.86;letter-spacing:-.085em;margin:0 0 10px;text-shadow:0 0 80px rgba(184,108,255,.15)}
+.threshold-lead{font-size:12px;line-height:1.45;margin:0 auto 12px;color:#918b97}
+.threshold-lead strong{color:#eee8f1;font-weight:700}
+.threshold-invitation{font-size:11px;margin:0 auto 14px;color:#fff;letter-spacing:.01em}
+.threshold-invitation span{color:#817985}
+
+/* Make identity feel like the act of activating the network. */
+.identity-portal{width:min(640px,100%);padding-bottom:54px}
+.portal-label{font-size:7px;letter-spacing:.18em;margin-bottom:6px;display:flex;justify-content:center;gap:7px}
+.portal-label b{letter-spacing:.16em}
+.portal-input{height:62px;border-radius:18px;border-color:rgba(118,232,176,.40);background:rgba(1,3,5,.86);box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 18px 65px rgba(0,0,0,.46),0 0 34px rgba(118,232,176,.055);transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease}
+.portal-input:focus-within{transform:translateY(-1px);border-color:rgba(118,232,176,.82);box-shadow:0 0 0 3px rgba(118,232,176,.07),0 0 70px rgba(118,232,176,.13),0 24px 80px rgba(0,0,0,.5)}
+.portal-input button{top:74px;width:min(300px,calc(100% - 16px));height:54px;border-radius:16px;letter-spacing:.20em}
+.portal-foot{margin-top:9px;font-size:7px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+
+/* The five boards are a capability constellation, not feature cards. */
+.threshold-doors{width:min(1160px,calc(100vw - 32px));grid-template-columns:repeat(5,1fr);gap:8px;padding:0 0 14px}
+.threshold-doors button{min-height:100px;padding:15px 15px 14px;border-radius:16px;background:linear-gradient(145deg,rgba(9,17,14,.78),rgba(5,6,9,.84));box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 12px 34px rgba(0,0,0,.28),0 0 24px rgba(118,232,176,.075)}
+.threshold-doors button:before{left:12px;right:12px;height:2px}
+.threshold-doors span{font-size:7px;letter-spacing:.15em}
+.threshold-doors strong{display:block;margin-top:7px;font-size:12px;letter-spacing:-.01em}
+.threshold-doors small{display:block;margin-top:3px;font-size:7px;line-height:1.3}
+.threshold-doors i{right:14px;top:14px;font-size:10px}
+.threshold-doors button.is-selected{transform:translateY(-3px);border-color:rgba(184,108,255,.98);box-shadow:inset 0 1px 0 rgba(255,255,255,.20),0 0 0 1px rgba(184,108,255,.26),0 0 46px rgba(184,108,255,.32),0 20px 54px rgba(0,0,0,.46)}
+
+/* A faint spectral bridge makes the relationship Naya → capabilities legible. */
+.threshold-doors:before{content:"";position:absolute;left:10%;right:10%;top:-26px;height:1px;background:linear-gradient(90deg,transparent,rgba(118,232,176,.20),rgba(79,231,255,.15),rgba(184,108,255,.20),transparent);box-shadow:0 0 18px rgba(118,232,176,.12);pointer-events:none}
+
+/* Hub: preserve the spatial world, but make the network relationship unmistakable. */
+.hub{background:radial-gradient(circle at 50% 32%,rgba(118,232,176,.025),transparent 24%),#030308}
+.hub-intelligence-bar{position:relative}
+.hub-intelligence-bar:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,rgba(118,232,176,.16),rgba(184,108,255,.16),transparent)}
+.living-field:after{content:"";position:absolute;left:50%;top:50%;width:min(900px,92vw);height:min(900px,92vw);transform:translate(-50%,-50%);border:1px solid rgba(118,232,176,.045);border-radius:50%;box-shadow:0 0 90px rgba(184,108,255,.035),inset 0 0 90px rgba(118,232,176,.025);pointer-events:none;z-index:0}
+.naya-core{z-index:6}
+.world-map{z-index:4}
+.world{backdrop-filter:blur(10px);background:linear-gradient(145deg,rgba(8,17,14,.78),rgba(5,6,10,.84));}
+.world.is-selected{transform:translate(-50%,-50%) rotate(var(--rot,0deg)) translateY(-260px) rotate(calc(var(--rot,0deg)*-1)) scale(1.035);z-index:7}
+
+/* Reduce motion never reduces clarity. */
+@media(prefers-reduced-motion:reduce){
+  .threshold-stage:after,.threshold-doors:before{opacity:.55}
+  .portal-input{transition:none}
+}
+
+/* Small screens: keep the threshold itself visible before the constellation. */
+@media(max-width:760px){
+  .threshold-stage{width:calc(100vw - 20px);padding-top:6px}
+  .threshold-stage:after{top:35%;width:120vw}
+  .threshold-naya{width:118px;height:118px}
+  .threshold-copy h1{font-size:clamp(46px,15vw,70px)}
+  .threshold-lead{font-size:11px;margin-bottom:10px}
+  .threshold-invitation{font-size:10px;margin-bottom:12px}
+  .identity-portal{padding-bottom:56px}
+  .portal-input{height:58px}
+  .portal-input button{top:70px;height:52px}
+  .threshold-doors{width:calc(100vw - 20px)}
+}
+@media(max-width:430px){
+  .threshold-bar{height:50px;flex-basis:50px}
+  .threshold-status{display:none}
+  .threshold-stage{padding-top:2px}
+  .threshold-naya{width:104px;height:104px}
+  .threshold-naya small{font-size:5px}.threshold-naya em{font-size:4px}
+  .threshold-copy h1{font-size:50px;margin-bottom:7px}
+  .threshold-eyebrow{font-size:6px;letter-spacing:.24em}
+  .threshold-lead{font-size:10px}
+  .threshold-invitation{font-size:9px}
+  .identity-portal{padding-bottom:52px}
+  .portal-input button{top:68px;width:min(280px,calc(100% - 8px))}
+  .portal-foot{font-size:6px}
+}
