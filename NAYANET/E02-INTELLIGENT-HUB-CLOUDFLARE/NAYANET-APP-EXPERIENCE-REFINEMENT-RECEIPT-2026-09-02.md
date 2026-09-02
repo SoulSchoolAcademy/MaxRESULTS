@@ -73,11 +73,11 @@ Refine the NayaNET Front Door and Intelligent Hub so the experience behaves and 
 
 ## Verification evidence
 
-- Current `main` HEAD was re-read after implementation.
-- Current HEAD: `20711cdfa449a30c1c42c8cd2564353b5fffe38d`
+- Current `main` HEAD was re-read after the implementation commits.
+- Implementation HEAD before the receipt commit: `20711cdfa449a30c1c42c8cd2564353b5fffe38d`
 - The new stylesheet has balanced CSS braces and parentheses in local structural validation before commit.
 - Source files were re-read through the connected repository after writing.
-- No current GitHub Actions workflow run is associated with the final commit at receipt creation time.
+- No current GitHub Actions workflow run is associated with the implementation commit at verification time.
 
 ## Verification boundary
 
@@ -106,4 +106,4 @@ The remaining release question is not whether these changes were implemented. It
 
 ## Next action
 
-Open the current deployed NayaNET target against commit `20711cdfa449a30c1c42c8cd2564353b5fffe38d`, inspect the Front Door and Hub at representative mobile/desktop sizes, and repair any remaining visual or behavioral defects before calling the experience production-proven.
+Open the current deployed NayaNET target against the implementation commit `20711cdfa449a30c1c42c8cd2564353b5fffe38d`, inspect the Front Door and Hub at representative mobile/desktop sizes, and repair any remaining visual or behavioral defects before calling the experience production-proven.
