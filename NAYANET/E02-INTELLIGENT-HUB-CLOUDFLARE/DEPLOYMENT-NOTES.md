@@ -1,40 +1,54 @@
-# Cloudflare Deployment Notes
+# NayaNET E02 Deployment Notes
 
 ## Canonical source
 
 `NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/`
 
-## Required runtime files
+## Canonical experience runtime
 
-The standalone Cloudflare build requires:
+The NayaNET 10 experience is now a single active front-end shell:
 
-- `index.html`
-- `styles.css`
-- `compat.css`
-- `app.js`
-- `_headers`
-- `404.html`
+- `index.html` — portal, Living Sun, world destination shell, persistent player
+- `nayanet-10-experience.css` — canonical active visual system
+- `nayanet-10.js` — canonical active interaction/state controller
+- `naya-data.js` — protected persistence bridge (Supabase + local continuity)
+- `powercasts.json` — existing canonical content reference
 
-`index.html` explicitly references `/styles.css`, `/compat.css`, and `/app.js`. Therefore a deployment artifact containing only `index.html` and `_headers` is incomplete.
+The older E02 runtime files remain in the repository as protected historical/runtime capabilities but are **not loaded by the canonical NayaNET 10 shell**. No new parallel runtime is to be introduced.
 
-## Release gate
+## Experience contract
 
-The packaging workflow must include every required runtime asset and verify the exact artifact before Cloudflare publication.
+`PORTAL → THRESHOLD → NAYA → LIVING SUN → 9 WORLDS → POWER PLAYER → 18 POWERCASTS → INTELLIGENCE → CONNECTION`
 
-Do not claim the Cloudflare deployment is production-ready until the artifact has been verified and the deployed URL has been tested for:
+The experience preserves:
 
-1. HTML rendering
-2. CSS loading
-3. JavaScript loading
-4. entry interaction
-5. Hub transition
-6. responsive behavior
-7. 404 handling
+- name → intelligent-hub transition
+- local continuity and protected persistence bridge
+- private-intelligence boundary
+- nine locked NayaNET worlds
+- all 18 canonical Powercast artwork/audio mappings
+- persistent player state
+- full destination expansion with return to Naya
+- responsive/mobile behavior and reduced-motion support
 
-## Important distinction
+## Release gates
 
-GitHub repository/project organization and Cloudflare deployment are separate concerns.
+Before Cloudflare publication, verify:
 
-The repository is the source of truth. Cloudflare is the publication/runtime destination. The release artifact is the bridge between them.
+1. HTML parses and renders.
+2. Canonical CSS loads; no obsolete stylesheet is referenced.
+3. Canonical JS loads without startup errors.
+4. Name entry crosses the threshold.
+5. Living Sun renders Naya + exactly nine worlds.
+6. Player renders real Powercast artwork and maps all 18 audio/image records.
+7. Selecting a Powercast updates the player and persistent mini-player.
+8. Every world opens a full destination and returns cleanly to Naya.
+9. Smart Notes / challenge / spaces preserve state locally; persistence bridge remains truthful.
+10. MAXESS links to the real assessment destination; no fake score is fabricated.
+11. Mobile uses the dedicated responsive composition; desktop uses the spatial composition.
+12. Reduced motion and keyboard focus remain usable.
+13. Missing media fails gracefully without breaking the shell.
+14. Exact release artifact is inspected before publication.
+15. Deployed URL is tested separately; do not infer live success from GitHub commits.
 
 **CONNECTED ≠ DEPLOYED. COMMITTED ≠ RELEASED. VERIFIED ≠ PRODUCTION-PROVEN.**
