@@ -7,6 +7,24 @@
 
 ---
 
+## 0. UNIVERSAL BUILD GATE
+
+Before any substantive app build under Naya Power, the builder MUST activate:
+
+**`.naya/NAYAPOWER-UNIVERSAL-APP-BUILD-GATE.md`**
+
+That gate is the reusable compression/activation layer for the canonical build-intelligence set.
+
+The required behavior is:
+
+**READ → UNDERSTAND → OBEY → APPLY → VERIFY**
+
+The human should not have to paste the same standards into every build conversation when repository access is available.
+
+The Universal App Build Gate does not replace detailed source documents. It makes them part of standard operating procedure and tells the builder when each is applicable.
+
+---
+
 ## 1. WHAT THIS MANIFEST IS
 
 This document is the map of the NayaNET AI build system.
@@ -49,7 +67,7 @@ External non-negotiable constraints.
 
 ### Layer 1 — NayaPOWER governance
 
-Constitution, runtime laws, context boot protocol, protected-system rules.
+Constitution, runtime laws, context boot protocol, protected-system rules, and the Universal App Build Gate.
 
 ### Layer 2 — NayaNET product authority
 
@@ -79,7 +97,9 @@ Runtime briefing, running feed, Smart Notes, handoff/checkpoint artifacts, and d
 
 ## 3. AUTHORITATIVE SOURCE MAP
 
-The AI must discover the exact current paths rather than assuming filenames. The known canonical system includes artifacts such as:
+The AI must discover the exact current paths rather than assuming filenames. The reusable NayaNET build-intelligence set is activated through `.naya/NAYAPOWER-UNIVERSAL-APP-BUILD-GATE.md`.
+
+The known canonical system includes artifacts such as:
 
 ### Context / boot
 
@@ -89,7 +109,9 @@ The AI must discover the exact current paths rather than assuming filenames. The
 - current project state when present
 - `.naya/CANONICAL-REPOSITORY-IDENTITY-LOCK.md`
 
-The existing context system explicitly requires **FULL SYSTEM AWARENESS + SELECTIVE DEEP LOADING** and current verified reality to outrank stale orientation content.
+### Universal build activation
+
+- `.naya/NAYAPOWER-UNIVERSAL-APP-BUILD-GATE.md`
 
 ### NayaNET build governance
 
@@ -102,7 +124,7 @@ The existing context system explicitly requires **FULL SYSTEM AWARENESS + SELECT
 - NayaNET AI Build Quality Standard — Part 2
 - NayaNET Elite Interface Standard
 - NayaNET 10 Execution Command
-- NayaNET AI Build Bootstrap & Operating Instruction — this system's bootstrap
+- NayaNET AI Build Bootstrap & Operating Instruction
 - this Build System Manifest
 - NayaNET QA / Release Gate
 
@@ -152,12 +174,13 @@ The AI must know the governance map before acting, then load the smallest author
 2. canonical runtime/context briefing;
 3. current project state if present;
 4. applicable governing laws;
-5. NayaNET product authority;
-6. current project directive;
-7. relevant design/quality standards;
-8. actual implementation files;
-9. relevant capability contracts;
-10. QA/release gate.
+5. Universal App Build Gate;
+6. NayaNET product authority when applicable;
+7. current project directive;
+8. relevant design/quality standards;
+9. actual implementation files;
+10. relevant capability contracts;
+11. QA/release gate.
 
 ### Never do this
 
@@ -168,7 +191,7 @@ Read one document → start coding → discover contradictions later.
 ### Do this
 
 ```text
-Orient → Source-lock → Inspect → Define proof → Build.
+Orient → Activate → Source-lock → Inspect → Define proof → Build.
 ```
 
 ---
