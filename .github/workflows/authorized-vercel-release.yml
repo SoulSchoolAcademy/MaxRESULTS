@@ -33,18 +33,19 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: naya-power-vercel-${{ inputs.target_environment }}
-  cancel-in-progress: false
-
 env:
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   VERCEL_ORG_ID: team_RQnhoOb3bAXxMlcr67GFTu3Q
   VERCEL_PROJECT_ID: prj_cHa9gwrtscCW8JuMDjcvw6DafaOK
+  NAYANET_RUNTIME: NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
+
+concurrency:
+  group: naya-power-vercel-${{ inputs.target_environment }}
+  cancel-in-progress: false
 
 jobs:
   authorize-and-deploy:
-    name: Authorize exact commit and deploy
+    name: Authorize exact commit and deploy canonical NayaNET runtime
     runs-on: ubuntu-latest
     environment: ${{ inputs.target_environment }}
     steps:
@@ -62,6 +63,21 @@ jobs:
           test "$ACTUAL_SHA" = "${{ inputs.commit_sha }}"
           test "${{ inputs.commit_sha }}" != "REQUIRED_EXACT_COMMIT_SHA"
           echo "EXACT COMMIT VERIFIED: $ACTUAL_SHA"
+
+      - name: Verify canonical NayaNET runtime surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "$NAYANET_RUNTIME/index.html"
+          test -f "$NAYANET_RUNTIME/nayanet-10-experience.css"
+          test -f "$NAYANET_RUNTIME/nayanet-10.js"
+          test -f "$NAYANET_RUNTIME/naya-data.js"
+          test -f "$NAYANET_RUNTIME/powercasts.json"
+          grep -q 'nayanet-10-experience.css' "$NAYANET_RUNTIME/index.html"
+          grep -q 'naya-data.js' "$NAYANET_RUNTIME/index.html"
+          grep -q 'nayanet-10.js' "$NAYANET_RUNTIME/index.html"
+          grep -q 'INTELLIGENT INTERNET BEGINS HERE' "$NAYANET_RUNTIME/index.html"
+          echo "CANONICAL NAYANET RUNTIME SURFACE VERIFIED"
 
       - name: Run repository verification before authorization
         run: python .naya/runtime/deployment_governance_test.py
@@ -95,6 +111,7 @@ jobs:
                   "status": "PASS",
                   "evidence": [
                       "exact commit checkout verified",
+                      "canonical NayaNET runtime surface verified",
                       "deployment governance regression suite passed"
                   ]
               },
@@ -136,19 +153,39 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p .vercel
-          cat > .vercel/project.json <<EOF
+          mkdir -p "$NAYANET_RUNTIME/.vercel"
+          cat > "$NAYANET_RUNTIME/.vercel/project.json" <<EOF
           {
             "projectId": "$VERCEL_PROJECT_ID",
             "orgId": "$VERCEL_ORG_ID"
           }
           EOF
 
-      - name: Deploy exact verified commit to Vercel
+      - name: Deploy exact verified NayaNET runtime to Vercel
+        id: deploy
         shell: bash
         run: |
+          set -euo pipefail
+          cd "$NAYANET_RUNTIME"
           if [ "${{ inputs.target_environment }}" = "production" ]; then
-            npx --yes vercel@latest deploy --token "$VERCEL_TOKEN" --yes --prod
+            npx --yes vercel@latest deploy --token "$VERCEL_TOKEN" --yes --prod | tee /tmp/vercel-deploy.log
           else
-            npx --yes vercel@latest deploy --token "$VERCEL_TOKEN" --yes
+            npx --yes vercel@latest deploy --token "$VERCEL_TOKEN" --yes | tee /tmp/vercel-deploy.log
           fi
+          DEPLOYMENT_URL="$(grep -Eo 'https://[^[:space:]]+\.vercel\.app' /tmp/vercel-deploy.log | tail -n 1)"
+          test -n "$DEPLOYMENT_URL"
+          echo "DEPLOYMENT_URL=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+          echo "DEPLOYMENT URL: $DEPLOYMENT_URL"
+
+      - name: Live verify deployed NayaNET artifact
+        shell: bash
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.DEPLOYMENT_URL }}
+        run: |
+          set -euo pipefail
+          test "$(curl -L -sS -o /tmp/nayanet-live.html -w '%{http_code}' "$DEPLOYMENT_URL/")" = "200"
+          grep -q 'INTELLIGENT INTERNET BEGINS HERE' /tmp/nayanet-live.html
+          grep -q 'NayaNET' /tmp/nayanet-live.html
+          test "$(curl -L -sS -o /tmp/nayanet-live.js -w '%{http_code}' "$DEPLOYMENT_URL/nayanet-10.js")" = "200"
+          test "$(curl -L -sS -o /tmp/nayanet-live.css -w '%{http_code}' "$DEPLOYMENT_URL/nayanet-10-experience.css")" = "200"
+          echo "LIVE NAYANET VERIFICATION PASSED: $DEPLOYMENT_URL"
