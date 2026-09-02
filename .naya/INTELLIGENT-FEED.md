@@ -65,13 +65,15 @@ The World-Class Interface Constitution is a design law, not a mood board: app-no
 
 **Canonical architecture lock:** `.naya/NAYANET-LEVEL-1-INTELLIGENCE-NETWORK-ARCHITECTURE-LOCK.md`
 
+**Canonical Smart Note:** `.naya/SMART-NOTE-NAYANET-LEVEL-1-ARCHITECTURE-LOCK-2026-09-01.md`
+
 **Canonical repository:** `SoulSchoolAcademy/NayaPOWER`  
 **Canonical branch:** `main`
 
 **Authoritative design source:** `Worldclassinterface`  
 **Related experience source:** `NayaNET WORLD PLAN`  
 **Authoritative Powercast mapping:** `NAYA POWER PLAYER IMAGES AND LINKS`  
-**Powercast count currently verified:** 18 real image/audio pairings. fileciteturn104file0L2-L6
+**Powercast count currently verified:** 18 real image/audio pairings.
 
 **Front Door:**
 - no website layout
@@ -123,7 +125,7 @@ The World-Class Interface Constitution is a design law, not a mood board: app-no
 
 ### What Changed
 
-The project direction is now explicitly elevated from a website-like E02 presentation to a **Level 1 intelligent-network application architecture**. The World-Class Interface Constitution is now paired with a durable engineering architecture lock. The Level 1 scope is intentionally narrow: intelligence, memory, communication, connection, and compounding first; media/public-network capabilities later.
+The project direction is now explicitly elevated from a website-like E02 presentation to a **Level 1 intelligent-network application architecture**. The World-Class Interface Constitution is now paired with a durable engineering architecture lock and a dedicated three-layer Smart Note for this exact decision. The Level 1 scope is intentionally narrow: intelligence, memory, communication, connection, and compounding first; media/public-network capabilities later.
 
 ### Protected Decisions
 
@@ -143,11 +145,11 @@ The project direction is now explicitly elevated from a website-like E02 present
 
 ### Receipts
 
-1. `2c6d8c903c5db600a113288fa22b6374b29f2ce8` — canonical Level 1 Intelligence Network + World-Class App Architecture Lock created in `.naya/NAYANET-LEVEL-1-INTELLIGENCE-NETWORK-ARCHITECTURE-LOCK.md`.
-2. `Worldclassinterface` was fetched from `main` before the architecture lock was written. fileciteturn97file0L1-L2
-3. `NayaNET WORLD PLAN` was fetched from `main` before the architecture lock was written. fileciteturn96file0L1-L2
-4. `NAYA POWER PLAYER IMAGES AND LINKS` was fetched from `main`; its 18 Powercast image/audio mappings are the authoritative content backbone. fileciteturn104file0L2-L6
-5. `.naya/SMART-NOTE-THREE-LAYER-LOCK.md` was verified as the existing canonical three-layer continuity protocol. fileciteturn101file0L2-L6
+1. `2c6d8c903c5db600a113288fa22b6374b29f2ce8` — canonical Level 1 Intelligence Network + World-Class App Architecture Lock created.
+2. `7e0fd17e0dc41cb0befd27565b39b938c960c19c` — dedicated canonical Smart Note created with Shawn Note, Naya Note, and Machine Note for this exact architecture decision.
+3. This feed update records both canonical artifacts and the durable event trail.
+4. `Worldclassinterface`, `NayaNET WORLD PLAN`, and `NAYA POWER PLAYER IMAGES AND LINKS` were fetched from `main` before the lock was written.
+5. The existing three-layer Smart Note continuity protocol was verified before writing this event.
 
 ### Next Best Action
 
