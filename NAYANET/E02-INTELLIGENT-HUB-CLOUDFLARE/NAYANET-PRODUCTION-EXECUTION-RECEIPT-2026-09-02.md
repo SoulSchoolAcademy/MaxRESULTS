@@ -1,34 +1,36 @@
 # 🔱 NayaNET Production Execution Receipt — 2026-09-02
 
 ## Mission
-Execute the NayaNET Ultimate Entrance + Intelligent Hub against the canonical Elite Interface Standard and make the governed Vercel project capable of serving the canonical E02 experience from its root domain.
+Execute the NayaNET Ultimate Entrance + Intelligent Hub against the canonical Naya Power / Elite Interface Standard, preserve the canonical E02 runtime, and make the governed Cloudflare Worker release path complete, source-locked, and verifiable.
 
 ## Source-lock
 - Repository: `SoulSchoolAcademy/NayaPOWER`
-- Base: `main`
-- Execution branch: `nayanet-production-execution-2026-09-02`
+- Canonical branch: `main`
 - Canonical implementation: `NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/`
-- Production project: `naya-power`
+- Cloudflare Worker: `nayanet-living-intelligence`
 
 ## Executed
-1. Rebased the execution work onto the current `main` lineage by creating a fresh execution branch from `main`.
-2. Added the Elite Interface physical interaction layer.
-3. Activated it from the canonical E02 stylesheet entry point.
-4. Re-enabled Vercel Git deployments for this governed project.
-5. Added Vercel rewrites so `/` serves the canonical E02 entrance and its root-relative assets resolve from the same implementation directory.
-6. Preserved the existing NayaNET runtime, Power Player, nine worlds, local continuity and existing data bridge.
+1. Verified the current `main` lineage and canonical E02 implementation.
+2. Preserved the Naya-centered living entrance, Intelligent Hub, nine worlds, 18 real Powercasts, native audio, persistent mini-player, local continuity, and data bridge.
+3. Preserved and activated the elite visual execution layer through the canonical stylesheet entry point.
+4. Removed the accidental Vercel routing change from the repository's canonical configuration; NayaNET release authority remains Cloudflare.
+5. Hardened the Cloudflare release workflow to copy the complete E02 presentation/runtime asset set rather than a partial CSS subset.
+6. Added explicit release validation for all imported visual layers and required runtime files.
+7. Kept deployment source-locked to the exact GitHub `main` commit that triggers the release.
 
 ## Verification truth
-- Git commits: VERIFIED.
-- Branch starts from current `main`: VERIFIED by branch creation.
-- Vercel project currently exists and has `naya-power.vercel.app` plus project aliases: VERIFIED.
-- Before this routing repair, `https://naya-power.vercel.app/` returned HTTP 404: VERIFIED.
-- New production deployment after this branch change: PENDING.
-- Browser interaction verification against the new deployment: PENDING.
-- Live production verification: PENDING.
+- Git source changes: VERIFIED.
+- Canonical E02 source: VERIFIED.
+- Cloudflare Worker configuration: VERIFIED.
+- Complete release-package assembly logic: VERIFIED by source inspection.
+- Cloudflare CI authentication: BLOCKED until repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are present.
+- Previous Cloudflare deployment attempt: FAILED only at Wrangler authentication because `CLOUDFLARE_API_TOKEN` was unavailable; source/package validation passed before that gate.
+- Live Cloudflare deployment: PENDING.
+- Browser/live interaction verification: PENDING.
+- Production-proven / literal 10/10: NOT CLAIMED.
 
 ## Release law
-Do not claim LIVE or PRODUCTION-PROVEN until the resulting Vercel deployment is READY and the root URL plus critical interaction paths have been live-verified.
+Do not claim LIVE, PRODUCTION-PROVEN, or literal 10/10 until the exact main commit deploys to the canonical Cloudflare Worker and the resulting live experience has been browser-verified through threshold → identity → Hub → world → Power Player → artwork → playback → responsive/core interactions.
 
 ## Next executable node
-Merge this branch through the governed PR, confirm Vercel deployment, inspect build logs if needed, fetch the deployed root, then verify threshold → identity → hub → world → player behavior and repair the first divergence found.
+Provide the governed Cloudflare CI credentials through GitHub repository secrets, rerun the canonical Cloudflare deployment, capture the resulting Worker identity/URL, then perform live browser verification and repair the first divergence found.
