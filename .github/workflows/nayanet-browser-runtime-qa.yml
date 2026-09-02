@@ -51,7 +51,7 @@ jobs:
         env:
           NODE_PATH: ${{ github.workspace }}/node_modules
         run: |
-          cat > /tmp/nayanet-runtime.spec.js <<'JS'
+          cat > nayanet-runtime.spec.js <<'JS'
           const { test, expect } = require('@playwright/test');
 
           test.use({ baseURL: 'http://127.0.0.1:4173', viewport: { width: 1440, height: 1000 } });
@@ -118,7 +118,8 @@ jobs:
             }
           });
           JS
-          npx playwright test /tmp/nayanet-runtime.spec.js --reporter=line
+          npx playwright test nayanet-runtime.spec.js --reporter=line
+          rm -f nayanet-runtime.spec.js
 
       - name: Stop static server
         if: always()
