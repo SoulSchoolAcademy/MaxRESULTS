@@ -58,7 +58,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/release-package
-          command: deploy --config wrangler.jsonc --yes
+          command: deploy --config wrangler.jsonc
 
       - name: Record release identity
         shell: bash
