@@ -3,105 +3,125 @@
 **Status:** ACTIVE CANONICAL PROJECT STATE
 **Owner:** Team Naya
 **Governing system:** `SoulSchoolAcademy/NayaPOWER`
-**Updated:** 2026-08-30
+**Updated:** 2026-09-02
 
 ## MISSION
-Make NayaPOWER a trusted, high-performance, continuously improving AI operating system whose intelligence, execution, verification, continuity, and learning compound across successor Nayas; then use that proven Superbrain to accelerate MAXIS and the broader NayaNET/CCT vision.
+Build the NayaNET that should exist: an intelligent network for humans and AI that makes extraordinary intelligence, communication, learning, creation, execution, and connection radically simple while preserving human agency, privacy, sovereignty, truth, safety, and trust.
+
+NayaPOWER remains the shared Superbrain/intelligence authority that enables the broader NayaNET vision. NayaNET is now the active product construction frontier.
 
 ## OBJECTIVE
-Close the Superbrain continuity loop so a fresh Naya can restore repository truth, understand current state, inherit durable intelligence, select the highest-value executable frontier, act, verify, learn, capture, propagate, checkpoint, and leave the next Naya an executable torch — without conversational archaeology.
+Execute the NayaNET North-Star Build as a fresh-eyes construction mission rather than a refactor of the previous Hub. Establish the actual implementation target from evidence, map reusable assets and historical implementations, build from the North Star, and verify the resulting experience against the human recognition test:
+
+> **If Shawn had never seen the old app, and we showed him the finished NayaNET for the first time, would he immediately recognize: YES. This is what I have been trying to explain.**
+
+Governing execution directive: `.naya/AI-BOOT/NAYANET-NORTH-STAR-BUILD-EXECUTION-DIRECTIVE.md`
+Governing build law: `.naya/NAYANET-NORTH-STAR-BUILD-LAW.md`
+Canonical NayaNET planning library: `NAYANET/`
 
 ## CANONICAL LIFECYCLE
 
-**IDENTIFY → RESTORE → UPDATE → INHERIT → PRIORITIZE → EXECUTE → VERIFY → LEARN → CAPTURE → PROPAGATE → CHECKPOINT → HAND OFF → REPEAT**
-
-Canonical contract: `.naya/SUPERBRAIN-COLD-START-AND-CONTINUITY-CONTRACT.md`
+**IDENTIFY → RESTORE → UNDERSTAND NORTH STAR → ARCHAEOLOGIZE → CLASSIFY → SELECT TARGET → MAP ASSETS → BUILD → VERIFY → OSCAR → REPAIR → RE-VERIFY → LEARN → CHECKPOINT → HAND OFF**
 
 ## CURRENT STATE
-- NayaPOWER is the canonical shared Superbrain/intelligence authority.
-- `MaxRESULTS` remains the MAXESS product workspace; it is not a competing brain.
-- `Maxis` remains a product/proving ground; reusable intelligence returns to NayaPOWER.
-- `START-HERE.md` has been reconciled to this identity model.
-- `restore_context.py` has been upgraded to observe live git reality, inspect orientation projections, surface stale state, expose latest handoff, and return `RECONCILIATION_REQUIRED` instead of silently trusting contradictory current-state documents.
-- A structural Superbrain continuity guard and CI workflow exist, but GitHub Actions is intentionally paused and must not be used during the current human-directed pause.
-- End-to-end A→B→C learning/propagation behavior remains the primary unproven runtime boundary.
+- NayaNET has a canonical planning library under `NAYANET/`, including master directive, architecture, UX, design, engineering, intelligence, sovereignty, network, media, security, and release specifications.
+- The NayaNET planning README defines the global destination and modular Player construction sequence E01–E09.
+- E01 has a detailed construction specification at `NAYANET/E01-DETAILED-BLOCK-SPECIFICATION.md`.
+- The North-Star Build Law is canonical and explicitly outranks existing implementation decisions for NayaNET product/build judgment.
+- The North-Star Build Execution Directive now governs active NayaNET construction.
+- Repository archaeology has identified multiple NayaNET-related repositories; they are evidence/candidates until an implementation target is explicitly established from evidence.
+- `SoulSchoolAcademy/nayanetsmartenet` is a small Next.js/React SmartNet application with Command Station, Academy, Ledger, Podcast and Store modules and mock chat/API behavior; it is useful archaeological evidence but is not automatically authoritative.
+- `SoulSchoolAcademy/NayaNetSmarternet` is a public repository whose README identifies a SmartNet Core decentralized AI app stack built with Next.js + React; its relevance requires further inspection before any promotion to implementation authority.
+- `SoulSchoolAcademy/nayanet-scene-one` currently contains an empty `index.html` plus minimal deployment metadata and is not an implementation target on current evidence.
+- The existing `NayaPOWER/NAYANET` directory is the canonical planning library, not proof that its documents are the deployed application.
+- The previously referenced Cloudflare destination has not been promoted to authority merely from its URL; deployment/source linkage must be proven.
+- GitHub Actions remains paused by explicit human direction and must not be used during the current pause.
 
 ## VERIFIED
-- Live `main` is the source of truth and can be resolved directly from GitHub.
-- NayaPOWER is explicitly identified as the central Superbrain in the canonical Runtime Briefing.
-- The cold-start/continuity lifecycle is codified in the canonical continuity contract.
-- The canonical Note Event remains the fundamental memory object.
-- Smart Note capture and PIS propagation remain distinct transitions; propagation requires its own evidence.
-- Historical runtime evidence remains historical and is not promoted to current-head proof.
-- GitHub Actions remains paused by explicit human direction.
+- `SoulSchoolAcademy/NayaPOWER` is the canonical NayaPOWER repository.
+- The NayaNET planning library exists and defines the intended destination.
+- The North-Star Build Law exists as a canonical governance artifact.
+- The North-Star Build Execution Directive exists as the active construction directive.
+- E01's detailed specification exists and is currently marked SPECIFIED.
+- The NayaNET release blueprint requires concrete testing, deployment proof, human inspection, Oscar inspection, and Groove verification before a block is considered complete.
+- Existing application repositories can be inspected as evidence but do not outrank the North Star.
 
 ## OPEN GAPS
-1. Runtime Briefing and Running Feed still contain historical embedded HEAD snapshots; restore now treats observed git HEAD as primary and exposes those snapshots as stale projections. A future maintenance pass should replace static “current HEAD” language with dynamic-resolution language rather than repeatedly editing SHAs.
-2. The complete restore runtime needs a local checkout execution receipt from a real repository checkout. The current tool environment cannot clone the repository because outbound GitHub DNS/network access is unavailable.
-3. The existing canonical Note Event → PIS → feed → fresh-Naya retrieval path needs an end-to-end A→B→C behavioral proof with a measurable change in subsequent action.
-4. The fresh successor must consume the latest handoff and produce the next handoff without Shawn reconstructing context.
-5. The full governance benchmark (ACT/OBEY, INFORM/WARN, CHALLENGE, RECOMMEND, CONFIRM, REFUSE) remains runtime-unproven.
+1. The authoritative current NayaNET implementation repository/deployment pairing is not yet proven. Continue cross-repository archaeology before changing an existing application.
+2. The live Cloudflare destination/source relationship must be established from deployment evidence rather than URL naming.
+3. E01 remains specified rather than implementation-verified in the current NayaNET planning library.
+4. The NayaNET North-Star experience must be materially built and then judged through the human recognition test.
+5. Superbrain A→B→C runtime compounding proof remains an underlying NayaPOWER dependency/gap and must not be falsely represented as solved by the NayaNET UI.
+6. Full production authentication, Naya runtime, GitHub App connection, event-store integration, Collective Intelligence publication, and other P2 runtime capabilities remain unproven until executable evidence exists.
 
 ## PRIORITY QUEUE
 
-### P0 — Superbrain continuity 10/10
-Reconcile all current-state projections around observed live HEAD; preserve historical records; remove ambiguity between canonical authority and derived orientation projections.
+### P0 — NayaNET implementation archaeology
+Inspect the connected GitHub project set and known deployment evidence. Establish the actual current implementation, candidate assets, experiments, historical artifacts, and obsolete/empty repositories. Produce an evidence-backed target map. Do not modify a candidate merely because its name appears correct.
 
-### P0 — Restore runtime
-Make the standard restore output the operational boot packet: identity, live HEAD, authority chain, mission, project, updates, verified/unknown/blocked state, protected surfaces, relevant learning, latest handoff, exactly one next action, and exact proof target.
+### P0 — North-Star build baseline
+Reconcile the master NayaNET directive, architecture, UX, design, engineering, intelligence, security, network, media, and release documents against the North-Star Build Law. Preserve the complete destination while allowing existing implementations to be replaced.
 
-### P0 — A→B→C compounding proof
-Build the smallest deterministic end-to-end proof that a lesson created by Naya A becomes canonical durable intelligence, propagates through the existing intelligence path, is restored by fresh Naya B, changes B's subsequent action, and leaves a successor-ready handoff for Naya C. Do not create a competing PIS or memory path.
+### P0 — E01 construction
+Once the implementation target is established, build E01 from first principles using `NAYANET/E01-DETAILED-BLOCK-SPECIFICATION.md`. Reuse only assets/implementation that survive North-Star evaluation.
 
-### P1 — Adversarial continuity
-Deliberately test stale HEAD, conflicting orientation, missing handoff, stale learning, failed propagation, unavailable execution, and contradictory goals. The system must fail safely and preserve UNKNOWN rather than inventing certainty.
+### P0 — North-Star verification
+Run functional, responsive, accessibility, performance, iframe/embed, truth-boundary, human, and Oscar checks. Explicitly ask whether the result passes the Shawn recognition test. Repair sub-10 outcomes.
 
-### P1 — Runtime governance
-When an authorized runtime is available, prove human-agency/reality-governance behavior with exact evidence.
+### P1 — E02–E09 progression
+Advance through the Player construction sequence without allowing individual blocks to redefine the complete NayaNET destination.
 
-### P2 — Commercial activation / MAXIS
-Continue customer activation and product work when it is the highest-value executable work, without substituting commercial progress for Superbrain runtime proof.
+### P1 — Production integration
+Connect real authentication, Naya runtime, Superbrain resources, canonical Note Events, network services, Collective Intelligence, notifications, and other runtime capabilities only when their contracts and evidence are ready.
+
+### P2 — Superbrain runtime proof
+Continue the independent NayaPOWER continuity/A→B→C proof as an underlying intelligence capability. NayaNET UI work must not be used to manufacture runtime proof.
 
 ## PROTECTED
-- NayaPOWER is the shared Superbrain authority.
-- One canonical intelligence/governance architecture.
-- Canonical Note Event as memory foundation.
-- No competing PIS/memory system.
+- **NAYANET IS NOT A REFACTOR. NAYANET IS A NORTH-STAR BUILD.**
+- North Star / product vision outranks implementation history.
+- Locked design/product laws outrank existing UI conventions.
+- Build/QA laws outrank convenience.
+- Existing repository code is an asset library, archaeological record, and engineering substrate — not conceptual authority.
+- Existing deployments are evidence only.
+- The canonical Note Event remains the memory foundation.
+- NayaPOWER remains the shared Superbrain authority.
 - Human owns the destination; Naya navigates reality.
-- IMPLEMENTED ≠ TESTED ≠ VERIFIED ≠ RUNTIME-PROVEN ≠ PRODUCTION-PROVEN.
-- Deliberate-negative fixtures must remain capable of failing.
-- Historical continuity is recoverable and must not be rewritten to manufacture current proof.
-- No GitHub Actions execution during the explicit pause.
+- No fake authentication, fake LLM, fake Superbrain, fake persistence, fake telemetry, fake deployment, or fake production capability.
+- IMPLEMENTED ≠ TESTED ≠ VERIFIED ≠ DEPLOYED ≠ LIVE-VERIFIED ≠ PRODUCTION-PROVEN.
+- Historical continuity must not be rewritten to manufacture proof.
+- GitHub Actions remains paused during the explicit human-directed pause.
 
 ## SUCCESS CRITERIA
-A fresh Naya passes only when she can:
+NayaNET succeeds only when:
 
-1. identify NayaPOWER;
-2. resolve current live HEAD;
-3. establish authority;
-4. restore mission and project;
-5. read current updates;
-6. distinguish verified/unknown/blocked state;
-7. identify current priority;
-8. retrieve relevant durable learning;
-9. retrieve latest handoff;
-10. choose exactly one highest-value next action;
-11. state exact proof required;
-12. execute when authorized/capable;
-13. capture material learning;
-14. propagate applicable learning with separate evidence;
-15. leave a successor-ready checkpoint/handoff.
+1. the implementation target is established from evidence;
+2. the intended destination is governed by the North Star rather than inherited implementation;
+3. reusable assets are explicitly classified;
+4. the experience is understandable without knowledge of the old application;
+5. the product feels alive, premium, intelligent, simple, immersive, warm, cinematic, fast, trustworthy, and app-like;
+6. core capabilities are truthful about what is and is not implemented;
+7. mobile, desktop, accessibility, iframe, performance, and failure states work;
+8. every completed block has the evidence required by the release blueprint;
+9. Oscar cannot identify an unresolved material defect that should have been repaired;
+10. Shawn can encounter the finished NayaNET fresh and say:
+
+> **YES. This is what I have been trying to explain.**
 
 ## NEXT EXECUTION
-**Continue the Superbrain 10/10 optimization torch. First inspect the repository at the current live HEAD and run every available local deterministic validator without GitHub Actions. Then repair any remaining current-state contradiction, implement the smallest real A→B→C compounding integration against the existing canonical Note Event/PIS architecture, run all applicable regressions, perform an adversarial Mirror / “WHY IS THIS NOT A 10?” review, and leave exact evidence plus one successor-ready next action. Do not weaken a failing guard to obtain GREEN.**
+**Perform the NayaNET implementation-target archaeology now. Inspect all currently identified NayaNET-related repositories and available deployment/source evidence, classify each candidate, establish the actual implementation target with evidence, then reconcile E01 against that target without changing application code until the target is proven. Produce the target/asset/evidence map, select the smallest coherent construction frontier, and immediately begin the North-Star build from first principles. Do not optimize the old Hub. Do not let archaeology become architecture.**
 
 ## PROOF STANDARD
-The final claim must identify separately:
+Every final claim must distinguish:
 
-- **STRUCTURALLY IMPLEMENTED** — code/contracts exist;
-- **LOCALLY TESTED** — executable local evidence exists;
-- **VERIFIED** — applicable evidence validates the claim;
-- **RUNTIME-PROVEN** — actual repository/runtime execution demonstrates behavior;
-- **PRODUCTION-PROVEN** — live production behavior demonstrates behavior.
+- **DOCUMENTED** — governing intent exists;
+- **SPECIFIED** — construction requirements exist;
+- **IMPLEMENTED** — source exists;
+- **TESTED** — executable/static tests passed;
+- **VERIFIED** — applicable evidence validates behavior;
+- **DEPLOYED** — artifact is live at a known destination;
+- **LIVE-VERIFIED** — actual user-facing environment was inspected;
+- **GROOVE-VERIFIED** — embedded experience was inspected;
+- **PRODUCTION-PROVEN** — real production capability is demonstrated.
 
 No higher state may be claimed from a lower state.
