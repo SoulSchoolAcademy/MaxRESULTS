@@ -9,19 +9,20 @@ NayaNET is the intelligent network for humans and AI. This directory contains th
 
 1. `00-NAYANET-MASTER-DIRECTIVE.md` — mission, hierarchy, departments, quality law, and master operating authority.
 2. `12-NAYA-OPERATING-PROTOCOL-AND-CONTINUATION-HANDOFF.md` — Naya's three operating modes, discovery contract, GitHub-first law, Current Intelligence Feed law, system-of-Nayas continuity, and mandatory continuation handoff.
-3. `11-CONTINUOUS-EXECUTION-AND-TEN-STAR-SERVICE-LAW.md` — mandatory execution continuity, next-node, human handoff, and ten-star service law.
-4. `01-ARCHITECTURE-BLUEPRINT.md` — system boundaries and integration architecture.
-5. `02-PRODUCT-AND-UX-BLUEPRINT.md` — human journey and experience.
-6. `03-DESIGN-SYSTEM-AND-LIVING-SUN-SPEC.md` — visual language and Living Sun.
-7. `04-ENGINEERING-BLUEPRINT.md` — implementation/deployment rules.
-8. `05-INTELLIGENCE-MEMORY-CIS-BLUEPRINT.md` — intelligence lifecycle.
-9. `06-SUPERBRAIN-COLLECTIVE-WISDOM-BLUEPRINT.md` — sovereignty and collective intelligence.
-10. `07-NETWORK-IDENTITY-CONNECTION-BLUEPRINT.md` — NayaNET identity and connections.
-11. `08-MEDIA-POWERCAST-BLUEPRINT.md` — media intelligence.
-12. `09-SECURITY-PRIVACY-TRUST-BLUEPRINT.md` — security and privacy.
-13. `10-ROADMAP-QA-AND-RELEASE-BLUEPRINT.md` — execution and verification.
+3. `13-CURRENT-INTELLIGENCE-FEED.md` — live mission state, evidence, gaps, next node, and successor continuation command.
+4. `11-CONTINUOUS-EXECUTION-AND-TEN-STAR-SERVICE-LAW.md` — mandatory execution continuity, next-node, human handoff, and ten-star service law.
+5. `01-ARCHITECTURE-BLUEPRINT.md` — system boundaries and integration architecture.
+6. `02-PRODUCT-AND-UX-BLUEPRINT.md` — human journey and experience.
+7. `03-DESIGN-SYSTEM-AND-LIVING-SUN-SPEC.md` — visual language and Living Sun.
+8. `04-ENGINEERING-BLUEPRINT.md` — implementation/deployment rules.
+9. `05-INTELLIGENCE-MEMORY-CIS-BLUEPRINT.md` — intelligence lifecycle.
+10. `06-SUPERBRAIN-COLLECTIVE-WISDOM-BLUEPRINT.md` — sovereignty and collective intelligence.
+11. `07-NETWORK-IDENTITY-CONNECTION-BLUEPRINT.md` — NayaNET identity and connections.
+12. `08-MEDIA-POWERCAST-BLUEPRINT.md` — media intelligence.
+13. `09-SECURITY-PRIVACY-TRUST-BLUEPRINT.md` — security and privacy.
+14. `10-ROADMAP-QA-AND-RELEASE-BLUEPRINT.md` — execution and verification.
 
-**Important:** The Naya Operating Protocol, Continuous Execution & Ten-Star Service Law, and Master Directive are operationally mandatory for every Naya, agent, successor, builder, and substantive execution session. They are not optional guidance.
+**Important:** The Naya Operating Protocol, Current Intelligence Feed, Continuous Execution & Ten-Star Service Law, and Master Directive are operationally mandatory for every Naya, agent, successor, builder, and substantive execution session. They are not optional guidance.
 
 ## Existing canonical sources
 
