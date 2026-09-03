@@ -1,7 +1,7 @@
 /* NayaNET — CANONICAL FRONT DOOR
    Legacy visual layers remain imported in established order so behavior is preserved.
    FINAL RELEASE AUTHORITY: compact centerpiece composition, conversion hierarchy,
-   responsive fit, accessibility, and restrained motion.
+   responsive fit, accessibility, restrained motion, and premium depth.
 */
 @import url("/nayanet-10-experience.css");
 @import url("/nayanet-front-door-overhaul.css");
@@ -25,27 +25,37 @@
 @import url("/nayanet-front-door-legendary-composition.css?v=20260902-legendary-2");
 @import url("/nayanet-front-door-master-visual-pass.css?v=20260903-4");
 
-/* CENTERPIECE PASS — remove dead black volume; bring the invitation forward. */
-#frontDoor .threshold-stage{display:grid!important;place-items:center!important;}
+/* ================================================================
+   MAJESTIC CENTERPIECE — FINAL ART DIRECTION
+   The chamber is a frame, not a black box. The invitation is the hero.
+   ================================================================ */
+#frontDoor .threshold-stage{display:grid!important;place-items:center!important;padding:0!important;overflow:visible!important;}
 #frontDoor .threshold-chamber{
-  width:min(94vw,1040px)!important;
-  height:min(67vw,610px)!important;
-  aspect-ratio:11/7!important;
+  position:relative!important;
+  width:min(92vw,1080px)!important;
+  height:min(62vw,570px)!important;
   min-width:0!important;min-height:0!important;
-  overflow:hidden!important;isolation:isolate!important;
-  border-radius:38%/48%!important;
-  transform:translateZ(0) scale(1.06)!important;
-  filter:drop-shadow(0 34px 90px rgba(0,0,0,.58))!important;
+  aspect-ratio:16/10!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  border-radius:30%/44%!important;
+  transform:translateZ(0) scale(1.055)!important;
+  background:radial-gradient(ellipse at 50% 48%,rgba(17,12,29,.98) 0%,rgba(5,5,9,.985) 58%,rgba(0,0,0,.99) 100%)!important;
+  box-shadow:0 34px 100px rgba(0,0,0,.72),0 0 90px rgba(139,92,255,.09),inset 0 0 90px rgba(139,92,255,.035)!important;
 }
-#frontDoor .threshold-chamber::after{inset:4%!important;}
-#frontDoor .jewel-ring{z-index:8!important;}
-#frontDoor .jewel-ring .jewel{opacity:.84!important;}
+#frontDoor .threshold-chamber::after{inset:2.5%!important;border-radius:29%/43%!important;opacity:.78!important;}
+#frontDoor .jewel-ring{z-index:8!important;opacity:1!important;}
+#frontDoor .jewel-ring .jewel{opacity:.92!important;filter:drop-shadow(0 0 9px rgba(177,108,255,.38))!important;}
 
-/* One psychological reading axis: LOGO → WELCOME → PROMISE → NAME → NAYA → ENTER → DOORS. */
+/* ================================================================
+   THE HERO STACK — one glance, one invitation, zero wasted motion
+   ================================================================ */
 #frontDoor .identity-portal{
   position:absolute!important;top:50%!important;left:50%!important;
-  width:min(650px,82vw)!important;max-height:none!important;margin:0!important;
-  transform:translate(-50%,-50%) scale(1.08)!important;z-index:100!important;
+  width:min(620px,84vw)!important;max-height:none!important;height:auto!important;
+  margin:0!important;padding:0!important;
+  transform:translate(-50%,-50%) scale(1.055)!important;
+  z-index:100!important;
 }
 #frontDoor .console-content{
   width:100%!important;min-width:0!important;padding:0!important;margin:0!important;
@@ -54,84 +64,117 @@
   transform:none!important;z-index:101!important;backface-visibility:hidden!important;
 }
 
-/* Brand first. */
-#frontDoor .console-logo{order:1!important;width:min(300px,62%)!important;margin:0 auto 5px!important;z-index:110!important;}
-#frontDoor .console-logo img{display:block!important;width:100%!important;max-height:76px!important;object-fit:contain!important;}
+/* LOGO — first signal */
+#frontDoor .console-logo{order:1!important;width:min(270px,58%)!important;margin:0 auto 4px!important;z-index:110!important;}
+#frontDoor .console-logo img{display:block!important;width:100%!important;height:auto!important;max-height:66px!important;object-fit:contain!important;}
 
-/* Welcome copy is directly under the logo — not buried at the bottom. */
-#frontDoor .console-welcome{order:2!important;margin:0 auto 6px!important;z-index:110!important;}
-#frontDoor .console-welcome strong{display:block!important;font-size:clamp(23px,2.6vw,32px)!important;line-height:1.02!important;}
-#frontDoor .console-welcome span{display:block!important;margin-top:3px!important;font-size:10px!important;letter-spacing:.20em!important;}
+/* WELCOME — immediately under brand */
+#frontDoor .console-welcome{order:2!important;margin:0 auto 5px!important;z-index:110!important;}
+#frontDoor .console-welcome strong{display:block!important;font-size:clamp(23px,2.5vw,31px)!important;line-height:1!important;letter-spacing:.005em!important;text-shadow:0 3px 24px rgba(255,255,255,.08)!important;}
+#frontDoor .console-welcome span{display:block!important;margin-top:3px!important;font-size:9px!important;line-height:1!important;letter-spacing:.22em!important;color:rgba(255,255,255,.58)!important;}
 
-/* Promise sits immediately above the name field. */
-#frontDoor .console-kicker{order:3!important;width:min(500px,94%)!important;margin:0 auto 8px!important;font-size:10px!important;line-height:1.25!important;color:rgba(255,255,255,.70)!important;z-index:110!important;}
+/* PROMISE — immediately above the activation field */
+#frontDoor .console-kicker{order:3!important;width:min(500px,94%)!important;margin:0 auto 7px!important;font-size:10px!important;line-height:1.2!important;letter-spacing:.02em!important;color:rgba(255,255,255,.70)!important;z-index:110!important;}
 
-/* Name is the eye-line target: large, centered, effortless, no email/password friction. */
-#frontDoor .portal-input{order:4!important;width:min(540px,100%)!important;height:72px!important;margin:0 auto 10px!important;border-radius:21px!important;z-index:115!important;}
-#frontDoor .portal-input input{width:100%!important;min-width:0!important;font-size:18px!important;text-align:center!important;border-radius:16px!important;outline:none!important;}
-#frontDoor .portal-input:focus-within{transform:translateY(-1px) scale(1.008)!important;filter:brightness(1.08)!important;}
+/* NAME — the eye-line and psychological activation point */
+#frontDoor .portal-input{
+  order:4!important;width:min(500px,100%)!important;height:66px!important;
+  margin:0 auto 9px!important;border-radius:20px!important;z-index:115!important;
+  transform:translateZ(0)!important;
+  box-shadow:0 18px 50px rgba(0,0,0,.46),0 0 0 1px rgba(190,126,255,.16),0 0 38px rgba(139,92,255,.10)!important;
+}
+#frontDoor .portal-input input{
+  width:100%!important;min-width:0!important;height:100%!important;
+  font-size:18px!important;font-weight:500!important;text-align:center!important;
+  border-radius:17px!important;outline:none!important;
+}
+#frontDoor .portal-input input::placeholder{color:rgba(255,255,255,.48)!important;letter-spacing:.02em!important;}
+#frontDoor .portal-input:focus-within{transform:translateY(-2px) scale(1.012)!important;filter:brightness(1.09)!important;box-shadow:0 22px 58px rgba(0,0,0,.52),0 0 0 1px rgba(210,166,255,.45),0 0 48px rgba(139,92,255,.20)!important;}
 
-/* Naya is the visible picture and emotional focal point. */
-#frontDoor .console-naya{order:5!important;width:auto!important;margin:0 auto 8px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important;z-index:115!important;}
+/* NAYA — the face of the intelligence, clearly visible */
+#frontDoor .console-naya{
+  order:5!important;width:auto!important;margin:0 auto 8px!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:center!important;gap:2px!important;z-index:115!important;
+}
 #frontDoor .console-naya img{
-  width:clamp(170px,18vw,220px)!important;height:clamp(170px,18vw,220px)!important;
+  width:clamp(156px,16vw,198px)!important;height:clamp(156px,16vw,198px)!important;
   object-fit:cover!important;border-radius:50%!important;
-  box-shadow:0 0 0 1px rgba(255,255,255,.20),0 20px 50px rgba(0,0,0,.52),0 0 72px rgba(139,92,255,.30),0 0 130px rgba(118,232,176,.12)!important;
+  box-shadow:0 0 0 1px rgba(255,255,255,.28),0 18px 52px rgba(0,0,0,.60),0 0 60px rgba(139,92,255,.30),0 0 110px rgba(118,232,176,.10)!important;
 }
 #frontDoor .console-naya div{display:flex!important;flex-direction:column!important;align-items:center!important;text-align:center!important;}
-#frontDoor .console-naya div span{font-size:7px!important;letter-spacing:.30em!important;color:rgba(255,255,255,.48)!important;}
-#frontDoor .console-naya div strong{font-size:clamp(22px,2.7vw,34px)!important;line-height:1!important;letter-spacing:.10em!important;color:#fff!important;text-shadow:0 0 30px rgba(184,108,255,.28)!important;}
+#frontDoor .console-naya div span{font-size:7px!important;letter-spacing:.28em!important;color:rgba(255,255,255,.45)!important;}
+#frontDoor .console-naya div strong{font-size:clamp(21px,2.5vw,30px)!important;line-height:1!important;letter-spacing:.10em!important;color:#fff!important;text-shadow:0 0 30px rgba(184,108,255,.30)!important;}
 
-/* Action immediately follows Naya. */
-#frontDoor .console-enter{order:6!important;width:min(540px,100%)!important;min-height:64px!important;margin:0 auto!important;border-radius:20px!important;font-size:12px!important;letter-spacing:.18em!important;z-index:115!important;}
+/* ENTER — premium jewel, not a generic submit button */
+#frontDoor .console-enter{
+  order:6!important;width:min(500px,100%)!important;min-height:60px!important;
+  margin:0 auto!important;border-radius:19px!important;font-size:11px!important;
+  font-weight:700!important;letter-spacing:.20em!important;z-index:115!important;
+  position:relative!important;overflow:hidden!important;
+  box-shadow:0 18px 46px rgba(0,0,0,.48),0 0 0 1px rgba(199,135,255,.22),0 0 42px rgba(139,92,255,.12)!important;
+  transition:transform .22s ease,filter .22s ease,box-shadow .22s ease!important;
+}
+#frontDoor .console-enter::after{
+  content:""!important;position:absolute!important;top:-30%!important;left:-30%!important;
+  width:28%!important;height:160%!important;transform:rotate(18deg)!important;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.30),transparent)!important;
+  opacity:.34!important;pointer-events:none!important;
+}
 #frontDoor .console-enter:not(:disabled){cursor:pointer!important;}
+#frontDoor .console-enter:not(:disabled):hover{transform:translateY(-2px) scale(1.012)!important;filter:brightness(1.10)!important;box-shadow:0 23px 56px rgba(0,0,0,.56),0 0 0 1px rgba(220,177,255,.40),0 0 58px rgba(139,92,255,.22)!important;}
+#frontDoor .console-enter:not(:disabled):active{transform:translateY(0) scale(.998)!important;}
 #frontDoor .console-enter:focus-visible,#frontDoor .threshold-doors button:focus-visible,#frontDoor .portal-input input:focus-visible{outline:2px solid rgba(214,180,255,.82)!important;outline-offset:4px!important;}
 
-/* The capability rail belongs below ENTER, visually subordinate. */
+/* CAPABILITIES — connected to ENTER, not stranded at the bottom */
 #frontDoor .threshold-doors{
-  position:absolute!important;left:50%!important;bottom:2.7%!important;
-  transform:translateX(-50%)!important;width:min(790px,82vw)!important;z-index:120!important;
+  position:absolute!important;left:50%!important;bottom:3.8%!important;
+  transform:translateX(-50%)!important;width:min(760px,78vw)!important;
+  z-index:120!important;pointer-events:auto!important;
 }
-#frontDoor .threshold-doors button{min-height:46px!important;}
-#frontDoor .threshold-doors{pointer-events:auto!important;}
+#frontDoor .threshold-doors button{min-height:42px!important;}
 
+/* ================================================================
+   MOBILE — portrait centerpiece, eye-line first, no cramped desktop
+   ================================================================ */
 @media(max-width:700px){
-  /* Mobile centerpiece: materially shorter, wider, and closer to the screen. */
   #frontDoor .threshold-chamber{
-    width:95vw!important;height:76vw!important;max-height:570px!important;
-    aspect-ratio:11/9!important;border-radius:34%/42%!important;
-    transform:translateZ(0) scale(1.055)!important;
+    width:94vw!important;height:79vw!important;max-height:570px!important;
+    aspect-ratio:6/5!important;border-radius:28%/38%!important;
+    transform:translateZ(0) scale(1.035)!important;
+    box-shadow:0 25px 70px rgba(0,0,0,.70),0 0 70px rgba(139,92,255,.10),inset 0 0 70px rgba(139,92,255,.035)!important;
   }
-  #frontDoor .identity-portal{width:min(90vw,520px)!important;transform:translate(-50%,-50%) scale(1.04)!important;}
-  #frontDoor .console-logo{width:min(245px,68vw)!important;margin-bottom:3px!important;}
-  #frontDoor .console-logo img{max-height:58px!important;}
+  #frontDoor .identity-portal{width:min(87vw,500px)!important;transform:translate(-50%,-51%) scale(1.015)!important;}
+  #frontDoor .console-logo{width:min(220px,64vw)!important;margin-bottom:2px!important;}
+  #frontDoor .console-logo img{max-height:52px!important;}
   #frontDoor .console-welcome{margin-bottom:4px!important;}
-  #frontDoor .console-welcome strong{font-size:clamp(19px,5.6vw,26px)!important;}
-  #frontDoor .console-welcome span{font-size:7px!important;letter-spacing:.12em!important;margin-top:2px!important;}
-  #frontDoor .console-kicker{font-size:8px!important;width:94%!important;margin-bottom:6px!important;}
-  #frontDoor .portal-input{height:58px!important;margin-bottom:7px!important;border-radius:17px!important;}
-  #frontDoor .portal-input input{font-size:16px!important;border-radius:14px!important;}
-  #frontDoor .console-naya{margin-bottom:6px!important;gap:2px!important;}
-  #frontDoor .console-naya img{width:clamp(125px,29vw,165px)!important;height:clamp(125px,29vw,165px)!important;}
-  #frontDoor .console-naya div strong{font-size:clamp(20px,5.7vw,29px)!important;}
-  #frontDoor .console-enter{min-height:55px!important;border-radius:17px!important;font-size:10px!important;}
-  #frontDoor .threshold-doors{width:92vw!important;bottom:1.5%!important;gap:4px!important;}
-  #frontDoor .threshold-doors button{min-height:36px!important;padding:4px 2px!important;}
+  #frontDoor .console-welcome strong{font-size:clamp(19px,5.4vw,25px)!important;}
+  #frontDoor .console-welcome span{font-size:7px!important;letter-spacing:.13em!important;margin-top:2px!important;}
+  #frontDoor .console-kicker{font-size:8px!important;width:94%!important;margin-bottom:5px!important;}
+  #frontDoor .portal-input{width:min(440px,100%)!important;height:56px!important;margin-bottom:6px!important;border-radius:16px!important;}
+  #frontDoor .portal-input input{font-size:16px!important;border-radius:13px!important;}
+  #frontDoor .console-naya{margin-bottom:6px!important;gap:1px!important;}
+  #frontDoor .console-naya img{width:clamp(124px,27vw,158px)!important;height:clamp(124px,27vw,158px)!important;}
+  #frontDoor .console-naya div strong{font-size:clamp(19px,5.2vw,27px)!important;}
+  #frontDoor .console-enter{width:min(440px,100%)!important;min-height:52px!important;border-radius:16px!important;font-size:10px!important;letter-spacing:.18em!important;}
+  #frontDoor .threshold-doors{width:91vw!important;bottom:2.0%!important;gap:4px!important;}
+  #frontDoor .threshold-doors button{min-height:34px!important;padding:4px 2px!important;font-size:9px!important;}
   #frontDoor .jewel-ring .jewel{width:14px!important;height:14px!important;margin:-7px!important;}
 }
 
+/* Short screens: compress gaps before shrinking the hero. */
 @media(max-height:760px) and (min-width:701px){
-  #frontDoor .threshold-chamber{height:min(61vw,550px)!important;}
-  #frontDoor .identity-portal{top:49%!important;transform:translate(-50%,-50%) scale(1.04)!important;}
-  #frontDoor .console-logo{margin-bottom:3px!important;}
-  #frontDoor .console-logo img{max-height:56px!important;}
-  #frontDoor .console-welcome{margin-bottom:4px!important;}
-  #frontDoor .console-welcome strong{font-size:22px!important;}
-  #frontDoor .console-kicker{margin-bottom:5px!important;font-size:9px!important;}
-  #frontDoor .portal-input{height:54px!important;margin-bottom:5px!important;}
-  #frontDoor .console-naya{margin-bottom:5px!important;}
-  #frontDoor .console-naya img{width:126px!important;height:126px!important;}
-  #frontDoor .console-enter{min-height:50px!important;}
+  #frontDoor .threshold-chamber{height:min(59vw,535px)!important;}
+  #frontDoor .identity-portal{top:48.5%!important;transform:translate(-50%,-50%) scale(.98)!important;}
+  #frontDoor .console-logo{margin-bottom:2px!important;}
+  #frontDoor .console-logo img{max-height:52px!important;}
+  #frontDoor .console-welcome{margin-bottom:3px!important;}
+  #frontDoor .console-welcome strong{font-size:21px!important;}
+  #frontDoor .console-kicker{margin-bottom:4px!important;font-size:9px!important;}
+  #frontDoor .portal-input{height:52px!important;margin-bottom:4px!important;}
+  #frontDoor .console-naya{margin-bottom:4px!important;}
+  #frontDoor .console-naya img{width:118px!important;height:118px!important;}
+  #frontDoor .console-enter{min-height:48px!important;}
 }
 
 @media(prefers-reduced-motion:reduce){
