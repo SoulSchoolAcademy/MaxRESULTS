@@ -47,8 +47,8 @@
    directly in the user's visual attention zone. The outer living chamber remains intact. */
 #frontDoor .threshold-chamber{
   width:min(92vw,900px)!important;
-  height:min(75vw,736px)!important;
-  aspect-ratio:11/9!important;
+  height:min(102vw,1100px,736px)!important;
+  aspect-ratio:9/11!important;
   border-radius:44%/50%!important;
   transform:translateZ(0) scale(1.015)!important;
   filter:drop-shadow(0 30px 76px rgba(0,0,0,.48))!important;
@@ -87,16 +87,13 @@
 #frontDoor .console-naya div strong{font-size:clamp(23px,2.7vw,34px)!important; line-height:1!important; letter-spacing:.10em!important; color:#fff!important;}
 #frontDoor .console-enter{order:6!important; width:min(500px,100%)!important; min-height:60px!important; margin:0 auto!important; z-index:115!important;}
 #frontDoor .threshold-doors{position:absolute!important; left:50%!important; bottom:4.1%!important; transform:translateX(-50%)!important; width:min(760px,76vw)!important; z-index:120!important;}
-
-/* The black volume belongs around the living chamber, not between the invitation elements. */
-#frontDoor .identity-portal,
-#frontDoor .console-content{backface-visibility:hidden!important;}
+#frontDoor .identity-portal,#frontDoor .console-content{backface-visibility:hidden!important;}
 
 @media (max-width:700px){
   #frontDoor .threshold-chamber{
     width:min(94vw,620px)!important;
-    height:min(77vw,508px)!important;
-    aspect-ratio:11/9!important;
+    height:min(114vw,760px,620px)!important;
+    aspect-ratio:9/11!important;
     border-radius:40%/46%!important;
     transform:translateZ(0) scale(1.025)!important;
   }
