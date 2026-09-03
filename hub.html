@@ -80,14 +80,9 @@
     const title = document.getElementById('mainTitle');
     const status = document.getElementById('playerStatus');
     let activeIndex = 0;
-    let audioAttempt = 0;
 
-    function driveAudioUrls(id) {
-      const encoded = encodeURIComponent(id);
-      return [
-        `https://drive.google.com/uc?export=download&id=${encoded}`,
-        `https://drive.usercontent.google.com/download?id=${encoded}&export=download&confirm=t`
-      ];
+    function powercastAudioUrl(id) {
+      return `/api/audio/${encodeURIComponent(id)}`;
     }
 
     function markActive(idx) {
@@ -97,7 +92,6 @@
     function loadEp(idx, autoPlay = false) {
       const ep = eps[idx];
       activeIndex = idx;
-      audioAttempt = 0;
       art.src = `https://lh3.googleusercontent.com/d/${ep.imgId}`;
       num.textContent = `POWERCAST ${ep.num}`;
       title.textContent = ep.title;
@@ -105,7 +99,7 @@
       markActive(idx);
 
       player.pause();
-      player.src = driveAudioUrls(ep.audioId)[0];
+      player.src = powercastAudioUrl(ep.audioId);
       player.load();
 
       if (autoPlay) {
@@ -122,15 +116,7 @@
     player.addEventListener('playing', () => { status.textContent = 'Playing'; });
     player.addEventListener('pause', () => { if (!player.ended) status.textContent = 'Paused'; });
     player.addEventListener('error', () => {
-      const urls = driveAudioUrls(eps[activeIndex].audioId);
-      if (audioAttempt === 0) {
-        audioAttempt = 1;
-        status.textContent = 'Retrying audio source…';
-        player.src = urls[1];
-        player.load();
-      } else {
-        status.textContent = 'Audio could not be loaded from Google Drive. The player is active, but the source is not returning playable audio bytes.';
-      }
+      status.textContent = 'Audio delivery failed. The Powercast source could not be served as playable media.';
     });
 
     window.addEventListener('DOMContentLoaded', () => {
