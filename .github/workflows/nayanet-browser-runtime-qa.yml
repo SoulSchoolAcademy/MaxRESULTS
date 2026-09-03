@@ -59,8 +59,8 @@ jobs:
             await expect(page.locator('.threshold-oracle')).toBeHidden();
             await expect(page.locator('.threshold-doors')).toBeVisible();
             await expect(page.locator('.threshold-doors button')).toHaveCount(5);
-            await expect(page.locator('.portal-input button[type="submit"]')).toBeVisible();
-            await expect(page.locator('.portal-input button[type="submit"]')).toContainText('ENTER');
+            await expect(page.locator('.console-enter')).toBeVisible();
+            await expect(page.locator('.console-enter')).toContainText('ENTER');
             const appMetrics = await page.evaluate(() => ({
               thresholdHeight: getComputedStyle(document.querySelector('.threshold')).height,
               overflowX: getComputedStyle(document.documentElement).overflowX,
