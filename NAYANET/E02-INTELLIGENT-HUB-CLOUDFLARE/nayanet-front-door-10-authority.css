@@ -1,0 +1,54 @@
+/* NAYANET FRONT DOOR — 10/10 AUTHORITY LAYER
+   One final layer for the living portal. No HTML, Hub, or entry logic changes.
+*/
+#frontDoor{
+  --nn-platinum:#d9d9e2;
+  --nn-violet:#8b5cff;
+  --nn-violet-bright:#c9adff;
+  --nn-gold:#f5d78e;
+  --nn-ring-radius:clamp(165px,39vmin,390px);
+}
+#frontDoor .threshold-chamber{--ring-radius:var(--nn-ring-radius)!important;}
+
+/* Jewel material system: preserve all 48 nodes, but prevent the old rainbow palette from breaking the premium language. */
+#frontDoor .jewel-ring .jewel:nth-child(4n+1){--c:#8b5cff!important;}
+#frontDoor .jewel-ring .jewel:nth-child(4n+2){--c:#b99cff!important;}
+#frontDoor .jewel-ring .jewel:nth-child(4n+3){--c:#f5d78e!important;}
+#frontDoor .jewel-ring .jewel:nth-child(4n){--c:#f1f1f5!important;}
+#frontDoor .jewel-ring .jewel{background:radial-gradient(circle at 30% 25%,#fff 0 14%,rgba(255,255,255,.72) 15% 24%,var(--c) 34% 68%,transparent 76%)!important;border-color:color-mix(in srgb,var(--c) 70%,#fff 30%)!important;}
+
+/* One shared circumference: platinum edge and jewel orbit occupy the same physical radius. */
+#frontDoor .threshold-chamber::after{inset:calc((100% - (var(--nn-ring-radius) * 2))/2)!important;border-color:rgba(217,217,226,.34)!important;box-shadow:0 0 0 1px rgba(139,92,255,.045),0 0 26px rgba(139,92,255,.085),inset 0 0 18px rgba(255,255,255,.03)!important;}
+#frontDoor .jewel-ring{--ring-radius:var(--nn-ring-radius)!important;}
+
+/* The orbital-energy layer becomes the counter-rotating comet: slower, thinner, and physically separate from the jewel rotation. */
+#frontDoor .orbital-energy{z-index:24!important;pointer-events:none!important;animation:nnCometOrbit 18s linear infinite!important;transform-origin:50% 50%!important;will-change:transform!important;}
+#frontDoor .orbital-energy::before{content:""!important;position:absolute!important;left:50%!important;top:50%!important;width:calc(var(--nn-ring-radius) * .11)!important;height:calc(var(--nn-ring-radius) * .028)!important;transform:translate(calc(var(--nn-ring-radius) * .88),-50%)!important;border-radius:999px!important;background:linear-gradient(90deg,transparent,rgba(139,92,255,.06),rgba(201,173,255,.35),#fff)!important;filter:blur(.45px)!important;box-shadow:0 0 8px rgba(201,173,255,.55),0 0 22px rgba(139,92,255,.22)!important;opacity:.9!important;}
+#frontDoor .orbital-energy::after{content:""!important;position:absolute!important;left:50%!important;top:50%!important;width:9px!important;height:9px!important;transform:translate(calc(var(--nn-ring-radius) * .94),-50%)!important;border-radius:50%!important;background:radial-gradient(circle,#fff 0 18%,#f5d78e 34%,#8b5cff 67%,transparent 76%)!important;box-shadow:0 0 6px #fff,0 0 14px #f5d78e,0 0 28px rgba(139,92,255,.8)!important;}
+#frontDoor .orbital-energy span{opacity:0!important;}
+@keyframes nnCometOrbit{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+
+/* Counter-rotation remains visually legible: jewel ring clockwise, comet counter-clockwise. */
+#frontDoor .jewel-ring{animation:nnJewelOrbitFinal 36s linear infinite!important;}
+#frontDoor .jewel-ring::before{animation:nnEnergySweepCounter 10s linear infinite!important;}
+#frontDoor .jewel-ring::after{animation:nnEnergySweepCounter 15s linear infinite reverse!important;}
+
+/* Premium material: no green/cyan atmospheric spill. */
+#frontDoor.standalone-entrance{background:#05030a!important;}
+#frontDoor.standalone-entrance::before{background:radial-gradient(circle at var(--nn-pointer-x) var(--nn-pointer-y),rgba(139,92,255,calc(.025 + var(--nn-energy)*.065)),transparent 13%),radial-gradient(circle at 50% 50%,rgba(139,92,255,.085),transparent 27%),radial-gradient(circle at 50% 62%,rgba(245,215,142,.018),transparent 43%)!important;}
+
+/* Mobile art direction: retain the circle and pull the living object toward the visual center without changing the card. */
+@media(max-width:700px){
+  #frontDoor{--nn-ring-radius:clamp(142px,43vmin,390px);}
+  #frontDoor .threshold-chamber{--ring-radius:var(--nn-ring-radius)!important;width:94vmin!important;height:94vmin!important;aspect-ratio:1/1!important;border-radius:50%!important;}
+  #frontDoor .threshold-chamber::after{inset:calc((100% - (var(--nn-ring-radius)*2))/2)!important;}
+  #frontDoor .orbital-energy::before{width:calc(var(--nn-ring-radius)*.12)!important;}
+}
+
+@media(max-height:760px) and (min-width:701px){
+  #frontDoor .threshold-chamber{width:min(76vmin,760px)!important;height:min(76vmin,760px)!important;aspect-ratio:1/1!important;}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #frontDoor .orbital-energy{animation:none!important;}
+}
