@@ -6,10 +6,11 @@
 
 #frontDoor.north-star-front-door{
   --nn-violet:#8b5cff;
-  --nn-platinum:#d9d9e2;
+  --nn-platinum:#c4c9d2;
   --nn-gold:#f5d78e;
   --nn-void:#020106;
   --nn-ring-radius:clamp(165px,39vmin,390px);
+  --nn-aluminum:#aeb5c0;
   background:
     radial-gradient(circle at 50% 48%,rgba(139,92,255,.075),transparent 28%),
     radial-gradient(circle at 50% 58%,rgba(245,215,142,.018),transparent 43%),
@@ -19,161 +20,67 @@
 }
 
 #frontDoor.north-star-front-door::before{
-  content:""!important;
-  position:absolute!important;
-  inset:-12%!important;
-  z-index:0!important;
-  pointer-events:none!important;
+  content:""!important;position:absolute!important;inset:-12%!important;z-index:0!important;pointer-events:none!important;
   background:
     radial-gradient(circle at var(--nn-pointer-x,50%) var(--nn-pointer-y,50%),rgba(139,92,255,.045),transparent 13%),
     radial-gradient(circle at 50% 50%,rgba(139,92,255,.065),transparent 25%),
     radial-gradient(circle at 50% 70%,rgba(245,215,142,.018),transparent 44%)!important;
-  filter:blur(1px)!important;
-  animation:nnPortalAtmosphere 9s ease-in-out infinite!important;
+  filter:blur(1px)!important;animation:nnPortalAtmosphere 9s ease-in-out infinite!important;
 }
-
 #frontDoor.north-star-front-door::after{
-  content:""!important;
-  position:absolute!important;
-  inset:0!important;
-  z-index:90!important;
-  pointer-events:none!important;
-  background:radial-gradient(ellipse at center,transparent 38%,rgba(0,0,0,.18) 68%,rgba(0,0,0,.72) 100%)!important;
-  opacity:.72!important;
+  content:""!important;position:absolute!important;inset:0!important;z-index:90!important;pointer-events:none!important;
+  background:radial-gradient(ellipse at center,transparent 38%,rgba(0,0,0,.18) 68%,rgba(0,0,0,.72) 100%)!important;opacity:.72!important;
 }
 
-#frontDoor .threshold-stage{
-  position:relative!important;
-  z-index:5!important;
-  width:100%!important;
-  height:100%!important;
-  min-height:0!important;
-  padding:0!important;
-  display:grid!important;
-  place-items:center!important;
-}
+#frontDoor .threshold-stage{position:relative!important;z-index:5!important;width:100%!important;height:100%!important;min-height:0!important;padding:0!important;display:grid!important;place-items:center!important;}
 
+/* LIVING CHAMBER — circular field, not a card. */
 #frontDoor .threshold-chamber{
-  position:relative!important;
-  width:min(86vmin,900px)!important;
-  height:min(86vmin,900px)!important;
-  aspect-ratio:1/1!important;
-  border-radius:50%!important;
-  overflow:visible!important;
-  isolation:isolate!important;
+  position:relative!important;width:min(86vmin,900px)!important;height:min(86vmin,900px)!important;aspect-ratio:1/1!important;border-radius:50%!important;
+  overflow:visible!important;isolation:isolate!important;
   background:radial-gradient(circle at 50% 46%,rgba(16,11,28,.42),rgba(3,2,8,.18) 52%,transparent 72%)!important;
-  border:0!important;
-  box-shadow:none!important;
-  transform:translateZ(0)!important;
+  border:0!important;box-shadow:none!important;transform:translateZ(0)!important;
 }
-
 #frontDoor .threshold-chamber::before{
-  content:""!important;
-  position:absolute!important;
-  inset:14%!important;
-  z-index:1!important;
-  border-radius:50%!important;
-  pointer-events:none!important;
-  background:
-    radial-gradient(circle at 50% 44%,rgba(255,255,255,.018),transparent 18%),
-    radial-gradient(circle,rgba(139,92,255,.055),transparent 67%)!important;
-  box-shadow:inset 0 0 100px rgba(0,0,0,.62),0 0 90px rgba(139,92,255,.055)!important;
-  animation:nnFieldBreath 8s ease-in-out infinite!important;
+  content:""!important;position:absolute!important;inset:14%!important;z-index:1!important;border-radius:50%!important;pointer-events:none!important;
+  background:radial-gradient(circle at 50% 44%,rgba(255,255,255,.018),transparent 18%),radial-gradient(circle,rgba(139,92,255,.055),transparent 67%)!important;
+  box-shadow:inset 0 0 100px rgba(0,0,0,.62),0 0 90px rgba(139,92,255,.055)!important;animation:nnFieldBreath 8s ease-in-out infinite!important;
 }
 
-/* Counter-orbiting intelligence body. */
+/* Counter-rotating intelligence orb. */
 #frontDoor .threshold-chamber::after{
-  content:""!important;
-  position:absolute!important;
-  left:50%!important;
-  top:50%!important;
-  width:14px!important;
-  height:14px!important;
-  margin:-7px!important;
-  border-radius:50%!important;
-  z-index:45!important;
-  pointer-events:none!important;
+  content:""!important;position:absolute!important;left:50%!important;top:50%!important;width:14px!important;height:14px!important;margin:-7px!important;border-radius:50%!important;z-index:45!important;pointer-events:none!important;
   background:radial-gradient(circle,#fff 0 18%,#f5d78e 30%,#ff4b9b 49%,#8b5cff 70%,transparent 80%)!important;
   box-shadow:0 0 5px #fff,0 0 14px #f5d78e,0 0 26px rgba(255,45,141,.55),0 0 40px rgba(139,92,255,.75)!important;
-  transform-origin:7px 7px!important;
-  animation:nnCounterOrb 15s linear infinite!important;
+  transform-origin:7px 7px!important;animation:nnCounterOrb 15s linear infinite!important;
 }
 
-/* Platinum threshold: physically separate from the moving orb. */
+/* Aluminum-platinum threshold circumference. */
 #frontDoor .threshold-oracle{
-  position:absolute!important;
-  left:50%!important;
-  top:50%!important;
-  width:calc(var(--nn-ring-radius) * 2)!important;
-  height:calc(var(--nn-ring-radius) * 2)!important;
-  margin:calc(var(--nn-ring-radius) * -1)!important;
-  border-radius:50%!important;
-  z-index:20!important;
-  pointer-events:none!important;
-  border:1px solid rgba(217,217,226,.22)!important;
+  position:absolute!important;left:50%!important;top:50%!important;width:calc(var(--nn-ring-radius) * 2)!important;height:calc(var(--nn-ring-radius) * 2)!important;margin:calc(var(--nn-ring-radius) * -1)!important;
+  border-radius:50%!important;z-index:20!important;pointer-events:none!important;
+  border:1px solid rgba(196,201,210,.30)!important;
   box-shadow:0 0 0 1px rgba(255,255,255,.025),0 0 24px rgba(139,92,255,.055),inset 0 0 22px rgba(255,255,255,.018)!important;
 }
 
 /* Living spectrum perimeter. */
 #frontDoor .jewel-ring{
-  --ring-radius:var(--nn-ring-radius)!important;
-  position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
-  z-index:30!important;
-  border-radius:50%!important;
-  pointer-events:none!important;
-  opacity:1!important;
-  transform:rotate(-90deg)!important;
-  filter:drop-shadow(0 0 14px rgba(139,92,255,.10))!important;
-  animation:nnLivingRing 32s linear infinite!important;
-  will-change:transform!important;
+  --ring-radius:var(--nn-ring-radius)!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:30!important;border-radius:50%!important;pointer-events:none!important;opacity:1!important;
+  transform:rotate(-90deg)!important;filter:drop-shadow(0 0 14px rgba(139,92,255,.10))!important;animation:nnLivingRing 32s linear infinite!important;will-change:transform!important;
 }
-
 #frontDoor .jewel-ring::before{
-  content:""!important;
-  position:absolute!important;
-  inset:calc((100% - (var(--ring-radius) * 2)) / 2)!important;
-  border-radius:50%!important;
+  content:""!important;position:absolute!important;inset:calc((100% - (var(--ring-radius) * 2)) / 2)!important;border-radius:50%!important;
   background:conic-gradient(from 0deg,#ff3b30 0deg,#ff2d8d 38deg,#d83cff 74deg,#8b5cff 112deg,#4f46e5 145deg,#22b8ff 184deg,#14d9c4 220deg,#35e06f 258deg,#d9ef48 294deg,#f5d54a 318deg,#f5a33b 340deg,#ff4b32 360deg)!important;
-  -webkit-mask:radial-gradient(circle,transparent calc(100% - 7px),#000 calc(100% - 4px),#000 100%)!important;
-  mask:radial-gradient(circle,transparent calc(100% - 7px),#000 calc(100% - 4px),#000 100%)!important;
-  filter:blur(.65px)!important;
-  mix-blend-mode:screen!important;
-  opacity:.72!important;
+  -webkit-mask:radial-gradient(circle,transparent calc(100% - 7px),#000 calc(100% - 4px),#000 100%)!important;mask:radial-gradient(circle,transparent calc(100% - 7px),#000 calc(100% - 4px),#000 100%)!important;
+  filter:blur(.65px)!important;mix-blend-mode:screen!important;opacity:.72!important;
 }
-
-#frontDoor .jewel-ring::after{
-  content:""!important;
-  position:absolute!important;
-  inset:calc((100% - (var(--ring-radius) * 2)) / 2)!important;
-  border-radius:50%!important;
-  border:1px solid rgba(217,217,226,.16)!important;
-  box-shadow:0 0 8px rgba(255,255,255,.035)!important;
-  pointer-events:none!important;
-}
-
+#frontDoor .jewel-ring::after{content:""!important;position:absolute!important;inset:calc((100% - (var(--ring-radius) * 2)) / 2)!important;border-radius:50%!important;border:1px solid rgba(196,201,210,.18)!important;box-shadow:0 0 8px rgba(255,255,255,.035)!important;pointer-events:none!important;}
 #frontDoor .jewel-ring .jewel{
-  --c:hsl(calc(360 - (var(--i) * 7.5)),92%,64%)!important;
-  position:absolute!important;
-  left:50%!important;
-  top:50%!important;
-  width:9px!important;
-  height:9px!important;
-  margin:-4.5px!important;
-  display:block!important;
-  border-radius:50%!important;
+  --c:hsl(calc(360 - (var(--i) * 7.5)),92%,64%)!important;position:absolute!important;left:50%!important;top:50%!important;width:9px!important;height:9px!important;margin:-4.5px!important;display:block!important;border-radius:50%!important;
   background:radial-gradient(circle at 30% 25%,#fff 0 13%,rgba(255,255,255,.72) 14% 23%,var(--c) 34% 68%,transparent 77%)!important;
-  border:1px solid color-mix(in srgb,var(--c) 78%,#fff 22%)!important;
-  box-shadow:0 0 2px rgba(255,255,255,.8),0 0 7px color-mix(in srgb,var(--c) 55%,transparent)!important;
-  transform:rotate(var(--a)) translateY(calc(-1 * var(--ring-radius))) rotate(calc(-1 * var(--a)))!important;
-  opacity:.30!important;
-  animation:nnJewelPulse 5.8s linear infinite!important;
-  animation-delay:calc(var(--i) * -.12s)!important;
-  will-change:opacity,filter,box-shadow!important;
+  border:1px solid color-mix(in srgb,var(--c) 78%,#fff 22%)!important;box-shadow:0 0 2px rgba(255,255,255,.8),0 0 7px color-mix(in srgb,var(--c) 55%,transparent)!important;
+  transform:rotate(var(--a)) translateY(calc(-1 * var(--ring-radius))) rotate(calc(-1 * var(--a)))!important;opacity:.30!important;animation:nnJewelPulse 5.8s linear infinite!important;animation-delay:calc(var(--i) * -.12s)!important;will-change:opacity,filter,box-shadow!important;
 }
-
 #frontDoor .jewel-ring .jewel::after{content:""!important;position:absolute!important;inset:-3px!important;border-radius:50%!important;border:1px solid rgba(255,255,255,.08)!important;opacity:.8!important;}
 
 @keyframes nnLivingRing{from{transform:rotate(-90deg)}to{transform:rotate(270deg)}}
@@ -182,107 +89,85 @@
 @keyframes nnFieldBreath{0%,100%{transform:scale(.97);opacity:.68}50%{transform:scale(1.03);opacity:1}}
 @keyframes nnPortalAtmosphere{0%,100%{opacity:.72;transform:scale(.985)}50%{opacity:1;transform:scale(1.015)}}
 @keyframes nnNayaBreath{0%,100%{transform:scale(.985);filter:brightness(.96)}50%{transform:scale(1.025);filter:brightness(1.07)}}
-@keyframes nnPresencePulse{0%,100%{filter:brightness(.96) saturate(.94)}50%{filter:brightness(1.08) saturate(1.08)}}
 
-/* COMPACT OBSIDIAN CENTER — invitation, not login panel. */
+/* INTELLIGENT VAULT CENTER — one true circle, no rectangle. */
 #frontDoor .identity-portal{
-  position:absolute!important;
-  left:50%!important;
-  top:50%!important;
-  width:min(390px,56vw)!important;
-  height:auto!important;
-  margin:0!important;
-  padding:0!important;
-  transform:translate(-50%,-50%)!important;
-  z-index:100!important;
-  background:transparent!important;
-  border:0!important;
-  box-shadow:none!important;
-  pointer-events:none!important;
+  position:absolute!important;left:50%!important;top:50%!important;width:min(382px,58vw)!important;height:min(382px,58vw)!important;margin:0!important;padding:0!important;transform:translate(-50%,-50%)!important;z-index:100!important;background:transparent!important;border:0!important;box-shadow:none!important;pointer-events:none!important;
 }
-
 #frontDoor .console-content{
-  position:relative!important;
-  width:100%!important;
-  max-width:390px!important;
-  min-width:0!important;
-  padding:14px 16px 16px!important;
-  box-sizing:border-box!important;
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  justify-content:center!important;
-  gap:0!important;
-  text-align:center!important;
-  pointer-events:auto!important;
-  border-radius:22px!important;
-  background:radial-gradient(circle at 50% 28%,#17131f 0%,#08060d 56%,#020106 100%)!important;
-  border:1px solid rgba(217,217,226,.11)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),inset 0 -24px 42px rgba(0,0,0,.55),0 22px 60px rgba(0,0,0,.74),0 0 42px rgba(139,92,255,.045)!important;
+  position:relative!important;width:100%!important;height:100%!important;max-width:none!important;min-width:0!important;padding:27px 28px 25px!important;box-sizing:border-box!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;text-align:center!important;pointer-events:auto!important;border-radius:50%!important;overflow:hidden!important;
+  background:
+    radial-gradient(circle at 50% 31%,rgba(28,25,36,.96) 0%,rgba(11,9,16,.98) 47%,#020207 78%,#010105 100%)!important;
+  border:1px solid rgba(174,181,192,.58)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12),
+    inset 0 -26px 50px rgba(0,0,0,.70),
+    inset 0 0 0 1px rgba(196,201,210,.10),
+    0 18px 55px rgba(0,0,0,.78),
+    0 0 0 5px rgba(174,181,192,.055),
+    0 0 38px rgba(139,92,255,.10)!important;
   transition:box-shadow .5s ease,border-color .5s ease,transform .5s cubic-bezier(.16,1,.3,1)!important;
 }
+/* Machined-aluminum highlight: cool silver, never pearl white. */
+#frontDoor .console-content::before{
+  content:""!important;position:absolute!important;inset:5px!important;z-index:0!important;border-radius:50%!important;pointer-events:none!important;
+  border:1px solid transparent!important;
+  background:linear-gradient(145deg,rgba(232,236,242,.70),rgba(104,111,122,.34) 30%,rgba(28,31,39,.18) 55%,rgba(218,223,230,.52) 82%,rgba(91,98,108,.30)) border-box!important;
+  -webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0)!important;-webkit-mask-composite:xor!important;mask-composite:exclude!important;
+  opacity:.72!important;
+}
+#frontDoor .console-content::after{
+  content:""!important;position:absolute!important;inset:16px!important;z-index:0!important;border-radius:50%!important;pointer-events:none!important;
+  border:1px solid rgba(139,92,255,.11)!important;box-shadow:inset 0 0 22px rgba(139,92,255,.045)!important;
+}
+#frontDoor .console-content > *{position:relative!important;z-index:2!important;}
 
-#frontDoor .console-content::before{content:""!important;position:absolute!important;inset:0!important;z-index:-1!important;border-radius:22px!important;background:linear-gradient(115deg,rgba(255,255,255,.035),transparent 22%,transparent 72%,rgba(139,92,255,.035))!important;pointer-events:none!important;}
+/* Logo is a small vault insignia, not a competing banner. */
+#frontDoor .console-logo{order:1!important;width:min(132px,45%)!important;margin:0 auto 4px!important;}
+#frontDoor .console-logo img{display:block!important;width:100%!important;height:auto!important;max-height:34px!important;object-fit:contain!important;filter:drop-shadow(0 0 12px rgba(196,201,210,.10)) brightness(.98)!important;}
 
-#frontDoor .console-logo{order:1!important;width:min(170px,52%)!important;margin:0 auto 3px!important;}
-#frontDoor .console-logo img{display:block!important;width:100%!important;height:auto!important;max-height:42px!important;object-fit:contain!important;filter:drop-shadow(0 0 18px rgba(255,255,255,.075))!important;}
+#frontDoor .console-welcome{order:2!important;margin:0 auto 3px!important;width:100%!important;}
+#frontDoor .console-welcome strong{display:block!important;color:#f5f5f7!important;font-size:clamp(17px,1.75vw,22px)!important;line-height:1.05!important;letter-spacing:-.02em!important;font-weight:700!important;}
+#frontDoor .console-welcome span{display:block!important;margin-top:3px!important;color:rgba(196,201,210,.62)!important;font-size:6.5px!important;line-height:1!important;letter-spacing:.18em!important;text-transform:uppercase!important;}
 
-#frontDoor .console-welcome{order:2!important;margin:0 auto 4px!important;width:100%!important;}
-#frontDoor .console-welcome strong{display:block!important;color:#fff!important;font-size:clamp(18px,1.9vw,24px)!important;line-height:1.05!important;letter-spacing:-.02em!important;font-weight:700!important;}
-#frontDoor .console-welcome span{display:block!important;margin-top:3px!important;color:rgba(255,255,255,.50)!important;font-size:7px!important;line-height:1!important;letter-spacing:.20em!important;text-transform:uppercase!important;}
-
-/* Naya is now part of the emotional sequence before identity entry. */
-#frontDoor .console-naya{order:3!important;margin:1px auto 5px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important;position:relative!important;z-index:4!important;}
-#frontDoor .console-naya img{width:clamp(92px,9vw,112px)!important;height:clamp(92px,9vw,112px)!important;object-fit:cover!important;border-radius:50%!important;border:1px solid rgba(217,217,226,.20)!important;box-shadow:0 0 0 3px rgba(139,92,255,.045),0 16px 42px rgba(0,0,0,.58),0 0 46px rgba(139,92,255,.22)!important;animation:nnNayaBreath 5s ease-in-out infinite!important;}
+/* Naya = the intelligence presence at the heart of the vault. */
+#frontDoor .console-naya{order:3!important;margin:2px auto 5px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:1px!important;position:relative!important;z-index:4!important;}
+#frontDoor .console-naya img{width:clamp(66px,7vw,78px)!important;height:clamp(66px,7vw,78px)!important;object-fit:cover!important;border-radius:50%!important;border:1px solid rgba(196,201,210,.52)!important;box-shadow:0 0 0 2px rgba(139,92,255,.06),0 9px 26px rgba(0,0,0,.68),0 0 26px rgba(139,92,255,.18)!important;animation:nnNayaBreath 5s ease-in-out infinite!important;}
 #frontDoor .console-naya div{display:flex!important;flex-direction:column!important;align-items:center!important;text-align:center!important;}
-#frontDoor .console-naya div span{font-size:7px!important;letter-spacing:.25em!important;color:rgba(255,255,255,.40)!important;}
-#frontDoor .console-naya div strong{font-size:clamp(16px,1.8vw,21px)!important;line-height:1!important;letter-spacing:.10em!important;color:var(--nn-gold)!important;text-shadow:0 0 24px rgba(245,215,142,.16)!important;}
+#frontDoor .console-naya div span{font-size:6px!important;letter-spacing:.24em!important;color:rgba(196,201,210,.48)!important;}
+#frontDoor .console-naya div strong{font-size:clamp(14px,1.55vw,18px)!important;line-height:1!important;letter-spacing:.10em!important;color:var(--nn-gold)!important;text-shadow:0 0 18px rgba(245,215,142,.15)!important;}
 
-/* The contextual promise sits immediately above the name field. */
-#frontDoor .console-kicker{order:4!important;width:min(330px,100%)!important;margin:0 auto 6px!important;color:rgba(255,255,255,.66)!important;font-size:8px!important;line-height:1.35!important;letter-spacing:.01em!important;}
+/* The identity interaction is the exact center of the vault experience. */
+#frontDoor .console-kicker{order:4!important;width:min(300px,100%)!important;margin:0 auto 4px!important;color:rgba(196,201,210,.68)!important;font-size:7px!important;line-height:1.3!important;letter-spacing:.01em!important;}
+#frontDoor .portal-input{order:5!important;position:relative!important;width:min(292px,100%)!important;height:42px!important;margin:0 auto 5px!important;padding:2px!important;box-sizing:border-box!important;border-radius:24px!important;background:#020207!important;border:1px solid rgba(174,181,192,.48)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -10px 18px rgba(0,0,0,.60),0 8px 24px rgba(0,0,0,.46),0 0 16px rgba(139,92,255,.06)!important;transform:none!important;transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease!important;}
+#frontDoor .portal-input input{display:block!important;width:100%!important;height:100%!important;box-sizing:border-box!important;padding:0 15px!important;border:0!important;outline:0!important;border-radius:21px!important;background:transparent!important;color:#fff!important;font-size:14px!important;font-weight:500!important;text-align:center!important;caret-color:var(--nn-violet)!important;}
+#frontDoor .portal-input input::placeholder{color:rgba(196,201,210,.58)!important;opacity:1!important;}
+#frontDoor .portal-input:focus-within{transform:translateY(-1px)!important;border-color:rgba(196,201,210,.82)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -10px 18px rgba(0,0,0,.54),0 12px 28px rgba(0,0,0,.50),0 0 24px rgba(139,92,255,.16)!important;}
 
-#frontDoor .portal-input{order:5!important;position:relative!important;width:min(350px,100%)!important;height:48px!important;margin:0 auto 5px!important;padding:3px!important;box-sizing:border-box!important;border-radius:14px!important;background:#030208!important;border:1px solid rgba(217,217,226,.16)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),inset 0 -14px 22px rgba(0,0,0,.54),0 12px 32px rgba(0,0,0,.42)!important;transform:none!important;transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease!important;}
-#frontDoor .portal-input input{display:block!important;width:100%!important;height:100%!important;box-sizing:border-box!important;padding:0 16px!important;border:0!important;outline:0!important;border-radius:11px!important;background:transparent!important;color:#fff!important;font-size:15px!important;font-weight:500!important;text-align:center!important;caret-color:var(--nn-violet)!important;}
-#frontDoor .portal-input input::placeholder{color:rgba(255,255,255,.50)!important;opacity:1!important;}
-#frontDoor .portal-input:focus-within{transform:translateY(-2px)!important;border-color:rgba(139,92,255,.58)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.09),inset 0 -14px 22px rgba(0,0,0,.52),0 16px 38px rgba(0,0,0,.48),0 0 28px rgba(139,92,255,.13)!important;}
-
-#frontDoor .console-enter{order:6!important;width:min(350px,100%)!important;min-height:46px!important;margin:0 auto!important;padding:0 16px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:14px!important;box-sizing:border-box!important;position:relative!important;overflow:hidden!important;border-radius:14px!important;border:1px solid rgba(217,217,226,.28)!important;background:linear-gradient(145deg,rgba(139,92,255,.16),rgba(255,255,255,.035))!important;color:#fff!important;font-size:10px!important;font-weight:800!important;letter-spacing:.19em!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -14px 22px rgba(0,0,0,.50),0 14px 34px rgba(0,0,0,.48),0 0 26px rgba(139,92,255,.08)!important;transition:transform .22s ease,filter .22s ease,border-color .22s ease,box-shadow .22s ease!important;pointer-events:auto!important;}
-#frontDoor .console-enter::after{content:""!important;position:absolute!important;top:-40%!important;left:-28%!important;width:24%!important;height:180%!important;transform:rotate(18deg)!important;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent)!important;opacity:.30!important;pointer-events:none!important;animation:nnEnterSheen 4.8s ease-in-out infinite!important;}
+#frontDoor .console-enter{order:6!important;width:min(292px,100%)!important;min-height:40px!important;margin:0 auto!important;padding:0 15px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:12px!important;box-sizing:border-box!important;position:relative!important;overflow:hidden!important;border-radius:22px!important;border:1px solid rgba(196,201,210,.52)!important;background:linear-gradient(145deg,rgba(139,92,255,.17),rgba(255,255,255,.025))!important;color:#fff!important;font-size:9px!important;font-weight:800!important;letter-spacing:.18em!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -12px 20px rgba(0,0,0,.50),0 10px 28px rgba(0,0,0,.48),0 0 22px rgba(139,92,255,.08)!important;transition:transform .22s ease,filter .22s ease,border-color .22s ease,box-shadow .22s ease!important;pointer-events:auto!important;}
+#frontDoor .console-enter::after{content:""!important;position:absolute!important;top:-40%!important;left:-28%!important;width:24%!important;height:180%!important;transform:rotate(18deg)!important;background:linear-gradient(90deg,transparent,rgba(196,201,210,.34),transparent)!important;opacity:.30!important;pointer-events:none!important;}
 #frontDoor .console-enter:disabled{opacity:.66!important;filter:saturate(.70)!important;cursor:not-allowed!important;}
 #frontDoor .console-enter:not(:disabled){cursor:pointer!important;}
-#frontDoor .console-enter:not(:disabled):hover{transform:translateY(-2px) scale(1.012)!important;filter:brightness(1.10)!important;border-color:rgba(217,217,226,.55)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.13),inset 0 -14px 22px rgba(0,0,0,.45),0 19px 42px rgba(0,0,0,.54),0 0 38px rgba(139,92,255,.16)!important;}
+#frontDoor .console-enter:not(:disabled):hover{transform:translateY(-2px) scale(1.012)!important;filter:brightness(1.10)!important;border-color:rgba(232,236,242,.72)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.13),inset 0 -12px 20px rgba(0,0,0,.45),0 15px 34px rgba(0,0,0,.54),0 0 34px rgba(139,92,255,.16)!important;}
 #frontDoor .console-enter:not(:disabled):active{transform:translateY(1px) scale(.998)!important;}
-#frontDoor .console-enter:focus-visible,#frontDoor .threshold-doors button:focus-visible,#frontDoor .portal-input input:focus-visible{outline:2px solid rgba(217,217,226,.82)!important;outline-offset:4px!important;}
+#frontDoor .console-enter:focus-visible,#frontDoor .threshold-doors button:focus-visible,#frontDoor .portal-input input:focus-visible{outline:2px solid rgba(196,201,210,.82)!important;outline-offset:4px!important;}
 
+/* Capability doors remain part of the living field, below the vault. */
 #frontDoor .threshold-doors{position:absolute!important;left:50%!important;bottom:3.2%!important;transform:translateX(-50%)!important;width:min(760px,78vw)!important;z-index:70!important;pointer-events:auto!important;}
 #frontDoor .threshold-doors button{min-height:42px!important;}
 
-@keyframes nnEnterSheen{0%,65%{left:-28%;opacity:0}72%{opacity:.30}88%{left:108%;opacity:.08}100%{left:108%;opacity:0}}
-
-/* Presence: the environment subtly acknowledges the visitor. */
-#frontDoor:has(.portal-input:focus-within) .threshold-chamber::before{opacity:1!important;box-shadow:inset 0 0 100px rgba(0,0,0,.54),0 0 110px rgba(139,92,255,.10)!important;}
-#frontDoor:has(.portal-input:focus-within) .threshold-oracle{border-color:rgba(217,217,226,.30)!important;box-shadow:0 0 0 1px rgba(255,255,255,.035),0 0 30px rgba(139,92,255,.10),inset 0 0 24px rgba(255,255,255,.025)!important;}
-#frontDoor:has(.portal-input:focus-within) .jewel-ring{filter:drop-shadow(0 0 18px rgba(139,92,255,.16))!important;}
-#frontDoor:has(.portal-input:focus-within) .jewel-ring .jewel{animation-duration:4.6s!important;}
-#frontDoor:has(.portal-input:focus-within) .threshold-chamber::after{animation-duration:11s!important;}
-#frontDoor:has(.portal-input[data-state="ready"]) .console-content{border-color:rgba(139,92,255,.30)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.055),inset 0 -24px 42px rgba(0,0,0,.55),0 24px 66px rgba(0,0,0,.78),0 0 52px rgba(139,92,255,.11)!important;transform:translateY(-2px)!important;}
-#frontDoor:has(.portal-input[data-state="ready"]) .console-naya img{animation:nnPresencePulse 2.8s ease-in-out infinite!important;}
-#frontDoor:has(.portal-input[data-state="ready"]) .threshold-chamber::after{animation-duration:9.5s!important;}
-#frontDoor:has(.portal-input[data-state="ready"]) .jewel-ring{filter:drop-shadow(0 0 22px rgba(139,92,255,.20))!important;}
-
 @media(max-width:700px){
   #frontDoor .threshold-chamber{width:94vw!important;height:94vw!important;max-height:570px!important;}
-  #frontDoor .identity-portal{width:min(82vw,370px)!important;}
-  #frontDoor .console-content{max-width:370px!important;padding:12px 12px 14px!important;border-radius:20px!important;}
-  #frontDoor .console-content::before{border-radius:20px!important;}
-  #frontDoor .console-logo{width:min(155px,55vw)!important;}
-  #frontDoor .console-logo img{max-height:38px!important;}
-  #frontDoor .console-welcome strong{font-size:clamp(17px,5.1vw,22px)!important;}
-  #frontDoor .console-naya img{width:clamp(84px,20vw,106px)!important;height:clamp(84px,20vw,106px)!important;}
-  #frontDoor .console-kicker{font-size:7.5px!important;}
-  #frontDoor .portal-input{height:46px!important;}
-  #frontDoor .portal-input input{font-size:15px!important;}
-  #frontDoor .console-enter{min-height:44px!important;}
+  #frontDoor .identity-portal{width:min(350px,76vw)!important;height:min(350px,76vw)!important;}
+  #frontDoor .console-content{padding:22px 22px 20px!important;}
+  #frontDoor .console-logo{width:min(118px,43%)!important;}
+  #frontDoor .console-logo img{max-height:30px!important;}
+  #frontDoor .console-welcome strong{font-size:clamp(15px,4.7vw,20px)!important;}
+  #frontDoor .console-kicker{font-size:6.5px!important;}
+  #frontDoor .portal-input{width:min(270px,100%)!important;height:40px!important;}
+  #frontDoor .portal-input input{font-size:13px!important;}
+  #frontDoor .console-naya img{width:clamp(60px,17vw,72px)!important;height:clamp(60px,17vw,72px)!important;}
+  #frontDoor .console-enter{width:min(270px,100%)!important;min-height:38px!important;}
   #frontDoor .threshold-doors{width:91vw!important;bottom:2%!important;gap:4px!important;}
   #frontDoor .threshold-doors button{min-height:34px!important;padding:4px 2px!important;font-size:9px!important;}
   #frontDoor .jewel-ring .jewel{width:12px!important;height:12px!important;margin:-6px!important;}
@@ -294,10 +179,5 @@
 }
 
 @media(prefers-reduced-motion:reduce){
-  #frontDoor.north-star-front-door::before,
-  #frontDoor .threshold-chamber::before,
-  #frontDoor .threshold-chamber::after,
-  #frontDoor .jewel-ring,
-  #frontDoor .console-naya img,
-  #frontDoor .console-enter::after{animation:none!important;}
+  #frontDoor.north-star-front-door::before,#frontDoor .threshold-chamber::before,#frontDoor .threshold-chamber::after,#frontDoor .jewel-ring,#frontDoor .console-naya img{animation:none!important;}
 }
