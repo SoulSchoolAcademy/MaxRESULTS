@@ -27,6 +27,8 @@
     .card-title { font-size: 0.9rem; font-weight: 800; text-align: center; margin-bottom: 14px; height: 2.6em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
     .play-btn { width: 100%; padding: 10px; background: rgba(168,85,247,0.2); border: 1px solid #a855f7; border-radius: 12px; color: #fff; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
     .card:hover .play-btn { background: #10b981; border-color: #fff; }
+    .card.active { border-color: #10b981; box-shadow: 0 0 0 2px rgba(16,185,129,0.2), 0 10px 30px rgba(16,185,129,0.18); }
+    .card.active .play-btn { background: #10b981; border-color: #fff; }
     .player-status { min-height: 1.2em; margin-top: 8px; font-size: 0.78rem; opacity: 0.75; }
   </style>
 </head>
@@ -53,7 +55,7 @@
   <script>
     const eps = [
       { num: '01', title: 'WHAT IS NAYA POWER', imgId: '1Pz7KjdlZ77FzlZn50zXe8Ces0vyv9eQk', audioId: '1ci3rTF-Y2F3dDbGBtlpITOeQptAEK-1b' },
-      { num: '02', title: 'Meet Your Compounding Superbrain', imgId: '1Hc45liGxcRCsIy-tLcMDj38_Z8CI4pAv', audioId: '1sYepm2HxZjdxYubkQwLDcPJlzuB6_7B1' },
+      { num: '02', title: 'Meet Your Compounding Superbrain', imgId: '1Hc45liGxcRCsIy-tLcMDj38_Z8CI4pAv', audioId: '1sYepm2HxZjdxYubkQwLDcPJlzuB6_7B' },
       { num: '03', title: 'End AI Amnesia', imgId: '1SbJsHEpXhTtcaQv-nRZ27qiCYOH8G_Xm', audioId: '1dqTfoI61U0P0i0nd2v8cr2H63mSzOZqv' },
       { num: '04', title: 'Why Isn’t Your AI a 10', imgId: '1emgJJPTRni09qaxFNC00gnbiaHC4dzl3', audioId: '1MmnBaTXg3X81eOpvTGKT1x1CV2VzNzgL' },
       { num: '05', title: 'Drive Your AI Like a Ferrari', imgId: '1IzvsA-i3XcFZ9BLA_zgrwIqZBKNg4X5-', audioId: '1X76D-WxgIdl_Q4tvYertHpIA_Q4DN9Lq' },
@@ -77,22 +79,33 @@
     const num = document.getElementById('mainNum');
     const title = document.getElementById('mainTitle');
     const status = document.getElementById('playerStatus');
+    let activeIndex = 0;
+    let audioAttempt = 0;
 
-    function driveAudioUrl(id) {
-      return `https://drive.google.com/uc?export=download&id=${encodeURIComponent(id)}`;
+    function driveAudioUrls(id) {
+      const encoded = encodeURIComponent(id);
+      return [
+        `https://drive.google.com/uc?export=download&id=${encoded}`,
+        `https://drive.usercontent.google.com/download?id=${encoded}&export=download&confirm=t`
+      ];
+    }
+
+    function markActive(idx) {
+      document.querySelectorAll('.card').forEach((card, i) => card.classList.toggle('active', i === idx));
     }
 
     function loadEp(idx, autoPlay = false) {
       const ep = eps[idx];
+      activeIndex = idx;
+      audioAttempt = 0;
       art.src = `https://lh3.googleusercontent.com/d/${ep.imgId}`;
       num.textContent = `POWERCAST ${ep.num}`;
       title.textContent = ep.title;
-      status.textContent = 'Loading…';
+      status.textContent = 'Loading audio…';
+      markActive(idx);
 
       player.pause();
-      player.removeAttribute('src');
-      player.load();
-      player.src = driveAudioUrl(ep.audioId);
+      player.src = driveAudioUrls(ep.audioId)[0];
       player.load();
 
       if (autoPlay) {
@@ -108,7 +121,17 @@
     player.addEventListener('canplay', () => { status.textContent = ''; });
     player.addEventListener('playing', () => { status.textContent = 'Playing'; });
     player.addEventListener('pause', () => { if (!player.ended) status.textContent = 'Paused'; });
-    player.addEventListener('error', () => { status.textContent = 'Audio could not be loaded. Check that the Google Drive file is shared publicly.'; });
+    player.addEventListener('error', () => {
+      const urls = driveAudioUrls(eps[activeIndex].audioId);
+      if (audioAttempt === 0) {
+        audioAttempt = 1;
+        status.textContent = 'Retrying audio source…';
+        player.src = urls[1];
+        player.load();
+      } else {
+        status.textContent = 'Audio could not be loaded from Google Drive. The player is active, but the source is not returning playable audio bytes.';
+      }
+    });
 
     window.addEventListener('DOMContentLoaded', () => {
       const name = localStorage.getItem('nayanet_user_name');
