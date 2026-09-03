@@ -53,7 +53,6 @@
   place-items:center!important;
 }
 
-/* THE LIVING CHAMBER — a field, not a giant black card. */
 #frontDoor .threshold-chamber{
   position:relative!important;
   width:min(86vmin,900px)!important;
@@ -62,14 +61,12 @@
   border-radius:50%!important;
   overflow:visible!important;
   isolation:isolate!important;
-  background:
-    radial-gradient(circle at 50% 46%,rgba(16,11,28,.42),rgba(3,2,8,.18) 52%,transparent 72%)!important;
+  background:radial-gradient(circle at 50% 46%,rgba(16,11,28,.42),rgba(3,2,8,.18) 52%,transparent 72%)!important;
   border:0!important;
   box-shadow:none!important;
   transform:translateZ(0)!important;
 }
 
-/* Soft inner field. No white sphere. No green cast. */
 #frontDoor .threshold-chamber::before{
   content:""!important;
   position:absolute!important;
@@ -84,7 +81,7 @@
   animation:nnFieldBreath 8s ease-in-out infinite!important;
 }
 
-/* COUNTER-ROTATING ORB — restored as a dedicated moving body. */
+/* Counter-orbiting intelligence body. */
 #frontDoor .threshold-chamber::after{
   content:""!important;
   position:absolute!important;
@@ -102,7 +99,7 @@
   animation:nnCounterOrb 15s linear infinite!important;
 }
 
-/* The orb's tail gives the eye a physical path without becoming a comet graphic. */
+/* Platinum threshold: physically separate from the moving orb. */
 #frontDoor .threshold-oracle{
   position:absolute!important;
   left:50%!important;
@@ -117,7 +114,7 @@
   box-shadow:0 0 0 1px rgba(255,255,255,.025),0 0 24px rgba(139,92,255,.055),inset 0 0 22px rgba(255,255,255,.018)!important;
 }
 
-/* SPECTRUM RING — continuous red → magenta → violet → indigo → cyan → green → yellow → gold → orange → red. */
+/* Living spectrum perimeter. */
 #frontDoor .jewel-ring{
   --ring-radius:var(--nn-ring-radius)!important;
   position:absolute!important;
@@ -157,7 +154,6 @@
   pointer-events:none!important;
 }
 
-/* 48 physical light nodes. Their hue follows the circumference; their pulse travels continuously. */
 #frontDoor .jewel-ring .jewel{
   --c:hsl(calc(360 - (var(--i) * 7.5)),92%,64%)!important;
   position:absolute!important;
@@ -178,20 +174,15 @@
   will-change:opacity,filter,box-shadow!important;
 }
 
-#frontDoor .jewel-ring .jewel::after{
-  content:""!important;
-  position:absolute!important;
-  inset:-3px!important;
-  border-radius:50%!important;
-  border:1px solid rgba(255,255,255,.08)!important;
-  opacity:.8!important;
-}
+#frontDoor .jewel-ring .jewel::after{content:""!important;position:absolute!important;inset:-3px!important;border-radius:50%!important;border:1px solid rgba(255,255,255,.08)!important;opacity:.8!important;}
 
 @keyframes nnLivingRing{from{transform:rotate(-90deg)}to{transform:rotate(270deg)}}
 @keyframes nnJewelPulse{0%,61%{opacity:.24;filter:saturate(.62) brightness(.70)}69%{opacity:.48;filter:saturate(1.0) brightness(1.04)}77%{opacity:1;filter:saturate(1.55) brightness(1.82);box-shadow:0 0 3px #fff,0 0 10px #fff,0 0 18px var(--c),0 0 34px color-mix(in srgb,var(--c) 70%,transparent)}85%{opacity:.50;filter:saturate(1.02) brightness(1.06)}100%{opacity:.24;filter:saturate(.62) brightness(.70)}}
 @keyframes nnCounterOrb{from{transform:rotate(0deg) translateX(var(--nn-ring-radius)) rotate(0deg)}to{transform:rotate(-360deg) translateX(var(--nn-ring-radius)) rotate(360deg)}}
 @keyframes nnFieldBreath{0%,100%{transform:scale(.97);opacity:.68}50%{transform:scale(1.03);opacity:1}}
 @keyframes nnPortalAtmosphere{0%,100%{opacity:.72;transform:scale(.985)}50%{opacity:1;transform:scale(1.015)}}
+@keyframes nnNayaBreath{0%,100%{transform:scale(.985);filter:brightness(.96)}50%{transform:scale(1.025);filter:brightness(1.07)}}
+@keyframes nnPresencePulse{0%,100%{filter:brightness(.96) saturate(.94)}50%{filter:brightness(1.08) saturate(1.08)}}
 
 /* COMPACT OBSIDIAN CENTER — invitation, not login panel. */
 #frontDoor .identity-portal{
@@ -228,17 +219,10 @@
   background:radial-gradient(circle at 50% 28%,#17131f 0%,#08060d 56%,#020106 100%)!important;
   border:1px solid rgba(217,217,226,.11)!important;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.045),inset 0 -24px 42px rgba(0,0,0,.55),0 22px 60px rgba(0,0,0,.74),0 0 42px rgba(139,92,255,.045)!important;
+  transition:box-shadow .5s ease,border-color .5s ease,transform .5s cubic-bezier(.16,1,.3,1)!important;
 }
 
-#frontDoor .console-content::before{
-  content:""!important;
-  position:absolute!important;
-  inset:0!important;
-  z-index:-1!important;
-  border-radius:22px!important;
-  background:linear-gradient(115deg,rgba(255,255,255,.035),transparent 22%,transparent 72%,rgba(139,92,255,.035))!important;
-  pointer-events:none!important;
-}
+#frontDoor .console-content::before{content:""!important;position:absolute!important;inset:0!important;z-index:-1!important;border-radius:22px!important;background:linear-gradient(115deg,rgba(255,255,255,.035),transparent 22%,transparent 72%,rgba(139,92,255,.035))!important;pointer-events:none!important;}
 
 #frontDoor .console-logo{order:1!important;width:min(170px,52%)!important;margin:0 auto 3px!important;}
 #frontDoor .console-logo img{display:block!important;width:100%!important;height:auto!important;max-height:42px!important;object-fit:contain!important;filter:drop-shadow(0 0 18px rgba(255,255,255,.075))!important;}
@@ -247,33 +231,44 @@
 #frontDoor .console-welcome strong{display:block!important;color:#fff!important;font-size:clamp(18px,1.9vw,24px)!important;line-height:1.05!important;letter-spacing:-.02em!important;font-weight:700!important;}
 #frontDoor .console-welcome span{display:block!important;margin-top:3px!important;color:rgba(255,255,255,.50)!important;font-size:7px!important;line-height:1!important;letter-spacing:.20em!important;text-transform:uppercase!important;}
 
-#frontDoor .console-kicker{order:3!important;width:min(330px,100%)!important;margin:0 auto 6px!important;color:rgba(255,255,255,.66)!important;font-size:8px!important;line-height:1.35!important;letter-spacing:.01em!important;}
-
-#frontDoor .portal-input{order:4!important;position:relative!important;width:min(350px,100%)!important;height:48px!important;margin:0 auto 5px!important;padding:3px!important;box-sizing:border-box!important;border-radius:14px!important;background:#030208!important;border:1px solid rgba(217,217,226,.16)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),inset 0 -14px 22px rgba(0,0,0,.54),0 12px 32px rgba(0,0,0,.42)!important;transform:none!important;transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease!important;}
-#frontDoor .portal-input input{display:block!important;width:100%!important;height:100%!important;box-sizing:border-box!important;padding:0 16px!important;border:0!important;outline:0!important;border-radius:11px!important;background:transparent!important;color:#fff!important;font-size:15px!important;font-weight:500!important;text-align:center!important;caret-color:var(--nn-violet)!important;}
-#frontDoor .portal-input input::placeholder{color:rgba(255,255,255,.50)!important;opacity:1!important;}
-#frontDoor .portal-input:focus-within{transform:translateY(-2px)!important;border-color:rgba(139,92,255,.58)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.09),inset 0 -14px 22px rgba(0,0,0,.52),0 16px 38px rgba(0,0,0,.48),0 0 28px rgba(139,92,255,.13)!important;}
-
-/* Naya is the intelligence presence, visible but not oversized. */
-#frontDoor .console-naya{order:5!important;margin:0 auto 5px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important;position:relative!important;z-index:4!important;}
+/* Naya is now part of the emotional sequence before identity entry. */
+#frontDoor .console-naya{order:3!important;margin:1px auto 5px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important;position:relative!important;z-index:4!important;}
 #frontDoor .console-naya img{width:clamp(92px,9vw,112px)!important;height:clamp(92px,9vw,112px)!important;object-fit:cover!important;border-radius:50%!important;border:1px solid rgba(217,217,226,.20)!important;box-shadow:0 0 0 3px rgba(139,92,255,.045),0 16px 42px rgba(0,0,0,.58),0 0 46px rgba(139,92,255,.22)!important;animation:nnNayaBreath 5s ease-in-out infinite!important;}
 #frontDoor .console-naya div{display:flex!important;flex-direction:column!important;align-items:center!important;text-align:center!important;}
 #frontDoor .console-naya div span{font-size:7px!important;letter-spacing:.25em!important;color:rgba(255,255,255,.40)!important;}
 #frontDoor .console-naya div strong{font-size:clamp(16px,1.8vw,21px)!important;line-height:1!important;letter-spacing:.10em!important;color:var(--nn-gold)!important;text-shadow:0 0 24px rgba(245,215,142,.16)!important;}
 
+/* The contextual promise sits immediately above the name field. */
+#frontDoor .console-kicker{order:4!important;width:min(330px,100%)!important;margin:0 auto 6px!important;color:rgba(255,255,255,.66)!important;font-size:8px!important;line-height:1.35!important;letter-spacing:.01em!important;}
+
+#frontDoor .portal-input{order:5!important;position:relative!important;width:min(350px,100%)!important;height:48px!important;margin:0 auto 5px!important;padding:3px!important;box-sizing:border-box!important;border-radius:14px!important;background:#030208!important;border:1px solid rgba(217,217,226,.16)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),inset 0 -14px 22px rgba(0,0,0,.54),0 12px 32px rgba(0,0,0,.42)!important;transform:none!important;transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease!important;}
+#frontDoor .portal-input input{display:block!important;width:100%!important;height:100%!important;box-sizing:border-box!important;padding:0 16px!important;border:0!important;outline:0!important;border-radius:11px!important;background:transparent!important;color:#fff!important;font-size:15px!important;font-weight:500!important;text-align:center!important;caret-color:var(--nn-violet)!important;}
+#frontDoor .portal-input input::placeholder{color:rgba(255,255,255,.50)!important;opacity:1!important;}
+#frontDoor .portal-input:focus-within{transform:translateY(-2px)!important;border-color:rgba(139,92,255,.58)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.09),inset 0 -14px 22px rgba(0,0,0,.52),0 16px 38px rgba(0,0,0,.48),0 0 28px rgba(139,92,255,.13)!important;}
+
 #frontDoor .console-enter{order:6!important;width:min(350px,100%)!important;min-height:46px!important;margin:0 auto!important;padding:0 16px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:14px!important;box-sizing:border-box!important;position:relative!important;overflow:hidden!important;border-radius:14px!important;border:1px solid rgba(217,217,226,.28)!important;background:linear-gradient(145deg,rgba(139,92,255,.16),rgba(255,255,255,.035))!important;color:#fff!important;font-size:10px!important;font-weight:800!important;letter-spacing:.19em!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -14px 22px rgba(0,0,0,.50),0 14px 34px rgba(0,0,0,.48),0 0 26px rgba(139,92,255,.08)!important;transition:transform .22s ease,filter .22s ease,border-color .22s ease,box-shadow .22s ease!important;pointer-events:auto!important;}
-#frontDoor .console-enter::after{content:""!important;position:absolute!important;top:-40%!important;left:-28%!important;width:24%!important;height:180%!important;transform:rotate(18deg)!important;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent)!important;opacity:.30!important;pointer-events:none!important;}
+#frontDoor .console-enter::after{content:""!important;position:absolute!important;top:-40%!important;left:-28%!important;width:24%!important;height:180%!important;transform:rotate(18deg)!important;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent)!important;opacity:.30!important;pointer-events:none!important;animation:nnEnterSheen 4.8s ease-in-out infinite!important;}
 #frontDoor .console-enter:disabled{opacity:.66!important;filter:saturate(.70)!important;cursor:not-allowed!important;}
 #frontDoor .console-enter:not(:disabled){cursor:pointer!important;}
 #frontDoor .console-enter:not(:disabled):hover{transform:translateY(-2px) scale(1.012)!important;filter:brightness(1.10)!important;border-color:rgba(217,217,226,.55)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.13),inset 0 -14px 22px rgba(0,0,0,.45),0 19px 42px rgba(0,0,0,.54),0 0 38px rgba(139,92,255,.16)!important;}
 #frontDoor .console-enter:not(:disabled):active{transform:translateY(1px) scale(.998)!important;}
 #frontDoor .console-enter:focus-visible,#frontDoor .threshold-doors button:focus-visible,#frontDoor .portal-input input:focus-visible{outline:2px solid rgba(217,217,226,.82)!important;outline-offset:4px!important;}
 
-/* Capability doors stay in the field, close enough to read as part of the same system. */
 #frontDoor .threshold-doors{position:absolute!important;left:50%!important;bottom:3.2%!important;transform:translateX(-50%)!important;width:min(760px,78vw)!important;z-index:70!important;pointer-events:auto!important;}
 #frontDoor .threshold-doors button{min-height:42px!important;}
 
-@keyframes nnNayaBreath{0%,100%{transform:scale(.985);filter:brightness(.96)}50%{transform:scale(1.025);filter:brightness(1.07)}}
+@keyframes nnEnterSheen{0%,65%{left:-28%;opacity:0}72%{opacity:.30}88%{left:108%;opacity:.08}100%{left:108%;opacity:0}}
+
+/* Presence: the environment subtly acknowledges the visitor. */
+#frontDoor:has(.portal-input:focus-within) .threshold-chamber::before{opacity:1!important;box-shadow:inset 0 0 100px rgba(0,0,0,.54),0 0 110px rgba(139,92,255,.10)!important;}
+#frontDoor:has(.portal-input:focus-within) .threshold-oracle{border-color:rgba(217,217,226,.30)!important;box-shadow:0 0 0 1px rgba(255,255,255,.035),0 0 30px rgba(139,92,255,.10),inset 0 0 24px rgba(255,255,255,.025)!important;}
+#frontDoor:has(.portal-input:focus-within) .jewel-ring{filter:drop-shadow(0 0 18px rgba(139,92,255,.16))!important;}
+#frontDoor:has(.portal-input:focus-within) .jewel-ring .jewel{animation-duration:4.6s!important;}
+#frontDoor:has(.portal-input:focus-within) .threshold-chamber::after{animation-duration:11s!important;}
+#frontDoor:has(.portal-input[data-state="ready"]) .console-content{border-color:rgba(139,92,255,.30)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.055),inset 0 -24px 42px rgba(0,0,0,.55),0 24px 66px rgba(0,0,0,.78),0 0 52px rgba(139,92,255,.11)!important;transform:translateY(-2px)!important;}
+#frontDoor:has(.portal-input[data-state="ready"]) .console-naya img{animation:nnPresencePulse 2.8s ease-in-out infinite!important;}
+#frontDoor:has(.portal-input[data-state="ready"]) .threshold-chamber::after{animation-duration:9.5s!important;}
+#frontDoor:has(.portal-input[data-state="ready"]) .jewel-ring{filter:drop-shadow(0 0 22px rgba(139,92,255,.20))!important;}
 
 @media(max-width:700px){
   #frontDoor .threshold-chamber{width:94vw!important;height:94vw!important;max-height:570px!important;}
@@ -283,10 +278,10 @@
   #frontDoor .console-logo{width:min(155px,55vw)!important;}
   #frontDoor .console-logo img{max-height:38px!important;}
   #frontDoor .console-welcome strong{font-size:clamp(17px,5.1vw,22px)!important;}
+  #frontDoor .console-naya img{width:clamp(84px,20vw,106px)!important;height:clamp(84px,20vw,106px)!important;}
   #frontDoor .console-kicker{font-size:7.5px!important;}
   #frontDoor .portal-input{height:46px!important;}
   #frontDoor .portal-input input{font-size:15px!important;}
-  #frontDoor .console-naya img{width:clamp(84px,20vw,106px)!important;height:clamp(84px,20vw,106px)!important;}
   #frontDoor .console-enter{min-height:44px!important;}
   #frontDoor .threshold-doors{width:91vw!important;bottom:2%!important;gap:4px!important;}
   #frontDoor .threshold-doors button{min-height:34px!important;padding:4px 2px!important;font-size:9px!important;}
@@ -303,5 +298,6 @@
   #frontDoor .threshold-chamber::before,
   #frontDoor .threshold-chamber::after,
   #frontDoor .jewel-ring,
-  #frontDoor .console-naya img{animation:none!important;}
+  #frontDoor .console-naya img,
+  #frontDoor .console-enter::after{animation:none!important;}
 }
