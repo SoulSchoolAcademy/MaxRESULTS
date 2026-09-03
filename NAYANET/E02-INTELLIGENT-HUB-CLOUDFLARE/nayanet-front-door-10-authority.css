@@ -1,32 +1,307 @@
-/* NayaNET FRONT DOOR — FINAL COMPOSITION CORRECTION
-   Keep the centerpiece small/obsidian. Make the spectrum visibly alive.
-   The 48-node jewel field rotates one direction; the luminous orb counters it.
+/* NayaNET FRONT DOOR — COHERENT LIVING PORTAL AUTHORITY
+   One visual system. One focal center. One living perimeter.
+   Preserve the existing DOM, 48 jewels, identity flow, Hub, and transition.
+   The ring carries the spectrum; the ring rotates one way; the orb counters it.
 */
-#frontDoor .threshold-chamber{width:min(86vmin,900px)!important;height:min(86vmin,900px)!important;aspect-ratio:1/1!important;border-radius:50%!important;overflow:visible!important;}
-#frontDoor .identity-portal{width:min(390px,56vw)!important;transform:translate(-50%,-50%)!important;background:transparent!important;border:0!important;box-shadow:none!important;}
-#frontDoor .console-content{width:100%!important;max-width:390px!important;padding:14px 16px 16px!important;border-radius:22px!important;background:radial-gradient(circle at 50% 30%,#17131f 0%,#08060d 58%,#020106 100%)!important;border:1px solid rgba(217,217,226,.10)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.045),inset 0 -20px 42px rgba(0,0,0,.52),0 22px 60px rgba(0,0,0,.72),0 0 42px rgba(139,92,255,.05)!important;}
-#frontDoor .console-logo{width:min(170px,52%)!important;margin-bottom:3px!important;}
-#frontDoor .console-logo img{max-height:42px!important;}
-#frontDoor .console-welcome strong{font-size:clamp(18px,1.9vw,24px)!important;}
-#frontDoor .console-welcome span{font-size:7px!important;}
-#frontDoor .console-kicker{width:min(330px,100%)!important;margin-bottom:6px!important;font-size:8px!important;}
-#frontDoor .portal-input{width:min(350px,100%)!important;height:48px!important;margin-bottom:5px!important;border-radius:14px!important;}
-#frontDoor .portal-input input{font-size:15px!important;border-radius:11px!important;}
-#frontDoor .console-naya{margin-bottom:5px!important;}
-#frontDoor .console-naya img{width:clamp(92px,9vw,112px)!important;height:clamp(92px,9vw,112px)!important;}
-#frontDoor .console-naya div strong{font-size:clamp(16px,1.8vw,21px)!important;}
-#frontDoor .console-enter{width:min(350px,100%)!important;min-height:46px!important;border-radius:14px!important;font-size:10px!important;}
 
-/* Every node has its own spectral color and pulses in sequence, while the whole ring moves. */
-#frontDoor .jewel-ring .jewel{--c:hsl(calc(var(--i) * 7.5deg),92%,64%)!important;animation:nnJewelLifeSpectrum 5.8s linear infinite!important;animation-delay:calc(var(--i) * -.12s)!important;}
-#frontDoor .jewel-ring{animation:nnJewelOrbitSpectrum 28s linear infinite!important;}
-@keyframes nnJewelOrbitSpectrum{from{transform:rotate(-90deg)}to{transform:rotate(270deg)}}
-@keyframes nnJewelLifeSpectrum{0%,62%{opacity:.26;filter:saturate(.72) brightness(.72)}70%{opacity:.55;filter:saturate(1.1) brightness(1.12)}78%{opacity:1;filter:saturate(1.65) brightness(1.9);box-shadow:0 0 3px #fff,0 0 10px #fff,0 0 18px var(--c),0 0 34px color-mix(in srgb,var(--c) 72%,transparent)}85%{opacity:.52;filter:saturate(1.02) brightness(1.05)}100%{opacity:.26;filter:saturate(.72) brightness(.72)}}
+#frontDoor.north-star-front-door{
+  --nn-violet:#8b5cff;
+  --nn-platinum:#d9d9e2;
+  --nn-gold:#f5d78e;
+  --nn-void:#020106;
+  --nn-ring-radius:clamp(165px,39vmin,390px);
+  background:
+    radial-gradient(circle at 50% 48%,rgba(139,92,255,.075),transparent 28%),
+    radial-gradient(circle at 50% 58%,rgba(245,215,142,.018),transparent 43%),
+    #020207!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+}
 
-/* A second moving body: the orb deliberately travels the opposite direction. */
-#frontDoor .orbital-energy{animation:nnCometOrbitOpposite 16s linear infinite!important;transform-origin:50% 50%!important;}
-@keyframes nnCometOrbitOpposite{from{transform:rotate(90deg)}to{transform:rotate(-270deg)}}
-#frontDoor .orbital-energy::before{width:calc(var(--nn-ring-radius) * .16)!important;background:linear-gradient(90deg,transparent,rgba(255,45,141,.12),rgba(139,92,255,.28),rgba(0,220,255,.30),rgba(245,215,142,.60),#fff)!important;}
-#frontDoor .orbital-energy::after{width:12px!important;height:12px!important;background:radial-gradient(circle,#fff 0 17%,#f5d78e 30%,#ff4b9b 48%,#8b5cff 70%,transparent 79%)!important;box-shadow:0 0 7px #fff,0 0 16px #f5d78e,0 0 30px rgba(255,45,141,.55),0 0 42px rgba(139,92,255,.80)!important;}
+#frontDoor.north-star-front-door::before{
+  content:""!important;
+  position:absolute!important;
+  inset:-12%!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(circle at var(--nn-pointer-x,50%) var(--nn-pointer-y,50%),rgba(139,92,255,.045),transparent 13%),
+    radial-gradient(circle at 50% 50%,rgba(139,92,255,.065),transparent 25%),
+    radial-gradient(circle at 50% 70%,rgba(245,215,142,.018),transparent 44%)!important;
+  filter:blur(1px)!important;
+  animation:nnPortalAtmosphere 9s ease-in-out infinite!important;
+}
 
-@media(max-width:700px){#frontDoor .identity-portal{width:min(82vw,370px)!important;}#frontDoor .console-content{max-width:370px!important;padding:12px 12px 14px!important;border-radius:20px!important;}#frontDoor .console-logo{width:min(155px,55vw)!important;}#frontDoor .console-logo img{max-height:38px!important;}#frontDoor .portal-input{height:46px!important;}#frontDoor .console-naya img{width:clamp(84px,20vw,106px)!important;height:clamp(84px,20vw,106px)!important;}#frontDoor .console-enter{min-height:44px!important;}}
+#frontDoor.north-star-front-door::after{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:90!important;
+  pointer-events:none!important;
+  background:radial-gradient(ellipse at center,transparent 38%,rgba(0,0,0,.18) 68%,rgba(0,0,0,.72) 100%)!important;
+  opacity:.72!important;
+}
+
+#frontDoor .threshold-stage{
+  position:relative!important;
+  z-index:5!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  padding:0!important;
+  display:grid!important;
+  place-items:center!important;
+}
+
+/* THE LIVING CHAMBER — a field, not a giant black card. */
+#frontDoor .threshold-chamber{
+  position:relative!important;
+  width:min(86vmin,900px)!important;
+  height:min(86vmin,900px)!important;
+  aspect-ratio:1/1!important;
+  border-radius:50%!important;
+  overflow:visible!important;
+  isolation:isolate!important;
+  background:
+    radial-gradient(circle at 50% 46%,rgba(16,11,28,.42),rgba(3,2,8,.18) 52%,transparent 72%)!important;
+  border:0!important;
+  box-shadow:none!important;
+  transform:translateZ(0)!important;
+}
+
+/* Soft inner field. No white sphere. No green cast. */
+#frontDoor .threshold-chamber::before{
+  content:""!important;
+  position:absolute!important;
+  inset:14%!important;
+  z-index:1!important;
+  border-radius:50%!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(circle at 50% 44%,rgba(255,255,255,.018),transparent 18%),
+    radial-gradient(circle,rgba(139,92,255,.055),transparent 67%)!important;
+  box-shadow:inset 0 0 100px rgba(0,0,0,.62),0 0 90px rgba(139,92,255,.055)!important;
+  animation:nnFieldBreath 8s ease-in-out infinite!important;
+}
+
+/* COUNTER-ROTATING ORB — restored as a dedicated moving body. */
+#frontDoor .threshold-chamber::after{
+  content:""!important;
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  width:14px!important;
+  height:14px!important;
+  margin:-7px!important;
+  border-radius:50%!important;
+  z-index:45!important;
+  pointer-events:none!important;
+  background:radial-gradient(circle,#fff 0 18%,#f5d78e 30%,#ff4b9b 49%,#8b5cff 70%,transparent 80%)!important;
+  box-shadow:0 0 5px #fff,0 0 14px #f5d78e,0 0 26px rgba(255,45,141,.55),0 0 40px rgba(139,92,255,.75)!important;
+  transform-origin:7px 7px!important;
+  animation:nnCounterOrb 15s linear infinite!important;
+}
+
+/* The orb's tail gives the eye a physical path without becoming a comet graphic. */
+#frontDoor .threshold-oracle{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  width:calc(var(--nn-ring-radius) * 2)!important;
+  height:calc(var(--nn-ring-radius) * 2)!important;
+  margin:calc(var(--nn-ring-radius) * -1)!important;
+  border-radius:50%!important;
+  z-index:20!important;
+  pointer-events:none!important;
+  border:1px solid rgba(217,217,226,.22)!important;
+  box-shadow:0 0 0 1px rgba(255,255,255,.025),0 0 24px rgba(139,92,255,.055),inset 0 0 22px rgba(255,255,255,.018)!important;
+}
+
+/* SPECTRUM RING — continuous red → magenta → violet → indigo → cyan → green → yellow → gold → orange → red. */
+#frontDoor .jewel-ring{
+  --ring-radius:var(--nn-ring-radius)!important;
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  z-index:30!important;
+  border-radius:50%!important;
+  pointer-events:none!important;
+  opacity:1!important;
+  transform:rotate(-90deg)!important;
+  filter:drop-shadow(0 0 14px rgba(139,92,255,.10))!important;
+  animation:nnLivingRing 32s linear infinite!important;
+  will-change:transform!important;
+}
+
+#frontDoor .jewel-ring::before{
+  content:""!important;
+  position:absolute!important;
+  inset:calc((100% - (var(--ring-radius) * 2)) / 2)!important;
+  border-radius:50%!important;
+  background:conic-gradient(from 0deg,#ff3b30 0deg,#ff2d8d 38deg,#d83cff 74deg,#8b5cff 112deg,#4f46e5 145deg,#22b8ff 184deg,#14d9c4 220deg,#35e06f 258deg,#d9ef48 294deg,#f5d54a 318deg,#f5a33b 340deg,#ff4b32 360deg)!important;
+  -webkit-mask:radial-gradient(circle,transparent calc(100% - 7px),#000 calc(100% - 4px),#000 100%)!important;
+  mask:radial-gradient(circle,transparent calc(100% - 7px),#000 calc(100% - 4px),#000 100%)!important;
+  filter:blur(.65px)!important;
+  mix-blend-mode:screen!important;
+  opacity:.72!important;
+}
+
+#frontDoor .jewel-ring::after{
+  content:""!important;
+  position:absolute!important;
+  inset:calc((100% - (var(--ring-radius) * 2)) / 2)!important;
+  border-radius:50%!important;
+  border:1px solid rgba(217,217,226,.16)!important;
+  box-shadow:0 0 8px rgba(255,255,255,.035)!important;
+  pointer-events:none!important;
+}
+
+/* 48 physical light nodes. Their hue follows the circumference; their pulse travels continuously. */
+#frontDoor .jewel-ring .jewel{
+  --c:hsl(calc(360 - (var(--i) * 7.5)),92%,64%)!important;
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  width:9px!important;
+  height:9px!important;
+  margin:-4.5px!important;
+  display:block!important;
+  border-radius:50%!important;
+  background:radial-gradient(circle at 30% 25%,#fff 0 13%,rgba(255,255,255,.72) 14% 23%,var(--c) 34% 68%,transparent 77%)!important;
+  border:1px solid color-mix(in srgb,var(--c) 78%,#fff 22%)!important;
+  box-shadow:0 0 2px rgba(255,255,255,.8),0 0 7px color-mix(in srgb,var(--c) 55%,transparent)!important;
+  transform:rotate(var(--a)) translateY(calc(-1 * var(--ring-radius))) rotate(calc(-1 * var(--a)))!important;
+  opacity:.30!important;
+  animation:nnJewelPulse 5.8s linear infinite!important;
+  animation-delay:calc(var(--i) * -.12s)!important;
+  will-change:opacity,filter,box-shadow!important;
+}
+
+#frontDoor .jewel-ring .jewel::after{
+  content:""!important;
+  position:absolute!important;
+  inset:-3px!important;
+  border-radius:50%!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  opacity:.8!important;
+}
+
+@keyframes nnLivingRing{from{transform:rotate(-90deg)}to{transform:rotate(270deg)}}
+@keyframes nnJewelPulse{0%,61%{opacity:.24;filter:saturate(.62) brightness(.70)}69%{opacity:.48;filter:saturate(1.0) brightness(1.04)}77%{opacity:1;filter:saturate(1.55) brightness(1.82);box-shadow:0 0 3px #fff,0 0 10px #fff,0 0 18px var(--c),0 0 34px color-mix(in srgb,var(--c) 70%,transparent)}85%{opacity:.50;filter:saturate(1.02) brightness(1.06)}100%{opacity:.24;filter:saturate(.62) brightness(.70)}}
+@keyframes nnCounterOrb{from{transform:rotate(0deg) translateX(var(--nn-ring-radius)) rotate(0deg)}to{transform:rotate(-360deg) translateX(var(--nn-ring-radius)) rotate(360deg)}}
+@keyframes nnFieldBreath{0%,100%{transform:scale(.97);opacity:.68}50%{transform:scale(1.03);opacity:1}}
+@keyframes nnPortalAtmosphere{0%,100%{opacity:.72;transform:scale(.985)}50%{opacity:1;transform:scale(1.015)}}
+
+/* COMPACT OBSIDIAN CENTER — invitation, not login panel. */
+#frontDoor .identity-portal{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  width:min(390px,56vw)!important;
+  height:auto!important;
+  margin:0!important;
+  padding:0!important;
+  transform:translate(-50%,-50%)!important;
+  z-index:100!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  pointer-events:none!important;
+}
+
+#frontDoor .console-content{
+  position:relative!important;
+  width:100%!important;
+  max-width:390px!important;
+  min-width:0!important;
+  padding:14px 16px 16px!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+  text-align:center!important;
+  pointer-events:auto!important;
+  border-radius:22px!important;
+  background:radial-gradient(circle at 50% 28%,#17131f 0%,#08060d 56%,#020106 100%)!important;
+  border:1px solid rgba(217,217,226,.11)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),inset 0 -24px 42px rgba(0,0,0,.55),0 22px 60px rgba(0,0,0,.74),0 0 42px rgba(139,92,255,.045)!important;
+}
+
+#frontDoor .console-content::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:-1!important;
+  border-radius:22px!important;
+  background:linear-gradient(115deg,rgba(255,255,255,.035),transparent 22%,transparent 72%,rgba(139,92,255,.035))!important;
+  pointer-events:none!important;
+}
+
+#frontDoor .console-logo{order:1!important;width:min(170px,52%)!important;margin:0 auto 3px!important;}
+#frontDoor .console-logo img{display:block!important;width:100%!important;height:auto!important;max-height:42px!important;object-fit:contain!important;filter:drop-shadow(0 0 18px rgba(255,255,255,.075))!important;}
+
+#frontDoor .console-welcome{order:2!important;margin:0 auto 4px!important;width:100%!important;}
+#frontDoor .console-welcome strong{display:block!important;color:#fff!important;font-size:clamp(18px,1.9vw,24px)!important;line-height:1.05!important;letter-spacing:-.02em!important;font-weight:700!important;}
+#frontDoor .console-welcome span{display:block!important;margin-top:3px!important;color:rgba(255,255,255,.50)!important;font-size:7px!important;line-height:1!important;letter-spacing:.20em!important;text-transform:uppercase!important;}
+
+#frontDoor .console-kicker{order:3!important;width:min(330px,100%)!important;margin:0 auto 6px!important;color:rgba(255,255,255,.66)!important;font-size:8px!important;line-height:1.35!important;letter-spacing:.01em!important;}
+
+#frontDoor .portal-input{order:4!important;position:relative!important;width:min(350px,100%)!important;height:48px!important;margin:0 auto 5px!important;padding:3px!important;box-sizing:border-box!important;border-radius:14px!important;background:#030208!important;border:1px solid rgba(217,217,226,.16)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),inset 0 -14px 22px rgba(0,0,0,.54),0 12px 32px rgba(0,0,0,.42)!important;transform:none!important;transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease!important;}
+#frontDoor .portal-input input{display:block!important;width:100%!important;height:100%!important;box-sizing:border-box!important;padding:0 16px!important;border:0!important;outline:0!important;border-radius:11px!important;background:transparent!important;color:#fff!important;font-size:15px!important;font-weight:500!important;text-align:center!important;caret-color:var(--nn-violet)!important;}
+#frontDoor .portal-input input::placeholder{color:rgba(255,255,255,.50)!important;opacity:1!important;}
+#frontDoor .portal-input:focus-within{transform:translateY(-2px)!important;border-color:rgba(139,92,255,.58)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.09),inset 0 -14px 22px rgba(0,0,0,.52),0 16px 38px rgba(0,0,0,.48),0 0 28px rgba(139,92,255,.13)!important;}
+
+/* Naya is the intelligence presence, visible but not oversized. */
+#frontDoor .console-naya{order:5!important;margin:0 auto 5px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important;position:relative!important;z-index:4!important;}
+#frontDoor .console-naya img{width:clamp(92px,9vw,112px)!important;height:clamp(92px,9vw,112px)!important;object-fit:cover!important;border-radius:50%!important;border:1px solid rgba(217,217,226,.20)!important;box-shadow:0 0 0 3px rgba(139,92,255,.045),0 16px 42px rgba(0,0,0,.58),0 0 46px rgba(139,92,255,.22)!important;animation:nnNayaBreath 5s ease-in-out infinite!important;}
+#frontDoor .console-naya div{display:flex!important;flex-direction:column!important;align-items:center!important;text-align:center!important;}
+#frontDoor .console-naya div span{font-size:7px!important;letter-spacing:.25em!important;color:rgba(255,255,255,.40)!important;}
+#frontDoor .console-naya div strong{font-size:clamp(16px,1.8vw,21px)!important;line-height:1!important;letter-spacing:.10em!important;color:var(--nn-gold)!important;text-shadow:0 0 24px rgba(245,215,142,.16)!important;}
+
+#frontDoor .console-enter{order:6!important;width:min(350px,100%)!important;min-height:46px!important;margin:0 auto!important;padding:0 16px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:14px!important;box-sizing:border-box!important;position:relative!important;overflow:hidden!important;border-radius:14px!important;border:1px solid rgba(217,217,226,.28)!important;background:linear-gradient(145deg,rgba(139,92,255,.16),rgba(255,255,255,.035))!important;color:#fff!important;font-size:10px!important;font-weight:800!important;letter-spacing:.19em!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -14px 22px rgba(0,0,0,.50),0 14px 34px rgba(0,0,0,.48),0 0 26px rgba(139,92,255,.08)!important;transition:transform .22s ease,filter .22s ease,border-color .22s ease,box-shadow .22s ease!important;pointer-events:auto!important;}
+#frontDoor .console-enter::after{content:""!important;position:absolute!important;top:-40%!important;left:-28%!important;width:24%!important;height:180%!important;transform:rotate(18deg)!important;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent)!important;opacity:.30!important;pointer-events:none!important;}
+#frontDoor .console-enter:disabled{opacity:.66!important;filter:saturate(.70)!important;cursor:not-allowed!important;}
+#frontDoor .console-enter:not(:disabled){cursor:pointer!important;}
+#frontDoor .console-enter:not(:disabled):hover{transform:translateY(-2px) scale(1.012)!important;filter:brightness(1.10)!important;border-color:rgba(217,217,226,.55)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.13),inset 0 -14px 22px rgba(0,0,0,.45),0 19px 42px rgba(0,0,0,.54),0 0 38px rgba(139,92,255,.16)!important;}
+#frontDoor .console-enter:not(:disabled):active{transform:translateY(1px) scale(.998)!important;}
+#frontDoor .console-enter:focus-visible,#frontDoor .threshold-doors button:focus-visible,#frontDoor .portal-input input:focus-visible{outline:2px solid rgba(217,217,226,.82)!important;outline-offset:4px!important;}
+
+/* Capability doors stay in the field, close enough to read as part of the same system. */
+#frontDoor .threshold-doors{position:absolute!important;left:50%!important;bottom:3.2%!important;transform:translateX(-50%)!important;width:min(760px,78vw)!important;z-index:70!important;pointer-events:auto!important;}
+#frontDoor .threshold-doors button{min-height:42px!important;}
+
+@keyframes nnNayaBreath{0%,100%{transform:scale(.985);filter:brightness(.96)}50%{transform:scale(1.025);filter:brightness(1.07)}}
+
+@media(max-width:700px){
+  #frontDoor .threshold-chamber{width:94vw!important;height:94vw!important;max-height:570px!important;}
+  #frontDoor .identity-portal{width:min(82vw,370px)!important;}
+  #frontDoor .console-content{max-width:370px!important;padding:12px 12px 14px!important;border-radius:20px!important;}
+  #frontDoor .console-content::before{border-radius:20px!important;}
+  #frontDoor .console-logo{width:min(155px,55vw)!important;}
+  #frontDoor .console-logo img{max-height:38px!important;}
+  #frontDoor .console-welcome strong{font-size:clamp(17px,5.1vw,22px)!important;}
+  #frontDoor .console-kicker{font-size:7.5px!important;}
+  #frontDoor .portal-input{height:46px!important;}
+  #frontDoor .portal-input input{font-size:15px!important;}
+  #frontDoor .console-naya img{width:clamp(84px,20vw,106px)!important;height:clamp(84px,20vw,106px)!important;}
+  #frontDoor .console-enter{min-height:44px!important;}
+  #frontDoor .threshold-doors{width:91vw!important;bottom:2%!important;gap:4px!important;}
+  #frontDoor .threshold-doors button{min-height:34px!important;padding:4px 2px!important;font-size:9px!important;}
+  #frontDoor .jewel-ring .jewel{width:12px!important;height:12px!important;margin:-6px!important;}
+}
+
+@media(max-height:760px) and (min-width:701px){
+  #frontDoor .threshold-chamber{width:min(86vmin,820px)!important;height:min(86vmin,820px)!important;}
+  #frontDoor .identity-portal{transform:translate(-50%,-50%) scale(.94)!important;}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #frontDoor.north-star-front-door::before,
+  #frontDoor .threshold-chamber::before,
+  #frontDoor .threshold-chamber::after,
+  #frontDoor .jewel-ring,
+  #frontDoor .console-naya img{animation:none!important;}
+}
