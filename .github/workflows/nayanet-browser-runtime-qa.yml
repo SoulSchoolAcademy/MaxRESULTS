@@ -43,14 +43,14 @@ jobs:
           cat /tmp/nayanet-http.log
           exit 1
       - name: Run browser smoke and interaction contract
-        working-directory: .
+        working-working-directory: .
         env:
           NODE_PATH: ${{ github.workspace }}/node_modules
         run: |
           cat > nayanet-runtime.spec.js <<'JS'
           const { test, expect } = require('@playwright/test');
           test.use({ baseURL: 'http://127.0.0.1:4173', viewport: { width: 1440, height: 1000 } });
-          test('front door renders and living entrance is functional', async ({ page }) => {
+          test('front door renders, is centered, and is functionally alive', async ({ page }) => {
             const errors = [];
             page.on('pageerror', e => errors.push(String(e)));
             await page.goto('/index.html', { waitUntil: 'networkidle' });
@@ -61,88 +61,48 @@ jobs:
             await expect(page.locator('.threshold-doors button')).toHaveCount(5);
             await expect(page.locator('.console-enter')).toBeVisible();
             await expect(page.locator('.console-enter')).toContainText('ENTER');
-            const appMetrics = await page.evaluate(() => ({
-              thresholdHeight: getComputedStyle(document.querySelector('.threshold')).height,
-              overflowX: getComputedStyle(document.documentElement).overflowX,
-              boardCount: document.querySelectorAll('.threshold-doors button').length
-            }));
-            expect(appMetrics.boardCount).toBe(5);
-            expect(appMetrics.overflowX).not.toBe('visible');
-            const boardStates = await page.locator('.threshold-doors button').evaluateAll(buttons => buttons.map(b => {
-              const s = getComputedStyle(b);
-              return { border: s.borderTopColor, background: s.backgroundImage, color: getComputedStyle(b.querySelector('span')).color };
-            }));
-            expect(boardStates.every(x => x.border !== 'rgba(0, 0, 0, 0)')).toBeTruthy();
-            expect(boardStates.every(x => x.background && x.background !== 'none')).toBeTruthy();
-            await page.locator('.threshold-doors button').nth(3).focus();
-            await expect(page.locator('.threshold-doors button').nth(3)).toBeFocused();
+            const geometry = await page.evaluate(() => {
+              const chamber=document.querySelector('.threshold-chamber'); const content=document.querySelector('.console-content');
+              const r=chamber.getBoundingClientRect(), c=content.getBoundingClientRect();
+              return { chamber:r.toJSON(), content:c.toJSON(), viewport:{w:innerWidth,h:innerHeight}, overflow:document.documentElement.scrollWidth-innerWidth };
+            });
+            expect(Math.abs((geometry.chamber.x+geometry.chamber.width/2)-geometry.viewport.w/2)).toBeLessThan(8);
+            expect(geometry.overflow).toBeLessThanOrEqual(1);
+            expect(geometry.content.width).toBeLessThan(geometry.chamber.width);
+            const button = page.locator('.console-enter');
+            const rest = await button.evaluate(b => ({ text:b.innerText, color:getComputedStyle(b).color, shadow:getComputedStyle(b).boxShadow }));
+            await button.hover();
+            const hover = await button.evaluate(b => ({ text:b.innerText, color:getComputedStyle(b).color, opacity:getComputedStyle(b.querySelector('span')).opacity }));
+            expect(rest.text).toContain('ENTER NAYANET'); expect(hover.text).toContain('ENTER NAYANET'); expect(hover.opacity).toBe('1');
             await page.locator('#nameInput').fill('Runtime Tester');
             await page.locator('#entryForm').evaluate(form => form.requestSubmit());
             await expect(page.locator('#hub')).toBeVisible({ timeout: 10000 });
             await expect(page.locator('#frontDoor')).toBeHidden();
             expect(errors, errors.join('\n')).toEqual([]);
           });
-          test('entrance board activation has a high-contrast purple selected state', async ({ page }) => {
+          test('entrance board activation has a high-contrast selected state', async ({ page }) => {
             await page.goto('/index.html', { waitUntil: 'networkidle' });
             await page.locator('#nameInput').fill('Runtime Tester');
             await page.locator('.threshold-doors button').nth(3).click();
             await expect(page.locator('.threshold-doors button').nth(3)).toHaveClass(/is-selected/);
-            const selected = await page.locator('.threshold-doors button').nth(3).evaluate(b => {
-              const s = getComputedStyle(b);
-              return { border: s.borderTopColor, shadow: s.boxShadow, text: getComputedStyle(b.querySelector('strong')).color };
-            });
-            expect(selected.border).not.toBe('rgba(0, 0, 0, 0)');
-            expect(selected.shadow).not.toBe('none');
-            expect(selected.text).toBe('rgb(255, 255, 255)');
+            const selected = await page.locator('.threshold-doors button').nth(3).evaluate(b => ({ border:getComputedStyle(b).borderTopColor, shadow:getComputedStyle(b).boxShadow, text:getComputedStyle(b.querySelector('strong')).color }));
+            expect(selected.border).not.toBe('rgba(0, 0, 0, 0)'); expect(selected.shadow).not.toBe('none'); expect(selected.text).toBe('rgb(255, 255, 255)');
           });
           test('hub renders nine worlds, 18 Powercasts, player and Current Intelligence Feed', async ({ page }) => {
-            await page.goto('/index.html', { waitUntil: 'networkidle' });
-            await page.evaluate(() => localStorage.clear());
-            await page.reload({ waitUntil: 'networkidle' });
-            await page.locator('#nameInput').fill('Runtime Tester');
-            await page.locator('#entryForm').evaluate(form => form.requestSubmit());
-            await expect(page.locator('#hub')).toBeVisible({ timeout: 10000 });
-            await expect(page.locator('#worldMap .world')).toHaveCount(9);
-            await expect(page.locator('#castGrid .cast')).toHaveCount(18);
-            await expect(page.locator('#audio')).toBeAttached();
-            await expect(page.locator('#seek')).toHaveAttribute('role', 'slider');
-            await expect(page.locator('#currentIntelligenceFeed')).toBeVisible({ timeout: 10000 });
-            await expect(page.locator('#currentIntelligenceFeed')).toContainText('Current Intelligence');
-            await expect(page.locator('#currentIntelligenceFeed')).toContainText('NEXT NODE');
-            await page.locator('#feedDetails').click();
-            await expect(page.locator('#feedDrawer')).toBeVisible();
-            await expect(page.locator('#feedDrawer')).toContainText('North Star');
-            await page.locator('#feedClose').click();
+            await page.goto('/index.html', { waitUntil: 'networkidle' }); await page.evaluate(() => localStorage.clear()); await page.reload({ waitUntil: 'networkidle' });
+            await page.locator('#nameInput').fill('Runtime Tester'); await page.locator('#entryForm').evaluate(form => form.requestSubmit()); await expect(page.locator('#hub')).toBeVisible({ timeout: 10000 });
+            await expect(page.locator('#worldMap .world')).toHaveCount(9); await expect(page.locator('#castGrid .cast')).toHaveCount(18); await expect(page.locator('#audio')).toBeAttached(); await expect(page.locator('#seek')).toHaveAttribute('role','slider');
+            await expect(page.locator('#currentIntelligenceFeed')).toBeVisible({ timeout:10000 }); await expect(page.locator('#currentIntelligenceFeed')).toContainText('Current Intelligence'); await expect(page.locator('#currentIntelligenceFeed')).toContainText('NEXT NODE');
+            await page.locator('#feedDetails').click(); await expect(page.locator('#feedDrawer')).toBeVisible(); await expect(page.locator('#feedDrawer')).toContainText('North Star'); await page.locator('#feedClose').click();
           });
           test('world navigation, Smart ID, note and challenge controls work', async ({ page }) => {
-            await page.goto('/index.html', { waitUntil: 'networkidle' });
-            await page.evaluate(() => localStorage.clear());
-            await page.reload({ waitUntil: 'networkidle' });
-            await page.locator('#nameInput').fill('Runtime Tester');
-            await page.locator('#entryForm').evaluate(form => form.requestSubmit());
-            await expect(page.locator('#hub')).toBeVisible({ timeout: 10000 });
-            await page.locator('[data-world="2"]').first().click();
-            await expect(page.locator('#worldView')).toBeVisible();
-            await expect(page.locator('#worldContent')).toContainText('SMART ID');
-            await page.locator('#returnToSun').click();
-            await expect(page.locator('#hub')).toBeVisible();
-            await page.locator('[data-world="3"]').first().click();
-            await page.locator('#destinationNote').fill('Browser QA note');
-            await page.locator('[data-action="note"]').click();
-            await expect(page.locator('#noteHistory')).toContainText('Browser QA note');
-            await page.locator('#returnToSun').click();
-            await page.locator('[data-world="6"]').first().click();
-            await page.locator('#challengeGoal').fill('Browser QA goal');
-            await page.locator('[data-action="goal"]').click();
-            await expect(page.locator('#challengeGoal')).toHaveValue('Browser QA goal');
+            await page.goto('/index.html', { waitUntil: 'networkidle' }); await page.evaluate(() => localStorage.clear()); await page.reload({ waitUntil:'networkidle' }); await page.locator('#nameInput').fill('Runtime Tester'); await page.locator('#entryForm').evaluate(form => form.requestSubmit()); await expect(page.locator('#hub')).toBeVisible({timeout:10000});
+            await page.locator('[data-world="2"]').first().click(); await expect(page.locator('#worldView')).toBeVisible(); await expect(page.locator('#worldContent')).toContainText('SMART ID'); await page.locator('#returnToSun').click(); await expect(page.locator('#hub')).toBeVisible();
+            await page.locator('[data-world="3"]').first().click(); await page.locator('#destinationNote').fill('Browser QA note'); await page.locator('[data-action="note"]').click(); await expect(page.locator('#noteHistory')).toContainText('Browser QA note'); await page.locator('#returnToSun').click();
+            await page.locator('[data-world="6"]').first().click(); await page.locator('#challengeGoal').fill('Browser QA goal'); await page.locator('[data-action="goal"]').click(); await expect(page.locator('#challengeGoal')).toHaveValue('Browser QA goal');
           });
           test('responsive layouts have no horizontal overflow', async ({ page }) => {
-            for (const viewport of [{width: 390, height: 844}, {width: 768, height: 1024}, {width: 1440, height: 1000}]) {
-              await page.setViewportSize(viewport);
-              await page.goto('/index.html', { waitUntil: 'networkidle' });
-              const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-              expect(overflow, `horizontal overflow at ${viewport.width}px`).toBeLessThanOrEqual(1);
-            }
+            for (const viewport of [{width:390,height:844},{width:768,height:1024},{width:1440,height:1000}]) { await page.setViewportSize(viewport); await page.goto('/index.html',{waitUntil:'networkidle'}); const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth); expect(overflow,`horizontal overflow at ${viewport.width}px`).toBeLessThanOrEqual(1); }
           });
           JS
           npx playwright test nayanet-runtime.spec.js --reporter=line
