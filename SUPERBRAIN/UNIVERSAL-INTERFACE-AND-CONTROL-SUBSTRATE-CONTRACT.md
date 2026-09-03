@@ -1,7 +1,7 @@
 # Naya Power — Universal Agent + Control Substrate Contract
 
 **STATUS:** CANONICAL ARCHITECTURE CONTRACT
-**VERSION:** 1.2
+**VERSION:** 1.3
 **PURPOSE:** Define the vendor-neutral boundary between Naya Power, AI models/agents, persistent control state, and external storage systems without creating competing authorities.
 
 ## 1. Product Definition
@@ -101,7 +101,8 @@ Every Naya Power installation MUST have a trustworthy persistent control substra
 - recovery state;
 - version history or equivalent immutable change trace;
 - authorization state;
-- successor handoff state.
+- successor handoff state;
+- consequential-action stewardship state, including attempt/failure history when applicable.
 
 The required guarantees are:
 
@@ -124,9 +125,44 @@ The interface MUST expose the semantic operations needed to:
 7. submit observed execution results;
 8. obtain verification state;
 9. capture durable learning through the canonical event path;
-10. prepare a successor handoff.
+10. prepare a successor handoff;
+11. request a Stewardship preflight for consequential actions;
+12. record material execution outcomes and failure state for future governance decisions.
 
 The interface MUST NOT make any particular model, framework, vector database, repository, or cloud provider authoritative.
+
+## 6A. Stewardship of Intelligence Execution Boundary
+
+Every consequential execution MUST pass through the canonical Stewardship of Intelligence runtime contract before execution unless a higher-authority contract explicitly defines an equivalent control.
+
+The minimum semantic boundary is:
+
+**INTENT → CURRENT TRUTH → GAP → PLAN → COST → CHEAP VALIDATION → EXECUTE → OBSERVE → VERIFY → LEARN → RELEASE / STOP**
+
+The execution boundary MUST:
+
+- require a meaningful objective and causal action rationale;
+- require an appropriate verification plan and stop condition;
+- prefer cheaper reliable validation before expensive execution;
+- preserve an operation identity so materially equivalent failures can be recognized across invocations;
+- distinguish material strategy change from cosmetic retry;
+- escalate at three equivalent failures;
+- prohibit automatic equivalent repetition at five failures;
+- stop and escalate at ten equivalent attempts without material strategy change;
+- preserve machine-readable attempt/failure state;
+- distinguish execution from observed outcome and verification;
+- support recording machine, human, financial, opportunity, risk, and recovery cost when reasonably available;
+- route consequential failures and lessons toward the canonical Note Event / CIS / authorized intelligence lifecycle.
+
+A model, agent, workflow, or provider MUST NOT bypass the stewardship boundary merely because it can independently call an external tool.
+
+The canonical implementation is:
+
+`.naya/governance/STEWARDSHIP-OF-INTELLIGENCE-RUNTIME-CONTRACT.md`
+
+`.naya/governance/stewardship_runtime.py`
+
+Stewardship is a control layer, not a competing execution engine. It decides whether an action is sufficiently governed to proceed; the existing authorized execution boundary remains responsible for performing the action.
 
 ## 7. Storage Adapter Contract
 
@@ -207,7 +243,11 @@ A compatible implementation is conformant only if it can demonstrate:
 15. human authority, reality/evidence, Naya judgment, and system authority remain distinguishable;
 16. material risk/uncertainty cannot cause silent goal or strategy changes;
 17. meaningful irreversible or out-of-scope actions require the appropriate human/system authorization;
-18. prohibited actions fail closed without becoming a dead-end when safe alternatives exist.
+18. prohibited actions fail closed without becoming a dead-end when safe alternatives exist;
+19. consequential actions cannot silently bypass the Stewardship of Intelligence boundary;
+20. equivalent failure state persists sufficiently to prevent blind retry loops across invocations;
+21. three/five/ten failure thresholds produce the required escalation/stop behavior;
+22. a reusable failure lesson can enter the canonical learning path and produce future prevention where applicable.
 
 ## 12. Non-Goals
 
@@ -225,10 +265,10 @@ This contract does NOT define:
 - a mandatory database;
 - a mandatory model provider.
 
-It composes the authorities already defined by Naya Power.
+It composes the authorities already defined by Naya Power and adds a deterministic stewardship gate at the execution boundary.
 
 ## 13. North Star
 
 The purpose is not to make every system look like GitHub.
 
-The purpose is to make the **Naya Power intelligence contract portable across models, agents, storage systems, and organizations while preserving authority, provenance, verification, continuity, human agency, and compounding intelligence.**
+The purpose is to make the **Naya Power intelligence contract portable across models, agents, storage systems, and organizations while preserving authority, provenance, verification, continuity, human agency, resource stewardship, and compounding intelligence.**
