@@ -40,9 +40,13 @@
       window.location.assign('/hub.html');
     }, reduced ? 420 : 1780);
   };
+  // Capture phase is intentional: the legacy entrance controller also listens for submit.
+  // This release controller owns the activation transition and prevents the legacy handler
+  // from navigating early, so the full locked sequence is observable before arrival.
   form.addEventListener('submit', event => {
     event.preventDefault();
+    event.stopImmediatePropagation();
     activate();
-  });
-  window.NayaNETVault = Object.freeze({ version:'1.0.0', activate });
+  }, true);
+  window.NayaNETVault = Object.freeze({ version:'1.0.1', activate });
 })();
