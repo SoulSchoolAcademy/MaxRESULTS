@@ -11,6 +11,11 @@ on:
 permissions:
   contents: read
 
+# Critical release-integrity rule: never let an older commit finish after a newer one.
+concurrency:
+  group: nayanet-e02-cloudflare-production
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -70,6 +75,7 @@ jobs:
           grep -Fq 'NayaNET' index.html
           grep -Fq 'Naya' index.html
           grep -Fq 'ENTER NAYANET' index.html
+          grep -Fq '2026-09-02-front-door-10' index.html
 
       - name: Deploy exact canonical runtime to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
