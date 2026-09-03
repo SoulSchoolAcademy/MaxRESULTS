@@ -1,0 +1,27 @@
+name: Package NayaNET Cloudflare Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: nayanet-cloudflare-release
+      - name: Verify release contents
+        run: |
+          test -f index.html
+          test -f manifest.webmanifest
+          test -f icon.svg
+          test -f README.md
+          test "$(find . -maxdepth 1 -type f | wc -l)" -eq 4
+      - name: Build clean Cloudflare ZIP
+        run: zip -j NAYANET-APP-CLOUDFLARE.zip index.html manifest.webmanifest icon.svg README.md
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NAYANET-APP-CLOUDFLARE
+          path: NAYANET-APP-CLOUDFLARE.zip
+          if-no-files-found: error
