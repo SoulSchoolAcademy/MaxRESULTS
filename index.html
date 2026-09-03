@@ -1,50 +1,50 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-  <meta charset="UTF-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>NayaNET — Sovereign Vault</title> 
-  <link rel="manifest" href="manifest.webmanifest"> 
-  <link rel="apple-touch-icon" href="apple-touch-icon.png"> 
-  <style> 
-    body { background: #010103; color: #fff; font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } 
-    .box { background: #0b0e17; border: 2px solid #a855f7; border-radius: 28px; padding: 40px; width: 90%; max-width: 420px; text-align: center; box-shadow: 0 0 50px rgba(168,85,247,0.4); } 
-    img { width: 84px; height: 84px; border-radius: 20px; border: 2px solid #fff; margin-bottom: 20px; object-fit: contain; background: #000; } 
-    h1 { font-size: 1.4rem; margin-bottom: 8px; } 
-    p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 24px; } 
-    input { width: 100%; padding: 14px; background: #030406; border: 2px solid rgba(255,255,255,0.3); border-radius: 14px; color: #fff; font-size: 1.1rem; text-align: center; outline: none; margin-bottom: 16px; } 
-    input:focus { border-color: #a855f7; } 
-    button { width: 100%; padding: 16px; background: #10b981; border: none; border-radius: 14px; color: #fff; font-weight: 900; font-size: 1rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em; } 
-    button:hover { background: #059669; } 
-  </style> 
-</head> 
-<body> 
-  <div class="box"> 
-    <img src="icon-192.png" alt="Logo"> 
-    <h1>NayaNET Vault</h1> 
-    <p id="status">Naya Listening</p> 
-    <form onsubmit="enterVault(event)"> 
-      <input type="text" id="uname" placeholder="Enter Your Name" autocomplete="off" oninput="checkInput()" required /> 
-      <button type="submit">Enter Power Player →</button> 
-    </form> 
-  </div> 
-  <script> 
-    const st = document.getElementById('status'); 
-    const un = document.getElementById('uname'); 
-    window.addEventListener('DOMContentLoaded', () => { 
-      const s = localStorage.getItem('nayanet_user_name'); 
-      if (s) { un.value = s; st.textContent = 'Naya Responding'; } 
-    }); 
-    function checkInput() { 
-      st.textContent = un.value.trim().length > 0 ? 'Naya Responding' : 'Naya Listening'; 
-    } 
-    function enterVault(e) { 
-      e.preventDefault(); 
-      const val = un.value.trim(); 
-      if (!val) return; 
-      localStorage.setItem('nayanet_user_name', val); 
-      window.location.href = 'hub.html'; 
-    } 
-  </script> 
-</body> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NayaNET — Sovereign Vault</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    body { background: #010103; color: #fff; font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .box { background: #0b0e17; border: 2px solid #a855f7; border-radius: 28px; padding: 40px; width: 90%; max-width: 420px; text-align: center; box-shadow: 0 0 50px rgba(168,85,247,0.4); }
+    img { width: 84px; height: 84px; border-radius: 20px; border: 2px solid #fff; margin-bottom: 20px; object-fit: contain; background: #000; }
+    h1 { font-size: 1.4rem; margin-bottom: 8px; }
+    p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 24px; }
+    input { width: 100%; padding: 14px; background: #030406; border: 2px solid rgba(255,255,255,0.3); border-radius: 14px; color: #fff; font-size: 1.1rem; text-align: center; outline: none; margin-bottom: 16px; }
+    input:focus { border-color: #a855f7; }
+    button { width: 100%; padding: 16px; background: #10b981; border: none; border-radius: 14px; color: #fff; font-weight: 900; font-size: 1rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em; }
+    button:hover { background: #059669; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <img src="/icon-192.png" alt="Logo">
+    <h1>NayaNET Vault</h1>
+    <p id="status">Naya Listening</p>
+    <form onsubmit="enterVault(event)">
+      <input type="text" id="uname" placeholder="Enter Your Name" autocomplete="off" oninput="checkInput()" required />
+      <button type="submit">Enter Power Player →</button>
+    </form>
+  </div>
+  <script>
+    const st = document.getElementById('status');
+    const un = document.getElementById('uname');
+    window.addEventListener('DOMContentLoaded', () => {
+      const s = localStorage.getItem('nayanet_user_name');
+      if (s) { un.value = s; st.textContent = 'Naya Responding'; }
+    });
+    function checkInput() {
+      st.textContent = un.value.trim().length > 0 ? 'Naya Responding' : 'Naya Listening';
+    }
+    function enterVault(e) {
+      e.preventDefault();
+      const val = un.value.trim();
+      if (!val) return;
+      localStorage.setItem('nayanet_user_name', val);
+      window.location.href = '/hub.html';
+    }
+  </script>
+</body>
 </html>
