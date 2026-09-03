@@ -44,14 +44,32 @@ jobs:
           grep -Fq 'id="nameInput"' index.html
           grep -Fq 'id="hub"' hub.html
 
-      - name: Verify entrance assets are directly addressable
+      - name: Verify active Front Door authority
         shell: bash
         run: |
           set -euo pipefail
-          for f in nayanet-10-experience.css nayanet-front-door-overhaul.css nayanet-entrance-page.css nayanet-entrance.js; do test -s "$f"; done
-          grep -Fq 'nayanet-entrance-page.css' index.html
+          for f in nayanet-front-door-canonical.css nayanet-front-door-10-authority.css nayanet-entrance.js naya-data.js; do test -s "$f"; done
+          grep -Fq 'nayanet-front-door-canonical.css' index.html
+          grep -Fq 'nayanet-front-door-10-authority.css' index.html
           grep -Fq 'nayanet-entrance.js' index.html
-          grep -Fq "window.location.assign('/hub.html')" nayanet-entrance.js
+          grep -Fq 'naya-data.js' index.html
+          if grep -Fq 'nayanet-entrance-page.css' index.html; then echo 'ERROR: obsolete entrance stylesheet still referenced'; exit 1; fi
+          if grep -Fq 'nayanet-10-experience.css' index.html; then echo 'ERROR: obsolete experience stylesheet still referenced'; exit 1; fi
+          jewels=$(grep -o 'class="jewel"' index.html | wc -l)
+          test "$jewels" -eq 48
+
+      - name: Inspect release artifact contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s index.html
+          test -s nayanet-front-door-canonical.css
+          test -s nayanet-front-door-10-authority.css
+          test -s nayanet-entrance.js
+          test -s naya-data.js
+          grep -Fq 'NayaNET' index.html
+          grep -Fq 'Naya' index.html
+          grep -Fq 'ENTER NAYANET' index.html
 
       - name: Deploy exact canonical runtime to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
