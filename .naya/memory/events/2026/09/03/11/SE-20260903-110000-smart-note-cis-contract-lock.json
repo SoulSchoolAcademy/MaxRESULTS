@@ -9,10 +9,7 @@
   "project": "Naya Power Superbrain",
   "effective_at": "2026-09-03T11:00:00-07:00",
   "created_at": "2026-09-03T11:00:00-07:00",
-  "source": {
-    "type": "live-human-interaction",
-    "event_id": "INT-2026-09-03-SMART-NOTE-CIS-UNDERSTANDING-001"
-  },
+  "source": {"type": "live-human-interaction", "event_id": "INT-2026-09-03-SMART-NOTE-CIS-UNDERSTANDING-001"},
   "tags": ["Smart-Notes", "smart-note", "CIS", "PIS", "continuity", "memory", "learning", "receipt", "verification", "next-action", "architecture"],
   "concepts": ["Smart Note", "Human Note", "Naya Note", "Machine Note", "Compounding Intelligence System", "Primary Intelligence System", "Intelligent Feed", "durable receipt"],
   "project_context": {
@@ -79,7 +76,7 @@
     "next_execution_path": ".naya/handoffs/NEXT-EXECUTION-20260830-SMART-LINK-LAW.md",
     "handoff": {
       "mission": "Make Naya Power reliably preserve consequential intelligence so every successor Naya can restore and continue the work without conversational archaeology.",
-      "current_state": "The Smart Note + CIS operating contract is now explicitly documented and the continuity policy recognizes Smart Note/learning/decision event classes.",
+      "current_state": "The Smart Note + CIS operating contract is explicitly documented, the continuity policy recognizes Smart Note/learning/decision event classes, and this decision is represented as a canonical Note Event.",
       "next_action": "Implement machine-testable Smart Note receipt completeness and canonical event enforcement, then run the tests against positive and negative cases."
     }
   },
@@ -92,12 +89,16 @@
     ]
   },
   "verification": {
-    "status": "PERSISTED_PENDING_FINAL_VERIFICATION",
-    "canonical_url": "https://github.com/SoulSchoolAcademy/NayaPOWER/blob/main/.naya/memory/events/2026/09/03/11/SE-20260903-110000-smart-note-cis-contract-lock.json"
+    "status": "VERIFIED",
+    "verified_by": "GitHub fetch_file",
+    "verified_at": "2026-09-03T11:00:00-07:00",
+    "canonical_url": "https://github.com/SoulSchoolAcademy/NayaPOWER/blob/main/.naya/memory/events/2026/09/03/11/SE-20260903-110000-smart-note-cis-contract-lock.json",
+    "initial_persistence_commit": "7fc1b6bde4fe3124c21aa36aee572f158e691b2a"
   },
   "receipt": {
-    "status": "PERSISTED",
-    "initial_persistence_commit": "PENDING_RESPONSE"
+    "status": "VERIFIED",
+    "initial_persistence_commit": "7fc1b6bde4fe3124c21aa36aee572f158e691b2a",
+    "verification_update_commit": "PENDING_RESPONSE"
   },
   "relationships": {
     "related": ["SE-20260830-080000-smart-note-smart-link-law", "SE-20260830-SUPERBRAIN-COMPOUNDING-LOOP"],
