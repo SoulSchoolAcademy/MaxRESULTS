@@ -111,7 +111,7 @@ The World-Class Interface Constitution is a design law, not a mood board: app-no
 5. core/icon
 6. readable label
 
-**Power Player:** heartbeat of the environment; persistent across exploration; real 18 Powercasts only; selected content becomes active hero without full-page reload; states IDLE → SELECTED → LOADING → READY → PLAYING → PAUSED → COMPLETE.
+**Power Player:** heartbeat of the environment; persistent across exploration; real 18 Powercasts only; selected content becomes active hero without page reload; states IDLE → SELECTED → LOADING → READY → PLAYING → PAUSED → COMPLETE.
 
 **Level 1 communication:** text + voice; human ↔ Naya; human ↔ human; Naya ↔ Naya; human + Naya ↔ another human + Naya; multi-Naya Intelligence Spaces.
 
@@ -200,6 +200,70 @@ Apply this protocol automatically to the next consequential Smart Note request a
 
 1. `cd212431013520e308f938ad430451954eee3729` — created `.naya/notes/2026-09-03-SMART-NOTE-MAN-POWER-ACTION-CONTINUITY.md` on `main`.
 2. This feed update records the event and its Smart Note receipt.
+
+---
+
+## 2026-09-03 — SMART NOTE + CIS OPERATING CONTRACT LOCKED
+
+**Event:** `SE-20260903-110000-smart-note-cis-contract-lock`
+**Type:** Smart Note / CIS / continuity architecture / execution correction
+
+### Shawn Note
+
+Shawn clarified the human meaning of Smart Notes: when he says “note this,” “make a note,” “Smart Note this,” “Naya note this,” or “lock this in,” Naya must capture the actual conversation/event being discussed, extract the gold and intelligence from it, and preserve it as durable knowledge. The three layers are complementary views of one event: Human Note for human meaning, Naya Note for AI understanding and learning, and Machine Note for structured operational preservation. This matters because the Daily Intelligence Report and CIS can only compound intelligence that was actually captured and preserved. A claim that a note exists without a direct, verifiable receipt is not acceptable.
+
+### Naya Note
+
+The Smart Note is an execution operation, not a prose-writing task. The required chain is **DETECT → RESTORE → CAPTURE → EXTRACT → CLASSIFY → RELATE → TIMESTAMP → WRITE → VALIDATE → VERIFY → RECEIPT → INDEX → FEED → PIS (when authorized) → CIS → NEXT ACTION**. The canonical Note Event is the primary memory authority. The Intelligent Feed is the current-state continuity surface. The Daily Intelligence Report synthesizes the events. PIS promotion is a separate lifecycle transition and must have separate evidence. Proactive capture is required when consequential durable value is clearly present and legitimately authorized.
+
+### Machine Note
+
+- Canonical repository: `SoulSchoolAcademy/NayaPOWER`
+- Canonical branch: `main`
+- Canonical Smart Note + CIS contract: `.naya/SMART-NOTE-CIS-OPERATING-CONTRACT.md`
+- Canonical Note Event: `.naya/memory/events/2026/09/03/11/SE-20260903-110000-smart-note-cis-contract-lock.json`
+- Canonical event index: `.naya/memory/events/INDEX.json`
+- Intelligent Feed: `.naya/INTELLIGENT-FEED.md`
+- Continuity policy: `.naya/memory/CONTINUITY-ENFORCEMENT-POLICY.json`
+- Smart Note runtime: `.naya/memory/smart_notes_v3.py`
+- Project execution contract: `.naya/runtime/project_execution_contract.py`
+- PIS propagation: **NOT SEPARATELY VERIFIED**
+
+### What Changed
+
+The canonical Smart Note + CIS operating contract was added. The continuity enforcement policy now recognizes Smart Note, learning, lesson, decision, architecture-decision, breakthrough, mistake, goal, win, and opportunity events as meaningful intelligence classes. The current event was added to the canonical Note Event store and indexed for retrieval. This feed entry records the same decision and its evidence boundary.
+
+### Protected Decision
+
+> **A SMART NOTE IS MEMORY EMBEDDED AS VERIFIED, RETRIEVABLE, ACTIONABLE INTELLIGENCE.**
+
+> **SMART NOTE = HUMAN NOTE + NAYA NOTE + MACHINE NOTE + DURABLE PERSISTENCE + VERIFICATION + RECEIPT + INTELLIGENT FEED + CONTINUATION.**
+
+> **PIS PROPAGATION IS A SEPARATE VERIFIED STATE — NEVER IMPLIED BY NOTE CREATION.**
+
+### Current State
+
+- **Mission:** Make Naya Power reliably preserve consequential intelligence so every successor Naya can restore and continue the work without conversational archaeology.
+- **Current Objective:** During the deliberate GitHub Actions pause, build the six-core customer-facing activation package and then the sales experience, while hardening evidence-first Smart Note delivery and continuity.
+- **Completed:** Canonical Smart Note + CIS operating contract locked; Smart Note event classes added to continuity policy; this consequential decision persisted as a canonical Note Event; canonical event index updated.
+- **Current Blocker:** Runtime-level automatic detection/delivery of Smart Note receipts and separately verified PIS propagation are not yet proven in the live execution environment.
+- **Latest Verified State:** The new contract and canonical event were written to `main` and re-read through GitHub after persistence. The event is indexed as event 35. No live application/runtime GREEN claim is made.
+- **Important Decisions:** Canonical Note Events are the memory authority; derived prose notes are not competing primary storage; Smart Note requests mean capture the actual event; receipts are mandatory delivery; PIS promotion requires separate evidence; CREATE must continue through exact next actions.
+- **Smart Notes:** `SE-20260903-110000-smart-note-cis-contract-lock`; related `SE-20260830-080000-smart-note-smart-link-law`; related `SE-20260830-SUPERBRAIN-COMPOUNDING-LOOP`.
+- **Next Action:** Implement machine-testable Smart Note receipt completeness and canonical event enforcement, then run positive and negative tests.
+
+### Receipts
+
+1. `c23736caaeb51508455e6784d2d3f26d44170e70` — created `.naya/SMART-NOTE-CIS-OPERATING-CONTRACT.md`.
+2. `2a8483dcd43ad158784350152c23f0fa01467195` — updated `.naya/memory/CONTINUITY-ENFORCEMENT-POLICY.json` to recognize Smart Note/CIS intelligence classes and receipt semantics.
+3. `7fc1b6bde4fe3124c21aa36aee572f158e691b2a` — initial persistence of the canonical Note Event.
+4. `edb93ba11cef4228eee6293db382fee9ce70c7fe` — verification/sealing update of the canonical Note Event; the event was re-read from `main` afterward.
+5. `a91aba966eb2f3fe20180c9abab097ab4b78ee40` — canonical event index updated from 34 to 35 events.
+6. This feed update is being persisted now; final feed commit receipt will be recorded by the resulting GitHub commit.
+
+### Next Best Action
+
+Implement the runtime validator/test layer that makes the Smart Note contract mechanically enforceable: explicit Smart Note request detection, required Shawn/Naya/Machine representations, canonical event persistence, receipt completeness, Intelligent Feed linkage, and separate PIS propagation evidence. Then verify positive and negative cases against the canonical runtime.
 
 ---
 
