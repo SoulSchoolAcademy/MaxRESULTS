@@ -1,11 +1,11 @@
 <!-- NAYA POWER — POWER CAST WHITE PAPERS MODULE
-     Standalone premium section. Designed to be inserted into NayaPowerIntelligenceMap.html
-     without changing the existing Intelligence Map architecture.
-     Audio delivery uses Google Drive download endpoints with an HTML5 audio player.
+     Standalone premium section for surgical insertion into NayaPowerIntelligenceMap.html.
+     Existing Intelligence Map remains untouched.
+     Audio sources are the three supplied Google Drive Power Cast files.
 -->
 <section id="naya-powercasts" aria-label="Naya Power Power Cast White Papers">
 <style>
-#naya-powercasts{--pc-black:#050408;--pc-panel:#0d0a12;--pc-purple:#9b5de5;--pc-lav:#dcbcff;--pc-pink:#ff3fd1;--pc-white:#fff;--pc-muted:#aaa3b4;position:relative;background:radial-gradient(circle at 78% 18%,rgba(155,93,229,.16),transparent 34%),linear-gradient(180deg,#050408 0%,#08060c 100%);color:var(--pc-white);font-family:Inter,Segoe UI,Arial,sans-serif;overflow:hidden;padding:92px 0 105px;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
+#naya-powercasts{--pc-black:#050408;--pc-purple:#9b5de5;--pc-lav:#dcbcff;--pc-pink:#ff3fd1;--pc-white:#fff;--pc-muted:#aaa3b4;position:relative;background:radial-gradient(circle at 78% 18%,rgba(155,93,229,.16),transparent 34%),linear-gradient(180deg,#050408 0%,#08060c 100%);color:var(--pc-white);font-family:Inter,Segoe UI,Arial,sans-serif;overflow:hidden;padding:92px 0 105px;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
 #naya-powercasts *{box-sizing:border-box}
 #naya-powercasts .pc-wrap{width:min(1380px,calc(100% - 56px));margin:auto}
 #naya-powercasts .pc-eyebrow{font-size:10px;font-weight:950;letter-spacing:.22em;text-transform:uppercase;color:#fff;margin-bottom:15px}
@@ -15,15 +15,16 @@
 #naya-powercasts .pc-head-copy{max-width:470px;color:#eee9f2;font-size:16px;line-height:1.65;margin:0}
 #naya-powercasts .pc-stage{display:grid;grid-template-columns:minmax(360px,.78fr) minmax(0,1.22fr);gap:26px;padding:18px;border:1px solid rgba(255,255,255,.14);border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));box-shadow:0 35px 90px rgba(0,0,0,.58),0 0 80px rgba(155,93,229,.10);backdrop-filter:blur(18px)}
 #naya-powercasts .pc-cover{position:relative;min-height:520px;border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,.2);background:#0b0910;box-shadow:0 22px 55px rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.16) inset}
-#naya-powercasts .pc-cover img{width:100%;height:100%;min-height:520px;display:block;object-fit:cover;object-position:center}
-#naya-powercasts .pc-cover:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,4,8,.02),rgba(5,4,8,.06) 48%,rgba(5,4,8,.62));pointer-events:none}
+#naya-powercasts .pc-cover img{width:100%;height:100%;min-height:520px;display:block;object-fit:cover;object-position:center;transition:opacity .18s ease,transform .35s ease}
+#naya-powercasts .pc-cover:hover img{transform:scale(1.012)}
+#naya-powercasts .pc-cover:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,4,8,.02),rgba(5,4,8,.08) 48%,rgba(5,4,8,.68));pointer-events:none}
 #naya-powercasts .pc-cover-label{position:absolute;left:24px;right:24px;bottom:22px;z-index:2}
 #naya-powercasts .pc-cover-label strong{display:block;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
 #naya-powercasts .pc-cover-label span{display:block;margin-top:6px;color:#d9d2df;font-size:12px}
 #naya-powercasts .pc-player{padding:22px;display:flex;flex-direction:column;justify-content:center;min-width:0}
 #naya-powercasts .pc-now{font-size:9px;font-weight:950;letter-spacing:.2em;text-transform:uppercase;color:var(--pc-lav);margin-bottom:12px}
 #naya-powercasts .pc-title{font-size:clamp(28px,3.3vw,48px);line-height:.98;letter-spacing:-.045em;margin:0 0 9px}
-#naya-powercasts .pc-status{font-size:13px;color:var(--pc-muted);margin-bottom:28px}
+#naya-powercasts .pc-status{font-size:13px;color:var(--pc-muted);margin-bottom:28px;min-height:20px}
 #naya-powercasts audio{width:100%;height:54px;display:block;margin:0 0 26px;border-radius:14px;filter:drop-shadow(0 14px 24px rgba(0,0,0,.35))}
 #naya-powercasts .pc-tracks{display:grid;gap:9px}
 #naya-powercasts .pc-track{appearance:none;width:100%;display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:13px;text-align:left;padding:14px 16px;border:1px solid rgba(255,255,255,.13);border-radius:15px;background:linear-gradient(180deg,#19131f,#0a080d);color:#fff;cursor:pointer;transition:.2s;box-shadow:0 1px 0 rgba(255,255,255,.06) inset}
@@ -58,33 +59,33 @@
 
   <div class="pc-stage">
     <div class="pc-cover">
-      <img src="https://drive.google.com/thumbnail?id=10xegmbg3-I0gaGLjhA5qRgSGmDnkww0z&sz=w1600" alt="Power Cast White Paper cover">
-      <div class="pc-cover-label"><strong>POWER CAST</strong><span>White Paper Series · 01 — 03</span></div>
+      <img id="pc-cover-image" src="https://drive.google.com/thumbnail?id=10xegmbg3-I0gaGLjhA5qRgSGmDnkww0z&sz=w1600" alt="Power Cast White Paper #1 cover">
+      <div class="pc-cover-label"><strong>POWER CAST</strong><span id="pc-cover-series">White Paper · 01</span></div>
     </div>
 
     <div class="pc-player">
       <div class="pc-now">Now playing</div>
       <h3 class="pc-title" id="pc-now-title">Power Cast White Paper #1</h3>
-      <div class="pc-status" id="pc-status">Select a Power Cast below to begin listening.</div>
+      <div class="pc-status" id="pc-status">Ready — press play to listen.</div>
       <audio id="pc-audio" controls preload="metadata" playsinline></audio>
 
       <div class="pc-tracks">
-        <button class="pc-track active" type="button" data-index="0" data-title="Power Cast White Paper #1" data-audio="https://drive.google.com/uc?export=download&id=10xegmbg3-I0gaGLjhA5qRgSGmDnkww0z">
+        <button class="pc-track active" type="button" data-index="0" data-title="Power Cast White Paper #1" data-cover="10xegmbg3-I0gaGLjhA5qRgSGmDnkww0z" data-audio="https://drive.google.com/uc?export=download&id=1urQtXPpKkxpBWht8nhC-5Cdk6p6uSS9X">
           <span class="pc-num">01</span><span><span class="pc-track-title">Power Cast White Paper #1</span><span class="pc-track-sub">Listen to the first white paper</span></span><span class="pc-play">▶</span>
         </button>
-        <button class="pc-track" type="button" data-index="1" data-title="Power Cast White Paper #2" data-audio="https://drive.google.com/uc?export=download&id=1uCsGhEoTYT8yRiETe34CWnSbQZKyDlT9">
+        <button class="pc-track" type="button" data-index="1" data-title="Power Cast White Paper #2" data-cover="1uCsGhEoTYT8yRiETe34CWnSbQZKyDlT9" data-audio="https://drive.google.com/uc?export=download&id=19GaJdJapn1uBrHlHvpDGPg-oFmHcBAUE">
           <span class="pc-num">02</span><span><span class="pc-track-title">Power Cast White Paper #2</span><span class="pc-track-sub">Continue the exploration</span></span><span class="pc-play">▶</span>
         </button>
-        <button class="pc-track" type="button" data-index="2" data-title="Power Cast White Paper #3" data-audio="https://drive.google.com/uc?export=download&id=1fi8fl6qCLFepLpqkWEcvcmcntNv-sIKx">
+        <button class="pc-track" type="button" data-index="2" data-title="Power Cast White Paper #3" data-cover="1fi8fl6qCLFepLpqkWEcvcmcntNv-sIKx" data-audio="https://drive.google.com/uc?export=download&id=18l1gLA17Woei8Sd_zfROfXIBLjOpUgeq">
           <span class="pc-num">03</span><span><span class="pc-track-title">Power Cast White Paper #3</span><span class="pc-track-sub">Complete the series</span></span><span class="pc-play">▶</span>
         </button>
       </div>
-      <div class="pc-fallback" id="pc-fallback">This Google Drive file did not return a browser-playable audio stream. The player has preserved the selected track so the delivery URL can be swapped without changing the presentation.</div>
+      <div class="pc-fallback" id="pc-fallback">This Google Drive file did not return a browser-playable audio stream. The presentation is intact; only the source delivery would need to be changed.</div>
     </div>
   </div>
 
   <div class="pc-papers">
-    <div class="pc-papers-head"><h3>Read the White Papers</h3><p>Prefer the written version? Open or download each corresponding report directly from Google Drive.</p></div>
+    <div class="pc-papers-head"><h3>Read the White Papers</h3><p>Prefer the written version? Open each corresponding report directly from Google Drive.</p></div>
     <div class="pc-grid">
       <article class="pc-paper"><div class="pc-paper-index">White Paper · 01</div><h4>Power Cast #1</h4><p>The first report in the foundational Power Cast series.</p><a class="pc-download" href="https://drive.google.com/file/d/1JOfkjnyhyY3Vrpv27fMWhX3vVsGSf8n3/view?usp=sharing" target="_blank" rel="noopener">Open PDF ↗</a></article>
       <article class="pc-paper"><div class="pc-paper-index">White Paper · 02</div><h4>Power Cast #2</h4><p>The second report in the foundational Power Cast series.</p><a class="pc-download" href="https://drive.google.com/file/d/1xiZIUwiB0yyoLIIXr6o6Ditx7UeAkmxK/view?usp=sharing" target="_blank" rel="noopener">Open PDF ↗</a></article>
@@ -96,11 +97,14 @@
 <script>
 (function(){
   var root=document.getElementById('naya-powercasts'); if(!root)return;
-  var audio=root.querySelector('#pc-audio'), title=root.querySelector('#pc-now-title'), status=root.querySelector('#pc-status'), fallback=root.querySelector('#pc-fallback'), tracks=[].slice.call(root.querySelectorAll('.pc-track'));
+  var audio=root.querySelector('#pc-audio'), title=root.querySelector('#pc-now-title'), status=root.querySelector('#pc-status'), fallback=root.querySelector('#pc-fallback'), cover=root.querySelector('#pc-cover-image'), coverSeries=root.querySelector('#pc-cover-series'), tracks=[].slice.call(root.querySelectorAll('.pc-track'));
   function selectTrack(btn,autoplay){
     tracks.forEach(function(t){t.classList.remove('active');}); btn.classList.add('active');
-    var src=btn.getAttribute('data-audio'), name=btn.getAttribute('data-title');
+    var src=btn.getAttribute('data-audio'), name=btn.getAttribute('data-title'), coverId=btn.getAttribute('data-cover'), idx=String(Number(btn.getAttribute('data-index'))+1).padStart(2,'0');
     title.textContent=name; status.textContent='Loading audio…'; fallback.classList.remove('show');
+    cover.style.opacity='.45';
+    var nextCover='https://drive.google.com/thumbnail?id='+coverId+'&sz=w1600';
+    cover.onload=function(){cover.style.opacity='1';}; cover.src=nextCover; cover.alt=name+' cover'; coverSeries.textContent='White Paper · '+idx;
     audio.pause(); audio.removeAttribute('src'); audio.load(); audio.src=src; audio.load();
     if(autoplay){var p=audio.play(); if(p&&typeof p.catch==='function')p.catch(function(){status.textContent='Ready — press play to listen.';});}
   }
