@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "policy_name": "Naya Power Execution Continuity Enforcement",
   "effective_at": "2026-08-25T20:31:00-07:00",
   "structured_handoff_effective_at": "2026-08-29T06:10:00-07:00",
@@ -12,7 +12,17 @@
     "release",
     "repair",
     "verification",
-    "system-change"
+    "system-change",
+    "smart-note",
+    "learning",
+    "lesson",
+    "decision",
+    "architecture-decision",
+    "breakthrough",
+    "mistake",
+    "goal",
+    "win",
+    "opportunity"
   ],
   "meaningful_tags": [
     "execution",
@@ -21,15 +31,49 @@
     "release",
     "repair",
     "verification",
-    "hardening"
+    "hardening",
+    "smart-note",
+    "Smart-Notes",
+    "learning",
+    "lesson",
+    "decision",
+    "architecture",
+    "breakthrough",
+    "mistake",
+    "goal",
+    "win",
+    "opportunity",
+    "CIS",
+    "PIS"
   ],
   "event_id_markers": [
     "-execution",
     "-implementation",
     "-deployment",
     "-release",
-    "-repair"
+    "-repair",
+    "-smart-note",
+    "-learning",
+    "-decision"
   ],
+  "smart_note_request_phrases": [
+    "note this",
+    "make a note",
+    "smart note this",
+    "smart note it",
+    "naya note this",
+    "lock this in"
+  ],
+  "smart_note_contract": {
+    "canonical_event_authority": ".naya/memory/events/",
+    "required_representations": ["shawn", "naya", "machine"],
+    "required_feed_update": true,
+    "required_verification": true,
+    "required_receipt": true,
+    "pis_propagation_is_separate": true,
+    "proactive_value_capture": true,
+    "standalone_notes_are_not_primary_authority": true
+  },
   "handoff_roots": [
     ".naya/handoffs"
   ],
@@ -62,5 +106,5 @@
     "naya_owned_human_continuation": true,
     "human_prompt_authoring_required": false
   },
-  "design_principle": "Enforce new meaningful executions without rewriting historical events; preserve the existing green boundary while making future continuity failures visible and machine-detectable. The Naya-owned human continuation requirement becomes enforceable at the constitutional amendment's 2026-08-29 effective boundary."
+  "design_principle": "Enforce meaningful executions and consequential intelligence capture without rewriting historical events. A Smart Note request is itself a continuity operation: the actual event must become one canonical Note Event with Shawn, Naya, and Machine representations, durable evidence, Intelligent Feed visibility, and a continuation path. PIS promotion is a separate evidenced state transition. Preserve the existing green boundary while making future continuity failures visible and machine-detectable."
 }
