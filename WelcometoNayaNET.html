@@ -1,5 +1,5 @@
+```html
 <!doctype html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -430,7 +430,9 @@ main{
   line-height:1;
 }
 
-/* ABOUT */
+/* =========================================================
+   ABOUT
+   ========================================================= */
 
 .about-button{
   border:1px solid rgba(168,85,247,.9);
@@ -456,7 +458,9 @@ main{
     inset 0 1px 0 rgba(255,255,255,.14);
 }
 
-/* WHITE PAPER */
+/* =========================================================
+   WHITE PAPER
+   ========================================================= */
 
 .whitepaper-button{
   border:1px solid rgba(255,255,255,.72);
@@ -482,7 +486,10 @@ main{
     inset 0 1px 0 rgba(255,255,255,.16);
 }
 
-/* POWERCASTS */
+/* =========================================================
+   POWERCASTS
+   DIRECT CLOUDFLARE RUNTIME
+   ========================================================= */
 
 .player{
   border:1px solid var(--green);
@@ -598,6 +605,7 @@ body.entering .presence{
    ========================================================= */
 
 @media(max-height:760px){
+
   .topbar{
     height:58px;
     flex-basis:58px;
@@ -629,6 +637,7 @@ body.entering .presence{
 }
 
 @media(max-height:700px){
+
   .topbar{
     height:54px;
     flex-basis:54px;
@@ -689,6 +698,7 @@ body.entering .presence{
 }
 
 @media(max-width:380px){
+
   .topbar{
     padding:0 11px;
   }
@@ -754,6 +764,7 @@ body.entering .presence{
    ========================================================= */
 
 @media(min-width:700px){
+
   main{
     padding-top:18px;
   }
@@ -781,6 +792,7 @@ body.entering .presence{
    ========================================================= */
 
 @media(prefers-reduced-motion:reduce){
+
   *,
   *:before,
   *:after{
@@ -791,7 +803,6 @@ body.entering .presence{
   }
 }
 </style>
-
 </head>
 
 <body>
@@ -803,17 +814,12 @@ body.entering .presence{
     <span>NAYANET.APP</span>
   </div>
 
-<button
-class="auto"
-type="button"
-onclick="checkAutoLogin()"
-
->
-
-```
-Auto-Login
-```
-
+  <button
+    class="auto"
+    type="button"
+    onclick="checkAutoLogin()"
+  >
+    Auto-Login
   </button>
 
 </header>
@@ -822,56 +828,52 @@ Auto-Login
 
   <section class="intro">
 
-```
-<h1>Welcome to NayaNET</h1>
+    <h1>Welcome to NayaNET</h1>
 
-<p class="tag">
-  Create. Connect. Grow <strong>with US.</strong>
-</p>
-```
+    <p class="tag">
+      Create. Connect. Grow <strong>with US.</strong>
+    </p>
 
   </section>
 
   <section class="stage">
 
-```
-<div class="portal">
+    <div class="portal">
 
-  <div class="core">
+      <div class="core">
 
-    <div class="content">
+        <div class="content">
 
-      <div class="presence" id="presence">
-        Naya Listening
+          <div class="presence" id="presence">
+            Naya Listening
+          </div>
+
+          <form id="entryForm">
+
+            <input
+              id="userName"
+              class="input"
+              type="text"
+              placeholder="Enter Your Name"
+              autocomplete="name"
+              autocapitalize="words"
+              required
+            >
+
+            <button
+              class="enter"
+              type="submit"
+            >
+              Enter NayaNET →
+            </button>
+
+          </form>
+
+        </div>
+
       </div>
 
-      <form id="entryForm">
-
-        <input
-          id="userName"
-          class="input"
-          type="text"
-          placeholder="Enter Your Name"
-          autocomplete="name"
-          autocapitalize="words"
-          required
-        >
-
-        <button
-          class="enter"
-          type="submit"
-        >
-          Enter NayaNET →
-        </button>
-
-      </form>
-
     </div>
-
-  </div>
-
-</div>
-```
 
   </section>
 
@@ -880,31 +882,37 @@ Auto-Login
     aria-label="NayaNET navigation"
   >
 
-```
-<a
-  class="nav-button about-button"
-  href="https://nayanet.groovepages.com/aboutus"
->
-  <span class="nav-icon">✦</span>
-  ABOUT US
-</a>
+    <a
+      class="nav-button about-button"
+      href="https://nayanet.groovepages.com/aboutus"
+    >
+      <span class="nav-icon">✦</span>
+      ABOUT US
+    </a>
 
-<a
-  class="nav-button whitepaper-button"
-  href="https://nayanet.groovepages.com/whitepaper"
->
-  <span class="nav-icon">◈</span>
-  WHITE PAPER
-</a>
+    <a
+      class="nav-button whitepaper-button"
+      href="https://nayanet.groovepages.com/whitepaper"
+    >
+      <span class="nav-icon">◈</span>
+      WHITE PAPER
+    </a>
 
-<a
-  class="nav-button player"
-  href="https://nayanet.groovepages.com/powercasts/"
->
-  <span class="nav-icon">🎧</span>
-  POWERCASTS
-</a>
-```
+    <!--
+      POWERCASTS:
+      Directly opens the live Cloudflare Powercast runtime.
+      This intentionally bypasses the Groove /powercasts/ route.
+    -->
+    <a
+      class="nav-button player"
+      href="https://shrill-violet-eefd.nayanet.workers.dev/"
+      target="_self"
+      onclick="window.location.href='https://shrill-violet-eefd.nayanet.workers.dev/'; return false;"
+      aria-label="Open NayaNET Powercasts"
+    >
+      <span class="nav-icon">🎧</span>
+      POWERCASTS
+    </a>
 
   </nav>
 
@@ -989,3 +997,4 @@ document
 
 </body>
 </html>
+```
