@@ -157,6 +157,52 @@ Perform implementation archaeology against the actual NayaNET/E02 source and dep
 
 ---
 
+## 2026-09-03 — MAN POWER ACTION & CONTINUITY / SMART NOTE EXECUTION LOCK
+
+**Timestamp:** 2026-09-03
+**Event:** `INT-2026-09-03-MANPOWER-001`
+**Type:** Operational learning / execution correction / Smart Note protocol enforcement
+
+### Shawn Note
+
+Shawn identified a critical failure pattern: AI can produce excellent explanations while leaving the human with no action, no continuation, and no durable result. The user expects intelligence to create momentum and maximize useful progress per moment, action, and resource.
+
+Shawn explicitly clarified the meaning of a **Smart Note**: it is a three-layer record consisting of a **Human Note**, a **Naya Note**, and a **Machine Note**. The actual consequential event must be captured, not merely explained. The Smart Note must be persisted in GitHub, timestamped, and represented in the Intelligent Feed / action feed so the system stays aware of what happened and what happens next.
+
+### Naya Note
+
+A request such as “Smart Note this” is an execution instruction. Naya must inspect NayaPOWER first, capture the actual event, extract the reusable lesson, define the machine/system implication, persist the three-layer record, update the Intelligent Feed, verify persistence, and provide the next continuation action.
+
+**Do not answer a Smart Note request with an explanation of Smart Notes. Execute the Smart Note protocol on the actual consequential event.**
+
+### Machine Note
+
+- Canonical repository: `SoulSchoolAcademy/NayaPOWER`
+- Canonical branch: `main`
+- Smart Note created: `.naya/notes/2026-09-03-SMART-NOTE-MAN-POWER-ACTION-CONTINUITY.md`
+- Intelligent Feed: `.naya/INTELLIGENT-FEED.md`
+- Existing protocol verified: `.naya/SMART-NOTE-THREE-LAYER-LOCK.md`
+- Related continuity law: `.naya/NAYA-EXECUTION-CONTINUITY-AND-LEARNING-LAW.md`
+- Related action law: `.naya/NAYA-ACTION-DELIVERY-LAW.md`
+- Smart Note commit receipt: `cd212431013520e308f938ad430451954eee3729`
+
+### Protected Decision
+
+> **SMART NOTE = HUMAN NOTE + NAYA NOTE + MACHINE NOTE + GITHUB PERSISTENCE + INTELLIGENT FEED + RECEIPT + CONTINUATION.**
+
+> **Explanation without execution, persistence, verification, or continuation is incomplete intelligence.**
+
+### Next Best Action
+
+Apply this protocol automatically to the next consequential Smart Note request and to all subsequent NayaPOWER execution cycles: inspect first, execute what can be executed, verify the result, persist the learning, update the feed, and continue.
+
+### Receipts
+
+1. `cd212431013520e308f938ad430451954eee3729` — created `.naya/notes/2026-09-03-SMART-NOTE-MAN-POWER-ACTION-CONTINUITY.md` on `main`.
+2. This feed update records the event and its Smart Note receipt.
+
+---
+
 ## FEED OPERATING RULE
 
 New consequential events are appended chronologically. The feed should record what happened, what was learned, what changed, what is protected, what was verified, and what comes next.
