@@ -55,10 +55,6 @@ def _load_json(path: Path) -> dict[str, Any]:
     return value
 
 
-def _repo_url(repo: str, path: str) -> str:
-    return f"https://github.com/{repo}/blob/main/{path}"
-
-
 def _event_path(root: Path, event_id: str, effective_at: str) -> Path:
     if not EVENT_RE.match(event_id):
         raise SmartNoteEnforcementError("invalid canonical event_id")
@@ -122,6 +118,10 @@ def validate_smart_note_operation(
                 persisted = _load_json(event_path)
                 if persisted.get("event_id") != event_id:
                     errors.append("persisted Note Event does not match claimed event_id")
+                if persisted.get("effective_at") != effective_at:
+                    errors.append("persisted Note Event does not match claimed effective_at")
+                if persisted.get("representations") != event.get("representations"):
+                    errors.append("persisted Note Event representations do not match the claimed operation")
         except SmartNoteEnforcementError as exc:
             errors.append(str(exc))
     else:
