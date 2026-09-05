@@ -1,7 +1,7 @@
 # 🔱 PRIMARY INTELLIGENCE HUB — NAYAPOWER × MAXIS
 
 **Status:** CANONICAL NAVIGATION / SYNTHESIS LAYER
-**Date:** 2026-09-04
+**Date:** 2026-09-05
 
 ## PURPOSE
 
@@ -27,7 +27,7 @@ Every canonical Smart Note must preserve one underlying intelligence event while
 
 When applicable, the Naya Note propagates into PIS through the canonical intelligence lifecycle. Propagation is a separate state transition and requires separate verification/evidence. The existence of a note is not proof of PIS propagation.
 
-**New integrity rule (2026-09-04):** the claimed Smart Note operation must match the persisted canonical Note Event across `event_id`, `effective_at`, and `representations`. Matching only an identifier is insufficient.
+**Integrity rule (2026-09-04):** the claimed Smart Note operation must match the persisted canonical Note Event across `event_id`, `effective_at`, and `representations`. Matching only an identifier is insufficient.
 
 Naya should proactively recognize durable value—lessons, corrections, decisions, discoveries, strategies, principles, and reusable insights—and capture it when legitimately authorized rather than waiting for an explicit request. Proactive capture does not permit invented memory or silent authority promotion.
 
@@ -41,33 +41,32 @@ Naya should proactively recognize durable value—lessons, corrections, decision
 
 Higher-level reports synthesize lower-level reports. They never silently overwrite source evidence.
 
-## 2026-09-04 DAILY SYNTHESIS
+## 2026-09-05 DAILY SYNTHESIS
 
 ### Material changes
 
-- NayaPOWER added machine-testable Smart Note canonical-operation enforcement.
-- An adversarial enforcement suite was added.
-- Persisted-event binding was strengthened to require equality of `event_id`, `effective_at`, and `representations`.
-- The latest NayaPOWER `main` is `1e300ec4d89e84d3d92c1a7a70c43fc32893da97`.
-- MAXIS remains at `e1f727da77eb04e6b79ed40c218b545a2b372e78` with no newer product implementation observed in this review.
+- NayaPOWER advanced to live `main` `bc455e046ccebe7128d24493c7819c2bce358982`.
+- Added an initial HTML structure for the NayaNET Intelligent Hub V3.
+- Added a Cloudflare Workers Static Assets packaging workflow with source validation, accessibility/configuration checks, package assembly, ZIP integrity testing, SHA-256 proof, and artifact upload.
+- MAXIS remained at `e1f727da77eb04e6b79ed40c218b545a2b372e78`; no newer product implementation was observed.
 
-### Compounding delta from 2026-09-03
+### Compounding delta from 2026-09-04
 
-- Prior day established Stewardship of Intelligence and a persistent action ledger as the candidate execution-control boundary.
-- Today closes a specific Smart Note integrity gap inside the intelligence/persistence layer rather than adding another broad governance concept.
-- The new rule protects temporal and representational consistency, not just event identity.
+- Prior day strengthened Smart Note/CIS canonical-operation integrity across `event_id`, `effective_at`, and `representations`.
+- Today shifted the implementation center to a concrete NayaNET Intelligent Hub surface and a repeatable Cloudflare release artifact path.
+- The prior integrity lesson remains active; it is not replaced by the new UI/release work.
 
 ### Current conclusion
 
-NayaPOWER is harder to fool at the Smart Note persistence boundary, but runtime proof, direct Smart Link evidence, PIS/CIS propagation evidence, and current deployment parity remain UNKNOWN.
+NayaNET now has a concrete hub surface and a more explicit release contract, but workflow execution, artifact retrieval, deployment parity, browser behavior, Smart Note integration, PIS/CIS propagation, and MAXIS runtime parity remain UNKNOWN until observed.
 
 ### Exact next proof target
 
-`EXACT SHA → CONTRACT TESTS → ADVERSARIAL TESTS → REAL SMART NOTE OPERATION → PERSISTED PAYLOAD MATCH → THREE SMART LINKS → PIS/CIS RECEIPT → FEED/HUB/SUCCESSOR WRITEBACK`
+`EXACT SHA → REAL RUN → STEPS/LOGS → ZIP → MANIFEST → ARTIFACT RETRIEVAL → HASH → DEPLOYMENT METADATA → LIVE URL → BROWSER ACCEPTANCE → SMART NOTE/CIS INTEGRATION`
 
 ### New durable lesson
 
-**A canonical Smart Note is one event with aligned views. A claim is not valid until it matches the persisted event’s identity, effective timestamp, and representations, and the real delivery path proves it.**
+**A release workflow is not a release. Source, packaging, artifact retrieval, deployment parity, and live user behavior are separate proof obligations.**
 
 ## CUMULATIVE LESSONS
 
@@ -89,6 +88,8 @@ NayaPOWER is harder to fool at the Smart Note persistence boundary, but runtime 
 16. Commercial progress and technical proof are separate state dimensions.
 17. A daily report must explain the delta from the prior report, including unchanged blockers.
 18. A Smart Note claim must match persisted `event_id`, `effective_at`, and `representations`.
+19. Release workflow definition is not execution evidence.
+20. Artifact retrieval and deployment parity are independent proof layers.
 
 ## CURRENT OPEN UNKNOWN / BLOCKS
 
@@ -100,10 +101,13 @@ NayaPOWER is harder to fool at the Smart Note persistence boundary, but runtime 
 - Complete historical formal reporting coverage for the pre-system days.
 - Full primary hub implementation as a browsable product surface.
 
-### NayaPOWER
+### NayaPOWER / NayaNET
 
-- Runtime proof of the new Smart Note canonical-operation contract and adversarial suite.
-- Proof the real Smart Note save/claim path invokes the enforcement.
+- Workflow run/step/log evidence for the Intelligent Hub Cloudflare release path.
+- Independent artifact retrieval and checksum verification.
+- Source → artifact → Cloudflare deployment parity.
+- Browser proof of the Intelligent Hub experience.
+- Proof the hub invokes Smart Note/CIS canonical enforcement.
 - Proof every Smart Note response returns three direct Smart Links.
 - Separate proof of automatic PIS/CIS propagation.
 - Any current CI gate still reported RED must be diagnosed from actual step-level evidence before GREEN is claimed.
@@ -113,7 +117,7 @@ NayaPOWER is harder to fool at the Smart Note persistence boundary, but runtime 
 
 ## CURRENT HIGHEST-VALUE ACTION
 
-**Prove the Smart Note integrity boundary in a real checkout and real delivery path, then carry the evidence through links, propagation, feed, hub, and successor retrieval.**
+**Prove the NayaNET Intelligent Hub release chain at exact current SHA, then observe the live hub and connect the Smart Note/CIS evidence path.**
 
 ## DAILY UPDATE CONTRACT
 
