@@ -37,3 +37,11 @@ A release does not pass the Smart Note gate until one authenticated test event c
 
 ## Operational rule
 If Naya recognizes that an interaction qualifies as a Smart Note, the application must invoke this pipeline or explicitly report the blocked stage and recovery action. It must never silently stop at acknowledgement.
+
+## Current status
+Backend transaction boundary: **IMPLEMENTED**.
+Security boundary: **HARDENED** — anonymous RPC execution is denied; authenticated execution is allowed; RLS is enabled; the RPC enforces `auth.uid()` ownership.
+Frontend invocation: **NOT YET VERIFIED**.
+End-to-end runtime proof: **NOT YET PASSED**.
+
+Those last two gates are intentionally not represented as complete until an authenticated V7 runtime event is observed in the actual Hub.
