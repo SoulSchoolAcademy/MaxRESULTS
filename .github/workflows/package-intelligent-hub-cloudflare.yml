@@ -27,10 +27,12 @@ jobs:
           test -s CLOUDFLARE-INTELLIGENT-HUB/README.md
           test "$(find CLOUDFLARE-INTELLIGENT-HUB -maxdepth 1 -type f | wc -l)" -eq 3
           grep -Fq 'NayaNET' CLOUDFLARE-INTELLIGENT-HUB/index.html
-          grep -Fq 'PRIVATE BY DEFAULT' CLOUDFLARE-INTELLIGENT-HUB/index.html
-          grep -Fq 'SYNC MY WISDOM' CLOUDFLARE-INTELLIGENT-HUB/index.html
+          grep -Fq 'Good morning, Shawn.' CLOUDFLARE-INTELLIGENT-HUB/index.html
+          grep -Fq 'LISTEN TO REPORT' CLOUDFLARE-INTELLIGENT-HUB/index.html
+          grep -Fq 'Saved Reports' CLOUDFLARE-INTELLIGENT-HUB/index.html
+          grep -Fq 'Smart Notes' CLOUDFLARE-INTELLIGENT-HUB/index.html
           echo "Source commit: $(git rev-parse HEAD)"
-          echo 'Cloudflare package validation passed.'
+          echo 'Cloudflare V5 package validation passed.'
 
       - name: Build ZIP
         shell: bash
@@ -38,18 +40,18 @@ jobs:
           set -euo pipefail
           mkdir -p dist
           cd CLOUDFLARE-INTELLIGENT-HUB
-          zip -q -r ../dist/nayanet-intelligent-hub-cloudflare-v4.zip index.html _headers README.md
+          zip -q -r ../dist/nayanet-intelligent-hub-cloudflare-v5.zip index.html _headers README.md
           cd ..
-          sha256sum dist/nayanet-intelligent-hub-cloudflare-v4.zip | tee dist/SHA256SUM.txt
-          test -s dist/nayanet-intelligent-hub-cloudflare-v4.zip
+          sha256sum dist/nayanet-intelligent-hub-cloudflare-v5.zip | tee dist/SHA256SUM.txt
+          test -s dist/nayanet-intelligent-hub-cloudflare-v5.zip
           test -s dist/SHA256SUM.txt
 
       - name: Upload Cloudflare ZIP artifact
         uses: actions/upload-artifact@v4
         with:
-          name: nayanet-intelligent-hub-cloudflare-v4
+          name: nayanet-intelligent-hub-cloudflare-v5
           path: |
-            dist/nayanet-intelligent-hub-cloudflare-v4.zip
+            dist/nayanet-intelligent-hub-cloudflare-v5.zip
             dist/SHA256SUM.txt
           if-no-files-found: error
           retention-days: 30
