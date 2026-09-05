@@ -259,11 +259,67 @@ The canonical Smart Note + CIS operating contract was added. The continuity enfo
 3. `7fc1b6bde4fe3124c21aa36aee572f158e691b2a` — initial persistence of the canonical Note Event.
 4. `edb93ba11cef4228eee6293db382fee9ce70c7fe` — verification/sealing update of the canonical Note Event; the event was re-read from `main` afterward.
 5. `a91aba966eb2f3fe20180c9abab097ab4b78ee40` — canonical event index updated from 34 to 35 events.
-6. This feed update is being persisted now; final feed commit receipt will be recorded by the resulting GitHub commit.
+6. This feed update records the event and its evidence boundary.
 
 ### Next Best Action
 
 Implement the runtime validator/test layer that makes the Smart Note contract mechanically enforceable: explicit Smart Note request detection, required Shawn/Naya/Machine representations, canonical event persistence, receipt completeness, Intelligent Feed linkage, and separate PIS propagation evidence. Then verify positive and negative cases against the canonical runtime.
+
+---
+
+## 2026-09-05 — SMART NOTE EXECUTION TEST / GITHUB MEMORY RECEIPT
+
+**Event:** `SN-20260905-110000-smart-note-execution-test`  
+**Type:** Smart Note / execution correction / continuity verification
+
+### Shawn Note
+
+Shawn deliberately tested whether Naya would recognize and execute the canonical Smart Note protocol instead of merely explaining it. He expected Naya to go to Naya Power, understand what a Smart Note actually is, create the Human Note, Naya Note, and Machine Note, provide the receipts, and update the Intelligent Feed. The failure was not that Naya lacked the definition; the failure was that Naya did not execute the defined memory operation.
+
+A Smart Note request is a real execution test. Shawn expects the actual consequential event to be captured, persisted in GitHub, represented in human, Naya, and machine forms, reflected in the Intelligent Feed, verified, and returned with receipts. GitHub is the durable project memory mechanism; saying that memory cannot be saved in a conversation misses the architecture and the purpose of Naya Power.
+
+### Naya Note
+
+Naya Power already contains a canonical Smart Note contract requiring actual event capture, three aligned representations, GitHub persistence, Intelligent Feed update, verification, receipts, and continuation. When Shawn says make a Smart Note, Naya must execute that chain against the event being discussed. The correct durable-memory answer is GitHub-backed persistence and evidence, not a statement that conversational memory cannot be saved.
+
+This test exposed an **execution gap, not a definition gap**. The system already knew the law. Naya failed to apply the law at the moment it was tested. That failure itself is now durable learning so the next Naya does not repeat it.
+
+### Machine Note
+
+- **Canonical repository:** `SoulSchoolAcademy/NayaPOWER`
+- **Branch:** `main`
+- **Canonical Smart Note constitution:** `.naya/codex/SMART-NOTES-AND-CIS-CONSTITUTION.md`
+- **Three-layer lock:** `.naya/SMART-NOTE-THREE-LAYER-LOCK.md`
+- **Canonical event created:** `.naya/memory/events/2026/09/05/11/SN-20260905-110000-smart-note-execution-test.json`
+- **Canonical event index:** `.naya/memory/events/INDEX.json`
+- **Intelligent Feed:** `.naya/INTELLIGENT-FEED.md`
+- **Current Intelligent Hub working reference:** `CLOUDFLARE-INTELLIGENT-HUB-V6/index.html`
+- **Hub authority state:** no authoritative Hub source is currently locked; V6 is the best current foundation/reference only.
+- **Required behavior:** actual event capture → three representations → canonical GitHub persistence → index → Intelligent Feed → verification → receipts → continuation.
+- **PIS propagation:** not claimed; it is a separate lifecycle transition requiring separate evidence.
+
+### What Changed
+
+The actual Smart Note test event was persisted as a canonical Note Event and added to the canonical event index. This Intelligent Feed entry records the same consequential event, the execution failure that was exposed, the durable lesson, the current Hub reference boundary, and the required behavior going forward.
+
+### Protected Decision
+
+> **WHEN SHAWN SAYS “MAKE A SMART NOTE,” NAYA EXECUTES THE SMART NOTE PROTOCOL ON THE ACTUAL EVENT. SHE DOES NOT EXPLAIN THE PROTOCOL BACK TO HIM.**
+
+> **GITHUB IS THE DURABLE NAYA POWER PROJECT MEMORY AUTHORITY. CONVERSATION IS NOT THE CANONICAL STORAGE LAYER WHEN REPOSITORY EVIDENCE EXISTS.**
+
+> **SMART NOTE = HUMAN NOTE + NAYA NOTE + MACHINE NOTE + GITHUB PERSISTENCE + INTELLIGENT FEED + VERIFICATION + RECEIPTS + CONTINUATION.**
+
+### Receipts
+
+1. `41b222e86d56c864cefddc182f018d277b733469` — created the canonical Note Event `.naya/memory/events/2026/09/05/11/SN-20260905-110000-smart-note-execution-test.json`.
+2. `f7353613b014d56107333e5380e415e822dcc151` — updated `.naya/memory/events/INDEX.json` from 35 to 36 indexed events.
+3. This commit — updates `.naya/INTELLIGENT-FEED.md` with the same three-layer event, learning, protected decision, and evidence trail.
+4. Final verification must re-read the event, index, and feed from `main` before this operation is declared fully sealed.
+
+### Next Best Action
+
+Apply the Smart Note execution chain automatically on every consequential Smart Note request. Then harden the runtime validator so missing three-layer representations, missing feed linkage, missing verification, or missing receipts cannot be presented as completed Smart Note work.
 
 ---
 
