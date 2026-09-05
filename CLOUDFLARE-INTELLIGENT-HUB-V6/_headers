@@ -1,0 +1,5 @@
+/*
+  Cache static assets aggressively while keeping HTML revalidatable.
+*/
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
