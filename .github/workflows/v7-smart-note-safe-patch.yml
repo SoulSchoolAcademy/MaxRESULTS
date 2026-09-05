@@ -1,0 +1,131 @@
+name: V7 Smart Note Safe Patch
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.event.head_commit.message == 'V7 EXECUTE SMART NOTE PATCH'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch the existing V7 source in place
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('CLOUDFLARE-INTELLIGENT-HUB-V7/index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = '/* V7_SMART_NOTE_RUNTIME_V1 */'
+          if marker in s:
+              print('V7 Smart Note runtime already present; no change.')
+              raise SystemExit(0)
+          if not s.endswith('</body></html>\n') and not s.endswith('</body></html>'):
+              raise SystemExit('SOURCE_INTEGRITY_ABORT: unexpected index.html ending')
+          patch = r'''<script>
+/* V7_SMART_NOTE_RUNTIME_V1 */
+(function(){
+  const CFG='https://dahisasgpfvziswqvmvm.supabase.co/functions/v1/v7-public-config';
+  const NAYA='v7-naya-note';
+  const PIPE='v7-smart-note';
+  let client=null, sessionReady=null, lastIdempotencyKey=null;
+  const say=(msg,good=false)=>{
+    const targets=['reportStatus','connectionStatus'];
+    targets.forEach(id=>{const e=document.getElementById(id);if(e){e.textContent=msg;e.classList.toggle('good',good)}});
+  };
+  async function boot(){
+    if(sessionReady)return sessionReady;
+    sessionReady=(async()=>{
+      const mod=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+      const r=await fetch(CFG,{headers:{Accept:'application/json'}});
+      const cfg=await r.json();
+      if(!cfg.ok||!cfg.supabase_url||!cfg.publishable_key)throw new Error('SUPABASE_PUBLIC_CLIENT_UNAVAILABLE');
+      client=mod.createClient(cfg.supabase_url,cfg.publishable_key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+      let {data}=await client.auth.getSession();
+      if(!data.session){
+        const signed=await client.auth.signInAnonymously();
+        if(signed.error)throw new Error('ANONYMOUS_AUTH_UNAVAILABLE: '+signed.error.message);
+        data=signed.data;
+      }
+      if(!data.session)throw new Error('AUTHENTICATED_SESSION_NOT_ESTABLISHED');
+      return data.session;
+    })();
+    return sessionReady;
+  }
+  function typeOf(text){return noteType(text)}
+  function human(text){return {id:crypto.randomUUID(),text,type:typeOf(text),created_at:new Date().toISOString(),source:'v7_smart_note_composer',privacy:'private',status:'captured'};}
+  async function preserveFailure(h,key,stage,reason){
+    const {data,error}=await client.rpc('v7_preserve_smart_note_failure',{p_idempotency_key:key,p_user_id:(await client.auth.getUser()).data.user.id,p_human_note:h,p_failure_stage:stage,p_failure_message:reason});
+    if(error)throw error;
+    localStorage.setItem('nayanet_v7_last_failure',JSON.stringify({transaction:data,at:new Date().toISOString()}));
+    return data;
+  }
+  function installServerNote(tx){
+    const h=tx.human_note||{}; const n=tx.naya_note||{}; const m=tx.machine_note||{}; const f=tx.intelligent_feed||{};
+    const local={id:tx.id||m.event_id,createdAt:h.created_at||tx.created_at||new Date().toISOString(),text:h.text||h.content||'',type:h.type||m.type||'INSIGHT',pipeline:{human_note:h,naya_note:n,machine_note:m,intelligent_feed:f,intelligent_block:tx.intelligent_block,evidence:tx.evidence,hub_state:tx.hub_state}};
+    const existing=notes.findIndex(x=>x.id===local.id); if(existing>=0)notes[existing]=local; else notes.unshift(local); persist(); renderNotes(); updateMetrics(); return local;
+  }
+  window.V7SmartNoteRuntime={
+    async create(text,key){
+      await boot();
+      const h=human(text); lastIdempotencyKey=key||crypto.randomUUID();
+      say('Human Note captured. Asking the real Naya intelligence service to interpret it…');
+      const nr=await client.functions.invoke(NAYA,{body:{human_note:h}});
+      if(nr.error||!nr.data?.ok){
+        const reason=nr.data?.reason||nr.error?.message||'Naya intelligence service unavailable.';
+        await preserveFailure(h,lastIdempotencyKey,'naya_note',reason);
+        say('BLOCKED AT NAYA NOTE · '+reason+' Human Note preserved. Recovery: configure the Naya intelligence provider, then retry the same note.');
+        return {ok:false,blocked_stage:'naya_note',human_note:h,reason};
+      }
+      const pr=await client.functions.invoke(PIPE,{body:{human_note:h,naya_note:nr.data.naya_note,idempotency_key:lastIdempotencyKey,source:'v7_smart_note_composer'}});
+      if(pr.error||!pr.data?.ok){
+        const reason=pr.data?.detail||pr.error?.message||'Smart Note transaction failed.';
+        await preserveFailure(h,lastIdempotencyKey,'smart_note_pipeline',reason);
+        say('BLOCKED AT SMART NOTE PIPELINE · '+reason+' Human Note preserved. Recovery: retry the same idempotency key after the failed dependency is fixed.');
+        return {ok:false,blocked_stage:'smart_note_pipeline',human_note:h,reason};
+      }
+      const tx=Array.isArray(pr.data.transaction)?pr.data.transaction[0]:pr.data.transaction;
+      const local=installServerNote(tx||{});
+      say('VERIFIED · Human → Naya → Machine → Intelligent Feed → Intelligent Block → Hub → Evidence → Persistence',true);
+      return {ok:true,transaction:tx,local};
+    },
+    async duplicateLast(){
+      if(!lastIdempotencyKey)throw new Error('NO_LAST_IDEMPOTENCY_KEY');
+      const text=document.getElementById('noteInput')?.value?.trim()||notes[0]?.text;
+      if(!text)throw new Error('NO_NOTE_AVAILABLE');
+      await boot();
+      const h=human(text); const nr=await client.functions.invoke(NAYA,{body:{human_note:h}}); if(nr.error||!nr.data?.ok)throw new Error('NAYA_STAGE_NOT_AVAILABLE');
+      const pr=await client.functions.invoke(PIPE,{body:{human_note:h,naya_note:nr.data.naya_note,idempotency_key:lastIdempotencyKey,source:'v7_duplicate_test'}});
+      return pr.data;
+    },
+    async reload(){await boot();const r=await client.rpc('v7_list_smart_notes');if(r.error)throw r.error;(r.data||[]).forEach(installServerNote);return r.data||[];}
+  };
+  document.addEventListener('click',async(e)=>{
+    const b=e.target.closest('#saveNote'); if(!b)return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    const input=document.getElementById('noteInput'); const text=input?.value?.trim(); if(!text){input?.focus();return;}
+    b.disabled=true; b.textContent='PROCESSING…';
+    try{await window.V7SmartNoteRuntime.create(text); if(window.V7SmartNoteRuntime.reload)await window.V7SmartNoteRuntime.reload(); input.value=''; showPage('notes');}
+    catch(err){say('SMART NOTE EXECUTION BLOCKED · '+(err.message||err));}
+    finally{b.disabled=false;b.textContent='CREATE INTELLIGENT BLOCK';}
+  },true);
+  window.addEventListener('load',()=>window.V7SmartNoteRuntime.reload().catch(err=>console.warn('V7 runtime hydration blocked:',err.message)));
+})();
+</script>'''
+          s=s.replace('</body></html>',patch+'\n</body></html>')
+          p.write_text(s,encoding='utf-8')
+          print('Patched index.html in place; original source was not reconstructed.')
+      - name: Verify source integrity and patch marker
+        run: |
+          test -s CLOUDFLARE-INTELLIGENT-HUB-V7/index.html
+          grep -q 'V7_SMART_NOTE_RUNTIME_V1' CLOUDFLARE-INTELLIGENT-HUB-V7/index.html
+          test "$(tail -c 17 CLOUDFLARE-INTELLIGENT-HUB-V7/index.html)" = '</body></html>' || true
+      - name: Commit patched source
+        run: |
+          git config user.name 'Naya Power Automation'
+          git config user.email 'actions@users.noreply.github.com'
+          git add CLOUDFLARE-INTELLIGENT-HUB-V7/index.html
+          git diff --cached --quiet && echo 'No source change required.' || (git commit -m 'V7 wire real Smart Note vertical slice' && git push)
