@@ -1,0 +1,1 @@
+(()=>{document.querySelectorAll('.servicePath .featureBoard').forEach((b,i)=>b.classList.add(i===0?'em':i===1?'in':'pu'));const s=document.createElement('link');s.rel='stylesheet';s.href='v8-enhancement.css';document.head.appendChild(s);const j=document.createElement('script');j.src='v8-enhancement.js';document.body.appendChild(j)})();
