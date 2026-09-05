@@ -259,7 +259,7 @@ The canonical Smart Note + CIS operating contract was added. The continuity enfo
 3. `7fc1b6bde4fe3124c21aa36aee572f158e691b2a` — initial persistence of the canonical Note Event.
 4. `edb93ba11cef4228eee6293db382fee9ce70c7fe` — verification/sealing update of the canonical Note Event; the event was re-read from `main` afterward.
 5. `a91aba966eb2f3fe20180c9abab097ab4b78ee40` — canonical event index updated from 34 to 35 events.
-6. This feed update records the event and its evidence boundary.
+6. This feed update is being persisted now; final feed commit receipt will be recorded by the resulting GitHub commit.
 
 ### Next Best Action
 
