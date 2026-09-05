@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'CLOUDFLARE-INTELLIGENT-HUB/**'
+      - 'CLOUDFLARE-INTELLIGENT-HUB-V6/**'
       - '.github/workflows/package-intelligent-hub-cloudflare.yml'
   workflow_dispatch:
 
@@ -18,40 +18,40 @@ jobs:
       - name: Checkout exact source
         uses: actions/checkout@v4
 
-      - name: Validate Cloudflare package
+      - name: Validate V6 Cloudflare package
         shell: bash
         run: |
           set -euo pipefail
-          test -s CLOUDFLARE-INTELLIGENT-HUB/index.html
-          test -s CLOUDFLARE-INTELLIGENT-HUB/_headers
-          test -s CLOUDFLARE-INTELLIGENT-HUB/README.md
-          test "$(find CLOUDFLARE-INTELLIGENT-HUB -maxdepth 1 -type f | wc -l)" -eq 3
-          grep -Fq 'NayaNET' CLOUDFLARE-INTELLIGENT-HUB/index.html
-          grep -Fq 'Good morning, Shawn.' CLOUDFLARE-INTELLIGENT-HUB/index.html
-          grep -Fq 'LISTEN TO REPORT' CLOUDFLARE-INTELLIGENT-HUB/index.html
-          grep -Fq 'Saved Reports' CLOUDFLARE-INTELLIGENT-HUB/index.html
-          grep -Fq 'Smart Notes' CLOUDFLARE-INTELLIGENT-HUB/index.html
+          test -s CLOUDFLARE-INTELLIGENT-HUB-V6/index.html
+          test -s CLOUDFLARE-INTELLIGENT-HUB-V6/_headers
+          test -s CLOUDFLARE-INTELLIGENT-HUB-V6/README.md
+          test "$(find CLOUDFLARE-INTELLIGENT-HUB-V6 -maxdepth 1 -type f | wc -l)" -eq 3
+          grep -Fq 'NayaNET' CLOUDFLARE-INTELLIGENT-HUB-V6/index.html
+          grep -Fq 'GOOD MORNING' CLOUDFLARE-INTELLIGENT-HUB-V6/index.html
+          grep -Fq 'LISTEN TO NAYA' CLOUDFLARE-INTELLIGENT-HUB-V6/index.html
+          grep -Fq 'PERSONAL SUPERBRAIN' CLOUDFLARE-INTELLIGENT-HUB-V6/index.html
+          grep -Fq 'MAKE DIGITAL OBJECTS FEEL PHYSICAL' CLOUDFLARE-INTELLIGENT-HUB-V6/README.md
           echo "Source commit: $(git rev-parse HEAD)"
-          echo 'Cloudflare V5 package validation passed.'
+          echo 'Cloudflare V6 package validation passed.'
 
       - name: Build ZIP
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p dist
-          cd CLOUDFLARE-INTELLIGENT-HUB
-          zip -q -r ../dist/nayanet-intelligent-hub-cloudflare-v5.zip index.html _headers README.md
+          cd CLOUDFLARE-INTELLIGENT-HUB-V6
+          zip -q -r ../dist/nayanet-intelligent-hub-cloudflare-v6.zip index.html _headers README.md
           cd ..
-          sha256sum dist/nayanet-intelligent-hub-cloudflare-v5.zip | tee dist/SHA256SUM.txt
-          test -s dist/nayanet-intelligent-hub-cloudflare-v5.zip
+          sha256sum dist/nayanet-intelligent-hub-cloudflare-v6.zip | tee dist/SHA256SUM.txt
+          test -s dist/nayanet-intelligent-hub-cloudflare-v6.zip
           test -s dist/SHA256SUM.txt
 
       - name: Upload Cloudflare ZIP artifact
         uses: actions/upload-artifact@v4
         with:
-          name: nayanet-intelligent-hub-cloudflare-v5
+          name: nayanet-intelligent-hub-cloudflare-v6
           path: |
-            dist/nayanet-intelligent-hub-cloudflare-v5.zip
+            dist/nayanet-intelligent-hub-cloudflare-v6.zip
             dist/SHA256SUM.txt
           if-no-files-found: error
           retention-days: 30
