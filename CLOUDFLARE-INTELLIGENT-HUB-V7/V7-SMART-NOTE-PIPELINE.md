@@ -53,10 +53,23 @@ The three V7 Edge Functions are ACTIVE:
 - `v7-public-config` — public configuration endpoint only
 - `v7-naya-note` — JWT required
 
+## Source-preserving frontend integration layer
+A separate source-preserving runtime file now exists at:
+
+`CLOUDFLARE-INTELLIGENT-HUB-V7/v7-smart-note-runtime.js`
+
+It contains the intended browser transaction boundary:
+
+`existing composer → authenticated Supabase session → v7-naya-note → v7-smart-note → server transaction → persisted Smart Note`
+
+It also contains server hydration, failure preservation, and an idempotency-test hook.
+
+**Important:** the runtime layer is currently an integration artifact, not a claimed production integration. The known-good `index.html` has not yet been modified to load it.
+
 ## Frontend integration blocker
 The existing V7 `index.html` remains the known-good source and has **not** been replaced, truncated, reconstructed, bootstrapped, or iframe-loaded.
 
-The safe in-place patch mechanism was tested as an engineering path, but GitHub Actions did not execute the patch from a connector-created push event. The temporary workflow and trigger were removed rather than leaving automation that could create uncontrolled repeated runs.
+The safe in-place patch mechanism was attempted as an engineering path, but GitHub Actions did not execute the patch from a connector-created push event. The temporary workflow and trigger were removed rather than leaving automation that could create uncontrolled repeated runs.
 
 Therefore:
 
@@ -64,6 +77,11 @@ Therefore:
 - Browser authenticated-session runtime: **NOT YET VERIFIED**.
 - Browser → `v7-naya-note` runtime: **NOT YET VERIFIED**.
 - Browser → `v7-smart-note` runtime: **NOT YET VERIFIED**.
+
+## Authentication blocker
+A SQL check currently shows `0` anonymous identities in `auth.identities`. That does not by itself prove whether anonymous sign-in is enabled or disabled in Auth configuration; it only proves no anonymous identities currently exist.
+
+The browser integration must therefore verify the actual Auth configuration/runtime result rather than infer it.
 
 ## Naya intelligence blocker
 The Naya Edge Function is intentionally refusing to fabricate output because no production `NAYA_INTELLIGENCE_URL` / `NAYA_INTELLIGENCE_API_KEY` provider configuration is currently available to it.
@@ -74,9 +92,10 @@ Required recovery:
 
 1. Configure an authorized production Naya intelligence provider server-side.
 2. Keep the provider credential server-side as a Supabase secret.
-3. Execute an authenticated V7 Smart Note.
-4. Observe the genuine Naya Note.
-5. Continue the complete transaction and persistence tests.
+3. Establish a real authenticated V7 session.
+4. Execute an authenticated V7 Smart Note.
+5. Observe the genuine Naya Note.
+6. Continue the complete transaction and persistence tests.
 
 ## Acceptance test
 A release does not pass the Smart Note gate until one authenticated test event can be observed end-to-end after refresh/re-entry, with every stage present and linked by event/receipt identity.
@@ -100,6 +119,7 @@ Backend transaction boundary: **IMPLEMENTED**.
 Security boundary: **HARDENED** — anonymous RPC execution is denied; authenticated execution is allowed; RLS is enabled; the RPC enforces `auth.uid()` ownership.
 Failure-preservation boundary: **IMPLEMENTED**.
 Persistent read boundary: **IMPLEMENTED**.
+Source-preserving runtime integration layer: **IMPLEMENTED AS UNATTACHED ARTIFACT**.
 Naya provider boundary: **IMPLEMENTED / BLOCKED UNTIL PROVIDER CONFIGURATION**.
 Frontend invocation: **NOT YET VERIFIED**.
 Authenticated browser runtime: **NOT YET VERIFIED**.
