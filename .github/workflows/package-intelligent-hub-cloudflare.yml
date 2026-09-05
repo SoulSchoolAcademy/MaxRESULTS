@@ -1,0 +1,51 @@
+name: Package NayaNET Intelligent Hub for Cloudflare
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'CLOUDFLARE-INTELLIGENT-HUB/**'
+      - '.github/workflows/package-intelligent-hub-cloudflare.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@v4
+
+      - name: Validate Cloudflare package
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f CLOUDFLARE-INTELLIGENT-HUB/index.html
+          test -f CLOUDFLARE-INTELLIGENT-HUB/_headers
+          test -f CLOUDFLARE-INTELLIGENT-HUB/README.md
+          grep -q 'NayaNET' CLOUDFLARE-INTELLIGENT-HUB/index.html
+          grep -q 'SYNC MY WISDOM' CLOUDFLARE-INTELLIGENT-HUB/index.html
+          grep -q 'PRIVATE BY DEFAULT' CLOUDFLARE-INTELLIGENT-HUB/index.html
+          echo 'Cloudflare package validation passed.'
+
+      - name: Build ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          cd CLOUDFLARE-INTELLIGENT-HUB
+          zip -r ../dist/nayanet-intelligent-hub-cloudflare-v4.zip index.html _headers README.md
+          cd ..
+          sha256sum dist/nayanet-intelligent-hub-cloudflare-v4.zip | tee dist/SHA256SUM.txt
+
+      - name: Upload Cloudflare ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nayanet-intelligent-hub-cloudflare-v4
+          path: |
+            dist/nayanet-intelligent-hub-cloudflare-v4.zip
+            dist/SHA256SUM.txt
+          if-no-files-found: error
+          retention-days: 30
