@@ -21,18 +21,21 @@ jobs:
           r=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/v7-smart-note-runtime.js').read_text(encoding='utf-8')
           s=p.read_text(encoding='utf-8')
           marker='<!-- V7 SMART NOTE RUNTIME V1 -->'
-          if s.count(marker)!=1:
-              raise SystemExit(f'expected exactly one runtime marker, found {s.count(marker)}')
-          if len(s)<100000 or '<!doctype html>' not in s or '<title>NayaNET — Intelligent Hub V7</title>' not in s or '</body></html>' not in s:
-              raise SystemExit('original V7 source integrity check failed')
+          if s.count(marker)!=1: raise SystemExit(f'expected exactly one runtime marker, found {s.count(marker)}')
+          if '<!doctype html>' not in s or '<title>NayaNET — Intelligent Hub V7</title>' not in s or '</body>' not in s or '</html>' not in s: raise SystemExit('original V7 source structure missing')
+          start=s.index(marker)
+          body=s.index('</body>',start)
+          prefix=s[:start]
+          suffix=s[body:]
           pattern=re.compile(re.escape(marker)+r'\s*<script>.*?</script>',re.S)
           replacement=marker+'\n<script>\n'+r+'\n</script>'
           out,n=pattern.subn(replacement,s,count=1)
           if n!=1: raise SystemExit('runtime block replacement did not occur exactly once')
-          if '__V7_SMART_NOTE_RUNTIME__' not in out or 'const PIPE=' not in out: raise SystemExit('updated runtime marker missing')
-          if len(out)<100000: raise SystemExit('integrated source unexpectedly small')
+          if out[:start]!=prefix or out[out.index('</body>'): ]!=suffix: raise SystemExit('non-runtime source region changed')
+          if '__V7_SMART_NOTE_RUNTIME__' not in out or 'const PIPE=' not in out: raise SystemExit('updated runtime missing')
           p.write_text(out,encoding='utf-8')
-          print('INDEX_BYTES',len(out))
+          print('SOURCE_BYTES_BEFORE',len(s))
+          print('SOURCE_BYTES_AFTER',len(out))
           print('RUNTIME_BYTES',len(r))
           PY
       - name: Commit only the embedded runtime refresh
