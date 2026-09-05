@@ -1,0 +1,46 @@
+name: V7 Smart Note Reintegrate
+on:
+  push:
+    paths:
+      - 'CLOUDFLARE-INTELLIGENT-HUB-V7/.v7-smart-note-reintegrate-trigger'
+permissions:
+  contents: write
+jobs:
+  reintegrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace only the existing Smart Note runtime block
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/index.html')
+          r=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/v7-smart-note-runtime.js').read_text(encoding='utf-8')
+          s=p.read_text(encoding='utf-8')
+          marker='<!-- V7 SMART NOTE RUNTIME V1 -->'
+          if s.count(marker)!=1:
+              raise SystemExit(f'expected exactly one runtime marker, found {s.count(marker)}')
+          if len(s)<100000 or '<!doctype html>' not in s or '<title>NayaNET — Intelligent Hub V7</title>' not in s or '</body></html>' not in s:
+              raise SystemExit('original V7 source integrity check failed')
+          pattern=re.compile(re.escape(marker)+r'\s*<script>.*?</script>',re.S)
+          replacement=marker+'\n<script>\n'+r+'\n</script>'
+          out,n=pattern.subn(replacement,s,count=1)
+          if n!=1: raise SystemExit('runtime block replacement did not occur exactly once')
+          if '__V7_SMART_NOTE_RUNTIME__' not in out or 'const PIPE=' not in out: raise SystemExit('updated runtime marker missing')
+          if len(out)<100000: raise SystemExit('integrated source unexpectedly small')
+          p.write_text(out,encoding='utf-8')
+          print('INDEX_BYTES',len(out))
+          print('RUNTIME_BYTES',len(r))
+          PY
+      - name: Commit only the embedded runtime refresh
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'NayaNET V7 Integrator'
+          git config user.email 'noreply@nayanet.xyz'
+          git add CLOUDFLARE-INTELLIGENT-HUB-V7/index.html
+          git commit -m 'feat(v7): refresh embedded Smart Note runtime' || exit 0
+          git push
