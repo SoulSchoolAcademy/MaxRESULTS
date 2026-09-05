@@ -1,0 +1,42 @@
+name: V7 Runtime Sync Once
+on:
+  push:
+    paths:
+      - 'CLOUDFLARE-INTELLIGENT-HUB-V7/.v7-runtime-sync-trigger'
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synchronize embedded runtime only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/index.html')
+          r=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/v7-smart-note-runtime.js').read_text(encoding='utf-8')
+          s=p.read_text(encoding='utf-8')
+          marker='<!-- V7 SMART NOTE RUNTIME V1 -->'
+          assert s.count(marker)==1
+          assert '<!doctype html>' in s and '<title>NayaNET — Intelligent Hub V7</title>' in s and '</body>' in s and '</html>' in s
+          start=s.index(marker); body=s.index('</body>',start); prefix=s[:start]; suffix=s[body:]
+          pat=re.compile(re.escape(marker)+r'\s*<script>.*?</script>',re.S)
+          out,n=pat.subn(marker+'\n<script>\n'+r+'\n</script>',s,count=1)
+          assert n==1
+          assert out[:start]==prefix and out[out.index('</body>'):]==suffix
+          assert '__V7_SMART_NOTE_RUNTIME__' in out and 'const PIPE=' in out
+          p.write_text(out,encoding='utf-8')
+          print('BEFORE',len(s),'AFTER',len(out),'RUNTIME',len(r))
+          PY
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name 'NayaNET V7 Integrator'
+          git config user.email 'noreply@nayanet.xyz'
+          git add CLOUDFLARE-INTELLIGENT-HUB-V7/index.html
+          git commit -m 'feat(v7): embed current Smart Note runtime' || exit 0
+          git push
