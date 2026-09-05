@@ -1,24 +1,31 @@
-# NayaNET Intelligent Hub — Cloudflare V4
+# NayaNET Intelligent Hub — V5 Living Intelligence Cockpit
 
-This folder is the Cloudflare Pages static experience for the NayaNET Intelligent Hub.
+## Status
+PROTOTYPE / EXPERIENCE LAYER — Cloudflare static package
 
-## Product intent
+## Purpose
+The Hub is the living front door for Naya Power intelligence. It presents the current intelligence state, saved Daily/Weekly/Monthly/Yearly reports, Smart Notes, the Intelligent Feed, evidence, source links, Naya listening/conversation surfaces, and the next right action.
 
-The Hub is the visible evidence surface for Naya Power intelligence. It is not a second brain, fake dashboard, or claim generator. It presents personal intelligence, Smart Notes, reports, evidence, current state, connection boundaries, and next actions.
+## Core loop
 
-## Design law
+`SMART BRAIN → INTELLIGENT FEED → INTELLIGENT HUB → INTELLIGENCE REPORT → NAYA`
 
-**MAKE DIGITAL OBJECTS FEEL PHYSICAL.**
+## V5 experience changes
 
-Important interface objects follow:
-
-`DEPTH → LIGHT → STATE → RESPONSE → CONSEQUENCE`
-
-The experience is intentionally premium, calm, dimensional, responsive, and human. It avoids generic dashboard/card treatment and avoids pretending that unavailable backend capabilities are live.
+- Replaced the dashboard-like hero with a report-first “Here is what matters right now” experience.
+- Increased text contrast so labels and secondary information remain easy to read.
+- Made saved Intelligence Reports a first-class Hub concept.
+- Added Daily / Weekly / Monthly / Yearly report archive views.
+- Added explicit Listen-to-Naya surfaces for saved reports.
+- Added Human / Naya / Machine Smart Notes.
+- Added source-link presentation back to the canonical Smart Brain repository.
+- Added a visible Live Intelligence Feed and event-flow model.
+- Added a clear Next Right Action above the fold.
+- Preserved the privacy and evidence truth boundaries; the static artifact never claims a live backend, persistence layer, or cloned-voice connector without runtime observation.
 
 ## Truth boundary
 
-This artifact is the experience layer. A real personal-intelligence sync requires an authorized live connector and persistence layer. Until that exists and is independently observed, the UI must not claim that remote synchronization, persistence, voice, or backend behavior has occurred.
+This artifact is the experience layer. Real personal-intelligence sync, persistence, and cloned Naya voice playback require authorized live connectors and independent runtime observation.
 
 Runtime proof follows:
 
