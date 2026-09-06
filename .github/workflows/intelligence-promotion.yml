@@ -10,6 +10,8 @@ on:
       - 'tools/test_promote_intelligence.py'
       - 'tools/adaptive_learning.py'
       - 'tools/test_adaptive_learning.py'
+      - 'tools/compound_intelligence.py'
+      - 'tools/test_compound_intelligence.py'
       - '.github/workflows/intelligence-promotion.yml'
   workflow_dispatch:
 
@@ -30,6 +32,12 @@ jobs:
 
       - name: Run Adaptive Learning acceptance tests
         run: python3 tools/test_adaptive_learning.py
+
+      - name: Run Compounding Intelligence bridge acceptance tests
+        run: python3 tools/test_compound_intelligence.py
+
+      - name: Build compounding learning projections
+        run: python3 tools/compound_intelligence.py
 
       - name: Validate, deduplicate, classify, and promote intelligence events
         run: python3 tools/promote_intelligence.py
@@ -53,21 +61,23 @@ jobs:
         run: |
           set -euo pipefail
           if git diff --quiet -- \
+            MASTER-NOTES/ADAPTIVE-LEARNING \
             MASTER-NOTES/INTELLIGENCE-PROMOTIONS \
             MASTER-NOTES/NAYA-NOTES \
             MASTER-NOTES/SHAWN-NOTES \
             MASTER-NOTES/INTELLIGENCE-FEED \
             MASTER-NOTES/PRIMARY-INTELLIGENCE-HUB.md; then
-            echo "No generated promotion state changes."
+            echo "No generated intelligence state changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
+            MASTER-NOTES/ADAPTIVE-LEARNING \
             MASTER-NOTES/INTELLIGENCE-PROMOTIONS \
             MASTER-NOTES/NAYA-NOTES \
             MASTER-NOTES/SHAWN-NOTES \
             MASTER-NOTES/INTELLIGENCE-FEED \
             MASTER-NOTES/PRIMARY-INTELLIGENCE-HUB.md
-          git commit -m "chore(intelligence): persist promotion engine state"
+          git commit -m "chore(intelligence): persist compounding learning state"
           git push
