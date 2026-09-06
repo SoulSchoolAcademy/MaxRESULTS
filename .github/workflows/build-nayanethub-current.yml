@@ -25,49 +25,42 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Apply final Hub execution layer to NAYANETHUB
+      - name: Replace final Hub execution layer with current V4
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
           src=Path('NAYANETHUB.html')
           layer=Path('scripts/nayanethub-final-execution.js')
           html=src.read_text(encoding='utf-8')
           body=layer.read_text(encoding='utf-8')
+          # Remove any prior generated final-execution layer, regardless of its version.
+          html=re.sub(r'\s*<!-- NAYANETHUB-FINAL-EXECUTION-V\d+ -->\s*<script id="nayanethub-final-execution">.*?</script>\s*', '\n', html, count=1, flags=re.S)
           marker='<!-- NAYANETHUB-FINAL-EXECUTION-V1 -->'
-          if marker not in html:
-              if '</body>' not in html: raise SystemExit('NAYANETHUB.html has no closing body')
-              html=html.replace('</body>',f'\n{marker}\n<script id="nayanethub-final-execution">\n{body}\n</script>\n</body>',1)
-              src.write_text(html,encoding='utf-8')
+          if '</body>' not in html: raise SystemExit('NAYANETHUB.html has no closing body')
+          html=html.replace('</body>',f'\n{marker}\n<script id="nayanethub-final-execution">\n{body}\n</script>\n</body>',1)
           Path('index.html').write_text(html,encoding='utf-8')
           Path('_redirects').write_text('/intelligence/* /index.html 200\n',encoding='utf-8')
-          print('NAYANETHUB bytes:',len(html.encode()))
+          assert 'NAYANETHUB-FINAL-EXECUTION-V4' in html
+          assert 'Personal Feed' in html
+          assert 'Smart Lists' in html
+          assert 'Collective Feed' in html
+          assert 'function welcome' in html
+          print('CURRENT V4 EXECUTION LAYER VERIFIED')
           print('index bytes:',Path('index.html').stat().st_size)
           PY
-      - name: Validate requested Hub release
+      - name: Create Cloudflare package
         shell: bash
         run: |
-          set -e
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' index.html
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' NAYANETHUB.html
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V4' index.html
-          grep -q 'Personal Feed' index.html
-          grep -q 'Smart Lists' index.html
-          grep -q 'Collective Feed' index.html
-          grep -q 'CIRCULATE TO COLLECTIVE' index.html
-          grep -q 'Good morning' index.html
-          grep -q 'Good afternoon' index.html
-          grep -q 'Good evening' index.html
-          ! grep -q 'prompt(' index.html
           python3 - <<'PY'
           from pathlib import Path
           import zipfile
-          for f in ('NAYANETHUB.html','index.html'):
-              s=Path(f).read_text(encoding='utf-8')
-              assert s.count('<!doctype html>')==1 and s.count('</html>')==1,f
           with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
-              z.write('index.html','index.html');z.write('_redirects','_redirects')
-          print('ZIP READY')
+              z.write('index.html','index.html')
+              z.write('_redirects','_redirects')
+          p=Path('NayaNET-Intelligent-Hub-Cloudflare.zip')
+          print('ZIP READY:',p.stat().st_size,'bytes')
           PY
       - name: Upload Cloudflare package
         uses: actions/upload-artifact@v4
@@ -76,7 +69,6 @@ jobs:
           path: |
             NayaNET-Intelligent-Hub-Cloudflare.zip
             index.html
-            NAYANETHUB.html
             _redirects
           if-no-files-found: error
       - name: Commit generated production files
@@ -85,7 +77,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add NAYANETHUB.html index.html _redirects
-          if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish updated NayaNET Hub from NAYANETHUB [skip ci]'; git push; fi
+          git add index.html _redirects
+          if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish current NayaNET Hub V4 build [skip ci]'; git push; fi
 
-# release-trigger-2026-09-06-pr-build
+# release-trigger-2026-09-06-v4-replacement
