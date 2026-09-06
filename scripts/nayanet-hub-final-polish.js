@@ -12,3 +12,4 @@ function run(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(run,180));else setTimeout(run,180);setTimeout(run,1100);setTimeout(run,2300);setTimeout(run,3600);
 })();
+// RELEASE TRIGGER: canonical Hub build must package index.html at ZIP root.
