@@ -62,7 +62,7 @@ jobs:
           from pathlib import Path
           import re,zipfile
           s=Path('index.html').read_text(encoding='utf-8');assert s.count('<!doctype html>')==1 and s.count('</html>')==1
-          scripts=re.findall(r'<script(?:[^>]*)>(.*?)</script>',s,re.S|re.I');Path('/tmp/embedded.js').write_text('\n'.join(scripts),encoding='utf-8')
+          scripts=re.findall(r'<script(?:[^>]*)>(.*?)</script>',s,re.S|re.I);Path('/tmp/embedded.js').write_text('\n'.join(scripts),encoding='utf-8')
           with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:z.write('index.html','index.html');z.write('_redirects','_redirects')
           with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip') as z:assert z.namelist()[0]=='index.html'
           print('VALIDATED',len(s),'bytes',len(scripts),'scripts')
