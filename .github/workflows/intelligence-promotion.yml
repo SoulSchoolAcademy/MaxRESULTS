@@ -8,6 +8,8 @@ on:
       - '.naya/intelligence/**'
       - 'tools/promote_intelligence.py'
       - 'tools/test_promote_intelligence.py'
+      - 'tools/adaptive_learning.py'
+      - 'tools/test_adaptive_learning.py'
       - '.github/workflows/intelligence-promotion.yml'
   workflow_dispatch:
 
@@ -25,6 +27,9 @@ jobs:
 
       - name: Run Promotion Engine acceptance tests
         run: python3 tools/test_promote_intelligence.py
+
+      - name: Run Adaptive Learning acceptance tests
+        run: python3 tools/test_adaptive_learning.py
 
       - name: Validate, deduplicate, classify, and promote intelligence events
         run: python3 tools/promote_intelligence.py
