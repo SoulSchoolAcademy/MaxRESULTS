@@ -31,12 +31,14 @@ jobs:
           collections=Path('nayanet-hub-collections.js')
           html=src.read_text(encoding='utf-8')
           if html.count('<!doctype html>')!=1 or html.count('</html>')!=1: raise SystemExit('NAYAHUB.html is not one complete document')
-          # Repair the pre-existing invalid JavaScript escape in the current source before packaging.
+          # Repair pre-existing source defects found by runtime syntax validation.
           html=html.replace(r",'\':'&#92;'", r",'\\':'&#92;'")
+          layer_text=layer.read_text(encoding='utf-8')
+          layer_text=layer_text.replace("setTimeout(()=>showLibrary(),100));window.NayaNETV7", "setTimeout(()=>showLibrary(),100)));window.NayaNETV7")
           m1='<!-- NAYANET-NAYAHUB-INTELLIGENCE-LAYER -->'
           m2='<!-- NAYANET-NAYAHUB-COLLECTIONS-LAYER -->'
           if m1 not in html:
-              html=html.replace('</body>','\n'+m1+'\n<script>\n'+layer.read_text(encoding='utf-8')+'\n</script>\n</body>',1)
+              html=html.replace('</body>','\n'+m1+'\n<script>\n'+layer_text+'\n</script>\n</body>',1)
           if m2 not in html:
               html=html.replace('</body>','\n'+m2+'\n<script>\n'+collections.read_text(encoding='utf-8')+'\n</script>\n</body>',1)
           src.write_text(html,encoding='utf-8')
