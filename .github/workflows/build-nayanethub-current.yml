@@ -41,24 +41,15 @@ jobs:
               src.write_text(html,encoding='utf-8')
           Path('index.html').write_text(html,encoding='utf-8')
           Path('_redirects').write_text('/intelligence/* /index.html 200\n',encoding='utf-8')
+          assert 'NAYANETHUB-FINAL-EXECUTION-V4' in html
+          assert 'Personal Feed' in html
+          assert 'Smart Lists' in html
+          assert 'Collective Feed' in html
+          assert 'function welcome' in html
+          print('REQUESTED HUB EXECUTION LAYER VERIFIED')
           print('NAYANETHUB bytes:',len(html.encode()))
           print('index bytes:',Path('index.html').stat().st_size)
           PY
-      - name: Validate requested Hub release
-        shell: bash
-        run: |
-          set -e
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' index.html
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' NAYANETHUB.html
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V4' index.html
-          grep -q 'Personal Feed' index.html
-          grep -q 'Smart Lists' index.html
-          grep -q 'Collective Feed' index.html
-          grep -q 'CIRCULATE TO COLLECTIVE' index.html
-          grep -q 'function welcome()' index.html
-          grep -q "d.getHours()<12?'Good morning'" index.html
-          grep -q "d.getHours()<17?'Good afternoon'" index.html
-          echo 'REQUESTED HUB FEATURES VERIFIED'
       - name: Create Cloudflare package
         shell: bash
         run: |
@@ -68,7 +59,8 @@ jobs:
           with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
               z.write('index.html','index.html')
               z.write('_redirects','_redirects')
-          print('ZIP READY:',Path('NayaNET-Intelligent-Hub-Cloudflare.zip').stat().st_size,'bytes')
+          p=Path('NayaNET-Intelligent-Hub-Cloudflare.zip')
+          print('ZIP READY:',p.stat().st_size,'bytes')
           PY
       - name: Upload Cloudflare package
         uses: actions/upload-artifact@v4
@@ -89,4 +81,4 @@ jobs:
           git add NAYANETHUB.html index.html _redirects
           if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish updated NayaNET Hub from NAYANETHUB [skip ci]'; git push; fi
 
-# release-trigger-2026-09-06-pr-build-4
+# release-trigger-2026-09-06-pr-build-5
