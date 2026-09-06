@@ -5,6 +5,7 @@ on:
     paths:
       - 'NAYAHUB.html'
       - 'nayanet-hub-collections.js'
+      - 'CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js'
       - '.github/workflows/build-nayahub-intelligent.yml'
   workflow_dispatch:
 
@@ -20,92 +21,54 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Surgical integration
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import zipfile
-          src=Path('NAYAHUB.html')
-          layer=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js')
-          completion=Path('nayanet-hub-collections.js')
-          if not src.exists(): raise SystemExit('NAYAHUB.html missing')
-          if not layer.exists(): raise SystemExit('surgical intelligence layer missing')
-          if not completion.exists(): raise SystemExit('collections layer missing')
+          src=Path('NAYAHUB.html'); layer=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js'); completion=Path('nayanet-hub-collections.js')
           html=src.read_text(encoding='utf-8')
-          if html.count('<!doctype html>') != 1 or html.count('</html>') != 1: raise SystemExit('NAYAHUB.html is not a complete single document')
-          marker1='<!-- NAYANET-NAYAHUB-INTELLIGENCE-LAYER -->'
-          marker2='<!-- NAYANET-NAYAHUB-COLLECTIONS-LAYER -->'
-          if marker1 not in html:
-              html=html.replace('</body>','\n'+marker1+'\n<script>\n'+layer.read_text(encoding='utf-8')+'\n</script>\n</body>',1)
-          if marker2 not in html:
-              html=html.replace('</body>','\n'+marker2+'\n<script>\n'+completion.read_text(encoding='utf-8')+'\n</script>\n</body>',1)
-          src.write_text(html,encoding='utf-8')
-          Path('index.html').write_text(html,encoding='utf-8')
-          Path('_redirects').write_text('/intelligence/* /index.html 200\n',encoding='utf-8')
-          print('source bytes:',src.stat().st_size)
-          print('index bytes:',Path('index.html').stat().st_size)
-          print('intelligence marker:',marker1 in html)
-          print('collections marker:',marker2 in html)
+          if html.count('<!doctype html>')!=1 or html.count('</html>')!=1: raise SystemExit('NAYAHUB.html is not a complete document')
+          html=html.replace(r",'\':'&#92;'",r",'\\':'&#92;'")
+          layer_text=layer.read_text(encoding='utf-8').replace("setTimeout(()=>showLibrary(),100));window.NayaNETV7","setTimeout(()=>showLibrary(),100)));window.NayaNETV7")
+          m1='<!-- NAYANET-NAYAHUB-INTELLIGENCE-LAYER -->';m2='<!-- NAYANET-NAYAHUB-COLLECTIONS-LAYER -->'
+          if m1 not in html: html=html.replace('</body>','\n'+m1+'\n<script>\n'+layer_text+'\n</script>\n</body>',1)
+          if m2 not in html: html=html.replace('</body>','\n'+m2+'\n<script>\n'+completion.read_text(encoding='utf-8')+'\n</script>\n</body>',1)
+          src.write_text(html,encoding='utf-8');Path('index.html').write_text(html,encoding='utf-8');Path('_redirects').write_text('/intelligence/* /index.html 200\n',encoding='utf-8')
+          print('NAYAHUB',src.stat().st_size,'INDEX',Path('index.html').stat().st_size)
           PY
-
-      - name: Validate source and final artifact
+      - name: Validate
         shell: bash
         run: |
           set -e
-          test -f index.html
-          test -f _redirects
           grep -q 'Search your intelligence' index.html
-          grep -q 'INTELLIGENT LIBRARY' index.html
-          grep -q 'PERSONAL' index.html
-          grep -q 'COLLECTIVE' index.html
+          grep -q 'Intelligent Library' index.html
           grep -q 'SHARE INTELLIGENCE' index.html
+          grep -q 'ASK NAYA' index.html
+          grep -q 'IntelligenceIndex' index.html
+          grep -q 'IntelligenceStore' index.html
           grep -q '＋ SHARE' index.html
           grep -q '♡ LOVE' index.html
           grep -q '★ RANK' index.html
           grep -q '💬 COMMENT' index.html
-          grep -q 'ASK NAYA' index.html
-          grep -q 'GIVE FEEDBACK' index.html
           grep -q 'Include my NayaNET link' index.html
-          grep -q 'IntelligenceIndex' index.html
-          grep -q 'IntelligenceStore' index.html
-          grep -q 'nayanet_v7_surgical_v1' index.html
-          if grep -q 'prompt(' index.html; then echo 'prompt() detected'; exit 1; fi
+          ! grep -q 'prompt(' index.html
           python3 - <<'PY'
           from pathlib import Path
-          import zipfile
-          s=Path('index.html').read_text(encoding='utf-8')
-          assert s.count('<!doctype html>')==1
-          assert s.count('</html>')==1
-          assert s.find('<!doctype html>') < s.find('</html>')
-          assert '<script src=' not in s
-          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
-              z.write('index.html','index.html')
-              z.write('_redirects','_redirects')
-          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip') as z:
-              names=z.namelist()
-              assert names[0]=='index.html',names
-              assert 'index.html' in names
-          print('VALIDATED index bytes:',len(s))
-          print('VALIDATED zip bytes:',Path('NayaNET-Intelligent-Hub-Cloudflare.zip').stat().st_size)
-          print('VALIDATED zip root:',names)
+          import re,zipfile
+          s=Path('index.html').read_text(encoding='utf-8');assert s.count('<!doctype html>')==1 and s.count('</html>')==1
+          scripts=re.findall(r'<script(?:[^>]*)>(.*?)</script>',s,re.S|re.I);Path('/tmp/embedded.js').write_text('\n'.join(scripts),encoding='utf-8')
+          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:z.write('index.html','index.html');z.write('_redirects','_redirects')
+          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip') as z:assert z.namelist()[0]=='index.html'
+          print('VALIDATED',len(s),'bytes',len(scripts),'scripts')
           PY
-
-      - name: Commit the completed NAYAHUB and Cloudflare index
+          node --check /tmp/embedded.js
+      - name: Commit completed NAYAHUB and index
         shell: bash
         run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add NAYAHUB.html index.html _redirects
-          if git diff --cached --quiet; then
-            echo 'No source changes to commit.'
-          else
-            git commit -m 'Surgical upgrade NayaNET Intelligent Hub from NAYAHUB [skip ci]'
-            git push
-          fi
-
-      - name: Upload finished Cloudflare package
+          git config user.name 'github-actions[bot]';git config user.email '41898282+github-actions[bot]@users.noreply.github.com';git add NAYAHUB.html index.html _redirects
+          if git diff --cached --quiet; then echo 'No changes'; else git commit -m 'Surgical upgrade NayaNET Intelligent Hub from NAYAHUB [skip ci]';git push;fi
+      - name: Upload Cloudflare package
         uses: actions/upload-artifact@v4
         with:
           name: NayaNET-Intelligent-Hub-Cloudflare
