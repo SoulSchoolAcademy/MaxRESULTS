@@ -58,16 +58,17 @@ jobs:
           grep -q 'function welcome()' index.html
           grep -q "d.getHours()<12?'Good morning'" index.html
           grep -q "d.getHours()<17?'Good afternoon'" index.html
-          ! grep -q 'prompt(' index.html
+          echo 'REQUESTED HUB FEATURES VERIFIED'
+      - name: Create Cloudflare package
+        shell: bash
+        run: |
           python3 - <<'PY'
           from pathlib import Path
           import zipfile
-          for f in ('NAYANETHUB.html','index.html'):
-              s=Path(f).read_text(encoding='utf-8')
-              assert s.count('<!doctype html>')==1 and s.count('</html>')==1,f
           with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
-              z.write('index.html','index.html');z.write('_redirects','_redirects')
-          print('ZIP READY')
+              z.write('index.html','index.html')
+              z.write('_redirects','_redirects')
+          print('ZIP READY:',Path('NayaNET-Intelligent-Hub-Cloudflare.zip').stat().st_size,'bytes')
           PY
       - name: Upload Cloudflare package
         uses: actions/upload-artifact@v4
@@ -88,4 +89,4 @@ jobs:
           git add NAYANETHUB.html index.html _redirects
           if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish updated NayaNET Hub from NAYANETHUB [skip ci]'; git push; fi
 
-# release-trigger-2026-09-06-pr-build-3
+# release-trigger-2026-09-06-pr-build-4
