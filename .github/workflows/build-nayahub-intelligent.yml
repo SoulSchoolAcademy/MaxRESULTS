@@ -1,5 +1,7 @@
 name: Build NayaNET Intelligent Hub from NAYAHUB
 
+# Release execution: canonical source is NAYAHUB.html; Cloudflare package root is index.html.
+
 on:
   push:
     paths:
