@@ -1,8 +1,14 @@
 name: NayaNET Intelligent Hub Release Packager
-# Triggered canonical release-packager revision.
+# Canonical release packager: source is NAYAHUB.html; workflow changes and canonical Hub source changes both trigger packaging.
 on:
   push:
     paths:
+      - 'NAYAHUB.html'
+      - 'scripts/nayanet-hub-final-execution.js'
+      - 'CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js'
+      - 'nayanet-hub-collections.js'
+      - 'scripts/nayanet-hub-authority-correction.js'
+      - 'scripts/nayanet-hub-final-polish.js'
       - '.github/workflows/build-nayanet-hub-release.yml'
   workflow_dispatch:
 permissions:
