@@ -61,6 +61,58 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;back
 <style id="NAYA_V7_INTELLIGENT_BLOCK_DEMO_20260906">
 #naya-v7-intelligent-block-feed{margin-top:0}#naya-v7-intelligent-block-feed .surfaceHeader{align-items:center}.iblock{padding:22px 24px;border-bottom:1px solid var(--line);background:linear-gradient(145deg,#111118,#09090d)}.iblock:last-child{border-bottom:0}.iblockTop{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:11px}.iblockTop span{font-size:9px;font-weight:950;letter-spacing:.08em;color:#c8c3ce}.iblockTop b{font-size:8px;color:var(--emerald);letter-spacing:.12em}.iblock h3{font-size:18px;line-height:1.25;letter-spacing:-.035em;margin:0 0 16px}.iperspectives{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.ip{padding:13px;border:1px solid #ffffff15;border-radius:14px;background:#07070a;box-shadow:inset 0 1px #fff2,0 9px 20px #0007}.ip strong{display:block;font-size:8px;letter-spacing:.13em;margin-bottom:7px}.ip p{font-size:10px;line-height:1.55;color:#d4d0d9;margin:0}.ip.human{border-color:#55e39a35}.ip.human strong{color:#55e39a}.ip.naya{border-color:#55b9ee35}.ip.naya strong{color:#55b9ee}.ip.machine{border-color:#6675ff35}.ip.machine strong{color:#6675ff}.ip.feed{border-color:#b27cff35}.ip.feed strong{color:#b27cff}@media(max-width:700px){.iperspectives{grid-template-columns:1fr}.iblock{padding:19px 17px}}
 </style>
+<style id="NAYA_V7_CONTROL_STATE_POLISH_20260906">
+/* NAYA V7 CONTROL STATE POLISH — OFF = PURPLE PRESENCE, ON = EMERALD GO */
+:root{--v7-purple:#b27cff;--v7-purple-soft:#b27cff66;--v7-green:#55e39a;--v7-green-soft:#55e39a80;--v7-blue:#55b9ee;--v7-white:#f7f6f2}
+.btn,.featureButton,.filter,.noteTab,.mobileNav button,.hubAction,.hubSeg button,.hubRailButton,.ibf-brief,.mailTab,.mailAction,.actions .btn{position:relative;isolation:isolate}
+.btn,.hubAction,.hubRailButton,.ibf-brief,.mailAction,.actions .btn{border-color:var(--v7-purple-soft)!important;box-shadow:inset 0 1px #fff5,0 0 0 1px #b27cff18,0 0 28px #b27cff30,0 10px 26px #000a!important}
+.btn:hover,.hubAction:hover,.hubRailButton:hover,.ibf-brief:hover,.mailAction:hover,.actions .btn:hover{border-color:var(--v7-purple)!important;box-shadow:inset 0 1px #fff7,0 0 0 2px #b27cff22,0 0 42px #b27cff52,0 16px 34px #000b!important}
+.btn:active,.btn.active,.btn[aria-pressed="true"],.hubAction:active,.hubRailButton:active,.ibf-brief:active,.mailAction:active,.actions .btn:active{border-color:var(--v7-green)!important;background:linear-gradient(145deg,#163322,#0b1710)!important;color:#fff!important;box-shadow:inset 0 1px #dffff0,inset 0 0 22px #55e39a14,0 0 0 2px #55e39a24,0 0 42px #55e39a62,0 10px 28px #000b!important}
+.featureButton{border-color:#b27cff88!important;background:linear-gradient(145deg,#171022,#0b0910)!important;color:#fff!important;box-shadow:inset 0 1px #fff6,0 0 0 1px #b27cff18,0 0 34px #b27cff3d,0 12px 30px #000c!important}
+.featureButton:hover{border-color:#b27cff!important;background:linear-gradient(145deg,#241536,#100b18)!important;box-shadow:inset 0 1px #fff8,0 0 0 2px #b27cff25,0 0 48px #b27cff66,0 18px 38px #000d!important}
+.featureButton:active,.featureButton.active,[aria-pressed="true"].featureButton{border-color:var(--v7-green)!important;background:linear-gradient(145deg,#163b28,#0b1710)!important;box-shadow:inset 0 1px #eafff2,0 0 0 2px #55e39a2b,0 0 52px #55e39a70,0 10px 24px #000d!important}
+.nav button{border-color:#b27cff30!important;box-shadow:0 0 18px #b27cff12!important}
+.nav button:hover{border-color:#b27cff88!important;box-shadow:inset 0 1px #fff5,0 0 30px #b27cff30,0 12px 25px #0008!important}
+.nav button.active{border-color:var(--v7-green)!important;background:linear-gradient(145deg,#11251a,#0b0f0d)!important;box-shadow:inset 0 1px #fff7,0 0 0 2px #55e39a18,0 0 32px #55e39a45,0 15px 32px #000a!important}
+.nav button.active:after{background:var(--v7-green)!important;box-shadow:0 0 18px var(--v7-green),0 0 38px #55e39a88!important}
+.filter,.noteTab{border-color:#b27cff42!important;box-shadow:0 0 18px #b27cff18!important}
+.filter:hover,.noteTab:hover{border-color:#b27cff!important;box-shadow:0 0 28px #b27cff38!important}
+.filter.active,.noteTab.active{background:linear-gradient(145deg,#173b29,#0d1912)!important;color:#fff!important;border-color:var(--v7-green)!important;box-shadow:0 0 0 2px #55e39a1e,0 0 32px #55e39a55!important}
+.mobileNav{border-color:#b27cff50!important;box-shadow:0 0 34px #b27cff1e,0 20px 60px #000e!important}
+.mobileNav button{border:1px solid #b27cff28!important}
+.mobileNav button.active{background:linear-gradient(145deg,#173b29,#0b1710)!important;color:#fff!important;border-color:var(--v7-green)!important;box-shadow:0 0 0 2px #55e39a1b,0 0 28px #55e39a4d!important}
+.mobileNav button.active:after{background:var(--v7-green)!important;box-shadow:0 0 14px var(--v7-green)!important}
+.search,.compose textarea,.mailCompose input,.mailCompose textarea{border-color:#b27cff38!important;box-shadow:inset 0 1px #fff3,0 0 20px #b27cff12,0 10px 25px #0008!important}
+.search:focus,.compose textarea:focus,.mailCompose input:focus,.mailCompose textarea:focus{border-color:var(--v7-green)!important;box-shadow:inset 0 1px #fff5,0 0 0 2px #55e39a18,0 0 30px #55e39a32!important}
+@media(max-width:900px){
+  html,body{max-width:100%;overflow-x:hidden}
+  .main{width:100%;min-width:0;padding-left:14px;padding-right:14px;padding-bottom:105px}
+  .topbar{padding:0 2px}
+  .topright{min-width:0}.connectionPill{max-width:48px;overflow:hidden}
+  .heroState,.surface,.sourceBox,.featureBoard,.card,.noteCard,.mailSurface,.reportStrip{max-width:100%;min-width:0}
+  .featureButton,.btn{min-height:50px}
+  .stateActions,.controls,.composeRow,.actions{align-items:stretch}
+  .stateActions .btn,.controls .btn{flex:1 1 180px}
+  .feedRow{min-width:0}.feedRow p,.feedRow b{overflow-wrap:anywhere}
+  .homeIntro h1,.pageHead h1{overflow-wrap:anywhere}
+  .servicePath{width:100%}
+}
+@media(max-width:520px){
+  .main{padding-left:10px;padding-right:10px}
+  .topbar{height:62px}
+  .crumb strong{font-size:15px}
+  .avatar{width:38px;height:38px}
+  .homeIntro h1{font-size:42px}
+  .stateCopy{padding:22px 18px 20px}.stateCopy h2{font-size:28px}
+  .featureBoard{padding:22px 16px 17px}.featureBoard h3{font-size:24px}
+  .powerOrb{width:132px;height:132px}.orbCore{width:66px;height:66px}
+  .surfaceHeader{padding:18px 15px}.feedRow{grid-template-columns:45px 12px minmax(0,1fr);gap:9px;padding:15px 13px}
+  .reportStrip{padding:20px 17px}.reportStrip h2{font-size:22px}
+  .btn{padding-left:14px;padding-right:14px}
+  .mobileNav{left:7px;right:7px;bottom:7px;height:64px}
+}
+@media(prefers-reduced-motion:reduce){.btn,.featureButton,.filter,.noteTab,.mobileNav button,.hubAction,.hubRailButton,.ibf-brief{transition:none!important}}
+</style>
 </head>
 <body>
 <div class="app">
