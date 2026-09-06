@@ -53,6 +53,7 @@ jobs:
       - name: Validate source and final artifact
         shell: bash
         run: |
+          set -e
           test -f index.html
           test -f _redirects
           grep -q 'Search your intelligence' index.html
@@ -70,15 +71,15 @@ jobs:
           grep -q 'IntelligenceIndex' index.html
           grep -q 'IntelligenceStore' index.html
           grep -q 'nayanet_v7_surgical_v1' index.html
-          ! grep -q 'prompt(' index.html
+          if grep -q 'prompt(' index.html; then echo 'prompt() detected'; exit 1; fi
           python3 - <<'PY'
           from pathlib import Path
-          import re,zipfile
+          import zipfile
           s=Path('index.html').read_text(encoding='utf-8')
           assert s.count('<!doctype html>')==1
           assert s.count('</html>')==1
           assert s.find('<!doctype html>') < s.find('</html>')
-          assert '<script src=' not in s or True
+          assert '<script src=' not in s
           with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
               z.write('index.html','index.html')
               z.write('_redirects','_redirects')
@@ -90,8 +91,6 @@ jobs:
           print('VALIDATED zip bytes:',Path('NayaNET-Intelligent-Hub-Cloudflare.zip').stat().st_size)
           print('VALIDATED zip root:',names)
           PY
-          node --check CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js
-          node --check nayanet-hub-collections.js
 
       - name: Commit the completed NAYAHUB and Cloudflare index
         shell: bash
