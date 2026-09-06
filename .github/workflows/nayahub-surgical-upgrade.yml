@@ -1,0 +1,72 @@
+name: NayaHub Surgical Upgrade
+on:
+  push:
+    paths:
+      - '.github/workflows/nayahub-surgical-upgrade.yml'
+permissions:
+  contents: write
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Surgical upgrade NAYAHUB.html
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('NAYAHUB.html')
+          s=p.read_text(encoding='utf-8')
+          css=r'''<style id="nayanet-surgical-menu-style">
+          .nayanet-ecosystem-bar{position:sticky;top:74px;z-index:14;display:flex;align-items:center;gap:7px;padding:10px 0;border-bottom:1px solid #ffffff12;background:#050507ed;backdrop-filter:blur(24px);overflow-x:auto;scrollbar-width:none}
+          .nayanet-ecosystem-bar::-webkit-scrollbar,.nayanet-feature-bar::-webkit-scrollbar{display:none}
+          .nayanet-ecosystem-bar a,.nayanet-feature-bar a{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 13px;border:1px solid #ffffff20;border-radius:12px;background:linear-gradient(145deg,#121219,#08080c);color:#fff;text-decoration:none;font-size:8px;font-weight:1000;letter-spacing:.07em;box-shadow:inset 0 1px #fff3,0 8px 18px #0008;transition:.2s var(--ease);white-space:nowrap}
+          .nayanet-ecosystem-bar a:hover,.nayanet-feature-bar a:hover{transform:translateY(-2px);border-color:#d86cff70;box-shadow:inset 0 1px #fff5,0 13px 26px #000a,0 0 20px #d86cff12}
+          .nayanet-ecosystem-bar a:nth-child(2),.nayanet-ecosystem-bar a:nth-child(3){border-color:#55b9ee55}.nayanet-ecosystem-bar a:nth-child(4){border-color:#55e39a55}.nayanet-ecosystem-bar a:nth-child(5){border-color:#d86cff55}.nayanet-ecosystem-bar a:nth-child(6),.nayanet-ecosystem-bar a:nth-child(7){border-color:#e8c76655}
+          .nayanet-feature-bar{position:fixed;left:250px;right:0;bottom:0;z-index:45;display:flex;align-items:center;gap:8px;padding:10px 18px;border-top:1px solid #ffffff20;background:#08080ced;backdrop-filter:blur(28px);box-shadow:0 -18px 45px #000b;overflow-x:auto;scrollbar-width:none}
+          .nayanet-feature-label{flex:0 0 auto;color:#e8c766;font-size:8px;font-weight:1000;letter-spacing:.15em;margin-right:2px}.nayanet-feature-bar a{min-height:42px;border-color:#e8c76638}.nayanet-feature-bar a.pdf{gap:8px}.nayanet-feature-bar .pdf-icon{font-size:15px;line-height:1}
+          @media(max-width:900px){.nayanet-ecosystem-bar{top:64px}.nayanet-feature-bar{left:0;bottom:72px;padding:9px 10px}.nayanet-feature-label{font-size:7px}.nayanet-feature-bar a{min-height:40px;padding:0 11px}.main{padding-bottom:150px}}
+          </style>'''
+          if 'id="nayanet-surgical-menu-style"' not in s:
+              s=s.replace('</style></head>', '</style>'+css+'</head>', 1)
+          menu=r'''<nav class="nayanet-ecosystem-bar" aria-label="NayaNET ecosystem">
+          <a href="https://hmclibrary.groovemember.net/home">HOME</a>
+          <a href="https://academy.nayanet.app/">NAYA POWER</a>
+          <a href="https://academy.nayanet.app/">“5” DAY CHALLENGE</a>
+          <a href="https://humanmaximuscodex.groovesell.com/checkout/08fba2cbd6488ef4d2cc82b52d361dab">ENTER FREE</a>
+          <a href="https://nayanet.groovepages.com/powerplayer">POWERCASTS</a>
+          <a href="https://nayanet.groovepages.com/whitepaper">WHITE PAPER</a>
+          <a href="https://nayanet.groovepages.com/aboutus">ABOUT US</a>
+          <a href="https://hmclibrary.groovemember.net/login">HMC LOGIN</a>
+          </nav>'''
+          marker='<section class="page active" id="page-home">'
+          if 'class="nayanet-ecosystem-bar"' not in s:
+              s=s.replace(marker, menu+marker, 1)
+          footer=r'''<nav class="nayanet-feature-bar" aria-label="Feature reports">
+          <span class="nayanet-feature-label">FEATURE REPORTS:</span>
+          <a class="pdf" target="_blank" rel="noopener" href="https://drive.google.com/file/d/19sRtp22aAn35wNoqqpNiZHkaFGmUOxoP/view?usp=sharing"><span class="pdf-icon">📄</span>SMART NOTES</a>
+          <a class="pdf" target="_blank" rel="noopener" href="https://drive.google.com/file/d/1LgRmYAQ85AB6mmu6Qp2ovghyd1lP-FNh/view?usp=sharing"><span class="pdf-icon">📄</span>NO DEAD ENDS</a>
+          <a class="pdf" target="_blank" rel="noopener" href="https://drive.google.com/file/d/1N-XzV3_RCTHuLdp4leZNlOo7ITFwrICR/view?usp=sharing"><span class="pdf-icon">📄</span>CONTEXT LAW</a>
+          <a class="pdf" target="_blank" rel="noopener" href="https://drive.google.com/file/d/1F9M66i5Av_oJcIa5dve-U0mMeAgYKczT/view?usp=sharing"><span class="pdf-icon">📄</span>“10” STAR SERVICE</a>
+          <a class="pdf" target="_blank" rel="noopener" href="https://drive.google.com/file/d/1dcViGUqV7GKnNBCYybbAEEKuOoZw3-XC/view?usp=sharing"><span class="pdf-icon">📄</span>ADAPTIVE LEARNING</a>
+          </nav>'''
+          if 'class="nayanet-feature-bar"' not in s:
+              s=s.replace('<script>', footer+'<script>', 1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Remove accidental tmp file
+        run: rm -f tmp
+      - name: Commit upgrade
+        run: |
+          git config user.name 'NayaNET Upgrade Bot'
+          git config user.email 'nayanet-upgrade-bot@users.noreply.github.com'
+          git add NAYAHUB.html tmp .github/workflows/nayahub-surgical-upgrade.yml
+          git commit -m 'Surgical NayaHub menu and feature report bars' || true
+          git push
+      - name: Package Hub
+        run: zip -j NAYAHUB-V7-SURGICAL-UPGRADE.zip NAYAHUB.html
+      - name: Upload Hub ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NAYAHUB-V7-SURGICAL-UPGRADE
+          path: NAYAHUB-V7-SURGICAL-UPGRADE.zip
+          retention-days: 30
