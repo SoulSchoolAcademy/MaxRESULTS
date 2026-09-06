@@ -1,6 +1,6 @@
 name: One-shot NAYAHUB navigation correction
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize]
     paths:
       - 'NAYAHUB.html'
@@ -9,72 +9,38 @@ permissions:
   contents: write
 jobs:
   patch:
-    if: ${{ !startsWith(github.event.pull_request.head_commit.message, 'chore(hub): apply ecosystem navigation') }}
+    if: ${{ !startsWith(github.event.pull_request.head.sha, 'chore(hub):') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
       - name: Patch NAYAHUB.html and revert accidental E02 edit
         shell: python
         run: |
           from pathlib import Path
           import subprocess
-
-          # Undo only the accidental E02 commit made by the prior mistaken target.
-          subprocess.run(['git', 'revert', '--no-edit', 'abf91a68a9347ac25276fc3a254e535164548444'], check=True)
-
-          p = Path('NAYAHUB.html')
-          s = p.read_text(encoding='utf-8')
-          css = r'''
-<style id="naya-ecosystem-nav-v1">
+          subprocess.run(['git','revert','--no-edit','abf91a68a9347ac25276fc3a254e535164548444'],check=True)
+          p=Path('NAYAHUB.html'); s=p.read_text(encoding='utf-8')
+          css=r'''<style id="naya-ecosystem-nav-v1">
 .naya-ecosystem-topbar{position:sticky;top:0;z-index:9999;display:flex;align-items:center;gap:10px;padding:12px 16px;overflow-x:auto;scrollbar-width:none;background:rgba(5,5,7,.94);border-bottom:1px solid rgba(216,108,255,.28);backdrop-filter:blur(18px);box-shadow:0 10px 30px rgba(0,0,0,.42),0 10px 34px rgba(216,108,255,.13)}
 .naya-ecosystem-topbar::-webkit-scrollbar{display:none}
-.naya-ecosystem-topbar a,.naya-reminders-link{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 17px;border:1px solid rgba(255,255,255,.16);border-radius:13px;background:#050507;color:#fff!important;text-decoration:none;font:800 12px/1 Inter,ui-sans-serif,system-ui,sans-serif;letter-spacing:.055em;white-space:nowrap;overflow:visible;box-shadow:0 7px 0 rgba(0,0,0,.55),0 12px 25px rgba(0,0,0,.42),0 8px 26px rgba(216,108,255,.28),inset 0 1px 0 rgba(255,255,255,.13);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease}
+.naya-ecosystem-topbar a,.naya-reminders-link{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 17px;border:1px solid rgba(255,255,255,.16);border-radius:13px;background:#050507;color:#fff!important;text-decoration:none;font:800 12px/1 Inter,ui-sans-serif,system-ui,sans-serif;letter-spacing:.055em;white-space:nowrap;box-shadow:0 7px 0 rgba(0,0,0,.55),0 12px 25px rgba(0,0,0,.42),0 8px 26px rgba(216,108,255,.28),inset 0 1px 0 rgba(255,255,255,.13);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
 .naya-ecosystem-topbar a:before,.naya-reminders-link:before{content:"";position:absolute;left:10%;right:10%;bottom:-8px;height:13px;border-radius:50%;background:rgba(216,108,255,.9);filter:blur(9px);opacity:.72;z-index:-1;transition:all .18s ease}
 .naya-ecosystem-topbar a:hover,.naya-reminders-link:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.62);box-shadow:0 9px 0 rgba(0,0,0,.62),0 17px 30px rgba(0,0,0,.46),0 10px 34px rgba(216,108,255,.52),inset 0 1px 0 rgba(255,255,255,.22)}
-.naya-ecosystem-topbar a:hover:before,.naya-reminders-link:hover:before{bottom:-10px;height:16px;opacity:1;filter:blur(10px)}
 .naya-ecosystem-topbar a:active,.naya-ecosystem-topbar a.naya-nav-go,.naya-reminders-link:active{transform:translateY(2px);background:#050507;border-color:rgba(110,255,168,.8);box-shadow:0 2px 0 rgba(0,0,0,.7),0 5px 20px rgba(0,0,0,.5),0 8px 30px rgba(85,227,156,.62),inset 0 0 0 1px rgba(85,227,156,.22)}
 .naya-ecosystem-topbar a:active:before,.naya-ecosystem-topbar a.naya-nav-go:before,.naya-reminders-link:active:before{background:rgba(85,227,156,.98);opacity:1;bottom:-9px;filter:blur(9px)}
 .naya-reminders-link{position:fixed;left:14px;top:150px;z-index:9998;min-width:118px;padding:0 15px}
 @media(max-width:900px){.naya-ecosystem-topbar{padding:10px}.naya-ecosystem-topbar a{min-height:44px;padding:0 14px}.naya-reminders-link{left:9px;top:auto;bottom:14px}}
-</style>
-'''
-          js = r'''
-<script id="naya-ecosystem-nav-v1-js">
-(()=>{
- const links=[
-  ['Home','https://hmclibrary.groovemember.net/home'],
-  ['Naya Power','https://humanmaximuscodex.groovesell.com/checkout/08fba2cbd6488ef4d2cc82b52d361dab'],
-  ['NayaNET Academy','https://academy.nayanet.app/'],
-  ['Naya Power Player','https://nayanet.groovepages.com/powerplayer'],
-  ['About Us','https://nayanet.groovepages.com/aboutus'],
-  ['White Paper','https://nayanet.groovepages.com/aboutus'],
-  ['FREE TRAIL','https://humanmaximuscodex.groovesell.com/checkout/08fba2cbd6488ef4d2cc82b52d361dab'],
-  ['Academy Login','https://hmclibrary.groovemember.net/login']
- ];
- const mount=()=>{
-  if(document.getElementById('naya-ecosystem-topbar')) return;
-  const bar=document.createElement('nav'); bar.id='naya-ecosystem-topbar'; bar.className='naya-ecosystem-topbar'; bar.setAttribute('aria-label','NayaNET ecosystem');
-  links.forEach(([label,url])=>{const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=label;a.addEventListener('click',()=>{a.classList.add('naya-nav-go');setTimeout(()=>a.classList.remove('naya-nav-go'),700)});bar.appendChild(a)});
-  document.body.insertBefore(bar,document.body.firstChild);
-  const r=document.createElement('a'); r.id='naya-reminders-link'; r.className='naya-reminders-link'; r.href='#'; r.textContent='Reminders'; r.addEventListener('click',e=>{e.preventDefault(); const t=document.querySelector('#reminders,[data-world="reminders"],#deepIntelligence,.deep-intelligence'); if(t)t.scrollIntoView({behavior:'smooth',block:'center'}); else window.dispatchEvent(new CustomEvent('naya:reminders-open'));}); document.body.appendChild(r);
- };
- if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',mount,{once:true}); else mount();
-})();
-</script>
-'''
-          if 'id="naya-ecosystem-nav-v1"' not in s:
-              s=s.replace('</head>',css+'\n</head>',1)
-          if 'id="naya-ecosystem-nav-v1-js"' not in s:
-              s=s.replace('</body>',js+'\n</body>',1)
+</style>'''
+          js=r'''<script id="naya-ecosystem-nav-v1-js">(()=>{const links=[['Home','https://hmclibrary.groovemember.net/home'],['Naya Power','https://humanmaximuscodex.groovesell.com/checkout/08fba2cbd6488ef4d2cc82b52d361dab'],['NayaNET Academy','https://academy.nayanet.app/'],['Naya Power Player','https://nayanet.groovepages.com/powerplayer'],['About Us','https://nayanet.groovepages.com/aboutus'],['White Paper','https://nayanet.groovepages.com/aboutus'],['FREE TRAIL','https://humanmaximuscodex.groovesell.com/checkout/08fba2cbd6488ef4d2cc82b52d361dab'],['Academy Login','https://hmclibrary.groovemember.net/login']];const mount=()=>{if(document.getElementById('naya-ecosystem-topbar'))return;const bar=document.createElement('nav');bar.id='naya-ecosystem-topbar';bar.className='naya-ecosystem-topbar';bar.setAttribute('aria-label','NayaNET ecosystem');links.forEach(([label,url])=>{const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=label;a.addEventListener('click',()=>{a.classList.add('naya-nav-go');setTimeout(()=>a.classList.remove('naya-nav-go'),700)});bar.appendChild(a)});document.body.insertBefore(bar,document.body.firstChild);const r=document.createElement('a');r.id='naya-reminders-link';r.className='naya-reminders-link';r.href='#';r.textContent='Reminders';r.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector('#reminders,[data-world="reminders"],#deepIntelligence,.deep-intelligence');if(t)t.scrollIntoView({behavior:'smooth',block:'center'});else window.dispatchEvent(new CustomEvent('naya:reminders-open'))});document.body.appendChild(r)};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount()})();</script>'''
+          if 'naya-ecosystem-nav-v1' not in s:s=s.replace('</head>',css+'\n</head>',1)
+          if 'naya-ecosystem-nav-v1-js' not in s:s=s.replace('</body>',js+'\n</body>',1)
           p.write_text(s,encoding='utf-8')
-
-      - name: Commit corrected Hub
-        run: |
-          git config user.name 'NayaNET Automation'
-          git config user.email 'actions@users.noreply.github.com'
-          git add NAYAHUB.html NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/nayanet-component-physics.js
-          git commit -m 'chore(hub): apply ecosystem navigation and restore E02 source' || exit 0
-          git push origin HEAD:${{ github.head_ref }}
+          subprocess.run(['git','config','user.name','NayaNET Automation'],check=True)
+          subprocess.run(['git','config','user.email','actions@users.noreply.github.com'],check=True)
+          subprocess.run(['git','add','NAYAHUB.html','NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE/nayanet-component-physics.js'],check=True)
+          subprocess.run(['git','commit','-m','chore(hub): apply ecosystem navigation and restore E02 source'],check=True)
+          subprocess.run(['git','push','origin',f'HEAD:{Path("GITHUB_HEAD_REF").read_text().strip() if Path("GITHUB_HEAD_REF").exists() else "fix/nayahub-ecosystem-nav"}'],check=True)
