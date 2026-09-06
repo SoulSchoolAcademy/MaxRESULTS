@@ -1,5 +1,6 @@
 /* NayaNET Intelligent Hub — final execution layer.
    Surgical only: dynamic welcome identity, daily briefing, and consent-first collective interactions.
+   Release trigger: canonical Hub packaging now watches this layer and NAYAHUB.html.
 */
 (()=>{'use strict';
 const Q=(s,r=document)=>r.querySelector(s),QA=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -13,7 +14,7 @@ const notes=()=>{try{return JSON.parse(localStorage.getItem(NOTE_KEY)||'[]')}cat
 function identity(){
   const incoming=(new URLSearchParams(location.search).get('name')||localStorage.getItem('nayanet_smart_name')||'').trim();
   if(incoming)localStorage.setItem('nayanet_smart_name',incoming);
-  const safe=incoming.replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]||c));
+  const safe=incoming.replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;', '\"':'&quot;',"'":'&#39;'}[c]||c));
   const now=new Date(),h=now.getHours(),g=h<12?'Good morning':h<18?'Good afternoon':'Good evening';
   const locale=navigator.language||'en-CA',tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
   const time=new Intl.DateTimeFormat(locale,{hour:'numeric',minute:'2-digit'}).format(now);
