@@ -1,4 +1,5 @@
 name: NayaNET Intelligent Hub Release Packager
+# Triggered canonical release-packager revision.
 on:
   push:
     paths:
@@ -20,7 +21,7 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import zipfile,re
+          import zipfile
           src=Path('NAYAHUB.html')
           html=src.read_text(encoding='utf-8')
           assert html.count('<!doctype html>')==1 and html.count('</html>')==1
@@ -31,15 +32,14 @@ jobs:
             ('NAYANET-CANONICAL-HUB-FINAL-POLISH-V1','scripts/nayanet-hub-final-polish.js','nayanet-canonical-hub-final-polish'),
             ('NAYANET-HUB-FINAL-EXECUTION-V1','scripts/nayanet-hub-final-execution.js','nayanet-hub-final-execution')]
           for marker,path,sid in layer_specs:
-              p=Path(path); body=p.read_text(encoding='utf-8')
+              body=Path(path).read_text(encoding='utf-8')
               if marker not in html:
                   html=html.replace('</body>',f'\n<!-- {marker} -->\n<script id="{sid}">\n{body}\n</script>\n</body>',1)
           Path('index.html').write_text(html,encoding='utf-8')
           assert len(html)>100000
-          checks=['Your Intelligence Today','SMART NOTES','Intelligent Library','DAILY INTELLIGENCE BRIEFING','SHARE TO COLLECTIVE','SAVE TO MY INTELLIGENCE','NAYANET-HUB-FINAL-EXECUTION-V1']
-          for x in checks: assert x in html,x
+          for x in ['Your Intelligence Today','SMART NOTES','Intelligent Library','DAILY INTELLIGENCE BRIEFING','SHARE TO COLLECTIVE','SAVE TO MY INTELLIGENCE','NAYANET-HUB-FINAL-EXECUTION-V1']:
+              assert x in html,x
           assert 'prompt(' not in html
-          assert html.count('<!doctype html>')==1 and html.count('</html>')==1
           Path('_redirects').write_text('/intelligence/* /index.html 200\n',encoding='utf-8')
           with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
               z.write('index.html','index.html'); z.write('_redirects','_redirects')
