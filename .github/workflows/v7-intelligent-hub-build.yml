@@ -7,7 +7,9 @@ on:
       - 'scripts/v7-intelligent-upgrade.js'
       - 'scripts/v7-intelligent-hub-refinement.js'
       - 'scripts/v7-intelligent-feed-excellence.js'
+      - 'scripts/nayanet-hub-authority-correction.js'
       - '.github/workflows/v7-intelligent-hub-build.yml'
+      - 'NAYAHUB.html'
 
 permissions:
   contents: write
@@ -16,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout exact source
+      - name: Checkout exact canonical source
         uses: actions/checkout@v4
 
       - name: Validate upgrade JavaScript
@@ -24,8 +26,9 @@ jobs:
           node --check scripts/v7-intelligent-upgrade.js
           node --check scripts/v7-intelligent-hub-refinement.js
           node --check scripts/v7-intelligent-feed-excellence.js
+          node --check scripts/nayanet-hub-authority-correction.js
 
-      - name: Apply surgical upgrade layers to NAYAHUB.html
+      - name: Apply surgical upgrade layers to canonical NAYAHUB.html
         shell: python
         run: |
           from pathlib import Path
@@ -35,6 +38,7 @@ jobs:
               ('NAYANET-V7-INTELLIGENT-UPGRADE-V2', 'nayanet-v7-intelligent-upgrade', Path('scripts/v7-intelligent-upgrade.js')),
               ('NAYANET-V7-INTELLIGENT-HUB-REFINEMENT-V1', 'nayanet-v7-intelligent-hub-refinement', Path('scripts/v7-intelligent-hub-refinement.js')),
               ('NAYANET-V7-INTELLIGENT-FEED-EXCELLENCE-V1', 'nayanet-v7-intelligent-feed-excellence', Path('scripts/v7-intelligent-feed-excellence.js')),
+              ('NAYANET-CANONICAL-HUB-AUTHORITY-V1', 'nayanet-canonical-hub-authority', Path('scripts/nayanet-hub-authority-correction.js')),
           ]
           for marker, script_id, patch_path in layers:
               patch = patch_path.read_text(encoding='utf-8')
@@ -51,20 +55,38 @@ jobs:
           p.write_text(html, encoding='utf-8')
           Path('index.html').write_text(html, encoding='utf-8')
 
-      - name: Validate HTML artifact markers
+      - name: Validate canonical Hub artifact
         run: |
+          test -f NAYAHUB.html
           test -f index.html
-          grep -q 'YOUR INTELLIGENCE TODAY' index.html
-          grep -q 'NAYANET-V7-INTELLIGENT-UPGRADE-V2' index.html
-          grep -q 'NAYANET-V7-INTELLIGENT-HUB-REFINEMENT-V1' index.html
-          grep -q 'NAYANET-V7-INTELLIGENT-FEED-EXCELLENCE-V1' index.html
+          grep -q 'NAYANET-CANONICAL-HUB-AUTHORITY-V1' index.html
           grep -q 'TYPE OR TALK TO NAYA' index.html
-          grep -q 'Naya Lists' index.html
           grep -q 'SMART NOTES' index.html
           grep -q '＋ SHARE' index.html
           grep -q '★ RANK' index.html
           grep -q '💬 COMMENT' index.html
           grep -q '🔖 SAVE' index.html
+          grep -q 'Your Intelligence Today' index.html
+          grep -q 'Intelligence Report' index.html
+
+      - name: Package Cloudflare-ready ZIP
+        run: |
+          rm -rf release
+          mkdir -p release
+          cp index.html release/index.html
+          cd release
+          zip -9 ../NayaNET-Intelligent-Hub.zip index.html
+          cd ..
+          test -f NayaNET-Intelligent-Hub.zip
+          unzip -l NayaNET-Intelligent-Hub.zip
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NayaNET-Intelligent-Hub
+          path: NayaNET-Intelligent-Hub.zip
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Commit surgical upgrade and release artifact
         run: |
@@ -72,8 +94,8 @@ jobs:
           git config user.email 'actions@nayanet.xyz'
           git add NAYAHUB.html index.html
           if git diff --cached --quiet; then
-            echo 'No changes to commit.'
+            echo 'No source changes to commit.'
           else
-            git commit -m 'Elevate V7 Intelligent Feed to premium Smart Posts'
+            git commit -m 'Correct canonical Hub architecture and package Cloudflare release'
             git push
           fi
