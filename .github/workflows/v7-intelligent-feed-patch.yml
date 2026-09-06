@@ -1,0 +1,154 @@
+name: V7 Intelligent Block Feed Patch
+
+on:
+  push:
+    paths:
+      - '.github/workflows/v7-intelligent-feed-patch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Apply surgical V7 feed enhancement
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('CLOUDFLARE-INTELLIGENT-HUB-V7/index.html')
+          text = path.read_text(encoding='utf-8')
+          marker = 'NAYA_V7_INTELLIGENT_BLOCK_FEED_V1'
+          if marker in text:
+              print('Patch already present; nothing to do.')
+              raise SystemExit(0)
+
+          if '</body>' not in text:
+              raise SystemExit('V7 index.html has no closing body tag; refusing to patch.')
+
+          patch = r'''<!-- NAYA_V7_INTELLIGENT_BLOCK_FEED_V1 -->
+          <style>
+          .ibf-shell{margin-top:24px}
+          .ibf-head{padding:24px 26px 20px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line)}
+          .ibf-kicker{font-size:9px;font-weight:950;letter-spacing:.18em;color:#bdb9c5;margin-bottom:7px}
+          .ibf-head h2{margin:0;font-size:28px;line-height:1;letter-spacing:-.05em}
+          .ibf-head p{margin:7px 0 0;color:#ded9e3;font-size:12px;line-height:1.5;max-width:680px}
+          .ibf-brief{min-height:48px;padding:0 15px;border:1px solid #55b9ee55;border-radius:15px;background:linear-gradient(145deg,#111923,#090b10);font-size:10px;font-weight:950;letter-spacing:.06em;box-shadow:inset 0 1px #fff4,0 10px 24px #0009;transition:.16s var(--ease);white-space:nowrap}
+          .ibf-brief:hover{transform:translateY(-3px);border-color:#55b9ee95;box-shadow:inset 0 1px #fff5,0 15px 30px #000b,0 0 28px #55b9ee18}
+          .ibf-list{padding:4px 0}
+          .ibf-block{position:relative;padding:0 24px;border-bottom:1px solid var(--line);background:linear-gradient(145deg,#111117,#09090d);transition:.18s var(--ease)}
+          .ibf-block:hover{background:linear-gradient(145deg,#15141c,#0a0a0f)}
+          .ibf-main{display:grid;grid-template-columns:72px 18px minmax(0,1fr) auto;gap:14px;align-items:start;padding:20px 0;cursor:pointer}
+          .ibf-time{font-size:10px;font-weight:950;color:#e8e4ec;padding-top:3px;white-space:nowrap}
+          .ibf-rail{position:relative;display:flex;justify-content:center;padding-top:3px;min-height:42px}
+          .ibf-rail:after{content:"";position:absolute;top:17px;bottom:-25px;width:1px;background:linear-gradient(var(--tone,#55e39a),#ffffff08)}
+          .ibf-node{position:relative;z-index:1;width:12px;height:12px;border-radius:50%;background:var(--tone,#55e39a);box-shadow:0 0 16px var(--tone,#55e39a)}
+          .ibf-block:last-child .ibf-rail:after{display:none}
+          .ibf-subject{min-width:0}
+          .ibf-subject b{display:block;font-size:15px;line-height:1.35;letter-spacing:-.01em}
+          .ibf-subject p{margin:5px 0 0;color:#d5d1da;font-size:12px;line-height:1.55;max-width:780px}
+          .ibf-badge{align-self:start;margin-top:1px;padding:7px 9px;border:1px solid #ffffff18;border-radius:10px;color:#aaa6b2;font-size:8px;font-weight:950;letter-spacing:.12em;white-space:nowrap;background:#09090d;box-shadow:inset 0 1px #fff2}
+          .ibf-chevron{font-size:16px;color:#aaa6b2;transition:.18s var(--ease);padding-top:0}
+          .ibf-block.open .ibf-chevron{transform:rotate(180deg);color:#fff}
+          .ibf-detail{display:none;padding:0 0 22px 104px}
+          .ibf-block.open .ibf-detail{display:block;animation:ibfin .22s var(--ease)}
+          @keyframes ibfin{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+          .ibf-perspectives{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+          .ibf-perspective{min-width:0;border:1px solid #ffffff18;border-radius:16px;background:linear-gradient(145deg,#15151c,#09090d);box-shadow:inset 0 1px #fff3,0 12px 25px #0008;padding:15px 16px}
+          .ibf-perspective .label{font-size:8px;font-weight:950;letter-spacing:.15em;color:#bdb9c5;margin-bottom:8px}
+          .ibf-perspective .value{font-size:11px;line-height:1.6;color:#e8e4ec;white-space:pre-wrap}
+          .ibf-perspective.human{border-color:#55e39a30}.ibf-perspective.naya{border-color:#b27cff30}.ibf-perspective.machine{border-color:#55b9ee30}.ibf-perspective.feed{border-color:#6675ff30}
+          .ibf-empty{padding:34px 26px;text-align:center;color:#c9c5ce}
+          .ibf-empty b{display:block;color:#fff;font-size:15px;margin-bottom:6px}.ibf-empty span{font-size:11px;line-height:1.55}
+          .ibf-source{margin-top:12px;padding:10px 12px;border:1px solid #ffffff12;border-radius:12px;color:#96919d;font-size:9px;line-height:1.45;background:#08080b}
+          @media(max-width:900px){.ibf-head{align-items:flex-start;flex-direction:column}.ibf-brief{width:100%}.ibf-main{grid-template-columns:58px 14px minmax(0,1fr) 18px;gap:10px}.ibf-badge{display:none}.ibf-detail{padding-left:82px}.ibf-perspectives{grid-template-columns:1fr}}
+          </style>
+          <script>
+          (() => {
+            const KEY='naya_v7_intelligent_feed_v1';
+            const ACTIVATED='naya_v7_activation_seen_v1';
+            const q=(s,r=document)=>r.querySelector(s);
+            const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
+            const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+            const clean=v=>String(v??'').replace(/\s+/g,' ').trim();
+            const first=(o,keys)=>{for(const k of keys){if(o&&o[k]!=null&&clean(o[k]))return o[k]}return ''};
+            const parseDate=v=>{if(!v)return 0; const n=Number(v); if(Number.isFinite(n)&&n>1000000000)return n; const d=Date.parse(v); return Number.isFinite(d)?d:0};
+            const timeOf=v=>{const n=parseDate(v); if(!n)return '—'; return new Intl.DateTimeFormat(undefined,{hour:'numeric',minute:'2-digit'}).format(new Date(n))};
+            const normalize=o=>{
+              if(!o||typeof o!=='object')return null;
+              const subject=first(o,['subject','title','topic','name','heading']);
+              const human=first(o,['humanNote','human','human_note','content','text','note','body']);
+              const naya=first(o,['nayaNote','aiNote','ai','naya','naya_note']);
+              const machine=first(o,['machineNote','machine','machine_note']);
+              const feed=first(o,['intelligentFeed','intelligentSummary','summary','feed','intelligent_feed']);
+              const stamp=first(o,['createdAt','timestamp','time','date','updatedAt','created_at']);
+              if(!subject && !human && !naya && !machine && !feed)return null;
+              return {subject:clean(subject||'Intelligent Note'),human:clean(human),naya:clean(naya),machine:clean(machine),feed:clean(feed),stamp,source:clean(first(o,['source','node','origin']))};
+            };
+            const collect=()=>{
+              const out=[];
+              const add=v=>{if(Array.isArray(v))v.forEach(add); else {const n=normalize(v);if(n)out.push(n)}};
+              for(let i=0;i<localStorage.length;i++){
+                try{const v=JSON.parse(localStorage.getItem(localStorage.key(i))); if(v&&(typeof v==='object'))add(v)}catch{}
+              }
+              ['notes','smartNotes','smartnotes','intelligentBlocks','intelligence','nayaNotes'].forEach(k=>{try{if(window[k])add(window[k])}catch{}});
+              const notesPage=q('#page-notes')||q('#page-smart-notes')||q('[data-page="smart-notes"]');
+              if(notesPage){
+                qa('[data-note],.noteCard,.note-card,.smartNote,.smart-note,.noteItem,.note-item',notesPage).forEach(el=>{
+                  const n=normalize({subject:first({subject:el.getAttribute('data-subject')},['subject']),text:clean(el.innerText)}); if(n)out.push(n);
+                });
+              }
+              const seen=new Set();
+              return out.filter(n=>{const key=[n.subject,n.human,n.stamp].join('|');if(seen.has(key))return false;seen.add(key);return true}).sort((a,b)=>parseDate(b.stamp)-parseDate(a.stamp));
+            };
+            const perspectives=(n)=>[
+              ['human','HUMAN NOTE',n.human||'No Human Note has been captured for this block yet.'],
+              ['naya','NAYA NOTE',n.naya||'Naya perspective is awaiting intelligence processing.'],
+              ['machine','MACHINE NOTE',n.machine||'Machine perspective is awaiting the connected intelligence source.'],
+              ['feed','INTELLIGENT FEED',n.feed||'The collective summary will appear when this block has completed its intelligence pass.']
+            ];
+            const render=()=>{
+              const home=q('#page-home'); if(!home)return;
+              let shell=q('#naya-intelligent-block-feed',home);
+              if(!shell){
+                shell=document.createElement('section'); shell.id='naya-intelligent-block-feed'; shell.className='surface ibf-shell';
+                const report=qa('.reportStrip',home)[0];
+                if(report)home.insertBefore(shell,report); else home.appendChild(shell);
+              }
+              const active=localStorage.getItem(ACTIVATED)==='1';
+              const boards=q('.servicePath',home), hero=q('.heroState',home);
+              if(boards)boards.style.display=active?'none':'';
+              if(hero)hero.style.display=active?'none':'';
+              const notes=collect();
+              shell.innerHTML=`<div class="ibf-head"><div><div class="ibf-kicker">LIVING INTELLIGENCE · CHRONOLOGICAL</div><h2>Intelligent Block Feed</h2><p>Your Smart Notes become living blocks — one subject, one moment, four perspectives. Open any block to inspect the Human, Naya, Machine, and Intelligent Feed views.</p></div><button class="ibf-brief" type="button" data-v7-brief>DAILY INTELLIGENCE BRIEFING</button></div><div class="ibf-list">${notes.length?notes.map((n,i)=>{const tone=['#55e39a','#b27cff','#55b9ee','#6675ff'][i%4];return `<article class="ibf-block" style="--tone:${tone}"><div class="ibf-main" data-open-block><div class="ibf-time">${esc(timeOf(n.stamp))}</div><div class="ibf-rail"><span class="ibf-node"></span></div><div class="ibf-subject"><b>${esc(n.subject)}</b><p>${esc(n.feed||n.human||'Intelligent Block captured.')}</p></div><div class="ibf-chevron">⌄</div></div><div class="ibf-detail"><div class="ibf-perspectives">${perspectives(n).map(([c,l,v])=>`<div class="ibf-perspective ${c}"><div class="label">${l}</div><div class="value">${esc(v)}</div></div>`).join('')}</div>${n.source?`<div class="ibf-source">SOURCE · ${esc(n.source)}</div>`:''}</div></article>`}).join(''):`<div class="ibf-empty"><b>Your Intelligent Blocks will appear here.</b><span>Capture a Smart Note or connect your intelligence source. This feed will organize real notes chronologically and reveal the four perspectives as intelligence is produced.</span></div>`}</div>`;
+              qa('[data-open-block]',shell).forEach(el=>el.addEventListener('click',()=>el.parentElement.classList.toggle('open')));
+              const brief=q('[data-v7-brief]',shell); if(brief)brief.addEventListener('click',()=>{const nav=qa('.nav button');const b=nav.find(x=>/reports?/i.test(clean(x.innerText)));if(b)b.click();else window.dispatchEvent(new CustomEvent('naya:daily-intelligence-briefing'))});
+            };
+            const boot=()=>{
+              qa('.servicePath button').forEach(b=>b.addEventListener('click',()=>{localStorage.setItem(ACTIVATED,'1');setTimeout(render,80)}));
+              const existing=collect(); if(existing.length)localStorage.setItem(ACTIVATED,'1');
+              render();
+              new MutationObserver(()=>{if(q('#page-home')&&!q('#naya-intelligent-block-feed'))render()}).observe(document.body,{childList:true,subtree:true});
+            };
+            if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+          })();
+          </script>
+          '''
+          text=text.replace('</body>', patch+'\n</body>', 1)
+          path.write_text(text, encoding='utf-8')
+          print('Applied V7 Intelligent Block Feed patch.')
+          PY
+
+      - name: Commit patch and remove temporary workflow
+        run: |
+          git config user.name 'NayaNET Engineering'
+          git config user.email 'actions@users.noreply.github.com'
+          git add CLOUDFLARE-INTELLIGENT-HUB-V7/index.html .github/workflows/v7-intelligent-feed-patch.yml
+          git rm .github/workflows/v7-intelligent-feed-patch.yml
+          git commit -m 'feat(v7): make intelligent block feed the home feature'
+          git push
