@@ -33,7 +33,6 @@ jobs:
           src=Path('NAYAHUB.html'); layer=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js'); completion=Path('nayanet-hub-collections.js'); authority=Path('scripts/nayanet-hub-authority-correction.js'); polish=Path('scripts/nayanet-hub-final-polish.js')
           html=src.read_text(encoding='utf-8')
           if html.count('<!doctype html>')!=1 or html.count('</html>')!=1: raise SystemExit('NAYAHUB.html is not a complete document')
-          html=html.replace(r",'\\':'&#92;'",r",'\\\\':'&#92;'")
           layer_text=layer.read_text(encoding='utf-8').replace("setTimeout(()=>showLibrary(),100));window.NayaNETV7","setTimeout(()=>showLibrary(),100)));window.NayaNETV7")
           layers=[('NAYANET-NAYAHUB-INTELLIGENCE-LAYER',layer_text,'nayanet-nayahub-intelligence'),('NAYANET-NAYAHUB-COLLECTIONS-LAYER',completion.read_text(encoding='utf-8'),'nayanet-nayahub-collections'),('NAYANET-CANONICAL-HUB-AUTHORITY-V1',authority.read_text(encoding='utf-8'),'nayanet-canonical-hub-authority'),('NAYANET-CANONICAL-HUB-FINAL-POLISH-V1',polish.read_text(encoding='utf-8'),'nayanet-canonical-hub-final-polish')]
           for marker,body,script_id in layers:
