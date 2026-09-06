@@ -1,34 +1,25 @@
-# Trigger surgical completion after source-of-truth review
+# Surgical cleanup after validating the existing V7 implementation
 name: NayaHub Surgical Upgrade
 on:
   workflow_dispatch:
   push:
     paths:
       - '.github/workflows/nayahub-surgical-upgrade.yml'
-      - 'scripts/nayahub-surgical-upgrade.py'
-      - 'NAYAHUB.html'
+      - 'scripts/nayahub-cleanup-surgical-layer.py'
 permissions:
   contents: write
 jobs:
-  upgrade:
+  cleanup:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Apply remaining Intelligent Hub to-do
-        run: python3 scripts/nayahub-surgical-upgrade.py
-      - name: Commit upgraded Hub
+      - name: Remove temporary duplicate layer
+        run: python3 scripts/nayahub-cleanup-surgical-layer.py
+      - name: Commit clean Hub
         run: |
           git config user.name 'NayaNET Upgrade Bot'
           git config user.email 'nayanet-upgrade-bot@users.noreply.github.com'
           git add NAYAHUB.html
           git diff --cached --quiet && exit 0
-          git commit -m 'Complete remaining NayaNET Intelligent Hub V7 to-do'
+          git commit -m 'Keep NayaNET Hub V7 surgical implementation clean'
           git push
-      - name: Package root HTML
-        run: zip -j NAYAHUB-V7-INTELLIGENT-UPGRADE.zip NAYAHUB.html
-      - name: Upload release artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: NAYAHUB-V7-INTELLIGENT-UPGRADE
-          path: NAYAHUB-V7-INTELLIGENT-UPGRADE.zip
-          retention-days: 30
