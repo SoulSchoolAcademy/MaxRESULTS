@@ -17,7 +17,6 @@ concurrency:
 
 jobs:
   deploy:
-    if: ${{ github.event_name == 'workflow_dispatch' || contains(join(github.event.head_commit.modified, ','), 'CLOUDFLARE-INTELLIGENT-HUB-V7/') || contains(join(github.event.head_commit.added, ','), 'CLOUDFLARE-INTELLIGENT-HUB-V7/') }}
     runs-on: ubuntu-latest
     defaults:
       run:
