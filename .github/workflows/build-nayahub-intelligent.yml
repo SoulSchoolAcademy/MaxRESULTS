@@ -10,6 +10,7 @@ on:
       - 'CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js'
       - 'scripts/nayanet-hub-authority-correction.js'
       - 'scripts/nayanet-hub-final-polish.js'
+      - 'scripts/nayanet-hub-final-execution.js'
       - '.github/workflows/build-nayahub-intelligent.yml'
   workflow_dispatch:
 
@@ -30,11 +31,11 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          src=Path('NAYAHUB.html'); layer=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js'); completion=Path('nayanet-hub-collections.js'); authority=Path('scripts/nayanet-hub-authority-correction.js'); polish=Path('scripts/nayanet-hub-final-polish.js')
+          src=Path('NAYAHUB.html'); layer=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js'); completion=Path('nayanet-hub-collections.js'); authority=Path('scripts/nayanet-hub-authority-correction.js'); polish=Path('scripts/nayanet-hub-final-polish.js'); final_exec=Path('scripts/nayanet-hub-final-execution.js')
           html=src.read_text(encoding='utf-8')
           if html.count('<!doctype html>')!=1 or html.count('</html>')!=1: raise SystemExit('NAYAHUB.html is not a complete document')
           layer_text=layer.read_text(encoding='utf-8').replace("setTimeout(()=>showLibrary(),100));window.NayaNETV7","setTimeout(()=>showLibrary(),100)));window.NayaNETV7")
-          layers=[('NAYANET-NAYAHUB-INTELLIGENCE-LAYER',layer_text,'nayanet-nayahub-intelligence'),('NAYANET-NAYAHUB-COLLECTIONS-LAYER',completion.read_text(encoding='utf-8'),'nayanet-nayahub-collections'),('NAYANET-CANONICAL-HUB-AUTHORITY-V1',authority.read_text(encoding='utf-8'),'nayanet-canonical-hub-authority'),('NAYANET-CANONICAL-HUB-FINAL-POLISH-V1',polish.read_text(encoding='utf-8'),'nayanet-canonical-hub-final-polish')]
+          layers=[('NAYANET-NAYAHUB-INTELLIGENCE-LAYER',layer_text,'nayanet-nayahub-intelligence'),('NAYANET-NAYAHUB-COLLECTIONS-LAYER',completion.read_text(encoding='utf-8'),'nayanet-nayahub-collections'),('NAYANET-CANONICAL-HUB-AUTHORITY-V1',authority.read_text(encoding='utf-8'),'nayanet-canonical-hub-authority'),('NAYANET-CANONICAL-HUB-FINAL-POLISH-V1',polish.read_text(encoding='utf-8'),'nayanet-canonical-hub-final-polish'),('NAYANET-HUB-FINAL-EXECUTION-V1',final_exec.read_text(encoding='utf-8'),'nayanet-hub-final-execution')]
           for marker,body,script_id in layers:
               if '<!-- '+marker+' -->' not in html:
                   html=html.replace('</body>','\n<!-- '+marker+' -->\n<script id="'+script_id+'">\n'+body+'\n</script>\n</body>',1)
@@ -58,6 +59,10 @@ jobs:
           grep -q 'SMART NOTES' index.html
           grep -q 'NAYANET-CANONICAL-HUB-AUTHORITY-V1' index.html
           grep -q 'NAYANET-CANONICAL-HUB-FINAL-POLISH-V1' index.html
+          grep -q 'NAYANET-HUB-FINAL-EXECUTION-V1' index.html
+          grep -q 'DAILY INTELLIGENCE BRIEFING' index.html
+          grep -q 'SHARE TO COLLECTIVE' index.html
+          grep -q 'SAVE TO MY INTELLIGENCE' index.html
           ! grep -q 'prompt(' index.html
           python3 - <<'PY'
           from pathlib import Path
