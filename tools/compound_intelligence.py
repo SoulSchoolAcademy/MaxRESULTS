@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """NayaPOWER Compounding Intelligence Bridge v1.
 
-Bridges canonical Intelligence Events into Adaptive Learning, Smart-Note
-relationships, the searchable Intelligence Feed, and a consent-gated daily
-"What We Learned" synthesis. It reuses the existing promotion and learning
-engines rather than creating a parallel memory system.
+Canonical path:
+INTELLIGENCE EVENT → SMART NOTE → LEARNING EVENT → EVIDENCE →
+DAILY LEARNING → INTELLIGENCE FEED / COLLECTIVE PROJECTION.
 
-This is an application integration layer, not model-weight training.
+This application layer reuses the existing promotion and Adaptive Learning
+engines. It does not train model weights or create a second memory system.
 """
 from __future__ import annotations
 
@@ -21,6 +21,7 @@ EVENT_DIR = ROOT / "MASTER-NOTES/INTELLIGENCE-EVENTS"
 LEARNING_DIR = ROOT / "MASTER-NOTES/ADAPTIVE-LEARNING"
 DAILY_DIR = LEARNING_DIR / "DAILY"
 COLLECTIVE_DIR = LEARNING_DIR / "COLLECTIVE"
+FEED_DIR = ROOT / "MASTER-NOTES/INTELLIGENCE-FEED"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import adaptive_learning as al  # noqa: E402
@@ -54,12 +55,10 @@ def event_date(event: dict[str, Any]) -> str:
 
 
 def has_collective_consent(event: dict[str, Any]) -> bool:
-    """Consent is explicit; absence is never interpreted as consent."""
     return event.get("collective_consent") is True or event.get("visibility") == "COLLECTIVE_CONSENT"
 
 
 def build_candidate(event: dict[str, Any]) -> dict[str, Any] | None:
-    """Create a durable learning candidate while preserving source provenance."""
     if not str(event.get("lesson", "")).strip():
         return None
     outcome = {
@@ -141,7 +140,7 @@ def daily_synthesis(events: list[dict[str, Any]], learnings: list[dict[str, Any]
     }
 
 
-def write_collective_projection(report: dict[str, Any], day: str) -> None:
+def write_collective_projection(report: dict[str, Any], day: str) -> str:
     lines = [
         f"# 🧠 What We Learned Today — {day}",
         "",
@@ -165,6 +164,25 @@ def write_collective_projection(report: dict[str, Any], day: str) -> None:
     text = "\n".join(lines) + "\n"
     if not path.exists() or path.read_text(encoding="utf-8") != text:
         path.write_text(text, encoding="utf-8")
+    return str(path.relative_to(ROOT))
+
+
+def write_feed_projection(report: dict[str, Any], day: str) -> str:
+    """Project the public-safe daily learning into the existing feed namespace."""
+    FEED_DIR.mkdir(parents=True, exist_ok=True)
+    path = FEED_DIR / f"WHAT-WE-LEARNED-{day}.json"
+    projection = {
+        "feed_item_id": report["report_id"],
+        "feed_type": "DAILY_COLLECTIVE_LEARNING",
+        "date": day,
+        "title": report["title"],
+        "counts": report["counts"],
+        "items": report["collective_lessons"],
+        "lineage": report["lineage"],
+        "privacy_rule": report["privacy_rule"],
+    }
+    write_json(path, projection)
+    return str(path.relative_to(ROOT))
 
 
 def run(day: str | None = None) -> dict[str, Any]:
@@ -187,7 +205,8 @@ def run(day: str | None = None) -> dict[str, Any]:
             pass
     report = daily_synthesis(events, learnings, target_day, prior_generated_at)
     write_json(daily_path, report)
-    write_collective_projection(report, target_day)
+    report["collective_projection_path"] = write_collective_projection(report, target_day)
+    report["feed_projection_path"] = write_feed_projection(report, target_day)
     return report
 
 
