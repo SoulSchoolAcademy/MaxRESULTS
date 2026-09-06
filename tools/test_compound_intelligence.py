@@ -50,29 +50,36 @@ def test_daily_only_publishes_verified_consented_lessons():
     assert report["private_lessons_count"] == 1
 
 
-def test_run_writes_daily_and_collective_projection():
+def test_run_writes_daily_collective_and_feed_projection():
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         old_event = ci.EVENT_DIR
         old_learning = ci.LEARNING_DIR
         old_daily = ci.DAILY_DIR
         old_collective = ci.COLLECTIVE_DIR
+        old_feed = ci.FEED_DIR
         try:
             ci.EVENT_DIR = root / "events"
             ci.LEARNING_DIR = root / "learning"
             ci.DAILY_DIR = ci.LEARNING_DIR / "DAILY"
             ci.COLLECTIVE_DIR = ci.LEARNING_DIR / "COLLECTIVE"
+            ci.FEED_DIR = root / "feed"
             ci.EVENT_DIR.mkdir(parents=True)
             (ci.EVENT_DIR / "event.json").write_text(json.dumps(event(True)), encoding="utf-8")
             report = ci.run("2026-09-06")
             assert report["counts"]["collective_lessons"] == 1
             assert (ci.DAILY_DIR / "2026-09-06.json").exists()
             assert (ci.COLLECTIVE_DIR / "2026-09-06.md").exists()
+            assert (ci.FEED_DIR / "WHAT-WE-LEARNED-2026-09-06.json").exists()
+            projection = json.loads((ci.FEED_DIR / "WHAT-WE-LEARNED-2026-09-06.json").read_text(encoding="utf-8"))
+            assert projection["feed_type"] == "DAILY_COLLECTIVE_LEARNING"
+            assert len(projection["items"]) == 1
         finally:
             ci.EVENT_DIR = old_event
             ci.LEARNING_DIR = old_learning
             ci.DAILY_DIR = old_daily
             ci.COLLECTIVE_DIR = old_collective
+            ci.FEED_DIR = old_feed
 
 
 def main():
