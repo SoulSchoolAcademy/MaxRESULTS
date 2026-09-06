@@ -3,8 +3,8 @@
 
 Bridges canonical Intelligence Events into Adaptive Learning, Smart-Note
 relationships, the searchable Intelligence Feed, and a consent-gated daily
-"What We Learned" synthesis. It deliberately reuses the existing promotion
-and learning engines instead of creating a parallel memory system.
+"What We Learned" synthesis. It reuses the existing promotion and learning
+engines rather than creating a parallel memory system.
 
 This is an application integration layer, not model-weight training.
 """
@@ -22,7 +22,6 @@ LEARNING_DIR = ROOT / "MASTER-NOTES/ADAPTIVE-LEARNING"
 DAILY_DIR = LEARNING_DIR / "DAILY"
 COLLECTIVE_DIR = LEARNING_DIR / "COLLECTIVE"
 
-# Keep the canonical engine as the single implementation of learning rules.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import adaptive_learning as al  # noqa: E402
 
@@ -57,8 +56,7 @@ def has_collective_consent(event: dict[str, Any]) -> bool:
 
 
 def build_candidate(event: dict[str, Any]) -> dict[str, Any] | None:
-    # A canonical event must have a meaningful lesson before it can enter the
-    # learning layer. This keeps raw activity separate from learned knowledge.
+    """Create a durable learning candidate while preserving source provenance."""
     if not str(event.get("lesson", "")).strip():
         return None
     outcome = {
@@ -92,30 +90,40 @@ def write_json(path: Path, data: dict[str, Any]) -> None:
 
 def upsert_learning(learning: dict[str, Any]) -> Path:
     path = LEARNING_DIR / f"{learning['learning_event_id']}.json"
+    if path.exists():
+        try:
+            existing = json.loads(path.read_text(encoding="utf-8"))
+            # Never regress stronger evidence or an operational state.
+            if al.evidence_rank(existing.get("evidence_state", "UNKNOWN")) > al.evidence_rank(learning.get("evidence_state", "UNKNOWN")):
+                learning["evidence_state"] = existing["evidence_state"]
+            if existing.get("learning_state") == "OPERATIONAL":
+                learning["learning_state"] = "OPERATIONAL"
+            if existing.get("created_at"):
+                learning["created_at"] = existing["created_at"]
+        except json.JSONDecodeError:
+            pass
     write_json(path, learning)
     return path
 
 
-def daily_synthesis(events: list[dict[str, Any]], learnings: list[dict[str, Any]], day: str) -> dict[str, Any]:
+def daily_synthesis(events: list[dict[str, Any]], learnings: list[dict[str, Any]], day: str, generated_at: str | None = None) -> dict[str, Any]:
     day_learnings = [x for x in learnings if event_date(x) == day]
     verified = [x for x in day_learnings if al.evidence_rank(x.get("evidence_state", "UNKNOWN")) >= VERIFIED_RANK]
     collective = [x for x in verified if x.get("collective_consent") is True]
     private = [x for x in verified if x.get("collective_consent") is not True]
-    lessons = []
-    for item in verified:
-        lessons.append({
-            "learning_event_id": item["learning_event_id"],
-            "source_event_id": item["source_event_id"],
-            "lesson": item["lesson"],
-            "evidence_state": item["evidence_state"],
-            "smart_note_id": item.get("smart_note_id", ""),
-            "smart_link": item.get("smart_link", ""),
-            "visibility": item.get("visibility", "PRIVATE"),
-        })
-    report = {
+    lessons = [{
+        "learning_event_id": item["learning_event_id"],
+        "source_event_id": item["source_event_id"],
+        "lesson": item["lesson"],
+        "evidence_state": item["evidence_state"],
+        "smart_note_id": item.get("smart_note_id", ""),
+        "smart_link": item.get("smart_link", ""),
+        "visibility": item.get("visibility", "PRIVATE"),
+    } for item in verified]
+    return {
         "report_id": f"DAILY-LEARNING-{day}",
         "date": day,
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": generated_at or datetime.now(timezone.utc).isoformat(),
         "title": "What We Learned Today",
         "counts": {
             "intelligence_events": len([e for e in events if event_date(e) == day]),
@@ -129,48 +137,19 @@ def daily_synthesis(events: list[dict[str, Any]], learnings: list[dict[str, Any]
         "privacy_rule": "PRIVATE BY DEFAULT; SHARED BY CHOICE; COLLECTIVE BY CONSENT; PUBLIC BY DECISION",
         "lineage": "INTELLIGENCE EVENT → SMART NOTE → LEARNING EVENT → EVIDENCE → DAILY LEARNING",
     }
-    return report
 
 
-def run(day: str | None = None) -> dict[str, Any]:
-    events = load_events()
-    learnings: list[dict[str, Any]] = []
-    for event in events:
-        candidate = build_candidate(event)
-        if candidate is None:
-            continue
-        path = LEARNING_DIR / f"{candidate['learning_event_id']}.json"
-        if path.exists():
-            try:
-                existing = json.loads(path.read_text(encoding="utf-8"))
-                # Preserve stronger evidence/state already established by a
-                # later verification step; never regress durable learning.
-                if al.evidence_rank(existing.get("evidence_state", "UNKNOWN")) > al.evidence_rank(candidate.get("evidence_state", "UNKNOWN")):
-                    candidate["evidence_state"] = existing["evidence_state"]
-                if existing.get("learning_state") == "OPERATIONAL":
-                    candidate["learning_state"] = "OPERATIONAL"
-            except json.JSONDecodeError:
-                pass
-        upsert_learning(candidate)
-        learnings.append(candidate)
-
-    target_day = day or datetime.now(timezone.utc).date().isoformat()
-    report = daily_synthesis(events, learnings, target_day)
-    write_json(DAILY_DIR / f"{target_day}.json", report)
-
-    # The public/collective projection contains only consented + verified
-    # lessons. This makes the Intelligent Hub a projection of evidence, not a
-    # second source of truth.
-    collective_md = [
-        f"# 🧠 What We Learned Today — {target_day}",
+def write_collective_projection(report: dict[str, Any], day: str) -> None:
+    lines = [
+        f"# 🧠 What We Learned Today — {day}",
         "",
-        "**Verified collective lessons:** " + str(report["counts"]["collective_lessons"]),
+        f"**Verified collective lessons:** {report['counts']['collective_lessons']}",
         "",
         "> Collective wisdom is published only when the source event explicitly grants collective consent and the learning has verified evidence.",
         "",
     ]
     for item in report["collective_lessons"]:
-        collective_md += [
+        lines += [
             f"## {item['lesson']}",
             "",
             f"- Learning Event: `{item['learning_event_id']}`",
@@ -180,7 +159,33 @@ def run(day: str | None = None) -> dict[str, Any]:
             "",
         ]
     COLLECTIVE_DIR.mkdir(parents=True, exist_ok=True)
-    (COLLECTIVE_DIR / f"{target_day}.md").write_text("\n".join(collective_md) + "\n", encoding="utf-8")
+    path = COLLECTIVE_DIR / f"{day}.md"
+    text = "\n".join(lines) + "\n"
+    if not path.exists() or path.read_text(encoding="utf-8") != text:
+        path.write_text(text, encoding="utf-8")
+
+
+def run(day: str | None = None) -> dict[str, Any]:
+    events = load_events()
+    learnings: list[dict[str, Any]] = []
+    for event in events:
+        candidate = build_candidate(event)
+        if candidate is None:
+            continue
+        upsert_learning(candidate)
+        learnings.append(candidate)
+
+    target_day = day or datetime.now(timezone.utc).date().isoformat()
+    daily_path = DAILY_DIR / f"{target_day}.json"
+    prior_generated_at = None
+    if daily_path.exists():
+        try:
+            prior_generated_at = json.loads(daily_path.read_text(encoding="utf-8")).get("generated_at")
+        except json.JSONDecodeError:
+            pass
+    report = daily_synthesis(events, learnings, target_day, prior_generated_at)
+    write_json(daily_path, report)
+    write_collective_projection(report, target_day)
     return report
 
 
