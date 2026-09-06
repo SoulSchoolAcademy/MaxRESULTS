@@ -1,3 +1,4 @@
+# Trigger surgical completion after source-of-truth review
 name: NayaHub Surgical Upgrade
 on:
   workflow_dispatch:
