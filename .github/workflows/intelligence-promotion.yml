@@ -1,5 +1,8 @@
 name: Naya Intelligence — Lesson Promotion
 
+# Canonical pipeline: activity → intelligence → learning → evidence → feed.
+# Generated projections are intentionally idempotent so the workflow cannot self-loop.
+
 on:
   push:
     branches: [main]
