@@ -34,12 +34,14 @@ jobs:
           test -s wrangler.jsonc
           test -s v7-smart-note-runtime.js
           test -s v7-release-enhancements.js
+          test -s v7-intelligence-distribution.js
           grep -Fq 'v7-smart-note-runtime.js' index.html
           grep -Fq 'v7-release-enhancements.js' index.html
           grep -Fq 'NayaNET — Intelligent Hub V7' index.html
           node --check worker.js
           node --check v7-smart-note-runtime.js
           node --check v7-release-enhancements.js
+          node --check v7-intelligence-distribution.js
           python - <<'PY'
           from pathlib import Path
           s=Path('index.html').read_text()
@@ -49,6 +51,7 @@ jobs:
           print('V7 artifact validation: PASS')
           print('index.html bytes:', len(s.encode()))
           print('enhancement bytes:', Path('v7-release-enhancements.js').stat().st_size)
+          print('distribution bytes:', Path('v7-intelligence-distribution.js').stat().st_size)
           PY
 
       - name: Deploy exact V7 source to Cloudflare Workers
