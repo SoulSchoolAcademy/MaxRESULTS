@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/v7-intelligent-upgrade.js'
+      - 'scripts/v7-intelligent-hub-refinement.js'
       - '.github/workflows/v7-intelligent-hub-build.yml'
 
 permissions:
@@ -18,24 +19,32 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Validate upgrade JavaScript
-        run: node --check scripts/v7-intelligent-upgrade.js
+        run: |
+          node --check scripts/v7-intelligent-upgrade.js
+          node --check scripts/v7-intelligent-hub-refinement.js
 
-      - name: Apply surgical upgrade to NAYAHUB.html
+      - name: Apply surgical upgrade layers to NAYAHUB.html
         shell: python
         run: |
           from pathlib import Path
           p = Path('NAYAHUB.html')
           html = p.read_text(encoding='utf-8')
-          patch = Path('scripts/v7-intelligent-upgrade.js').read_text(encoding='utf-8')
-          marker = 'NAYANET-V7-INTELLIGENT-UPGRADE-V2'
-          if marker not in html:
-              html = html.replace('</body>', '<!-- '+marker+' --><script id="nayanet-v7-intelligent-upgrade">'+patch+'\n</script></body>', 1)
-          else:
-              start = html.find('<!-- '+marker+' -->')
-              script_start = html.find('<script id="nayanet-v7-intelligent-upgrade">', start)
-              script_end = html.find('</script>', script_start)
-              replacement = '<!-- '+marker+' --><script id="nayanet-v7-intelligent-upgrade">'+patch+'\n</script>'
-              html = html[:start] + replacement + html[script_end+9:]
+          layers = [
+              ('NAYANET-V7-INTELLIGENT-UPGRADE-V2', 'nayanet-v7-intelligent-upgrade', Path('scripts/v7-intelligent-upgrade.js')),
+              ('NAYANET-V7-INTELLIGENT-HUB-REFINEMENT-V1', 'nayanet-v7-intelligent-hub-refinement', Path('scripts/v7-intelligent-hub-refinement.js')),
+          ]
+          for marker, script_id, patch_path in layers:
+              patch = patch_path.read_text(encoding='utf-8')
+              comment = '<!-- '+marker+' -->'
+              tag = '<script id="'+script_id+'">'
+              replacement = comment + tag + patch + '\n</script>'
+              if marker not in html:
+                  html = html.replace('</body>', replacement + '</body>', 1)
+              else:
+                  start = html.find(comment)
+                  script_start = html.find(tag, start)
+                  script_end = html.find('</script>', script_start)
+                  html = html[:start] + replacement + html[script_end+9:]
           p.write_text(html, encoding='utf-8')
           Path('index.html').write_text(html, encoding='utf-8')
 
@@ -44,8 +53,10 @@ jobs:
           test -f index.html
           grep -q 'YOUR INTELLIGENCE TODAY' index.html
           grep -q 'NAYANET-V7-INTELLIGENT-UPGRADE-V2' index.html
+          grep -q 'NAYANET-V7-INTELLIGENT-HUB-REFINEMENT-V1' index.html
           grep -q 'TYPE OR TALK TO NAYA' index.html
           grep -q 'Naya Lists' index.html
+          grep -q 'SMART NOTES' index.html
 
       - name: Commit surgical upgrade and release artifact
         run: |
@@ -55,6 +66,6 @@ jobs:
           if git diff --cached --quiet; then
             echo 'No changes to commit.'
           else
-            git commit -m 'Execute NayaNET V7 Intelligent Hub remaining to-do'
+            git commit -m 'Refine V7 Intelligent Hub around Smart Notes and Intelligent Blocks'
             git push
           fi
