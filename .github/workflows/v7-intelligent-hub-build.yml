@@ -1,0 +1,60 @@
+name: NayaNET V7 Intelligent Hub Build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/v7-intelligent-upgrade.js'
+      - '.github/workflows/v7-intelligent-hub-build.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@v4
+
+      - name: Validate upgrade JavaScript
+        run: node --check scripts/v7-intelligent-upgrade.js
+
+      - name: Apply surgical upgrade to NAYAHUB.html
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('NAYAHUB.html')
+          html = p.read_text(encoding='utf-8')
+          patch = Path('scripts/v7-intelligent-upgrade.js').read_text(encoding='utf-8')
+          marker = 'NAYANET-V7-INTELLIGENT-UPGRADE-V2'
+          if marker not in html:
+              html = html.replace('</body>', '<!-- '+marker+' --><script id="nayanet-v7-intelligent-upgrade">'+patch+'\n</script></body>', 1)
+          else:
+              start = html.find('<!-- '+marker+' -->')
+              script_start = html.find('<script id="nayanet-v7-intelligent-upgrade">', start)
+              script_end = html.find('</script>', script_start)
+              replacement = '<!-- '+marker+' --><script id="nayanet-v7-intelligent-upgrade">'+patch+'\n</script>'
+              html = html[:start] + replacement + html[script_end+9:]
+          p.write_text(html, encoding='utf-8')
+          Path('index.html').write_text(html, encoding='utf-8')
+
+      - name: Validate HTML artifact markers
+        run: |
+          test -f index.html
+          grep -q 'YOUR INTELLIGENCE TODAY' index.html
+          grep -q 'NAYANET-V7-INTELLIGENT-UPGRADE-V2' index.html
+          grep -q 'TYPE OR TALK TO NAYA' index.html
+          grep -q 'Naya Lists' index.html
+
+      - name: Commit surgical upgrade and release artifact
+        run: |
+          git config user.name 'NayaNET Build'
+          git config user.email 'actions@nayanet.xyz'
+          git add NAYAHUB.html index.html
+          if git diff --cached --quiet; then
+            echo 'No changes to commit.'
+          else
+            git commit -m 'Execute NayaNET V7 Intelligent Hub remaining to-do'
+            git push
+          fi
