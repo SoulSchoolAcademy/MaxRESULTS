@@ -1,0 +1,59 @@
+name: Finalize NayaNET Intelligent Hub
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'NAYAHUB.html'
+      - '.github/workflows/nayanet-hub-finalize.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply final Hub surgical layer
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('NAYAHUB.html')
+          s=p.read_text(encoding='utf-8')
+          marker='NAYANET-HUB-FINAL-EXECUTION-V1'
+          if marker in s:
+              print('Final execution layer already present.')
+              raise SystemExit(0)
+          s=s.replace("const name='Shawn';", "const rawIncoming=new URLSearchParams(location.search).get('name')||localStorage.getItem('nayanet_smart_name')||''; const name=rawIncoming.trim().replace(/[&<>\\\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\\\"':'&quot;',\"'\":'&#39;'}[c]||c)); if(rawIncoming.trim()) localStorage.setItem('nayanet_smart_name',rawIncoming.trim());")
+          s=s.replace("wrap.innerHTML='<div class=\"nh-welcome-eyebrow\">YOUR INTELLIGENCE TODAY</div><h1>'+greeting+', '+name+'.</h1>", "wrap.innerHTML='<div class=\"nh-welcome-eyebrow\">YOUR INTELLIGENCE TODAY</div><h1>'+greeting+(name?', '+name:'')+'.</h1>")
+          layer=r'''<style id="nayanet-final-execution-style">
+/* NAYANET-HUB-FINAL-EXECUTION-V1 */
+#page-home .heroIntro,#page-home .hero,#page-home .nh72-today,#page-home #nhV11Today,#page-home .nh72-section,#page-home .nh-v11-today,#page-home #nhV11Quote{display:none!important}
+.nh-final-briefing{margin:0 0 22px;padding:22px 24px;border:1px solid #8b63ff66;border-radius:22px;background:radial-gradient(700px 220px at 12% 0%,#d86cff18,transparent 65%),linear-gradient(145deg,#15111d,#09090d);box-shadow:inset 0 1px #fff5,0 20px 45px #000b}
+.nh-final-briefing .kicker{font-size:8px;font-weight:1000;letter-spacing:.18em;color:#b99aff}.nh-final-briefing h2{font-size:clamp(24px,3vw,36px);letter-spacing:-.05em;margin:7px 0 8px}.nh-final-briefing p{margin:0;color:#d2ccd8;font-size:11px;line-height:1.65;max-width:900px}.nh-final-briefing .brief-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}.nh-final-briefing .brief-card{padding:12px;border:1px solid #ffffff14;border-radius:13px;background:#08080c}.nh-final-briefing .brief-card b{display:block;font-size:7px;letter-spacing:.13em;color:#d5a4ff;margin-bottom:5px}.nh-final-briefing .brief-card span{display:block;color:#aaa4b1;font-size:9px;line-height:1.5}.nh-final-briefing .brief-action{display:inline-flex;margin-top:14px;min-height:40px;padding:0 13px;align-items:center;border:1px solid #d86cff77;border-radius:11px;background:#1a0f23;color:#fff;text-decoration:none;font-size:8px;font-weight:1000}
+#page-collective .nh-final-collective{margin:0 0 20px}.nh-final-collective-feed{display:grid;gap:12px}.nh-final-collective-card{padding:20px;border:1px solid #ffffff1c;border-radius:20px;background:linear-gradient(145deg,#14131a,#09090d);box-shadow:inset 0 1px #fff3,0 18px 38px #0009}.nh-final-collective-card:hover{border-color:#d86cff77;transform:translateY(-2px)}.nh-final-collective-card h3{font-size:22px;letter-spacing:-.04em;margin:6px 0 8px}.nh-final-collective-card p{font-size:11px;line-height:1.65;color:#d0cad6;margin:0}.nh-final-collective-meta{font-size:7px;font-weight:1000;letter-spacing:.13em;color:#d6a4ff}.nh-final-collective-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px;padding-top:13px;border-top:1px solid #ffffff12}.nh-final-collective-actions button{min-height:38px;padding:0 12px;border:1px solid #8b63ff66;border-radius:10px;background:#08080c;color:#eeeaf4;font-size:8px;font-weight:1000}.nh-final-collective-actions button.on{border-color:#55e39a;color:#caffdd;box-shadow:0 0 18px #55e39a22}.nh-final-collective-actions button.star{border-color:#e8c76677;color:#ffe39a}.nh-final-empty{padding:40px 20px;text-align:center;border:1px dashed #ffffff22;border-radius:18px;color:#aaa4b1;font-size:10px;line-height:1.6}
+@media(max-width:760px){.nh-final-briefing .brief-grid{grid-template-columns:1fr}.nh-final-briefing{padding:19px 17px}.nh-final-collective-card{padding:17px}}
+</style>
+<script id="nayanet-final-execution">
+(()=>{'use strict';
+const q=(s,r=document)=>r.querySelector(s),qa=(s,r=document)=>[...r.querySelectorAll(s)],clean=s=>String(s||'').replace(/\s+/g,' ').trim(),esc=s=>String(s??'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]||c));
+const STORE='nayanet_final_execution_v1'; const read=()=>{try{return JSON.parse(localStorage.getItem(STORE)||'{}')}catch{return{}}}; const save=s=>localStorage.setItem(STORE,JSON.stringify(s));
+function notes(){try{return JSON.parse(localStorage.getItem('nayanet_v7_live_notes')||'[]')}catch{return[]}}
+function briefing(){const home=q('#page-home');if(!home||q('#nhFinalBriefing'))return;const ns=notes().sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)));const sample=ns.slice(0,3);const happened=sample.length?sample.map(n=>clean(n.text)).join(' · '):'No verified source events yet. Create a Smart Note and the briefing will use it.';const matters=sample.length?sample[0].type+' is currently the lead preserved intelligence signal.':'Nothing is ranked as meaningful until a real source event exists.';const next=sample.length?'Review the latest preserved event, decide what carries forward, and take the next useful action.':'Create your first Smart Note to give Naya something real to synthesize.';const b=document.createElement('section');b.id='nhFinalBriefing';b.className='nh-final-briefing';b.innerHTML='<div class="kicker">DAILY INTELLIGENCE BRIEFING</div><h2>What happened · What matters · What you should do next</h2><p>This is the daily intelligence layer of the Hub. It stays source-backed and never presents fabricated AI activity as real.</p><div class="brief-grid"><div class="brief-card"><b>WHAT HAPPENED</b><span>'+esc(happened)+'</span></div><div class="brief-card"><b>WHAT MATTERS</b><span>'+esc(matters)+'</span></div><div class="brief-card"><b>WHAT TO DO NEXT</b><span>'+esc(next)+'</span></div></div><a class="brief-action" href="#" id="nhFinalBriefLink">OPEN DAILY INTELLIGENCE →</a></section>';const feed=q('.homeWorkspace',home);if(feed)feed.insertAdjacentElement('beforebegin',b);else home.appendChild(b);q('#nhFinalBriefLink',b).onclick=e=>{e.preventDefault();const btn=q('[data-page="reports"]');if(btn)btn.click()}}
+function collective(){const p=q('#page-collective');if(!p||q('#nhFinalCollective'))return;const host=document.createElement('section');host.id='nhFinalCollective';host.className='nh-final-collective';const ns=notes().slice(0,12);const st=read();host.innerHTML='<div class="nh-final-collective-feed">'+(ns.length?ns.map((n,i)=>{const id='c-'+n.id;const a=st[id]||{};return '<article class="nh-final-collective-card"><div class="nh-final-collective-meta">COLLECTIVE FEED · '+esc(n.type||'INSIGHT')+' · DE-IDENTIFIED VIEW</div><h3>'+esc(clean(n.text).slice(0,110)||'Intelligent Event')+'</h3><p>'+esc(clean(n.text))+'</p><div class="nh-final-collective-actions"><button data-cact="like" data-cid="'+esc(id)+'" class="'+(a.like?'on':'')+'">👍 LIKE</button><button data-cact="comment" data-cid="'+esc(id)+'" class="'+(a.comment?'on':'')+'">💬 COMMENT</button><button data-cact="share" data-cid="'+esc(id)+'">↗ SHARE</button><button data-cact="star" data-cid="'+esc(id)+'" class="star '+(a.star?'on':'')+'">★ STAR</button><button data-cact="save" data-cid="'+esc(id)+'" class="'+(a.save?'on':'')+'">＋ SAVE TO MY INTELLIGENCE</button></div></article>'}).join(''):'<div class="nh-final-empty">No intentionally shared Intelligent Blocks are available in this runtime yet. The Collective remains consent-first; nothing private is silently published.</div>')+'</div>';const old=q('.grid2',p);if(old)old.insertAdjacentElement('beforebegin',host);else p.appendChild(host);host.addEventListener('click',e=>{const b=e.target.closest('[data-cact]');if(!b)return;const id=b.dataset.cid,act=b.dataset.cact,s=read();s[id]=s[id]||{};if(act==='comment'){const text=prompt('Add a comment to this collective intelligence:');if(!text?.trim())return;s[id].comment=text.trim()}else if(act==='share'){const text='NayaNET Collective Intelligence\n\n'+b.closest('article').querySelector('p').textContent; if(navigator.share)navigator.share({title:'NayaNET Collective Intelligence',text}).catch(()=>{});else if(navigator.clipboard)navigator.clipboard.writeText(text)}else{s[id][act]=!s[id][act]}save(s);if(act!=='share'){b.classList.toggle('on',!!s[id][act])}})}
+function run(){briefing();collective()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(run,250));else setTimeout(run,250);setTimeout(run,1200);setTimeout(run,2600);
+})();
+</script>
+'''
+          s=s.replace('</body></html>', layer+'</body></html>')
+          p.write_text(s,encoding='utf-8')
+      - name: Commit final Hub changes
+        run: |
+          git config user.name 'NayaNET Hub Automation'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add NAYAHUB.html
+          if git diff --cached --quiet; then echo 'No changes to commit.'; exit 0; fi
+          git commit -m 'Execute Hub welcome briefing and collective feed interactions'
+          git push
