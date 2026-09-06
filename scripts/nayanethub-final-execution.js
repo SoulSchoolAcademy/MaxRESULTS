@@ -1,21 +1,49 @@
-/* NAYANETHUB-FINAL-EXECUTION-V1 */
+/* NAYANETHUB-FINAL-EXECUTION-V2 */
 /* RELEASE TRIGGER: publish current NAYANETHUB to index.html */
+/* Purpose: add only the personal welcome line at the very top. No briefing, boards, feed, or new dashboard UI. */
 (function(){
   'use strict';
-  const STORE='nayanet_nayanethub_notes';
   const NAME='nayanet_smart_name';
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const getName=()=>{const p=new URLSearchParams(location.search).get('name');if(p){localStorage.setItem(NAME,p.trim());return p.trim()}return localStorage.getItem(NAME)||''};
-  const time=()=>new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
-  const date=()=>new Date().toLocaleDateString([], {weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  const country=()=>{try{const z=Intl.DateTimeFormat().resolvedOptions().timeZone||'';if(z.startsWith('America/'))return 'Canada';if(z.startsWith('Europe/'))return 'Europe';if(z.startsWith('Asia/'))return 'Asia';if(z.startsWith('Australia/'))return 'Australia';return 'Your local region'}catch(e){return 'Your local region'}};
-  function style(){if(document.getElementById('nayanethub-final-style'))return;const s=document.createElement('style');s.id='nayanethub-final-style';s.textContent=`#nayanethub-today,#nayanethub-briefing,#nayanethub-collective{margin:0 0 22px;border:1px solid rgba(150,90,255,.35);border-radius:24px;background:linear-gradient(145deg,rgba(35,20,60,.92),rgba(8,8,14,.96));box-shadow:0 18px 55px rgba(0,0,0,.28);padding:24px;color:#fff}#nayanethub-today h2,#nayanethub-briefing h2,#nayanethub-collective h2{margin:0 0 8px;font-size:1.45rem;letter-spacing:.02em}#nayanethub-today .meta{opacity:.72;font-size:.92rem;margin-bottom:18px}.nth-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.nth-card{padding:16px;border-radius:17px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08)}.nth-card b{display:block;margin-bottom:7px}.nth-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.nth-btn{border:1px solid rgba(170,100,255,.5);background:rgba(120,60,220,.14);color:#fff;border-radius:999px;padding:8px 12px;cursor:pointer}.nth-btn:hover{box-shadow:0 0 22px rgba(150,80,255,.35);transform:translateY(-1px)}.nth-empty{opacity:.7}.nth-feed-item{padding:16px 0;border-top:1px solid rgba(255,255,255,.08)}@media(max-width:760px){.nth-grid{grid-template-columns:1fr}}`;document.head.appendChild(s)}
-  function removeRepeats(){const selectors=['.heroIntro','.hero','.nh72-today','#nh72Today','#nhV11Today','.nh72-section','.nh-v11-today','#nhV11Quote','.nh-welcome'];document.querySelectorAll(selectors.join(',')).forEach((el,i)=>{if(i>0||!el.id&&!el.classList.contains('nh-welcome'))el.remove()});document.querySelectorAll('body > .nh-welcome').forEach((el,i)=>{if(i>0)el.remove()})}
-  function mount(){let root=document.querySelector('#page-home')||document.querySelector('main')||document.body;let today=document.getElementById('nayanethub-today');if(!today){today=document.createElement('section');today.id='nayanethub-today';root.prepend(today)}let n=esc(getName());let h=new Date().getHours();let greet=h<12?'Good morning':h<17?'Good afternoon':'Good evening';today.innerHTML=`<h2>YOUR INTELLIGENCE TODAY</h2><div class="meta">${greet}${n?', '+n:''}. · ${time()} · ${date()} · ${country()}</div><div class="nth-grid"><div class="nth-card"><b>What happened</b><span>Your latest intelligence is being gathered from what you captured, learned, and reviewed.</span></div><div class="nth-card"><b>What matters</b><span>Look for the insight that changes what you understand, decide, or do next.</span></div><div class="nth-card"><b>What you should do next</b><span>Capture one useful thought, review one Smart Note, and take one meaningful action.</span></div></div>`}
-  function notes(){try{const a=JSON.parse(localStorage.getItem('nayanet_v7_live_notes')||localStorage.getItem(STORE)||'[]');return Array.isArray(a)?a:[]}catch(e){return[]}}
-  function briefing(){let b=document.getElementById('nayanethub-briefing');if(!b){b=document.createElement('section');b.id='nayanethub-briefing';const t=document.getElementById('nayanethub-today');t?.after(b)}const latest=notes().slice(-5).reverse();b.innerHTML=`<h2>DAILY INTELLIGENCE BRIEFING</h2><div class="nth-grid"><div class="nth-card"><b>What happened</b><span>${latest.length?latest.map(x=>esc(x.title||x.text||x.note||'Intelligence captured')).join(' · '):'No new Smart Notes yet. Your next captured insight will become part of the briefing.'}</span></div><div class="nth-card"><b>What matters</b><span>${latest.length?'Your recent notes are the freshest evidence of what is changing in your thinking. Review the pattern, not just the individual note.':'Start with one Smart Note so Naya has something real to distill.'}</span></div><div class="nth-card"><b>What you should do next</b><span>${latest.length?'Choose the single highest-value insight and turn it into a decision or action today.':'Capture one insight, lesson, breakthrough, decision, or question.'}</span></div></div>`}
-  function collective(){let c=document.getElementById('nayanethub-collective');if(!c){c=document.createElement('section');c.id='nayanethub-collective';document.getElementById('nayanethub-briefing')?.after(c)}let shared=[];try{shared=JSON.parse(localStorage.getItem('nayanet_collective_feed')||'[]')}catch(e){}c.innerHTML='<h2>COLLECTIVE INTELLIGENCE</h2><div class="nth-empty">Shared by choice. Private intelligence stays private unless you explicitly share it.</div>'+(shared.length?shared.map((x,i)=>`<div class="nth-feed-item"><b>${esc(x.title||'Shared intelligence')}</b><div>${esc(x.text||x.body||'')}</div><div class="nth-actions"><button class="nth-btn" data-act="like" data-i="${i}">♡ Like</button><button class="nth-btn" data-act="comment" data-i="${i}">💬 Comment</button><button class="nth-btn" data-act="share" data-i="${i}">↗ Share</button><button class="nth-btn" data-act="star" data-i="${i}">★ Star</button><button class="nth-btn" data-act="save" data-i="${i}">＋ Save</button></div></div>`).join(''):'<div class="nth-card" style="margin-top:16px">Nothing has been shared yet. The collective grows when you choose to share something useful.</div>');c.querySelectorAll('[data-act]').forEach(btn=>btn.onclick=()=>{const act=btn.dataset.act,i=+btn.dataset.i,x=shared[i]||{};if(act==='save'){const a=notes();a.push({...x,savedFromCollective:true});localStorage.setItem(STORE,JSON.stringify(a))}else if(act==='comment'){const q=window['pro'+'mpt']('Your comment');if(q){x.comments=[...(x.comments||[]),q];localStorage.setItem('nayanet_collective_feed',JSON.stringify(shared))}}else if(act==='share'&&navigator.share){navigator.share({title:x.title||'NayaNET Intelligence',text:x.text||x.body||''}).catch(()=>{})}else{btn.textContent=act==='like'?'♥ Liked':act==='star'?'★ Starred':act==='comment'?'💬 Commented':'↗ Shared'}})}
-  function shareButtons(){document.querySelectorAll('[data-intelligence-block],.intelligence-block,.smart-note,.smartNote').forEach(el=>{if(el.querySelector('.nth-share'))return;const b=document.createElement('button');b.className='nth-btn nth-share';b.textContent='◎ SHARE TO COLLECTIVE';b.onclick=()=>{const item={title:el.querySelector('h1,h2,h3,.title')?.textContent||'Shared intelligence',text:el.innerText.slice(0,1200),createdAt:new Date().toISOString()};let a=[];try{a=JSON.parse(localStorage.getItem('nayanet_collective_feed')||'[]')}catch(e){}a.push(item);localStorage.setItem('nayanet_collective_feed',JSON.stringify(a));b.textContent='✓ SHARED TO COLLECTIVE';collective()};(el.querySelector('.actions,.card-actions,.controls')||el).appendChild(b)})}
-  function run(){style();removeRepeats();mount();briefing();collective();shareButtons()}
-  document.addEventListener('DOMContentLoaded',run);[200,800,1600,3000].forEach(ms=>setTimeout(run,ms));
+  const getName=()=>{
+    try{
+      const p=new URLSearchParams(location.search).get('name');
+      if(p && p.trim()){localStorage.setItem(NAME,p.trim());return p.trim();}
+      return localStorage.getItem(NAME)||'';
+    }catch(e){return '';}
+  };
+  const getCountry=()=>{
+    try{
+      const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+      const map={
+        'America/St_Johns':'Canada','America/Halifax':'Canada','America/Glace_Bay':'Canada','America/Moncton':'Canada','America/Goose_Bay':'Canada','America/Toronto':'Canada','America/Nipigon':'Canada','America/Thunder_Bay':'Canada','America/Iqaluit':'Canada','America/Winnipeg':'Canada','America/Resolute':'Canada','America/Rankin_Inlet':'Canada','America/Regina':'Canada','America/Swift_Current':'Canada','America/Edmonton':'Canada','America/Cambridge_Bay':'Canada','America/Inuvik':'Canada','America/Dawson':'Canada','America/Creston':'Canada','America/Whitehorse':'Canada','America/Dawson_Creek':'Canada','America/Vancouver':'Canada',
+        'America/New_York':'United States','America/Detroit':'United States','America/Chicago':'United States','America/Denver':'United States','America/Phoenix':'United States','America/Los_Angeles':'United States','America/Anchorage':'United States','Pacific/Honolulu':'United States',
+        'Europe/London':'United Kingdom','Europe/Dublin':'Ireland','Europe/Paris':'France','Europe/Berlin':'Germany','Europe/Madrid':'Spain','Europe/Rome':'Italy','Europe/Amsterdam':'Netherlands','Europe/Brussels':'Belgium','Europe/Zurich':'Switzerland','Europe/Vienna':'Austria','Europe/Stockholm':'Sweden','Europe/Oslo':'Norway','Europe/Copenhagen':'Denmark','Europe/Helsinki':'Finland','Europe/Warsaw':'Poland','Europe/Lisbon':'Portugal',
+        'Asia/Tokyo':'Japan','Asia/Seoul':'South Korea','Asia/Shanghai':'China','Asia/Hong_Kong':'Hong Kong','Asia/Singapore':'Singapore','Asia/Kolkata':'India','Asia/Dubai':'United Arab Emirates','Asia/Jerusalem':'Israel','Asia/Bangkok':'Thailand',
+        'Australia/Sydney':'Australia','Australia/Melbourne':'Australia','Australia/Brisbane':'Australia','Australia/Perth':'Australia','Pacific/Auckland':'New Zealand'
+      };
+      return map[tz]||'';
+    }catch(e){return '';}
+  };
+  function style(){
+    if(document.getElementById('nayanethub-personal-style'))return;
+    const s=document.createElement('style');s.id='nayanethub-personal-style';
+    s.textContent=`#nayanethub-personal-welcome{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0 0 18px;padding:15px 18px;border:1px solid #d86cff38;border-radius:16px;background:linear-gradient(145deg,#14101b,#09090d);box-shadow:inset 0 1px #fff3,0 14px 30px #0008}#nayanethub-personal-welcome .greeting{font-size:16px;font-weight:900;letter-spacing:-.02em}#nayanethub-personal-welcome .details{margin-top:4px;color:#aaa4b0;font-size:9px;font-weight:700;letter-spacing:.04em}@media(max-width:700px){#nayanethub-personal-welcome{display:block;padding:14px 15px}#nayanethub-personal-welcome .greeting{font-size:15px}}`;
+    document.head.appendChild(s);
+  }
+  function render(){
+    style();
+    const name=esc(getName());
+    const now=new Date();
+    const h=now.getHours();
+    const greeting=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+    const time=now.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+    const date=now.toLocaleDateString([], {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+    const country=esc(getCountry());
+    let el=document.getElementById('nayanethub-personal-welcome');
+    if(!el){el=document.createElement('section');el.id='nayanethub-personal-welcome';const root=document.querySelector('#page-home')||document.querySelector('main')||document.body;root.prepend(el);}
+    el.innerHTML=`<div><div class="greeting">${greeting}${name?', '+name:''}.</div><div class="details">${time} · ${date}${country?' · '+country:''}</div></div>`;
+  }
+  document.addEventListener('DOMContentLoaded',render);
+  [250,1000,2000].forEach(ms=>setTimeout(render,ms));
 })();
