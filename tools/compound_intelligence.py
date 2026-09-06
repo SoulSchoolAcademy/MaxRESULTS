@@ -37,7 +37,10 @@ def load_events() -> list[dict[str, Any]]:
             event = json.loads(path.read_text(encoding="utf-8"))
         except json.JSONDecodeError as exc:
             raise ValueError(f"{path}: invalid JSON: {exc}") from exc
-        event["_path"] = str(path.relative_to(ROOT))
+        try:
+            event["_path"] = str(path.relative_to(EVENT_DIR))
+        except ValueError:
+            event["_path"] = str(path)
         events.append(event)
     return events
 
@@ -93,7 +96,6 @@ def upsert_learning(learning: dict[str, Any]) -> Path:
     if path.exists():
         try:
             existing = json.loads(path.read_text(encoding="utf-8"))
-            # Never regress stronger evidence or an operational state.
             if al.evidence_rank(existing.get("evidence_state", "UNKNOWN")) > al.evidence_rank(learning.get("evidence_state", "UNKNOWN")):
                 learning["evidence_state"] = existing["evidence_state"]
             if existing.get("learning_state") == "OPERATIONAL":
