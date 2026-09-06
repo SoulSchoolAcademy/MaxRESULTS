@@ -1,0 +1,63 @@
+name: NayaNET Hub V7 Enhancements
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  enhance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: nayanet-hub-release
+      - name: Apply surgical Hub enhancements
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          marker='<!-- NAYANET-V7-INTELLIGENCE-ENHANCEMENTS -->'
+          if marker in s:
+              print('Enhancements already present; no change.')
+              raise SystemExit(0)
+          css=r'''<style id="nayanet-v7-intelligence-style">
+          .nayaQaGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+          .nayaQaCard{position:relative;padding:18px;border:1px solid #ffffff1d;border-radius:19px;background:linear-gradient(145deg,#14141a,#09090d);box-shadow:inset 0 1px #fff3,0 18px 38px #0009;transition:.2s var(--ease);overflow:hidden}
+          .nayaQaCard:hover{transform:translateY(-3px);border-color:#d86cff55;box-shadow:inset 0 1px #fff4,0 20px 42px #000b,0 0 28px #d86cff12}
+          .nayaQaTag{display:inline-flex;padding:5px 8px;border-radius:999px;background:#d86cff12;color:#e9cfff;border:1px solid #d86cff30;font-size:7px;font-weight:1000;letter-spacing:.1em}
+          .nayaQaCard h3{font-size:15px;line-height:1.25;margin:11px 0 7px}.nayaQaCard p{font-size:10px;line-height:1.6;color:#cfc9d5;margin:0}.nayaQaAnswer{margin-top:11px;padding-top:11px;border-top:1px solid #ffffff12;color:#aaa4b0;font-size:9px;line-height:1.6}
+          .nayaBrief{margin-top:14px;padding:20px;border:1px solid #e8c76642;border-radius:22px;background:linear-gradient(145deg,#18150c,#0a090c);box-shadow:inset 0 1px #fff3,0 22px 48px #000a}.nayaBriefHead{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.nayaBrief h2{font-size:21px;letter-spacing:-.04em;margin:0 0 5px}.nayaBrief p{font-size:10px;line-height:1.6;color:#c9c2b1;margin:0}.nayaBriefGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.nayaBriefItem{padding:12px;border:1px solid #ffffff14;border-radius:14px;background:#09090d}.nayaBriefItem b{display:block;font-size:8px;letter-spacing:.1em;margin-bottom:5px}.nayaBriefItem span{font-size:9px;line-height:1.5;color:#bcb5c1}
+          .nayaFeedActions{display:flex;gap:7px;flex-wrap:wrap;padding:11px 17px 14px;border-top:1px solid #ffffff10}.nayaFeedActions button{min-height:31px;padding:0 10px;border:1px solid #ffffff1b;border-radius:10px;background:#08080c;color:#bdb7c4;font-size:7px;font-weight:1000;transition:.2s var(--ease)}.nayaFeedActions button:hover{transform:translateY(-2px);border-color:#d86cff65;color:#fff;box-shadow:0 0 16px #d86cff12}.nayaFeedActions button.liked{border-color:#d86cff70;background:#d86cff12;color:#fff}
+          .nayaWelcome{margin:0 0 16px;padding:14px 17px;border:1px solid #ffffff17;border-radius:17px;background:linear-gradient(145deg,#101017,#08080c);box-shadow:inset 0 1px #fff2,0 15px 30px #0008}.nayaWelcome b{font-size:13px}.nayaWelcome span{display:block;margin-top:5px;color:#aaa4b0;font-size:9px}
+          @media(max-width:800px){.nayaQaGrid{grid-template-columns:1fr}.nayaBriefGrid{grid-template-columns:1fr}.nayaBriefHead{display:block}}
+          </style>'''
+          js=r'''<script id="nayanet-v7-intelligence-script">
+          (()=>{const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];const clean=x=>(x||'').replace(/\s+/g,' ').trim().toLowerCase();const findPage=(needle)=>{const n=clean(needle);const el=$$('h1,h2,h3,h4,.pageHead').find(e=>clean(e.textContent).includes(n));return el?.closest('.page')||el?.closest('[id]')||el?.parentElement};
+          const qa=[['START HERE','What is NayaNET?','NayaNET is a private, intelligent network where you create, connect and grow with AI—bringing conversations, knowledge, memory and actions into one compounding intelligence system.'],['CORE','What is Naya Power?','Naya Power is the intelligence layer that helps you think with Naya, capture what matters, remember it, find it later and turn experience into better decisions and execution.'],['MEMORY','What are Smart Notes?','A Smart Note is one intelligence event: what happened, what you learned, what Naya contributed, and what can be remembered or acted on next.'],['DAILY','What is My Intelligence Today?','It is your living daily front door: what happened, what matters, and what you can do next—rather than a generic dashboard.'],['BRIEFING','What is the Daily Intelligence Briefing?','Your briefing distills the most useful intelligence from your recent activity into a concise today-focused readout: important signals, lessons, decisions, opportunities and next actions.'],['CREATE','How do I use Naya to create?','Think with Naya → Create with Naya → Review with Naya → Score with Naya → Improve with Naya → Execute. The goal is movement from conversation into measurable action.'],['CHALLENGE','What is the Power Five Day Challenge?','Five days to build the operating habit: personalize Naya, compound memory, learn and master, create and execute, then become and compound.'],['COLLECTIVE','What is the Collective Feed?','The collective layer lets intelligence be shared by choice and discovered by the network while keeping the core principle: private by default, shared by choice, collective by consent.'],['PRIVACY','Is my intelligence private?','The design principle is private by default, shared by choice, collective by consent, public by decision. You decide what leaves your personal intelligence space.'],['FIND','Can I search my intelligence later?','Yes. The Hub is designed as a living, searchable intelligence library so your captured knowledge becomes findable and useful instead of disappearing into old conversations.']];
+          function addLibrary(){const page=findPage('Intelligence Library');if(!page||page.querySelector('.nayaQaGrid'))return;const surface=page.querySelector('.surface')||page.querySelector('.feature')||page;const box=document.createElement('section');box.className='nayaQaGrid';box.setAttribute('aria-label','NayaNET Intelligence Library Q&A');box.innerHTML=qa.map(([tag,q,a])=>`<article class="nayaQaCard"><span class="nayaQaTag">${tag}</span><h3>${q}</h3><p>${a}</p><div class="nayaQaAnswer"><strong>Naya says:</strong> ${a}</div></article>`).join('');surface.appendChild(box)}
+          function addBriefing(){const page=findPage('Your Intelligence Today')||findPage('Intelligence Today');if(!page||page.querySelector('.nayaBrief'))return;const now=new Date(),day=now.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});const b=document.createElement('section');b.className='nayaBrief';b.innerHTML=`<div class="nayaBriefHead"><div><h2>Daily Intelligence Briefing</h2><p>${day} · A concise readout of what matters now.</p></div><button class="btn gold small" type="button" data-naya-briefing>REFRESH BRIEFING</button></div><div class="nayaBriefGrid"><div class="nayaBriefItem"><b>WHAT HAPPENED</b><span>Your recent intelligence is gathered into one place so the day starts with context, not a blank screen.</span></div><div class="nayaBriefItem"><b>WHAT MATTERS</b><span>Surface decisions, lessons, opportunities and unfinished threads that deserve attention.</span></div><div class="nayaBriefItem"><b>WHAT'S NEXT</b><span>Turn the signal into one clear next action and keep compounding intelligence.</span></div></div>`;const target=page.querySelector('.hero')||page.querySelector('.surface')||page.firstElementChild;target?.parentElement?.insertBefore(b,target.nextSibling);b.querySelector('[data-naya-briefing]')?.addEventListener('click',()=>{b.querySelector('p').textContent=new Date().toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})+' · Briefing refreshed from the Hub.'})}
+          function addFeedActions(){const page=findPage('Collective Feed');if(!page)return;page.querySelectorAll('.note').forEach(card=>{if(card.querySelector('.nayaFeedActions'))return;const bar=document.createElement('div');bar.className='nayaFeedActions';bar.innerHTML='<button type="button" data-act="like">♡ LIKE <span>0</span></button><button type="button" data-act="comment">▢ COMMENT</button><button type="button" data-act="share">↗ SHARE</button><button type="button" data-act="star">☆ STAR</button><button type="button" data-act="plus">＋ SAVE TO MY INTELLIGENCE</button>';card.appendChild(bar);bar.addEventListener('click',e=>{const btn=e.target.closest('button');if(!btn)return;if(btn.dataset.act==='like'){btn.classList.toggle('liked');const n=btn.querySelector('span');if(n)n.textContent=btn.classList.contains('liked')?'1':'0'}else if(btn.dataset.act==='share'){navigator.clipboard?.writeText(location.href).then(()=>btn.textContent='✓ SHARED').catch(()=>btn.textContent='✓ READY TO SHARE')}else if(btn.dataset.act==='star'){btn.classList.toggle('liked');btn.firstChild.textContent=btn.classList.contains('liked')?'★ STAR':'☆ STAR'}else if(btn.dataset.act==='plus'){btn.textContent='✓ SAVED TO MY INTELLIGENCE'}})})}
+          function addWelcome(){const top=$('.topbar');if(!top||document.querySelector('.nayaWelcome'))return;const hour=new Date().getHours(),greeting=hour<12?'Good morning':hour<18?'Good afternoon':'Good evening';const name=(document.body.dataset.userName||'').trim();const tz=(Intl.DateTimeFormat().resolvedOptions().timeZone||'').replace(/_/g,' ');const w=document.createElement('div');w.className='nayaWelcome';w.innerHTML=`<b>${greeting}${name?', '+name:''} ✨</b><span>${new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'})} · ${tz||'Your local time'}</span>`;top.parentElement?.insertBefore(w,top.nextSibling)}
+          const run=()=>{addLibrary();addBriefing();addFeedActions();addWelcome()};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();setTimeout(run,700);setTimeout(run,1800)})();
+          </script>'''
+          if '</body>' not in s: raise SystemExit('No </body> marker found; refusing unsafe edit.')
+          s=s.replace('</body>',marker+css+js+'</body>',1)
+          p.write_text(s,encoding='utf-8')
+          print('Applied enhancements.')
+          PY
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Enhance Intelligence Library, briefing, feed actions and welcome"
+          git push origin HEAD:nayanet-hub-release
+      - name: Remove temporary workflow
+        shell: bash
+        run: |
+          rm -f .github/workflows/nayanet-v7-enhancements.yml
+          git add .github/workflows/nayanet-v7-enhancements.yml || true
+          git commit -m "Remove temporary V7 enhancement workflow" || true
+          git push origin HEAD:nayanet-hub-release || true
