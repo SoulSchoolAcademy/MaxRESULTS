@@ -7,6 +7,7 @@ on:
       - 'nayanet-hub-collections.js'
       - 'CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js'
       - 'scripts/nayanet-hub-authority-correction.js'
+      - 'scripts/nayanet-hub-final-polish.js'
       - '.github/workflows/build-nayahub-intelligent.yml'
   workflow_dispatch:
 
@@ -27,24 +28,16 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          src=Path('NAYAHUB.html')
-          layer=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js')
-          completion=Path('nayanet-hub-collections.js')
-          authority=Path('scripts/nayanet-hub-authority-correction.js')
+          src=Path('NAYAHUB.html'); layer=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js'); completion=Path('nayanet-hub-collections.js'); authority=Path('scripts/nayanet-hub-authority-correction.js'); polish=Path('scripts/nayanet-hub-final-polish.js')
           html=src.read_text(encoding='utf-8')
           if html.count('<!doctype html>')!=1 or html.count('</html>')!=1: raise SystemExit('NAYAHUB.html is not a complete document')
           html=html.replace(r",'\\':'&#92;'",r",'\\\\':'&#92;'")
           layer_text=layer.read_text(encoding='utf-8').replace("setTimeout(()=>showLibrary(),100));window.NayaNETV7","setTimeout(()=>showLibrary(),100)));window.NayaNETV7")
-          m1='<!-- NAYANET-NAYAHUB-INTELLIGENCE-LAYER -->'
-          m2='<!-- NAYANET-NAYAHUB-COLLECTIONS-LAYER -->'
-          m3='<!-- NAYANET-CANONICAL-HUB-AUTHORITY-V1 -->'
-          if m1 not in html: html=html.replace('</body>','\n'+m1+'\n<script>\n'+layer_text+'\n</script>\n</body>',1)
-          if m2 not in html: html=html.replace('</body>','\n'+m2+'\n<script>\n'+completion.read_text(encoding='utf-8')+'\n</script>\n</body>',1)
-          authority_text=authority.read_text(encoding='utf-8')
-          if m3 not in html: html=html.replace('</body>','\n'+m3+'\n<script id="nayanet-canonical-hub-authority">\n'+authority_text+'\n</script>\n</body>',1)
-          src.write_text(html,encoding='utf-8')
-          Path('index.html').write_text(html,encoding='utf-8')
-          Path('_redirects').write_text('/intelligence/* /index.html 200\n',encoding='utf-8')
+          layers=[('NAYANET-NAYAHUB-INTELLIGENCE-LAYER',layer_text,'nayanet-nayahub-intelligence'),('NAYANET-NAYAHUB-COLLECTIONS-LAYER',completion.read_text(encoding='utf-8'),'nayanet-nayahub-collections'),('NAYANET-CANONICAL-HUB-AUTHORITY-V1',authority.read_text(encoding='utf-8'),'nayanet-canonical-hub-authority'),('NAYANET-CANONICAL-HUB-FINAL-POLISH-V1',polish.read_text(encoding='utf-8'),'nayanet-canonical-hub-final-polish')]
+          for marker,body,script_id in layers:
+              if '<!-- '+marker+' -->' not in html:
+                  html=html.replace('</body>','\n<!-- '+marker+' -->\n<script id="'+script_id+'">\n'+body+'\n</script>\n</body>',1)
+          src.write_text(html,encoding='utf-8');Path('index.html').write_text(html,encoding='utf-8');Path('_redirects').write_text('/intelligence/* /index.html 200\n',encoding='utf-8')
           print('NAYAHUB',src.stat().st_size,'INDEX',Path('index.html').stat().st_size)
           PY
       - name: Validate canonical Hub
@@ -63,19 +56,15 @@ jobs:
           grep -q 'Your Intelligence Today' index.html
           grep -q 'SMART NOTES' index.html
           grep -q 'NAYANET-CANONICAL-HUB-AUTHORITY-V1' index.html
+          grep -q 'NAYANET-CANONICAL-HUB-FINAL-POLISH-V1' index.html
           ! grep -q 'prompt(' index.html
           python3 - <<'PY'
           from pathlib import Path
           import re,zipfile
-          s=Path('index.html').read_text(encoding='utf-8')
-          assert s.count('<!doctype html>')==1 and s.count('</html>')==1
-          scripts=re.findall(r'<script(?:[^>]*)>(.*?)</script>',s,re.S|re.I)
-          Path('/tmp/embedded.js').write_text('\n'.join(scripts),encoding='utf-8')
-          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
-              z.write('index.html','index.html')
-              z.write('_redirects','_redirects')
-          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip') as z:
-              assert z.namelist()[0]=='index.html'
+          s=Path('index.html').read_text(encoding='utf-8');assert s.count('<!doctype html>')==1 and s.count('</html>')==1
+          scripts=re.findall(r'<script(?:[^>]*)>(.*?)</script>',s,re.S|re.I');Path('/tmp/embedded.js').write_text('\n'.join(scripts),encoding='utf-8')
+          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:z.write('index.html','index.html');z.write('_redirects','_redirects')
+          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip') as z:assert z.namelist()[0]=='index.html'
           print('VALIDATED',len(s),'bytes',len(scripts),'scripts')
           PY
           node --check /tmp/embedded.js
