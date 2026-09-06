@@ -1,4 +1,4 @@
-# NayaHub surgical upgrade v2
+# NayaHub surgical upgrade v3
 name: NayaHub Surgical Upgrade
 on:
   push:
@@ -60,7 +60,7 @@ jobs:
         run: |
           git config user.name 'NayaNET Upgrade Bot'
           git config user.email 'nayanet-upgrade-bot@users.noreply.github.com'
-          git add NAYAHUB.html tmp .github/workflows/nayahub-surgical-upgrade.yml
+          git add -A
           git commit -m 'Surgical NayaHub menu and feature report bars' || true
           git push
       - name: Package Hub
