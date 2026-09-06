@@ -1,0 +1,45 @@
+name: NayaNET surgical cleanup
+on:
+  push:
+    branches: [nayanet-hub-release]
+permissions:
+  contents: write
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove duplicate statement blocks
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          phrase = 'Your life creates intelligence every day. Naya helps you capture it, understand it, remember it, compound it, and use it.'
+          marker = '<!-- NAYANET-SURGICAL-QUOTE-CLEANUP -->'
+          if marker not in s:
+              cleanup = r'''\n<!-- NAYANET-SURGICAL-QUOTE-CLEANUP -->\n<script id="nayanet-surgical-quote-cleanup">\n(()=>{'use strict';const phrase='Your life creates intelligence every day. Naya helps you capture it, understand it, remember it, compound it, and use it.';const norm=s=>String(s||'').replace(/\\s+/g,' ').trim();function run(){const home=document.getElementById('page-home');const nav=document.querySelector('.nayanet-ecosystem-bar');if(!home||!nav)return;const matches=[...home.querySelectorAll('*')].filter(el=>el.children.length===0&&norm(el.textContent)===phrase);const blocks=[];matches.forEach(el=>{let b=el;while(b.parentElement&&b.parentElement!==home&&norm(b.textContent).includes(phrase)&&b.parentElement.children.length<=3)b=b.parentElement;if(!blocks.includes(b))blocks.push(b)});blocks.forEach(b=>b.remove());let q=document.getElementById('nh-canonical-life-intelligence');if(!q){q=document.createElement('div');q.id='nh-canonical-life-intelligence';q.className='nh-authority-quote';q.textContent=phrase;nav.insertAdjacentElement('afterend',q)}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();setTimeout(run,100);setTimeout(run,500);setTimeout(run,1200)})();\n</script>\n'''
+              s = s.replace('</body></html>', cleanup + '</body></html>')
+          p.write_text(s, encoding='utf-8')
+          print('cleanup marker present:', marker in s)
+          print('file bytes:', len(s.encode('utf-8')))
+      - name: Commit surgical change
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No index.html change needed"
+          else
+            git commit -m "Remove duplicate Intelligent Hub statement blocks"
+            git push
+          fi
+      - name: Remove temporary workflow
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -f .github/workflows/nayanet-surgical-cleanup.yml || true
+          git commit -m "Remove temporary surgical cleanup workflow" || true
+          git push || true
