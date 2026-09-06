@@ -1,8 +1,10 @@
-name: Build Integrated NayaNET V7 Index
+name: Build NayaNET Intelligent Hub from NAYAHUB
 
 on:
   push:
     paths:
+      - 'NAYAHUB.html'
+      - 'nayanet-hub-collections.js'
       - 'CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js'
       - '.github/workflows/build-integrated-v7-index.yml'
 
@@ -14,70 +16,86 @@ jobs:
   integrate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout current source of truth
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Integrate layer into real index.html
+      - name: Surgically upgrade NAYAHUB and create index.html
+        shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          index = Path('CLOUDFLARE-INTELLIGENT-HUB-V7/index.html')
-          layer = Path('CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js')
-          html = index.read_text(encoding='utf-8')
-          marker = '<!-- NAYANET-V7-INTEGRATED-INTELLIGENCE-LAYER -->'
-          if marker not in html:
-              js = layer.read_text(encoding='utf-8')
-              injection = '\n' + marker + '\n<script>\n' + js + '\n</script>\n'
-              html = html.replace('</body>', injection + '</body>')
-              index.write_text(html, encoding='utf-8')
-          print('index bytes:', index.stat().st_size)
-          print('marker present:', marker in html)
+          import zipfile
+          src=Path('NAYAHUB.html')
+          layer=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/nayanet-v7-surgical-integration.js')
+          collections=Path('nayanet-hub-collections.js')
+          html=src.read_text(encoding='utf-8')
+          if html.count('<!doctype html>')!=1 or html.count('</html>')!=1: raise SystemExit('NAYAHUB.html is not one complete document')
+          m1='<!-- NAYANET-NAYAHUB-INTELLIGENCE-LAYER -->'
+          m2='<!-- NAYANET-NAYAHUB-COLLECTIONS-LAYER -->'
+          if m1 not in html:
+              html=html.replace('</body>','\n'+m1+'\n<script>\n'+layer.read_text(encoding='utf-8')+'\n</script>\n</body>',1)
+          if m2 not in html:
+              html=html.replace('</body>','\n'+m2+'\n<script>\n'+collections.read_text(encoding='utf-8')+'\n</script>\n</body>',1)
+          src.write_text(html,encoding='utf-8')
+          Path('index.html').write_text(html,encoding='utf-8')
+          Path('_redirects').write_text('/intelligence/* /index.html 200\n',encoding='utf-8')
+          print('NAYAHUB bytes:',src.stat().st_size)
+          print('index bytes:',Path('index.html').stat().st_size)
           PY
 
-      - name: Validate integrated index
+      - name: Validate completed artifact
+        shell: bash
         run: |
-          test -f CLOUDFLARE-INTELLIGENT-HUB-V7/index.html
-          grep -q 'NAYANET-V7-INTEGRATED-INTELLIGENCE-LAYER' CLOUDFLARE-INTELLIGENT-HUB-V7/index.html
-          grep -q 'Search your intelligence' CLOUDFLARE-INTELLIGENT-HUB-V7/index.html
-          grep -q 'SHARE INTELLIGENCE' CLOUDFLARE-INTELLIGENT-HUB-V7/index.html
-          grep -q 'ASK NAYA' CLOUDFLARE-INTELLIGENT-HUB-V7/index.html
-          grep -q 'ENTER NayaNET' CLOUDFLARE-INTELLIGENT-HUB-V7/index.html || true
+          set -e
+          test -f index.html
+          grep -q 'NAYANET-NAYAHUB-INTELLIGENCE-LAYER' index.html
+          grep -q 'NAYANET-NAYAHUB-COLLECTIONS-LAYER' index.html
+          grep -q 'Search your intelligence' index.html
+          grep -q 'SHARE INTELLIGENCE' index.html
+          grep -q 'ASK NAYA' index.html
+          grep -q 'IntelligenceStore' index.html
+          grep -q '＋ SHARE' index.html
+          grep -q '♡ LOVE' index.html
+          grep -q '★ RANK' index.html
+          grep -q '💬 COMMENT' index.html
+          grep -q 'Include my NayaNET link' index.html
+          grep -q 'nayanet_v7_surgical_v1' index.html
+          ! grep -q 'prompt(' index.html
           python3 - <<'PY'
           from pathlib import Path
-          s=Path('CLOUDFLARE-INTELLIGENT-HUB-V7/index.html').read_text(encoding='utf-8')
-          assert s.count('<!doctype html>') == 1
-          assert s.count('<html') >= 1
-          assert s.count('</html>') == 1
-          assert 'prompt(' not in s
-          print('validated:', len(s), 'bytes')
+          import zipfile
+          s=Path('index.html').read_text(encoding='utf-8')
+          assert s.count('<!doctype html>')==1
+          assert s.count('</html>')==1
+          assert s.find('<!doctype html>') < s.find('</html>')
+          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
+              z.write('index.html','index.html')
+              z.write('_redirects','_redirects')
+          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip') as z:
+              names=z.namelist()
+              assert names[0]=='index.html'
+              assert 'index.html' in names
+          print('VALIDATED index:',len(s),'bytes')
+          print('VALIDATED ZIP:',Path('NayaNET-Intelligent-Hub-Cloudflare.zip').stat().st_size,'bytes')
+          print('ZIP ROOT:',names)
           PY
 
-      - name: Build Cloudflare ZIP
-        run: |
-          cd CLOUDFLARE-INTELLIGENT-HUB-V7
-          zip -j ../NayaNET-Intelligent-Hub-V7-Cloudflare-READY.zip index.html
-          cd ..
-          unzip -l NayaNET-Intelligent-Hub-V7-Cloudflare-READY.zip
-
-      - name: Upload finished artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: NayaNET-Intelligent-Hub-V7-Cloudflare-READY
-          path: NayaNET-Intelligent-Hub-V7-Cloudflare-READY.zip
-          if-no-files-found: error
-
-      - name: Commit integrated index
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Commit completed source and deployment files
+        shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add CLOUDFLARE-INTELLIGENT-HUB-V7/index.html
-          if git diff --cached --quiet; then
-            echo 'No index changes to commit.'
-          else
-            git commit -m 'Build integrated NayaNET Intelligent Hub V7 index [skip ci]'
-            git push
-          fi
+          git add NAYAHUB.html index.html _redirects
+          if git diff --cached --quiet; then echo 'No changes to commit.'; else git commit -m 'Surgically upgrade NayaNET Intelligent Hub from NAYAHUB [skip ci]'; git push; fi
+
+      - name: Upload finished Cloudflare package
+        uses: actions/upload-artifact@v4
+        with:
+          name: NayaNET-Intelligent-Hub-Cloudflare
+          path: |
+            NayaNET-Intelligent-Hub-Cloudflare.zip
+            index.html
+            _redirects
+          if-no-files-found: error
