@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - '.github/workflows/nayahub-surgical-upgrade.yml'
       - 'scripts/nayahub-surgical-upgrade.py'
       - 'NAYAHUB.html'
 permissions:
