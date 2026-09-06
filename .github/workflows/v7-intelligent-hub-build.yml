@@ -6,6 +6,7 @@ on:
     paths:
       - 'scripts/v7-intelligent-upgrade.js'
       - 'scripts/v7-intelligent-hub-refinement.js'
+      - 'scripts/v7-intelligent-feed-excellence.js'
       - '.github/workflows/v7-intelligent-hub-build.yml'
 
 permissions:
@@ -22,6 +23,7 @@ jobs:
         run: |
           node --check scripts/v7-intelligent-upgrade.js
           node --check scripts/v7-intelligent-hub-refinement.js
+          node --check scripts/v7-intelligent-feed-excellence.js
 
       - name: Apply surgical upgrade layers to NAYAHUB.html
         shell: python
@@ -32,6 +34,7 @@ jobs:
           layers = [
               ('NAYANET-V7-INTELLIGENT-UPGRADE-V2', 'nayanet-v7-intelligent-upgrade', Path('scripts/v7-intelligent-upgrade.js')),
               ('NAYANET-V7-INTELLIGENT-HUB-REFINEMENT-V1', 'nayanet-v7-intelligent-hub-refinement', Path('scripts/v7-intelligent-hub-refinement.js')),
+              ('NAYANET-V7-INTELLIGENT-FEED-EXCELLENCE-V1', 'nayanet-v7-intelligent-feed-excellence', Path('scripts/v7-intelligent-feed-excellence.js')),
           ]
           for marker, script_id, patch_path in layers:
               patch = patch_path.read_text(encoding='utf-8')
@@ -54,9 +57,14 @@ jobs:
           grep -q 'YOUR INTELLIGENCE TODAY' index.html
           grep -q 'NAYANET-V7-INTELLIGENT-UPGRADE-V2' index.html
           grep -q 'NAYANET-V7-INTELLIGENT-HUB-REFINEMENT-V1' index.html
+          grep -q 'NAYANET-V7-INTELLIGENT-FEED-EXCELLENCE-V1' index.html
           grep -q 'TYPE OR TALK TO NAYA' index.html
           grep -q 'Naya Lists' index.html
           grep -q 'SMART NOTES' index.html
+          grep -q '＋ SHARE' index.html
+          grep -q '★ RANK' index.html
+          grep -q '💬 COMMENT' index.html
+          grep -q '🔖 SAVE' index.html
 
       - name: Commit surgical upgrade and release artifact
         run: |
@@ -66,6 +74,6 @@ jobs:
           if git diff --cached --quiet; then
             echo 'No changes to commit.'
           else
-            git commit -m 'Refine V7 Intelligent Hub around Smart Notes and Intelligent Blocks'
+            git commit -m 'Elevate V7 Intelligent Feed to premium Smart Posts'
             git push
           fi
