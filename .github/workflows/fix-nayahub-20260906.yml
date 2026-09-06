@@ -1,0 +1,71 @@
+name: Fix Naya Hub 20260906
+on:
+  push:
+    branches: [main]
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Surgical fixes
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('NAYAHUB.html')
+          s=p.read_text(encoding='utf-8')
+
+          # Remove the duplicate Smart Notes entry from the fixed Feature Reports rail.
+          s=re.sub(r'\n<a class="pdf"[^>]*>\s*<span class="pdf-icon">📄</span>SMART NOTES</a>', '', s, count=1)
+
+          # The welcome runtime currently executes in <head> before #page-home exists.
+          # Wrap its existing body in DOMContentLoaded so the greeting actually renders.
+          pat=r'<script id="nayanet-privacy-welcome-runtime">(.*?)</script>'
+          m=re.search(pat,s,re.S)
+          if m and 'DOMContentLoaded' not in m.group(1):
+              body=m.group(1)
+              s=s[:m.start()]+'<script id="nayanet-privacy-welcome-runtime">document.addEventListener(\'DOMContentLoaded\',function(){'+body+'});</script>'+s[m.end():]
+
+          # Replace the basic Intelligence Library page with explicit Personal / Smart Feed / Collective Feed groupings.
+          start=s.find('<section class="page" id="page-intelligence">')
+          if start<0: raise SystemExit('Intelligence Library page not found')
+          # Find its closing section by walking section nesting.
+          i=start; depth=0; end=None
+          for mm in re.finditer(r'<section\b|</section>',s[start:],re.I):
+              tok=mm.group(0)
+              if tok.lower().startswith('<section'): depth+=1
+              else:
+                  depth-=1
+                  if depth==0:
+                      end=start+mm.end(); break
+          if end is None: raise SystemExit('Could not locate Intelligence Library closing section')
+          lib='''<section class="page" id="page-intelligence">
+          <div class="pageHead"><div><div class="eyebrow">THE INTELLIGENCE LIBRARY</div><h1>Intelligence Library</h1><p>One place to find what is yours, what is flowing through your Smart Feed, and what has intentionally crossed into Collective Intelligence.</p></div></div>
+          <div class="metricGrid"><div class="metric"><b id="mNotes">0</b><span>SMART NOTES</span></div><div class="metric"><b id="mBlocks">0</b><span>INTELLIGENT BLOCKS</span></div><div class="metric"><b id="mDays">1</b><span>ACTIVE DAYS</span></div><div class="metric"><b id="mMail">0</b><span>MAIL DRAFTS</span></div></div>
+          <div class="nhx-collective-switch" style="margin:0 0 18px"><button class="nhx-tab active" data-libview="personal">PERSONAL INTELLIGENCE</button><button class="nhx-tab" data-libview="smart">SMART FEED</button><button class="nhx-tab" data-libview="collective">COLLECTIVE FEED</button></div>
+          <div id="nhxLibraryGroups">
+            <section class="nhx-library-group" data-libgroup="personal"><div class="eyebrow">PERSONAL INTELLIGENCE</div><h2>My Intelligence</h2><p class="nhx-group-sub">Your private Smart Notes and preserved Intelligent Blocks. Nothing here is public by default.</p><div id="nhxPersonalBlocks" class="nhx-library-grid"></div></section>
+            <section class="nhx-library-group" data-libgroup="smart"><div class="eyebrow">SMART FEED</div><h2>What Naya helps you see</h2><p class="nhx-group-sub">The living feed representation of your preserved intelligence, ready for search, recall, and compounding.</p><div id="nhxSmartBlocks" class="nhx-library-grid"></div></section>
+            <section class="nhx-library-group" data-libgroup="collective"><div class="eyebrow">COLLECTIVE FEED</div><h2>Shared Intelligence</h2><p class="nhx-group-sub">Intelligence intentionally shared by consent. Private source notes stay private.</p><div id="nhxCollectiveBlocks" class="nhx-library-grid"></div></section>
+          </div>
+          <div class="grid2" style="margin-top:22px"><section class="feature colorCard" style="--tone:var(--green)"><div class="eyebrow">ONE INTELLIGENT BLOCK</div><h2>Everything points to the same intelligence event.</h2><p>Human meaning stays intact while Naya, Machine, Smart Feed, Personal Intelligence, and Collective contribution remain distinct views of the same underlying event.</p></section><section class="feature colorCard" style="--tone:var(--magenta)"><div class="eyebrow">PRIVACY LAW</div><h2>Private by default.</h2><p>Shared by choice · Collective by consent · Public by decision.</p></section></div>
+          <div id="nhxLibraryReference" class="grid2" style="margin-top:22px"></div>
+          </section>'''
+          s=s[:start]+lib+s[end:]
+
+          # Add the small final renderer after the existing layers; it only owns the three Library groups.
+          correction=r'''\n<script id="nayanet-hub-final-correction">\n(function(){\n  function init(){\n    const page=document.getElementById('page-intelligence'); if(!page)return;\n    const notes=()=>{try{return JSON.parse(localStorage.getItem('nayanet_v7_live_notes')||'[]')}catch(e){return[]}};\n    const esc=x=>String(x??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\\\"':'&quot;'}[c]||c));\n    const cards=(items,label)=>items.length?items.map(n=>{const title=String(n.text||'').split(/[.!?]\\s+/)[0].slice(0,100)||'Intelligent Event';return '<article class="nhx-library-card"><div class="eyebrow">'+label+' · '+esc(n.type||'INSIGHT')+'</div><h3>'+esc(title)+'</h3><p>'+esc(n.text||'')+'</p><div class="nhx-engage"><button>★ SAVE</button><button>☆ FAVORITE</button></div></article>'}).join(''):'<div class="nhx-lock" style="grid-column:1/-1"><h2>NO PRESERVED INTELLIGENCE YET</h2><p>When a real Intelligent Block exists, it will appear here. Nothing is invented to fill the library.</p></div>';\n    function render(){\n      const ns=notes().sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)));\n      const personal=document.getElementById('nhxPersonalBlocks'),smart=document.getElementById('nhxSmartBlocks'),collective=document.getElementById('nhxCollectiveBlocks');\n      if(personal)personal.innerHTML=cards(ns,'PERSONAL');\n      if(smart)smart.innerHTML=cards(ns,'SMART FEED');\n      if(collective)collective.innerHTML='<div class="nhx-lock" style="grid-column:1/-1"><h2>COLLECTIVE FEED</h2><p>No intentionally shared Intelligent Blocks are available in this runtime yet. Your private Smart Notes are not silently published.</p></div>';\n      document.querySelectorAll('[data-libview]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-libview]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('[data-libgroup]').forEach(x=>x.style.display=(x.dataset.libgroup===b.dataset.libview?'block':'none'));});\n      const first=document.querySelector('[data-libview="personal"]'); if(first)first.click();\n    }\n    render();\n    const mo=new MutationObserver(render); mo.observe(page,{childList:true,subtree:false});\n  }\n  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();\n})();\n</script>\n'''
+          s=s.replace('</body>',correction+'</body>')
+          p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name "NayaNET Surgical Fix"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add NAYAHUB.html
+          git rm --cached .github/workflows/fix-nayahub-20260906.yml || true
+          git add -u .github/workflows/fix-nayahub-20260906.yml || true
+          git commit -m "Fix Hub duplicate Smart Notes, welcome greeting, and library feeds"
+          git push
+          rm -f .github/workflows/fix-nayahub-20260906.yml
