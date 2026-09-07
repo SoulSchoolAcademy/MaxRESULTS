@@ -63,34 +63,33 @@ jobs:
           Path('index.html').write_text(html,encoding='utf-8')
           print('V5 applied; index bytes:',Path('index.html').stat().st_size)
           PY
-      - name: Validate requested Hub release
+      - name: Validate requested Hub release and build Cloudflare ZIP
         shell: bash
         run: |
-          set -e
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' index.html
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' NAYANETHUB.html
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V4' index.html
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V5' index.html
-          grep -q 'Personal Feed' index.html
-          grep -q 'Smart Lists' index.html
-          grep -q 'Collective Feed' index.html
-          grep -q 'CIRCULATE TO COLLECTIVE' index.html
-          grep -q 'Good morning' index.html
-          grep -q 'Good afternoon' index.html
-          grep -q 'Good evening' index.html
-          grep -q 'FAVORITE' index.html
-          grep -q 'LOVE' index.html
-          grep -q 'data-nh5-star' index.html
-          python3 - <<'PY'
-          from pathlib import Path
-          import zipfile
-          for f in ('NAYANETHUB.html','index.html'):
-              s=Path(f).read_text(encoding='utf-8')
-              assert s.count('<!doctype html>')==1 and s.count('</html>')==1,f
-          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
-              z.write('index.html','index.html');z.write('_redirects','_redirects')
-          print('ZIP READY')
-          PY
+          bad=0
+          check(){ if grep -q "$1" "$2"; then echo "PASS: $1 in $2"; else echo "FAIL: $1 in $2"; bad=1; fi; }
+          check 'NAYANETHUB-FINAL-EXECUTION-V1' index.html
+          check 'NAYANETHUB-FINAL-EXECUTION-V4' index.html
+          check 'NAYANETHUB-FINAL-EXECUTION-V5' index.html
+          check 'Personal Feed' index.html
+          check 'Smart Lists' index.html
+          check 'Collective Feed' index.html
+          check 'CIRCULATE TO COLLECTIVE' index.html
+          check 'Good morning' index.html
+          check 'Good afternoon' index.html
+          check 'Good evening' index.html
+          check 'FAVORITE' index.html
+          check 'LOVE' index.html
+          check 'data-nh5-star' index.html
+          check '<!doctype html>' NAYANETHUB.html
+          check '</html>' NAYANETHUB.html
+          check '<!doctype html>' index.html
+          check '</html>' index.html
+          if [ "$bad" -ne 0 ]; then echo 'VALIDATION FAILED'; exit 1; fi
+          rm -f NayaNET-Intelligent-Hub-Cloudflare.zip
+          zip -q -9 NayaNET-Intelligent-Hub-Cloudflare.zip index.html _redirects
+          test -s NayaNET-Intelligent-Hub-Cloudflare.zip
+          echo "ZIP READY: $(stat -c%s NayaNET-Intelligent-Hub-Cloudflare.zip) bytes"
       - name: Upload Cloudflare package
         uses: actions/upload-artifact@v4
         with:
@@ -110,4 +109,4 @@ jobs:
           git add NAYANETHUB.html index.html _redirects
           if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish updated NayaNET Hub from NAYANETHUB [skip ci]'; git push; fi
 
-# release-trigger-2026-09-06-pr-build-v5-validator-fixed
+# release-trigger-2026-09-06-pr-build-v5-source-validator-corrected

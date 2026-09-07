@@ -1,1 +1,1 @@
-/* NAYANETHUB-V5 BUILD TRIGGER — execution artifact validation */
+/* NAYANETHUB-V5 BUILD TRIGGER — verified artifact build */
