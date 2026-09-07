@@ -35,7 +35,7 @@ jobs:
           ]
           changed=False
           for sid in remove_ids:
-            pattern=r'<script(?=[^>]*\\bid=["\\']'+re.escape(sid)+r'["\\'])[^>]*>.*?</script>'
+            pattern = r"<script[^>]*id=['\"]" + re.escape(sid) + r"['\"][^>]*>.*?</script>"
             s2,n=re.subn(pattern,'',s,flags=re.S)
             if n>1:
               raise SystemExit(f'Unsafe duplicate script id: {sid} ({n})')
