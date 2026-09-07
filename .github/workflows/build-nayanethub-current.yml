@@ -6,12 +6,14 @@ on:
       - 'NAYANETHUB.html'
       - 'scripts/nayanethub-final-execution.js'
       - 'scripts/nayanethub-surgical-v5.js'
+      - 'scripts/nayanethub-v5-build-trigger.js'
       - '.github/workflows/build-nayanethub-current.yml'
   pull_request:
     paths:
       - 'NAYANETHUB.html'
       - 'scripts/nayanethub-final-execution.js'
       - 'scripts/nayanethub-surgical-v5.js'
+      - 'scripts/nayanethub-v5-build-trigger.js'
       - '.github/workflows/build-nayanethub-current.yml'
   workflow_dispatch:
 
