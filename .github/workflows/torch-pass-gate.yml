@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: naya-torch-pass-${{ github.ref }}
@@ -22,6 +22,41 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Surgical NayaNET Hub repair
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('NAYANETHUB.html')
+          s=p.read_text(encoding='utf-8')
+          rejected=['addTodayNav','createTodayPage','activateToday','labelHome','normalizeTopbar','buildToday','sourceItems','todaySnapshot']
+          for name in rejected:
+              s=re.sub(r'<script[^>]*>.*?'+re.escape(name)+r'.*?</script>', '', s, flags=re.I|re.S)
+          s=re.sub(r'<style[^>]*>.*?nh-v11-today.*?</style>', '', s, flags=re.I|re.S)
+          s=s.replace('Your Intelligence Today','').replace('Daily Intelligence Briefing','')
+          s=re.sub(r'<script[^>]*id=["\']nayanet-approved-hub-runtime["\'][^>]*>.*?</script>', '', s, flags=re.I|re.S)
+          runtime=r'''<script id="nayanet-approved-hub-runtime">
+          (()=>{
+            const A={personal:'Personal Feed',collective:'Collective Feed',lists:'Smart Lists',notes:'Smart Notes'};
+            const N=()=>document.querySelector('.nav'), norm=t=>(t||'').replace(/\s+/g,' ').trim().toLowerCase();
+            function nav(){const n=N();if(!n)return;[...n.querySelectorAll('button')].forEach(b=>{const t=norm(b.textContent);if(t==='your intelligence today'||t==='daily intelligence briefing')b.remove()});const seen={};[...n.querySelectorAll('button')].forEach(b=>{const t=norm(b.textContent);if([A.notes,A.personal,A.collective,A.lists].map(norm).includes(t)){if(seen[t])b.remove();else seen[t]=1}});[['🧠',A.personal,'personal-feed'],['🌐',A.collective,'collective-feed'],['📚',A.lists,'smart-lists']].forEach(([i,l,id])=>{let b=[...n.querySelectorAll('button')].find(x=>norm(x.textContent)===norm(l));if(!b){b=document.createElement('button');b.innerHTML='<span class="ico">'+i+'</span><span>'+l+'</span>';n.appendChild(b)}b.dataset.nayaPage=id;b.onclick=()=>show(id,b)})}
+            function page(id,title,sub){let e=document.getElementById('page-'+id);if(!e){e=document.createElement('section');e.id='page-'+id;e.className='page';e.innerHTML='<div class="pageHead"><div><div class="eyebrow">NAYANET</div><h1>'+title+'</h1><p>'+sub+'</p></div></div><div class="surface" style="padding:20px"><div class="noteList" data-list="'+id+'"></div></div>';document.querySelector('.main')?.appendChild(e)}return e}
+            function show(id,b){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+id)?.classList.add('active');N()?.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));const c=document.querySelector('.crumb strong');if(c)c.textContent=b?.innerText?.trim()||A.notes}
+            function card(label,title,body,acts,privacy){return '<article class="note"><div class="noteTop"><span>'+label+'</span><span class="type">'+privacy+'</span></div><div class="noteBody"><h3>'+title+'</h3><p>'+body+'</p></div><div class="noteTabs">'+acts.map(a=>'<button class="noteTab" type="button">'+a+'</button>').join('')+'</div></article>'}
+            function fill(){const p=document.querySelector('[data-list="personal-feed"]'),c=document.querySelector('[data-list="collective-feed"]'),l=document.querySelector('[data-list="smart-lists"]');if(p&&!p.children.length)p.innerHTML=card('PERSONAL','Your private intelligence lives here.','Personal notes remain private unless you deliberately share them externally or circulate them to Collective.',['SHARE','CIRCULATE TO COLLECTIVE','SAVE TO LIST'],'PRIVATE');if(c&&!c.children.length)c.innerHTML=card('COLLECTIVE','Collective intelligence.','The social layer for intelligence intentionally shared with the Collective.',['LIKE','COMMENT','SAVE','SHARE'],'COLLECTIVE');if(l&&!l.children.length)l.innerHTML=card('SMART LIST','Organize what matters.','Personal and Collective blocks can coexist here. Saving is organization, never publication.',['OPEN LIST'],'ORGANIZED')}
+            function context(){const r=document.querySelector('.topbar');if(!r)return;let e=document.getElementById('nayanet-local-context');if(!e){e=document.createElement('div');e.id='nayanet-local-context';e.style.cssText='position:absolute;left:50%;transform:translateX(-50%);font-size:8px;font-weight:900;letter-spacing:.06em;color:#bdb8c7;text-align:center;white-space:nowrap;pointer-events:none';r.appendChild(e)}const d=new Date(),h=d.getHours(),g=h<12?'Good morning':h<18?'Good afternoon':'Good evening';e.textContent=g+', Shawn · '+d.toLocaleDateString(undefined,{weekday:'short',year:'numeric',month:'short',day:'numeric'})+' · '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})+' · Canada'}
+            function boot(){nav();page('personal-feed',A.personal,'Your private intelligence. Not social.');page('collective-feed',A.collective,'The social layer for intentionally shared intelligence.');page('smart-lists',A.lists,'Personal and Collective blocks can coexist here.');fill();context()}
+            if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();setInterval(context,30000)
+          })();
+          </script>'''
+          s=s.replace('</body>',runtime+'\n</body>')
+          p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name 'NayaNET Surgical Repair'
+          git config user.email 'actions@github.com'
+          git add NAYANETHUB.html
+          if git diff --cached --quiet; then echo 'No Hub changes required'; else git commit -m 'Surgical repair: approved Hub experience' && git push; fi
 
       - name: Set up Python
         uses: actions/setup-python@v6
