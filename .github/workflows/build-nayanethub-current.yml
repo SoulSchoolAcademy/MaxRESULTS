@@ -5,11 +5,13 @@ on:
     paths:
       - 'NAYANETHUB.html'
       - 'scripts/nayanethub-final-execution.js'
+      - 'scripts/nayanethub-surgical-patch-v5.py'
       - '.github/workflows/build-nayanethub-current.yml'
   pull_request:
     paths:
       - 'NAYANETHUB.html'
       - 'scripts/nayanethub-final-execution.js'
+      - 'scripts/nayanethub-surgical-patch-v5.py'
       - '.github/workflows/build-nayanethub-current.yml'
   workflow_dispatch:
 
@@ -25,6 +27,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Apply one-shot V5 surgical correction when present
+        shell: bash
+        run: |
+          set -e
+          if [ -f scripts/nayanethub-surgical-patch-v5.py ]; then
+            python3 scripts/nayanethub-surgical-patch-v5.py
+          fi
       - name: Apply final Hub execution layer to NAYANETHUB
         shell: bash
         run: |
@@ -38,7 +47,6 @@ jobs:
           if marker not in html:
               if '</body>' not in html: raise SystemExit('NAYANETHUB.html has no closing body')
               html=html.replace('</body>',f'\n{marker}\n<script id="nayanethub-final-execution">\n{body}\n</script>\n</body>',1)
-              src.write_text(html,encoding='utf-8')
           Path('index.html').write_text(html,encoding='utf-8')
           Path('_redirects').write_text('/intelligence/* /index.html 200\n',encoding='utf-8')
           print('NAYANETHUB bytes:',len(html.encode()))
@@ -50,7 +58,7 @@ jobs:
           set -e
           grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' index.html
           grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' NAYANETHUB.html
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V4' index.html
+          grep -q 'NAYANETHUB-FINAL-EXECUTION-V4' index.html || grep -q 'NAYANETHUB-FINAL-EXECUTION-V5' index.html
           grep -q 'Personal Feed' index.html
           grep -q 'Smart Lists' index.html
           grep -q 'Collective Feed' index.html
@@ -58,6 +66,10 @@ jobs:
           grep -q 'Good morning' index.html
           grep -q 'Good afternoon' index.html
           grep -q 'Good evening' index.html
+          grep -q 'FAVS' index.html
+          grep -q 'data-love' index.html
+          grep -q 'data-rate' index.html
+          grep -q 'resolveBlock' index.html
           ! grep -q 'prompt(' index.html
           python3 - <<'PY'
           from pathlib import Path
@@ -79,13 +91,13 @@ jobs:
             NAYANETHUB.html
             _redirects
           if-no-files-found: error
-      - name: Commit generated production files
+      - name: Commit generated production files and surgical source
         if: github.event_name == 'push'
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add NAYANETHUB.html index.html _redirects
-          if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish updated NayaNET Hub from NAYANETHUB [skip ci]'; git push; fi
+          git add -A NAYANETHUB.html index.html _redirects scripts/nayanethub-final-execution.js scripts/nayanethub-surgical-patch-v5.py .github/workflows/nayanethub-surgical-patch-v5.yml
+          if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish verified NayaNET Hub V5 surgical build [skip ci]'; git push; fi
 
-# release-trigger-2026-09-06-pr-build
+# release-trigger-2026-09-06-pr-build-v5
