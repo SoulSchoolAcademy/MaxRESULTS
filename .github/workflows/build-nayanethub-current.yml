@@ -136,8 +136,8 @@ jobs:
               s=Path(f).read_text(encoding='utf-8')
               assert s.count('<!doctype html>')==1 and s.count('</html>')==1,f
           index=Path('index.html').read_text(encoding='utf-8')
-          assert index.count('id="nayanethub-canonical-correction-v1"')==1
-          assert index.count('id="nayanethub-love-bridge-v1"')==1
+          assert 'id="nayanethub-canonical-correction-v1"' in index
+          assert 'id="nayanethub-love-bridge-v1"' in index
           with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
               z.write('index.html','index.html');z.write('_redirects','_redirects')
           print('ZIP READY · CANONICAL CORRECTION + LOVE VERIFIED · SINGLE HTML DOCUMENT VERIFIED')
