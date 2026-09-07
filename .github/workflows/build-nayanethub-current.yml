@@ -4,158 +4,83 @@ on:
   push:
     paths:
       - 'NAYANETHUB.html'
-      - 'scripts/nayanethub-final-execution.js'
-      - 'scripts/nayanethub-surgical-v5.js'
-      - 'scripts/nayanethub-v5-build-trigger.js'
-      - 'scripts/nayanethub-canonical-correction-v1.js'
-      - 'scripts/nayanethub-love-bridge-v1.js'
       - '.github/workflows/build-nayanethub-current.yml'
   pull_request:
     paths:
       - 'NAYANETHUB.html'
-      - 'scripts/nayanethub-final-execution.js'
-      - 'scripts/nayanethub-surgical-v5.js'
-      - 'scripts/nayanethub-v5-build-trigger.js'
-      - 'scripts/nayanethub-canonical-correction-v1.js'
-      - 'scripts/nayanethub-love-bridge-v1.js'
       - '.github/workflows/build-nayanethub-current.yml'
   workflow_dispatch:
 
 permissions:
   contents: write
-  actions: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout current Hub source
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Apply final Hub execution layer to NAYANETHUB
-        shell: bash
+      - name: Restore protected V7 source
+        run: git checkout c171a9b0eaeb2064be60b30231ee901edb9daea6 -- NAYANETHUB.html
+      - name: Apply surgical Hub release
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          src=Path('NAYANETHUB.html')
-          layer=Path('scripts/nayanethub-final-execution.js')
-          html=src.read_text(encoding='utf-8')
-          body=layer.read_text(encoding='utf-8')
-          marker='<!-- NAYANETHUB-FINAL-EXECUTION-V1 -->'
-          if marker not in html:
-              if '</body>' not in html: raise SystemExit('NAYANETHUB.html has no closing body')
-              html=html.replace('</body>',f'\n{marker}\n<script id="nayanethub-final-execution">\n{body}\n</script>\n</body>',1)
-          Path('index.html').write_text(html,encoding='utf-8')
-          Path('_redirects').write_text('/intelligence/* /index.html 200\n',encoding='utf-8')
-          print('NAYANETHUB bytes:',len(html.encode()))
-          print('index bytes:',Path('index.html').stat().st_size)
+          p=Path('NAYANETHUB.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('<div class="heroIntro"><h1>Good morning, Shawn.</h1><p>Your intelligence has a place to come together.</p></div>', '<div class="heroIntro"><h1 id="nh-v8-greeting">Good morning.</h1><p>Your intelligence has a place to come together.</p></div>', 1)
+          css='''<style id="nayanethub-surgical-v8-style">#nh-v8-greeting{font-size:clamp(48px,6vw,78px)!important;line-height:.88!important;letter-spacing:-.075em!important}.nh-v8-switch{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 18px}.nh-v8-switch button{min-height:42px;padding:0 15px;border:1px solid #8b63ff66;border-radius:12px;background:#0a090e;color:#cfc8db;font-size:8px;font-weight:1000;letter-spacing:.07em}.nh-v8-switch button.active{border-color:#d86cff;color:#fff;background:#24132f}.nh-v8-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.nh-v8-actions button{min-height:34px;padding:0 10px;border:1px solid #8b63ff55;border-radius:10px;background:#08080c;color:#fff;font-size:7px;font-weight:1000}.nh-v8-actions button:hover{border-color:#d86cff}.nh-v8-collective{border-color:#d86cff55!important}.nh-v8-card{padding:17px;border:1px solid #ffffff1e;border-radius:19px;background:linear-gradient(145deg,#121219,#09090d);margin-bottom:12px}.nh-v8-card h3{font-size:18px;margin:9px 0 6px}.nh-v8-card p{font-size:11px;line-height:1.65;color:#d2ccd7;margin:0}.nh-v8-empty{padding:30px 18px;text-align:center;border:1px dashed #8b63ff44;border-radius:15px;color:#9e98a5;font-size:10px;line-height:1.6}.nh-v8-list{margin-top:14px;padding:14px;border:1px solid #ffffff18;border-radius:16px;background:#09090d}.nh-v8-list h3{font-size:13px;margin:0 0 9px}.nh-v8-list-item{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #ffffff10;color:#ddd8e2;font-size:9px}@media(max-width:700px){.nh-v8-switch button{flex:1}.nh-v8-actions button{flex:1 1 auto}}\n</style>'''
+          script=r'''<script id="nayanethub-surgical-v8">(()=>{'use strict';
+          const NAME='nayanet_user_name_v1',META='nayanet_intelligent_block_meta_v1',LISTS='nayanet_smart_lists_v1',CIRC='nayanet_collective_blocks_v1';
+          const q=(s,r=document)=>r.querySelector(s),qa=(s,r=document)=>[...r.querySelectorAll(s)];
+          const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},put=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
+          const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+          function userName(){let n=(localStorage.getItem(NAME)||localStorage.getItem('nayanet_smart_name')||'').trim();if(n&&!localStorage.getItem(NAME))localStorage.setItem(NAME,n);if(!n){try{n=(prompt('What should Naya call you?')||'').trim();if(n)localStorage.setItem(NAME,n)}catch{}}return n}
+          function country(){const z=Intl.DateTimeFormat().resolvedOptions().timeZone||'';return z.startsWith('America/')?'Canada':''}
+          function context(){const h=q('#page-home .heroIntro');if(!h)return;const e=q('#nh-v8-greeting');if(!e)return;const d=new Date(),g=d.getHours()<12?'Good morning':d.getHours()<18?'Good afternoon':'Good evening',n=userName();e.textContent=g+(n?', '+n:'')+'.';let m=q('#nh-v8-meta');if(!m){m=document.createElement('div');m.id='nh-v8-meta';m.style.cssText='margin-top:12px;color:#aaa4b1;font-size:10px;font-weight:800;letter-spacing:.06em';e.insertAdjacentElement('afterend',m)}m.textContent=d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · '+d.toLocaleDateString([],{weekday:'long',year:'numeric',month:'long',day:'numeric'})+(country()?' · Canada':'')}
+          function blocks(){return get('nayanet_v7_live_notes',[]).map(n=>({id:n.id,title:(String(n.text||'').split(/[.!?]\s+/)[0]||'Intelligent Event').slice(0,100),summary:String(n.text||''),type:n.type||'INSIGHT',createdAt:n.createdAt||new Date().toISOString()}))}
+          function meta(id){return get(META,{})[id]||{}} function setMeta(id,v){const m=get(META,{});m[id]=v;put(META,m)}
+          function nav(){const p=qa('.sidebar .nav')[0],c=qa('.sidebar .nav')[1];if(p&&!p.querySelector('[data-nh-v8="personal"]')){let b=document.createElement('button');b.dataset.nhV8='personal';b.innerHTML='<span class="ico">◉</span>Personal Feed';p.appendChild(b);let l=document.createElement('button');l.dataset.nhV8='lists';l.innerHTML='<span class="ico">▦</span>Smart Lists';p.appendChild(l)}if(c&&!c.querySelector('[data-nh-v8="collective"]')){let b=document.createElement('button');b.dataset.nhV8='collective';b.innerHTML='<span class="ico">◎</span>Collective Feed';c.appendChild(b)}}
+          function page(id,title,desc){if(q('#'+id))return;const p=document.createElement('section');p.className='page';p.id=id;p.innerHTML='<div class="pageHead"><div><div class="eyebrow">NAYANET INTELLIGENT HUB</div><h1>'+title+'</h1><p>'+desc+'</p></div></div><div id="'+id+'-body"></div>';q('main.main').appendChild(p)}
+          function go(kind){const id='page-'+kind+'-feed';qa('.page').forEach(x=>x.classList.remove('active'));q('#'+id)?.classList.add('active');qa('.nav button').forEach(b=>b.classList.toggle('active',(b.textContent||'').trim()===(kind==='personal'?'Personal Feed':'Collective Feed')));if(q('#pageTitle'))q('#pageTitle').textContent=kind==='personal'?'Personal Feed':'Collective Feed';render(kind)}
+          function card(b,kind){const m=meta(b.id),soc=kind==='collective';let a='<button data-v8="save" data-id="'+esc(b.id)+'">🔖 SAVE TO SMART LIST</button><button data-v8="share" data-id="'+esc(b.id)+'">＋ SHARE</button>';if(soc)a+='<button data-v8="like" data-id="'+esc(b.id)+'">♡ LIKE '+(m.likes||0)+'</button><button data-v8="love" data-id="'+esc(b.id)+'">♥ LOVE '+(m.loves||0)+'</button><button data-v8="comment" data-id="'+esc(b.id)+'">💬 COMMENT '+((m.comments||[]).length||'')+'</button><button data-v8="rank" data-id="'+esc(b.id)+'">★ '+(m.rank?m.rank+'/5':'RANK 1–5')+'</button>';if(kind==='personal')a+='<button data-v8="circulate" data-id="'+esc(b.id)+'">◎ CIRCULATE TO COLLECTIVE</button>';return '<article class="nh-v8-card '+(soc?'nh-v8-collective':'')+'" data-block-id="'+esc(b.id)+'"><div style="display:flex;justify-content:space-between;font-size:7px;color:#aaa4b0;font-weight:900"><span>'+esc(b.type)+'</span><span>'+esc(new Date(b.createdAt).toLocaleString([],{dateStyle:'medium',timeStyle:'short'}))+'</span></div><h3>'+esc(b.title)+'</h3><p>'+esc(b.summary)+'</p><div class="nh-v8-actions">'+a+'</div></article>'}
+          function render(kind){const h=q('#page-'+kind+'-feed-body');if(!h)return;let a=blocks();if(kind==='collective')a=a.filter(x=>get(CIRC,[]).includes(x.id));a.sort((x,y)=>new Date(y.createdAt)-new Date(x.createdAt));h.innerHTML='<div class="nh-v8-switch"><button class="'+(kind==='personal'?'active':'')+'" data-v8-switch="personal">PERSONAL FEED</button><button class="'+(kind==='collective'?'active':'')+'" data-v8-switch="collective">COLLECTIVE FEED</button></div>'+(a.length?a.map(x=>card(x,kind)).join(''):'<div class="nh-v8-empty">'+(kind==='personal'?'Your Personal Feed is private by default. Existing Intelligent Blocks appear here.':'Collective Feed contains only blocks you deliberately circulate.')+'</div>')}
+          function saveList(id){const ls=get(LISTS,{});let n=prompt('Smart List name (existing or new):');if(!n?.trim())return;n=n.trim();let x=Object.values(ls).find(v=>v.name.toLowerCase()===n.toLowerCase());if(!x){x={id:crypto.randomUUID(),name:n,blockIds:[]};ls[x.id]=x}if(!x.blockIds.includes(id))x.blockIds.push(id);put(LISTS,ls);alert('Saved to Smart List. Intelligent Block ID preserved.')}
+          function engage(id,k){const m=meta(id);if(k==='like'){m.likes=(m.likes||0)+(m.liked?-1:1);m.liked=!m.liked}if(k==='love'){m.loves=(m.loves||0)+(m.loved?-1:1);m.loved=!m.loved}if(k==='comment'){const x=prompt('Comment on this Collective Intelligent Block:');if(x?.trim())(m.comments=m.comments||[]).push({text:x.trim(),createdAt:new Date().toISOString()})}if(k==='rank'){const x=Number(prompt('Rank this Collective Intelligent Block 1–5:',m.rank||''));if(Number.isInteger(x)&&x>=1&&x<=5)m.rank=x}setMeta(id,m);render('collective')}
+          function share(id){const b=blocks().find(x=>x.id===id);if(!b)return;const text=b.title+'\n\n'+b.summary+'\n\nNayaNET';if(navigator.share)navigator.share({title:b.title,text}).catch(()=>{});else navigator.clipboard?.writeText(text)}
+          function circulate(id){const a=get(CIRC,[]);if(!a.includes(id))a.push(id);put(CIRC,a);alert('Circulated to Collective. Private source remains unchanged.');render('personal')}
+          function renderLists(){const h=q('#page-smart-lists-body');if(!h)return;const ls=Object.values(get(LISTS,{}));h.innerHTML='<div class="nh-v8-actions"><button data-v8="newlist">＋ CREATE SMART LIST</button></div>'+(ls.length?ls.map(l=>'<section class="nh-v8-list"><h3>'+esc(l.name)+'</h3>'+((l.blockIds||[]).map(id=>'<div class="nh-v8-list-item"><span>'+esc(id)+'</span><span>Intelligent Block ID</span></div>').join('')||'<div class="nh-v8-empty">Empty list.</div>')+'</section>').join(''):'<div class="nh-v8-empty">Create a Smart List, then save any Personal or Collective Intelligent Block. Lists reference real block IDs.</div>')}
+          function boot(){context();nav();page('page-personal-feed','Personal Feed','Your private Intelligent Blocks. Saving or organizing never publishes.');page('page-collective-feed','Collective Feed','The social view of intentionally circulated Intelligent Blocks.');page('page-smart-lists','Smart Lists','Private organization using actual Intelligent Block IDs.');renderLists();if(!window.__nhV8){window.__nhV8=1;document.addEventListener('click',e=>{const n=e.target.closest('[data-nh-v8]');if(n){go(n.dataset.nhV8==='personal'?'personal':n.dataset.nhV8==='collective'?'collective':'lists');return}const s=e.target.closest('[data-v8-switch]');if(s){go(s.dataset.v8Switch);return}const a=e.target.closest('[data-v8]');if(!a)return;const k=a.dataset.v8,id=a.dataset.id;if(k==='save')saveList(id);else if(k==='share')share(id);else if(k==='circulate')circulate(id);else if(k==='like'||k==='love'||k==='comment'||k==='rank')engage(id,k);else if(k==='newlist'){const n=prompt('New Smart List name:');if(n?.trim()){const ls=get(LISTS,{}),i=crypto.randomUUID();ls[i]={id:i,name:n.trim(),blockIds:[]};put(LISTS,ls);renderLists()}}})}}
+          boot();setInterval(context,30000);
+          })();</script>'''
+          s=s.replace('</head>',css+'</head>',1).replace('</body>',script+'</body>',1)
+          p.write_text(s,encoding='utf-8')
           PY
-      - name: Apply surgical V5 compatibility layer
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          src=Path('index.html')
-          layer=Path('scripts/nayanethub-surgical-v5.js')
-          html=src.read_text(encoding='utf-8')
-          body=layer.read_text(encoding='utf-8')
-          marker='<!-- NAYANETHUB-FINAL-EXECUTION-V5 -->'
-          if marker not in html:
-              if '</body>' not in html: raise SystemExit('index.html has no closing body')
-              html=html.replace('</body>',f'\n{marker}\n<script id="nayanethub-surgical-v5">\n{body}\n</script>\n</body>',1)
-          Path('index.html').write_text(html,encoding='utf-8')
-          print('V5 applied; index bytes:',Path('index.html').stat().st_size)
-          PY
-      - name: Apply canonical Hub correction layer
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          src=Path('index.html')
-          layer=Path('scripts/nayanethub-canonical-correction-v1.js')
-          html=src.read_text(encoding='utf-8')
-          body=layer.read_text(encoding='utf-8')
-          marker='<!-- NAYANETHUB-CANONICAL-CORRECTION-V1 -->'
-          if marker not in html:
-              if '</body>' not in html: raise SystemExit('NAYANETHUB source has no closing body')
-              html=html.replace('</body>',f'\n{marker}\n<script id="nayanethub-canonical-correction-v1">\n{body}\n</script>\n</body>',1)
-          Path('index.html').write_text(html,encoding='utf-8')
-          print('Canonical correction applied; index bytes:',Path('index.html').stat().st_size)
-          PY
-      - name: Apply Collective Love interaction
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          src=Path('index.html')
-          layer=Path('scripts/nayanethub-love-bridge-v1.js')
-          html=src.read_text(encoding='utf-8')
-          body=layer.read_text(encoding='utf-8')
-          marker='<!-- NAYANETHUB-LOVE-BRIDGE-V1 -->'
-          if marker not in html:
-              if '</body>' not in html: raise SystemExit('index.html has no closing body')
-              html=html.replace('</body>',f'\n{marker}\n<script id="nayanethub-love-bridge-v1">\n{body}\n</script>\n</body>',1)
-          Path('index.html').write_text(html,encoding='utf-8')
-          print('Love bridge applied; index bytes:',Path('index.html').stat().st_size)
-          PY
-      - name: Validate requested Hub release
-        shell: bash
+      - name: Validate source and package
         run: |
           set -e
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' index.html
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' NAYANETHUB.html
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V4' index.html
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V5' index.html
-          grep -q 'NAYANETHUB-CANONICAL-CORRECTION-V1' index.html
-          grep -q 'NAYANETHUB-LOVE-BRIDGE-V1' index.html
-          grep -q 'Personal Feed' index.html
-          grep -q 'Smart Lists' index.html
-          grep -q 'Collective Feed' index.html
-          grep -q 'CIRCULATE TO COLLECTIVE' index.html
-          grep -q 'Good morning' index.html
-          grep -q 'Good afternoon' index.html
-          grep -q 'Good evening' index.html
-          grep -q 'FAVORITE' index.html
-          grep -q 'LOVE' index.html
-          grep -q 'nayanet_hub_authority_v1' index.html
-          grep -q 'sourceId:n.id' index.html
-          python3 - <<'PY'
-          from pathlib import Path
-          import zipfile
-          layer=Path('scripts/nayanethub-canonical-correction-v1.js').read_text(encoding='utf-8')
-          love=Path('scripts/nayanethub-love-bridge-v1.js').read_text(encoding='utf-8')
-          assert layer.lstrip().startswith('/* NAYANETHUB-CANONICAL-CORRECTION-V1')
-          assert '(()=>{' in layer and '})();' in layer
-          assert 'nayanet_hub_authority_v1' in layer
-          assert 'LOVE' in love and 'nayanet_hub_authority_v1' in love
-          for f in ('NAYANETHUB.html','index.html'):
-              s=Path(f).read_text(encoding='utf-8')
-              assert s.count('<!doctype html>')==1 and s.count('</html>')==1,f
-          index=Path('index.html').read_text(encoding='utf-8')
-          assert 'id="nayanethub-canonical-correction-v1"' in index
-          assert 'id="nayanethub-love-bridge-v1"' in index
-          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
-              z.write('index.html','index.html');z.write('_redirects','_redirects')
-          print('ZIP READY · CANONICAL CORRECTION + LOVE VERIFIED · SINGLE HTML DOCUMENT VERIFIED')
-          PY
-      - name: Upload Cloudflare package
+          test -s NAYANETHUB.html
+          grep -q 'nayanethub-surgical-v8' NAYANETHUB.html
+          grep -q 'GOOD MORNING' NAYANETHUB.html
+          grep -q 'Personal Feed' NAYANETHUB.html
+          grep -q 'Collective Feed' NAYANETHUB.html
+          grep -q 'data-block-id' NAYANETHUB.html
+          grep -q 'blockIds' NAYANETHUB.html
+          cp NAYANETHUB.html index.html
+          printf '/index.html 200\n' > _redirects
+          zip -9 -j NayaNET-Intelligent-Hub-Cloudflare.zip index.html _redirects NAYANETHUB.html
+          unzip -t NayaNET-Intelligent-Hub-Cloudflare.zip
+      - name: Commit production release
+        run: |
+          git config user.name 'NayaNET Release Bot'
+          git config user.email 'actions@github.com'
+          git add NAYANETHUB.html index.html _redirects NayaNET-Intelligent-Hub-Cloudflare.zip
+          git commit -m 'Surgical V8 Intelligent Hub release' || exit 0
+          git push
+      - name: Upload production ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: NayaNET-Intelligent-Hub-Cloudflare-CURRENT
-          path: |
-            NayaNET-Intelligent-Hub-Cloudflare.zip
-            index.html
-            NAYANETHUB.html
-            _redirects
+          name: NayaNET-Intelligent-Hub-Cloudflare
+          path: NayaNET-Intelligent-Hub-Cloudflare.zip
           if-no-files-found: error
-      - name: Commit generated production files
-        if: github.event_name == 'push'
-        shell: bash
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add NAYANETHUB.html index.html _redirects
-          if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish updated NayaNET Hub from NAYANETHUB [skip ci]'; git push; fi
-
-# release-trigger-2026-09-06-pr-build-v5-validator-fixed
