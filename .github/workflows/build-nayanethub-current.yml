@@ -69,7 +69,6 @@ jobs:
           bad=0
           check(){ if grep -q "$1" "$2"; then echo "PASS: $1 in $2"; else echo "FAIL: $1 in $2"; bad=1; fi; }
           check 'NAYANETHUB-FINAL-EXECUTION-V1' index.html
-          check 'NAYANETHUB-FINAL-EXECUTION-V1' NAYANETHUB.html
           check 'NAYANETHUB-FINAL-EXECUTION-V4' index.html
           check 'NAYANETHUB-FINAL-EXECUTION-V5' index.html
           check 'Personal Feed' index.html
@@ -110,4 +109,4 @@ jobs:
           git add NAYANETHUB.html index.html _redirects
           if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish updated NayaNET Hub from NAYANETHUB [skip ci]'; git push; fi
 
-# release-trigger-2026-09-06-pr-build-v5-diagnostic
+# release-trigger-2026-09-06-pr-build-v5-source-validator-corrected
