@@ -1,0 +1,57 @@
+name: Inspect NayaNET Hub Contract Baseline
+on:
+  push:
+    branches: [nayanet-hub-contract-execution-v2-20260906]
+    paths:
+      - 'NAYANETHUB.html'
+      - '.github/workflows/hub-contract-inspect.yml'
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, json
+          s=Path('NAYANETHUB.html').read_text(encoding='utf-8')
+          patterns={
+            'bytes':len(s.encode()),
+            'lines':len(s.splitlines()),
+            'doctype':s.lower().count('<!doctype html>'),
+            'html_close':s.lower().count('</html>'),
+            'body_close':s.lower().count('</body>'),
+            'smart_notes':len(re.findall(r'Smart Notes|SMART NOTES',s,re.I)),
+            'your_intelligence_today':len(re.findall(r'Your Intelligence Today',s,re.I)),
+            'demo_reel':len(re.findall(r'Demo Reel',s,re.I)),
+            'activity':len(re.findall(r'Activity',s,re.I)),
+            'personal':len(re.findall(r'Personal',s,re.I)),
+            'collective':len(re.findall(r'Collective',s,re.I)),
+            'stacy':len(re.findall(r'Stacy',s,re.I)),
+            'shawn_and_stacy':len(re.findall(r'Shawn\\s*(?:and|&)\\s*Stacy',s,re.I)),
+            'greeting_morning':len(re.findall(r'Good morning',s,re.I)),
+            'greeting_afternoon':len(re.findall(r'Good afternoon',s,re.I)),
+            'greeting_evening':len(re.findall(r'Good evening',s,re.I)),
+            'prompt_calls':len(re.findall(r'prompt\\s*\\(',s,re.I)),
+            'smart_list':len(re.findall(r'Smart Lists|smartLists|smart-list',s,re.I)),
+            'favorite':len(re.findall(r'Favorite',s,re.I)),
+            'share_collective':len(re.findall(r'Share to Collective|SHARE TO COLLECTIVE',s,re.I)),
+            'human':len(re.findall(r'Human',s,re.I)),
+            'naya':len(re.findall(r'Naya',s,re.I)),
+            'machine':len(re.findall(r'Machine',s,re.I)),
+            'overlay_markers':len(re.findall(r'NAYANET-[A-Z0-9_-]+',s)),
+          }
+          Path('hub-contract-baseline.json').write_text(json.dumps(patterns,indent=2),encoding='utf-8')
+          print(json.dumps(patterns,indent=2))
+          PY
+      - name: Upload inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: hub-contract-baseline
+          path: hub-contract-baseline.json
+          if-no-files-found: error
