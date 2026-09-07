@@ -6,49 +6,13 @@ on:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
 jobs:
   package:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout exact source
         uses: actions/checkout@v4
-      - name: Normalize canonical Intelligent Hub source
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-          p=Path('NAYANETHUB.html')
-          if not p.exists():
-              raise SystemExit('NAYANETHUB.html not present')
-          s=p.read_text(encoding='utf-8')
-          remove_ids=['nayanet-v7-intelligent-hub-refinement','nayanet-canonical-hub-authority','nayanet-canonical-hub-final-polish']
-          changed=False
-          for sid in remove_ids:
-              pattern=r"<script[^>]*id=['\"]"+re.escape(sid)+r"['\"][^>]*>.*?</script>"
-              s2,n=re.subn(pattern,'',s,flags=re.S)
-              if n>1: raise SystemExit(f'Unsafe duplicate script id: {sid} ({n})')
-              if n==1: s=s2; changed=True
-          old='<strong id="pageTitle">Home</strong>'
-          if old in s:
-              s=s.replace(old,'<strong id="pageTitle">Your Intelligence Today</strong>',1)
-              changed=True
-          if 'function updateIdentity(){' not in s: raise SystemExit('Intelligent Today runtime missing')
-          if 'id="nh-greeting-script"' not in s: raise SystemExit('Greeting runtime missing')
-          if changed:
-              p.write_text(s,encoding='utf-8')
-          print('hub_changed=',changed)
-          PY
-          if ! git diff --quiet -- NAYANETHUB.html; then
-            git config user.name 'NayaNET Release Bot'
-            git config user.email 'nayanet-release-bot@users.noreply.github.com'
-            git add NAYANETHUB.html
-            git commit -m 'fix: restore canonical Your Intelligence Today authority'
-            git push origin HEAD:main
-            echo 'Hub repair committed; this run stops before packaging so the next run packages the repaired source.'
-            exit 0
-          fi
       - name: Validate canonical pages, runtime, assets and Worker entrypoint
         shell: bash
         run: |
