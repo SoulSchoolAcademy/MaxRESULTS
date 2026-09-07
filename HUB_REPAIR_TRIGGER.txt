@@ -1,1 +1,0 @@
-Canonical Hub release-gate trigger — execute against the current main source.
