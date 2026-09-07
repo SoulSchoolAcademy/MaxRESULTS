@@ -93,21 +93,14 @@ function publishMAXESSResultToApp(){
     .replace(/\//g, "_")
     .replace(/=+$/g, "");
 
-  try{
-    sessionStorage.setItem("MAXESS_RESULT_V1", json);
-  }catch(e){}
-
-  try{
-    localStorage.setItem("MAXESS_RESULT_V1", json);
-  }catch(e){}
+  try{ sessionStorage.setItem("MAXESS_RESULT_V1", json); }catch(e){}
+  try{ localStorage.setItem("MAXESS_RESULT_V1", json); }catch(e){}
 
   window.MAXESS_RESULT = contract;
   window.dispatchEvent(new CustomEvent("MAXESS_RESULT_READY", {detail:contract}));
   window.dispatchEvent(new CustomEvent("maxess:result-updated", {detail:contract}));
 
-  window.location.assign(
-    "https://results.nayanet.app/#maxess-result=" + encoded
-  );
+  window.location.assign("https://results.nayanet.app/#maxess-result=" + encoded);
 }
 
 '''
@@ -118,6 +111,46 @@ function publishMAXESSResultToApp(){
           built = built.replace(marker, bridge + marker, 1)
           p.write_text(built, encoding='utf-8')
           PY
+      - name: Build NayaNET Hub surgical artifact
+        shell: bash
+        run: |
+          git fetch --no-tags origin c171a9b0eaeb2064be60b30231ee901edb9daea6
+          git checkout c171a9b0eaeb2064be60b30231ee901edb9daea6 -- NAYANETHUB.html
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('NAYANETHUB.html')
+          fragment=Path('.github/nayanethub-surgical-fragment.html').read_text(encoding='utf-8')
+          s=p.read_text(encoding='utf-8')
+          if 'NAYANET_SURGICAL_CONTRACT_RUNTIME' not in fragment:
+              raise SystemExit('Hub contract fragment missing')
+          if 'NAYANET_SURGICAL_CONTRACT_RUNTIME' in s:
+              raise SystemExit('Hub already contains surgical contract; refusing duplicate installation')
+          for marker in ('.intelligentFeed','.intelligentBlock','</body>'):
+              if marker not in s: raise SystemExit('V7 marker missing: '+marker)
+          p.write_text(s.replace('</body>',fragment+'\n</body>',1),encoding='utf-8')
+          PY
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          s=Path('NAYANETHUB.html').read_text(encoding='utf-8')
+          scripts=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S)
+          for x in scripts:
+              if 'NAYANET_SURGICAL_CONTRACT_RUNTIME' in x:
+                  Path('/tmp/nayanethub-surgical.js').write_text(x,encoding='utf-8')
+                  break
+          else: raise SystemExit('Hub surgical runtime missing')
+          PY
+          node --check /tmp/nayanethub-surgical.js
+          grep -q 'nayanet_smart_name' NAYANETHUB.html
+          grep -q 'nayanet_surgical_smart_lists_v1' NAYANETHUB.html
+          grep -q 'nayanet_surgical_collective_v1' NAYANETHUB.html
+          grep -q 'data-mode="personal"' NAYANETHUB.html
+          grep -q 'data-mode="collective"' NAYANETHUB.html
+          grep -q 'SAVE TO SMART LIST' NAYANETHUB.html
+          grep -q 'SHARE TO COLLECTIVE' NAYANETHUB.html
+          grep -q 'nayanet_v7_live_notes' NAYANETHUB.html
+          ! grep -q 'Stacy' NAYANETHUB.html
+          rm -f .github/nayanethub-surgical-fragment.html .github/workflows/patch-hub-build.yml
       - name: Verify
         shell: bash
         run: |
@@ -127,12 +160,29 @@ function publishMAXESSResultToApp(){
           grep -q 'function finishInterestSelection(){' 'AIScoreMAXESS code'
           if grep -q 'results.nayanet.xyz' 'AIScoreMAXESS code'; then exit 1; fi
           if grep -q 'oldResults.style.display' 'AIScoreMAXESS code'; then exit 1; fi
+          test -s NAYANETHUB.html
+          grep -q 'NAYANET_SURGICAL_CONTRACT_RUNTIME' NAYANETHUB.html
+          grep -q 'nayanet_surgical_smart_lists_v1' NAYANETHUB.html
+          grep -q 'nayanet_surgical_collective_v1' NAYANETHUB.html
+          ! grep -q 'Stacy' NAYANETHUB.html
           node --check <(sed -n '/<script>/,/<\/script>/p' 'AIScoreMAXESS code' | sed '1d;$d')
       - name: Commit
         shell: bash
         run: |
           git config user.name 'SoulSchoolAcademy'
           git config user.email '221210320+SoulSchoolAcademy@users.noreply.github.com'
-          git add 'AIScoreMAXESS code'
-          git commit -m 'Build verified AIScore to Results app bridge' || exit 0
+          git add 'AIScoreMAXESS code' NAYANETHUB.html .github/workflows/build-aiscore-app-bridge.yml
+          git add -u .github
+          git commit -m 'Build verified AIScore bridge and surgical NayaNET Hub' || exit 0
           git push
+      - name: Package Hub artifact
+        shell: bash
+        run: |
+          rm -rf hub-dist NayaNET-Intelligent-Hub-UPDATED.zip
+          mkdir -p hub-dist/nayanet-intelligent-hub
+          cp NAYANETHUB.html hub-dist/nayanet-intelligent-hub/NAYANETHUB.html
+          (cd hub-dist && zip -r ../NayaNET-Intelligent-Hub-UPDATED.zip nayanet-intelligent-hub >/dev/null)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NayaNET-Intelligent-Hub-UPDATED
+          path: NayaNET-Intelligent-Hub-UPDATED.zip
