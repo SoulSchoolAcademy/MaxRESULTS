@@ -1,5 +1,7 @@
 name: Build Current NayaNET Hub from NAYANETHUB
 
+# Canonical source repair gate: remove obsolete competing Hub authority layers before packaging.
+
 on:
   push:
     paths:
