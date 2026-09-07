@@ -1,0 +1,44 @@
+name: NayaNET Exact Hub Index Repair
+
+on:
+  push:
+    paths:
+      - '.github/workflows/nayanethub-exact-index-repair.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Verify canonical source before copying
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s NAYANETHUB.html
+          grep -q 'id="nh-greeting-script"' NAYANETHUB.html
+          grep -q 'GOOD MORNING' NAYANETHUB.html
+          grep -q 'GOOD AFTERNOON' NAYANETHUB.html
+          grep -q 'GOOD EVENING' NAYANETHUB.html
+          grep -q 'nh-greeting-meta' NAYANETHUB.html
+      - name: Make index exactly equal to canonical source
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp NAYANETHUB.html index.html
+          cmp -s NAYANETHUB.html index.html
+          git diff --check
+      - name: Commit only the corrected index and remove this temporary workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/nayanethub-exact-index-repair.yml
+          git add index.html
+          test "$(git diff --cached --name-only)" = "index.html"
+          git -c user.name='NayaNET Surgical Repair' -c user.email='nayanet-surgical-repair@users.noreply.github.com' commit -m 'fix: make Hub release index exact canonical source'
+          git push origin HEAD:main
