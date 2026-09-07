@@ -36,8 +36,9 @@ jobs:
           git diff --check
           git diff -- NAYANETHUB.html
           test "$(git diff --numstat -- NAYANETHUB.html | awk '{print $1}')" = "1"
-          test "$(git diff --numstat -- NAYANETHUB.html | awk '{print $2}')" = "0"
-          git diff --exit-code -- .github/workflows/nayanethub-greeting-finalize.yml
+          test "$(git diff --numstat -- NAYANETHUB.html | awk '{print $2}')" = "1"
+          test "$(git diff --name-only)" = "NAYANETHUB.html"
+          grep -q 'nh-greeting-visibility' NAYANETHUB.html
       - name: Commit source edit and remove temporary workflow
         shell: bash
         run: |
