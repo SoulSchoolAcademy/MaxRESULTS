@@ -63,7 +63,7 @@ jobs:
           Path('index.html').write_text(html,encoding='utf-8')
           print('V5 applied; index bytes:',Path('index.html').stat().st_size)
           PY
-      - name: Validate requested Hub release
+      - name: Validate requested Hub release and build Cloudflare ZIP
         shell: bash
         run: |
           set -e
@@ -85,11 +85,16 @@ jobs:
           from pathlib import Path
           import zipfile
           for f in ('NAYANETHUB.html','index.html'):
-              s=Path(f).read_text(encoding='utf-8')
-              assert s.count('<!doctype html>')==1 and s.count('</html>')==1,f
-          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
-              z.write('index.html','index.html');z.write('_redirects','_redirects')
-          print('ZIP READY')
+              p=Path(f); s=p.read_text(encoding='utf-8')
+              doctype=s.count('<!doctype html>'); closing=s.count('</html>')
+              print(f, 'bytes=',p.stat().st_size, 'doctype=',doctype, 'html-close=',closing)
+              if doctype!=1 or closing!=1:
+                  raise SystemExit(f'HTML structure validation failed for {f}: doctype={doctype}, html-close={closing}')
+          out=Path('NayaNET-Intelligent-Hub-Cloudflare.zip')
+          with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED,strict_timestamps=False) as z:
+              z.write('index.html','index.html')
+              z.write('_redirects','_redirects')
+          print('ZIP READY:',out.stat().st_size,'bytes')
           PY
       - name: Upload Cloudflare package
         uses: actions/upload-artifact@v4
@@ -110,4 +115,4 @@ jobs:
           git add NAYANETHUB.html index.html _redirects
           if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish updated NayaNET Hub from NAYANETHUB [skip ci]'; git push; fi
 
-# release-trigger-2026-09-06-pr-build-v5-validator-fixed
+# release-trigger-2026-09-06-pr-build-v5-explicit-validation
