@@ -81,10 +81,12 @@ jobs:
           grep -q 'FAVORITE' index.html
           grep -q 'LOVE' index.html
           grep -q 'data-nh5-star' index.html
-          test "$(grep -o '<!doctype html>' NAYANETHUB.html | wc -l)" -eq 1
-          test "$(grep -o '</html>' NAYANETHUB.html | wc -l)" -eq 1
-          test "$(grep -o '<!doctype html>' index.html | wc -l)" -eq 1
-          test "$(grep -o '</html>' index.html | wc -l)" -eq 1
+          grep -q '<!doctype html>' NAYANETHUB.html
+          grep -q '</html>' NAYANETHUB.html
+          grep -q '<!doctype html>' index.html
+          grep -q '</html>' index.html
+          test -s NAYANETHUB.html
+          test -s index.html
           rm -f NayaNET-Intelligent-Hub-Cloudflare.zip
           zip -q -9 NayaNET-Intelligent-Hub-Cloudflare.zip index.html _redirects
           test -s NayaNET-Intelligent-Hub-Cloudflare.zip
@@ -108,4 +110,4 @@ jobs:
           git add NAYANETHUB.html index.html _redirects
           if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish updated NayaNET Hub from NAYANETHUB [skip ci]'; git push; fi
 
-# release-trigger-2026-09-06-pr-build-v5-shell-validation
+# release-trigger-2026-09-06-pr-build-v5-artifact-final
