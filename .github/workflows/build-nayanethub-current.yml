@@ -5,11 +5,13 @@ on:
     paths:
       - 'NAYANETHUB.html'
       - 'scripts/nayanethub-final-execution.js'
+      - 'scripts/nayanethub-surgical-v5.js'
       - '.github/workflows/build-nayanethub-current.yml'
   pull_request:
     paths:
       - 'NAYANETHUB.html'
       - 'scripts/nayanethub-final-execution.js'
+      - 'scripts/nayanethub-surgical-v5.js'
       - '.github/workflows/build-nayanethub-current.yml'
   workflow_dispatch:
 
@@ -43,6 +45,22 @@ jobs:
           print('NAYANETHUB bytes:',len(html.encode()))
           print('index bytes:',Path('index.html').stat().st_size)
           PY
+      - name: Apply surgical V5 compatibility layer
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          src=Path('index.html')
+          layer=Path('scripts/nayanethub-surgical-v5.js')
+          html=src.read_text(encoding='utf-8')
+          body=layer.read_text(encoding='utf-8')
+          marker='<!-- NAYANETHUB-FINAL-EXECUTION-V5 -->'
+          if marker not in html:
+              if '</body>' not in html: raise SystemExit('index.html has no closing body')
+              html=html.replace('</body>',f'\n{marker}\n<script id="nayanethub-surgical-v5">\n{body}\n</script>\n</body>',1)
+          Path('index.html').write_text(html,encoding='utf-8')
+          print('V5 applied; index bytes:',Path('index.html').stat().st_size)
+          PY
       - name: Validate requested Hub release
         shell: bash
         run: |
@@ -50,6 +68,7 @@ jobs:
           grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' index.html
           grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' NAYANETHUB.html
           grep -q 'NAYANETHUB-FINAL-EXECUTION-V4' index.html
+          grep -q 'NAYANETHUB-FINAL-EXECUTION-V5' index.html
           grep -q 'Personal Feed' index.html
           grep -q 'Smart Lists' index.html
           grep -q 'Collective Feed' index.html
@@ -57,6 +76,9 @@ jobs:
           grep -q 'Good morning' index.html
           grep -q 'Good afternoon' index.html
           grep -q 'Good evening' index.html
+          grep -q 'FAVORITE' index.html
+          grep -q 'LOVE' index.html
+          grep -q 'data-nh5-star' index.html
           ! grep -q 'prompt(' index.html
           python3 - <<'PY'
           from pathlib import Path
@@ -87,4 +109,4 @@ jobs:
           git add NAYANETHUB.html index.html _redirects
           if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish updated NayaNET Hub from NAYANETHUB [skip ci]'; git push; fi
 
-# release-trigger-2026-09-06-pr-build-v4
+# release-trigger-2026-09-06-pr-build-v5
