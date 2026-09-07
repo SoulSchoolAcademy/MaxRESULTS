@@ -2,6 +2,7 @@ name: Hub PR surgical runner
 on:
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened]
 permissions:
   contents: write
   pull-requests: write
@@ -35,7 +36,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          rm -f nayanet-hub-surgical-patch.js .github/workflows/nayanet-hub-surgical.yml .github/workflows/_hub-pr-surgical-run.yml hub-surgical-trigger.txt
+          rm -f nayanet-hub-surgical-patch.js .github/workflows/nayanet-hub-surgical.yml .github/workflows/_hub-pr-surgical-run.yml hub-surgical-trigger.txt hub-surgical-trigger-2.txt
           git add -A
           git commit -m "Surgical NayaNET Hub implementation" || exit 0
           git push origin HEAD:hub-surgical-smart-lists
