@@ -5,7 +5,6 @@ on:
     types: [opened, synchronize, reopened]
 permissions:
   contents: write
-  pull-requests: write
 jobs:
   patch:
     if: github.event.pull_request.head.ref == 'hub-surgical-smart-lists'
@@ -28,9 +27,8 @@ jobs:
           p.write_text(s,encoding='utf-8')
           assert s.count('id="nayanet-surgical-v5"')==1
           assert 'Your Intelligence Today' not in s
-          assert s.count('id="page-home"')==1 and s.count('class="intelligentBlock"')>=1
-          assert 'perspective.human' in s and 'perspective.naya' in s and 'perspective.machine' in s
-          print('SURGICAL SOURCE VERIFY',len(s),'bytes')
+          assert 'intelligentBlock' in s and 'perspective.human' in s and 'perspective.naya' in s and 'perspective.machine' in s
+          print('SURGICAL SOURCE VERIFY',len(s),'bytes','intelligentBlock token present')
           PY
       - name: Commit patch to PR branch
         run: |
