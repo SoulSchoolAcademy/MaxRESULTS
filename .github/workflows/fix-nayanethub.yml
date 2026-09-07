@@ -1,34 +1,56 @@
-name: NayaNET Hub source polish
+name: Fix NayaNET Hub
 on:
   push:
     paths:
       - '.github/workflows/fix-nayanethub.yml'
+      - 'NAYANETHUB.html'
   workflow_dispatch:
-permissions:
-  contents: write
 jobs:
-  polish:
+  fix:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Remove hard-coded identity from source greeting
-        shell: python
+      - name: Surgical cleanup
         run: |
+          python3 <<'PY'
           from pathlib import Path
+          import re
           p=Path('NAYANETHUB.html')
           s=p.read_text(encoding='utf-8')
-          old='<h1>Good morning, Shawn.</h1>'
-          new='<h1 id="nayaAuthoritativeGreeting">Welcome.</h1>'
-          if old not in s: raise SystemExit('Expected legacy greeting not found')
-          if s.count(old)!=1: raise SystemExit('Expected exactly one legacy greeting')
-          p.write_text(s.replace(old,new,1),encoding='utf-8')
-      - name: Verify and commit
-        shell: bash
+          bad=('addTodayNav','createTodayPage','activateToday','labelHome','normalizeTopbar')
+          parts=re.split(r'(<script\b[^>]*>.*?</script>)',s,flags=re.I|re.S)
+          out=[]
+          removed=0
+          for part in parts:
+              if part.lower().startswith('<script') and any(x in part for x in bad):
+                  removed += 1
+                  continue
+              out.append(part)
+          s=''.join(out)
+          s=re.sub(r'<section[^>]*id=["\']page-intelligence-today["\'][\s\S]*?</section>', '', s, flags=re.I)
+          layer=r'''<script id="nayanet-locked-hub-fix">(function(){
+function navRoot(){return document.querySelector('.nav')||document.querySelector('nav');}
+function buttons(){var n=navRoot();return n?[].slice.call(n.querySelectorAll('button')):[];}
+function txt(b){return (b.textContent||'').replace(/\s+/g,' ').trim();}
+function go(label){var b=buttons().find(function(x){return txt(x)===label;});if(b)b.click();}
+function ensureNav(label,icon){var n=navRoot();if(!n)return null;var found=buttons().find(function(b){return txt(b)===label;});if(found)return found;var b=document.createElement('button');b.type='button';b.innerHTML='<span class="ico">'+icon+'</span><span>'+label+'</span>';b.addEventListener('click',function(){go(label);});n.appendChild(b);return b;}
+function cleanNav(){var bs=buttons();var smart=bs.filter(function(b){return txt(b)==='Smart Notes'||txt(b)==='Home';});if(smart.length){var keep=smart.find(function(b){return txt(b)==='Smart Notes';})||smart[0];keep.innerHTML=keep.innerHTML.replace(/Home/g,'Smart Notes');smart.filter(function(b){return b!==keep;}).forEach(function(b){b.remove();});}else ensureNav('Smart Notes','🧠');
+['Your Intelligence Today','Daily Intelligence Briefing'].forEach(function(label){buttons().filter(function(b){return txt(b).indexOf(label)>=0;}).forEach(function(b){b.remove();});});
+ensureNav('Personal Feed','👤');ensureNav('Collective Feed','🌐');ensureNav('Smart Lists','📚');}
+function context(){var tb=document.querySelector('.topbar');if(!tb)return;var old=document.getElementById('naya-locked-context');if(!old){old=document.createElement('div');old.id='naya-locked-context';old.style.cssText='position:absolute;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;white-space:nowrap;';tb.style.position='sticky';tb.appendChild(old);}var d=new Date(),h=d.getHours(),g=h>=5&&h<12?'Good morning':h>=12&&h<18?'Good afternoon':'Good evening';old.innerHTML='<strong style="font-size:12px">'+g+', Shawn.</strong><div style="font-size:8px;color:#a9a4b1;margin-top:3px">'+d.toLocaleString(undefined,{dateStyle:'medium',timeStyle:'short'})+' · Canada</div>';}
+function run(){cleanNav();context();}run();setTimeout(run,250);setTimeout(run,900);setTimeout(run,1800);setInterval(run,60000);
+})();</script>'''
+          s=s.replace('</body>',layer+'</body>')
+          p.write_text(s,encoding='utf-8')
+          print('removed runtime blocks:',removed)
+          PY
+      - name: Commit fix
         run: |
-          grep -q 'id="nayaAuthoritativeGreeting"' NAYANETHUB.html
-          ! grep -q 'Good morning, Shawn.' NAYANETHUB.html
-          git config user.name 'NayaNET Surgical Builder'
-          git config user.email 'nayanet-surgical@users.noreply.github.com'
+          git config user.name 'NayaNET Bot'
+          git config user.email 'nayanet-bot@users.noreply.github.com'
           git add NAYANETHUB.html
-          git commit -m 'Remove hard-coded Hub greeting identity'
+          git diff --cached --quiet && exit 0
+          git commit -m 'Surgically clean Hub navigation and context'
           git push
