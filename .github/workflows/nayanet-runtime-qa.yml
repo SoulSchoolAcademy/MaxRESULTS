@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   smoke:
@@ -18,29 +18,6 @@ jobs:
         working-directory: NAYANET/E02-INTELLIGENT-HUB-CLOUDFLARE
     steps:
       - uses: actions/checkout@v4
-      - name: Surgical personalized welcome patch on canonical Hub
-        working-directory: .
-        run: |
-          set -euo pipefail
-          python3 -c 'import base64;exec(base64.b64decode("ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCnA9UGF0aCgiTkFZQU5FVEhVQi5odG1sIikKcz1wLnJlYWRfdGV4dChlbmNvZGluZz0idXRmLTgiKQptYXJrZXI9J2lkPSJuaC1ncmVldGluZy1zY3JpcHQiJwppZiBtYXJrZXIgaW4gczoKICAgIHJhaXNlIFN5c3RlbUV4aXQoIldlbGNvbWUgYWxyZWFkeSBwcmVzZW50OyByZWZ1c2luZyBkdXBsaWNhdGUgaW5zZXJ0aW9uIikKY3NzPSIiIjxzdHlsZSBpZD0ibmgtZ3JlZXRpbmctc3R5bGUiPgojbmgtd2VsY29tZXttYXJnaW46MThweCAwIDE4cHg7cGFkZGluZzoyMnB4IDI0cHg7Ym9yZGVyOjFweCBzb2xpZCAjZDg2Y2ZmNTU7Ym9yZGVyLXJhZGl1czoyMHB4O2JhY2tncm91bmQ6bGluZWFyLWdyYWRpZW50KDEzNWRlZywjMTgxMzIxLCMwYjBhMGYgNjUlLCMwODA4MGIpO2JveC1zaGFkb3c6aW5zZXQgMCAxcHggI2ZmZjUsMCAyMHB4IDQ1cHggIzAwMGE7cG9zaXRpb246cmVsYXRpdmU7b3ZlcmZsb3c6aGlkZGVufQojbmgtd2VsY29tZTpiZWZvcmV7Y29udGVudDoiIjtwb3NpdGlvbjphYnNvbHV0ZTtpbnNldDowO2JhY2tncm91bmQ6cmFkaWFsLWdyYWRpZW50KGNpcmNsZSBhdCA4NSUgMjUlLCNkODZjZmYxNix0cmFuc3BhcmVudCA0MiUpO3BvaW50ZXItZXZlbnRzOm5vbmV9CiNuaC1ncmVldGluZ3twb3NpdGlvbjpyZWxhdGl2ZTttYXJnaW46MDtjb2xvcjojZmZmO2ZvbnQtc2l6ZTpjbGFtcCgyNXB4LDN2dywzOHB4KTtsaW5lLWhlaWdodDoxLjA1O2xldHRlci1zcGFjaW5nOi0uMDQ1ZW19CiNuaC13ZWxjb21lLW1ldGF7cG9zaXRpb246cmVsYXRpdmU7ZGlzcGxheTpmbGV4O2ZsZXgtd3JhcDp3cmFwO2dhcDo4cHg7bWFyZ2luLXRvcDoxMnB4fQoubmgtd2VsY29tZS1jaGlwe2Rpc3BsYXk6aW5saW5lLWZsZXg7YWxpZ24taXRlbXM6Y2VudGVyO21pbi1oZWlnaHQ6MzBweDtwYWRkaW5nOjAgMTBweDtib3JkZXI6MXB4IHNvbGlkICNmZmZmZmYyMDtib3JkZXItcmFkaXVzOjk5OXB4O2JhY2tncm91bmQ6IzA4MDgwYztjb2xvcjojY2ZjOGQ2O2ZvbnQtc2l6ZTo4cHg7Zm9udC13ZWlnaHQ6OTUwO2xldHRlci1zcGFjaW5nOi4wOGVtfQpAbWVkaWEobWF4LXdpZHRoOjkwMHB4KXsjbmgtd2VsY29tZXttYXJnaW46MTRweCAwO3BhZGRpbmc6MTlweCAxOHB4fS5uaC13ZWxjb21lLWNoaXB7Zm9udC1zaXplOjdweH19Cjwvc3R5bGU+IiIiCmh0bWw9IiIiPHNlY3Rpb24gaWQ9Im5oLXdlbGNvbWUiIGFyaWEtbGFiZWw9IlBlcnNvbmFsaXplZCB3ZWxjb21lIj4KICA8aDEgaWQ9Im5oLWdyZWV0aW5nIj5Hb29kIG1vcm5pbmcsIFNoYXduLjwvaDE+CiAgPGRpdiBpZD0ibmgtd2VsY29tZS1tZXRhIiBhcmlhLWxpdmU9InBvbGl0ZSI+CiAgICA8c3BhbiBjbGFzcz0ibmgtd2VsY29tZS1jaGlwIj5USU1FIMK3IDxzcGFuIGlkPSJuaC1jdXJyZW50LXRpbWUiPjwvc3Bhbj48L3NwYW4+CiAgICA8c3BhbiBjbGFzcz0ibmgtd2VsY29tZS1jaGlwIj5EQVRFIMK3IDxzcGFuIGlkPSJuaC1jdXJyZW50LWRhdGUiPjwvc3Bhbj48L3NwYW4+CiAgICA8c3BhbiBjbGFzcz0ibmgtd2VsY29tZS1jaGlwIj5DT1VOVFJZIMK3IDxzcGFuIGlkPSJuaC1jdXJyZW50LWNvdW50cnkiPjwvc3Bhbj48L3NwYW4+CiAgPC9kaXY+Cjwvc2VjdGlvbj4iIiIKanM9IiIiPHNjcmlwdCBpZD0ibmgtZ3JlZXRpbmctc2NyaXB0Ij4KKGZ1bmN0aW9uKCl7CiAgZnVuY3Rpb24gY291bnRyeUZyb21UaW1lem9uZSh0eil7CiAgICB2YXIgbWFwPXsKICAgICAgIkFtZXJpY2EvVmFuY291dmVyIjoiQ2FuYWRhIiwiQW1lcmljYS9FZG1vbnRvbiI6IkNhbmFkYSIsIkFtZXJpY2EvV2lubmlwZWciOiJDYW5hZGEiLCJBbWVyaWNhL1Rvcm9udG8iOiJDYW5hZGEiLCJBbWVyaWNhL0hhbGlmYXgiOiJDYW5hZGEiLCJBbWVyaWNhL1N0X0pvaG5zIjoiQ2FuYWRhIiwiQW1lcmljYS9SZWdpbmEiOiJDYW5hZGEiLCJBbWVyaWNhL01vbmN0b24iOiJDYW5hZGEiLCJBbWVyaWNhL1doaXRlaG9yc2UiOiJDYW5hZGEiLCJBbWVyaWNhL0Rhd3NvbiI6IkNhbmFkYSIsCiAgICAgICJBbWVyaWNhL0xvc19BbmdlbGVzIjoiVW5pdGVkIFN0YXRlcyIsIkFtZXJpY2EvRGVudmVyIjoiVW5pdGVkIFN0YXRlcyIsIkFtZXJpY2EvUGhvZW5peCI6IlVuaXRlZCBTdGF0ZXMiLCJBbWVyaWNhL0NoaWNhZ28iOiJVbml0ZWQgU3RhdGVzIiwiQW1lcmljYS9OZXdfWW9yayI6IlVuaXRlZCBTdGF0ZXMiLCJBbWVyaWNhL0FuY2hvcmFnZSI6IlVuaXRlZCBTdGF0ZXMiLCJQYWNpZmljL0hvbm9sdWx1IjoiVW5pdGVkIFN0YXRlcyIsCiAgICAgICJFdXJvcGUvTG9uZG9uIjoiVW5pdGVkIEtpbmdkb20iLCJFdXJvcGUvRHVibGluIjoiSXJlbGFuZCIsIkV1cm9wZS9QYXJpcyI6IkZyYW5jZSIsIkV1cm9wZS9CZXJsaW4iOiJHZXJtYW55IiwiRXVyb3BlL1JvbWUiOiJJdGFseSIsIkV1cm9wZS9NYWRyaWQiOiJTcGFpbiIsIkV1cm9wZS9BbXN0ZXJkYW0iOiJOZXRoZXJsYW5kcyIsIkV1cm9wZS9CcnVzc2VscyI6IkJlbGdpdW0iLCJFdXJvcGUvWnVyaWNoIjoiU3dpdHplcmxhbmQiLCJFdXJvcGUvU3RvY2tob2xtIjoiU3dlZGVuIiwiRXVyb3BlL09zbG8iOiJOb3J3YXkiLCJFdXJvcGUvQ29wZW5oYWdlbiI6IkRlbm1hcmsiLCJFdXJvcGUvSGVsc2lua2kiOiJGaW5sYW5kIiwKICAgICAgIkFzaWEvVG9reW8iOiJKYXBhbiIsIkFzaWEvU2VvdWwiOiJTb3V0aCBLb3JlYSIsIkFzaWEvU2hhbmdoYWkiOiJDaGluYSIsIkFzaWEvU2luZ2Fwb3JlIjoiU2luZ2Fwb3JlIiwiQXNpYS9Lb2xrYXRhIjoiSW5kaWEiLCJBc2lhL0R1YmFpIjoiVW5pdGVkIEFyYWIgRW1pcmF0ZXMiLCJBdXN0cmFsaWEvU3lkbmV5IjoiQXVzdHJhbGlhIiwiQXVzdHJhbGlhL01lbGJvdXJuZSI6IkF1c3RyYWxpYSIsIlBhY2lmaWMvQXVja2xhbmQiOiJOZXcgWmVhbGFuZCIKICAgIH07CiAgICByZXR1cm4gbWFwW3R6XXx8KCh0enx8IiIpLnNwbGl0KCIvIilbMF09PT0iQW1lcmljYSI/IlVuaXRlZCBTdGF0ZXMiOiJMb2NhbCIpOwogIH0KICBmdW5jdGlvbiB1cGRhdGVJZGVudGl0eSgpewogICAgdmFyIGQ9bmV3IERhdGUoKSxoPWQuZ2V0SG91cnMoKTsKICAgIHZhciBncmVldGluZz1oPDEyPyJHb29kIG1vcm5pbmcsIFNoYXduLiI6aDwxNz8iR29vZCBhZnRlcm5vb24sIFNoYXduLiI6Ikdvb2QgZXZlbmluZywgU2hhd24uIjsKICAgIHZhciB0aW1lPWQudG9Mb2NhbGVUaW1lU3RyaW5nKFtdLCB7aG91cjoibnVtZXJpYyIsbWludXRlOiIyLWRpZ2l0In0pOwogICAgdmFyIGRhdGU9ZC50b0xvY2FsZURhdGVTdHJpbmcoW10sIHt3ZWVrZGF5OiJsb25nIix5ZWFyOiJudW1lcmljIixtb250aDoibG9uZyIsZGF5OiJudW1lcmljIn0pOwogICAgdmFyIHR6PUludGwuRGF0ZVRpbWVGb3JtYXQoKS5yZXNvbHZlZE9wdGlvbnMoKS50aW1lWm9uZXx8IiI7CiAgICB2YXIgY291bnRyeT1jb3VudHJ5RnJvbVRpbWV6b25lKHR6KTsKICAgIHZhciBnPWRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJuaC1ncmVldGluZyIpLHQ9ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoIm5oLWN1cnJlbnQtdGltZSIpLGR0PWRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJuaC1jdXJyZW50LWRhdGUiKSxjPWRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJuaC1jdXJyZW50LWNvdW50cnkiKTsKICAgIGlmKGcpZy50ZXh0Q29udGVudD1ncmVldGluZztpZih0KXQudGV4dENvbnRlbnQ9dGltZTtpZihkdClkdC50ZXh0Q29udGVudD1kYXRlO2lmKGMpYy50ZXh0Q29udGVudD1jb3VudHJ5OwogIH0KICB3aW5kb3cudXBkYXRlSWRlbnRpdHk9dXBkYXRlSWRlbnRpdHk7CiAgdXBkYXRlSWRlbnRpdHkoKTsKICBzZXRJbnRlcnZhbCh1cGRhdGVJZGVudGl0eSwxMDAwKTsKfSkoKTsKPC9zY3JpcHQ+IiIiCmlmICI8L2hlYWQ+IiBub3QgaW4gcyBvciAnPG1haW4gY2xhc3M9Im1haW4iPicgbm90IGluIHMgb3IgIjwvYm9keT4iIG5vdCBpbiBzOgogICAgcmFpc2UgU3lzdGVtRXhpdCgiQ2Fub25pY2FsIGFuY2hvcnMgbWlzc2luZzsgcmVmdXNpbmcgbXV0YXRpb24iKQpzPXMucmVwbGFjZSgiPC9oZWFkPiIsY3NzKyI8L2hlYWQ+IiwxKQpzPXMucmVwbGFjZSgnPG1haW4gY2xhc3M9Im1haW4iPicsJzxtYWluIGNsYXNzPSJtYWluIj4nK2h0bWwsMSkKcz1zLnJlcGxhY2UoIjwvYm9keT4iLGpzKyI8L2JvZHk+IiwxKQpwLndyaXRlX3RleHQocyxlbmNvZGluZz0idXRmLTgiKQpwcmludCgicGF0Y2hlZCIsbGVuKHMpKQo="))'
-          test "$(grep -o 'id=\"nh-greeting-script\"' NAYANETHUB.html | wc -l | tr -d ' ')" -eq 1
-          test "$(grep -o 'Good morning, Shawn.' NAYANETHUB.html | wc -l | tr -d ' ')" -ge 1
-          grep -q 'Good afternoon, Shawn.' NAYANETHUB.html
-          grep -q 'Good evening, Shawn.' NAYANETHUB.html
-          grep -q 'nh-current-time' NAYANETHUB.html
-          grep -q 'nh-current-date' NAYANETHUB.html
-          grep -q 'nh-current-country' NAYANETHUB.html
-          grep -q 'function updateIdentity' NAYANETHUB.html
-          git diff --check
-          git config user.name 'NayaNET Release Bot'
-          git config user.email 'nayanet-release-bot@users.noreply.github.com'
-          git add NAYANETHUB.html
-          git commit -m 'feat: add personalized Hub welcome'
-          git show HEAD^:.github/workflows/nayanet-runtime-qa.yml > .github/workflows/nayanet-runtime-qa.yml
-          git rm -f .github/workflows/nayanethub-welcome-executor.yml
-          git add .github/workflows/nayanet-runtime-qa.yml
-          git commit -m 'chore: restore QA workflow after surgical Hub patch'
-          git push origin HEAD:main
       - name: Validate canonical Powercast registry
         run: node -e "const fs=require('fs'); const x=JSON.parse(fs.readFileSync('powercasts.json','utf8')); if(!Array.isArray(x)||x.length!==18) process.exit(1); if(x.some(c=>!c.n||!c.title||!c.image||!c.audio)) process.exit(1); console.log('Powercasts:',x.length)"
       - name: Syntax-check canonical runtime JavaScript
