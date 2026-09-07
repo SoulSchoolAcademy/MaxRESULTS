@@ -24,7 +24,21 @@
 .nh-report{margin:24px 0;border:2px solid #55e39a55;border-radius:22px;background:linear-gradient(145deg,#101a15,#09090d);box-shadow:inset 0 1px #fff3,0 22px 45px #000a;overflow:hidden}.nh-report-head{padding:18px 20px;border-bottom:1px solid #ffffff12;display:flex;justify-content:space-between;gap:15px;align-items:center}.nh-report-head h2{font-size:20px;letter-spacing:-.04em;margin:0}.nh-report-head span{font-size:7px;color:#55e39a;font-weight:1000;letter-spacing:.12em}.nh-report-state{margin:14px 20px 0;padding:10px 12px;border:1px solid #e8c76666;border-radius:10px;color:#f1db89;font-size:8px;font-weight:900;letter-spacing:.08em}.nh-report-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:14px 20px 20px}.nh-report-card{padding:14px;border:1px solid #ffffff16;border-radius:14px;background:#08090b}.nh-report-card h3{font-size:8px;letter-spacing:.13em;margin:0 0 8px}.nh-report-card p{font-size:10px;color:#c9c3ce;line-height:1.6;margin:0}.nh-empty{padding:34px 20px;text-align:center;border:2px dashed #8b63ff44;border-radius:18px;color:#a8a2ae}.nh-empty strong{display:block;color:#fff;font-size:16px;margin-bottom:6px}.nh-empty span{font-size:10px;line-height:1.6}
 @media(max-width:900px){.nh-note-head{display:block}.nh-note-head span{display:block;text-align:left;margin-top:8px}.nh-perspectives{grid-template-columns:1fr 1fr}.nh-report-grid{grid-template-columns:1fr}.nh-memory-top{align-items:flex-start}.nh-timefilter{min-height:40px}.nh-report-head{display:block}.nh-report-head span{display:block;margin-top:7px}}@media(max-width:520px){.nh-perspectives{grid-template-columns:1fr}.nh-memory-top{display:block}.nh-memory-top b{display:inline-block;margin-top:8px}.main{padding-left:12px;padding-right:12px}.nh-note-head,.nh-report{border-radius:17px}}
 </style>
-</head><body><div class="app"><aside class="sidebar"><div class="brand"><img class="brandLogo" src="https://i.postimg.cc/LXJDD4Np/Nayanet-Logo.jpg" alt="NayaNET"><div><b>NayaNET</b><small>INTELLIGENT HUB · V7</small></div></div><div class="navlabel">PERSONAL</div><nav class="nav"><button class="active" data-page="home"><span class="ico">⌂</span>Home</button><button data-page="notes"><span class="ico">▤</span>Smart Notes</button><button data-page="reports"><span class="ico">◫</span>Reports</button><button data-page="intelligence"><span class="ico">✦</span>Intelligence Library</button></nav><div class="navlabel">COLLECTIVE</div><nav class="nav"><button data-page="collective"><span class="ico">◎</span>Collective</button><button data-page="evidence"><span class="ico">◇</span>Evidence</button><button data-page="connections"><span class="ico">↗</span>Connections</button></nav><div class="navlabel">COMMUNICATION</div><nav class="nav"><button data-page="mail"><span class="ico">✉</span>Smart Mail <span class="badge">NEW</span></button></nav><div class="navlabel">SYSTEM</div><nav class="nav"><button data-page="settings"><span class="ico">⚙</span>Settings</button></nav><div class="sidefoot"><b>PRIVATE BY DEFAULT</b>Shared by choice · Collective by consent · Public by decision</div></aside><main class="main"><header class="topbar"><div class="crumb"><strong id="pageTitle">Home</strong></div><div class="topright"><button class="connectionPill" data-page="connections"><i class="led" id="led"></i><span id="connectionText">SOURCE · NOT VERIFIED</span></button><div class="avatar"><img src="https://i.postimg.cc/2S6dzKmC/Naya-Profile-3.jpg" alt="Naya"></div></div></header>
+<style id="nh-greeting-style">
+#nh-welcome{margin:18px 0 18px;padding:22px 24px;border:1px solid #d86cff55;border-radius:20px;background:linear-gradient(135deg,#181321,#0b0a0f 65%,#08080b);box-shadow:inset 0 1px #fff5,0 20px 45px #000a;position:relative;overflow:hidden}
+#nh-welcome:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 25%,#d86cff16,transparent 42%);pointer-events:none}
+#nh-greeting{position:relative;margin:0;color:#fff;font-size:clamp(25px,3vw,38px);line-height:1.05;letter-spacing:-.045em}
+#nh-welcome-meta{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.nh-welcome-chip{display:inline-flex;align-items:center;min-height:30px;padding:0 10px;border:1px solid #ffffff20;border-radius:999px;background:#08080c;color:#cfc8d6;font-size:8px;font-weight:950;letter-spacing:.08em}
+@media(max-width:900px){#nh-welcome{margin:14px 0;padding:19px 18px}.nh-welcome-chip{font-size:7px}}
+</style></head><body><div class="app"><aside class="sidebar"><div class="brand"><img class="brandLogo" src="https://i.postimg.cc/LXJDD4Np/Nayanet-Logo.jpg" alt="NayaNET"><div><b>NayaNET</b><small>INTELLIGENT HUB · V7</small></div></div><div class="navlabel">PERSONAL</div><nav class="nav"><button class="active" data-page="home"><span class="ico">⌂</span>Home</button><button data-page="notes"><span class="ico">▤</span>Smart Notes</button><button data-page="reports"><span class="ico">◫</span>Reports</button><button data-page="intelligence"><span class="ico">✦</span>Intelligence Library</button></nav><div class="navlabel">COLLECTIVE</div><nav class="nav"><button data-page="collective"><span class="ico">◎</span>Collective</button><button data-page="evidence"><span class="ico">◇</span>Evidence</button><button data-page="connections"><span class="ico">↗</span>Connections</button></nav><div class="navlabel">COMMUNICATION</div><nav class="nav"><button data-page="mail"><span class="ico">✉</span>Smart Mail <span class="badge">NEW</span></button></nav><div class="navlabel">SYSTEM</div><nav class="nav"><button data-page="settings"><span class="ico">⚙</span>Settings</button></nav><div class="sidefoot"><b>PRIVATE BY DEFAULT</b>Shared by choice · Collective by consent · Public by decision</div></aside><main class="main"><section id="nh-welcome" aria-label="Personalized welcome">
+  <h1 id="nh-greeting">Good morning, Shawn.</h1>
+  <div id="nh-welcome-meta" aria-live="polite">
+    <span class="nh-welcome-chip">TIME · <span id="nh-current-time"></span></span>
+    <span class="nh-welcome-chip">DATE · <span id="nh-current-date"></span></span>
+    <span class="nh-welcome-chip">COUNTRY · <span id="nh-current-country"></span></span>
+  </div>
+</section><header class="topbar"><div class="crumb"><strong id="pageTitle">Home</strong></div><div class="topright"><button class="connectionPill" data-page="connections"><i class="led" id="led"></i><span id="connectionText">SOURCE · NOT VERIFIED</span></button><div class="avatar"><img src="https://i.postimg.cc/2S6dzKmC/Naya-Profile-3.jpg" alt="Naya"></div></div></header>
 <nav class="nayanet-ecosystem-bar" aria-label="NayaNET ecosystem">
 <a href="https://hmclibrary.groovemember.net/home">HOME</a>
 <a href="https://academy.nayanet.app/">NAYA POWER</a>
@@ -350,4 +364,29 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 // RELEASE TRIGGER: canonical Hub build must package index.html at ZIP root.
 
 </script>
-</body></html>
+<script id="nh-greeting-script">
+(function(){
+  function countryFromTimezone(tz){
+    var map={
+      "America/Vancouver":"Canada","America/Edmonton":"Canada","America/Winnipeg":"Canada","America/Toronto":"Canada","America/Halifax":"Canada","America/St_Johns":"Canada","America/Regina":"Canada","America/Moncton":"Canada","America/Whitehorse":"Canada","America/Dawson":"Canada",
+      "America/Los_Angeles":"United States","America/Denver":"United States","America/Phoenix":"United States","America/Chicago":"United States","America/New_York":"United States","America/Anchorage":"United States","Pacific/Honolulu":"United States",
+      "Europe/London":"United Kingdom","Europe/Dublin":"Ireland","Europe/Paris":"France","Europe/Berlin":"Germany","Europe/Rome":"Italy","Europe/Madrid":"Spain","Europe/Amsterdam":"Netherlands","Europe/Brussels":"Belgium","Europe/Zurich":"Switzerland","Europe/Stockholm":"Sweden","Europe/Oslo":"Norway","Europe/Copenhagen":"Denmark","Europe/Helsinki":"Finland",
+      "Asia/Tokyo":"Japan","Asia/Seoul":"South Korea","Asia/Shanghai":"China","Asia/Singapore":"Singapore","Asia/Kolkata":"India","Asia/Dubai":"United Arab Emirates","Australia/Sydney":"Australia","Australia/Melbourne":"Australia","Pacific/Auckland":"New Zealand"
+    };
+    return map[tz]||((tz||"").split("/")[0]==="America"?"United States":"Local");
+  }
+  function updateIdentity(){
+    var d=new Date(),h=d.getHours();
+    var greeting=h<12?"Good morning, Shawn.":h<17?"Good afternoon, Shawn.":"Good evening, Shawn.";
+    var time=d.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+    var date=d.toLocaleDateString([], {weekday:"long",year:"numeric",month:"long",day:"numeric"});
+    var tz=Intl.DateTimeFormat().resolvedOptions().timeZone||"";
+    var country=countryFromTimezone(tz);
+    var g=document.getElementById("nh-greeting"),t=document.getElementById("nh-current-time"),dt=document.getElementById("nh-current-date"),c=document.getElementById("nh-current-country");
+    if(g)g.textContent=greeting;if(t)t.textContent=time;if(dt)dt.textContent=date;if(c)c.textContent=country;
+  }
+  window.updateIdentity=updateIdentity;
+  updateIdentity();
+  setInterval(updateIdentity,1000);
+})();
+</script></body></html>
