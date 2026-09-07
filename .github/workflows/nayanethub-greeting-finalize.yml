@@ -1,0 +1,48 @@
+name: Finalize canonical Hub greeting visibility
+
+on:
+  push:
+    paths:
+      - '.github/workflows/nayanethub-greeting-finalize.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply one surgical source edit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('NAYANETHUB.html')
+          s=p.read_text(encoding='utf-8')
+          marker='</body></html>'
+          addition='<style id="nh-greeting-visibility">#page-home .heroIntro{display:block!important}</style>'
+          if addition in s:
+              raise SystemExit('already applied')
+          if s.count(marker)!=1:
+              raise SystemExit('expected exactly one closing marker')
+          s=s.replace(marker, addition+marker, 1)
+          p.write_text(s,encoding='utf-8')
+          PY
+          git diff --check
+          git diff -- NAYANETHUB.html
+          test "$(git diff --numstat -- NAYANETHUB.html | awk '{print $1}')" = "1"
+          test "$(git diff --numstat -- NAYANETHUB.html | awk '{print $2}')" = "0"
+          git diff --exit-code -- .github/workflows/nayanethub-greeting-finalize.yml
+      - name: Commit source edit and remove temporary workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/nayanethub-greeting-finalize.yml
+          git add NAYANETHUB.html .github/workflows/nayanethub-greeting-finalize.yml
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Show canonical Hub greeting at top'
+          git push
