@@ -42,4 +42,3 @@ jobs:
           name: NayaNET-Intelligent-Hub-Cloudflare
           path: NayaNET-Intelligent-Hub-Cloudflare.zip
           if-no-files-found: error
-
