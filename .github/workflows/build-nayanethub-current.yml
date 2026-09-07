@@ -42,3 +42,9 @@ jobs:
           name: NayaNET-Intelligent-Hub-Cloudflare
           path: NayaNET-Intelligent-Hub-Cloudflare.zip
           if-no-files-found: error
+      - name: Upload canonical source for controlled inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: NayaNET-Hub-Source-Inspection
+          path: NAYANETHUB.html
+          if-no-files-found: error
