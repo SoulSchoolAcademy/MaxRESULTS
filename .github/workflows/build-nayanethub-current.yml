@@ -99,10 +99,15 @@ jobs:
           grep -q 'Good evening' index.html
           grep -q 'FAVORITE' index.html
           grep -q 'LOVE' index.html
-          node --check scripts/nayanethub-canonical-correction-v1.js
+          grep -q 'nayanet_hub_authority_v1' index.html
+          grep -q 'sourceId:n.id' index.html
           python3 - <<'PY'
           from pathlib import Path
           import zipfile
+          layer=Path('scripts/nayanethub-canonical-correction-v1.js').read_text(encoding='utf-8')
+          assert layer.lstrip().startswith('/* NAYANETHUB-CANONICAL-CORRECTION-V1')
+          assert '(()=>{' in layer and '})();' in layer
+          assert 'nayanet_hub_authority_v1' in layer
           for f in ('NAYANETHUB.html','index.html'):
               s=Path(f).read_text(encoding='utf-8')
               assert s.count('<!doctype html>')==1 and s.count('</html>')==1,f
@@ -111,7 +116,7 @@ jobs:
           assert index.count('id="nayanethub-canonical-correction-v1"')==1
           with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
               z.write('index.html','index.html');z.write('_redirects','_redirects')
-          print('ZIP READY · CORRECTION JS VERIFIED · SINGLE HTML DOCUMENT VERIFIED')
+          print('ZIP READY · CANONICAL CORRECTION MARKERS VERIFIED · SINGLE HTML DOCUMENT VERIFIED')
           PY
       - name: Upload Cloudflare package
         uses: actions/upload-artifact@v4
