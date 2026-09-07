@@ -175,7 +175,7 @@ const clean=s=>String(s||'').replace(/\s+/g,' ').trim();
 const esc=s=>String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\\':'&#92;','"':'&quot;'}[c]||c));
 function css(){if(Q('#nh-v11-refinement-style'))return;const s=document.createElement('style');s.id='nh-v11-refinement-style';s.textContent=`
 /* V11 — intelligence-first presentation */
-#page-home .heroIntro,#page-home .hero{display:none!important}
+#page-home .hero{display:none!important}
 #nh72Search{margin:0 0 18px!important;max-width:none}
 #nh72Search input{min-height:64px!important;border:1px solid #a989ff!important;border-radius:18px!important;background:linear-gradient(145deg,#15101d,#07070b)!important;box-shadow:inset 0 1px #fff7,0 0 30px #8b63ff1c,0 20px 45px #000d!important;font-size:15px!important}
 #nh72Search input:focus{border-color:#d86cff!important;box-shadow:inset 0 1px #fff8,0 0 42px #d86cff2a,0 20px 50px #000e!important}
