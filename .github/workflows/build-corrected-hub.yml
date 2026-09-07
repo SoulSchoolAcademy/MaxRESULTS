@@ -1,0 +1,96 @@
+name: Build corrected Hub V7
+on:
+  push:
+    branches: [hub-v7-corrected-smart-notes]
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply surgical Hub correction
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('NAYANETHUB.html')
+          s=p.read_text(encoding='utf-8')
+          import re
+          s=re.sub(r'<style id="nayanet-surgical-menu-style">.*?</style>', '', s, flags=re.S)
+          s=re.sub(r'<script id="nayanet-v7-intelligent-feed-excellence">.*?</script>', '', s, flags=re.S)
+          s=re.sub(r'<script[^>]*>\s*/\* NAYANETHUB-FINAL-EXECUTION-V4 \*/.*?</script>', '', s, flags=re.S)
+          s=re.sub(r'<script[^>]*>\s*/\* NAYANETHUB-FINAL-EXECUTION-V5 \*/.*?</script>', '', s, flags=re.S)
+          patch=r'''<style id="nayanet-corrected-v7-style">
+          #nh-corrected-welcome{margin:0 0 24px;padding:22px 24px;border:1px solid #d86cff42;border-radius:22px;background:linear-gradient(145deg,#181321,#09090d);box-shadow:inset 0 1px #fff4,0 24px 55px #000b}
+          #nh-corrected-welcome .nh-greet{font-size:clamp(30px,4.3vw,58px);line-height:.95;letter-spacing:-.055em;font-weight:950;margin:0}
+          #nh-corrected-welcome .nh-when{margin-top:9px;color:#aaa4b1;font-size:10px;font-weight:800;letter-spacing:.08em}
+          #nh-feed-switch{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:0 0 18px;padding:7px;border:1px solid #ffffff18;border-radius:15px;background:#09090d;width:max-content;max-width:100%}
+          #nh-feed-switch button{min-height:38px;padding:0 15px;border:1px solid #ffffff20;border-radius:11px;background:#0b0b10;color:#aaa4b1;font-size:8px;font-weight:1000;letter-spacing:.08em;cursor:pointer}
+          #nh-feed-switch button.active{background:linear-gradient(145deg,#26152f,#100c14);border-color:#d86cff88;color:#fff;box-shadow:0 0 22px #d86cff10}
+          .nh-block-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px;padding-top:15px;border-top:1px solid #ffffff10}
+          .nh-block-actions button{min-height:34px;padding:0 10px;border:1px solid #ffffff20;border-radius:10px;background:#08080c;color:#bdb7c4;font-size:7px;font-weight:1000;letter-spacing:.05em;cursor:pointer}
+          .nh-block-actions button:hover,.nh-block-actions button.nh-on{border-color:#d86cff88;color:#fff;background:#17101d}
+          .nh-rating{display:inline-flex;gap:2px;align-items:center;padding:0 3px}
+          .nh-rating button{border:0;background:transparent!important;padding:0 3px;min-height:28px;font-size:14px;color:#6e6875}
+          .nh-rating button.nh-rated{color:#e8c766}
+          #page-smart-lists,#page-favorites{display:none}
+          .nh-org-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:18px}
+          .nh-org-head h1{font-size:clamp(42px,6vw,66px);line-height:.9;letter-spacing:-.07em;margin:0 0 9px}
+          .nh-org-head p{color:#aaa4b1;font-size:11px;line-height:1.6;margin:0;max-width:700px}
+          .nh-org-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+          .nh-org-tools input{flex:1 1 240px;min-height:44px;border:1px solid #ffffff20;border-radius:12px;background:#08080c;color:#fff;padding:0 12px;outline:none}
+          .nh-org-tools button{min-height:44px;padding:0 13px;border:1px solid #d86cff55;border-radius:12px;background:#100c14;color:#fff;font-size:8px;font-weight:1000;cursor:pointer}
+          .nh-org-list{border:1px solid #ffffff18;border-radius:18px;background:#0b0b10;margin-bottom:12px;overflow:hidden}
+          .nh-org-listhead{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 17px;border-bottom:1px solid #ffffff12}
+          .nh-org-listhead b{font-size:14px}.nh-org-listhead span{color:#8f8996;font-size:8px}
+          .nh-org-items{padding:12px}.nh-org-item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:11px 12px;margin-bottom:7px;border:1px solid #ffffff12;border-radius:12px;background:#08080c}
+          .nh-org-item b{font-size:9px}.nh-org-item span{display:block;color:#99939f;font-size:7px;margin-top:4px}.nh-org-item button{border:1px solid #ffffff20;border-radius:9px;background:#09090d;color:#fff;padding:7px 9px;font-size:7px;font-weight:1000;cursor:pointer}
+          .nh-empty{padding:45px 20px;text-align:center;border:1px dashed #8b63ff44;border-radius:16px;color:#9e98a5;font-size:10px;line-height:1.6}
+          @media(max-width:900px){#nh-corrected-welcome{padding:18px}.nh-org-head{display:block}.nh-org-tools{display:block}.nh-org-tools input{width:100%;margin-bottom:8px}.nh-org-tools button{width:100%}}
+          </style>
+          <script id="nayanet-corrected-v7-script">
+          (()=>{'use strict';
+          const Q=(s,r=document)=>r.querySelector(s),QA=(s,r=document)=>[...r.querySelectorAll(s)];
+          const FKEY='nayanet_v7_favorites_v2', LKEY='nayanet_v7_lists_v2', EKEY='nayanet_v7_engagement_v2', MODE='nayanet_v7_feed_mode';
+          const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||'null')??d}catch(e){return d}}, save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+          const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+          const identity=()=>{const keys=['nayanet_smart_name','nayanet_alias','nayanet_name','nayanetHubName','naya_name','name','alias'];for(const k of keys){try{const v=localStorage.getItem(k);if(v&&v.trim())return v.trim()}catch(e){}}const q=QA('input').find(x=>/name|alias|username/i.test((x.name||'')+' '+(x.id||'')+' '+(x.placeholder||'')));return q?.value?.trim()||''};
+          const blockId=(b,i)=>b.dataset.nhId||(b.dataset.nhId='ib-'+i+'-'+Math.abs([...b.querySelectorAll('h1,h2,h3')].map(x=>x.textContent).join('').split('').reduce((a,c)=>((a<<5)-a+c.charCodeAt(0))|0,0)));
+          const blocks=()=>QA('.intelligentBlock');
+          function welcome(){let el=Q('#nh-corrected-welcome');if(!el){el=document.createElement('section');el.id='nh-corrected-welcome';const home=Q('#page-home')||Q('.page.active')||Q('main');if(!home)return;home.prepend(el)}const d=new Date(),h=d.getHours(),g=h<12?'Good morning':h<17?'Good afternoon':'Good evening',n=identity();el.innerHTML='<div class="nh-greet">'+g+(n?', '+esc(n):'')+'.</div><div class="nh-when">'+esc(d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}))+' · '+esc(d.toLocaleDateString([],{weekday:'long',year:'numeric',month:'long',day:'numeric'}))+'</div>'}
+          function removeOldDestinations(){QA('.nav button,.nav a').forEach(b=>{const t=(b.textContent||'').trim().replace(/\s+/g,' ');if(/^Your Intelligence Today$/i.test(t)){b.remove()}});QA('#page-your-intelligence-today,[id*="your-intelligence-today" i]').forEach(x=>x.remove())}
+          function navLabel(text,id,icon){let b=QA('.nav button,.nav a').find(x=>(x.textContent||'').trim().replace(/\s+/g,' ').toLowerCase()===text.toLowerCase());if(b)return b;const groups=QA('.nav');const target=groups[0];if(!target)return null;b=document.createElement('button');b.dataset.nhOrg=id;b.innerHTML='<span class="ico">'+icon+'</span>'+text;target.appendChild(b);return b}
+          function page(id,title,desc){let p=Q('#'+id);if(!p){p=document.createElement('section');p.id=id;p.className='page';p.innerHTML='<div class="nh-org-head"><div><div class="eyebrow">ORGANIZE YOUR INTELLIGENCE</div><h1>'+title+'</h1><p>'+desc+'</p></div></div><div id="'+id+'-body"></div>';Q('main')?.appendChild(p)}return p}
+          function show(id,title){QA('.page').forEach(p=>p.classList.toggle('active',p.id===id));const pt=Q('#pageTitle');if(pt)pt.textContent=title;QA('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.nhOrg===id));window.scrollTo({top:0,behavior:'smooth'})}
+          function blockTitle(b){return (Q('.blockTitle h3',b)?.textContent||Q('h3',b)?.textContent||Q('h2',b)?.textContent||'Intelligent Note').trim()}
+          function ensureBlockIds(){blocks().forEach((b,i)=>blockId(b,i))}
+          function favorite(id){const a=load(FKEY,[]);const i=a.indexOf(id);i<0?a.push(id):a.splice(i,1);save(FKEY,a);refreshActions()}
+          function addToList(id){const lists=load(LKEY,[]);if(!lists.length){const n=prompt('Create your first Smart List:');if(!n?.trim())return;lists.push({id:'list-'+Date.now(),name:n.trim(),items:[]})}const names=lists.map((x,i)=>`${i+1}. ${x.name}`).join('\n');const pick=prompt('Save to which Smart List?\n\n'+names+'\n\nEnter a number, or type a new list name.');if(!pick)return;let idx=Number(pick)-1;if(Number.isNaN(idx)||idx<0||idx>=lists.length){lists.push({id:'list-'+Date.now(),name:pick.trim(),items:[]});idx=lists.length-1}if(!lists[idx].items.includes(id))lists[idx].items.push(id);save(LKEY,lists);alert('Saved to '+lists[idx].name+'.')}
+          function share(id){const b=blocks().find(x=>x.dataset.nhId===id);const text=blockTitle(b);if(navigator.share)navigator.share({title:'NayaNET Intelligence',text}).catch(()=>{});else navigator.clipboard?.writeText(text)}
+          function engage(id,type,value){const e=load(EKEY,{});e[id] ||= {love:false,like:false,rating:0,comment:''};if(type==='rating')e[id].rating=value;else if(type==='comment'){const c=prompt('Comment on this collective intelligence:');if(c)e[id].comment=c}else e[id][type]=!e[id][type];save(EKEY,e);refreshActions()}
+          function actions(b){if(b.dataset.nhActions)return;b.dataset.nhActions='1';const id=blockId(b,blocks().indexOf(b));const bar=document.createElement('div');bar.className='nh-block-actions';const mode=localStorage.getItem(MODE)||'personal';if(mode==='collective'){bar.innerHTML='<button data-nh="love">♥ LOVE</button><button data-nh="like">👍 LIKE</button><span class="nh-rating" aria-label="Rate out of five stars">'+[1,2,3,4,5].map(i=>'<button data-nh-rating="'+i+'">★</button>').join('')+'</span><button data-nh="comment">💬 COMMENT</button><button data-nh="save">＋ SAVE</button><button data-nh="share">↗ SHARE</button>'}else{bar.innerHTML='<button data-nh="favorite">★ FAVORITE</button><button data-nh="save">＋ SAVE TO LIST</button><button data-nh="share">↗ SHARE</button>'}b.appendChild(bar);bar.addEventListener('click',e=>{const x=e.target.closest('button');if(!x)return;if(x.dataset.nh==='favorite')favorite(id);if(x.dataset.nh==='save')addToList(id);if(x.dataset.nh==='share')share(id);if(x.dataset.nh==='love'||x.dataset.nh==='like'||x.dataset.nh==='comment')engage(id,x.dataset.nh);if(x.dataset.nhRating)engage(id,'rating',+x.dataset.nhRating)})}
+          function refreshActions(){blocks().forEach(b=>{const old=b.querySelector('.nh-block-actions');if(old)old.remove();delete b.dataset.nhActions;actions(b)});const fav=load(FKEY,[]),e=load(EKEY,{});blocks().forEach(b=>{const id=b.dataset.nhId,bar=b.querySelector('.nh-block-actions');if(!bar)return;const fb=bar.querySelector('[data-nh="favorite"]');if(fb&&fav.includes(id))fb.classList.add('nh-on');if(e[id]){['love','like'].forEach(k=>{const x=bar.querySelector('[data-nh="'+k+'"]');if(x&&e[id][k])x.classList.add('nh-on')});bar.querySelectorAll('[data-nh-rating]').forEach(x=>x.classList.toggle('nh-rated',+x.dataset.nhRating<=+(e[id].rating||0)))}})}
+          function switcher(){const feed=Q('.intelligentFeed');if(!feed)return;let sw=Q('#nh-feed-switch');if(!sw){sw=document.createElement('div');sw.id='nh-feed-switch';sw.innerHTML='<button data-mode="personal">PERSONAL</button><button data-mode="collective">COLLECTIVE</button>';const head=Q('.intelligentFeedHead',feed);(head||feed).parentNode.insertBefore(sw,head||feed);sw.addEventListener('click',e=>{const b=e.target.closest('button[data-mode]');if(!b)return;localStorage.setItem(MODE,b.dataset.mode);QA('#nh-feed-switch button').forEach(x=>x.classList.toggle('active',x===b));refreshActions()});}const mode=localStorage.getItem(MODE)||'personal';QA('#nh-feed-switch button').forEach(x=>x.classList.toggle('active',x.dataset.mode===mode));}
+          function renderFavorites(){const p=page('page-favorites','Favorites','Your private one-click collection of intelligence.');const body=Q('#page-favorites-body');const ids=load(FKEY,[]);body.innerHTML=ids.length?'<div class="nh-org-list"><div class="nh-org-listhead"><b>Favorites</b><span>'+ids.length+' items</span></div><div class="nh-org-items">'+ids.map(id=>{const b=blocks().find(x=>x.dataset.nhId===id);return b?'<div class="nh-org-item"><div><b>'+esc(blockTitle(b))+'</b><span>Saved from Smart Notes</span></div><button data-unfav="'+id+'">REMOVE</button></div>':''}).join('')+'</div></div>':'<div class="nh-empty">Favorite intelligence from Personal or Collective Smart Notes and it will appear here.</div>';QA('[data-unfav]',body).forEach(x=>x.onclick=()=>{favorite(x.dataset.unfav);renderFavorites()})}
+          function renderLists(){const p=page('page-smart-lists','Smart Lists','Create named collections of actual intelligent blocks. Lists stay private and can contain Personal and Collective intelligence.');const body=Q('#page-smart-lists-body');const lists=load(LKEY,[]);body.innerHTML='<div class="nh-org-tools"><input id="nh-list-search" placeholder="Search your Smart Lists…"><button id="nh-new-list">＋ NEW SMART LIST</button></div>'+(lists.length?lists.map(l=>'<div class="nh-org-list" data-list-name="'+esc(l.name.toLowerCase())+'"><div class="nh-org-listhead"><b>'+esc(l.name)+'</b><span>'+l.items.length+' items</span></div><div class="nh-org-items">'+(l.items.length?l.items.map(id=>{const b=blocks().find(x=>x.dataset.nhId===id);return b?'<div class="nh-org-item"><div><b>'+esc(blockTitle(b))+'</b><span>Actual Smart Note reference</span></div><button data-remove-list="'+l.id+'" data-remove-id="'+id+'">REMOVE</button></div>':''}).join(''):'<div class="nh-empty">This Smart List is empty.</div>')+'</div></div>').join(''):'<div class="nh-empty">No Smart Lists yet. Create one, then save intelligence to it from the feed.</div>';Q('#nh-new-list',body)?.addEventListener('click',()=>{const n=prompt('Name your Smart List:');if(n?.trim()){lists.push({id:'list-'+Date.now(),name:n.trim(),items:[]});save(LKEY,lists);renderLists()}});Q('#nh-list-search',body)?.addEventListener('input',e=>QA('.nh-org-list',body).forEach(x=>x.style.display=x.dataset.listName.includes(e.target.value.toLowerCase())?'':'none'));QA('[data-remove-list]',body).forEach(x=>x.onclick=()=>{const ls=load(LKEY,[]),l=ls.find(z=>z.id===x.dataset.removeList);if(l)l.items=l.items.filter(id=>id!==x.dataset.removeId);save(LKEY,ls);renderLists()})}
+          function nav(){const fav=navLabel('Favorites','page-favorites','★');const lists=navLabel('Smart Lists','page-smart-lists','☷');if(fav)fav.addEventListener('click',()=>{renderFavorites();show('page-favorites','Favorites')});if(lists)lists.addEventListener('click',()=>{renderLists();show('page-smart-lists','Smart Lists')})}
+          function init(){welcome();removeOldDestinations();ensureBlockIds();switcher();refreshActions();nav();}
+          if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+          })();
+          </script>'''
+          if 'id="nayanet-corrected-v7-script"' not in s:
+              s=s.replace('</body>',patch+'\n</body>')
+          p.write_text(s,encoding='utf-8')
+      - name: Validate surgical diff
+        run: |
+          git diff --check
+          git diff --stat
+          test "$(grep -o 'id=\"nayanet-corrected-v7-script\"' NAYANETHUB.html | wc -l)" -eq 1
+          test "$(grep -o 'id=\"nayanet-corrected-v7-style\"' NAYANETHUB.html | wc -l)" -eq 1
+      - name: Commit corrected Hub
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add NAYANETHUB.html
+          git commit -m 'Correct Hub Smart Notes Personal and Collective experience'
+          git push origin HEAD:hub-v7-corrected-smart-notes
