@@ -9,6 +9,7 @@ on:
       - 'scripts/nayanethub-v5-build-trigger.js'
       - 'scripts/nayanethub-canonical-correction-v1.js'
       - 'scripts/nayanethub-love-bridge-v1.js'
+      - 'scripts/nayanethub-build-trigger-v1.js'
       - '.github/workflows/build-nayanethub-current.yml'
   pull_request:
     paths:
@@ -18,6 +19,7 @@ on:
       - 'scripts/nayanethub-v5-build-trigger.js'
       - 'scripts/nayanethub-canonical-correction-v1.js'
       - 'scripts/nayanethub-love-bridge-v1.js'
+      - 'scripts/nayanethub-build-trigger-v1.js'
       - '.github/workflows/build-nayanethub-current.yml'
   workflow_dispatch:
 
@@ -109,6 +111,7 @@ jobs:
           grep -q 'NAYANETHUB-FINAL-EXECUTION-V5' index.html
           grep -q 'NAYANETHUB-CANONICAL-CORRECTION-V1' index.html
           grep -q 'NAYANETHUB-LOVE-BRIDGE-V1' index.html
+          grep -q 'NAYANETHUB-BUILD-TRIGGER-V1' scripts/nayanethub-build-trigger-v1.js
           grep -q 'Personal Feed' index.html
           grep -q 'Smart Lists' index.html
           grep -q 'Collective Feed' index.html
