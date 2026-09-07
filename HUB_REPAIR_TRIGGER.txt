@@ -1,1 +1,1 @@
-Temporary trigger for canonical NayaNET Intelligent Hub repair. Safe to delete after the repair gate completes.
+Canonical Hub release-gate trigger — execute against the current main source.
