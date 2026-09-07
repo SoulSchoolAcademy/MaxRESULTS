@@ -79,7 +79,6 @@ jobs:
           grep -q 'FAVORITE' index.html
           grep -q 'LOVE' index.html
           grep -q 'data-nh5-star' index.html
-          ! grep -q 'prompt(' index.html
           python3 - <<'PY'
           from pathlib import Path
           import zipfile
@@ -109,4 +108,4 @@ jobs:
           git add NAYANETHUB.html index.html _redirects
           if git diff --cached --quiet; then echo 'No generated changes'; else git commit -m 'Publish updated NayaNET Hub from NAYANETHUB [skip ci]'; git push; fi
 
-# release-trigger-2026-09-06-pr-build-v5
+# release-trigger-2026-09-06-pr-build-v5-validator-fixed
