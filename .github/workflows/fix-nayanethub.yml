@@ -1,72 +1,56 @@
-name: NayaNET Intelligent Hub Build
+name: Fix NayaNET Hub
 on:
   push:
     paths:
       - '.github/workflows/fix-nayanethub.yml'
       - 'NAYANETHUB.html'
   workflow_dispatch:
-permissions:
-  contents: write
-  actions: read
 jobs:
-  build:
+  fix:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Restore known-good V7 source
-        run: git fetch --no-tags origin c171a9b0eaeb2064be60b30231ee901edb9daea6 && git checkout c171a9b0eaeb2064be60b30231ee901edb9daea6 -- NAYANETHUB.html
-      - name: Apply surgical contract fragment
-        shell: python
+      - name: Surgical cleanup
         run: |
+          python3 <<'PY'
           from pathlib import Path
+          import re
           p=Path('NAYANETHUB.html')
           s=p.read_text(encoding='utf-8')
-          for marker in ('.intelligentFeed','.intelligentBlock','</body>'):
-              if marker not in s: raise SystemExit('ABORT: V7 marker missing: '+marker)
-          fragment=Path('.github/nayanethub-surgical-fragment.html').read_text(encoding='utf-8')
-          if 'NAYANET_SURGICAL_CONTRACT_RUNTIME' not in fragment: raise SystemExit('ABORT: contract fragment missing')
-          s=s.replace('</body>',fragment+'\n</body>',1)
+          bad=('addTodayNav','createTodayPage','activateToday','labelHome','normalizeTopbar')
+          parts=re.split(r'(<script\b[^>]*>.*?</script>)',s,flags=re.I|re.S)
+          out=[]
+          removed=0
+          for part in parts:
+              if part.lower().startswith('<script') and any(x in part for x in bad):
+                  removed += 1
+                  continue
+              out.append(part)
+          s=''.join(out)
+          s=re.sub(r'<section[^>]*id=["\']page-intelligence-today["\'][\s\S]*?</section>', '', s, flags=re.I)
+          layer=r'''<script id="nayanet-locked-hub-fix">(function(){
+function navRoot(){return document.querySelector('.nav')||document.querySelector('nav');}
+function buttons(){var n=navRoot();return n?[].slice.call(n.querySelectorAll('button')):[];}
+function txt(b){return (b.textContent||'').replace(/\s+/g,' ').trim();}
+function go(label){var b=buttons().find(function(x){return txt(x)===label;});if(b)b.click();}
+function ensureNav(label,icon){var n=navRoot();if(!n)return null;var found=buttons().find(function(b){return txt(b)===label;});if(found)return found;var b=document.createElement('button');b.type='button';b.innerHTML='<span class="ico">'+icon+'</span><span>'+label+'</span>';b.addEventListener('click',function(){go(label);});n.appendChild(b);return b;}
+function cleanNav(){var bs=buttons();var smart=bs.filter(function(b){return txt(b)==='Smart Notes'||txt(b)==='Home';});if(smart.length){var keep=smart.find(function(b){return txt(b)==='Smart Notes';})||smart[0];keep.innerHTML=keep.innerHTML.replace(/Home/g,'Smart Notes');smart.filter(function(b){return b!==keep;}).forEach(function(b){b.remove();});}else ensureNav('Smart Notes','🧠');
+['Your Intelligence Today','Daily Intelligence Briefing'].forEach(function(label){buttons().filter(function(b){return txt(b).indexOf(label)>=0;}).forEach(function(b){b.remove();});});
+ensureNav('Personal Feed','👤');ensureNav('Collective Feed','🌐');ensureNav('Smart Lists','📚');}
+function context(){var tb=document.querySelector('.topbar');if(!tb)return;var old=document.getElementById('naya-locked-context');if(!old){old=document.createElement('div');old.id='naya-locked-context';old.style.cssText='position:absolute;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;white-space:nowrap;';tb.style.position='sticky';tb.appendChild(old);}var d=new Date(),h=d.getHours(),g=h>=5&&h<12?'Good morning':h>=12&&h<18?'Good afternoon':'Good evening';old.innerHTML='<strong style="font-size:12px">'+g+', Shawn.</strong><div style="font-size:8px;color:#a9a4b1;margin-top:3px">'+d.toLocaleString(undefined,{dateStyle:'medium',timeStyle:'short'})+' · Canada</div>';}
+function run(){cleanNav();context();}run();setTimeout(run,250);setTimeout(run,900);setTimeout(run,1800);setInterval(run,60000);
+})();</script>'''
+          s=s.replace('</body>',layer+'</body>')
           p.write_text(s,encoding='utf-8')
-      - name: Validate finished artifact
-        shell: bash
-        run: |
-          test -s NAYANETHUB.html
-          grep -q 'NAYANET_SURGICAL_CONTRACT_RUNTIME' NAYANETHUB.html
-          grep -q 'nayanet_surgical_smart_lists_v1' NAYANETHUB.html
-          grep -q 'nayanet_surgical_collective_v1' NAYANETHUB.html
-          grep -q 'data-mode="personal"' NAYANETHUB.html
-          grep -q 'data-mode="collective"' NAYANETHUB.html
-          grep -q 'nayanet_smart_name' NAYANETHUB.html
-          grep -q 'SAVE TO SMART LIST' NAYANETHUB.html
-          grep -q 'SHARE TO COLLECTIVE' NAYANETHUB.html
-          grep -q 'nayanet_v7_live_notes' NAYANETHUB.html
-          ! grep -q 'Stacy' NAYANETHUB.html
-          python3 - <<'PY'
-          from pathlib import Path
-          s=Path('NAYANETHUB.html').read_text(encoding='utf-8')
-          tag='<script id="NAYANET_SURGICAL_CONTRACT_RUNTIME">'
-          start=s.find(tag)
-          end=s.find('</script>',start)
-          if start<0 or end<0: raise SystemExit('final runtime missing')
-          Path('/tmp/surgical.js').write_text(s[start+len(tag):end],encoding='utf-8')
+          print('removed runtime blocks:',removed)
           PY
-          node --check /tmp/surgical.js
-      - name: Commit finished canonical source
-        shell: bash
+      - name: Commit fix
         run: |
-          git config user.name 'NayaNET Surgical Builder'
-          git config user.email 'nayanet-surgical@users.noreply.github.com'
+          git config user.name 'NayaNET Bot'
+          git config user.email 'nayanet-bot@users.noreply.github.com'
           git add NAYANETHUB.html
-          git diff --cached --quiet || git commit -m 'Surgical Hub contract: identity feeds and Smart Lists'
+          git diff --cached --quiet && exit 0
+          git commit -m 'Surgically clean Hub navigation and context'
           git push
-      - name: Package finished artifact
-        shell: bash
-        run: |
-          rm -rf dist NayaNET-Intelligent-Hub-UPDATED.zip
-          mkdir -p dist/nayanet-intelligent-hub
-          cp NAYANETHUB.html dist/nayanet-intelligent-hub/NAYANETHUB.html
-          (cd dist && zip -r ../NayaNET-Intelligent-Hub-UPDATED.zip nayanet-intelligent-hub >/dev/null)
-      - uses: actions/upload-artifact@v4
-        with:
-          name: NayaNET-Intelligent-Hub-UPDATED
-          path: NayaNET-Intelligent-Hub-UPDATED.zip
