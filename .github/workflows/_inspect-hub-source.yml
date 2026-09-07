@@ -1,0 +1,20 @@
+name: Inspect Hub Source
+on:
+  push:
+    paths:
+      - '.github/workflows/_inspect-hub-source.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package source
+        run: cp NAYANETHUB.html /tmp/NAYANETHUB.html && zip -9 /tmp/NayaNET-Hub-Source.zip /tmp/NAYANETHUB.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NayaNET-Hub-Source
+          path: /tmp/NayaNET-Hub-Source.zip
+          if-no-files-found: error
