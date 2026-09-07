@@ -25,48 +25,58 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Apply final Hub execution layer to NAYANETHUB
+      - name: Replace existing final execution layer surgically
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
           src=Path('NAYANETHUB.html')
           layer=Path('scripts/nayanethub-final-execution.js')
           html=src.read_text(encoding='utf-8')
           body=layer.read_text(encoding='utf-8')
           marker='<!-- NAYANETHUB-FINAL-EXECUTION-V1 -->'
-          if marker not in html:
-              if '</body>' not in html: raise SystemExit('NAYANETHUB.html has no closing body')
-              html=html.replace('</body>',f'\n{marker}\n<script id="nayanethub-final-execution">\n{body}\n</script>\n</body>',1)
-              src.write_text(html,encoding='utf-8')
+          block=re.compile(r'\\s*<!-- NAYANETHUB-FINAL-EXECUTION-V1 -->\\s*<script id="nayanethub-final-execution">.*?</script>\\s*',re.S)
+          html=block.sub('',html)
+          block2=re.compile(r'\\s*<!-- NAYANETHUB-FINAL-EXECUTION-V4 -->\\s*<script id="nayanethub-final-execution">.*?</script>\\s*',re.S)
+          html=block2.sub('',html)
+          if '</body>' not in html: raise SystemExit('NAYANETHUB.html has no closing body')
+          html=html.replace('</body>',f'\\n{marker}\\n<!-- NAYANETHUB-FINAL-EXECUTION-V4 -->\\n<script id="nayanethub-final-execution">\\n{body}\\n</script>\\n</body>',1)
+          src.write_text(html,encoding='utf-8')
           Path('index.html').write_text(html,encoding='utf-8')
-          Path('_redirects').write_text('/intelligence/* /index.html 200\n',encoding='utf-8')
+          Path('_redirects').write_text('/intelligence/* /index.html 200\\n',encoding='utf-8')
           print('NAYANETHUB bytes:',len(html.encode()))
           print('index bytes:',Path('index.html').stat().st_size)
           PY
       - name: Validate requested Hub release
         shell: bash
         run: |
-          set -e
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' index.html
-          grep -q 'NAYANETHUB-FINAL-EXECUTION-V1' NAYANETHUB.html
+          set -euo pipefail
           grep -q 'NAYANETHUB-FINAL-EXECUTION-V4' index.html
+          grep -q 'NAYANETHUB-FINAL-EXECUTION-V5' index.html
           grep -q 'Personal Feed' index.html
           grep -q 'Smart Lists' index.html
           grep -q 'Collective Feed' index.html
-          grep -q 'CIRCULATE TO COLLECTIVE' index.html
+          grep -q 'SHARE TO COLLECTIVE' index.html
           grep -q 'Good morning' index.html
           grep -q 'Good afternoon' index.html
           grep -q 'Good evening' index.html
           ! grep -q 'prompt(' index.html
+          ! grep -qi 'Shawn and Stacy' index.html
+          ! grep -qi '>Stacy<' index.html
           python3 - <<'PY'
           from pathlib import Path
           import zipfile
           for f in ('NAYANETHUB.html','index.html'):
               s=Path(f).read_text(encoding='utf-8')
-              assert s.count('<!doctype html>')==1 and s.count('</html>')==1,f
+              assert s.count('<!doctype html>')==1,f
+              assert s.count('</html>')==1,f
+              assert s.count('</body>')==1,f
           with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
               z.write('index.html','index.html');z.write('_redirects','_redirects')
+          with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip') as z:
+              assert z.namelist()==['index.html','_redirects']
+              assert z.getinfo('index.html').file_size>100000
           print('ZIP READY')
           PY
       - name: Upload Cloudflare package
