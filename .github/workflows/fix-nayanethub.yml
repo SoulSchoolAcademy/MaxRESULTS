@@ -42,15 +42,13 @@ jobs:
           grep -q 'nayanet_v7_live_notes' NAYANETHUB.html
           ! grep -q 'Stacy' NAYANETHUB.html
           python3 - <<'PY'
-          import re
           from pathlib import Path
           s=Path('NAYANETHUB.html').read_text(encoding='utf-8')
-          scripts=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S)
-          for x in scripts:
-              if 'NAYANET_SURGICAL_CONTRACT_RUNTIME' in x:
-                  Path('/tmp/surgical.js').write_text(x,encoding='utf-8')
-                  break
-          else: raise SystemExit('final runtime missing')
+          tag='<script id="NAYANET_SURGICAL_CONTRACT_RUNTIME">'
+          start=s.find(tag)
+          end=s.find('</script>',start)
+          if start<0 or end<0: raise SystemExit('final runtime missing')
+          Path('/tmp/surgical.js').write_text(s[start+len(tag):end],encoding='utf-8')
           PY
           node --check /tmp/surgical.js
       - name: Commit finished canonical source
