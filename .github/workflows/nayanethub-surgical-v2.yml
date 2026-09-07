@@ -1,0 +1,149 @@
+name: NayaNET Hub surgical v2
+
+on:
+  push:
+    branches:
+      - nayanethub-surgical-v2
+
+permissions:
+  contents: write
+
+jobs:
+  surgical-modification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v4
+
+      - name: Apply surgical Hub modification
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('NAYANETHUB.html')
+          html = p.read_text(encoding='utf-8')
+
+          old = '<h1>Good morning, Shawn.</h1>'
+          new = '<h1 id="nayaAuthoritativeGreeting">Welcome.</h1>'
+          if old in html:
+              html = html.replace(old, new, 1)
+
+          surgical = r'''<style id="nayanet-surgical-v2-style">
+          #nayanetIdentityGate{position:fixed;inset:0;z-index:5000;display:none;place-items:center;padding:20px;background:#000c;backdrop-filter:blur(20px)}
+          #nayanetIdentityGate.open{display:grid}
+          #nayanetIdentityGate .nh-id-dialog{width:min(520px,100%);padding:28px;border:1px solid #d86cff66;border-radius:24px;background:linear-gradient(145deg,#17121f,#08080d);box-shadow:0 40px 100px #000f,0 0 70px #d86cff18}
+          #nayanetIdentityGate h2{margin:0 0 8px;font-size:30px;letter-spacing:-.05em}
+          #nayanetIdentityGate p{margin:0 0 18px;color:#aaa4b1;font-size:11px;line-height:1.6}
+          #nayanetIdentityGate input{width:100%;min-height:50px;padding:0 14px;border:1px solid #8b63ff77;border-radius:12px;background:#07070a;color:#fff;outline:0}
+          #nayanetIdentityGate button{width:100%;min-height:48px;margin-top:10px;border:1px solid #d86cff88;border-radius:12px;background:linear-gradient(145deg,#24102f,#0b080f);color:#fff;font-size:9px;font-weight:1000;letter-spacing:.08em}
+          .nh-feed-mode{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+          .nh-feed-mode button,.nh-smart-list-link{min-height:34px;padding:0 11px;border:1px solid #8b63ff66;border-radius:10px;background:#09090e;color:#bdb7c4;font-size:7px;font-weight:1000;letter-spacing:.08em}
+          .nh-feed-mode button.active,.nh-smart-list-link.active{border-color:#55e39a;color:#fff;background:#0b1711;box-shadow:0 0 16px #55e39a18}
+          .nh-intelligence-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px;padding-top:15px;border-top:1px solid #ffffff12}
+          .nh-intelligence-actions button{min-height:38px;padding:0 11px;border:1px solid #8b63ff66;border-radius:10px;background:#08080c;color:#ddd8e3;font-size:7px;font-weight:1000;letter-spacing:.05em}
+          .nh-intelligence-actions button:hover,.nh-intelligence-actions button.on{border-color:#d86cff;color:#fff;background:#1b1023}
+          .nh-intelligence-actions button.nh-social{border-color:#e8c76666}
+          .nh-intelligence-actions button.nh-private-share{border-color:#55b9ee66}
+          #page-nh-smart-lists .nh-list-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+          #page-nh-smart-lists .nh-list-toolbar input{flex:1;min-width:220px;min-height:44px;border:1px solid #ffffff22;border-radius:12px;background:#07070a;color:#fff;padding:0 12px;outline:0}
+          #page-nh-smart-lists .nh-list-toolbar button{min-height:44px;padding:0 14px;border:1px solid #d86cff66;border-radius:12px;background:#160d1d;color:#fff;font-size:8px;font-weight:1000}
+          .nh-smart-list-card{border:1px solid #ffffff18;border-radius:18px;background:linear-gradient(145deg,#121219,#09090d);margin-bottom:12px;overflow:hidden}
+          .nh-smart-list-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid #ffffff12}
+          .nh-smart-list-head h3{margin:0;font-size:16px}
+          .nh-smart-list-head span{color:#99939f;font-size:7px}
+          .nh-smart-list-items{padding:12px}
+          .nh-smart-list-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px;border:1px solid #ffffff12;border-radius:11px;background:#08080c;margin-bottom:7px}
+          .nh-smart-list-item b{font-size:9px}
+          .nh-smart-list-item span{display:block;color:#99939f;font-size:7px;margin-top:4px}
+          .nh-smart-list-item button{min-height:31px;padding:0 9px;border:1px solid #ffffff22;border-radius:9px;background:#0b0b10;color:#fff;font-size:7px;font-weight:1000}
+          .nh-list-modal{position:fixed;inset:0;z-index:4800;display:none;place-items:center;padding:18px;background:#000b;backdrop-filter:blur(18px)}
+          .nh-list-modal.open{display:grid}
+          .nh-list-dialog{width:min(620px,100%);max-height:88vh;overflow:auto;padding:22px;border:1px solid #d86cff66;border-radius:22px;background:linear-gradient(145deg,#14111b,#08080d);box-shadow:0 40px 100px #000f}
+          .nh-list-dialog h2{margin:0 0 6px;font-size:24px;letter-spacing:-.04em}
+          .nh-list-dialog p{margin:0;color:#aaa4b1;font-size:10px;line-height:1.6}
+          .nh-list-dialog input{width:100%;min-height:44px;margin-top:12px;border:1px solid #ffffff22;border-radius:11px;background:#07070a;color:#fff;padding:0 12px;outline:0}
+          .nh-list-checks{display:grid;gap:7px;margin:13px 0;max-height:300px;overflow:auto}
+          .nh-list-check{display:flex;align-items:center;gap:9px;padding:10px;border:1px solid #ffffff14;border-radius:10px;background:#09090d;color:#ddd8e3;font-size:9px}
+          .nh-list-check input{width:auto}
+          .nh-list-dialog .actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;margin-top:12px}
+          .nh-list-dialog .actions button{min-height:40px;padding:0 13px;border:1px solid #ffffff22;border-radius:10px;background:#09090d;color:#fff;font-size:8px;font-weight:1000}
+          .nh-list-dialog .actions .primary{border-color:#55e39a66;background:#0b1711}
+          @media(max-width:700px){.nh-feed-mode{width:100%}.nh-smart-list-item{align-items:flex-start}.nh-smart-list-item button{flex:none}}
+          </style>
+          <script id="nayanet-surgical-v2-runtime">
+          (function(){'use strict';
+            const IDKEY='nayanet_hub_identity_v1',FAVKEY='nayanet_hub_favorites_v1',LISTKEY='nayanet_hub_smart_lists_v1',SHAREKEY='nayanet_hub_collective_v1',SOCIALKEY='nayanet_hub_collective_social_v1';
+            const read=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+            const write=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}};
+            const esc2=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+            const slug=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,100);
+            function identity(){return String(read(IDKEY,'')||'').trim()}
+            function setIdentity(v){v=String(v||'').trim().replace(/\s+/g,' ').slice(0,80);if(v)write(IDKEY,v);return v}
+            function currentGreeting(){const h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening'}
+            function paintGreeting(){const el=document.getElementById('nayaAuthoritativeGreeting')||document.querySelector('#page-home .heroIntro h1');if(!el)return;const n=identity();el.textContent=(n?currentGreeting()+', '+n+'.':'Welcome.');document.querySelectorAll('#page-home .heroIntro h1:not(#nayaAuthoritativeGreeting)').forEach(x=>x.remove());document.querySelectorAll('body *').forEach(x=>{if(x===el||x.children.length)return;const t=(x.textContent||'').trim();if(/^Good (morning|afternoon|evening),\s+/.test(t)&&x.id!=='nayaAuthoritativeGreeting')x.remove()})}
+            function showIdentity(){if(identity())return;let g=document.getElementById('nayanetIdentityGate');if(g)return;g=document.createElement('div');g.id='nayanetIdentityGate';g.className='open';g.innerHTML='<div class="nh-id-dialog"><h2>Welcome to NayaNET.</h2><p>Enter your name or alias once. This is the single identity used to personalize your Hub on this device.</p><input id="nayanetIdentityInput" autocomplete="name" maxlength="80" placeholder="Your name or alias"><button id="nayanetIdentitySave">ENTER YOUR HUB</button></div>';document.body.appendChild(g);const input=g.querySelector('#nayanetIdentityInput');const submit=()=>{const n=setIdentity(input.value);if(!n){input.focus();return}g.remove();paintGreeting()};g.querySelector('#nayanetIdentitySave').onclick=submit;input.addEventListener('keydown',e=>{if(e.key==='Enter')submit()});setTimeout(()=>input.focus(),30)}
+            function blockId(b){return b.__hubId||('demo-'+slug(b.title))}
+            function sourceBlocks(){
+              const out=[];
+              try{const ns=JSON.parse(localStorage.getItem('nayanet_v7_live_notes')||'[]');ns.forEach(n=>{const t=String(n.text||''),title=(t.split(/[.!?]\s+/)[0]||'Intelligent Event').replace(/^#+\s*/,'').slice(0,100);out.push({__hubId:String(n.id),id:String(n.id),title,summary:t,type:n.type||'INSIGHT',createdAt:n.createdAt||new Date().toISOString(),tone:n.type==='BREAKTHROUGH'?'var(--magenta)':n.type==='MISTAKE'?'var(--gold)':n.type==='DECISION'?'var(--sapphire)':'var(--green)',glyph:n.type==='BREAKTHROUGH'?'✦':n.type==='MISTAKE'?'!':n.type==='DECISION'?'◆':'◎',body:[t],human:t,naya:n.naya||'',machine:n.machine||'',feed:'Preserved Intelligent Block · private by default'});});}catch(e){}
+              try{if(Array.isArray(window.demoBlocks))window.demoBlocks.forEach(b=>out.push(Object.assign({},b,{__hubId:blockId(b)})))}catch(e){}
+              return out;
+            }
+            function findBlock(id){return sourceBlocks().find(b=>blockId(b)===id||String(b.id)===id)}
+            function favorites(){return read(FAVKEY,{})}
+            function lists(){return read(LISTKEY,[])}
+            function shared(){return read(SHAREKEY,[])}
+            function social(){return read(SOCIALKEY,{})}
+            function isFav(id){return !!favorites()[id]}
+            function toggleFavorite(id){const a=favorites();a[id]=!a[id];write(FAVKEY,a);renderMode()}
+            function ensureMode(){const toolbar=document.querySelector('#page-home .feedToolbar');if(!toolbar)return;let mode=document.getElementById('nayanetFeedMode');if(!mode){mode=document.createElement('div');mode.id='nayanetFeedMode';mode.className='nh-feed-mode';mode.innerHTML='<button data-hub-mode="personal" class="active">PERSONAL</button><button data-hub-mode="collective">COLLECTIVE</button><button class="nh-smart-list-link" data-page="nh-smart-lists">SMART LISTS</button>';toolbar.appendChild(mode);mode.addEventListener('click',e=>{const b=e.target.closest('[data-hub-mode]');if(!b)return;mode.querySelectorAll('[data-hub-mode]').forEach(x=>x.classList.toggle('active',x===b));renderMode()})}}
+            function cleanExistingActions(root){root.querySelectorAll('.nh72-actions,.nh-v4-actions,.nhx-engage,.nh-v11-actions,.nh-authority-actions,.nh-excellence-actions,.nh-intelligence-actions').forEach(x=>x.remove());root.querySelectorAll('.nh72-card').forEach(x=>x.remove())}
+            function renderActions(el,b,mode){const id=blockId(b),a=document.createElement('div');a.className='nh-intelligence-actions';let html='<button data-hub-fav="'+esc2(id)+'">'+(isFav(id)?'★ FAVORITED':'☆ FAVORITE')+'</button><button data-hub-list="'+esc2(id)+'">🔖 SAVE TO SMART LIST</button><button class="nh-private-share" data-hub-share="'+esc2(id)+'">＋ SHARE EXTERNALLY</button>';if(mode==='personal')html+='<button data-hub-collect="'+esc2(id)+'">⇧ SHARE TO COLLECTIVE</button>';else{const s=social()[id]||{liked:false,loved:false,rating:0,comments:[]};html+='<button class="nh-social '+(s.liked?'on':'')+'" data-hub-like="'+esc2(id)+'">👍 '+(s.liked?'LIKED':'LIKE')+'</button><button class="nh-social '+(s.loved?'on':'')+'" data-hub-love="'+esc2(id)+'">♥ '+(s.loved?'LOVED':'LOVE')+'</button><button class="nh-social" data-hub-rank="'+esc2(id)+'">★ '+(s.rating?s.rating+'/5':'RANK 1–5')+'</button><button class="nh-social" data-hub-comment="'+esc2(id)+'">💬 COMMENT '+((s.comments||[]).length||'')+'</button>');}a.innerHTML=html;el.appendChild(a)}
+            function renderMode(){const root=document.getElementById('homeIntelligentBlocks');if(!root)return;ensureMode();const active=document.querySelector('#nayanetFeedMode [data-hub-mode].active')?.dataset.hubMode||'personal';cleanExistingActions(root);if(active==='personal'){try{window.renderHomeFeed&&window.renderHomeFeed()}catch(e){}setTimeout(()=>decoratePersonal(),0);return}const ids=shared(),bs=ids.map(findBlock).filter(Boolean).sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)));root.innerHTML=bs.length?bs.map(b=>{try{return window.renderBlock?window.renderBlock(b,0,false):'<article class="intelligentBlock"><div class="blockHeader"><div class="blockTitle"><h3>'+esc2(b.title)+'</h3></div></div><div class="blockBody"><p>'+esc2(b.summary)+'</p></div></article>'}catch(e){return '<article class="intelligentBlock"><div class="blockHeader"><div class="blockTitle"><h3>'+esc2(b.title)+'</h3></div></div><div class="blockBody"><p>'+esc2(b.summary)+'</p></div></article>'}}).join(''):'<div class="feedEmpty"><h3>Collective is intentionally empty.</h3><p>No Personal Intelligent Block has been deliberately shared to Collective yet. Saving to a Smart List never publishes an item.</p></div>';decorateCollective()}
+            function decoratePersonal(){const root=document.getElementById('homeIntelligentBlocks');if(!root)return;root.querySelectorAll('.intelligentBlock').forEach((el,i)=>{const bs=sourceBlocks();const title=(el.querySelector('.blockTitle h3')?.textContent||'').trim();const b=bs.find(x=>x.title===title)||bs[i];if(!b)return;el.dataset.hubId=blockId(b);el.querySelectorAll('.nh-intelligence-actions').forEach(x=>x.remove());renderActions(el,b,'personal')})}
+            function decorateCollective(){const root=document.getElementById('homeIntelligentBlocks');if(!root)return;const ids=shared(),bs=ids.map(findBlock).filter(Boolean);root.querySelectorAll('.intelligentBlock').forEach((el,i)=>{const b=bs[i];if(!b)return;el.dataset.hubId=blockId(b);el.querySelectorAll('.nh-intelligence-actions').forEach(x=>x.remove());renderActions(el,b,'collective')})}
+            function shareExternal(id){const b=findBlock(id);if(!b)return;const text=(b.title+'\n\n'+b.summary+'\n\nNayaNET — Create. Connect. Grow with US.').slice(0,5000);if(navigator.share){navigator.share({title:b.title,text}).catch(()=>{})}else if(navigator.clipboard){navigator.clipboard.writeText(text).then(()=>alert('Intelligence copied for external sharing.')).catch(()=>alert(text))}else alert(text)}
+            function shareCollective(id){const a=shared();if(!a.includes(id)){a.push(id);write(SHAREKEY,a)}renderMode()}
+            function openListModal(id){const ls=lists(),m=document.createElement('div');m.className='nh-list-modal open';m.innerHTML='<div class="nh-list-dialog"><h2>SAVE TO SMART LIST</h2><p>Saving organizes the real Intelligent Block. It never publishes it.</p><input id="nhListNew" placeholder="Create a new Smart List…"><div class="nh-list-checks">'+(ls.length?ls.map(l=>'<label class="nh-list-check"><input type="checkbox" value="'+esc2(l.id)+'" '+((l.items||[]).includes(id)?'checked':'')+'> '+esc2(l.name)+'</label>').join(''):'<div style="color:#99939f;font-size:9px">No lists yet. Create one above.</div>')+'</div><div class="actions"><button data-close>Cancel</button><button class="primary" id="nhListSave">SAVE</button></div></div>';document.body.appendChild(m);m.querySelector('[data-close]').onclick=()=>m.remove();m.querySelector('#nhListSave').onclick=()=>{let a=lists(),newName=m.querySelector('#nhListNew').value.trim(),checked=[...m.querySelectorAll('input[type="checkbox"]:checked')].map(x=>x.value);if(newName){const n={id:'list-'+Date.now(),name:newName,items:[]};a.push(n);checked.push(n.id)}a=a.map(l=>{const items=new Set(l.items||[]);if(checked.includes(l.id))items.add(id);else items.delete(id);return Object.assign({},l,{items:[...items]})});write(LISTKEY,a);m.remove();renderSmartLists()}}
+            function smartListPage(){if(document.getElementById('page-nh-smart-lists'))return;const p=document.createElement('section');p.className='page';p.id='page-nh-smart-lists';p.innerHTML='<div class="pageHead"><div><div class="eyebrow">PRIVATE ORGANIZATION</div><h1>Smart Lists</h1><p>Named collections of the real Intelligent Blocks you choose to keep together. Personal and Collective items may coexist.</p></div></div><div class="nh-list-toolbar"><input id="nhListSearch" placeholder="Search Smart Lists…"><button id="nhCreateList">＋ CREATE SMART LIST</button></div><div id="nhSmartListBody"></div>';document.querySelector('main.main')?.appendChild(p);p.querySelector('#nhCreateList').onclick=()=>{const n=prompt('Name your Smart List');if(!n?.trim())return;const a=lists();a.push({id:'list-'+Date.now(),name:n.trim(),items:[]});write(LISTKEY,a);renderSmartLists()};p.querySelector('#nhListSearch').oninput=renderSmartLists}
+            function renderSmartLists(){const p=document.getElementById('page-nh-smart-lists');if(!p)return;const q=(p.querySelector('#nhListSearch')?.value||'').toLowerCase().trim(),a=lists().filter(l=>!q||l.name.toLowerCase().includes(q)||(l.items||[]).some(id=>{const b=findBlock(id);return b&&(b.title+' '+b.summary).toLowerCase().includes(q)})),body=p.querySelector('#nhSmartListBody');body.innerHTML=a.length?a.map(l=>{const bs=(l.items||[]).map(findBlock).filter(Boolean);return '<section class="nh-smart-list-card"><div class="nh-smart-list-head"><h3>'+esc2(l.name)+'</h3><span>'+bs.length+' INTELLIGENT BLOCKS</span></div><div class="nh-smart-list-items">'+(bs.length?bs.map(b=>'<div class="nh-smart-list-item"><div><b>'+esc2(b.title)+'</b><span>'+esc2(b.type||'INSIGHT')+' · '+(shared().includes(blockId(b))?'COLLECTIVE':'PERSONAL')+'</span></div><button data-nh-remove="'+esc2(l.id)+'" data-nh-block="'+esc2(blockId(b))+'">REMOVE</button></div>').join(''):'<div style="padding:18px;color:#99939f;font-size:9px">This Smart List is empty.</div>')+'</div></section>'}).join(''):'<div class="empty"><b>No matching Smart Lists.</b><span>Create a list or save an Intelligent Block to one.</span></div>'}
+            function setupNav(){const nav=document.querySelector('.sidebar .nav');if(!nav)return;const candidates=[...nav.querySelectorAll('button')];const smart=candidates.filter(b=>(b.textContent||'').trim().toLowerCase()==='smart notes');smart.slice(1).forEach(b=>b.remove());candidates.filter(b=>/your intelligence today|daily intelligence briefing/i.test((b.textContent||''))).forEach(b=>b.remove());let sl=[...nav.querySelectorAll('button')].find(b=>(b.textContent||'').trim().toLowerCase()==='smart lists');if(!sl){sl=document.createElement('button');sl.dataset.page='nh-smart-lists';sl.innerHTML='<span class="ico">▦</span>Smart Lists';nav.appendChild(sl)}sl.onclick=()=>{document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));smartListPage();document.getElementById('page-nh-smart-lists').classList.add('active');document.querySelectorAll('.sidebar .nav button').forEach(x=>x.classList.toggle('active',x===sl));document.getElementById('pageTitle').textContent='Smart Lists';renderSmartLists();window.scrollTo({top:0,behavior:'smooth'})}}
+            function cleanUnauthorizedToday(){document.querySelectorAll('#page-intelligence-today,.nh72-section,.nh-v11-today').forEach(x=>{if(x.id==='nhTodayGrid')return;x.remove()});document.querySelectorAll('[data-page="intelligence-today"]').forEach(x=>x.remove());document.querySelectorAll('[data-page="nayalists"]').forEach(x=>x.remove())}
+            function boot(){cleanUnauthorizedToday();setupNav();smartListPage();ensureMode();paintGreeting();showIdentity();const m=document.getElementById('nayanetFeedMode');if(m){m.querySelectorAll('[data-hub-mode]').forEach(b=>b.classList.remove('active'));(m.querySelector('[data-hub-mode="personal"]')||m.querySelector('[data-hub-mode]'))?.classList.add('active')}renderMode()}
+            document.addEventListener('click',function(e){const t=e.target.closest('[data-hub-fav]');if(t){toggleFavorite(t.dataset.hubFav);return}const l=e.target.closest('[data-hub-list]');if(l){openListModal(l.dataset.hubList);return}const sh=e.target.closest('[data-hub-share]');if(sh){shareExternal(sh.dataset.hubShare);return}const c=e.target.closest('[data-hub-collect]');if(c){shareCollective(c.dataset.hubCollect);return}const like=e.target.closest('[data-hub-like]');if(like){const s=social(),x=s[like.dataset.hubLike]||{liked:false,loved:false,rating:0,comments:[]};x.liked=!x.liked;s[like.dataset.hubLike]=x;write(SOCIALKEY,s);renderMode();return}const love=e.target.closest('[data-hub-love]');if(love){const s=social(),x=s[love.dataset.hubLove]||{liked:false,loved:false,rating:0,comments:[]};x.loved=!x.loved;s[love.dataset.hubLove]=x;write(SOCIALKEY,s);renderMode();return}const rank=e.target.closest('[data-hub-rank]');if(rank){const v=prompt('Rank this Collective intelligence from 1 to 5.',String((social()[rank.dataset.hubRank]||{}).rating||''));const n=Number(v);if(Number.isInteger(n)&&n>=1&&n<=5){const s=social(),x=s[rank.dataset.hubRank]||{liked:false,loved:false,rating:0,comments:[]};x.rating=n;s[rank.dataset.hubRank]=x;write(SOCIALKEY,s);renderMode()}return}const com=e.target.closest('[data-hub-comment]');if(com){const v=prompt('Comment on this Collective intelligence.');if(v?.trim()){const s=social(),x=s[com.dataset.hubComment]||{liked:false,loved:false,rating:0,comments:[]};x.comments=x.comments||[];x.comments.push({text:v.trim(),createdAt:new Date().toISOString()});s[com.dataset.hubComment]=x;write(SOCIALKEY,s);renderMode()}return}const rem=e.target.closest('[data-nh-remove]');if(rem){const a=lists().map(l=>l.id===rem.dataset.nhRemove?Object.assign({},l,{items:(l.items||[]).filter(id=>id!==rem.dataset.nhBlock)}):l);write(LISTKEY,a);renderSmartLists();return}const pg=e.target.closest('[data-page="nh-smart-lists"]');if(pg){e.preventDefault();e.stopPropagation();document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));smartListPage();document.getElementById('page-nh-smart-lists').classList.add('active');document.querySelectorAll('.sidebar .nav button').forEach(x=>x.classList.toggle('active',x===pg));document.getElementById('pageTitle').textContent='Smart Lists';renderSmartLists();window.scrollTo({top:0,behavior:'smooth'})}} ,true);
+            setInterval(()=>{paintGreeting();setupNav();cleanUnauthorizedToday()},1500);
+            if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+          })();
+          </script>'''
+
+          marker = '</body>'
+          if 'nayanet-surgical-v2-runtime' not in html:
+              html = html.replace(marker, surgical + '\n' + marker, 1)
+          p.write_text(html, encoding='utf-8')
+
+      - name: Validate HTML artifact
+        shell: bash
+        run: |
+          test -s NAYANETHUB.html
+          grep -q 'nayanet-surgical-v2-runtime' NAYANETHUB.html
+          grep -q 'nayaAuthoritativeGreeting' NAYANETHUB.html
+          grep -q 'nayanet_hub_smart_lists_v1' NAYANETHUB.html
+          grep -q 'nayanet_hub_collective_v1' NAYANETHUB.html
+          ! grep -q '<h1>Good morning, Shawn.</h1>' NAYANETHUB.html
+          node --check <(python - <<'PY'
+          import re
+          from pathlib import Path
+          s=Path('NAYANETHUB.html').read_text(encoding='utf-8')
+          blocks=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S)
+          print('\n'.join(blocks))
+          PY
+          )
+
+      - name: Commit the finished surgical artifact
+        shell: bash
+        run: |
+          git config user.name "NayaNET Surgical Builder"
+          git config user.email "actions@github.com"
+          git add NAYANETHUB.html
+          git rm .github/workflows/nayanethub-surgical-v2.yml
+          git commit -m "Surgical Hub: identity feeds and Smart Lists"
+          git push origin HEAD:nayanethub-surgical-v2
