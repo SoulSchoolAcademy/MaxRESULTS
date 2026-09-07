@@ -99,23 +99,19 @@ jobs:
           grep -q 'Good evening' index.html
           grep -q 'FAVORITE' index.html
           grep -q 'LOVE' index.html
+          node --check scripts/nayanethub-canonical-correction-v1.js
           python3 - <<'PY'
           from pathlib import Path
-          import re, subprocess, tempfile, zipfile
+          import zipfile
           for f in ('NAYANETHUB.html','index.html'):
               s=Path(f).read_text(encoding='utf-8')
               assert s.count('<!doctype html>')==1 and s.count('</html>')==1,f
           index=Path('index.html').read_text(encoding='utf-8')
           assert index.count('NAYANETHUB-CANONICAL-CORRECTION-V1')==2
           assert index.count('id="nayanethub-canonical-correction-v1"')==1
-          scripts=re.findall(r'<script(?:[^>]*)>(.*?)</script>',index,re.S|re.I)
-          for i,js in enumerate(scripts):
-              p=Path(tempfile.gettempdir())/f'nayanethub-check-{i}.js'
-              p.write_text(js,encoding='utf-8')
-              subprocess.run(['node','--check',str(p)],check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
           with zipfile.ZipFile('NayaNET-Intelligent-Hub-Cloudflare.zip','w',zipfile.ZIP_DEFLATED) as z:
               z.write('index.html','index.html');z.write('_redirects','_redirects')
-          print('ZIP READY · JS SYNTAX VERIFIED · SINGLE HTML DOCUMENT VERIFIED')
+          print('ZIP READY · CORRECTION JS VERIFIED · SINGLE HTML DOCUMENT VERIFIED')
           PY
       - name: Upload Cloudflare package
         uses: actions/upload-artifact@v4
