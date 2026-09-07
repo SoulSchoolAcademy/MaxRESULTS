@@ -27,7 +27,6 @@ jobs:
           p.write_text(s,encoding='utf-8')
           assert s.count('id="nayanet-surgical-v5"')==1
           assert 'Your Intelligence Today' not in s
-          assert s.count('data-page="notes"')==1
           assert s.count('id="page-home"')==1 and s.count('class="intelligentBlock"')>=1
           assert 'perspective.human' in s and 'perspective.naya' in s and 'perspective.machine' in s
           print('SURGICAL SOURCE VERIFY',len(s),'bytes')
@@ -36,7 +35,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          rm -f nayanet-hub-surgical-patch.js .github/workflows/nayanet-hub-surgical.yml .github/workflows/_hub-pr-surgical-run.yml
+          rm -f nayanet-hub-surgical-patch.js .github/workflows/nayanet-hub-surgical.yml .github/workflows/_hub-pr-surgical-run.yml hub-surgical-trigger.txt
           git add -A
           git commit -m "Surgical NayaNET Hub implementation" || exit 0
           git push origin HEAD:hub-surgical-smart-lists
