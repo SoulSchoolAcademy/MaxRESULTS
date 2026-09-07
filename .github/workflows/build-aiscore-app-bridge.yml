@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/build-aiscore-app-bridge.yml'
+      - 'NAYANETHUB.html'
 permissions:
   contents: write
 jobs:
