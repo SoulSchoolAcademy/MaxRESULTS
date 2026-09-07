@@ -18,19 +18,19 @@ jobs:
           p=Path('NAYANETHUB.html')
           s=p.read_text(encoding='utf-8')
           bad=('addTodayNav','createTodayPage','activateToday','labelHome','normalizeTopbar')
-          parts=re.split(r'(<script\\b[^>]*>.*?</script>)',s,flags=re.I|re.S)
+          parts=re.split(r'(<script\b[^>]*>.*?</script>)',s,flags=re.I|re.S)
           out=[]
           for part in parts:
               if part.lower().startswith('<script') and any(x in part for x in bad):
                   continue
               out.append(part)
           s=''.join(out)
-          s=re.sub(r'<section[^>]*id=["\']page-intelligence-today["\'][\\s\\S]*?</section>', '', s, flags=re.I)
+          s=re.sub(r'<section[^>]*id=["\']page-intelligence-today["\'][\s\S]*?</section>', '', s, flags=re.I)
           if 'nayanet-locked-hub-fix' not in s:
               layer=r'''<script id="nayanet-locked-hub-fix">(function(){
           function navRoot(){return document.querySelector('.nav')||document.querySelector('nav');}
           function buttons(){var n=navRoot();return n?[].slice.call(n.querySelectorAll('button')):[];}
-          function txt(b){return (b.textContent||'').replace(/\\s+/g,' ').trim();}
+          function txt(b){return (b.textContent||'').replace(/\s+/g,' ').trim();}
           function ensure(label,icon){var n=navRoot();if(!n)return;var bs=buttons(),same=bs.filter(function(b){return txt(b)===label;});if(same.length){same.slice(1).forEach(function(b){b.remove();});return;}var b=document.createElement('button');b.type='button';b.innerHTML='<span class="ico">'+icon+'</span><span>'+label+'</span>';n.appendChild(b);}
           function clean(){var bs=buttons();var smart=bs.filter(function(b){return txt(b)==='Smart Notes'||txt(b)==='Home';});if(smart.length){var keep=smart.find(function(b){return txt(b)==='Smart Notes';})||smart[0];keep.querySelectorAll('span').forEach(function(x){if((x.textContent||'').trim()==='Home')x.textContent='Smart Notes';});smart.filter(function(b){return b!==keep;}).forEach(function(b){b.remove();});}else ensure('Smart Notes','🧠');['Your Intelligence Today','Daily Intelligence Briefing'].forEach(function(x){buttons().filter(function(b){return txt(b).indexOf(x)>=0;}).forEach(function(b){b.remove();});});ensure('Personal Feed','👤');ensure('Collective Feed','🌐');ensure('Smart Lists','📚');}
           function context(){var t=document.querySelector('.topbar');if(!t)return;var e=document.getElementById('naya-locked-context');if(!e){e=document.createElement('div');e.id='naya-locked-context';e.style.cssText='position:absolute;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;white-space:nowrap;';t.style.position='sticky';t.appendChild(e);}var d=new Date(),h=d.getHours(),g=h>=5&&h<12?'Good morning':h>=12&&h<18?'Good afternoon':'Good evening';e.innerHTML='<strong style="font-size:12px">'+g+', Shawn.</strong><div style="font-size:8px;color:#a9a4b1;margin-top:3px">'+d.toLocaleString(undefined,{dateStyle:'medium',timeStyle:'short'})+' · Canada</div>';}
@@ -45,3 +45,4 @@ jobs:
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'Repair NayaNET Hub navigation and local context'
           git push
+# trigger repair after workflow correction
